@@ -266,6 +266,19 @@
 	with the notion of `equivalence', remarking that while agreement
 	indicated equivalence, equivalence does not reflect agreement.
 	
+	\section{Bias}
+	Bland and Altman define bias a \emph{a consistent tendency for one
+		method to exceed the other} and propose estimating its value
+	by determining the mean of the differences. The variation about
+	this mean shall be estimated by the  standard deviation of the
+	differences. Bland and Altman remark that these estimates are based on the
+	assumption that bias and variability are constant throughout the
+	range of measures.
+	%----------------------------------------------------------------------------%
+	
+	
+	
+	
 	\section{Purpose of Method Comparison Studies}
 	\citet{BXC2010} provides a review of many descriptions of the purpose of Method Comparison studies, several of which are reproduced here.
 	
@@ -1480,18 +1493,6 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 		should be defined in advance to help in the interpretation of the
 		method comparisonand to choose the sample size .}
 	%----------------------------------------------------------------------------%
-	\section{Bias}
-	Bland and Altman define bias a \emph{a consistent tendency for one
-		method to exceed the other} and propose estimating its value
-	by determining the mean of the differences. The variation about
-	this mean shall be estimated by the  standard deviation of the
-	differences. Bland and Altman remark that these estimates are based on the
-	assumption that bias and variability are constant throughout the
-	range of measures.
-	%----------------------------------------------------------------------------%
-
-
-
 
 	\section{scatter plots} The authors advise the
 	use of scatter plots to identify outliers, and to determine if
@@ -2309,6 +2310,25 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 	
 	
 	
+		\section{Bland-Altman correlation test}
+		
+		The approach proposed by \citet{BA83} is a formal test on the
+		Pearson correlation coefficient of case-wise differences and means
+		($\rho_{AD}$). According to the authors, this test is equivalent
+		to the `Pitman Morgan Test'. For the Grubbs data, the correlation
+		coefficient estimate ($r_{AD}$) is 0.2625, with a 95\% confidence
+		interval of (-0.366, 0.726) estimated by Fishers `$r$ to $z$'
+		transformation \citep*{Cohen}. The null hypothesis ($\rho_{AD}$ =0)
+		fail to be rejected. Consequently the null hypothesis of equal
+		variances of each method would also fail to be rejected. There has
+		no been no further mention of this particular test in
+		\citet{BA86}, although \citet{BA99} refers to Spearman's rank
+		correlation coefficient. \citet{BA99} comments `we do not see a
+		place for methods of analysis based on hypothesis testing'.
+		\citet{BA99} also states that consider structural equation models
+		to be inappropriate.
+		
+	
 	
 	\section{Formal Testing}
 	The Bland Altman plot is a simple tool for inspection of the data,
@@ -2359,44 +2379,6 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
 
-	\section{Thompson}
-	\citet{Thompson} presents three relations that hold simultaneously
-	with probability $1-2\alpha$ where $2\alpha=0.01$ or $0.05$.
-	
-	\begin{eqnarray}
-	|\sigma^2-C_{xy}K|\leqslant M(C_{x}C_{y})^{\frac{1}{2}}\\
-	|\sigma^2_{1}-(C_{x}-C_{xy})K|\leqslant M(C_{x}(C_{x}+C_{y}-2C_{xy}))^{\frac{1}{2}}\nonumber\\
-	|\sigma^2_{2}-(C_{y}-C_{xy})K|\leqslant
-	M(C_{y}(C_{x}+C_{y}-2C_{xy}))^{\frac{1}{2}}\nonumber
-	\end{eqnarray}
-	
-	The case-wise differences and means are $D_{i} = Y_{i1}-Y_{i2}$
-	and $A_{i} = (Y_{i1}+Y_{i2})/2$  respectively. Both $D_{i}$ and
-	$A_{i}$ follow a bivariate normal distribution with $E(D_{i})=
-	\mu_{D} = \mu_{1} - \mu_{2}$ and $E(A_{i})= \mu_{A} = (\mu_{1} +
-	\mu_{2})/2$. The variance matrix $\Sigma$ is
-	
-	\begin{equation}
-	\Sigma = \left[\begin{matrix}
-	\sigma^{2}_{1}+\sigma^{2}_{2}&\frac{1}{2}(\sigma^{2}_{1}-\sigma^{2}_{2})\\
-	\frac{1}{2}(\sigma^{2}_{1}-\sigma^{2}_{2})&\sigma^{2}_{S}+
-	\frac{1}{4}(\sigma^{2}_{1}+\sigma^{2}_{2})
-	\end{matrix} \right]
-	\end{equation}
-	
-	
-	
-	
-	
-	\citet{Kinsella} demonstrates how the Grubbs estimators for the
-	error variances can be calculated using the difference values,
-	providing a worked example on a data set.
-	\begin{eqnarray}
-	\hat{\sigma^{2}_{1}}
-	\quad=\sum{(y_{i1}-\bar{y{1}})(D_{i}-\bar{D})}\\
-	\hat{\sigma^{2}_{2}} \quad=
-	\sum{(y_{i2}-\bar{y_{2}})(D_{i}-\bar{D})} \nonumber
-	\end{eqnarray}
 		\section{Thompson 1963}
 		
 		
@@ -2426,19 +2408,47 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 		inequality in equation $1.10$ may also be used for hypothesis
 		testing.
 		
-		For the interval estimates for the variance components,
 		\citet{Thompson} presents three relations that hold simultaneously
-		with probability $1-2\alpha$ where $2\alpha=0.01$ or $0.05$.
+		with probability $1-2\alpha$ where $2\alpha=0.01$ or $0.05$. \citet{Thompson} contains tables for $K$ and $M$.
 		
-		
-		\begin{eqnarray*}
-			|\sigma^2-C_{xy}K| &\leqslant& M(C_{x}C_{y})^{\frac{1}{2}}\\
-			|\sigma^2_{1}-(C_{x}-C_{xy})K|&\leqslant M(C_{x}(C_{x}+C_{y}-2C_{xy}))^{\frac{1}{2}}\nonumber\\
-			|\sigma^2_{2}-(C_{y}-C_{xy})K|&\leqslant
+		\begin{eqnarray}
+			|\sigma^2-C_{xy}K|\leqslant M(C_{x}C_{y})^{\frac{1}{2}}\\
+			|\sigma^2_{1}-(C_{x}-C_{xy})K|\leqslant M(C_{x}(C_{x}+C_{y}-2C_{xy}))^{\frac{1}{2}}\nonumber\\
+			|\sigma^2_{2}-(C_{y}-C_{xy})K|\leqslant
 			M(C_{y}(C_{x}+C_{y}-2C_{xy}))^{\frac{1}{2}}\nonumber
-		\end{eqnarray*}
+		\end{eqnarray}
 		
-		\citet{Thompson} contains tables for $K$ and $M$.
+	
+		
+		The case-wise differences and means are $D_{i} = Y_{i1}-Y_{i2}$
+		and $A_{i} = (Y_{i1}+Y_{i2})/2$  respectively. Both $D_{i}$ and
+		$A_{i}$ follow a bivariate normal distribution with $E(D_{i})=
+		\mu_{D} = \mu_{1} - \mu_{2}$ and $E(A_{i})= \mu_{A} = (\mu_{1} +
+		\mu_{2})/2$. The variance matrix $\Sigma$ is
+		
+		\begin{equation}
+			\Sigma = \left[\begin{matrix}
+				\sigma^{2}_{1}+\sigma^{2}_{2}&\frac{1}{2}(\sigma^{2}_{1}-\sigma^{2}_{2})\\
+				\frac{1}{2}(\sigma^{2}_{1}-\sigma^{2}_{2})&\sigma^{2}_{S}+
+				\frac{1}{4}(\sigma^{2}_{1}+\sigma^{2}_{2})
+			\end{matrix} \right]
+		\end{equation}
+		
+		
+		
+		
+		
+		\citet{Kinsella} demonstrates how the Grubbs estimators for the
+		error variances can be calculated using the difference values,
+		providing a worked example on a data set.
+		\begin{eqnarray}
+			\hat{\sigma^{2}_{1}}
+			\quad=\sum{(y_{i1}-\bar{y{1}})(D_{i}-\bar{D})}\\
+			\hat{\sigma^{2}_{2}} \quad=
+			\sum{(y_{i2}-\bar{y_{2}})(D_{i}-\bar{D})} \nonumber
+		\end{eqnarray}
+		
+		
 		
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Bartko's BB
 		\citet{BB89} offers a formal simultaneous hypothesis test for the
@@ -2497,170 +2507,8 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 		
 		
 		
-		\section{Thompson 1963}
-		
-		
-		
-		\citet{Thompson} defines $\Delta_{j}$ to be a measure of the
-		relative precision of the measurement methods, with $\Delta_{j}=
-		\sigma^2_{S}/\sigma^2_{j}$(where $j=1,2$). Confidence intervals
-		for $\Delta_{j}$ are also presented.
-		
-		\begin{eqnarray}
-		\Delta_{1} > \frac{C_{xy}-
-			t(\frac{|A|}{n-1}))^{\frac{1}{2}}}{C_{x}-C_{xy}+
-			t(\frac{|A|}{n-1}))^{\frac{1}{2}}},
-		\end{eqnarray}
-		where
-		
-		\begin{eqnarray}
-		C_{x}&=&(n-1)S^2_{x},\nonumber\\
-		C_{xy}&=&(n-1)S_{xy},\nonumber\\
-		C_{y}&=&(n-1)S^2_{y},\nonumber\\
-		A &=& C_{x}\times C_{y} - (C_{xy})^2 . \nonumber
-		\end{eqnarray}
-		
-		The value $t$ is the $100(1-\alpha/2)\%$ quantile of Student's $t$
-		distribution with $n-2$ degrees of freedom. The ratio $\Delta_{2}$
-		can be found by interchanging $C_{y}$ and $C_{x}$. A lower
-		confidence limit can be found by calculating the square root. The
-		inequality in equation $1.10$ may also be used for hypothesis
-		testing.
-		
-		For the interval estimates for the variance components,
-		\citet{Thompson} presents three relations that hold simultaneously
-		with probability $1-2\alpha$ where $2\alpha=0.01$ or $0.05$.
-		
-		
-		\begin{eqnarray*}
-			|\sigma^2-C_{xy}K| &\leqslant& M(C_{x}C_{y})^{\frac{1}{2}}\\
-			|\sigma^2_{1}-(C_{x}-C_{xy})K|&\leqslant M(C_{x}(C_{x}+C_{y}-2C_{xy}))^{\frac{1}{2}}\nonumber\\
-			|\sigma^2_{2}-(C_{y}-C_{xy})K|&\leqslant
-			M(C_{y}(C_{x}+C_{y}-2C_{xy}))^{\frac{1}{2}}\nonumber
-		\end{eqnarray*}
-		
-		\citet{Thompson} contains tables for $K$ and $M$.
-		
-		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Bartko's BB
-		\citet{BB89} offers a formal simultaneous hypothesis test for the
-		mean and variance of two paired data sets. Using simple linear
-		regression of the differences of each pair against the sums, a
-		line is fitted to the model, with estimates for intercept and
-		slope ($\hat{\beta}_{0}$ and $\hat{\beta}_{1}$). The null
-		hypothesis of this test is that the mean ($\mu$) and variance
-		($\sigma^{2}$) of both data sets are equal if the slope and
-		intercept estimates are equal to zero(i.e $\sigma^{2}_{1} =
-		\sigma^{2}_{2}$ and $\mu_{1}=\mu_{2}$ if and only if $\beta_{0}=
-		\beta_{1}=0$ )
-		
-		A test statistic is then calculated from the regression analysis
-		of variance values \citep{BB89} and is distributed as `F' random
-		variable. The degrees of freedom thereof are $\nu_{1}=2$ and
-		$\nu_{1}=n-2$ (where n is the number of pairs). The critical value
-		is chosen for $\alpha\%$ significance with those same degrees of
-		freedom. \citet{Bartko} amends this methodology for use in method
-		comparison studies, using the averages of the pairs, as opposed to
-		the sums, and their differences. This approach can facilitate
-		simultaneous usage of test with the Bland-Altman methodology.
-		Bartko's test statistic take the form:
-		\begin{equation} F.test = \frac{(\Sigma d^{2})-SSReg}{2MSReg}
-		\end{equation}
-		% latex table generated in R 2.6.0 by xtable 1.5-5 package
-		% Mon Aug 31 15:53:51 2009
-		\begin{table}[ht]
-			\begin{center}
-				\begin{tabular}{lrrrrr}
-					\hline
-					& Df & Sum Sq & Mean Sq & F value & Pr($>$F) \\
-					\hline
-					Averages & 1 & 0.04 & 0.04 & 0.74 & 0.4097 \\
-					Residuals & 10 & 0.60 & 0.06 &  &  \\
-					\hline
-				\end{tabular}
-				\caption{Regression ANOVA of case-wise differences and averages
-					for Grubbs Data}
-			\end{center}
-		\end{table}
-		%(calculate using R code $qf(0.95,2,10)$).
-		
-		For the Grubbs data, $\Sigma d^{2}=5.09 $, $SSReg = 0.60$ and
-		$MSreg=0.06$ Therefore the test statistic is $37.42$, with a
-		critical value of $4.10$. Hence the means and variance of the
-		Fotobalk and Counter chronometers are assumed to be simultaneously
-		equal.
-		
-		Importantly, this methodology determines whether there is both
-		inter-method bias and precision present, or alternatively if there
-		is neither present. It has previously been demonstrated that there
-		is a inter-method bias present, but as this procedure does not
-		allow for separate testing, no conclusion can be drawn on the
-		comparative precision of both methods.
-		
-	
-		\section{Model Formulation and Formal Testing}
-		
-		\citet{Kinsella} formulates a model for un-replicated observations
-		for a method comparison study as a mixed model.
-		\begin{eqnarray}
-		Y_{ij} =\quad \mu_{j} + S_{i} + \epsilon_{ij} \quad i=1,2...n\quad
-		j=1,2\\
-		S \sim N(0,\sigma^{2}_{s})\qquad \epsilon_{ij} \sim
-		N(0,\sigma^{2}_{j}) \nonumber
-		\end{eqnarray}
-		
-		As with all mixed models, the variance of each observation is the
-		sum of all the associated variance components.
-		\begin{eqnarray}
-		var(Y_{ij}) =\quad \sigma^{2}_{s} + \sigma^{2}_{j} \\
-		cov(Y_{i1},Y_{i2})=\quad \sigma^{2}_{s} \nonumber
-		\end{eqnarray}
-		
-		\citet{Grubbs48} offers maximum likelihood estimators, commonly
-		known as Grubbs estimators, for the various variance components:
-		\begin{eqnarray}
-		\hat{\sigma^{2}_{s}} \quad= \sum{\frac{(x_{i}-\bar{x})(y_{i}-\bar{y})}{n-1}}\quad=Sxy\\
-		\hat{\sigma^{2}_{1}} \quad= \sum{\frac{(x_{i}-\bar{x})^{2}}{n-1}} \quad=S^{2}x-Sxy \nonumber\\
-		\hat{\sigma^{2}_{2}} \quad=
-		\sum{\frac{(y_{i}-\bar{y})^{2}}{n-1}}\quad=S^{2}y-Sxy \nonumber
-		\nonumber
-		\end{eqnarray}
-		
-		The standard error of these variance estimates are:
-		\begin{eqnarray}
-		var(\sigma^{2}_{1}) =\quad \frac{2\sigma^{4}_{1}}{n-1} +\quad
-		\frac{\sigma^2_{S}\sigma^2_{1}+\sigma^2_{S}\sigma^2_{2}+\sigma^2_{1}\sigma^2_{2}
-		}{n-1}\\
-		var(\sigma^{2}_{2}) =\quad \frac{2\sigma^{4}_{2}}{n-1} +\quad
-		\frac{\sigma^2_{S}\sigma^2_{1}+\sigma^2_{S}\sigma^2_{2}+\sigma^2_{1}\sigma^2_{2}
-		}{n-1}\nonumber
-		\end{eqnarray}
-		
-		\citet{Thompson}presents confidence intervals for the relative
-		precisions of the measurement methods, $\Delta_{j}=
-		\sigma^2_{S}/\sigma^2_{j}$ (where $j=1,2$), as well as the
-		variances $\sigma^{2}_{S}, \sigma^{2}_{1}$ and $\sigma^{2}_{2}$.
-		
-		\begin{eqnarray}
-		\Delta_{1} >\quad \frac{C_{xy}-
-			t(|A|/n-2))^{\frac{1}{2}}}{C_{x}-C_{xy}+
-			t(|A|/n-2))^{\frac{1}{2}}}
-		\end{eqnarray}
-		where
-		
-		\begin{eqnarray}
-		C_{x}=\quad(n-1)S^2_{x}\nonumber\\
-		C_{xy}=\quad(n-1)S_{xy}\nonumber\\
-		C_{y}=\quad(n-1)S^2_{y}\nonumber\\
-		A=\quad C_{x}\times C_{y} - (C_{xy})^2 \nonumber
-		\end{eqnarray}
-		
-		$t$ is the $100(1-\alpha/2)\%$ quantile of Student's $t$
-		distribution with $n-2$ degrees of freedom. $\Delta_{2}$ can be
-		found by changing $C_{y}$ for $C_{x}$. A lower confidence limit
-		can be found by calculating the square root. This inequality may
-		also be used for hypothesis testing.
-		
-		For the interval estimates for the variance components,
+
+
 	\section{Model Formulation and Formal Testing}
 	
 	\citet{Kinsella} formulates a model for un-replicated observations
@@ -2763,111 +2611,112 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 	\sum{(y_{i2}-\bar{y_{2}})(D_{i}-\bar{D})} \nonumber
 	\end{eqnarray}
 	
-	\section{Model Formulation and Formal Testing}
+
+	\section{Identifiability}
+	\citet{DunnSEME} highlights an important issue regarding using models such as structural equation modelling, which is the identifiability problem. This comes as a
+	result of there being too many parameters to be estimated. Therefore assumptions about some parameters, or estimators used, must be made so that others can be estimated. For example, in the literature, the variance ratio $\lambda=\frac{\sigma^{2}_{1}}{\sigma^{2}_{2}}$
+	must often be assumed to be equal to $1$ \citep{linnet98}. \citet{DunnSEME} considers approaches based on two methods with single measurements on each subject as inadequate for a serious
+	study on the measurement characteristics of the methods. This is because there would not be enough data to allow for a meaningful
+	analysis. There is, however, a counter-argument that in many practical settings it is very difficult to get replicate observations when, for example, the measurement method requires invasive medical
+	procedure.
 	
-	\citet{Kinsella} formulates a model for un-replicated observations
-	for a method comparison study as a mixed model.
-	\begin{eqnarray}
-	Y_{ij} =\quad \mu_{j} + S_{i} + \epsilon_{ij} \quad i=1,2...n\quad
-	j=1,2\\
-	S \sim N(0,\sigma^{2}_{s})\qquad \epsilon_{ij} \sim
-	N(0,\sigma^{2}_{j}) \nonumber
-	\end{eqnarray}
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Bartko's BB
+	\citet{BB89} offer a formal simultaneous hypothesis test for the mean and variance of paired data sets. This approach is based upon regressing the differences of each pair on the sum of each pair, a
+	line is fitted to the model, with estimates for intercept and
+	slope ($\hat{\beta}_{0}$ and $\hat{\beta}_{1}$). The null
+	hypothesis of this test is that the mean ($\mu$) and variance
+	($\sigma^{2}$) of both data sets are equal if the slope and
+	intercept estimates are equal to zero (i.e $\sigma^{2}_{1} =
+	\sigma^{2}_{2}$ and $\mu_{1}=\mu_{2}$ if and only if $\beta_{0}=
+	\beta_{1}=0$ )
 	
-	As with all mixed models, the variance of each observation is the
-	sum of all the associated variance components.
-	\begin{eqnarray}
-	var(Y_{ij}) =\quad \sigma^{2}_{s} + \sigma^{2}_{j} \\
-	cov(Y_{i1},Y_{i2})=\quad \sigma^{2}_{s} \nonumber
-	\end{eqnarray}
+	A test statistic is then calculated from the regression analysis
+	of variance values \citep{BB89} and is distributed as `$F$' random
+	variable. The degrees of freedom are $\nu_{1}=2$ and $\nu_{2}=n-2$
+	(where $n$ is the number of pairs). 
+	\citet{Bartko} amends this approach for use in method
+	comparison studies, using the averages of the pairs, as opposed to
+	the sums, and their differences. This approach can facilitate
+	simultaneous usage of test with the Bland-Altman approach.
+	Bartko's test statistic take the form:
+	\[ F.test = \frac{(\Sigma d^{2})-SSReg}{2MSReg}
+	\]
+	% latex table generated in R 2.6.0 by xtable 1.5-5 package
+	% Mon Aug 31 15:53:51 2009
+	\begin{table}[ht]
+		\begin{center}
+			\begin{tabular}{lrrrrr}
+				\hline
+				& Df & Sum Sq & Mean Sq & F value & Pr($>$F) \\
+				\hline
+				Averages & 1 & 0.04 & 0.04 & 0.74 & 0.4097 \\
+				Residuals & 10 & 0.60 & 0.06 &  &  \\
+				\hline
+			\end{tabular}
+			\caption{Regression ANOVA of case-wise differences and averages
+				for Grubbs Data}
+		\end{center}
+	\end{table}
+	%(calculate using R code $qf(0.95,2,10)$).
 	
-	\citet{Grubbs48} offers maximum likelihood estimators, commonly
-	known as Grubbs estimators, for the various variance components:
-	\begin{eqnarray}
-	\hat{\sigma^{2}_{s}} \quad= \sum{\frac{(x_{i}-\bar{x})(y_{i}-\bar{y})}{n-1}}\quad=Sxy\\
-	\hat{\sigma^{2}_{1}} \quad= \sum{\frac{(x_{i}-\bar{x})^{2}}{n-1}} \quad=S^{2}x-Sxy \nonumber\\
-	\hat{\sigma^{2}_{2}} \quad=
-	\sum{\frac{(y_{i}-\bar{y})^{2}}{n-1}}\quad=S^{2}y-Sxy \nonumber
-	\nonumber
-	\end{eqnarray}
+	For the Grubbs data, $\Sigma d^{2}=5.09 $, $SSReg = 0.60$ and $MSreg=0.06$. Therefore the test statistic is $3.742$, with a critical value of $4.10$. Hence the means and variance of the
+	Fotobalk and Counter chronometers are assumed to be simultaneously equal.
 	
-	The standard error of these variance estimates are:
-	\begin{eqnarray}
-	var(\sigma^{2}_{1}) =\quad \frac{2\sigma^{4}_{1}}{n-1} +\quad
-	\frac{\sigma^2_{S}\sigma^2_{1}+\sigma^2_{S}\sigma^2_{2}+\sigma^2_{1}\sigma^2_{2}
-	}{n-1}\\
-	var(\sigma^{2}_{2}) =\quad \frac{2\sigma^{4}_{2}}{n-1} +\quad
-	\frac{\sigma^2_{S}\sigma^2_{1}+\sigma^2_{S}\sigma^2_{2}+\sigma^2_{1}\sigma^2_{2}
-	}{n-1}\nonumber
-	\end{eqnarray}
+	Importantly, this methodology determines whether there is both inter-method bias and precision present, or alternatively if there
+	is neither present. It has previously been demonstrated that there is a inter-method bias present, but as this procedure does not allow for separate testing, no conclusion can be drawn on the comparative precision of both methods.
 	
-	\citet{Thompson}presents confidence intervals for the relative
-	precisions of the measurement methods, $\Delta_{j}=
-	\sigma^2_{S}/\sigma^2_{j}$ (where $j=1,2$), as well as the
-	variances $\sigma^{2}_{S}, \sigma^{2}_{1}$ and $\sigma^{2}_{2}$.
 	
-	\begin{eqnarray}
-	\Delta_{1} >\quad \frac{C_{xy}-
-		t(|A|/n-2))^{\frac{1}{2}}}{C_{x}-C_{xy}+
-		t(|A|/n-2))^{\frac{1}{2}}}
-	\end{eqnarray}
-	where
 	
-	\begin{eqnarray}
-	C_{x}=\quad(n-1)S^2_{x}\nonumber\\
-	C_{xy}=\quad(n-1)S_{xy}\nonumber\\
-	C_{y}=\quad(n-1)S^2_{y}\nonumber\\
-	A=\quad C_{x}\times C_{y} - (C_{xy})^2 \nonumber
-	\end{eqnarray}
+	%This application of the
+	%Grubbs method presumes the existence of this condition, and necessitates
+	%replication of observations by means external to and independent of the first
+	%means. The Grubbs estimators method is based on the laws of propagation of
+	%error. By making three independent simultaneous measurements on the same
+	%physical material, it is possible by appropriate mathematical manipulation of
+	%the sums and differences of the associated variances to obtain a valid
+	%estimate of the precision of the primary means. Application of the Grubbs
+	%estimators procedure to estimation of the precision of an apparatus uses
+	%the results of a physical test conducted in such a way as to obtain a series
+	%of sets of three independent observations.
 	
-	$t$ is the $100(1-\alpha/2)\%$ quantile of Student's $t$
-	distribution with $n-2$ degrees of freedom. $\Delta_{2}$ can be
-	found by changing $C_{y}$ for $C_{x}$. A lower confidence limit
-	can be found by calculating the square root. This inequality may
-	also be used for hypothesis testing.
-	
-	For the interval estimates for the variance components,
-	\citet{Thompson} presents three relations that hold simultaneously
-	with probability $1-2\alpha$ where $2\alpha=0.01$ or $0.05$.
-	
-	\begin{eqnarray}
-	|\sigma^2-C_{xy}K|\leqslant M(C_{x}C_{y})^{\frac{1}{2}}\\
-	|\sigma^2_{1}-(C_{x}-C_{xy})K|\leqslant M(C_{x}(C_{x}+C_{y}-2C_{xy}))^{\frac{1}{2}}\nonumber\\
-	|\sigma^2_{2}-(C_{y}-C_{xy})K|\leqslant
-	M(C_{y}(C_{x}+C_{y}-2C_{xy}))^{\frac{1}{2}}\nonumber
-	\end{eqnarray}
-	
-	The case-wise differences and means are $D_{i} = Y_{i1}-Y_{i2}$
-	and $A_{i} = (Y_{i1}+Y_{i2})/2$  respectively. Both $D_{i}$ and
-	$A_{i}$ follow a bivariate normal distribution with $E(D_{i})=
-	\mu_{D} = \mu_{1} - \mu_{2}$ and $E(A_{i})= \mu_{A} = (\mu_{1} +
-	\mu_{2})/2$. The variance matrix $\Sigma$ is
-	
+	section{Bartko's Bradley-Blackwood Test}
+	This is a regression based
+	approach that performs a simultaneous test for the equivalence of
+	means and variances of the respective methods.We have identified
+	this approach  to be examined to see if it can be used as a
+	foundation for a test perform a test on
+	means and variances individually.
 	\begin{equation}
-	\Sigma = \left[\begin{matrix}
-	\sigma^{2}_{1}+\sigma^{2}_{2}&\frac{1}{2}(\sigma^{2}_{1}-\sigma^{2}_{2})\\
-	\frac{1}{2}(\sigma^{2}_{1}-\sigma^{2}_{2})&\sigma^{2}_{S}+
-	\frac{1}{4}(\sigma^{2}_{1}+\sigma^{2}_{2})
-	\end{matrix} \right]
+	D = (X_{1}-X_{2})
 	\end{equation}
+	\begin{equation}
+	M = (X_{1} + X_{2}) /2
+	\end{equation}
+	The Bradley Blackwood Procedure fits D on M as follows:\\
+	\begin{equation}
+	D = \beta_{0} + \beta_{1}M
+	\end{equation}
+	\begin{itemize}
+		\item The Bradley Blackwood test is a simultaneous test for bias and
+		precision. They propose a regression approach which fits D on M,
+		where D is the difference and average of a pair of results.
+		\item Both beta values, the intercept and slope, are derived from the respective means and
+		standard deviations of their respective data sets.
+		\item We determine if the respective means and variances are equal if
+		both beta values are simultaneously equal to zero. The Test is
+		conducted using an F test, calculated from the results of a
+		regression of D on M.
+		\item We have identified this approach  to be examined to see if it can
+		be used as a foundation for a test perform a test on means and
+		variances individually.
+		\item Russell et al have suggested this method be used in conjunction
+		with a paired t-test , with estimates of slope and intercept.
+	\end{itemize}
+	%subsection{t-test}
 	
-	
-	
-	
-	
-	\citet{Kinsella} demonstrates how the Grubbs estimators for the
-	error variances can be calculated using the difference values,
-	providing a worked example on a data set.
-	\begin{eqnarray}
-	\hat{\sigma^{2}_{1}}
-	\quad=\sum{(y_{i1}-\bar{y{1}})(D_{i}-\bar{D})}\\
-	\hat{\sigma^{2}_{2}} \quad=
-	\sum{(y_{i2}-\bar{y_{2}})(D_{i}-\bar{D})} \nonumber
-	\end{eqnarray}
-	
-	
-	
-	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%  Blackwood Bradley Model         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
 	\section{Identifiability}
 	\citet{DunnSEME} highlights an important issue regarding using
@@ -2960,14 +2809,26 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 	
 	
 	
-	\section{Morgan Pitman}
+	\section{Morgan Pitman Testing}
+	An early contribution to formal testing in method comparison was
+	made by both \citet{morgan} and \citet{pitman}, in separate
+	contributions. 	
+	
+	The classical Pitman-Morgan test is a hypothesis test for equality
+	of the variance of two data sets; $\sigma^{2}_{1} =
+	\sigma^{2}_{2}$, based on the correlation value $\rho_{a,d}$ ,and
+	is evaluated as follows;
+	
+	\begin{equation}
+	\rho(a,d)=\quad\frac{\sigma^{2}_{1}-\sigma^{2}_{2}}{\sqrt{(\sigma^{2}_{1}+\sigma^{2}_{2})(4\sigma^{2}_{S}+\sigma^{2}_{1}+\sigma^{2}_{2})}}
+	\end{equation}
 	
 	The test of the hypothesis that the variance of both methods are
 	equal is based on the correlation value $\rho_{D,A}$ which is
 	evaluated as follows;
 	
 	\begin{equation}
-		\rho(D,A)=\quad\frac{\sigma^{2}_{1}-\sigma^{2}_{2}}{\sqrt{(\sigma^{2}_{1}+\sigma^{2}_{2})(4\sigma^{2}_{S}+\sigma^{2}_{1}+\sigma^{2}_{2})}}
+	\rho(D,A)=\quad\frac{\sigma^{2}_{1}-\sigma^{2}_{2}}{\sqrt{(\sigma^{2}_{1}+\sigma^{2}_{2})(4\sigma^{2}_{S}+\sigma^{2}_{1}+\sigma^{2}_{2})}}.
 	\end{equation}
 	
 	The correlation constant takes the value zero if, and only if, the
@@ -2977,6 +2838,26 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 	$t$ test for a correlation coefficient with $n-2$ degrees of
 	freedom.
 	
+	The basis of this approach is that the
+	distribution of the original measurements is bivariate normal.
+	Morgan and Pitman noted that the correlation coefficient depends
+	upon the difference $\sigma^{2}_{1}- \sigma^{2}_{2}$, being zero
+	if and only if $\sigma^{2}_{1}=\sigma^{2}_{2}$.
+	
+	
+	The correlation constant takes the value zero if, and only if, the two variances are equal. Therefore a test of the hypothesis $H: \sigma^{2}_{1}=\sigma^{2}_{2}$ is equivalent to a test of the hypothesis $H: \rho(D,A) = 0$. This corresponds to the well-known
+	$t$ test for a correlation coefficient with $n-2$ degrees of freedom. \citet{Bartko} describes the Morgan-Pitman test as identical to
+	the test of the slope equal to zero in the regression of $Y_{i1}$ on $Y_{12}$, a result that can be derived using
+	straightforward algebra.
+	
+	
+	
+	
+	
+	
+	
+	\section{Morgan Pitman}
+
 	\citet{Bartko} describes the Morgan-Pitman test as identical to
 	the test of the slope equal to zero in the regression of $Y_{i1}$
 	on $Y_{12}$, adding that this result can be shown using
@@ -2985,36 +2866,11 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 
 	
 	
-	\section{Bland-Altman correlation test}
-	
-	The approach proposed by \citet{BA83} is a formal test on the
-	Pearson correlation coefficient of case-wise differences and means
-	($\rho_{AD}$). According to the authors, this test is equivalent
-	to the `Pitman Morgan Test'. For the Grubbs data, the correlation
-	coefficient estimate ($r_{AD}$) is 0.2625, with a 95\% confidence
-	interval of (-0.366, 0.726) estimated by Fishers `$r$ to $z$'
-	transformation \citep*{Cohen}. The null hypothesis ($\rho_{AD}$ =0)
-	fail to be rejected. Consequently the null hypothesis of equal
-	variances of each method would also fail to be rejected. There has
-	no been no further mention of this particular test in
-	\citet{BA86}, although \citet{BA99} refers to Spearman's rank
-	correlation coefficient. \citet{BA99} comments `we do not see a
-	place for methods of analysis based on hypothesis testing'.
-	\citet{BA99} also states that consider structural equation models
-	to be inappropriate.
 
 
 
-	\section{Pitman \& Morgan Test} This test assess the equality
-	of population variances. Pitman's test tests for zero correlation
-	between the sums and products.
-	\\
-	Correlation between differences and means is a test statistics for
-	the null hypothesis of equal variances given bivariate normality.
-	
 
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	\newpage
 	
 
 
@@ -3029,49 +2885,22 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 			
 %======================================================================================= %
 	
-
-	\section{Morgan Pitman Testing}
-	An early contribution to formal testing in method comparison was
-	made by both \citet{morgan} and \citet{pitman}, in separate
-	contributions. The basis of this approach is that the
-	distribution of the original measurements is bivariate normal.
-	Morgan and Pitman noted that the correlation coefficient depends
-	upon the difference $\sigma^{2}_{1}- \sigma^{2}_{2}$, being zero
-	if and only if $\sigma^{2}_{1}=\sigma^{2}_{2}$.
-	
-	The classical Pitman-Morgan test is a hypothesis test for equality
-	of the variance of two data sets; $\sigma^{2}_{1} =
-	\sigma^{2}_{2}$, based on the correlation value $\rho_{a,d}$ ,and
-	is evaluated as follows;
-	
-	\begin{equation}
-	\rho(a,d)=\quad\frac{\sigma^{2}_{1}-\sigma^{2}_{2}}{\sqrt{(\sigma^{2}_{1}+\sigma^{2}_{2})(4\sigma^{2}_{S}+\sigma^{2}_{1}+\sigma^{2}_{2})}}
-	\end{equation}
-	
-	The correlation constant takes the value zero if, and only if, the two variances are equal. Therefore a test of the hypothesis $H: \sigma^{2}_{1}=\sigma^{2}_{2}$ is equivalent to a test of the hypothesis $H: \rho(D,A) = 0$. This corresponds to the well-known
-	$t$ test for a correlation coefficient with $n-2$ degrees of freedom. \citet{Bartko} describes the Morgan-Pitman test as identical to
-	the test of the slope equal to zero in the regression of $Y_{i1}$ on $Y_{12}$, a result that can be derived using
-	straightforward algebra.
-	
-	
-
-	
-	
-	
-	
-	\section{Paired sample T-test} \citet{Bartko} discusses the use
-	of the well known paired sample $t$ test to test for inter-method
-	bias; $H: \mu_{D}=0$. The test statistic is distributed a $t$
-	random variable with $n-1$ degrees of freedom and is calculated as
-	follows;
-	
-	\begin{equation}
-	t^{*} = \bar{D}/ \frac{S_{D}}{\sqrt{n}}
-	\end{equation}
-	
-	where $\bar{D}$ and $S_{D}$ is the average of the differences of
-	the $n$ observations.
-	\newpage
+			\section{Paired sample \emph{t} test}
+			
+			\citet{Bartko} discusses the use of the well known paired sample
+			$t$ test to test for inter-method bias; $H: \mu_{d}=0$. The test
+			statistic is distributed a $t$ random variable with $n-1$ degrees
+			of freedom and is calculated as follows,
+			
+			\begin{equation}
+			t^{*} = \frac{\bar{d}}{ \frac{s_{d}}{\sqrt{n}}}
+			\end{equation}
+			
+			where $\bar{d}$ and $s_{d}$ is the average of the differences of
+			the $n$ observations. Only if the two methods show comparable
+			precision then the paired sample student t-test is appropriate for
+			assessing the magnitude of the bias.
+			
 	\begin{itemize}
 		% http://www.jerrydallal.com/LHSP/compare.htm
 		\item Paired t tests test only whether the mean responses are the same. Certainly, we want the means to be the same, but this is only a small part of the story. The means can be equal while the (random) differences between measurements can be huge.
@@ -3081,37 +2910,38 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 		\item The correlation coefficient can be made smaller by measuring samples that are similar to each other and larger by measuring samples that are very different from each other. The magnitude of the correlation says nothing about the magnitude of the differences between the paired measurements which, when you get right down to it, is all that really matters.
 		\item The usual significance test involving a correlation coefficient-- whether the population value is 0--is irrelevant to the comparability problem. What is important is not merely that the correlation coefficient be different from 0. Rather, it should be close to (ideally, equal to) 1!
 	\end{itemize}
-			\section{Paired sample \emph{t} test}
-		
-		\citet{Bartko} discusses the use of the well known paired sample
-		$t$ test to test for inter-method bias; $H: \mu_{d}=0$. The test
-		statistic is distributed a $t$ random variable with $n-1$ degrees
-		of freedom and is calculated as follows,
-		
-		\begin{equation}
-		t^{*} = \frac{\bar{d}}{ \frac{s_{d}}{\sqrt{n}}}
-		\end{equation}
-		
-		where $\bar{d}$ and $s_{d}$ is the average of the differences of
-		the $n$ observations. Only if the two methods show comparable
-		precision then the paired sample student t-test is appropriate for
-		assessing the magnitude of the bias.
-	
+
 	\section*{Structural Equation Modelling}
 	Authors, such as a \citet{lewis}, \citet{dunnSEME} and \citet{voelkel2005center}, strongly advocate the use of \textit{Structural Equation Models} for the purposes of method comparison. Conversely \citet{BA99} also states that consider structural equation models to be inappropriate.
 	
 
 
 	\chapter{Regression Procedures}
-	\section{Constant and Proportional Bias}
-	\begin{itemize}
-		\item[Constant Bias] This is a form of systematic deviations estimated as the average difference between the test
-		and the reference method.
-		\item[Proportional Bias] Two methods may agree on average, but they may exhibit differences over a range of measurements.
-	\end{itemize}
-	
-	Proportional Bias is a difference in the two measures which is proportional to the scale of the measurement. \\Using a naive estimation of bias, such as the mean of differences, it may incorrectly indicate absence of bias, by yielding a mean difference close to zero. This would be caused by positive differences in the measurements at one end of the range of measurements being canceled out by negative differences at the other end of the scale.
 
+	\section{Regression Methods for Method Comparison}
+	Conventional regression models are estimated using the ordinary
+	least squares (OLS) technique, and are referred to as `Model I
+	regression' \citep{CornCoch,ludbrook97}. A key feature of Model I
+	models is that the independent variable is assumed to be measured
+	without error. However this assumption invalidates simple linear
+	regression for use in method comparison studies, as both methods
+	must be assumed to be measured with error \citep{BA83,ludbrook97}.
+	
+	The use of regression models that assumes the presence of error in both variables $X$ and $Y$ have been proposed for use instead
+	\citep{CornCoch,ludbrook97}. These methodologies are collectively known as `Model II regression'. They differ in the method used to
+	estimate the parameters of the regression.
+	
+	Regression estimates depend on formulation of the model. A formulation with one method considered as the $X$ variable will yield different estimates for a formulation where it is the $Y$
+	variable. With Model I regression, the models fitted in both cases will entirely different and inconsistent. However with Model II
+	regression, they will be consistent and complementary.
+	
+	Regression approaches are useful for a making a detailed examination of the biases across the range of measurements, allowing bias to be decomposed into fixed bias and proportional bias.
+	Fixed bias describes the case where one method gives values that are consistently different to the other across the whole range. Proportional
+	bias describes the difference in measurements getting progressively greater, or smaller, across the range of measurements. A measurement method may have either an attendant fixed bias or proportional bias, or both. \citep{ludbrook97}. Determination of these biases shall be discussed in due course.
+	
+	
+	
+	%================================================================================================= %
 		\section{Regression Methods}
 		Conventional regression models are estimated using the ordinary
 		least squares (OLS) technique, and are referred to as `Model I
@@ -3286,87 +3116,8 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 	comparative precision of both methods.
 	\newpage
 
-	\section{Bartko's Regression and Ellipse}
-	\citet{BB89} offers a formal simultaneous hypothesis test for the
-	mean and variance of two paired data sets. Using simple linear
-	regression of the differences of each pair against the sums, a
-	line is fitted to the model, with estimates for intercept and
-	slope ($\beta_{0}$ and $\beta_{1}$). The null hypothesis of this
-	test is that the mean ($\mu$) and variance ($\sigma^{2}$) of both
-	data sets are equal if the slope and intercept estimates are equal
-	to zero(i.e $\sigma^{2}_{1} = \sigma^{2}_{2}$ and
-	$\mu_{1}=\mu_{2}$ if and only if $\beta_{0}= \beta_{1}=0$ )
-	
-	A test statistic is then calculated from the regression analysis
-	of variance values \citep{BB89} and is distributed as `F' random
-	variable. The degrees of freedom thereof are $\nu_{1}=2$ and
-	$\nu_{1}=n-2$ (where n is the number of pairs). The critical value
-	is chosen for $\alpha\%$ significance with those same degrees of
-	freedom. \citet{Bartko} amends this metholodogy for calculation
-	using the from the averages of the pairs, as opposed to the sums,
-	and their differences. This would facilitate simultaneous usage of
-	test with the Bland Altman methodology. Bartko's test statistic
-	take the form:
-	\begin{equation} F.test = \frac{(\Sigma D^{2})-SSReg}{2MSReg}
-	\end{equation}
-	
-	\newpage
-	
-	% latex table generated in R 2.6.0 by xtable 1.5-5 package
-	% Mon Aug 31 15:53:51 2009
-	\begin{table}[ht]
-		\begin{center}
-			\begin{tabular}{lrrrrr}
-				\hline
-				& Df & Sum Sq & Mean Sq & F value & Pr($>$F) \\
-				\hline
-				Averages & 1 & 0.04 & 0.04 & 0.74 & 0.4097 \\
-				Residuals & 10 & 0.60 & 0.06 &  &  \\
-				\hline
-			\end{tabular}
-			\caption{Regression ANOVA of case-wise differences and averages
-				for Grubbs Data}
-		\end{center}
-	\end{table}
-	
-	
-	
-	
-	For the Grubbs data, $\Sigma D^{2}=5.09 $, $SSReg = 0.60$ and
-	$MSreg=0.06$ Therefore the test statistic is $37.42$, with a
-	critical value of $4.102821$ (calculate using r code
-	$qf(0.95,2,10)$). Hence the means and variance of the Fotobalk and
-	Counter chronometers are assumed to be simultaneously equal.
-	
-	Importantly, this methodology determines whether there is both
-	inter-method bias and precision present, or alternatively if there
-	is neither present. It has previously been demonstrated that there
-	is a inter-method bias present, but as this procedure does not
-	allow for seperate testing, no conclusion can be drawn on the
-	comparative precision of both methods.
-	
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	%%%%%%%  Bsartko's Ellipse       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	\section{Bartko's Ellipse}
-	\citet{Bartko} offers a graphical complement to the Bland-Altman
-	plot, in the form of a bivariate confidence ellipse.
-	\citet{AltmanEllipse} provides the relevant calculations.
-	
-	\begin{figure}[h!]
-		% Requires \usepackage{graphicx}
-		\includegraphics[width=130mm]{images/GrubbsBartko.jpeg}
-		\caption{Bartko's Ellipse For Grubbs Data}\label{GrubbsBartko}
-	\end{figure}
-
-	
-	
-	
 
 
-		
-		
-		
 		\section{Bartko's Ellipse}
 	
 	As an enhancement on the Bland Altman Plot, \citet{Bartko} has
@@ -3437,21 +3188,12 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 	
 	In the Bland-Altman plot, the horizontal displacement of any point on the plot is supported by two independent measurements. Any point should not be considered an outlier on the basis of a noticeable horizontal displacement from the main cluster, as in the case with the extra co-variate. Conversely, the fourth point, from the original data set, should be considered an
 	outlier, as it has a noticeable vertical displacement from the rest of the observations.
-	\newpage
-	
-
-
-	
 	\section{Blackwood Bradley Model} 
 	
-	Bradley and Blackwood have developed a regression based approach
-	assessing the agreement.
-	
-	
-	
-	
-	\newpage
-	\section{Blackwood Bradley Model} This is a regression based
+		Bradley and Blackwood have developed a regression based approach
+		assessing the agreement.
+		
+		This is a regression based
 	approach that performs a simultaneous test for the equivalence of
 	means and variances of the respective methods.\\We have identified
 	this approach  to be examined to see if it can be used as a
@@ -3482,42 +3224,6 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 	The Bradley Blackwood test is a simultaneous test for bias and
 	precision. They propose a regression approach which fits D on M,
 	where D is the difference and average of a pair of results.
-	
-	
-
-
-	\section{Blackwood Bradley Model} This is a regression based
-	approach that performs a simultaneous test for the equivalence of
-	means and variances of the respective methods.\\We have identified
-	this approach  to be examined to see if it can be used as a
-	foundation for a test perform a test on
-	means and variances individually.\\
-	\begin{equation}
-		D = (X_{1}-X_{2})
-	\end{equation}
-	\begin{equation}
-		M = (X_{1} + X_{2}) /2
-	\end{equation}
-	The Bradley Blackwood Procedure fits D on M as follows:\\
-	\begin{equation}
-		D = \beta_{0} + \beta_{1}M
-	\end{equation}
-	\\Both beta values, the intercept and slope, are derived from the respective means and
-	standard deviations of their respective data sets.\\
-	We determine if the respective means and variances are equal if
-	both beta values are simultaneously equal to zero. The Test is
-	conducted using an F test, calculated from the results of a
-	regression of D on M.
-	\\
-	Russell et al have suggested this method be used in conjunction
-	with a paired t-test , with estimates of slope and intercept.
-	Bradley and Blackwood have developed a regression based approach
-	assessing the agreement.
-	\\
-	The Bradley Blackwood test is a simultaneous test for bias and
-	precision. They propose a regression approach which fits D on M,
-	where D is the difference and average of a pair of results.
-	
 	
 	
 
@@ -3595,186 +3301,7 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 	allow for separate testing, no conclusion can be drawn on the
 	comparative precision of both methods.
 	
-	\section{Bartko's Bradley-Blackwood Test}
-	This is a regression based approach that performs a simulataneous
-	test for the equivalence of means and variances of the respective
-	methods.\\
-	\begin{equation}
-	D = (X_{1}-X_{2})
-	\end{equation}
-	\begin{equation}
-	M = (X_{1} + X_{2}) /2
-	\end{equation}
-	The Bradley Blackwood Procedure fits D on M as follows:\\
-	\begin{equation}
-	D = \beta_{0} + \beta_{1}M
-	\end{equation}
-	\\Both beta values, the intercept and slope, are derived from the respective means and
-	standard deviations of their respective data sets.\\
-	We determine if the respective means and variances are equal if
-	both beta values are simultaneously equal to zero. The Test is
-	conducted using an F test, calculated from the results of a
-	regression of D on M.
-	\\We have identified this approach  to be examined to see if it can
-	be used as a foundation for a test perform a test on means and
-	variances individually.\\
-	Russell et al have suggested this method be used in conjunction
-	with a paired t-test , with estimates of slope and intercept.
-	
-	subsection{t-test}
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	%%%%%%%  Blackwood Bradley Model         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	
-	
-	%----------------------------------------------------------------------------%
 
-	\section{Bartko's Bradley-Blackwood Test}
-	This is a regression based approach that performs a simulataneous
-	test for the equivalence of means and variances of the respective
-	methods.\\
-	\begin{equation}
-	D = (X_{1}-X_{2})
-	\end{equation}
-	\begin{equation}
-	M = (X_{1} + X_{2}) /2
-	\end{equation}
-	The Bradley Blackwood Procedure fits D on M as follows:\\
-	\begin{equation}
-	D = \beta_{0} + \beta_{1}M
-	\end{equation}
-	\\Both beta values, the intercept and slope, are derived from the respective means and
-	standard deviations of their respective data sets.\\
-	We determine if the respective means and variances are equal if
-	both beta values are simultaneously equal to zero. The Test is
-	conducted using an F test, calculated from the results of a
-	regression of D on M.
-	\\We have identified this approach  to be examined to see if it can
-	be used as a foundation for a test perform a test on means and
-	variances individually.\\
-	Russell et al have suggested this method be used in conjunction
-	with a paired t-test , with estimates of slope and intercept.
-	
-	subsection{t-test}
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	%%%%%%%  Blackwood Bradley Model         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	\section{Bland-Altman correlation test}
-	
-	The approach proposed by \citet{BA83} is a formal test on the
-	Pearson correlation coefficient of case-wise differences and means ($\rho_{AD}$). According to the authors, this test is equivalent
-	to the `Pitman Morgan Test'. For the Grubbs data, the correlation coefficient estimate ($r_{AD}$) is 0.2625, with a 95\% confidence
-	interval of (-0.366, 0.726) estimated by Fishers `$r$ to $z$' transformation \citep*{Cohen}. The null hypothesis ($\rho_{AD}$ =0)
-	fail to be rejected. Consequently the null hypothesis of equal variances of each method would also fail to be rejected. There has
-	no been no further mention of this particular test in \citet{BA86}, although \citet{BA99} refers to Spearman's rank
-	correlation coefficient. \citet{BA99} state that they ` do not see a place for methods of analysis based on hypothesis testing'.
-	
-	
-	\section{Identifiability}
-	\citet{DunnSEME} highlights an important issue regarding using models such as structural equation modelling, which is the identifiability problem. This comes as a
-	result of there being too many parameters to be estimated. Therefore assumptions about some parameters, or estimators used, must be made so that others can be estimated. For example, in the literature, the variance ratio $\lambda=\frac{\sigma^{2}_{1}}{\sigma^{2}_{2}}$
-	must often be assumed to be equal to $1$ \citep{linnet98}. \citet{DunnSEME} considers approaches based on two methods with single measurements on each subject as inadequate for a serious
-	study on the measurement characteristics of the methods. This is because there would not be enough data to allow for a meaningful
-	analysis. There is, however, a counter-argument that in many practical settings it is very difficult to get replicate observations when, for example, the measurement method requires invasive medical
-	procedure.
-	
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Bartko's BB
-	\citet{BB89} offer a formal simultaneous hypothesis test for the mean and variance of paired data sets. This approach is based upon regressing the differences of each pair on the sum of each pair, a
-	line is fitted to the model, with estimates for intercept and
-	slope ($\hat{\beta}_{0}$ and $\hat{\beta}_{1}$). The null
-	hypothesis of this test is that the mean ($\mu$) and variance
-	($\sigma^{2}$) of both data sets are equal if the slope and
-	intercept estimates are equal to zero (i.e $\sigma^{2}_{1} =
-	\sigma^{2}_{2}$ and $\mu_{1}=\mu_{2}$ if and only if $\beta_{0}=
-	\beta_{1}=0$ )
-	
-	A test statistic is then calculated from the regression analysis
-	of variance values \citep{BB89} and is distributed as `$F$' random
-	variable. The degrees of freedom are $\nu_{1}=2$ and $\nu_{2}=n-2$
-	(where $n$ is the number of pairs). 
-	\citet{Bartko} amends this approach for use in method
-	comparison studies, using the averages of the pairs, as opposed to
-	the sums, and their differences. This approach can facilitate
-	simultaneous usage of test with the Bland-Altman approach.
-	Bartko's test statistic take the form:
-	\[ F.test = \frac{(\Sigma d^{2})-SSReg}{2MSReg}
-	\]
-	% latex table generated in R 2.6.0 by xtable 1.5-5 package
-	% Mon Aug 31 15:53:51 2009
-	\begin{table}[ht]
-		\begin{center}
-			\begin{tabular}{lrrrrr}
-				\hline
-				& Df & Sum Sq & Mean Sq & F value & Pr($>$F) \\
-				\hline
-				Averages & 1 & 0.04 & 0.04 & 0.74 & 0.4097 \\
-				Residuals & 10 & 0.60 & 0.06 &  &  \\
-				\hline
-			\end{tabular}
-			\caption{Regression ANOVA of case-wise differences and averages
-				for Grubbs Data}
-		\end{center}
-	\end{table}
-	%(calculate using R code $qf(0.95,2,10)$).
-	
-	For the Grubbs data, $\Sigma d^{2}=5.09 $, $SSReg = 0.60$ and $MSreg=0.06$. Therefore the test statistic is $3.742$, with a critical value of $4.10$. Hence the means and variance of the
-	Fotobalk and Counter chronometers are assumed to be simultaneously equal.
-	
-	Importantly, this methodology determines whether there is both inter-method bias and precision present, or alternatively if there
-	is neither present. It has previously been demonstrated that there is a inter-method bias present, but as this procedure does not allow for separate testing, no conclusion can be drawn on the comparative precision of both methods.
-	
-	
-	
-	%This application of the
-	%Grubbs method presumes the existence of this condition, and necessitates
-	%replication of observations by means external to and independent of the first
-	%means. The Grubbs estimators method is based on the laws of propagation of
-	%error. By making three independent simultaneous measurements on the same
-	%physical material, it is possible by appropriate mathematical manipulation of
-	%the sums and differences of the associated variances to obtain a valid
-	%estimate of the precision of the primary means. Application of the Grubbs
-	%estimators procedure to estimation of the precision of an apparatus uses
-	%the results of a physical test conducted in such a way as to obtain a series
-	%of sets of three independent observations.
-	
-	section{Bartko's Bradley-Blackwood Test}
-	This is a regression based
-	approach that performs a simultaneous test for the equivalence of
-	means and variances of the respective methods.We have identified
-	this approach  to be examined to see if it can be used as a
-	foundation for a test perform a test on
-	means and variances individually.
-	\begin{equation}
-		D = (X_{1}-X_{2})
-	\end{equation}
-	\begin{equation}
-		M = (X_{1} + X_{2}) /2
-	\end{equation}
-	The Bradley Blackwood Procedure fits D on M as follows:\\
-	\begin{equation}
-		D = \beta_{0} + \beta_{1}M
-	\end{equation}
-	\begin{itemize}
-		\item The Bradley Blackwood test is a simultaneous test for bias and
-		precision. They propose a regression approach which fits D on M,
-		where D is the difference and average of a pair of results.
-		\item Both beta values, the intercept and slope, are derived from the respective means and
-		standard deviations of their respective data sets.
-		\item We determine if the respective means and variances are equal if
-		both beta values are simultaneously equal to zero. The Test is
-		conducted using an F test, calculated from the results of a
-		regression of D on M.
-		\item We have identified this approach  to be examined to see if it can
-		be used as a foundation for a test perform a test on means and
-		variances individually.
-		\item Russell et al have suggested this method be used in conjunction
-		with a paired t-test , with estimates of slope and intercept.
-	\end{itemize}
-	%subsection{t-test}
-	
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	%%%%%%%  Blackwood Bradley Model         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	\section{Bradley-Blackwood Test (Kevin Hayes Talk)}
 	%--------------------------------------------------------------------------------%
@@ -3800,30 +3327,7 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 	due to two groups with unequal means and unequal variances; unequal means and equal variances, or equal means and unequal variances. We propose an approach for resolving this (model selection) problem in a manner controlling the magnitudes of the relevant type I error probabilities.
 	
 	
-	\section{Regression Methods for Method Comparison}
-	Conventional regression models are estimated using the ordinary
-	least squares (OLS) technique, and are referred to as `Model I
-	regression' \citep{CornCoch,ludbrook97}. A key feature of Model I
-	models is that the independent variable is assumed to be measured
-	without error. However this assumption invalidates simple linear
-	regression for use in method comparison studies, as both methods
-	must be assumed to be measured with error \citep{BA83,ludbrook97}.
-	
-	The use of regression models that assumes the presence of error in both variables $X$ and $Y$ have been proposed for use instead
-	\citep{CornCoch,ludbrook97}. These methodologies are collectively known as `Model II regression'. They differ in the method used to
-	estimate the parameters of the regression.
-	
-	Regression estimates depend on formulation of the model. A formulation with one method considered as the $X$ variable will yield different estimates for a formulation where it is the $Y$
-	variable. With Model I regression, the models fitted in both cases will entirely different and inconsistent. However with Model II
-	regression, they will be consistent and complementary.
-	
-	Regression approaches are useful for a making a detailed examination of the biases across the range of measurements, allowing bias to be decomposed into fixed bias and proportional bias.
-	Fixed bias describes the case where one method gives values that are consistently different to the other across the whole range. Proportional
-	bias describes the difference in measurements getting progressively greater, or smaller, across the range of measurements. A measurement method may have either an attendant fixed bias or proportional bias, or both. \citep{ludbrook97}. Determination of these biases shall be discussed in due course.
-	
-	
-	
-	%================================================================================================= %
+
 	\section{Deming Regression}
 	
 	As stated previously, the fundamental flaw of simple linear regression is that it allows for measurement error in one variable only. This causes a downward biased slope estimate.
@@ -3911,106 +3415,7 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 	in their paper as $\eta$) is correctly specified, but in practice
 	this is often not the case, with the $\lambda$ being
 	underestimated.
-	\newpage
-		\section{Deming Regression}
-		
-		As stated previously, the fundamental flaw of simple linear regression is that it allows for measurement error in one variable only. This causes a downward biased slope estimate.
-		
-		Deming regression is a regression fitting approach that assumes error in both variables. Deming regression is recommended by \citet*{CornCoch} as the
-		preferred Model II regression for use in method comparison
-		studies.
-		The sum of squared distances from measured sets of values to the regression line is minimized at an angles specified by the ratio $\lambda$ of the residual variance of both variables. I
-		When $\lambda$ is one, the angle is 45 degrees. In ordinary linear regression, the distances are minimized in the vertical directions \citep{linnet99}.
-		In cases involving only single measurements by each method, $\lambda$ may be unknown and is therefore assumes a value of one. While this will bias the estimates, it is less biased than ordinary linear regression.
-		
-		The Bland Altman Plot is
-		uninformative about the comparative influence of proportional bias
-		and fixed bias. Model II approaches, such as Deming regression,  can provide independent tests for
-		both types of bias.
-		
-		For a given $\lambda$, \citet{Kummel} derived the following
-		estimate that would later be used for the Deming regression slope
-		parameter. The intercept estimate $\alpha$
-		is simply estimated in the same way as in conventional linear
-		regression, by using the identity $\bar{Y}-\hat{\beta}\bar{X}$;
-		\begin{equation}
-		\hat{\beta} =\quad \frac{S_{yy} - \lambda S_{xx}+[(S_{yy} -
-			\lambda S_{xx})^{2}+ 4\lambda S^{2}_{xy}]^{1/2}}{2S_{xy}}
-		\end{equation},
-		with $\lambda$ as the variance ratio. As stated previously $\lambda$ is often unknown, and therefore must be assumed to equal one. \citet{CarollRupert} states that Deming
-		regression is acceptable only when the precision ratio ($\lambda$,in their paper as $\eta$) is correctly specified, but in practice this is often not the case, with the $\lambda$ being underestimated. Several candidate models, with varying variance ratios may be fitted, and estimates of the slope and intercept are produced. However no model selection information is available to determine the best fitting model.
-		
-		As with conventional regression methodologies, Deming regression
-		calculates an estimate for both the slope and intercept for the
-		fitted line, and standard errors thereof. Therefore there is
-		sufficient information to carry out hypothesis tests on both
-		estimates, that are informative about presence of fixed and
-		proportional bias.
-		
-		A $95\%$ confidence interval for the intercept estimate can be
-		used to test the intercept, and hence fixed bias, is equal to
-		zero. This hypothesis is accepted if the confidence interval for
-		the estimate contains the value $0$ in its range. Should this be,
-		it can be concluded that fixed bias is not present. Conversely, if
-		the hypothesis is rejected, then it is concluded that the
-		intercept is non zero, and that fixed bias is present.
-		
-		Testing for proportional bias is a very similar procedure. The
-		$95\%$ confidence interval for the slope estimate can be used to
-		test the hypothesis that the slope is equal to $1$. This
-		hypothesis is accepted if the confidence interval for the estimate
-		contains the value $1$ in its range. If the hypothesis is
-		rejected, then it is concluded that the slope is significant
-		different from $1$ and that a proportional bias exists.
-		
-		For convenience, a new data set shall be introduced to demonstrate
-		Deming regression. Measurements of transmitral volumetric flow
-		(MF) by doppler echocardiography, and left ventricular stroke
-		volume (SV) by cross sectional echocardiography in 21 patients
-		with aortic valve disease are tabulated in \citet{zhang}. This
-		data set features in the discussion of method comparison studies
-		in \citet[p.398]{AltmanBook} .
-		
-		
-		% latex table generated in R 2.6.0 by xtable 1.5-5 package
-		% Tue Sep 01 13:31:17 2009
-		\begin{table}[h!]
-			\begin{center}
-				\begin{tabular}{|c|c|c||c|c|c||c|c|c|}
-					\hline
-					Patient & MF  & SV  & Patient & MF  & SV  & Patient & MF  & SV \\
-					&($cm^{3}$)&  ($cm^{3}$) & &($cm^{3}$)&  ($cm^{3}$) & &($cm^{3}$)&  ($cm^{3}$)
-					\\
-					\hline
-					1 & 47 & 43 &  8 & 75 & 72 &  15 & 90 & 82 \\
-					2 & 66 & 70 & 9 & 79 & 92 &  16 & 100 & 100 \\
-					3 & 68 & 72 & 10 & 81 & 76 & 17 & 104 & 94 \\
-					4 & 69 & 81 & 11 & 85 & 85 &  18 & 105 & 98 \\
-					5 & 70 & 60 & 12 & 87 & 82 & 19 & 112 & 108 \\
-					6 & 70 & 67 & 13 & 87 & 90 & 20 & 120 & 131 \\
-					7 & 73 & 72 & 14 & 87 & 96 &  21 & 132 & 131 \\
-					
-					\hline
-				\end{tabular}
-				\caption{Transmitral volumetric flow(MF) and left ventricular
-					stroke volume (SV) in 21 patients. (Zhang et al 1986)}
-			\end{center}
-		\end{table}
-		
-		%\begin{figure}[h!]
-		%	% Requires \usepackage{graphicx}
-		%	\includegraphics[width=130mm]{ZhangDeming.jpeg}
-		%	\caption{Deming Regression For Zhang's Data}\label{ZhangDeming}
-		%\end{figure}
-		
-		
-		\citet{CarollRupert} states that Deming's
-		regression is acceptable only when the precision ratio ($\lambda$,
-		in their paper as $\eta$) is correctly specified, but in practice
-		this is often not the case, with the $\lambda$ being
-		underestimated.
-		\newpage
-	\section{Other Types of Studies}
+		\section{Other Types of Studies}
 	\citet{lewis} categorize method comparison studies into three
 	different types.  The key difference between the first two is
 	whether or not a `gold standard' method is used. In situations
@@ -4162,6 +3567,15 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 	and the reference method
 	
 	
+	\section{Constant and Proportional Bias}
+	\begin{itemize}
+		\item[Constant Bias] This is a form of systematic deviations estimated as the average difference between the test
+		and the reference method.
+		\item[Proportional Bias] Two methods may agree on average, but they may exhibit differences over a range of measurements.
+	\end{itemize}
+	
+	Proportional Bias is a difference in the two measures which is proportional to the scale of the measurement. \\Using a naive estimation of bias, such as the mean of differences, it may incorrectly indicate absence of bias, by yielding a mean difference close to zero. This would be caused by positive differences in the measurements at one end of the range of measurements being canceled out by negative differences at the other end of the scale.
+	
 	\section*{Proportional Bias} Two methods may agree on
 	average, but they may exhibit differences over a range of
 
@@ -4197,17 +3611,37 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 	
 	Replicate measurements are linked over time. However the method can be easily extended to cover situations where they are not linked over time.
 	%----------------------------------------------------------------------------%
-	\section{Definition of Replicate measurements}
-	Further to \citet{BA99}, a formal definition is required of what exactly replicate measurements are
+
+	\section{Statistical Model For Replicate Measurements}
+	Let $y_{Aij}$ and $y_{Bij}$ be the $j$th repeated observations of the variables of interest $A$ and $B$ taken on the $i$th subject. The number of repeated measurements for each variable may differ for each individual.
+	Both variables are measured on each time points. Let $n_{i}$ be the number of observations for each variable, hence $2\times n_{i}$ observations in total.
 	
-	\emph{By replicates we mean two or more measurements on the same
-		individual taken in identical conditions. In general this requirement means that the
-		measurements are taken in quick succession.}
+	It is assumed that the pair $y_{Aij}$ and $y_{Bij}$ follow a bivariate normal distribution.
+	\begin{eqnarray}
+	\left(
+	\begin{array}{c}
+	y_{Aij} \\
+	y_{Bij} \\
+	\end{array}
+	\right) \sim \mathcal{N}(
+	\boldsymbol{\mu}, \boldsymbol{\Sigma})\mbox{   where } \boldsymbol{\mu} = \left(
+	\begin{array}{c}
+	\mu_{A} \\
+	\mu_{B} \\
+	\end{array}
+	\right)
+	\end{eqnarray}
+	The matrix $\boldsymbol{\Sigma}$ represents the variance component matrix between response variables at a given time point $j$.
+	\begin{equation}
+	\boldsymbol{\Sigma} = \left( \begin{array}{cc}
+	\sigma^2_{A} & \sigma_{AB} \\
+	\sigma_{AB} & \sigma^2_{B}\\
+	\end{array}\right)
+	\end{equation}
+	$\sigma^2_{A}$ is the variance of variable $A$, $\sigma^2_{B}$ is the variance of variable $B$ and $\sigma_{AB}$ is the covariance of the two variable. It is assumed that $\boldsymbol{\Sigma}$ does not depend on a particular time point, and is the same over all time points.
 	
-	Roy accords with Bland and Altman?s definition of a replicate, as being two or more measurements on the same individual under identical conditions. Roy allows the assumption that replicated measurements are equi-correlated. Roy allows unequal numbers of replicates.
 	
-	Replicate measurements are linked over time. However the method can be easily extended to cover situations where they are not linked over time.
-	%----------------------------------------------------------------------------%
+
 	\section{Model for replicate measurements}
 	
 	We generalize the single measurement model for the replicate measurement case, by additionally specifying replicate values. Let $y_{mir}$ be the $r-$th replicate measurement for subject ``i" made by method ``m". Further to \citet{barnhart} fixed effect can be expressed with a single term $\alpha_{mi}$, which incorporate the true value $\mu_i$.
@@ -4277,24 +3711,6 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 	
 	\bigskip
 	
-	\section{Two Way ANOVA}
-	
-	\citet{BXC2008} develop their model from a standard two-way analysis of variance model, reformulated for the case of replicate measurements, with random effects terms specified as appropriate. 
-	Their model describing $y_{mir} $, again the $r$th replicate measurement on the $i$th item by the $m$th method ($m=1,2,$ $i=1,\ldots,N,$ and $r = 1,\ldots,n$), can be written as
-	\begin{equation}\label{BXC-model}
-	y_{mir}  = \alpha_{m} + \mu_{i} + a_{ir} + c_{mi} + \epsilon_{mir}.
-	\end{equation}
-	The fixed effects $\alpha_{m}$ and $\mu_{i}$  represent the intercept for method $m$ and the `true value' for item $i$ respectively. The random-effect terms comprise an item-by-replicate interaction term $a_{ir} \sim \mathcal{N}(0,\varsigma^{2})$, a method-by-item interaction term $c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}),$ and model error terms $\varepsilon \sim \mathcal{N}(0,\varphi^{2}_{m}).$ All random-effect terms are assumed to be independent.
-	For the case when replicate measurements are assumed to be exchangeable for item $i$, $a_{ir}$ can be removed.
-	
-	The model expressed in (2) describes measurements by $m$ methods, where $m = \{1,2,3\ldots\}$. Based on the model expressed in (2), \citet{BXC2008} compute the limits of agreement as
-	\[
-	\alpha_1 - \alpha_2 \pm 2 \sqrt{ \tau^2_1 +  \tau^2_2 +  \varphi^2_1 +  \varphi^2_2 }
-	\]
-	\citet{BXC2008} notes that, for $m=2$,  separate estimates of $\tau^2_m$ can not be obtained. To overcome this, the assumption of equality, i.e. $\tau^2_1 = \tau^2_2$ is required.
-	
-	
-	%----------------------------------------------------------------------------
 	
 	\section{Two Way ANOVA}
 	
@@ -4314,35 +3730,33 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 	
 	
 	%----------------------------------------------------------------------------
-	\section{Statistical Model For Replicate Measurements}
-	Let $y_{Aij}$ and $y_{Bij}$ be the $j$th repeated observations of the variables of interest $A$ and $B$ taken on the $i$th subject. The number of repeated measurements for each variable may differ for each individual.
-	Both variables are measured on each time points. Let $n_{i}$ be the number of observations for each variable, hence $2\times n_{i}$ observations in total.
-	
-	It is assumed that the pair $y_{Aij}$ and $y_{Bij}$ follow a bivariate normal distribution.
-	\begin{eqnarray}
-	\left(
-	\begin{array}{c}
-	y_{Aij} \\
-	y_{Bij} \\
-	\end{array}
-	\right) \sim \mathcal{N}(
-	\boldsymbol{\mu}, \boldsymbol{\Sigma})\mbox{   where } \boldsymbol{\mu} = \left(
-	\begin{array}{c}
-	\mu_{A} \\
-	\mu_{B} \\
-	\end{array}
-	\right)
-	\end{eqnarray}
-	The matrix $\boldsymbol{\Sigma}$ represents the variance component matrix between response variables at a given time point $j$.
-	\begin{equation}
-	\boldsymbol{\Sigma} = \left( \begin{array}{cc}
-	\sigma^2_{A} & \sigma_{AB} \\
-	\sigma_{AB} & \sigma^2_{B}\\
-	\end{array}\right)
-	\end{equation}
-	$\sigma^2_{A}$ is the variance of variable $A$, $\sigma^2_{B}$ is the variance of variable $B$ and $\sigma_{AB}$ is the covariance of the two variable. It is assumed that $\boldsymbol{\Sigma}$ does not depend on a particular time point, and is the same over all time points.
-	
 
+	\section{Replicate measurements}
+	\citet{ARoy2009} accords with Bland and Altman?s definition of a replicate, as being two or more measurements on the same individual under identical conditions.
+	Roy allows the assumption that replicated measurements are equi-correlated.
+	Roy allows unequal numbers of replicates.
+	
+	Replicate measurements are linked over time. However the method can be easily extended to cover situations where they are not linked over time.
+	
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	In this model , the variances of the random effects must depend on
+	$m$, since the different methods do not necessarily measure on the
+	same scale, and different methods naturally must be assumed to
+	have different variances. \citet{BXC2004} attends to the issue of
+	comparative variances.
+	
+	\bigskip
+	\citet{BA99} also remark that an important feature of replicate observations is that they should be independent
+	of each other. This issue is addressed by \citet{BXC2010}, in terms of exchangeability and linkage. Carstenen advises that repeated measurements come in two \emph{substantially different} forms, depending on the circumstances of their measurement: exchangable and linked.
+	
+	Repeated measurements are said to be exchangeable if no relationship exists between successive measurements across measurements. If the condition of exchangeability exists, a group of measurement of the same item determined by the same method can be re-arranged in any permutation without prejudice to proper analysis. There is no reason to believe that the true value of the underlying variable has changed over the course of the measurements.
+	
+	Exchangeable repeated measurements can be treated as true replicates. For the purposes of method comparison studies the following remarks can be made. The $r-$th measurement made by method $1$ has no special correspondence to the $r-$th measurement made by method $2$, and consequently any pairing of repeated measurements are as good as each other.
+	
+	
+	%----------------------------------------------------------------------------%
 	\section{Replicate measurements}
 	\citet{ARoy2009} accords with Bland and Altman?s definition of a replicate, as being two or more measurements on the same individual under identical conditions.
 	Roy allows the assumption that replicated measurements are equi-correlated.
@@ -4417,153 +3831,12 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 	
 	
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	\newpage
-	
-	\section{Replicate Measurements}
-	
-	Thus far, the formulation for comparison of two measurement
-	methods is based on one measurement by each method per subject. Should there be two or more measurements by each
-	method, these measurements are known as `replicate measurements'.
-	\citet{BXC2008} recommends the use of replicate measurements, but
-	acknowledges the additional computational complexity.
-	
-	\citet*{BA86} address this situation via two different
-	approaches. The premise of the first approach is that replicate
-	measurements can be treated as independent measurements. The
-	second approach is based upon using the mean of the each group of
-	replicates as one single representative value. 
-	
-	%\section{Mean of Replicates Limits of Agreement}
-	
-	Although either approach may be used to estimate the inter-method bias, removal of the effects of replicate
-	measurements error leads to the underestimation of the
-	standard deviation of the differences.
-	\citet*{BA86} propose a correction for this.
-	% % STATE WHAT THIS CORRECTION IS
-	
-	\citet{BXC2008} take issue with the limits of agreement based on
-	mean values of replicate measurements, since these must be interpreted as prediction
-	limits for the difference between means of repeated measurements by
-	both methods, rather than the difference of individual measurements.
-	\citet{BXC2008} demonstrates how the limits of agreement
-	calculated using the mean of replicates are `much too narrow as
-	prediction limits for differences between future single
-	measurements'. This paper also comments that, while treating the
-	replicate measurements as independent will cause a downward bias
-	on the limits of agreement calculation, this method is preferable
-	to the `mean of replicates' approach.
-	
-	
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	
-	\section{Replicate measurements}
-	\citet{ARoy2009} accords with Bland and Altman?s definition of a replicate, as being two or more measurements on the same individual under identical conditions.
-	Roy allows the assumption that replicated measurements are equi-correlated.
-	Roy allows unequal numbers of replicates.
-	
-	Replicate measurements are linked over time. However the method can be easily extended to cover situations where they are not linked over time.
-	
-	
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	
-	In this model , the variances of the random effects must depend on
-	$m$, since the different methods do not necessarily measure on the
-	same scale, and different methods naturally must be assumed to
-	have different variances. \citet{BXC2004} attends to the issue of
-	comparative variances.
-	
-	\newpage
-	\citet{BA99} also remark that an important feature of replicate observations is that they should be independent
-	of each other. This issue is addressed by \citet{BXC2010}, in terms of exchangeability and linkage. Carstenen advises that repeated measurements come in two \emph{substantially different} forms, depending on the circumstances of their measurement: exchangable and linked.
-	
-	Repeated measurements are said to be exchangeable if no relationship exists between successive measurements across measurements. If the condition of exchangeability exists, a group of measurement of the same item determined by the same method can be re-arranged in any permutation without prejudice to proper analysis. There is no reason to believe that the true value of the underlying variable has changed over the course of the measurements.
-	
-	Exchangeable repeated measurements can be treated as true replicates. For the purposes of method comparison studies the following remarks can be made. The $r-$th measurement made by method $1$ has no special correspondence to the $r-$th measurement made by method $2$, and consequently any pairing of repeated measurements are as good as each other.
-	
-	
-	%----------------------------------------------------------------------------%
-	
-	Repeated measurements are said to be linked if a direct correspondence exists between successive measurements across measurements, i.e. pairing. Such measurements are commonly made with a time interval between them, but simultaneously for both methods. Paired measurements are exchangeable, but individual measurements are not.
-	
-	If the paired measurements are taken
-	in a short period of time so that no real systemic changes can take place on each item, they can be considered true replicates.
-	Should enough time elapse for systemic changes, linked repeated measurements can not be treated as true replicates.
-	
-	
-	\section{Repeated Measurements in LME models}
-	
-	In many statistical analyzes, the need to determine parameter estimates where multiple measurements are available on each of a set of variables often arises. Further to \citet{lam}, \citet{hamlett} performs an analysis of the correlation of replicate measurements, for two variables of interest, using LME models.
-	
-	Let $y_{Aij}$ and $y_{Bij}$ be the $j$th repeated observations of the variables of interest $A$ and $B$ taken on the $i$th subject. The number of repeated measurements for each variable may differ for each individual.
-	Both variables are measured on each time points. Let $n_{i}$ be the number of observations for each variable, hence $2\times n_{i}$ observations in total.
-	
-	It is assumed that the pair $y_{Aij}$ and $y_{Bij}$ follow a bivariate normal distribution.
-	\begin{eqnarray*}
-		\left(
-		\begin{array}{c}
-			y_{Aij} \\
-			y_{Bij} \\
-		\end{array}
-		\right) \sim \mathcal{N}(
-		\boldsymbol{\mu}, \boldsymbol{\Sigma})\mbox{   where } \boldsymbol{\mu} = \left(
-		\begin{array}{c}
-			\mu_{A} \\
-			\mu_{B} \\
-		\end{array}
-		\right)
-	\end{eqnarray*}
-	
-	The matrix $\Sigma$ represents the variance component matrix between response variables at a given time point $j$.
-	
-	\[
-	\boldsymbol{\Sigma} = \left( \begin{array}{cc}
-	\sigma^2_{A} & \sigma_{AB} \\
-	\sigma_{AB} & \sigma^2_{B}\\
-	\end{array}   \right)
-	\]
-	
-	$\sigma^2_{A}$ is the variance of variable $A$, $\sigma^2_{B}$ is the variance of variable $B$ and $\sigma_{AB}$ is the covariance of the two variable. It is assumed that $\boldsymbol{\Sigma}$ does not depend on a particular time point, and is the same over all time points.
-	
-	%------------------------------------------------------------------------------%
-	
-	
-	\section{Linked replicates}
-	
-	\citet{BXC2008} proposes the addition of an random effects term to their model when the replicates are linked. This term is used to describe the `item by replicate' interaction, which is independent of the methods. This interaction is a source of variability independent of the methods. Therefore failure to account for it will result in variability being wrongly attributed to the methods.
-	
-	\citet{BXC2008} introduces a second data set; the oximetry study. This study done at the Royal Children�s Hospital in
-	Melbourne to assess the agreement between co-oximetry and pulse oximetry in small babies.
-	
-	In most cases, measurements were taken by both method at three different times. In some cases there are either one or two pairs of measurements, hence the data is unbalanced. \citet{BXC2008} describes many of the children as being very sick, and with very low oxygen saturations levels. Therefore it must be assumed that a biological change can occur in interim periods, and measurements are not true replicates.
-	
-	\citet{BXC2008} demonstrate the necessity of accounting for linked replicated by comparing the limits of agreement from the `oximetry' data set using a model with the additional term, and one without. When the interaction is accounted for the limits of agreement are (-9.62,14.56). When the interaction is not accounted for, the limits of agreement are (-11.88,16.83). It is shown that the failure to include this additional term results in an over-estimation of the standard deviations of differences.
-	
-	Limits of agreement are determined using Roy's methodology, without adding any additional terms, are found to be consistent with the `interaction' model; $(-9.562, 14.504 )$. Roy's methodology assumes that replicates are linked. However, following Carstensen's example, an addition interaction term is added to the implementation of Roy's model to assess the effect, the limits of agreement estimates do not change. However there is a conspicuous difference in within-subject matrices of Roy's model and the modified model (denoted $1$ and $2$ respectively);
-	\begin{equation}
-		\hat{\boldsymbol{\Lambda}}_{1}= \left(\begin{array}{cc}
-			16.61 &	11.67\\
-			11.67 & 27.65 \end{array}\right) \qquad
-		\boldsymbol{\hat{\Lambda}}_{2}= \left( \begin{array}{cc}
-			7.55 & 2.60 \\
-			2.60 & 18.59 \end{array} \right). 
-	\end{equation}
-	
-	\noindent (The variance of the additional random effect in model $2$ is $3.01$.)
-	
-	\citet{akaike} introduces the Akaike information criterion ($AIC$), a model 
-	selection tool based on the likelihood function. Given a data set, candidate models
-	are ranked according to their AIC values, with the model having the lowest AIC being considered the best fit.Two candidate models can said to be equally good if there is a difference of less than $2$ in their AIC values.
-	
-	The Akaike information criterion (AIC) for both models are $AIC_{1} = 2304.226$ and $AIC_{2} = 2306.226$ , indicating little difference in models. The AIC values for the Carstensen `unlinked' and `linked' models are $1994.66$ and $1955.48$ respectively, indicating an improvement by adding the interaction term.
-	
-	The $\boldsymbol{\hat{\Lambda}}$ matrices are informative as to the difference between Carstensen's unlinked and linked models. For the oximetry data, the covariance terms (given above as 11.67 and 2.6 respectively ) are of similar magnitudes to the variance terms. Conversely for the `fat' data the covariance term ($-0.00032$) is negligible. When the interaction term is added to the model, the covariance term remains negligible. (For the `fat' data, the difference in AIC values is also approximately $2$).
-	
-	To conclude, Carstensen's models provided a rigorous way to determine limits of agreement, but don't provide for the computation of $\boldsymbol{\hat{D}}$ and $\boldsymbol{\hat{\Lambda}}$. Therefore the test's proposed by \citet{roy} can not be implemented. Conversely, accurate limits of agreement as determined by Carstensen's model may also be found using Roy's method. Addition of the interaction term erodes the capability of Roy's methodology to compare candidate models, and therefore shall not be adopted.
-	
-	Finally, to complement the blood pressure (i.e.`J vs S') method comparison from the previous section (i.e.`J vs S'), the limits of agreement are $15.62 \pm 1.96 \times 20.33 = (-24.22, 55.46)$.)
-	\newpage
-	
+
+
+
 	\section{Repeatability}
 	As mentioned previously, \citet{Barnhart} emphasizes the importance of repeatability as part of an overall method comparison study. The coefficient of repeatability was proposed by \citet{BA99}, and is referenced in subsequent papers, such as \citet{BXC2008}. The coefficient of repeatability is a measure of how well a
 	measurement method agrees with itself over replicate measurements
@@ -4577,7 +3850,7 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 	The quality of repeatability is the ability of a measurement method to give consistent results for a particular subject. That is to say that a measurement will agree with prior and subsequent measurements of the same subject.
 
 
-	\section{Coefficient of Repeatability}
+	\section{Coefficient of Repeatability - Good}
 	The coefficient of repeatability is a measure of how well a
 	measurement method agrees with itself over replicate measurements
 	\citep{BA99}. Once the within-item variability is known, the
@@ -4610,32 +3883,6 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 
 
 
-		\section{Repeatability}
-		Repeatability is the ability of a measurement method to give consistent results for a particular subject, i.e. a measurement will agree with prior and subsequent measurements of the same subject. \citet{Barnhart} emphasizes the importance of repeatability as part of an overall method comparison study, a view endorsed by \citet{BXC2008}. Before there can be good agreement between two methods, a method must have good agreement with itself. If one method has poor repeatability in the sense of considerable
-		variability, then agreement between two methods is bound to be
-		poor \citep{ARoy2009}. \citet{Barnhart} remarks that it is important to report repeatability when assessing
-		measurement, because it measures the purest form of random error
-		not influenced by other factors, while further remarking `\textit{curiously replicate measurements are rarely made in method comparison studies, so that an important aspect of comparability is often overlooked}. \citet{BA99} strongly recommends the simultaneous estimation of repeatability and agreement be collecting replicated data.
-		However \citet{ARoy2009} notes the lack of convenience in such calculations. 	Repeatability is defined by the \citet{IUPAC} as `\textit{the closeness of agreement between independent results obtained with the same method on identical test material, under the same conditions (same
-			operator, same apparatus, same laboratory and after short intervals of time)}'  and is determined by taking multiple measurements on a series of subjects.
-		
-		
-		
-		% %	Test-retest variability is practically used, for example, in medical monitoring of conditions.
-		
-		A measurement is said to be repeatable when this variation is smaller than some pre-specified limit. In these situations, there is often a predetermined ``critical difference", and for differences in monitored values that are smaller than this critical difference, the possibility of pre-test variability as a sole cause of the difference may be considered in addition to, for examples, changes in diseases or treatments. 
-		
-		
-		The British Standards Institute (1979) defines a coefficient of repeatability  as \emph{the value below which the difference between two single test results may be expected to lie within a specified probability.} In the absence of other indications, the probability is 95\%.
-		
-		\section{Repeatability and Gold Standards}
-		Currently the phrase `gold standard' describes the most accurate method of measurement available. No other criteria are set out. Further to \citet{dunnSEME}, various gold standards have a varying levels of repeatability. Dunn cites the example of the sphygmomanometer, which is prone to measurement error. Consequently it can be said that a measurement method can be the `gold standard', yet have poor repeatability. 
-		
-		% % % Bronze Standard
-		\citet{dunnSEME} recognizes  this problem. Hence, if the most accurate method is considered to have poor repeatability, it is referred to as a ``bronze standard".  Again, no formal definition of a `bronze standard' exists.
-		
-		The coefficient of repeatability may provide the basis of formulation a formal definition of a `gold standard'. For example, by determining the ratio of $CR$ to the sample mean $\bar{X}$. Advisably the sample size should specified in advance. A gold standard may be defined as the method with the lowest value of $\lambda = CR /\bar{X}$ with $\lambda < 0.1\%$. Similarly, a silver standard may be defined as the method with the lowest value of $\lambda $ with $0.1\% \leq \lambda < 1\%$. Such thresholds are solely for expository purposes.
-		
 	\section{Repeatability}
 	Repeatability (or \textit{test-retest reliability})  describes the variation in measurements taken by a single method of measurement on the same item and under the same conditions. 
 	A less-than-perfect test-retest reliability causes test-retest variability. Such variability can be caused by, for example, intra-individual variability and intra-observer variability. 
@@ -4663,6 +3910,33 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 	
 	%-----------------------------------------------------------------------------------------------------%
 	\newpage
+		\section{Repeatability}
+		Repeatability is the ability of a measurement method to give consistent results for a particular subject, i.e. a measurement will agree with prior and subsequent measurements of the same subject. \citet{Barnhart} emphasizes the importance of repeatability as part of an overall method comparison study, a view endorsed by \citet{BXC2008}. Before there can be good agreement between two methods, a method must have good agreement with itself. If one method has poor repeatability in the sense of considerable
+		variability, then agreement between two methods is bound to be
+		poor \citep{ARoy2009}. \citet{Barnhart} remarks that it is important to report repeatability when assessing
+		measurement, because it measures the purest form of random error
+		not influenced by other factors, while further remarking `\textit{curiously replicate measurements are rarely made in method comparison studies, so that an important aspect of comparability is often overlooked}. \citet{BA99} strongly recommends the simultaneous estimation of repeatability and agreement be collecting replicated data.
+		However \citet{ARoy2009} notes the lack of convenience in such calculations. 	Repeatability is defined by the \citet{IUPAC} as `\textit{the closeness of agreement between independent results obtained with the same method on identical test material, under the same conditions (same
+			operator, same apparatus, same laboratory and after short intervals of time)}'  and is determined by taking multiple measurements on a series of subjects.
+		
+		
+		
+		% %	Test-retest variability is practically used, for example, in medical monitoring of conditions.
+		
+		A measurement is said to be repeatable when this variation is smaller than some pre-specified limit. In these situations, there is often a predetermined ``critical difference", and for differences in monitored values that are smaller than this critical difference, the possibility of pre-test variability as a sole cause of the difference may be considered in addition to, for examples, changes in diseases or treatments. 
+		
+		
+		The British Standards Institute (1979) defines a coefficient of repeatability  as \emph{the value below which the difference between two single test results may be expected to lie within a specified probability.} In the absence of other indications, the probability is 95\%.
+		
+		\section{Repeatability and Gold Standards}
+		Currently the phrase `gold standard' describes the most accurate method of measurement available. No other criteria are set out. Further to \citet{dunnSEME}, various gold standards have a varying levels of repeatability. Dunn cites the example of the sphygmomanometer, which is prone to measurement error. Consequently it can be said that a measurement method can be the `gold standard', yet have poor repeatability. 
+		
+		% % % Bronze Standard
+		\citet{dunnSEME} recognizes  this problem. Hence, if the most accurate method is considered to have poor repeatability, it is referred to as a ``bronze standard".  Again, no formal definition of a `bronze standard' exists.
+		
+		The coefficient of repeatability may provide the basis of formulation a formal definition of a `gold standard'. For example, by determining the ratio of $CR$ to the sample mean $\bar{X}$. Advisably the sample size should specified in advance. A gold standard may be defined as the method with the lowest value of $\lambda = CR /\bar{X}$ with $\lambda < 0.1\%$. Similarly, a silver standard may be defined as the method with the lowest value of $\lambda $ with $0.1\% \leq \lambda < 1\%$. Such thresholds are solely for expository purposes.
+		
+
 	\section{Importance of Repeatability in MCS}
 	
 	
@@ -4718,7 +3992,7 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 		\item Thus, the repeatability of the machine is 50\% greater than that of the observer.
 	\end{itemize}
 	%-------------------------------------------------------------------%
-	\section{Carstensen}
+	\section{Carstensen Move to Chapter 2}
 	\begin{itemize}
 		\item The limits of agreement are not always the only issue of
 		interest � the assessment of method specific repeatability and
@@ -4797,29 +4071,52 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 	
 	
 
-	\section{Model for replicate measurements}
-	
-	We generalize the single measurement model for the replicate measurement case, by additionally specifying replicate values. Let $y_{mir}$ be the $r-$th replicate measurement for subject ``i" made by method ``m". Further to \citet{barnhart} fixed effect can be expressed with a single term $\alpha_{mi}$, which incorporate the true value $\mu_i$.
-	
-	\[ y_{mir} = \mu_{i} + \alpha_{m} + e_{mir}  \]
-	
-	Combining fixed effects \citep{barnhart}, we write,
-	
-	\[ y_{mir} = \alpha_{mi} + e_{mir}.\]
-	
-	The following assumptions are required
-	
-	\begin{itemize}
-		\item $e_{mir}$ is independent of the fixed effects with mean $\mbox{E}(e_{mir}) = 0$.
-		\item Further to \citet{barnhart} between-item and within-item variances $\mbox{Var}(\alpha_{mi}) = \sigma^2_{Bm}$ and $\mbox{Var}(e_{mir}) = \sigma^2_{Wm}$
-		%	\item In keeping with \citet{Roy}, these variance shall be considered as part of the between-item variance covariance matrix $\boldsymbol{D}$ and the within-item variance covariance matrix  $\boldsymbol{\Sigma}$
-		%	respectively, and will be denoted accordingly ( i.e. $d^2_{m}$ and $\sigma^2_{m}$).
-		%	\item Additionally, the total variability of method "m", denoted $\omega^2_m$ is the sum of the within-item and between-item variabilities.
-		%	
-		%	\[ \omega^2_m = d^2_{m}+ \sigma^2_{m} \]
-		
-	\end{itemize}
 
+	\section{Linkage}
+	Repeated measurements are said to be linked if a direct correspondence exists between successive measurements across measurements, i.e. pairing. Such measurements are commonly made with a time interval between them, but simultaneously for both methods. Paired measurements are exchangeable, but individual measurements are not.
+	
+	If the paired measurements are taken
+	in a short period of time so that no real systemic changes can take place on each item, they can be considered true replicates.
+	Should enough time elapse for systemic changes, linked repeated measurements can not be treated as true replicates.
+	
+	
+	
+	\section{Linked replicates}
+	
+	\citet{BXC2008} proposes the addition of an random effects term to their model when the replicates are linked. This term is used to describe the `item by replicate' interaction, which is independent of the methods. This interaction is a source of variability independent of the methods. Therefore failure to account for it will result in variability being wrongly attributed to the methods.
+	
+	\citet{BXC2008} introduces a second data set; the oximetry study. This study done at the Royal Children�s Hospital in
+	Melbourne to assess the agreement between co-oximetry and pulse oximetry in small babies.
+	
+	In most cases, measurements were taken by both method at three different times. In some cases there are either one or two pairs of measurements, hence the data is unbalanced. \citet{BXC2008} describes many of the children as being very sick, and with very low oxygen saturations levels. Therefore it must be assumed that a biological change can occur in interim periods, and measurements are not true replicates.
+	
+	\citet{BXC2008} demonstrate the necessity of accounting for linked replicated by comparing the limits of agreement from the `oximetry' data set using a model with the additional term, and one without. When the interaction is accounted for the limits of agreement are (-9.62,14.56). When the interaction is not accounted for, the limits of agreement are (-11.88,16.83). It is shown that the failure to include this additional term results in an over-estimation of the standard deviations of differences.
+	
+	Limits of agreement are determined using Roy's methodology, without adding any additional terms, are found to be consistent with the `interaction' model; $(-9.562, 14.504 )$. Roy's methodology assumes that replicates are linked. However, following Carstensen's example, an addition interaction term is added to the implementation of Roy's model to assess the effect, the limits of agreement estimates do not change. However there is a conspicuous difference in within-subject matrices of Roy's model and the modified model (denoted $1$ and $2$ respectively);
+	\begin{equation}
+	\hat{\boldsymbol{\Lambda}}_{1}= \left(\begin{array}{cc}
+	16.61 &	11.67\\
+	11.67 & 27.65 \end{array}\right) \qquad
+	\boldsymbol{\hat{\Lambda}}_{2}= \left( \begin{array}{cc}
+	7.55 & 2.60 \\
+	2.60 & 18.59 \end{array} \right). 
+	\end{equation}
+	
+	\noindent (The variance of the additional random effect in model $2$ is $3.01$.)
+	
+	\citet{akaike} introduces the Akaike information criterion ($AIC$), a model 
+	selection tool based on the likelihood function. Given a data set, candidate models
+	are ranked according to their AIC values, with the model having the lowest AIC being considered the best fit.Two candidate models can said to be equally good if there is a difference of less than $2$ in their AIC values.
+	
+	The Akaike information criterion (AIC) for both models are $AIC_{1} = 2304.226$ and $AIC_{2} = 2306.226$ , indicating little difference in models. The AIC values for the Carstensen `unlinked' and `linked' models are $1994.66$ and $1955.48$ respectively, indicating an improvement by adding the interaction term.
+	
+	The $\boldsymbol{\hat{\Lambda}}$ matrices are informative as to the difference between Carstensen's unlinked and linked models. For the oximetry data, the covariance terms (given above as 11.67 and 2.6 respectively ) are of similar magnitudes to the variance terms. Conversely for the `fat' data the covariance term ($-0.00032$) is negligible. When the interaction term is added to the model, the covariance term remains negligible. (For the `fat' data, the difference in AIC values is also approximately $2$).
+	
+	To conclude, Carstensen's models provided a rigorous way to determine limits of agreement, but don't provide for the computation of $\boldsymbol{\hat{D}}$ and $\boldsymbol{\hat{\Lambda}}$. Therefore the test's proposed by \citet{roy} can not be implemented. Conversely, accurate limits of agreement as determined by Carstensen's model may also be found using Roy's method. Addition of the interaction term erodes the capability of Roy's methodology to compare candidate models, and therefore shall not be adopted.
+	
+	Finally, to complement the blood pressure (i.e.`J vs S') method comparison from the previous section (i.e.`J vs S'), the limits of agreement are $15.62 \pm 1.96 \times 20.33 = (-24.22, 55.46)$.)
+	\newpage
+	
 	\section{Exchangeable and Linked measurements}
 	\section{Sampling Scheme : Linked and Unlinked Replicates}
 	Measurements taken in quick succession by the same observer using the same instrument on the same subject can be considered true replicates. \citet{ARoy2009} notes that some measurements may not be `true' replicates.
@@ -4856,6 +4153,43 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 	
 	%-----------------------------------------------------------------------------------------------------%
 
+	\section{Repeated Measurements in LME models}
+	
+	In many statistical analyzes, the need to determine parameter estimates where multiple measurements are available on each of a set of variables often arises. Further to \citet{lam}, \citet{hamlett} performs an analysis of the correlation of replicate measurements, for two variables of interest, using LME models.
+	
+	Let $y_{Aij}$ and $y_{Bij}$ be the $j$th repeated observations of the variables of interest $A$ and $B$ taken on the $i$th subject. The number of repeated measurements for each variable may differ for each individual.
+	Both variables are measured on each time points. Let $n_{i}$ be the number of observations for each variable, hence $2\times n_{i}$ observations in total.
+	
+	It is assumed that the pair $y_{Aij}$ and $y_{Bij}$ follow a bivariate normal distribution.
+	\begin{eqnarray*}
+		\left(
+		\begin{array}{c}
+			y_{Aij} \\
+			y_{Bij} \\
+		\end{array}
+		\right) \sim \mathcal{N}(
+		\boldsymbol{\mu}, \boldsymbol{\Sigma})\mbox{   where } \boldsymbol{\mu} = \left(
+		\begin{array}{c}
+			\mu_{A} \\
+			\mu_{B} \\
+		\end{array}
+		\right)
+	\end{eqnarray*}
+	
+	The matrix $\Sigma$ represents the variance component matrix between response variables at a given time point $j$.
+	
+	\[
+	\boldsymbol{\Sigma} = \left( \begin{array}{cc}
+	\sigma^2_{A} & \sigma_{AB} \\
+	\sigma_{AB} & \sigma^2_{B}\\
+	\end{array}   \right)
+	\]
+	
+	$\sigma^2_{A}$ is the variance of variable $A$, $\sigma^2_{B}$ is the variance of variable $B$ and $\sigma_{AB}$ is the covariance of the two variable. It is assumed that $\boldsymbol{\Sigma}$ does not depend on a particular time point, and is the same over all time points.
+	
+	%------------------------------------------------------------------------------%
+	
+	
 	\section{The Technology Acceptance Model}
 	Davis (1989) proposes the TAM model, which suggests an hypothesis as to why users may adopt particular technologies, and not others. 
 	According to this theory, when users are presented with a new 
@@ -4885,5 +4219,7 @@ BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
 		%indices, including the limits of agreement. Other approaches, such
 		%as mean squared deviation, the tolerance deviation index and
 		%coverage probability are also discussed.
-\end{document}
 
+\bibliographystyle{chicago}
+\bibliography{DB-txfrbib}
+\end{document}
