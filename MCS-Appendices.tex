@@ -69,6 +69,220 @@ rulesepcolor=\color{black},
 
 \chapter{Appendices}
 
+
+\section{Outline of Thesis}
+Thus the study of method comparison is introduced. The intention of this thesis is to progress the
+study of method comparison studies, using a statistical method known as Linear mixed effects models.
+Chapter two shall describe linear mixed effects models, and how the use of the linear mixed
+effects models have so far extended to method comparison studies. Implementations of important existing work shall be presented, using the \texttt{R} programming language.
+
+Model diagnostics are an integral component of a complete statistical analysis.
+In chapter three model diagnostics shall be described in depth, with particular
+emphasis on linear mixed effects models, further to chapter two.
+
+For the fourth chapter, important linear mixed effects model diagnostic methods shall be extended to method comparison studies, and proposed methods shall be demonstrated on data sets that have become well known in literature on method comparison. The purpose is to both calibrate these methods and to demonstrate applications for them.
+The last chapter shall focus on robust measures of important parameters such as agreement.
+	\section{Alternative Agreement Indices}
+	As an alternative to limits of agreement, \citet{lin2002} proposes the use of
+	the mean square deviation in assessing agreement. The mean square
+	deviation is defined as the expectation of the squared differences
+	of two readings. The MSD is usually used for the case of two
+	measurement methods $X$ and $Y$, each making one measurement for
+	the same subject, and is given by
+	\[
+	MSDxy = E[(x - y)^2]  = (\mu_{x} - \mu_{y})^2 + (\sigma_{x} -
+	\sigma_{y})^2 + 2\sigma_{x}\sigma_{y}(1-\rho_{xy}).
+	\]
+	
+	
+	\citet{Barnhart} advises the use of a predetermined upper limit
+	for the MSD value, $MSD_{ul}$, to define satisfactory agreement.
+	However, a satisfactory upper limit may not be easily
+	determinable, thus creating a drawback to this methodology.
+	
+	
+	Alternative indices, proposed by \citet{Barnhart}, are the square root of the MSD and the expected absolute difference (EAD). 
+	\[
+	EAD = E(|x - y|) = \frac{\sum |x_{i}- y_{i}|}{n}
+	\]
+	
+	
+	Both of these indices can be interpreted intuitively, since their units are the same as that of the original measurements. Also they can be compared to the maximum acceptable absolute difference between two methods of measurement $d_{0}$. For the sake of brevity, the EAD will be considered solely.
+	
+	The EAD can be used to supplement the inter-method bias in an
+	initial comparison study, as the EAD is informative as a measure
+	of dispersion, is easy to calculate and requires no distributional
+	assumptions. A consequence of using absolute differences is that high variances would result in a higher EAD value. 
+	
+	% latex table generated in R 3.1.1 by xtable 1.7-4 package
+	% Mon Feb 23 21:12:33 2015
+	% latex table generated in R 3.1.1 by xtable 1.7-4 package
+	% Mon Feb 23 21:13:45 2015
+	% latex table generated in R 3.1.1 by xtable 1.7-4 package
+	% Mon Feb 23 22:10:26 2015
+	%\begin{table}[ht]
+	%	\centering
+	%	\begin{tabular}{r| rrrr}
+	%		\hline
+	%		\item & X & Y & U & V \\ 
+	%		\hline
+	%		1 & 101.83 & 102.52 & 98.05 & 99.53 \\ 
+	%		2 & 101.68 & 102.69 & 99.17 & 96.53 \\ 
+	%		3 & 97.89 & 99.01 & 100.31 & 97.55 \\ 
+	%		4 & 98.15 & 99.57 & 100.35 & 96.03 \\ 
+	%		5 & 99.94 & 100.85 & 99.51 & 99.00 \\ 
+	%		6 & 98.85 & 98.86 & 98.50 & 100.76 \\ 
+	%		7 & 99.86 & 97.85 & 100.66 & 99.37 \\ 
+	%		8 & 101.57 & 100.21 & 99.66 & 108.87 \\ 
+	%		9 & 100.12 & 99.85 & 99.70 & 105.16 \\ 
+	%		10 & 99.49 & 98.77 & 101.55 & 94.31 \\ 
+	%		\hline
+	%	\end{tabular}
+	%\end{table}
+	
+	
+	
+	
+	\begin{table}[ht]
+		\centering
+		\begin{tabular}{|c|c|c|c|c|}
+			\hline
+			& U & V & $U-V$ & $|U-V|$ \\ 
+			\hline
+			1 & 98.05 & 99.53 & -1.49 & 1.49 \\ 
+			2 & 99.17 & 96.53 & 2.64 & 2.64 \\ 
+			3 & 100.31 & 97.55 & 2.75 & 2.75 \\ 
+			4 & 100.35 & 96.03 & 4.32 & 4.32 \\ 
+			5 & 99.51 & 99.00 & 0.51 & 0.51 \\ 
+			6 & 98.50 & 100.76 & -2.26 & 2.26 \\ 
+			7 & 100.66 & 99.37 & 1.29 & 1.29 \\ 
+			8 & 99.66 & 108.87 & -9.21 & 9.21 \\ 
+			9 & 99.70 & 105.16 & -5.45 & 5.45 \\ 
+			10 & 101.55 & 94.31 & 7.24 & 7.24 \\ 
+			\hline
+		\end{tabular}
+		\caption{Example data set}
+		\label{EADdata}
+	\end{table}
+	
+	To illustrate the use of EAD, consider table ~\ref{EADdata}. The inter-method bias is 0.03, which is quite close to zero, which is desirable in the context of agreement. However, an identity plot would indicate very poor agreement, as the points are noticeably distant from the line of equality.
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.7\linewidth]{EAD-UV}
+		\caption{Identity Plot for example data}
+		\label{fig:EADidentity}
+	\end{figure}
+	
+	The limits of agreement are $[-9.61, 9.68]$, a wide interval for this data. As with the identity plot, this would indicate lack of agreement. As with inter-method bias, an EAD value close to zero is desirable. However, from table ~\ref{EADdata}, the EAD can be computed as 3.71. The Bland-Altman plot remains a useful part of the analysis. In \ref{fig:EAD1}, it is clear there is a systematic decrease in differences across the range of measurements.
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.7\linewidth]{images/EAD1}
+		\caption{Bland-Altman Plot for UV comparison}
+		\label{fig:EAD1}
+	\end{figure}
+	
+	\citet{Barnhart} remarks that a comparison of EAD and MSD , using
+	simulation studies, would be interesting, while further adding
+	that `\textit{It will be of interest to investigate the benefits of these
+		possible new unscaled agreement indices}'. For the Grubbs' `F vs C' and `F vs T' comparisons, the inter-method bias, difference variances, limits of agreement and EADs are shown
+	in Table 1.5. The corresponding Bland-Altman plots for `F vs C' and `F vs T' comparisons were depicted previously on Figure 1.3. While the inter-method bias for the `F vs T' comparison is smaller, the EAD penalizes the comparison for having a greater variance of differences. Hence the EAD values for both comparisons are much closer.
+	\begin{table}[ht]
+		\begin{center}
+			\begin{tabular}{|c|c|c|}
+				\hline
+				& F vs C & F vs T  \\
+				\hline
+				Inter-method bias & -0.61 & 0.12 \\ \hline
+				Difference variance & 0.06 & 0.22  \\ \hline 
+				Limits of agreement & (-1.08,	-0.13) & (-0.81,1.04) \\
+				EAD & 0.61 & 0.35  \\ \hline 
+				\hline
+			\end{tabular}
+			\caption{Agreement indices for Grubbs' data comparisons.}
+		\end{center}
+	\end{table}
+	
+	Further to  \citet{lin2000} and \citet{lin2002}, individual agreement between two measurement methods may be
+	assessed using the the coverage probability (CP) criteria or the total deviation index (TDI). If $d_{0}$ is predetermined as the maximum acceptable absolute difference between two methods of measurement, the probability that the absolute difference of two measures being less than $d_{0}$ can be computed. This is known as the coverage probability (CP).
+	
+	\begin{equation}
+		CP = P(|x_{i} - y_{i}| \leq d_{0})
+	\end{equation}
+	
+	If $\pi_{0}$ is set as the predetermined coverage probability, the
+	boundary under which the proportion of absolute differences is
+	$\pi_{0}$ may be determined. This boundary is known as the `total
+	deviation index' (TDI). Hence the TDI is the $100\pi_{0}$
+	percentile of the absolute difference of paired observations.
+
+	\section{Alternative agreement indices}
+	As an alternative to limits of agreement, \citet{lin2002} proposes the use of
+	the mean square deviation is assessing agreement. The mean square
+	deviation is defined as the expectation of the squared differences
+	of two readings . The MSD is usually used for the case of two
+	measurement methods $X$ and $Y$ , each making one measurement for
+	the same subject, and is given by
+	\[
+	MSDxy = E[(x - y)^2]  = (\mu_{x} - \mu_{y})^2 + (\sigma_{x} -
+	\sigma_{y})^2 + 2\sigma_{x}\sigma_{y}(1-\rho_{xy}).
+	\]
+	
+	
+	\citet{Barnhart} advises the use of a predetermined upper limit
+	for the MSD value, $MSD_{ul}$, to define satisfactory agreement.
+	However, a satisfactory upper limit may not be properly
+	determinable, thus creating a drawback to this methodology.
+	
+	
+	\citet{Barnhart} proposes both the use of the square root of the
+	MSD or the expected absolute difference (EAD) as an alternative agreement indices. Both of these indices can be interpreted intuitively, being denominated in the same units of measurements as the original
+	measurements. Also they can be compare to the maximum acceptable
+	absolute difference between two methods of measurement $d_{0}$.
+	\[
+	EAD = E(|x - y|) = \frac{\sum |x_{i}- y_{i}|}{n}
+	\]
+	
+	The EAD can be used to supplement the inter-method bias in an
+	initial comparison study, as the EAD is informative as a measure
+	of dispersion, is easy to calculate and requires no distributional
+	assumptions.
+	
+	\citet{Barnhart} remarks that a comparison of EAD and MSD , using
+	simulation studies, would be interesting, while further adding
+	that `It will be of interest to investigate the benefits of these
+	possible new unscaled agreement indices'. For the Grubbs' `F vs C' and `F vs T' comparisons, the inter-method bias, difference variances, limits of agreement and EADs are shown
+	in Table 1.5. The corresponding Bland-Altman plots for `F vs C' and `F vs T' comparisons were depicted previously on Figure 1.3. While the inter-method bias for the `F vs T' comparison is smaller, the EAD penalizes the comparison for having a greater variance of differences. Hence the EAD values for both comparisons are much closer.
+	\begin{table}[ht]
+		\begin{center}
+			\begin{tabular}{|c|c|c|}
+				\hline
+				& F vs C & F vs T  \\
+				\hline
+				Inter-method bias & -0.61 & 0.12 3 \\
+				Difference variances & 0.06 & 0.22  \\
+				Limits of agreement & (-1.08,	-0.13) & (-0.81,1.04) \\
+				EAD & 0.61 & 0.35  \\
+				\hline
+			\end{tabular}
+			\caption{Agreement indices for Grubbs' data comparisons.}
+		\end{center}
+	\end{table}
+	
+	Further to  \citet{lin2000} and \citet{lin2002}, individual agreement between two measurement methods may be
+	assessed using the the coverage probability (CP) criteria or the total deviation index (TDI). If $d_{0}$ is predetermined as the maximum acceptable absolute difference between two methods of measurement, the probability that the absolute difference of two measures being less than $d_{0}$ can be computed. This is known as the coverage probability (CP).
+	
+	\begin{equation}
+		CP = P(|x_{i} - y_{i}| \leq d_{0})
+	\end{equation}
+	
+	If $\pi_{0}$ is set as the predetermined coverage probability, the
+	boundary under which the proportion of absolute differences is
+	$\pi_{0}$ may be determined. This boundary is known as the `total
+	deviation index' (TDI). Hence the TDI is the $100\pi_{0}$
+	percentile of the absolute difference of paired observations.
+	
+	
+
 \section{Implementation in R}
 To implement an LME model in \texttt{R}, the \texttt{nlme} package is used. This package is loaded into the \texttt{R} environment using the library command, (i.e.\ \texttt{library(nlme)}). The \texttt{lme} command is used to fit LME models. The first two arguments to the \texttt{lme} function specify the fixed effect component of the model, and the data set to which the model is to be fitted. The first candidate model (`MCS1') fits an LME model on the data set `dat'. The variable `method' is assigned as the fixed effect, with the response variable `BP' (i.e.\ blood pressure).
 
@@ -134,6 +348,159 @@ Similarly, for computing the limits of agreement the standard deviation of the d
 
 
 
+\section{Demonstration of Roy's testing}
+Roy provides three case studies, using data sets well known in method comparison studies, to demonstrate how the methodology should be used. The first two examples used are from the `blood pressure' data set introduced by \citet{BA99}. The data set is a tabulation of simultaneous measurements of systolic blood pressure were made by each of two experienced observers (denoted `J' and `R') using a sphygmomanometer and by a semi-automatic blood pressure monitor (denoted `S'). Three sets of readings were made in quick succession. Roy compares the `J' and `S' methods in his first example, and the `R' and `S' methods in his second.
+
+
+
+%--------------------------------------------------%
+\subsection{Matrix structures}
+Before discussing the tests, it is useful to point out the difference between symmetric form and compound symmetry form. Consider a generic matrix $A$,
+
+\begin{equation}
+\boldsymbol{A} = \left( \begin{array}{cc}
+a_{11} & a_{12}  \\
+a_{21} & a_{22}  \\
+\end{array}\right).
+\end{equation}
+
+A symmetric matrix allows the diagonal terms $a_{11}$ and $a_{22}$ to differ.
+The compound symmetry structure requires that both of these terms be equal, i.e $a_{11} = a_{22}$.
+
+%--------------------------------------------------%
+\subsection{Variability test 1}
+This is a test on whether both methods $A$ and $B$ have the same between-subject variability or not.
+\begin{eqnarray}
+H_{0}: \mbox{ }d_{A}  = d_{B} \\
+H_{A}: \mbox{ }d_{A}  \neq d_{B}
+\end{eqnarray}
+When implemented using \texttt{R}, this test is facilitated by constructing a model specifying a symmetric form for $D$ (i.e. the alternative model) and comparing it with a model that has compound symmetric form for $D$ (i.e. the null model). For this test $\boldsymbol{\hat{\Lambda}}$ has a symmetric form for both models, and will be the same for both.
+
+%--------------------------------------------------%
+\subsubsection{Bland-Altman's blood data}
+With the alternative model, the MLE of the between-subject variance covariance matrix is given by
+\begin{equation}
+\boldsymbol{\hat{D}_{Symm}} = \left( \begin{array}{cc}
+923.98 & 785.24  \\
+785.24 & 971.30  \\
+\end{array}\right)
+\end{equation}
+
+With the null model the MLE is as follows:
+
+\begin{equation}
+\boldsymbol{\hat{D}_{CS}} = \left( \begin{array}{cc}
+946.50 & 784.32  \\
+784.32 & 946.50  \\
+\end{array}\right)
+\end{equation}
+A likelihood ratio test is perform to determine which model is more suitable. The outcome of this test is presented in the following \texttt{R} code.
+\begin{verbatim}
+> anova(MCS1,MCS2)
+>
+>
+Model df    AIC    BIC  logLik   Test L.Ratio p-value
+MCS1     1  8 4077.5 4111.3 -2030.7
+MCS2     2  7 4075.6 4105.3 -2030.8 1 vs 2 0.15291  0.6958
+\end{verbatim}
+
+The test statistic is the difference of the $-2$ log likelihoods; $0.15291$. The $p-$value is $0.6958$. Therefore we fail to reject the hypothesis that both have the same between-subject variabilities.
+
+%---------------------------------------------%
+\subsection{Variability test 2}
+
+This is a test on whether both methods $A$ and $B$ have the same within-subject variability or not.
+
+\begin{eqnarray}
+H_{0}: \mbox{ }\lambda_{A}  = \lambda_{B} \\
+H_{A}: \mbox{ }\lambda_{A}  = \lambda_{B}
+\end{eqnarray}
+
+This model is performed in the same manner as the first test, only reversing the roles of $\boldsymbol{\hat{D}}$ and $\boldsymbol{\hat{\Lambda}}$. The null model is constructed  a symmetric form for $\boldsymbol{\hat{\Lambda}}$ while the alternative model uses a compound symmetry form. This time $\boldsymbol{\hat{D}}$ has a symmetric form for both models, and will be the same for both.
+
+
+\subsubsection{Bland-Altman's blood data}
+For the null model the MLE of the within-subject variance covariance matrix is given below.
+
+\begin{equation}
+\boldsymbol{\hat{\Lambda}_{Symm}} = \left( \begin{array}{cc}
+37.40 & 16.06  \\
+16.06 & 83.14  \\
+\end{array}\right)
+\end{equation}
+With the alternative model the MLE is as follows:
+
+\begin{equation}
+\boldsymbol{\hat{\Lambda}_{CS}} = \left( \begin{array}{cc}
+60.27  & 16.06  \\
+16.06  & 60.27  \\
+\end{array}\right)
+\end{equation}
+
+A likelihood ratio test is perform to determine which model is more suitable.
+The outcome of this test is that it can be assumed that they have equal
+The test statistic is the difference of the $-2$ log likelihoods; $28.617$. The $p-$value is less than $0.0001$. In this case we reject the null hypothesis that both models have the same within-subject variabilities.
+
+%-----------------------------------------------%
+\subsection{Variability test 3}
+This is a test on whether both methods $A$ and $B$ have the same overall variability or not.
+\begin{eqnarray}
+H_{0}: \mbox{ }\sigma_{A}  = \sigma_{B} \\
+H_{A}: \mbox{ }\sigma_{A}  = \sigma_{B}
+\end{eqnarray}
+
+The null model is constructed a symmetric form for both $\boldsymbol{\hat{D}}$ and $\boldsymbol{\hat{\Lambda}}$ while the alternative model uses a compound symmetry form for both.
+
+\subsubsection{Bland-Altman's blood data}
+With the null model the MLE of the within-subject variance covariance matrix is given below.
+
+\begin{equation}
+\boldsymbol{\hat{\Sigma}_{Symm}} = \left( \begin{array}{cc}
+961.38 & 801.40  \\
+801.40 & 1054.43  \\
+\end{array}\right)
+\end{equation}
+
+With the alternative model the MLE is as follows:
+\begin{equation}
+\boldsymbol{\hat{\Sigma}_{CS}} = \left( \begin{array}{cc}
+1007.92  & 801.65  \\
+801.65  & 1007.92  \\
+\end{array}\right)
+\end{equation}
+
+Again a likelihood ratio test is used to determine the most suitable of the two candidate models.
+The test statistic is the difference of the $-2$ log likelihoods; $28.884$. The $p-$value is less than $0.0001$. We again reject the null hypothesis. Each model has a different overall variability, a foregone conclusion from the second variability test.
+
+
+
+\subsection{Test for inter-method bias}
+The inter-method bias between the two method is found to be $15.62$ , with a $p-$value of
+
+\subsection{Correlation Test}
+\begin{equation}
+\boldsymbol{\hat{r}_{\Omega}}_{ii} = \left( \begin{array}{cc}
+1  & 0.7959  \\
+0.7959  & 1  \\
+\end{array}\right)
+\end{equation}
+
+The  diagonal blocks $\boldsymbol{\hat{r}_{\Omega}}_{ii}$ of the correlation matrix indicate an overall coefficient of $0.7959$.
+This is less than the threshold of 0.82 that Roy recommends.
+
+The off diagonal blocks of the overall correlation matrix $\boldsymbol{\hat{r}_{\Omega}}_{ii'}$ are
+\begin{equation}
+\boldsymbol{\hat{r}_{\Omega}}_{ii'} = \left( \begin{array}{cc}
+0.9611  & 0.7799  \\
+0.7799  & 0.9212  \\
+\end{array}\right).
+\end{equation}
+
+\subsection{Conclusion of procedure}
+The overall conclusion of the procedure is that the two methods are not in agreement, specifically due to the within-subject variability, and the inter-method bias. The repeatability coefficients are substantially different, one being 49\% larger than the other. Additionally the overall correlation coefficient did not exceed the recommended threshold of $0.82$.
+
+%------------------------------------------------------------------------------------%
+\newpage
 \section{Demonstration of Roy's testing}
 Roy provides three case studies, using data sets well known in method comparison studies, to demonstrate how the methodology should be used. The first two examples used are from the `blood pressure' data set introduced by \citet{BA99}. The data set is a tabulation of simultaneous measurements of systolic blood pressure were made by each of two experienced observers (denoted `J' and `R') using a sphygmomanometer and by a semi-automatic blood pressure monitor (denoted `S'). Three sets of readings were made in quick succession. Roy compares the `J' and `S' methods in the first of her examples.
 
@@ -277,7 +644,43 @@ The figure below displays the three tests described by Roy (2009).
 
 
 
+\newpage   
+\begin{verbatim}
+> anova(MCS1,MCS2)
+>
+>
+Model df    AIC    BIC  logLik   Test L.Ratio p-value
+MCS1     1  8 4077.5 4111.3 -2030.7
+MCS2     2  7 4075.6 4105.3 -2030.8 1 vs 2 0.15291  0.6958
+\end{verbatim}
 
+\subsection{Roy's Reference Model}
+Conventionally LME models can be tested using Likelihood Ratio Tests, wherein a reference model is compared to a nested model.
+\begin{framed}
+	\begin{verbatim}
+	> Ref.Fit = lme(y ~ meth-1, data = dat,   #Symm , Symm#
+	+     random = list(item=pdSymm(~ meth-1)), 
+	+     weights=varIdent(form=~1|meth),
+	+     correlation = corSymm(form=~1 | item/repl), 
+	+     method="ML")
+	\end{verbatim}
+\end{framed}
+
+
+Roy(2009) presents two nested models that specify the condition of equality as required, with a third nested model for an additional test. There three formulations share the same structure, and can be specified by making slight alterations of the code for the Reference Model.
+
+\subsection{Nested Model (Between-Item Variability)}
+\begin{framed}
+	\begin{verbatim}
+	> NMB.fit  = lme(y ~ meth-1, data = dat,   #CS , Symm#
+	+     random = list(item=pdCompSymm(~ meth-1)),
+	+     correlation = corSymm(form=~1 | item/repl), 
+	+     method="ML")
+	\end{verbatim}
+\end{framed}
+
+
+\newpage
 \section{Fat Data Examples: LoAs for Carstensen's data}
 
 
@@ -747,7 +1150,29 @@ methodology assesses agreement.
 	H_{A}: \rho_{XY} \ne 0 \nonumber \\
 	\end{eqnarray}
 	
+%------------------------------------------------------------------------%
+\section{residuals.lme {nlme}- Extract lme Residuals}
+
+The residuals at level $i$ are obtained by subtracting the fitted levels at that level from the response vector (and dividing by the estimated within-group standard error, if \texttt{type="pearson"}). 
+
+The fitted values at level i are obtained by adding together the population fitted values (based only on the fixed effects estimates) and the estimated contributions of the random effects to the fitted values at grouping levels less or equal to i.
+
+%------------------------------------------------------------------------%
+
+\begin{framed}
+	\begin{verbatim}
 	
+	fm1 <- lme(distance ~ age + Sex, 
+	data = Orthodont, random = ~ 1)
+	head(residuals(fm1, level = 0:1))
+	summary(residuals(fm1) /
+	residuals(fm1, type = "p")) 
+	
+	# constant scaling factor 1.432
+	
+	\end{verbatim}
+\end{framed}
+
 
 \section{influence.ME}
 
