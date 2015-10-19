@@ -69,6 +69,45 @@ rulesepcolor=\color{black},
 
 \chapter{Appendices}
 
+\section{Remarks on the Multivariate Normal Distribution}
+
+Diligence is required when considering the models. Carstensen specifies his models in terms of the univariate normal distribution. Roy's model is specified using the bivariate normal distribution.
+This gives rises to a key difference between the two model, in that a bivariate model accounts for covariance between the variables of interest.
+The multivariate normal distribution of a $k$-dimensional random vector $X = [X_1, X_2, \ldots, X_k]$
+can be written in the following notation:
+\[
+X\ \sim\ \mathcal{N}(\mu,\, \Sigma),
+\]
+or to make it explicitly known that $X$ is $k$-dimensional,
+\[
+X\ \sim\ \mathcal{N}_k(\mu,\, \Sigma).
+\]
+with $k$-dimensional mean vector
+\[ \mu = [ \operatorname{E}[X_1], \operatorname{E}[X_2], \ldots, \operatorname{E}[X_k]] \]
+and $k \times k$ covariance matrix
+\[ \Sigma = [\operatorname{Cov}[X_i, X_j]], \; i=1,2,\ldots,k; \; j=1,2,\ldots,k \]
+
+\bigskip
+
+\begin{enumerate}
+	\item Univariate Normal Distribution
+	
+	\[
+	X\ \sim\ \mathcal{N}(\mu,\, \sigma^2),
+	\]
+	
+	\item Bivariate Normal Distribution
+	
+	\begin{itemize}
+		\item[(a)] \[  X\ \sim\ \mathcal{N}_2(\mu,\, \Sigma), \vspace{1cm}\]
+		\item[(b)] \[    \mu = \begin{pmatrix} \mu_x \\ \mu_y \end{pmatrix}, \quad
+		\Sigma = \begin{pmatrix} \sigma_x^2 & \rho \sigma_x \sigma_y \\
+		\rho \sigma_x \sigma_y  & \sigma_y^2 \end{pmatrix}.\]
+	\end{itemize}
+\end{enumerate}
+
+
+
 
 \section{Outline of Thesis}
 Thus the study of method comparison is introduced. The intention of this thesis is to progress the
@@ -345,6 +384,353 @@ The fixed effects estimates are the same for all four candidate models. The inte
 Similarly, for computing the limits of agreement the standard deviation of the differences is not explicitly given. Again, A simple \texttt{R} function can be written to calculate the limits of agreement directly.
 
 %------------------------------------------------------------------------------------%
+
+\section{Basic Models Fits}
+Further to \citet{PB}, several simple LME models are constructed
+for the blood pressure data. This data set is the subject of a
+method comparison study in \citet{BA99}.
+
+\subsection{Implementing the Mixed Models Fits}
+They are implemented using the following {\tt{R}} code, utilising the
+`nlme' package. An analysis of variance is used to compare the model fits.
+
+The {\tt{R}} script:
+\begin{verbatim}
+fit1 = lme( BP ~ method, data = dat, random = ~1 | subject )
+fit2 = update(fit1, random = ~1 | subject/method )
+fit3 = update(fit1, random = ~method - 1 | subject )
+#analysis of variance
+anova(fit1,fit2,fit3)
+\end{verbatim}
+
+
+\begin{enumerate}
+	
+	
+	\item Simplest workable model, allows differences between methods
+	and incorporates a random intercept for each subject. For subject
+	1 we have
+	\[
+	\boldsymbol{X}_i =
+	\left(%
+	\begin{array}{cc}
+	1 & 0 \\
+	1 & 0 \\
+	1 & 0 \\
+	1 & 1 \\
+	1 & 1 \\
+	1 & 1 \\
+	\end{array}%
+	\right),\quad
+	\boldsymbol{\beta} =
+	\left(%
+	\begin{array}{c}
+	\beta_0 \\
+	\beta_1 \\
+	\end{array}%
+	\right), \quad
+	\boldsymbol{Z}_i =
+	\left(%
+	\begin{array}{c}
+	1 \\
+	1 \\
+	1 \\
+	1 \\
+	1 \\
+	1 \\
+	\end{array}%
+	\right), \quad \boldsymbol{b}_i = b
+	\]
+	where $\mathrm{E}(b)=0$ and $\mathrm{var}(b)=\psi.$
+	
+	\item
+	\[
+	\boldsymbol{Z}_i =
+	\left(%
+	\begin{array}{c c}
+	1 & 0 \\
+	1 & 0 \\
+	1 & 0 \\
+	0 & 1 \\
+	0 & 1 \\
+	0 & 1 \\
+	\end{array}%
+	\right)
+	\quad \boldsymbol{b}_i =
+	\left(%
+	\begin{array}{c c}
+	b_1 & 0  \\
+	0 & b_2  \\
+	\end{array}%
+	\right)
+	\]
+	
+	where $\mathrm{E}(b_i)=0$ and $\mathrm{var}(\boldsymbol{b})=
+	\boldsymbol{\Psi}$.
+	
+	The variance of error terms is a $6 \times 6$ matrix.
+	
+\end{enumerate}
+
+
+
+
+\subsection{Model Fit 1}
+
+This is a simple model with no interactions. There is a fixed effect for each method and a random effect for each subject.
+\begin{equation*}
+	y_{ijk} = \beta_{j}  + b_{i} + \epsilon_{ijk}, \qquad i=1,\dots,2, j=1,\dots,85, k=1,\dots,3
+\end{equation*}
+
+\begin{eqnarray*}
+	b_{i} \sim \mathcal{N}(0,\sigma^2_{b}), \qquad \epsilon_{i} \sim \mathcal{N}(0,\sigma^2)
+\end{eqnarray*}
+
+\begin{verbatim}
+Linear mixed-effects model fit by REML
+Data: dat
+Log-restricted-likelihood: -2155.853
+Fixed: BP ~ method
+(Intercept)     methodS
+127.40784    15.61961
+
+Random effects:
+Formula: ~1 | subject
+(Intercept) Residual
+StdDev:    29.39085 12.44454
+
+Number of Observations: 510
+Number of Groups: 85
+\end{verbatim}
+
+The following output was obtained.
+\begin{verbatim}
+Linear mixed-effects model fit by REML
+Data: dat
+Log-restricted-likelihood: -2047.582
+Fixed: BP ~ method
+(Intercept)     methodS
+127.40784    15.61961
+
+Random effects:
+Formula: ~method - 1 | subject
+Structure: General positive-definite, Log-Cholesky parametrization
+StdDev    Corr
+methodJ  30.455093 methdJ
+methodS  31.477237 0.835
+Residual  7.763666
+
+Number of Observations: 510
+Number of Groups: 85
+
+\end{verbatim}
+\newpage
+\subsection{Model Fit 1}
+
+This is a simple model with no interactions. There is a fixed effect for each method and a random effect for each subject.
+\begin{equation*}
+	y_{ijk} = \beta_{j}  + b_{i} + \epsilon_{ijk}, \qquad i=1,\dots,2, j=1,\dots,85, k=1,\dots,3
+\end{equation*}
+
+\begin{eqnarray*}
+	b_{i} \sim \mathcal{N}(0,\sigma^2_{b}), \qquad \epsilon_{i} \sim \mathcal{N}(0,\sigma^2)
+\end{eqnarray*}
+
+\begin{verbatim}
+Linear mixed-effects model fit by REML
+Data: dat
+Log-restricted-likelihood: -2155.853
+Fixed: BP ~ method
+(Intercept)     methodS
+127.40784    15.61961
+
+Random effects:
+Formula: ~1 | subject
+(Intercept) Residual
+StdDev:    29.39085 12.44454
+
+Number of Observations: 510
+Number of Groups: 85
+\end{verbatim}
+
+The following output was obtained.
+\begin{verbatim}
+Linear mixed-effects model fit by REML
+Data: dat
+Log-restricted-likelihood: -2047.582
+Fixed: BP ~ method
+(Intercept)     methodS
+127.40784    15.61961
+
+Random effects:
+Formula: ~method - 1 | subject
+Structure: General positive-definite, Log-Cholesky parametrization
+StdDev    Corr
+methodJ  30.455093 methdJ
+methodS  31.477237 0.835
+Residual  7.763666
+
+Number of Observations: 510
+Number of Groups: 85
+
+\end{verbatim}
+
+\newpage
+\subsection{Model Fit 2}
+
+This is a simple model, this time with an interaction effect.
+There is a fixed effect for each method. This model has random effects at two levels $b_{i}$ for the subject, and
+another, $b_{ij}$, for the respective method within each subject.
+\begin{equation*}
+	y_{ijk} = \beta_{j}  + b_{i} + b_{ij} + \epsilon_{ijk}, \qquad i=1,\dots,2, j=1,\dots,85, k=1,\dots,3
+\end{equation*}
+\begin{eqnarray*}
+	b_{i} \sim \mathcal{N}(0,\sigma^2_{1}), \qquad b_{ij} \sim \mathcal{N}(0,\sigma^2_{2}), \qquad \epsilon_{i} \sim \mathcal{N}(0,\sigma^2)
+\end{eqnarray*}
+
+In this model, the random interaction terms all have the same variance $\sigma^2_{2}$. These terms are assumed to be independent of each other, even
+within the same subject.
+
+\begin{verbatim}
+Linear mixed-effects model fit by REML
+Data: dat
+Log-restricted-likelihood: -2047.714
+Fixed: BP ~ method
+(Intercept)     methodS
+127.40784    15.61961
+
+Random effects:
+Formula: ~1 | subject
+(Intercept)
+StdDev:    28.28452
+
+Formula: ~1 | method %in% subject
+(Intercept) Residual
+StdDev:    12.61562 7.763666
+
+Number of Observations: 510
+Number of Groups:
+subject method %in% subject
+85                 170
+\end{verbatim}
+\newpage
+\subsection{Model Fit 3}
+
+This model is a more general model, compared to 'model fit 2'. This model treats the random interactions for each subject as a vector and
+allows the variance-covariance matrix for that vector to be estimated from the set of all positive-definite matrices.
+$\boldsymbol{y_{i}}$ is the entire response vector for the $i$th subject.
+$\boldsymbol{X_{i}}$ and $\boldsymbol{Z_{i}}$  are the fixed- and random-effects design matrices respectively.
+\begin{equation*}
+	\boldsymbol{y_{i}} = \boldsymbol{X_{i}\beta}  + \boldsymbol{Z_{i}b_{i}} + \boldsymbol{\epsilon_{i}}, \qquad i=1,\dots,85
+\end{equation*}
+\begin{eqnarray*}
+	\boldsymbol{Z_{i}} \sim \mathcal{N}(\boldsymbol{0,\Psi}),\qquad
+	\boldsymbol{\epsilon_{i}} \sim \mathcal{N}(\boldsymbol{0,\sigma^2\Lambda})
+\end{eqnarray*}
+
+For the first subject the response vector, $\boldsymbol{y_{1}}$, is:
+\begin{table}[ht]
+	\begin{center}
+		\begin{tabular}{rrllr}
+			\hline
+			observation & BP & subject & method & replicate \\
+			\hline
+			1 & 100.00 & 1 & J &   1 \\
+			86 & 106.00 & 1 & J &   2 \\
+			171 & 107.00 & 1 & J &   3 \\
+			511 & 122.00 & 1 & S &   1 \\
+			596 & 128.00 & 1 & S &   2 \\
+			681 & 124.00 & 1 & S &   3 \\
+			\hline
+		\end{tabular}
+	\end{center}
+\end{table}
+\newpage
+The fixed effects design matrix $\boldsymbol{X_{i}}$ is given by:
+\begin{table}[ht]
+	\begin{center}
+		\begin{tabular}{r|r}
+			\hline
+			(Intercept) & method S \\
+			\hline
+			1 & 0 \\
+			1 & 0 \\
+			1 & 0 \\
+			1 & 1 \\
+			1 & 1 \\
+			1 & 1 \\
+			\hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\newpage
+
+
+
+
+The random effects design matrix $\boldsymbol{Z_{i}}$ is given by:
+\begin{table}[ht]
+	\begin{center}
+		\begin{tabular}{r|r}
+			\hline
+			method J & method S \\
+			\hline
+			1 & 0 \\
+			1 & 0 \\
+			1 & 0 \\
+			0 & 1 \\
+			0 & 1 \\
+			0 & 1 \\
+			\hline
+		\end{tabular}
+	\end{center}
+\end{table}
+\newpage
+
+\subsection{Using LME models to create Prediction Intervals}
+\citet{BXC2004} also advocates the use of linear mixed models in
+the study of method comparisons. The model is constructed to
+describe the relationship between a value of measurement and its
+real value. The non-replicate case is considered first, as it is
+the context of the Bland Altman plots. This model assumes that
+inter-method bias is the only difference between the two methods.
+A measurement $y_{mi}$ by method $m$ on individual $i$ is
+formulated as follows;
+\begin{equation}
+	y_{mi}  = \alpha_{m} + \mu_{i} + e_{mi} \qquad ( e_{mi} \sim
+	N(0,\sigma^{2}_{m}))
+\end{equation}
+The differences are expressed as $d_{i} = y_{1i} - y_{2i}$ For the
+replicate case, an interaction term $c$ is added to the model,
+with an associated variance component. All the random effects are
+assumed independent, and that all replicate measurements are
+assumed to be exchangeable within each method.
+
+\begin{equation}
+	y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + e_{mir} \qquad ( e_{mi}
+	\sim N(0,\sigma^{2}_{m}), c_{mi} \sim N(0,\tau^{2}_{m}))
+\end{equation}
+
+\citet{BXC2008} proposes a methodology to calculate prediction
+intervals in the presence of replicate measurements, overcoming
+problems associated with Bland-Altman methodology in this regard.
+It is not possible to estimate the interaction variance components
+$\tau^{2}_{1}$ and $\tau^{2}_{2}$ separately. Therefore it must be
+assumed that they are equal. The variance of the difference can be
+estimated as follows:
+\begin{equation}
+	var(y_{1j}-y_{2j})
+\end{equation}
+
+\subsection{Computation} Modern software
+packages can be used to fit models accordingly. The best linear
+unbiased predictor (BLUP) for a specific subject $i$ measured with
+method $m$ has the form $BLUP_{mir} = \hat{\alpha_{m}} +
+\hat{\beta_{m}}\mu_{i} + c_{mi}$, under the assumption that the
+$\mu$s are the true item values.
+
+
 
 
 
@@ -994,7 +1380,9 @@ methodology assesses agreement.
 	model each time it is updated. However this approach is known for
 	numerical instability in the case of down-dating.
 	
+
 	
+
 	\section{Cross Validation} %5.4
 	
 	Cross validation techniques for linear regression employ the use `leave one out' re-calculations. In such procedures the regression coefficients are estimated for $n-1$ covariates, with the $Q^{th}$ observation omitted.
@@ -1174,6 +1562,49 @@ The fitted values at level i are obtained by adding together the population fitt
 \end{framed}
 
 
+	\chapter{Lesaffre's paper.}
+	\section{Lesaffre's paper.}
+	Lesaffre considers the case-weight perturbation approach.
+	
+	
+	\citep{cook86}
+	Cook's 86 describes a local approach wherein each case is given a
+	weight $w_{i}$ and the effect on the parameter estimation is
+	measured by perturbing these weights. Choosing weights close to
+	zero or one corresponds to the global case-deletion approach.
+	
+	Lesaffre  describes the displacement in log-likelihood as a useful
+	metric to evaluate local influence %\citep{cook86}.
+	
+	%\citet{lesaffre}
+	Lesaffre describes a framework to detect outlying observations
+	that matter in an LME model. Detection should be carried out by
+	evaluating diagnostics $C_{i}$ , $C_{i}(\alpha)$ and $C_{i}(D,
+	\sigma^2)$.
+	
+	Lesaffre defines the total local influence of individual $i$ as
+	\begin{equation}
+		C_{i} = 2 | \triangle \prime _{i} L^{-1} \triangle_{i}|.
+	\end{equation}
+	
+	The influence function of the MLEs evaluated at the $i$th point
+	$IF_{i}$, given by
+	\begin{equation}
+		IF_{i} = -L^{-1}\triangle _{i}
+	\end{equation}
+	can indicate how $\hat{theta}$ changes as the weight of the $i$th
+	subject changes.
+	
+	The manner by which influential observations
+	distort the estimation process can be determined by inspecting the
+	interpretable components in the decomposition of the above
+	measures of local influence.
+	
+	
+	Lesaffre comments that there is no clear way of interpreting the
+	information contained in the angles, but that this doesn't mean
+	the information should be ignored.
+	%-----------------------------------------------------------------------------------------%
 \section{influence.ME}
 
 \textit{influence.ME} allows you to compute measures of influential data for mixed effects models generated by lme4.
@@ -1367,6 +1798,452 @@ model provides for more insight into the behavior of the data.
 \newpage
 \bibliographystyle{chicago}
 \bibliography{DB-txfrbib}
+	\chapter{Generalized linearmodels}
+	\section{Generalized Linear model}
+	In statistics, the generalized linear model (GzLM) is a flexible
+	generalization of ordinary least squares regression. The GzLM
+	generalizes linear regression by allowing the linear model to be
+	related to the response variable via a link function and by
+	allowing the magnitude of the variance of each measurement to be a
+	function of its predicted value.
+	
+	
+	Mixed Effects Models offer a flexible framework by which to model
+	the sources of variation and correlation that arise from grouped
+	data. This grouping can arise when data collection is undertaken
+	in a hierarchical manner, when a number of observations are taken
+	on the same observational unit over time, or when observational
+	units are in some other way related, violating assumptions of
+	independence.
+	
+	\section{Generalized  Model(GzLM)}
+	
+	Nelder and Wedderburn (1972) integrated the previously disparate
+	and separate approaches to models for non-normal cases in a
+	framework called "generalized linear models."  The key elements of
+	their approach is to describe any given model in terms of it's
+	link function and it's variance function.
+	
+	\subsection{What is a GzLM}
+	
+	\begin{equation}
+		\operatorname{E}(\mathbf{Y}) = \boldsymbol{\mu} =
+		g^{-1}(\mathbf{X}\boldsymbol{\beta})
+	\end{equation}
+	
+	where $E(Y)$ is the expected value of $Y$, $X\beta$ is the linear
+	predictor, a linear combination of unknown parameters,$\beta$ and
+	$g$ is the link function.
+	
+	
+	$\operatorname{Var}(\mathbf{Y}) = \operatorname{V}(
+	\boldsymbol{\mu} ) =
+	\operatorname{V}(g^{-1}(\mathbf{X}\boldsymbol{\beta}))$
+	\\
+	
+	
+	\subsection{GzLM Structure}
+	The GzLM consists of three elements. \\1. A probability
+	distribution from the exponential family. \\2. A linear predictor
+	$\eta= X\beta$ . \\3. A link function $g$ such that $E(Y)$ = $\mu$
+	= $g^{-1}(eta)$.
+	
+	\subsection{Link Function}
+	Definition 1 : The link function provides the relationship between
+	the linear predictor and the mean of the distribution function.
+	There are many commonly used link functions, and their choice can
+	be somewhat arbitrary. It can be convenient to match the domain of
+	the link function to the range of the distribution function's
+	mean.
+	
+	\noindent Definition 2 : A link function is the function that
+	links the linear model specified in the design matrix, where
+	columns represent the beta parameters and rows the real
+	parameters.
+	
+	\subsection{Canonical parameter}
+	$\theta$, called the dispersion parameter,
+	\subsection{Dispersion parameter}
+	$\tau$, called the dispersion parameter, typically is known and is
+	usually related to the variance of the distribution.
+	
+	\subsection{Iteratively weighted least square}
+	IWLS is used to find the maximum likelihood estimates of a
+	generalized linear model.
+	
+	\noindent Definition: An iterative algorithm for fitting a linear
+	model in the case where the data may contain outliers that would
+	distort the parameter estimates if other estimation procedures
+	were used. The procedure uses weighted least squares, the
+	influence of an outlier being reduced by giving that observation a
+	small weight. The weights chosen in one iteration are related to
+	the magnitudes of the residuals in the previous iteration  with a
+	large residual earning a small weight.
+	
+	\subsection{Residual Components}
+	In GzLMS the deviance is the sum of the deviance components
+	
+	\begin{equation}
+		D = \sum d_{i}
+	\end{equation}
+	
+	In GzLMS the deviance is the sum of the deviance components
+	
+	\newpage
+	\section{Generalized linear mixed models}
+	[pawitan section 17.8]
+	
+	The Generalized linear mixed model (GLMM) extend classical mixed models to non-normal outcome data.
+	
+	In statistics, a generalized linear mixed model (GLMM) is a particular type of mixed model. It is an extension to the
+	generalized linear model in which the linear predictor contains random effects in addition to the usual fixed effects. These random effects are usually assumed to have a normal distribution.
+	
+	Fitting such models by maximum likelihood involves integrating over these random effects.
+	
+	
+	
+	%--------------------------------------------------------------------------------------%
+	\newpage
+	\chapter{Updating Techniques and Cross Validation}
+	\section{Efficient updating}
+	[cite:tewomir]
+	
+	%--------------------------------------------------------------------------section 5.2.1---%
+	\subsection{The Hat Matrix}
+	The hat matrix, also known as the projection matrix, is well known in classical linear models. The diagonal elements $h_{ii}$ are known as `leverages'. The properties of $\boldsymbol{H}$  ,such as symmetry and idempotency, are well known.
+	
+	
+	\begin{equation*}
+		\boldsymbol{H} =  \boldsymbol{X(X^{\prime}X)^{-1}X^{\prime}}
+	\end{equation*}
+	
+	
+	\begin{equation*}
+		\boldsymbol{H} = \left[%
+		\begin{array}{cc}
+			h_{ii} & \boldsymbol{h}^{\prime}_{i}\\
+			\boldsymbol{h}_{i} & \boldsymbol{H}_{(i)}\\
+		\end{array}%
+		\right]
+	\end{equation*}
+	
+	$\boldsymbol{H}_{(i)}$ is an $(n-1) \times (n-1)$ matrix. It's inversion for each $i$ is computationally expensive.
+	
+	\begin{equation*}
+		\boldsymbol{C} = \boldsymbol{H}^{-1} =\left[%
+		\begin{array}{cc}
+			c_{ii} & \boldsymbol{h}^{\prime}_{c}\\
+			\boldsymbol{c}_{i} & \boldsymbol{C}_{(i)}\\
+		\end{array}%
+		\right]
+	\end{equation*}
+	
+	%--------------------------------------------------------------------------section 5.2.2---%
+
+	\section{Efficient updating theorem}
+	
+	It is convenient to write partitioned matrices in which the $i$-th case is isolated. The partitioned matrix is written as $ i = 1$, but the results apply in general.
+	
+	%Tewomir pg 158
+	If $\boldsymbol{C^{\prime}}_{i}  = [c_{ii}, \boldsymbol{c^{\prime}}_{i}]$, such that  $\boldsymbol{C}_{i}$ is the
+	$i$-th column of $\boldsymbol{H}^{-1}$ then
+	
+	
+	\begin{itemize}
+		\item $m_{i} = \frac{1}{c_{ii}}$\\
+		\item $\breve{x}_{i} = \frac{1}{c_{ii}}\boldsymbol{X^{\prime}C}_{i}$\\
+		\item $\breve{\boldsymbol{z}_{ji}} = \frac{1}{c_{ii}}\boldsymbol{Z^{\prime}}_{j}\boldsymbol{C}_{i}$\\
+		\item $\breve{y}_{i} = \frac{1}{c_{ii}}\boldsymbol{y^{\prime}C}_{i}$\\
+	\end{itemize}
+	
+	Once $\boldsymbol{H}^{-1}$ is determined, an efficient updating formula can be applied.
+	
+	
+	
+	\begin{equation}
+		\boldsymbol{H}^{-1} = \boldsymbol{I} - \boldsymbol{Z}(\boldsymbol{D}^{-1} + \boldsymbol{ZZ})^{-1}\boldsymbol{Z^{\prime}}
+	\end{equation}
+	
+	
+	%------------------------------------------------------------------------Chapter 6-----%
+	\newpage
+	%--------------------------------------------------------------%
+	\section{Updating of Regression Estimates}
+	Updating techniques are used in regression analysis to add or
+	delete rows from a model, allowing the analyst the effect of the
+	observation associated with that row. In time series problems,
+	there will be scientific interest in the changing relationship
+	between variables. In cases where there a single row is to be
+	added or deleted, the procedure used is equivalent to a geometric
+	rotation of a plane.
+	
+	This approach allows an economic approach to recalculating the
+	projection matrix, $V$, by removing the necessity to refit the
+	model each time it is updated.
+	
+	This approach is known for numerical instability in the case of
+	downdating.
+	
+	
+	\section{Updating of Regression Estimates}
+	Updating techniques are used in regression analysis to add or delete rows from a model, allowing the analyst the effect of the observation associated with that row. In time series problems, there will be scientific interest in the changing relationship between variables. In cases where there a single row is to be added or deleted, the procedure used is equivalent to a geometric rotation of a plane.
+	
+	Updating techniques are used in regression analysis to add or delete rows from a model, allowing the analyst the effect of the observation associated with that row.
+	
+	\subsection{Updating Standard deviation}
+	A simple, but useful, example of updating is the updating of the standard deviation when an observation is omitted, as practised in statistical process control analyzes. From first principles, the variance of a data set can be calculated using the following formula.
+	\begin{equation}
+		S^{2}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-\frac{(\sum_{i=1}^{n}x_{i})^{2}}{n}}{n-1}
+	\end{equation}
+	
+	While using bivariate data, the notation $Sxx$ and $Syy$ shall
+	apply hither to the variance of $x$ and of $y$ respectively. The
+	covariance term $Sxy$ is given by
+	
+	\begin{equation}
+		Sxy=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-\frac{(\sum_{i=1}^{n}x_{i})(\sum_{i=1}^{n}y_{i})}{n}}{n-1}.
+	\end{equation}
+	
+	\subsection{Updating Regression Estimates}
+	Let the observation $j$ be omitted from the data set. The
+	estimates for the variance identities can be updating using minor
+	adjustments to the full sample estimates. Where $(j)$ denotes that
+	the $j$th has been omitted, these identities are
+	
+	\begin{equation}
+		Sxx^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-(x_{j})^{2}-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})^{2}}{n-1}}{n-2}
+	\end{equation}
+	\begin{equation}
+		Syy^{(j)}=\frac{\sum_{i=1}^{n}(y_{i}^{2})-(y_{j})^{2}-\frac{((\sum_{i=1}^{n}y_{i})-y_{j})^{2}}{n-1}}{n-2}
+	\end{equation}
+	\begin{equation}
+		Sxy^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-(y_{j}x_{j})-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})(\sum_{i=1}^{n}y_{i})-y_{k})}{n-1}}{n-2}
+	\end{equation}
+	
+	The updated estimate for the slope is therefore
+	\begin{equation}
+		\hat{\beta}_{1}^{(j)}=\frac{Sxy^{(j)}}{Sxx^{(j)}}
+	\end{equation}
+	
+	It is necessary to determine the mean for $x$ and $y$ of the remaining $n-1$ terms
+	\begin{equation}
+		\bar{x}^{(j)}=\frac{(\sum_{i=1}^{n}x_{i})-(x_{j})}{n-1},
+	\end{equation}
+	
+	\begin{equation}
+		\bar{y}^{(j)}=\frac{(\sum_{i=1}^{n}y_{i})-(y_{j})}{n-1}.
+	\end{equation}
+	
+	The updated intercept estimate is therefore
+	
+	\begin{equation}
+		\hat{\beta}_{0}^{(j)}=\bar{y}^{(j)}-\hat{\beta}_{1}^{(j)}\bar{x}^{(j)}.
+	\end{equation}
+	
+	\subsection{Inference on intercept and slope}
+	\begin{equation}
+		\hat{\beta_{1}} \pm t_{(\alpha, n-2) }
+		\sqrt{\frac{S^2}{(n-1)S^{2}_{x}}}
+	\end{equation}
+	
+	\begin{equation}
+		\frac{\hat{\beta_{0}}-\beta_{0}}{SE(\hat{\beta_{0}})}
+	\end{equation}
+	\begin{equation}
+		\frac{\hat{\beta_{1}}-\beta_{1}}{SE(\hat{\beta_{0}})}
+	\end{equation}
+	
+	
+	\subsubsection{Inference on correlation coefficient} This test of
+	the slope is coincidentally the equivalent of a test of the
+	correlation of the $n$ observations of $X$ and $Y$.
+	\begin{eqnarray}
+		H_{0}: \rho_{XY} = 0 \nonumber \\
+		H_{A}: \rho_{XY} \ne 0 \nonumber \\
+	\end{eqnarray}
+	%------------------SMW formula---%
+	\newpage
+	\section{Sherman Morrison Woodbury Formula}
+	The `Sherman Morrison Woodbury' Formula is a well known result in
+	linear algebra;
+	\begin{equation}
+		(A+a^{T}B)^{-1} \quad = \quad A^{-1}-
+		A^{-1}a^{T}(I-bA^{-1}a^{T})^{-1}bA^{-1}
+	\end{equation}
+	
+	This result is highly useful for analyzing regression diagnostics,
+	and for matrices inverses in general. Consider a $p \times p$
+	matrix $X$, from which a row $x_{i}^{T}$ is to be added or
+	deleted. \citet{CookWeisberg} sets $A = X^{T}X$, $a=-x_{i}^{T}$
+	and $b=x_{i}^{T}$, and writes the above equation as
+	
+	\begin{equation}
+		(X^{T}X \pm x_{i}x_{i}^{T})^{-1} = \quad(X^{T}X )^{-1} \mp \quad
+		\frac{(X^{T}X)^{-1}(x_{i}x_{i}^{T}(X^{T}X)^{-1}}{1-x_{i}^{T}(X^{T}X)^{-1}x_{i}}
+	\end{equation}
+	
+	The projection matrix $H$ (also known as the hat matrix), is a
+	well known identity that maps the fitted values $\hat{Y}$ to the
+	observed values $Y$, i.e. $\hat{Y} = HY$.
+	
+	\begin{equation}
+		H =\quad X(X^{T}X)^{-1}X^{T}
+	\end{equation}
+	
+	$H$ describes the influence each observed value has on each fitted
+	value. The diagonal elements of the $H$ are the `leverages', which
+	describe the influence each observed value has on the fitted value
+	for that same observation. The residuals ($R$) are related to the
+	observed values by the following formula:
+	\begin{equation}
+		R = (I-H)Y
+	\end{equation}
+	
+	The variances of $Y$ and $R$ can be expressed as:
+	\begin{eqnarray}
+		\mbox{var}(Y) = H\sigma^{2} \nonumber\\
+		\mbox{var}(R) = (I-H)\sigma^{2}
+	\end{eqnarray}
+	
+	Updating techniques allow an economic approach to recalculating
+	the projection matrix, $H$, by removing the necessity to refit the
+	model each time it is updated. However this approach is known for
+	numerical instability in the case of down-dating.
+	
+	
+	
+	\section{Hat Values for MCS regression}
+	\begin{verbatim}
+	fit = lm(D~A)
+	\end{verbatim}
+	\begin{displaymath}
+		H = A \left(A^\top  A\right)^{-1} A^\top ,
+	\end{displaymath}
+	\newpage
+
+	\section{Cross Validation}
+	Cross validation techniques for linear regression employ the use
+	`leave one out' re-calculations. In such procedures the regression
+	coefficients are estimated for $n-1$ covariates, with the $k^{th}$
+	observation omitted.
+	
+	
+	
+	Let $\hat{\beta}$ denote the least square estimate of $\beta$ based upon the full set of observations, and let $\hat{\beta}^{-Q}$ denoted the estimate with the $Q^{th}$ case excluded.
+	
+	
+	Cross validation is used to estimate the generalization error of a
+	given model. Alternatively it can be used for model selection by
+	determining the candidate model that has the smallest
+	generalization error.Evidently leave-one-out cross validation has similarities with
+	`jackknifing', a well known statistical technique. However cross
+	validation is used to estimate generalization error, whereas the
+	jackknife technique is used to estimate bias.
+	
+	
+	
+	
+	\section{Model Validation}
+	Three basic approaches are described by Neter et al
+	\begin{enumerate}
+		\item Collection of new data to check the model
+		\item Comparision of results with theoretical expectations
+		\item use of a `hold out sample' to check the model and its predictive capability.
+	\end{enumerate}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	%--------------------------------------------------------------------------------------%
+	\newpage
+	\section{Updating of Regression Estimates}
+	Updating techniques are used in regression analysis to add or delete rows from a model, allowing the analyst the effect of the observation associated with that row. In time series problems, there will be scientific interest in the changing relationship between variables. In cases where there a single row is to be added or deleted, the procedure used is equivalent to a geometric rotation of a plane.
+	
+	Updating techniques are used in regression analysis to add or delete rows from a model, allowing the analyst the effect of the observation associated with that row.
+	
+	\subsection{Updating Standard deviation}
+	A simple, but useful, example of updating is the updating of the standard deviation when an observation is omitted, as practised in statistical process control analyzes. From first principles, the variance of a data set can be calculated using the following formula.
+	\begin{equation}
+		S^{2}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-\frac{(\sum_{i=1}^{n}x_{i})^{2}}{n}}{n-1}
+	\end{equation}
+	
+	While using bivariate data, the notation $Sxx$ and $Syy$ shall apply hither to the variance of $x$ and of $y$ respectively. The covariance term $Sxy$ is given by
+	
+	\begin{equation}
+		Sxy=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-\frac{(\sum_{i=1}^{n}x_{i})(\sum_{i=1}^{n}y_{i})}{n}}{n-1}.
+	\end{equation}
+	
+	
+	\subsection{Updating Regression Estimates}
+	Let the observation $j$ be omitted from the data set. The estimates for the variance identities can be updating using minor adjustments to the full sample estimates. Where $(j)$ denotes that the $j$th has been omitted, these identities are
+	
+	\begin{equation}
+		Sxx^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-(x_{j})^{2}-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})^{2}}{n-1}}{n-2}
+	\end{equation}
+	\begin{equation}
+		Syy^{(j)}=\frac{\sum_{i=1}^{n}(y_{i}^{2})-(y_{j})^{2}-\frac{((\sum_{i=1}^{n}y_{i})-y_{j})^{2}}{n-1}}{n-2}
+	\end{equation}
+	\begin{equation}
+		Sxy^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-(y_{j}x_{j})-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})(\sum_{i=1}^{n}y_{i})-y_{k})}{n-1}}{n-2}
+	\end{equation}
+	
+	The updated estimate for the slope is therefore
+	\begin{equation}
+		\hat{\beta}_{1}^{(j)}=\frac{Sxy^{(j)}}{Sxx^{(j)}}
+	\end{equation}
+	
+	It is necessary to determine the mean for $x$ and $y$ of the remaining $n-1$ terms
+	\begin{equation}
+		\bar{x}^{(j)}=\frac{(\sum_{i=1}^{n}x_{i})-(x_{j})}{n-1},
+	\end{equation}
+	
+	\begin{equation}
+		\bar{y}^{(j)}=\frac{(\sum_{i=1}^{n}y_{i})-(y_{j})}{n-1}.
+	\end{equation}
+	
+	The updated intercept estimate is therefore
+	
+	\begin{equation}
+		\hat{\beta}_{0}^{(j)}=\bar{y}^{(j)}-\hat{\beta}_{1}^{(j)}\bar{x}^{(j)}.
+	\end{equation}
+	
+	\subsection{Inference on intercept and slope}
+	\begin{equation}
+		\hat{\beta_{1}} \pm t_{(\alpha, n-2) }
+		\sqrt{\frac{S^2}{(n-1)S^{2}_{x}}}
+	\end{equation}
+	
+	\begin{equation}
+		\frac{\hat{\beta_{0}}-\beta_{0}}{SE(\hat{\beta_{0}})}
+	\end{equation}
+	\begin{equation}
+		\frac{\hat{\beta_{1}}-\beta_{1}}{SE(\hat{\beta_{0}})}
+	\end{equation}
+	
+	
+	\subsubsection{Inference on correlation coefficient} This test of the slope is coincidentally the equivalent of a test of the correlation of the $n$ observations of $X$ and $Y$.
+	\begin{eqnarray}
+		H_{0}: \rho_{XY} = 0 \nonumber \\
+		H_{A}: \rho_{XY} \ne 0 \nonumber \\
+	\end{eqnarray}
+	%--------------------------------------------------------------------------------------%
+	\newpage
 \end{document}
 
 
