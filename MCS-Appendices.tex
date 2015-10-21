@@ -65,10 +65,121 @@ rulesepcolor=\color{black},
 
 
 
+Two LME models are fitted to the data, one using the nlme package, one with the lme4 package. These models shall be called ``blood.nlme" and ``blood.lme4" respectively.
+In both cases the method is characterized by a fixed effect, while there is a random effect for each subject.
+This random effect accounts for the replicate measurements associated with each subject.
+The differences between the estimate provided by the respective models are negligible, due to the simplicity of the model specification.
 
+
+
+\chapter{Fitting LME Models}
+%\subsection{Overview of R implementations}
+Further to previous material, an appraisal of the current state of development for statistical software for fitting for LME models, particularly for \texttt{nlme} and \texttt{lme4} fitted models.
+
+%======================%
+% lme4 and influence.ME
+
+The \textbf{lme4} pacakge is used to fit linear and generalized linear mixed-effects models in the R environment.
+The \textbf{lme4} package is also under active development, under the leadership of Ben Bolker (McMaster Uni., Canada).
+
+
+Crucially, a review of internet resources indicates that almost all of the progress in this regard has been done for \texttt{lme4} fitted models, specifically the \textit{Influence.ME} \texttt{R} package. (Nieuwenhuis et al 2014)
+Conversely there is very little for \texttt{nlme} models. One would immediately look at the current development workflow for both packages.
+
+%======================%
+% Douglas Bates
+
+As an aside, Douglas Bates was arguably the most prominent \texttt{R} developer working in the LME area. 
+However Bates has now prioritised the development of LME models in another computing environment , i.e Julia. 
+% The current version of this is XXXX
+
+%======================%
+% nlme
+
+With regards to \texttt{nlme}, the package is now maintained by the \texttt{R} core development team. The most recent major text is by Galecki \& Burzykowski, who have published \textit{ Linear Mixed Effects Models using \texttt{R}. }
+Also, the accompanying \texttt{R} package, nlmeU package is under current development, with a version being released $0.70-3$.
+
+
+\section{Fitting Models with nlme R package}
+
+%-------------------------------------------------------------------------------------------------------------------------------------%
+\section{Fitting Models with the LME4 R package}
+Maximum likelihood or restricted maximum likelihood (REML) estimates of the parameters in linear mixed-effects models can be determined using the \texttt{lmer} function in the lme4 package for R. As for most model-fitting functions in R, the model is described in an \texttt{lmer} call by a formula, in this case including both fixed- and random-effects terms. 
+
+The formula and data together determine a numerical representation of the model from which the profiled deviance or the profiled REML criterion can be evaluated as a function of some of the model parameters. The appropriate criterion is optimized, using one of the constrained optimization functions in \texttt{R}, to provide the parameter estimates. We describe the structure of the model, the steps in evaluating the profiled deviance or REML criterion, and the structure of classes or types that represents such a model. 
+
+Sufficient detail is included to allow specialization of these structures by users who wish to write functions to fit specialized linear mixed models, such as models incorporating pedigrees or smoothing splines, that are not easily expressible in the formula language used by lmer.
+
+
+\begin{description}
+	\item[\texttt{y}] : Response variable
+	\item[\texttt{method}] : Method of Measurement
+	\item[\texttt{subject}] : Subject
+	\item[\texttt{MCSdata}] 
+\end{description}
+\begin{framed}
+	\begin{verbatim}
+	library(lme4)
+	
+	MCS.lme4 <- lmer(y ~ method-1 + (1|subject) , data=MCSdata)
+	\end{verbatim}
+\end{framed}
+\newpage
+
+%=====================%
+\subsection{Important Consideration for MCS}
+
+The key issue is that \texttt{nlme} allows for the particular specification of Roy's Model, specifically direct specification of the VC matrices for within subject and between subject residuals.
+
+The \texttt{lme4} package does not allow for Roy's Model, for reasons that will identified shortly.
+To advance the ideas that eminate from Roys' paper, one is required to use the \texttt{nlme} context. However, to take advantage of the infrastructure already provided for \texttt{lme4} models, one may change the research question away from that of Roy's paper. 
+To this end, an exploration of what textbf{influence.ME} can accomplished is merited.
 
 \chapter{Appendices}
+	\section{Haslett Hayes}                %-Case Deletion section 3
+	
+	For fixed effect linear models with correlated error structure
+	Haslett (1999) showed that the effects on the fixed effects
+	estimate of deleting each observation in turn could be cheaply
+	computed from the fixed effects model predicted residuals.
+	
+	
+	A general theory is presented for residuals from the general
+	linear model with correlated errors. It is demonstrated that there
+	are two fundamental types of residual associated with this model,
+	referred to here as the marginal and the conditional residual.
+	These measure respectively the distance to the global aspects of
+	the model as represented by the expected value and the local
+	aspects as represented by the conditional expected value. These
+	residuals may be multivariate.
+	
+	In contrast to classical linear models, diagnostics for LME are
+	difficult to perform and interpret, because of the increased
+	complexity of the model
+	
+	%---------------------------------------------------------------------%
+\section{RSquared for LME models}
+	
+	As a complement to this, one can also consider how to properly employ the $R^2$ measure, in the context of Methoc Comparison Studies, further to the work by Edwards et al, namely ``An $R^2$ statistic for fixed effects in the linear mixed model".
 
+	\begin{framed}
+		
+		\begin{quote}
+			\textbf{Abstract for ``An $R^2$ statistic for fixed effects in the linear mixed model"}
+			Statisticians most often use the linear mixed model to analyze Gaussian longitudinal data. 
+			
+			The value and familiarity of the R2 statistic in the linear univariate model naturally creates great interest in extending it to the linear mixed model. We define and describe how to compute a model R2 statistic for the linear mixed model by using only a single model. 
+			
+			The proposed R2 statistic measures multivariate association between the repeated outcomes and the fixed effects in the linear mixed model. The R2 statistic arises as a 1–1 function of an appropriate F statistic for testing all fixed effects (except typically the intercept) in a full model. 
+			
+			The statistic compares the full model with a null model with all fixed effects deleted (except typically the intercept) while retaining exactly the same covariance structure. 
+			
+			Furthermore, the R2 statistic leads immediately to a natural definition of a partial R2 statistic. A mixed model in which ethnicity gives a very small p-value as a longitudinal predictor of blood pressure (BP) compellingly illustrates the value of the statistic. 
+			
+			In sharp contrast to the extreme p-value, a very small $R^2$ , a measure of statistical and scientific importance, indicates that ethnicity has an almost negligible association with the repeated BP outcomes for the study.
+		\end{quote}
+	\end{framed}
+		
 \section{Remarks on the Multivariate Normal Distribution}
 
 Diligence is required when considering the models. Carstensen specifies his models in terms of the univariate normal distribution. Roy's model is specified using the bivariate normal distribution.
@@ -121,6 +232,35 @@ emphasis on linear mixed effects models, further to chapter two.
 
 For the fourth chapter, important linear mixed effects model diagnostic methods shall be extended to method comparison studies, and proposed methods shall be demonstrated on data sets that have become well known in literature on method comparison. The purpose is to both calibrate these methods and to demonstrate applications for them.
 The last chapter shall focus on robust measures of important parameters such as agreement.
+\section*{Using Roy's Test to Identify cause of Lack of agreement}
+
+Barnhart specifies three conditions for method of measurement that are required for two methods of measurement to be considered in agreement.
+
+\begin{itemize}
+	\item[(i)] No Significant Inter-method bias
+	\item[(ii)] No significant Difference in Within-Subject Variance
+	\item[(iii)] No significant Difference in Within-Subject Variance 
+\end{itemize}
+
+
+Roy(2009) demonstrates a LME model specification, and a series of tests that look at each of these agreement criteria individually. If two methods of measuement lack agreement, the specific reason or reasons for this lack of agreement can be identified.
+
+
+Roy proposes an LME model with Kronecker product covariance structure in a doubly multivariate setup. Response for $i$th subject can be written as
+\[ y_i = \beta_0 + \beta_1x_{i1} + \beta_2x_{i2} + b_{1i}z_{i1}  + b_{2i}z_{i2} + \epsilon_i \]
+\begin{itemize}
+	\item $\beta_1$ and $\beta_2$ are fixed effects corresponding to both methods. ($\beta_0$ is the intercept.)
+	\item $b_{1i}$ and $b_{2i}$ are random effects corresponding to both methods.
+\end{itemize}
+
+Overall variability between the two methods ($\Omega$) is sum of between-subject ($D$) and within-subject variability ($\Sigma$),
+\[
+\mbox{Block } \boldsymbol{\Omega}_i = \left[ \begin{array}{cc} d^2_1 & d_{12}\\ d_{12} & d^2_2\\ \end{array} \right]
++ \left[\begin{array}{cc} \sigma^2_1 & \sigma_{12}\\ \sigma_{12} & \sigma^2_2\\ \end{array}\right].
+\]
+%============================================== %
+%- F:
+
 	\section{Alternative Agreement Indices}
 	As an alternative to limits of agreement, \citet{lin2002} proposes the use of
 	the mean square deviation in assessing agreement. The mean square
@@ -960,7 +1100,15 @@ The off-diagonal blocks of the overall correlation matrix $\boldsymbol{\hat{r}_{
 The overall conclusion of the procedure is that method $J$ and $S$ are not in agreement, specifically due to the within-subject variability, and the inter-method bias. The repeatability coefficients are substantially different, with the coefficient for method $S$ being 49\% larger than for method $J$. Additionally the overall correlation coefficient did not exceed the recommended threshold of $0.82$.
 
 
+%========================================================= %
+%% %% - Part E- Part E
 
+\section*{Using Roy's Model to Compute LoAs and CR }
+
+In this short section, a demonstration of how Roy's technique can be used to compute two common MCS metrics: Limits of Agreement and the Coefficient of Repeatabilty. While Limits of Agreement are not used in the analysis proposed here, they are ubiquituous in literature, and a demonstration on how to compute them with the Roy Model would assist the adoption of this proposed method.
+
+The coefficient of repeatability is encountered in Gage R \& R analysis. \textit{(A future exploration of how LME models can be used in that field would be of interest. This is something to include in the Conclusions Section).}
+%======================
 \section{Worked Eamples:LikelihoodRatio Tests}
 
 Conventionally LME models can be tested using Likelihood Ratio Tests, wherein a reference model is compared to a nested model.
@@ -1305,6 +1453,16 @@ vs IC' comparison is given by
 
 The power of the likelihood ratio test may depends on specific sample size and the
 specific number of  replications, and the author proposes simulation studies to examine this further.
+
+
+	%--------------------------------------------------------------%
+	\newpage
+	\section{Zewotir: Computation and Notation } %2.3
+	with $\boldsymbol{V}$ unknown, a standard practice for estimating $\boldsymbol{X \beta}$ is the estime the variance components $\sigma^2_j$,
+	compute an estimate for $\boldsymbol{V}$ and then compute the projector matrix $A$, $\boldsymbol{X \hat{\beta}}  = \boldsymbol{AY}$.
+	
+	
+	Zewotir remarks that $\boldsymbol{D}$ is a block diagonal with the $i-$th block being $u \boldsymbol{I}$
 %===============================================================================================================%
 \section{LME - Pankaj Choudhury}
 Consistent with the conventions of mixed models, \citep{pkc}
@@ -1443,8 +1601,29 @@ methodology assesses agreement.
 	\hat{\beta}_{0}^{(j)}=\bar{y}^{(j)}-\hat{\beta}_{1}^{(j)}\bar{x}^{(j)}.
 	\end{equation}
 	
-	%------------------------------------------------------------------------%
-	\newpage
+%====================================================================================================%
+
+	\section{DFbetas for Blood Data}
+	\begin{framed}
+		\begin{verbatim}
+		plot(JS.roy1.dfbeta$all.res1[1:255],JS.roy1.dfbeta$all.res2[256:510],
+		pch=16,col="blue")
+		abline(v=JS.roy1.dfbeta$all.res1[256],col="red")
+		abline(h=JS.roy1.dfbeta$all.res2[1],col="red")
+		\end{verbatim}
+	\end{framed}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.7\linewidth]{images/dfbetas-JS-ROY}
+		\caption{}
+		\label{fig:dfbetas-JS-ROY}
+	\end{figure}
+	
+%============================================================================= %
+\section{Cooks's Distance - Implementation with \texttt{R}}
+Cook's Distance is a measure indicating to what extent model parameters are influenced by (a set of) influential data on which the model is based. This function computes the Cook's distance based on the information returned by the \texttt{estex()} function.
+	
+%====================================================================================================%	
 	\section{Updating Estimates} %5.5
 	
 	\subsection{Updating of Regression Estimates}
@@ -1795,10 +1974,8 @@ model provides for more insight into the behavior of the data.
 
 
 
-\newpage
-\bibliographystyle{chicago}
-\bibliography{DB-txfrbib}
-	\chapter{Generalized linearmodels}
+
+	\chapter{Generalized linear models}
 	\section{Generalized Linear model}
 	In statistics, the generalized linear model (GzLM) is a flexible
 	generalization of ordinary least squares regression. The GzLM
@@ -2244,6 +2421,537 @@ model provides for more insight into the behavior of the data.
 	\end{eqnarray}
 	%--------------------------------------------------------------------------------------%
 	\newpage
+\chapter{Appendices 1}
+
+
+\section{Model Terms (Roy 2009)}
+\begin{itemize}
+	\item Let $y_{mir}$ be the response of method $m$ on the $i$th subject
+	at the $r-$th replicate.
+	\item Let $\boldsymbol{y}_{ir}$ be the $2 \times 1$ vector of measurements
+	corresponding to the $i-$th subject at the $r-$th replicate.
+	\item Let $\boldsymbol{y}_{i}$ be the $R_i \times 1$ vector of
+	measurements corresponding to the $i-$th subject, where $R_i$ is number of replicate measurements taken on item $i$.
+	\item Let $\alpha_mi$ be the fixed effect parameter for method for subject $i$.
+	\item Formally Roy uses a separate fixed effect parameter to describe the true value $\mu_i$, but later combines it with the other fixed effects when implementing the model.
+	\item Let $u_{1i}$ and $u_{2i}$ be the random effects corresponding to methods for item $i$.
+	
+	\item $\boldsymbol{\epsilon}_{i}$ is a $n_{i}$-dimensional vector
+	comprised of residual components. For the blood pressure data $n_{i} = 85$.
+	
+	\item $\boldsymbol{\beta}$ is the solutions of the means of the two methods. In the LME output, the bias ad corresponding
+	t-value and p-values are presented. This is relevant to Roy's first test.\end{itemize}
+
+
+
+
+
+%------------------------------------------------%
+\newpage
+
+\section{Algorithms : ML v REML}
+Maximum likelihood estimation is a method of obtaining estimates of unknown parameters by optimizing a likelihood function. The ML
+parameter estimates are the values of the argument that maximise the likelihood function, i.e. the estimates that make the observed
+values of the dependent variable most likely, given the distributional assumptions
+
+The most common iterative algorithms used for the optimization
+problem in the context of LMEs are the EM algoritm, fisher scoring
+algorithm and NR algorithm, which [cite:West] commends as the
+preferred method.
+
+A mixed model is an extension of the general linear models that
+can specify additional random effects terms.
+
+Parameter of the mixed model can be estimated using either ML or
+REML, while the AIC and the BIC can be used as measures of
+"goodness of fit" for particular models, where smaller values are
+considered preferable.
+
+%--------------------------------------------------------------------%
+
+(\textbf{\emph{Wikipedia}})The restricted (or residual, or reduced) maximum likelihood (REML) approach is a particular form of maximum likelihood estimation which does not base estimates on a maximum likelihood fit of all the information, but instead uses a likelihood function calculated from a transformed set of data, so that nuisance parameters have no effect.
+
+In contrast to the earlier maximum likelihood estimation, REML can produce unbiased estimates of variance and covariance parameters.
+
+%-----------------------------------------------------------------------------------------%
+
+\noindent \textbf{ML procedures for LME}
+
+The maximum likelihood procedure of Hartley and Rao yields
+simultaneous estimates for both the fixed effects and the random
+effect, by maximising the likelihood of $\boldsymbol{y}$ with
+respect to each element of $\boldsymbol{\beta}$ and
+$\boldsymbol{b}$.
+
+%-----------------------------------------------------------------------------------------%
+\newpage
+\section{Estimation of random effects}
+
+Estimation of random effects for LME models in the NLME package is accomplished through use
+of both EM (Expectation-Maximization) algorithms and Newton-Raphson algorithms.
+\begin{itemize}
+	\item EM iterations bring estimates of the parameters into the region of the optimum very quickly, but
+	convergence to the optimum is slow when near the optimum.
+	\item Newton-Raphson iterations are computationally intensive and can be unstable when far from the
+	optimum. However, close to the optimum they converge quickly.
+	\item The LME function implements a hybrid approach, using 25 EM iterations to quickly get near the
+	optimum, then switching to Newton-Raphson iterations to quickly converge to the optimum. \item If
+	convergence problems occur, the ``control�argument in LME can be used to change the way the
+	model arrives at the optimum.
+\end{itemize}
+
+
+
+
+%--Marginal and Conditional Residuals
+
+
+\section{Covariance Parameters} %1.5
+The unknown variance elements are referred to as the covariance parameters and collected in the vector $\theta$.
+% - where is this coming from?
+% - where is it used again?
+% - Has this got anything to do with CovTrace etc?
+%---------------------------------------------------------------------------%
+
+\subsection{Methods and Measures}
+The key to making deletion diagnostics useable is the development of efficient computational formulas, allowing one to obtain the \index{case deletion diagnostics} case deletion diagnostics by making use of basic building blocks, computed only once for the full model.
+
+\citet{Zewotir} lists several established methods of analyzing influence in LME models. These methods include \begin{itemize}
+	\item Cook's distance for LME models,
+	\item \index{likelihood distance} likelihood distance,
+	\item the variance (information) ration,
+	\item the \index{Cook-Weisberg statistic} Cook-Weisberg statistic,
+	\item the \index{Andrews-Prebigon statistic} Andrews-Prebigon statistic.
+\end{itemize}
+%--------------------------------------------------------------------------------------------%
+
+
+\section{Haslett's Analysis} %2.5
+For fixed effect linear models with correlated error structure Haslett (1999) showed that the effects on
+the fixed effects estimate of deleting each observation in turn could be cheaply computed from the fixed effects model predicted residuals.
+
+
+%---------------------------------------------------------------------------------------------------------%
+
+\section{Measures 2} %2.4
+
+\subsection{Cook's Distance} %2.4.1
+\begin{itemize}
+	\item For variance components $\gamma$
+\end{itemize}
+
+Diagnostic tool for variance components
+\[ C_{\theta i} =(\hat(\theta)_{[i]} - \hat(\theta))^{T}\mbox{cov}( \hat(\theta))^{-1}(\hat(\theta)_{[i]} - \hat(\theta))\]
+
+\subsection{Variance Ratio} %2.4.2
+\begin{itemize}
+	\item For fixed effect parameters $\beta$.
+\end{itemize}
+
+
+\subsection{Cook-Weisberg statistic} %2.4.3
+\begin{itemize}
+	\item For fixed effect parameters $\beta$.
+\end{itemize}
+
+\subsection{Andrews-Pregibon statistic} %2.4.4
+\begin{itemize}
+	\item For fixed effect parameters $\beta$.
+\end{itemize}
+The Andrews-Pregibon statistic $AP_{i}$ is a measure of influence based on the volume of the confidence ellipsoid.
+The larger this statistic is for observation $i$, the stronger the influence that observation will have on the model fit.
+
+%==============================================================================================================================%
+%--------------------------------------------------------------------------------------------%
+
+\section{Computation and Notation } %2.3
+with $\boldsymbol{V}$ unknown, a standard practice for estimating $\boldsymbol{X \beta}$ is the estime the variance components $\sigma^2_j$,
+compute an estimate for $\boldsymbol{V}$ and then compute the projector matrix $A$, $\boldsymbol{X \hat{\beta}}  = \boldsymbol{AY}$.
+
+
+\citet{Zewotir} remarks that $\boldsymbol{D}$ is a block diagonal with the $i-$th block being $u \boldsymbol{I}$
+
+\newpage
+\bibliographystyle{chicago}
+\bibliography{DB-txfrbib}
+
+
+	\chapter{LME Likelihood}
+	\section{One Way ANOVA}
+	\subsection{Page 448}
+	Computing the variance of $\hat{\beta}$
+	\begin{eqnarray}
+	\mbox{var}(\hat{\beta}) = (X^{\prime}V^{-1}X)^-1
+	\end{eqnarray}
+	It is not necessary to compute $V^{-1}$ explicitly.
+	
+	\begin{eqnarray}
+	V^{-1}X &= \Sigma^{1}{X-Z()Z^{\prime}\Sigma^{-1}X} \\
+	&= \Sigma^{-1}(X-Zb_{x})
+	\end{eqnarray}
+	
+	The estimate $b_{x}$ is the same term obtained from the random effects model; $X = Zb_{x} + e$, using $X$ as an outcome variable.
+	This formula is convenient in applications where $b_{x}$ can be easily computed. Since $X$ is a matrix of $p$ columns, $b_{x}$ can simple be computed column by column. according to the columns of $X$.
+	\subsection{Page 448- simple example}
+	Consider a simple model of the form;
+	\begin{equation*}
+	y_{ij} = \mu + \beta_{i} + \epsilon_{ij}.
+	\end{equation*}
+	
+	The iterative procedure is as follows Evaluate the individual group mean $\bar{y_{i}}$ and variance $\hat{Sigma^2}_{i}$. Then use the variance of the group means as an estimate of the $\sigma^2_{b}$. The average of the the variances of the groups is the initial estimate of the $\sigma^2_{e}$.
+	\subsubsection{Iterative procedure}
+	
+	The iterative procedure comprises two steps, with $0$ as the first approximation of $b_{i}$.
+	
+	The first step is to compute $\lambda$, the ratio of variabilities,
+	
+	\begin{equation*}
+	\lambda = \frac{\sigma^2_{b}}{\sigma^2_{e}}
+	\end{equation*}
+	
+	\begin{eqnarray*}
+		\mu = \frac{1}{N} \sum_{ij} (y_{ij} - b_{i}) \\
+		b_{i} = \frac{n(\bar{y_{i}}-\mu)}{n+ \lambda} \\
+	\end{eqnarray*}
+	
+	
+	The second step is to updat $sigma^2_{e}$
+	
+	\begin{equation}
+	\sigma^2_{e} = \frac{e^{\prime}e}{N-df}
+	\end{equation}
+	
+	where $e$ is the vector of $e_{ij} = y_{ij}-\mu-b_{i}$ and $df =
+	qn / n+\lambda$ and
+	\begin{equation}
+	\sigma^{2}_{b} = \frac{1}{q} \sum_{i=1}^{q} b_{1}^2 +
+	(\frac{n}{\sigma^2_{e}}+\frac{1}{\sigma^2_{b}})^{-1}
+	\end{equation}
+	
+	\subsubsection{Worked Example}
+	
+	Further to [pawitan 17.1] the initial estimates for variability
+	are $\sigma^{2}_{b} = 1.7698$ and $\sigma^{2}_{e} = 0.3254$. At
+	convergence the following results are obtained.
+	\\
+	n=16, q=5
+	\begin{eqnarray*}
+		\hat{\mu} = \bar{y} = 14.175 \\
+		\hat{\sigma}^2 = 0.325\\
+		\hat{\sigma}^2_{b} = 1.395\\
+		\sigma  = 0.986 \\
+	\end{eqnarray*}
+	At convergene the following estimates are obtained,
+	\begin{eqnarray*}
+		\hat{\mu} = 14.1751 \\
+		\hat{b}= (-0.6211, 0.2683,1.4389,-1.914,0.8279)\\
+		\hat{\sigma}^2_{b} = 1.3955\\
+		\hat{\sigma}^2_{e} = 0.3254\\
+	\end{eqnarray*}
+	
+	
+	\subsection{Extention to several random effects}
+	[pawitan section 17.7]
+	
+	
+	
+	
+	
+	
+	\section{Classical model for single measurements}
+	The classical model is based on measurements $y_{mi}$
+	by method $m=1,2$ on item $i = 1,2 \ldots$
+	
+	\[y_{mi} + \alpha_{m} + \mu_{i} + e_{mi}\]
+	
+	\[e_{mi} \sim \mathcal{n} (0,\sigma^2_m)\]
+	
+	Even though the separate variances can not be
+	identified, their sum can be estimated by the empirical variance of the differences.
+	
+	Like wise the separate $\alpha$ can not be
+	estimated, only theiir difference can be estimated as
+	$\bar{D}$
+	
+	
+	In the first instance, we require a simple model to describe a measurement by method $m$. We use the term $item$ to denote an individual, subject or sample, to be measured, being randomly sampled from a population. Let $y_{mi}$ be the measurement for item $i$ made by method $m$.
+	
+	\[ y_{mi} = \alpha_{m} + \mu_{i} + e_{mi}  \]
+	
+	\begin{itemize}
+		\item $\alpha_m$ is the fixed effect associated with method $m$,
+		\item $\mu_i$ is the true value for subject $i$ (fixed effect),
+		\item $e_{mi}$ is a
+		random effect term for errors with $e_{mi}  \sim \mathcal{N}(0,\sigma^2_m)$. \end{itemize}.
+	
+	This model implies that the difference between the paired measurements can be expressed as
+	
+	\[ d_{i} = y_{1i} - y_{2i} \sim \mathcal{N} (\alpha_{1} - \alpha_{2}, \sigma^2_{1} - \sigma^2_{2}). \]
+	
+	Importantly, this is independent of the item levels $\mu_i$. As the case-wise differences are of interest, the parameters of interest are the fixed effects for methods $\alpha_{m}$.
+	
+	\[ y_{mi} =  \alpha_{m}  + \mu_{i} + e_{mi}  \]
+	
+	
+	
+	
+	
+	Importantly these variance covariance structures are central to Roy methodology.
+	
+	
+	\citet{Roy} proposes a series of hypothesis tests based on these matrices as part of her methodology. These tests shall be reverted to in due course.
+	
+	The standard deviation of the differences of variables $a$ and $b$ is computed as
+	\[
+	\mbox{var}(a - b) = \mbox{var} ( a )  + \mbox{var} ( b ) - 2\mbox{cov} ( a ,b )
+	\]
+	
+	Hence the variance of the difference of two methods, that allows for the calculation of the limits of agreement, can be calculated as
+	
+	\[
+	\mbox{var}(d) = \omega^2_1  + \omega^2_2 - 2 \times \omega_12
+	\]
+	
+	
+	
+	
+	
+	\section{Sampling}
+	\emph{
+		One important feature of replicate observations is that they should be independent
+		of each other. In essence, this is achieved by ensuring that the observer makes each
+		measurement independent of knowledge of the previous value(s). This may be difficult
+		to achieve in practice.} (Check who said this
+	)
+	
+	
+	
+	
+	
+	
+	\section{Limits of agreement in LME models}
+	
+	Limits of agreement are used extensively for assessing agreement, due to they're being intuitive and easy to use.
+	Necessarily their prevalence in literature has meant that they are now the best known measurement for agreement, and that any newer methodology would benefit by making reference to them.
+	
+	\citet{BXC2008} uses LME models to determine the limits of agreement. Between-subject variation for method $m$ is given by $d^2_{m}$ and within-subject variation is given by $\lambda^2_{m}$.  \citet{BXC2008} remarks that for two methods $A$ and $B$, separate values of $d^2_{A}$ and $d^2_{B}$ cannot be estimated, only their average. Hence the assumption that $d_{x}= d_{y}= d$ is necessary. The between-subject variability $\boldsymbol{D}$ and within-subject variability $\boldsymbol{\Lambda}$ can be presented in matrix form,\begin{equation}
+	\boldsymbol{D} = \left(%
+	\begin{array}{cc}
+	d^2_{A}& 0 \\
+	0 & d^2_{B} \\
+	\end{array}%
+	\right)=\left(%
+	\begin{array}{cc}
+	d^2& 0 \\
+	0 & d^2\\
+	\end{array}%
+	\right),
+	\qquad \qquad
+	\boldsymbol{\Lambda} = \left(%
+	\begin{array}{cc}
+	\lambda^2_{A}& 0 \\
+	0 & \lambda^2_{B} \\
+	\end{array}%
+	\right).
+	\end{equation}
+	
+	The variance for method $m$ is $d^2_{m}+\lambda^2_{m}$. Limits of agreement are determined using the standard deviation of the case-wise differences between the sets of measurements by two methods $A$ and $B$, given by
+	\begin{equation}
+	\mbox{var} (y_{A}-y_{B}) = 2d^2 + \lambda^2_{A}+ \lambda^2_{B}.
+	\end{equation}
+	Importantly the covariance terms in both variability matrices are zero, and no covariance component is present.
+	
+	\citet{BXC2008} presents a data set `fat', which is a comparison of measurements of subcutaneous fat
+	by two observers at the Steno Diabetes Center, Copenhagen. Measurements are in millimeters
+	(mm). Each person is measured three times by each observer. The observations are considered to be `true' replicates.
+	
+	A linear mixed effects model is formulated, and implementation through several software packages is demonstrated.
+	All of the necessary terms are presented in the computer output. The limits of agreement are therefore,
+	\begin{equation}
+	0.0449  \pm 1.96 \times  \sqrt{2 \times 0.0596^2 + 0.0772^2 + 0.0724^2} = (-0.220,  0.309).
+	\end{equation}
+	
+	\citet{roy} has demonstrated a methodology whereby $d^2_{A}$ and $d^2_{B}$ can be estimated separately. Also covariance terms are present in both $\boldsymbol{D}$ and $\boldsymbol{\Lambda}$. Using Roy's methodology, the variance of the differences is
+	\begin{equation}
+	\mbox{var} (y_{iA}-y_{iB})= d^2_{A} + \lambda^2_{B} + d^2_{A} + \lambda^2_{B} - 2(d_{AB} + \lambda_{AB})
+	\end{equation}
+	All of these terms are given or determinable in computer output.
+	The limits of agreement can therefore be evaluated using
+	\begin{equation}
+	\bar{y_{A}}-\bar{y_{B}} \pm 1.96 \times \sqrt{ \sigma^2_{A} + \sigma^2_{B}  - 2(\sigma_{AB})}.
+	\end{equation}
+	
+	For Carstensen's `fat' data, the limits of agreement computed using Roy's
+	method are consistent with the estimates given by \citet{BXC2008}; $0.044884  \pm 1.96 \times  0.1373979 = (-0.224,  0.314).$
+	
+	\subsection{Linked replicates}
+	
+	\citet{BXC2008} proposes the addition of an random effects term to their model when the replicates are linked. This term is used to describe the `item by replicate' interaction, which is independent of the methods. This interaction is a source of variability independent of the methods. Therefore failure to account for it will result in variability being wrongly attributed to the methods.
+	
+	\citet{BXC2008} introduces a second data set; the oximetry study. This study done at the Royal Children?s Hospital in
+	Melbourne to assess the agreement between co-oximetry and pulse oximetry in small babies.
+	
+	In most cases, measurements were taken by both method at three different times. In some cases there are either one or two pairs of measurements, hence the data is unbalanced. \citet{BXC2008} describes many of the children as being very sick, and with very low oxygen saturations levels. Therefore it must be assumed that a biological change can occur in interim periods, and measurements are not true replicates.
+	
+	\citet{BXC2008} demonstrate the necessity of accounting for linked replicated by comparing the limits of agreement from the `oximetry' data set using a model with the additional term, and one without. When the interaction is accounted for the limits of agreement are (-9.62,14.56). When the interaction is not accounted for, the limits of agreement are (-11.88,16.83). It is shown that the failure to include this additional term results in an over-estimation of the standard deviations of differences.
+	
+	Limits of agreement are determined using Roy's methodology, without adding any additional terms, are are found to be consistent with the 'interaction' model; $(-9.562, 14.504 )$. Roy's methodology assumes that replicates are linked. However, following Carstensen's example, an addition interaction term is added to the implementation of Roy's model to assess the effect, the limits of agreement estimates do not change. However there is a conspicuous difference in within-subject matrices of both models (denoted $1$ and $2$ respectively);
+	\begin{verbatim}
+	\begin{equation}
+	\hat{\boldsymbol{\Lambda}}_{1}= \pmatrix{
+	16.61 &	11.67\cr
+	11.67 & 27.65 }\qquad
+	\boldsymbol{\hat{\Lambda}}_{2}= \pmatrix{
+	7.55 & 2.60 \cr
+	2.60 & 18.59}
+	\end{equation}
+	\end{verbatim}
+	
+	The variance of the additional random effect in model $2$ is $3.01$.
+	
+	The Akaike information criterion (AIC) for both of models are $AIC_{1} = 2304.226$ and $AIC_{2} = 2306.226$. Having a difference of AIC values of $2$ is equivalent to both models being equally as good as the other. The AIC values for
+	the Carstensen `unlinked' and `linked' models are $1994.66$ and $1955.48$ respectively.
+	
+	The $\boldsymbol{\hat{\Lambda}}$ matrices are informative as to the difference between Carstensen's unlinked and linked models. For the oximetry data, the covariance terms (given above as 11.67 and 2.6 respectively ) are of similar magnitudes to the variance terms. Conversely for the `fat' data the covariance term ($-0.00032$) is negligible. When the interaction term is added to the model, the covariance term remains negligible. (For the `fat' data, the difference in AIC values is also $2$).
+	
+	To conclude, Carstensen's models provided a rigorous way to determine limits of agreement, but don't provide for the computation of $\boldsymbol{\hat{D}}$ and $\boldsymbol{\hat{\Lambda}}$. Therefore the test's proposed by \citet{roy} can not be implemented. Conversely, accurate limits of agreement can be found using Roy's method.
+	
+	Addition of the interaction term erodes the capability of Roy's methodology to compare candidate models, and therefore shall not be adopted.
+	
+	(N.B. To complement the blood pressure `J vs S' analysis, the limits of agreement are $15.62 \pm 1.96 \times 20.33 = (-24.22, 55.46)$.)
+	\newpage
+	
+	
+	\section{Conclusion}
+	\citet{BXC2008} and \citet{roy} highlight the need for method comparison methodologies suitable for use in the presence of replicate measurements. \citet{roy} presents a comprehensive methodology for assessing the agreement of two methods, for replicate measurements. This methodology has the added benefit of overcoming the problems of unbalanced data and unequal numbers of replicates. Implementation of the methodology, and interpretation of the results, is relatively easy for practitioners who have only basic statistical training. Furthermore, it can be shown that widely used existing methodologies, such as the limits of agreement, can be incorporated into Roy's methodology.
+	%=========================================================================================================================================== %
+	%=========================================================================================================================================== %
+	
+	\section*{9. Permutation Test, Power Tests and Missing Data }
+	
+	This section explores topics such as dependent variable simulation and power analysis, introduced by Galecki \& Burzykowski (2013), and implementable with their \textbf{\textit{nlmeU}} \texttt{R} package.
+	Using the \textbf{\textit{predictmeans}} \texttt{R} package, it is possible to perform permutation t-tests for coefficients of (fixed) effects and permutation F-tests.
+	
+	The matter of missing data has not been commonly encountered in either Method Comparison Studies or Linear Mixed Effects Modelling. However Roy (2009) deals with the relevant assumptions regrading missing data. Galecki \& Burzykowski (2013) approaches the subject of missing data in LME Modelling. The \textbf{\textit{nlmeU}} package includes the \texttt{patMiss} function, which ``\textit{allows to compactly present pattern of missing data in a given vector/matrix/data
+		frame or combination of thereof}".
+	
+	\section{Grubbs' data}
+	Let $\hat{\beta}$ denote the least square estimate of $\beta$ based upon the full set of observations, and let
+	$\hat{\beta}^{(k)}$ denoted the estimate with the $k^{th}$ case excluded.
+	For the Grubbs data the $\hat{\beta}$ estimated are $\hat{\beta}_{0}$ and $\hat{\beta}_{1}$ respectively. Leaving the
+	fourth case out, i.e. $k=4$ the corresponding estimates are $\hat{\beta}_{0}^{-4}$ and $\hat{\beta}_{1}^{-4}$
+	
+	\begin{equation}
+	Y^{(k)} = \hat{\beta}^{(k)}X^{(k)}
+	\end{equation}
+	
+	Consider two sets of measurements , in this case F and C , with the vectors of case-wise averages $A$ and case-wise differences $D$ respectively. A regression model of differences on averages can be fitted with the view to exploring some characteristics of the data.
+	
+	\begin{verbatim}
+	Call: lm(formula = D ~ A)
+	
+	Coefficients: (Intercept)            A
+	-37.51896      0.04656
+	
+	\end{verbatim}
+	
+	\newpage
+	
+	% latex table generated in R 2.9.2 by xtable 1.5-5 package
+	% Wed Oct 21 14:04:18 2009
+	\begin{table}[ht]
+		\begin{center}
+			\begin{tabular}{rrrrr}
+				\hline
+				& F & C & D & A \\
+				\hline
+				1 & 793.80 & 794.60 & -0.80 & 794.20 \\
+				2 & 793.10 & 793.90 & -0.80 & 793.50 \\
+				3 & 792.40 & 793.20 & -0.80 & 792.80 \\
+				4 & 794.00 & 794.00 & 0.00 & 794.00 \\
+				5 & 791.40 & 792.20 & -0.80 & 791.80 \\
+				6 & 792.40 & 793.10 & -0.70 & 792.75 \\
+				7 & 791.70 & 792.40 & -0.70 & 792.05 \\
+				8 & 792.30 & 792.80 & -0.50 & 792.55 \\
+				9 & 789.60 & 790.20 & -0.60 & 789.90 \\
+				10 & 794.40 & 795.00 & -0.60 & 794.70 \\
+				11 & 790.90 & 791.60 & -0.70 & 791.25 \\
+				12 & 793.50 & 793.80 & -0.30 & 793.65 \\
+				\hline
+			\end{tabular}
+		\end{center}
+	\end{table}
+	
+	When considering the regression of case-wise differences and
+	averages, we write
+	
+	\begin{equation}
+	D^{-Q} = \hat{\beta}^{-Q}A^{-Q}
+	\end{equation}
+	
+	\subsection{Grubb's example}
+	For the Grubbs data the $\hat{\beta}$ estimated are $\hat{\beta}_{0}$ and $\hat{\beta}_{1}$ respectively. Leaving the
+	fourth case out, i.e. $Q=4$ the corresponding estimates are $\hat{\beta}_{0}^{-4}$ and $\hat{\beta}_{1}^{-4}$
+	
+	\begin{equation}
+	Y^{-Q} = \hat{\beta}^{-Q}X^{-Q}
+	\end{equation}
+	
+	When considering the regression of case-wise differences and
+	averages, we write
+	
+	\begin{equation}
+	D^{-Q} = \hat{\beta}^{-Q}A^{-Q}
+	\end{equation}
+	
+	
+	\subsection{Influence measures using R}
+	R provides the following influence measures of each observation.
+	
+	%Influence measures: This suite of functions can be used to compute
+	%some of the regression (leave-one-out deletion) diagnostics for
+	%linear and generalized linear models discussed in Belsley, Kuh and
+	% Welsch (1980), Cook and Weisberg (1982)
+	
+	
+	\newpage
+	%% latex table generated in R 2.9.2 by xtable 1.5-5 package
+	% Wed Oct 21 14:10:26 2009
+	\begin{table}[ht]
+		\begin{center}
+			\begin{tabular}{|c|c|c|c|c|c|c|}
+				\hline
+				& dfb.1\_ & dfb.A & dffit & cov.r & cook.d & hat \\
+				\hline
+				1 & 0.42 & -0.42 & -0.56 & 1.13 & 0.15 & 0.18 \\
+				2 & 0.17 & -0.17 & -0.34 & 1.14 & 0.06 & 0.11 \\
+				3 & 0.01 & -0.01 & -0.24 & 1.17 & 0.03 & 0.08 \\
+				4 & -1.08 & 1.08 & 1.57 & 0.24 & 0.56 & 0.16 \\
+				5 & -0.14 & 0.14 & -0.24 & 1.30 & 0.03 & 0.13 \\
+				6 & -0.00 & 0.00 & -0.11 & 1.31 & 0.01 & 0.08 \\
+				7 & -0.04 & 0.04 & -0.08 & 1.37 & 0.00 & 0.11 \\
+				8 & 0.02 & -0.02 & 0.15 & 1.28 & 0.01 & 0.09 \\
+				9 & 0.69 & -0.68 & 0.75 & 2.08 & 0.29 & 0.48 \\
+				10 & 0.18 & -0.18 & -0.22 & 1.63 & 0.03 & 0.27 \\
+				11 & -0.03 & 0.03 & -0.04 & 1.53 & 0.00 & 0.19 \\
+				12 & -0.25 & 0.25 & 0.44 & 1.05 & 0.09 & 0.12 \\
+				\hline
+			\end{tabular}
+		\end{center}
+	\end{table}
+	
+	
+	
+	
+		
+	%================================================%
+	
+	\newpage
+	\bibliographystyle{chicago}
+	\bibliography{DB-txfrbib}
+	
+	
+	
 \end{document}
 
 
