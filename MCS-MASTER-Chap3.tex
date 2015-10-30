@@ -84,234 +84,33 @@ rulesepcolor=\color{black},
 %1.15 CPJ's Three Propositions
 %1.16 Other measures of Influence
 %---------------------------------------------------------------------------%
-\section{Introduction}%1.1
-In classical linear models model diagnostics have been become a required part of any statistical analysis, and the methods are commonly available in statistical packages and standard textbooks on applied regression. However it has been noted by several papers that model diagnostics do not often accompany LME model analyses.
-Model diagnostic techniques determine whether or not the distributional assumptions are satisfied, and to assess the influence of unusual observations.
-
-\subsection{Model Data Agreement} %1.1.1
-\citet{schabenberger} describes the examination of model-data agreement as comprising several elements; residual analysis, goodness of fit, collinearity diagnostics and influence analysis.
 
 \section{Model Validation}
 %http://www.itl.nist.gov/div898/handbook/pmd/section4/pmd44.htm
-Model validation is possibly the most important step in the model building sequence. It is also one of the most overlooked. Often the validation of a model seems to consist of nothing more than quoting the R2 statistic from the fit (which measures the fraction of the total variability in the response that is accounted for by the model). Unfortunately, a high R2 value does not guarantee that the model fits the data well. Use of a model that does not fit the data well cannot provide good answers to the underlying engineering or scientific questions under investigation.
+Model validation is possibly the most important step in the model building sequence. It is also one of the most overlooked. Often the validation of a model seems to consist of nothing more than quoting the $R^2$ statistic from the fit (which measures the fraction of the total variability in the response that is accounted for by the model). Unfortunately, a high $R^2$ value does not guarantee that the model fits the data well. Use of a model that does not fit the data well will not provide any meaningful insights to the underlying research questions.
+
+
+In classical linear models, model diagnostics techniques determine whether or not the distributional assumptions are satisfied, and to assess the influence of unusual observations, and have been become a required part of any statistical analysis. Well established methods are commonly available in statistical packages and standard textbooks on applied regression. However it has been noted by several papers that model diagnostics do not often accompany LME model analyses. \citet{schabenberger} discusses the state of LME diagnostics tools, providing a useful summary of established measures.
+
+%\subsection{Model Data Agreement} %1.1.1
+\citet{schabenberger} describes the examination of model-data agreement as comprising several elements; residual analysis, goodness of fit, collinearity diagnostics and influence analysis.
 
 
 
 
 
-\section{Residual diagnostics} %1.3
-For classical linear models, residual diagnostics are typically implemented as a plot of the observed residuals and the predicted values. A visual inspection for the presence of trends inform the analyst on the validity of distributional assumptions, and to detect outliers and influential observations.
-
-\subsection{Why Use Residuals?}
-
-If the model fit to the data were correct, the residuals would approximate the random errors that make the relationship between the explanatory variables and the response variable a statistical relationship. Therefore, if the residuals appear to behave randomly, it suggests that the model fits the data well. On the other hand, if non-random structure is evident in the residuals, it is a clear sign that the model fits the data poorly. The subsections listed below detail the types of plots to use to test different aspects of a model and give guidance on the correct interpretations of different results that could be observed for each type of plot.
+%% \subsection{Why Use Residuals?}
+%If the model fit to the data were correct, the residuals would approximate the random errors that make the relationship between the explanatory variables and the response variable a statistical relationship. Therefore, if the residuals appear to behave randomly, it suggests that the model fits the data well. On the other hand, if non-random structure is evident in the residuals, it is a clear sign that the model fits the data poorly. The subsections listed below detail the types of plots to use to test different aspects of a model and give guidance on the correct interpretations of different results that could be observed for each type of plot.
 %------------------------------------------------------------------------------------------------------------------------ %
 
 
-
-\subsection{Introduction}
-In statistics and optimization, statistical errors and residuals are two closely related and easily confused measures of the deviation of an observed value of an element of a statistical sample from its "theoretical value". The error (or disturbance) of an observed value is the deviation of the observed value from the (unobservable) true function value, while the residual of an observed value is the difference between the observed value and the estimated function value.
-
-The distinction is most important in regression analysis, where it leads to the concept of studentized residuals.
-
-%-------------------------------------------------------------- %
-
-\subsection{Introduction to Residuals}
-
-The difference between the observed value of the dependent variable (y) and the predicted value ($\hat{y}$) is called the \textbf{residual} (e). Each data point has one residual.
-
-\[\mbox{Residual} = \mbox{Observed value} - \mbox{Predicted value}\] 
-\[e = y - \hat{y}\]
-
-Both the sum and the mean of the residuals are equal to zero. 
-%That is, Σ e = 0 and e = 0.
-
-\subsection{Residual Plots}
-A residual plot is a graph that shows the residuals on the vertical axis and the independent variable on the horizontal axis. If the points in a residual plot are randomly dispersed around the horizontal axis, a linear regression model is appropriate for the data; otherwise, a non-linear model is more appropriate.
-
-Below the table on the left shows inputs and outputs from a simple linear regression analysis, and the chart on the right displays the residual (e) and independent variable (X) as a residual plot.
-
-%x	60	70	80	85	95
-%y	70	65	70	95	85
-%ŷ	65.411	71.849	78.288	81.507	87.945
-%e	4.589	-6.849	-8.288	13.493	-2.945
-% Image of residual plot
-\newpage
-The residual plot shows a fairly random pattern - the first residual is positive, the next two are negative, the fourth is positive, and the last residual is negative. This random pattern indicates that a linear model provides a decent fit to the data.
-
-Below, the residual plots show three typical patterns. The first plot shows a random pattern, indicating a good fit for a linear model. The other plot patterns are non-random (U-shaped and inverted U), suggesting a better fit for a non-linear model.
-
-
-%Random pattern	Non-random: U-shaped	Non-random: Inverted U
-In the next lesson, we will work on a problem, where the residual plot shows a non-random pattern. And we will show how to "transform" the data to use a linear model with nonlinear data.
-
-%----------------------------------------------------------------------------------------------%
-\newpage
-%http://blog.minitab.com/blog/adventures-in-statistics/why-you-need-to-check-your-residual-plots-for-regression-analysis
-In the graph above, you can predict non-zero values for the residuals based on the fitted value. For example, a fitted value of 8 has an expected residual that is negative. Conversely, a fitted value of 5 or 11 has an expected residual that is positive.
-
-The non-random pattern in the residuals indicates that the deterministic portion (predictor variables) of the model is not capturing some explanatory information that is “leaking” into the residuals. The graph could represent several ways in which the model is not explaining all that is possible. 
-
-Possibilities include:
-
-\begin{itemize}
-	\item A missing variable
-	\item A missing higher-order term of a variable in the model to explain the curvature
-	\item A missing interction between terms already in the model
-\end{itemize}
-
-
-Identifying and fixing the problem so that the predictors now explain the information that they missed before should produce a good-looking set of residuals!
-
-In addition to the above, here are two more specific ways that predictive information can sneak into the residuals:
-
-The residuals should not be correlated with another variable. If you can predict the residuals with another variable, that variable should be included in the model. In Minitab’s regression, you can plot the residuals by other variables to look for this problem.
-
-\noindent \textbf{Autocorrelation} \\
-Adjacent residuals should not be correlated with each other (\textbf{autocorrelation}). If you can use one residual to predict the next residual, there is some predictive information present that is not captured by the predictors. Typically, this situation involves time-ordered observations. For example, if a residual is more likely to be followed by another residual that has the same sign, adjacent residuals are positively correlated. You can include a variable that captures the relevant time-related information, or use a time series analysis. 
-
-In Minitab’s regression, you can perform the \textbf{\textit{Durbin-Watson} }test to test for autocorrelation.
-\newpage
-\subsection{Residual}
-Residual (or error) represents unexplained (or residual) variation after fitting a regression model. It is the difference (or left over) between the observed value of the variable and the value suggested by the regression model.
-
-
-%------------------------- %
-
-The difference between the observed value of the dependent variable (y) and the predicted value (ŷ) is called the residual (e). Each data point has one residual.
-
-Residual = Observed value - Predicted value 
-\[e = y - \hat{y} \]
-
-Both the sum and the mean of the residuals are equal to zero. That is, Σ e = 0 and e = 0.
-
-%--------------------------------- %
-
-
-
-
-%----------------------------- %
-\subsection{Residual}
-A residual (or fitting error), on the other hand, is an observable estimate of the unobservable statistical error. Consider the previous example with men's heights and suppose we have a random sample of n people. The sample mean could serve as a good estimator of the population mean. Then we have:
-
-The difference between the height of each man in the sample and the unobservable population mean is a statistical error, whereas
-The difference between the height of each man in the sample and the observable sample mean is a residual.
-Note that the sum of the residuals within a random sample is necessarily zero, and thus the residuals are necessarily not independent. The statistical errors on the other hand are independent, and their sum within the random sample is almost surely not zero.
-
-%------------------------------- %
-
-Other uses of the word "error" in statistics: 
-
-The use of the term "error" as discussed in the sections above is in the sense of a deviation of a value from a hypothetical unobserved value. At least two other uses also occur in statistics, both referring to observable prediction errors:
-
-\begin{itemize}
-	\item Mean square error or mean squared error (abbreviated MSE) and root mean square error (RMSE) refer to the amount by which the values predicted by an estimator differ from the quantities being estimated (typically outside the sample from which the model was estimated).
-	
-	\item 
-	Sum of squared errors, typically abbreviated SSE or SSe, refers to the residual sum of squares (the sum of squared residuals) of a regression; this is the sum of the squares of the deviations of the actual values from the predicted values, within the sample used for estimation. Likewise, the sum of absolute errors (SAE) refers to the sum of the absolute values of the residuals, which is minimized in the least absolute deviations approach to regression.
-	
-\end{itemize}
-
-
-%---------------------------------------------------------------------------%
-
-\subsection{Standardized and studentized residuals} %1.4
-%--Studentized and Standardized Residuals
-
-To alleviate the problem caused by inconstant variance, the residuals are scaled (i.e. divided) by their standard deviations. This results in a \index{standardized residual}`standardized residual'. Because true standard deviations are frequently unknown, one can instead divide a residual by the estimated standard deviation to obtain the \index{studentized residual}`studentized residual. 
-
-
-
-
-\subsection{Standardization} %1.4.1
-
-A random variable is said to be standardized if the difference from its mean is scaled by its standard deviation. The residuals above have mean zero but their variance is unknown, it depends on the true values of $\theta$. Standardization is thus not possible in practice.
-
-\subsection{Studentization} %1.4.2
-Instead, you can compute studentized residuals by dividing a residual by an estimate of its standard deviation. 
-
-
-\subsection{Standardized and studentized residuals} %1.4
-
-Externally \index{studentized residual} studentized residual require iterative influence analysis or a profiled residuals variance.
-
-
-\subsection{Internal and External Studentization} %1.4.3
-If that estimate is independent of the $i-$th observation, the process is termed \index{external studentization}`external studentization'. This is usually accomplished by excluding the $i-$th observation when computing the estimate of its standard error. If the observation contributes to the
-standard error computation, the residual is said to be \index{internally studentization}internally studentized.
-
-Externally \index{studentized residual} studentized residual require iterative influence analysis or a profiled residuals variance.
-
-\subsection{Standardized and studentized residuals} %1.4
-%--Studentized and Standardized Residuals
-
-To alleviate the problem caused by inconstant variance, the residuals are scaled (i.e. divided) by their standard deviations. This results in a \index{standardized residual}`standardized residual'. Because true standard deviations are frequently unknown, one can instead divide a residual by the estimated standard deviation to obtain the \index{studentized residual}`studentized residual. 
-
-
-\subsection{Studentization}
-In statistics, a studentized residual is the quotient resulting from the division of a residual by an estimate of its standard deviation. Typically the standard deviations of residuals in a sample vary greatly from one data point to another even when the errors all have the same standard deviation, particularly in regression analysis; thus it does not make sense to compare residuals at different data points without first studentizing. It is a form of a Student's t-statistic, with the estimate of error varying between points.
-
-This is an important technique in the detection of outliers. It is named in honor of William Sealey Gosset, who wrote under the pseudonym Student, and dividing by an estimate of scale is called studentizing, in analogy with standardizing and normalizing: see Studentization.
-
-\subsection{Computation}%1.4.4
-
-The computation of internally studentized residuals relies on the diagonal entries of $\boldsymbol{V} (\hat{\theta})$ - $\boldsymbol{Q} (\hat{\theta})$, where $\boldsymbol{Q} (\hat{\theta})$ is computed as
-
-\[ \boldsymbol{Q} (\hat{\theta}) = \boldsymbol{X} ( \boldsymbol{X}^{\prime}\boldsymbol{Q} (\hat{\theta})^{-1}\boldsymbol{X})\boldsymbol{X}^{-1} \]
-
-
-\subsection{Pearson Residual}%1.4.5
-
-Another possible scaled residual is the \index{Pearson residual} `Pearson residual', whereby a residual is divided by the standard deviation of the dependent variable. The Pearson residual can be used when the variability of $\hat{\beta}$ is disregarded in the underlying assumptions.
-
-
-\subsection{Covariance Parameters} %1.5
-The unknown variance elements are referred to as the covariance parameters and collected in the vector $\theta$.
-% - where is this coming from?
-% - where is it used again?
-% - Has this got anything to do with CovTrace etc?
-	
-	\section{Chapter Overview}
-		\section{Overview}
-		\begin{enumerate}
-			\item Extending deletion diagnostics to LMEs
-			\item Christensen et al
-			\item Haslett hayes
-			\item Schabenberger
-			\item Tewomir
-		\end{enumerate}
-		
-	\begin{enumerate}
-		\item Residual Diagnostics
-		\begin{enumerate}
-			\item Marginal and Conditional Diagnostics
-			\item Scaled Residuals
-		\end{enumerate}
-		
-		\item Influence Diagnostics
-		\begin{enumerate}
-			\item Underlying Concepts
-			\item Managing the Covariance Parameters
-			\item Predicted Values, PRESS Residual and the PRESS Statistic
-			\item Leverage
-			\item Internally and Externally Studentized Residuals
-			\item DFFITs and MDFFITs
-			\item Covariance Ratio and Trace
-			\item Likelihood Distance
-			\item Non-iterative Update Procedures
-		\end{enumerate}
-	\end{enumerate}
-	\newpage
-	%-----------------------------------------------------------------------------------------%
-In this chapter, we will look at residual analysis and diagnostic toold for LME models, and discuss how they can be applied to the Method Comparison Problem.	In classical linear models, a residual is the difference between an observed value and its estimated or predicted value. For LME models, the topic is more complicated, and still a matter of active research. In LME models, there are two types of residuals, marginal residuals and conditional residuals. A marginal residual is the difference between the observed data and the estimated marginal mean. A conditional residual is the difference between the observed data and the predicted value of the observation. In a model without random effects, both sets of residuals coincide.
-	
 	\section{Residual diagnostics} %1.3
-	\subsection{Introduction to Residual Analysis}
+
 	%A residual is the difference between an observed quantity and its estimated or predicted value. 
 	%A residual is simply the difference between an observed value and the corresponding fitted value, as predicted by the model.
-	Residual analysis is a widely used model validation technique. The rationale is that, if the model is properly fitted to the model, then the residuals would approximate the random errors that one should expect; if the residuals behave randomly, with no noticeable patterns or trends. If some sort of non-random trend is evident in the model, then the model can be considered to be poorly fitted. 	For classical linear models, residual diagnostics are typically implemented as a plot of the observed residuals and the predicted values. A visual inspection for the presence of trends inform the analyst on the validity of distributional assumptions, and to detect outliers and influential observations. Statistical software environments, such as the \texttt{R} programming language, provides a suite of tests and graphical procedures for appraising a fitted linear model, with several of these procedures analysing the model residuals. 	However, for LME models the matter of residual is more complex, both from a theoretical point of view and from the practical matter of implementing a comprehensive analysis using statistical software. As the LME model can be tailored to the needs of the particular research question, the rationale behind the model appraisal must follow accordingly.
+	Residual analysis is a widely used model validation technique. For classical linear models, residual diagnostics are typically implemented as a plot of the observed residuals and the predicted values. A visual inspection for the presence of trends inform the analyst on the validity of distributional assumptions, and to detect outliers and influential observations. The rationale is that, if the model is properly fitted to the model, then the residuals would approximate the random errors that one should expect; if the residuals behave randomly, with no noticeable patterns or trends. If some sort of non-random trend is evident in the model, then the model can be considered to be poorly fitted. 	For classical linear models, residual diagnostics are typically implemented as a plot of the observed residuals and the predicted values. A visual inspection for the presence of trends inform the analyst on the validity of distributional assumptions, and to detect outliers and influential observations. Statistical software environments, such as the \texttt{R} programming language, provides a suite of tests and graphical procedures for appraising a fitted linear model, with several of these procedures analysing the model residuals. 	However, for LME models the matter of residual is more complex, both from a theoretical point of view and from the practical matter of implementing a comprehensive analysis using statistical software. As the LME model can be tailored to the needs of the particular research question, the rationale behind the model appraisal must follow accordingly.
 	
-		
+	
 	For an LME model, the \textit{raw} residuals at level $i$ are obtained by subtracting the fitted levels at that level from the response vector If we require a \textit{Pearson} type residual, we further dviide this by the estimated within-group standard error. The Pearson residual is the raw residual divided by the square root of the the within-group standard error for both methods. The fitted values at level $i$ are obtained by adding together the population fitted values (based only on the fixed effects estimates) and the estimated contributions of the random effects to the fitted values at grouping levels less or equal to $i$. In addition to Raw and Pearson residuals, there are normalized residuals : standardized residuals pre-multiplied by the inverse square-root factor of the estimated error correlation matrix. For the forthcoming examples, we will use the raw residuals.
 	
 	
@@ -319,19 +118,20 @@ In this chapter, we will look at residual analysis and diagnostic toold for LME 
 	
 	\section*{Preliminary Residual Analysis }
 	
-	This short section will look at residual analysis for LME models. The underlying assumptions for LME models are similar to those of classical linear mdoels. There are two key techniques: a residual plot and the normal probability plot. Using the nlme package it is possible to create plots specific to each method. This is useful in determine which methods `disagree` with the rest.
+	% This short section will look at residual analysis for LME models. 
+	The underlying assumptions for LME models are similar to those of classical linear mdoels. There are two key techniques: a residual plot and the normal probability plot. Using the nlme package it is possible to create plots specific to each method. This is useful in determine which methods `disagree` with the rest.
 	Analysis of the residuals would determine if the methods of measurement disagree systematically, or whether or not erroneous measurements associated with a subset of the cases are the cause of disagreement.
 	Erroneous measurements are incorrect measurements that indicate disagreement between methods that would otherwise be in agreement.
 	%======================================================== %
-	Once the residuals are computed, they can be used to make an assessment about the model fit. For the LME model described in chapter 2, we can plot the residuals against the fitted values, to assess the assumption of constant variance. f the points in a residual plot are randomly dispersed around the horizontal axis, a linear regression model is appropriate for the data; otherwise, a non-linear model is more appropriate.
-		
-		\begin{figure}[h!]
-			\centering
-			\includegraphics[width=0.9\linewidth]{images/Residuals-JS-Roy}
-			\caption{}
-			\label{fig:Residuals-JS-Roy}
-		\end{figure}
-		
+	Once the residuals are computed, they can be used to make an assessment about the model fit. For the LME model described in Chapter 2, we can plot the residuals against the fitted values, to assess the assumption of constant variance. f the points in a residual plot are randomly dispersed around the horizontal axis, a linear regression model is appropriate for the data; otherwise, a non-linear model is more appropriate.
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.9\linewidth]{images/Residuals-JS-Roy}
+		\caption{}
+		\label{fig:Residuals-JS-Roy}
+	\end{figure}
+	
 	LME models assume that the residuals of the model are normally distributed.  The residuals can be divided according to groups according to the method of measurement. In the following examples, we seperately assess normality the \textit{J} method residuals (the first 255 residuals) and \textit{S} method residuals (the remaining 255). Importantly the residuals from the \textit{J} method are normally distributed, but there is non-normality of the residuals according to the \textit{S} method.
 	\begin{framed}
 		\begin{verbatim}
@@ -357,11 +157,11 @@ In this chapter, we will look at residual analysis and diagnostic toold for LME 
 	\begin{figure}[h!]
 		\centering
 		\includegraphics[width=0.9\linewidth]{images/Resid-newplot2}
-	
+		
 	\end{figure}
-
+	
 	%===================================================================================================%
-
+	
 	
 	
 	\begin{figure}[h!]
@@ -370,23 +170,144 @@ In this chapter, we will look at residual analysis and diagnostic toold for LME 
 		\caption{}
 		\label{fig:Resid-newplot2}
 	\end{figure}
-		
+	
 	\begin{figure}[h!]
 		\centering
 		\includegraphics[width=0.9\linewidth]{images/ResidPlot3}
 		\label{fig:ResidPlot3}
 	\end{figure}
 	
-Normal probability plots can be rendered for each level of the random effects.  LME models assume that not only the within-cluster residuals are normally distributed, but that each level of the random effects are as well. % 
+	Normal probability plots can be rendered for each level of the random effects.  LME models assume that not only the within-cluster residuals are normally distributed, but that each level of the random effects are as well. % 
 	\begin{figure}[h!]
 		\centering
 		\includegraphics[width=0.9\linewidth]{images/ResidPlot2}
 		\caption{}
 		\label{fig:ResidPlot2}
-	\end{figure}	
+	\end{figure}
+
+
+
+
+%
+%\subsection{Introduction}
+%In statistics and optimization, statistical errors and residuals are two closely related and easily confused measures of the deviation of an observed value of an element of a statistical sample from its "theoretical value". The error (or disturbance) of an observed value is the deviation of the observed value from the (unobservable) true function value, while the residual of an observed value is the difference between the observed value and the estimated function value.
+%
+%The distinction is most important in regression analysis, where it leads to the concept of studentized residuals.
+%
+%
+
+
+
+
+
+
+
+
+
+%---------------------------------------------------------------------------%
+
+
+
+
+
+
+
+\section{Standardization and Studentization} %1.4.2
+To alleviate the problem caused by inconstant variance, the residuals can be scaled (i.e. divided) by their standard deviations. This results in a \index{standardized residual}`standardized residual'. A random variable is said to be standardized if the difference from its mean is scaled by its standard deviation. The residuals  have mean zero but their variance is unknown, it depends on the true values of $\theta$. Standardization is  not possible in practice. Because true standard deviations are frequently unknown, one can instead divide a residual by the estimated standard deviation to obtain the \index{studentized residual}`studentized residual. 
+%Instead, you can compute studentized residuals by dividing a residual by an estimate of its standard deviation. 
+If that estimate is independent of the $i-$th observation, the process is termed \index{external studentization}`external studentization'. This is usually accomplished by excluding the $i-$th observation when computing the estimate of its standard error. If the observation contributes to the
+standard error computation, the residual is said to be \index{internally studentization}internally studentized.
+Externally \index{studentized residual} studentized residual require iterative influence analysis or a profiled residuals variance \textbf{(CITE)}.
+
+
+% \subsection{Computation}%1.4.4
+
+The computation of internally studentized residuals relies on the diagonal entries of $\boldsymbol{V} (\hat{\theta})$ - $\boldsymbol{Q} (\hat{\theta})$, where $\boldsymbol{Q} (\hat{\theta})$ is computed as
+
+\[ \boldsymbol{Q} (\hat{\theta}) = \boldsymbol{X} ( \boldsymbol{X}^{\prime}\boldsymbol{Q} (\hat{\theta})^{-1}\boldsymbol{X})\boldsymbol{X}^{-1} \]
+
+
+\subsection{Pearson Residual}%1.4.5
+
+Another possible scaled residual is the \index{Pearson residual} `Pearson residual', whereby a residual is divided by the standard deviation of the dependent variable. The Pearson residual can be used when the variability of $\hat{\beta}$ is disregarded in the underlying assumptions.
+
+
+
 	
-\section*{Taxonomy of LME Residuals}
+
+	%-----------------------------------------------------------------------------------------%
+In this chapter, we will look at residual analysis and diagnostic toold for LME models, and discuss how they can be applied to the Method Comparison Problem.	In classical linear models, a residual is the difference between an observed value and its estimated or predicted value. For LME models, the topic is more complicated, and still a matter of active research. 
+
+
+	\section{Distinction From Linear Models (Schabenberger page 3)}
+	%% Where is this coming from?
+	%% 
+ The differences between perturbation and residual analysis in the linear model and the linear mixed model
+		are connected to the important facts that b and b
+		depend on the estimates of the covariance parameters,
+		that b has the form of an (estimated) generalized least squares (GLS) estimator, and that 
+		is a random
+		vector.
+ In a mixed model, you can consider the data in a conditional and an unconditional sense. If you imagine
+		a particular realization of the random effects, then you are considering the conditional distribution
+		Y|
+ If you are interested in quantities averaged over all possible values of the random effects, then
+		you are interested in Y; this is called the marginal formulation. In a clinical trial, for example, you
+		may be interested in drug efficacy for a particular patient. If random effects vary by patient, that is a
+		conditional problem. If you are interested in the drug efficacy in the population of all patients, you are
+		using a marginal formulation. Correspondingly, there will be conditional and marginal residuals, for
+		example.
+The estimates of the fixed effects  depend on the estimates of the covariance parameters. If you are
+		interested in determining the influence of an observation on the analysis, you must determine whether
+		this is influence on the fixed effects for a given value of the covariance parameters, influence on the
+		covariance parameters, or influence on both.
+Mixed models are often used to analyze repeated measures and longitudinal data. The natural experimental
+		or sampling unit in those studies is the entity that is repeatedly observed, rather than each
+		individual repeated observation. For example, you may be analyzing monthly purchase records by
+		customer. 
+An influential “data point” is then not necessarily a single purchase. You are probably more
+		interested in determining the influential customer. This requires that you can measure the influence
+		of sets of observations on the analysis, not just influence of individual observations.
+%		\item The computation of case deletion diagnostics in the classical model is made simple by the fact that
+%		%estimates of  and 2, which exclude the ith observation, can be %computed without re-fitting the
+%		model. Such update formulas are available in the mixed model only if you assume that the covariance
+%		parameters are not affected by the removal of the observation in question. This is rarely a reasonable
+%		assumption.
+The application of well-known concepts in model-data diagnostics to the mixed model can produce results
+		that are at first counter-intuitive, since our understanding is steeped in the ordinary least squares
+		(OLS) framework. As a consequence, we need to revisit these important concepts, ask whether they
+		are “portable” to the mixed model, and gain new appreciation for their changed properties. An important
+		example is the ostensibly simple concept of leverage. 
+%		\item The definition of leverage adopted by
+%		the MIXED procedure can, in some instances, produce negative values, which are mathematically
+%		impossible in OLS. Other measures that have been proposed may be non-negative, but trade other
+%		advantages. Another example are properties of residuals. While OLS residuals necessarily sum to
+%		zero in any model (with intercept), this not true of the residuals in many mixed models.
+
 	
+
+	
+\section{Taxonomy of LME Residuals}
+
+		
+		Standard residual and influence diagnostics for linear models can
+		be extended to linear mixed models. The dependence of
+		fixed-effects solutions on the covariance parameter estimates has
+		important ramifications in perturbation analysis. To gauge the
+		full impact of a set of observations on the analysis, covariance
+		parameters need to be updated, which requires refitting of the
+		model.
+		%---http://www.stat.purdue.edu/~bacraig/notes598S/SUGI_Paper_Schabenberger.pdf
+		
+		The conditional (subject-specific) and marginal
+		(population-averaged) formulations in the linear mixed model
+		enable you to consider conditional residuals that use the
+		estimated BLUPs of the random effects, and marginal residuals
+		which are deviations from the overall mean. Residuals using the
+		BLUPs are useful to diagnose whether the random effects components
+		in the model are specified correctly, marginal residuals are
+		useful to diagnose the fixed-effects components.	
+		
 	\citet{pb} describes three types of residual that describe the variabilities
 	present in LME models
 	\begin{enumerate}
@@ -402,23 +323,7 @@ Normal probability plots can be rendered for each level of the random effects.  
 	if it depends only on the fixed components and on the error that it is supposed to predict.
 	Residuals that depend on other types of error are known as `confounded errors'.
 
-		%------------------------------------------------------------Section 4.1---%
-		\subsection{Marginal Residuals}
-		The marginal residuals are defined according to
-		\begin{eqnarray*}
-			\hat{\xi} = y - X\hat{\beta} = M^{-1}Qy. \\\nonumber
-		\end{eqnarray*}
-		
-		Plots of the elements of the marginal residual vector versus the explanatory variables in $X$ can be used to check the linearity of $\boldsymbol{y}$ in a similar manner to the residual plots used in linear models.
-		%------------------------------------------------------------Section 4.2---%
-		\subsection{Conditional Residuals}
-		A conditional probability is the difference between the observed value and the predicted value of the dependent variable.
-		\begin{equation*}
-		\hat{\epsilon}_{i} = y_{i} - X_{i}\hat{\beta} + Z_{i}\hat{b}_{i}
-		\end{equation*}
-		
-		In general conditional residuals are not well suited for verifying model assumptions and detecting outliers. Even if the true model residuals are uncorrelated and have equal variance, conditional variances will tend to be correlated and their variances may be different for different subgroups of individuals \citep{west}.
-		
+
 
 	\section{Residuals in LME Models : Marginal, Conditional and Scaled}
 	%------------------------------------------------------------Section 4.3---%
@@ -442,13 +347,11 @@ Cook's D can be calibrated according to a chi-square distribution with degress o
 	%========================================================================================== %
 	\section*{Residuals}
 	
-	Residuals are used to examine model assumptions and to detect outliers and potentially influential data
-	point. The raw residuals $r_{mi}$ and $r_{ci}$ are usually not well suited for these purposes.
+ The raw residuals $r_{mi}$ and $r_{ci}$ are usually not well suited for these purposes.
 	
 	\begin{itemize}
 		\item Conditional Residuals $r_{ci}$
 		\item Marginal Residuals $r_{mi}$
-		\item 
 	\end{itemize}
 	
 	
@@ -456,182 +359,64 @@ Cook's D can be calibrated according to a chi-square distribution with degress o
 	
 	
 	
-	\section{Residuals diagnostics in LME Models}
-	
-	
-	A residual is the difference between an observed quantity and its
-	estimated or predicted value. In LME models, there are two types
-	of residuals, marginal residuals and conditional residuals. 
-	In a model without random effects, both sets of residuals coincide.
-	\citet{schabenberger} provides a useful summary. 
-	% \subsection{Marginal and Conditional Residuals}
-	
-	\begin{itemize}
-		\item A marginal residual is the difference between the observed data and the estimated (marginal) mean, $r_{mi} = y_i - x_0^{\prime} \hat{b}$
-		\item A conditional residual is the difference between an observed value $y_{i}$ and the conditional predicted value $\hat{y}_{i} $,
-		\[r_{ci} = y_i - x_i^{\prime} \hat{b} - z_i^{\prime} \hat{\gamma}\]
-	\end{itemize} 
+\chapter{Residuals diagnostics in LME Models}
+	Residuals are used to examine model assumptions and to detect outliers and potentially influential data
+	point. In LME models, there are two types of residuals, marginal residuals and conditional residuals. A marginal residual is the difference between the observed data and the estimated marginal mean. A conditional residual is the difference between the observed data and the predicted value of the observation. In a model without random effects, both sets of residuals coincide. \citet{schabenberger} provides a useful summary. In a model without random effects, both sets of residuals coincide.
+
+The definitions of both marginal residuals ($r_m$) and conditional residuals ($r_c$) follow from the definitions of marginal and conditional means in the LME model 
+$E[\boldsymbol{Y}] = \boldsymbol{X}\boldsymbol{\beta}$ and $E[\boldsymbol{Y|\boldsymbol{u}}] = \boldsymbol{X}\boldsymbol{\beta} + \boldsymbol{Z}\boldsymbol{u}$, respectively.
+
+ A marginal residual is the difference between the observed data and the estimated (marginal) mean, 
+  \[r_{mi} = y_i - x_0^{\prime} \hat{b} =x^{T}_{i}\hat{\beta}\]
+  
+  	\[y - X\beta = Z \eta +\epsilon \]
+ 
+ A conditional residual is the difference between an observed value $y_{i}$ and the conditional predicted value $\hat{y}_{i} $,
+	\[r_{ci} = y_i - x_i^{\prime} \hat{b} - z_i^{\prime} \hat{\gamma}\]
+
+	\[y - X\beta - Z \eta = \epsilon \]
+
+	Conditional residuals include contributions from both fixed and random effects, whereas marginal residuals include contribution from only fixed effects. Marginal residuals should have mean of zero, but may show grouping structure. 
+Also they may not be homoscedastic. Marginal residuals are good for checking fixed effects.	Plots of the elements of the marginal residual vector versus the explanatory variables in $X$ can be used to check the linearity of $\boldsymbol{y}$ in a similar manner to the residual plots used in linear models.
+Conditional residuals should have mean of zero with no grouping structure
+They should be homoscedastic. Conditional residuals are useful for checking normality of outliers
 	
 	%http://support.sas.com/documentation/cdl/en/statug/63033/HTML/default/viewer.htm#statug_mixed_sect024.htm
 	
-	\section{Residuals diagnostics in mixed models}
-	
-	%schabenberger
-	The marginal and conditional means in the linear mixed model are
-	$E[\boldsymbol{Y}] = \boldsymbol{X}\boldsymbol{\beta}$ and
-	$E[\boldsymbol{Y|\boldsymbol{u}}] = \boldsymbol{X}\boldsymbol{\beta} + \boldsymbol{Z}\boldsymbol{u}$, respectively.
-	
-	A residual is the difference between an observed quantity and its estimated or predicted value. In the mixed
-	model you can distinguish marginal residuals $r_m$ and conditional residuals $r_c$. 
-	
-	\begin{equation}
-	r_{mi}=x^{T}_{i}\hat{\beta}
-	\end{equation}
-	
-	
-	\section{Marginal and Conditional Residuals}
-	
-	A marginal residual is the difference between the observed data and the estimated (marginal) mean, $r_{mi} = y_i - x_0^{\prime} \hat{b}$
-	A conditional residual is the difference between the observed data and the predicted value of the observation,
-	$r_{ci} = y_i - x_i^{\prime} \hat{b} - z_i^{\prime} \hat{\gamma}$
-	
-	In linear mixed effects models, diagnostic techniques may consider `conditional' residuals. A conditional residual is the difference between an observed value $y_{i}$ and the conditional predicted value $\hat{y}_{i} $.
+In linear mixed effects models, diagnostic techniques may consider `conditional' residuals. A conditional residual is the difference between an observed value $y_{i}$ and the conditional predicted value $\hat{y}_{i} $.
 	
 	\[ \hat{epsilon}_{i} = y_{i} - \hat{y}_{i} = y_{i} - ( X_{i}\hat{beta} + Z_{i}\hat{b}_{i}) \]
 	
-	However, using conditional residuals for diagnostics presents difficulties, as they tend to be correlated and their variances may be different for different subgroups, which can lead to erroneous conclusions.
-	
-	
-	
-	
-	
-	%------------------------------------------------------------------%
-	\section{Residuals diagnostics in LME Models}
-	
-	%schabenberger
-	The marginal and conditional means in the linear mixed model are
-	$E[\boldsymbol{Y}] = \boldsymbol{X}\boldsymbol{\beta}$ and
-	$E[\boldsymbol{Y|\boldsymbol{u}}] = \boldsymbol{X}\boldsymbol{\beta} + \boldsymbol{Z}\boldsymbol{u}$, respectively.
-	
-	
-	\begin{equation}
-	r_{mi}=x^{T}_{i}\hat{\beta}
-	\end{equation}
-	
-	\section{Marginal residuals}
-	
-	\[y - X\beta = Z \eta +\epsilon \]
-	\begin{itemize}
-		\item
-		Should be mean 0, but may show grouping structure
-		\item
-		May not be homoskedastic.
-		\item
-		Good for checking fixed effects, just like linear regr.
-	\end{itemize}
-	%----------------------------------------------------%
-	\section{Conditional residuals}
-	\[y - X\beta - Z \eta = \epsilon \]
-	\begin{itemize}
-		\item
-		Should be mean zero with no grouping structure
-		\item
-		Should be homoscedastic.
-		\item
-		Good for checking normality of outliers
-	\end{itemize}
-	
-	
-	
-	%------------------------------------------------------------%
-	\newpage
-	\section{Distinction From Linear Models}
-	%% Where is this coming from?
-	%% Schabenberger page 3
-	\begin{itemize}
-		\item The differences between perturbation and residual analysis in the linear model and the linear mixed model
-		are connected to the important facts that b and b
-		depend on the estimates of the covariance parameters,
-		that b has the form of an (estimated) generalized least squares (GLS) estimator, and that 
-		is a random
-		vector.
-		\item In a mixed model, you can consider the data in a conditional and an unconditional sense. If you imagine
-		a particular realization of the random effects, then you are considering the conditional distribution
-		Y|
-		\item If you are interested in quantities averaged over all possible values of the random effects, then
-		you are interested in Y; this is called the marginal formulation. In a clinical trial, for example, you
-		may be interested in drug efficacy for a particular patient. If random effects vary by patient, that is a
-		conditional problem. If you are interested in the drug efficacy in the population of all patients, you are
-		using a marginal formulation. Correspondingly, there will be conditional and marginal residuals, for
-		example.
-		\item The estimates of the fixed effects  depend on the estimates of the covariance parameters. If you are
-		interested in determining the influence of an observation on the analysis, you must determine whether
-		this is influence on the fixed effects for a given value of the covariance parameters, influence on the
-		covariance parameters, or influence on both.
-		\item Mixed models are often used to analyze repeated measures and longitudinal data. The natural experimental
-		or sampling unit in those studies is the entity that is repeatedly observed, rather than each
-		individual repeated observation. For example, you may be analyzing monthly purchase records by
-		customer. 
-		\item An influential “data point” is then not necessarily a single purchase. You are probably more
-		interested in determining the influential customer. This requires that you can measure the influence
-		of sets of observations on the analysis, not just influence of individual observations.
-		\item The computation of case deletion diagnostics in the classical model is made simple by the fact that
-		%estimates of  and 2, which exclude the ith observation, can be %computed without re-fitting the
-		model. Such update formulas are available in the mixed model only if you assume that the covariance
-		parameters are not affected by the removal of the observation in question. This is rarely a reasonable
-		assumption.
-		\item The application of well-known concepts in model-data diagnostics to the mixed model can produce results
-		that are at first counter-intuitive, since our understanding is steeped in the ordinary least squares
-		(OLS) framework. As a consequence, we need to revisit these important concepts, ask whether they
-		are “portable” to the mixed model, and gain new appreciation for their changed properties. An important
-		example is the ostensibly simple concept of leverage. 
-		\item The definition of leverage adopted by
-		the MIXED procedure can, in some instances, produce negative values, which are mathematically
-		impossible in OLS. Other measures that have been proposed may be non-negative, but trade other
-		advantages. Another example are properties of residuals. While OLS residuals necessarily sum to
-		zero in any model (with intercept), this not true of the residuals in many mixed models.
-	\end{itemize}
-	\newpage
-	\section{Residuals diagnostics in mixed models}
-	
-	%schabenberger
-	The marginal and conditional means in the linear mixed model are
-	$E[\boldsymbol{Y}] = \boldsymbol{X}\boldsymbol{\beta}$ and
-	$E[\boldsymbol{Y|\boldsymbol{u}}] = \boldsymbol{X}\boldsymbol{\beta} + \boldsymbol{Z}\boldsymbol{u}$, respectively.
-	
-	A residual is the difference between an observed quantity and its estimated or predicted value. In the mixed
-	model you can distinguish marginal residuals $r_m$ and conditional residuals $r_c$. 
-	
-	
-	\section{Marginal and Conditional Residuals}
-	
-	A marginal residual is the difference between the observed data and the estimated (marginal) mean, $r_{mi} = y_i - x_0^{\prime} \hat{b}$
-	A conditional residual is the difference between the observed data and the predicted value of the observation,
-	$r_{ci} = y_i - x_i^{\prime} \hat{b} - z_i^{\prime} \hat{\gamma}$
-	
-	In linear mixed effects models, diagnostic techniques may consider `conditional' residuals. A conditional residual is the difference between an observed value $y_{i}$ and the conditional predicted value $\hat{y}_{i} $.
-	
-	\[ \hat{epsilon}_{i} = y_{i} - \hat{y}_{i} = y_{i} - ( X_{i}\hat{beta} + Z_{i}\hat{b}_{i}) \]
-	
-	However, using conditional residuals for diagnostics presents difficulties, as they tend to be correlated and their variances may be different for different subgroups, which can lead to erroneous conclusions.
-	
+However, using conditional residuals for diagnostics presents difficulties, as they tend to be correlated and their variances may be different for different subgroups, which can lead to erroneous conclusions.
 	%1.5
 	%http://support.sas.com/documentation/cdl/en/statug/63033/HTML/default/viewer.htm#statug_mixed_sect024.htm
+
+
+%==============================================================%
+		%------------------------------------------------------------Section 4.1---%
+		\subsection{Marginal Residuals}
+		The marginal residuals are defined according to
+		\begin{eqnarray*}
+			\hat{\xi} = y - X\hat{\beta} = M^{-1}Qy. \\\nonumber
+		\end{eqnarray*}
+		
+	
+		%------------------------------------------------------------Section 4.2---%
+		\subsection{Conditional Residuals}
+		A conditional probability is the difference between the observed value and the predicted value of the dependent variable.
+		\begin{equation*}
+		\hat{\epsilon}_{i} = y_{i} - X_{i}\hat{\beta} + Z_{i}\hat{b}_{i}
+		\end{equation*}
+		
+		In general conditional residuals are not well suited for verifying model assumptions and detecting outliers. Even if the true model residuals are uncorrelated and have equal variance, conditional variances will tend to be correlated and their variances may be different for different subgroups of individuals \citep{west}.
+
+	
+
 	
 	
 	
 	
-	
-	
-	\begin{equation}
-	r_{mi}=x^{T}_{i}\hat{\beta}
-	\end{equation}
-	
-	\section{Marginal Residuals}
-	\begin{eqnarray}
-	\hat{\beta} &=& (X^{T}R^{-1}X)^{-1}X^{T}R^{-1}Y \nonumber \\
-	&=& BY \nonumber
-	\end{eqnarray}
+
 	%------------------------------------------------------------%
 	
 	\section{Residual diagnostics} %1.3
@@ -659,21 +444,21 @@ Cook's D can be calibrated according to a chi-square distribution with degress o
 	%1.5
 	%http://support.sas.com/documentation/cdl/en/statug/63033/HTML/default/viewer.htm#statug_mixed_sect024.htm
 	
-	
-	
-	
-	
-	
-	\begin{equation}
-	r_{mi}=x^{T}_{i}\hat{\beta}
-	\end{equation}
-	
-	\section{Marginal Residuals}
-	\begin{eqnarray}
-	\hat{\beta} &=& (X^{T}R^{-1}X)^{-1}X^{T}R^{-1}Y \nonumber \\
-	&=& BY \nonumber
-	\end{eqnarray}
-	
+%	
+%	
+%	
+%	
+%	
+%	\begin{equation}
+%	r_{mi}=x^{T}_{i}\hat{\beta}
+%	\end{equation}
+%	
+%	\section{Marginal Residuals}
+%	\begin{eqnarray}
+%	\hat{\beta} &=& (X^{T}R^{-1}X)^{-1}X^{T}R^{-1}Y \nonumber \\
+%	&=& BY \nonumber
+%	\end{eqnarray}
+%	
 	%1.5
 	%http://support.sas.com/documentation/cdl/en/statug/63033/HTML/default/viewer.htm#statug_mixed_sect024.htm
 	
@@ -711,36 +496,10 @@ Cook's D can be calibrated according to a chi-square distribution with degress o
 	
 	\[ r_{Mar} = y - X \hat{\beta} \]
 	
-	\newpage
-	%=================================================== %
-	% http://www.ime.usp.br/~jmsinger/MAE0610/Mixedmodelresiduals.pdf
-	
-	Cox and Snell (1968, JRSS-B): general definition of residuals for
-	models with single source of variability
-	Hilden-Minton (1995, PhD thesis UCLA), Verbeke and Lesaffre
-	(1997, CSDA) or Pinheiro and Bates (2000, Springer): extension to
-	define three types of residuals that accommodate the extra source of
-	variability present in linear mixed models, namely:
-	
-	i) Marginal residuals, 
-	%bξ = y − X\hat{\beta} = \hat{M}^{-1}\hat{Q}y ,
-	
-	predictors of marginal errors, 
-	
-	%ξ = y − E[y] = y − X\beta = Zb + e
-	
-	ii) Conditional residuals, 
-	\[be = y − X\hat{\beta} − Zbb = \hat{\sigma}Q\hat{y}\] , predictors of
-	conditional errors 
-	\[e = y − E[y|b] = y − X\beta − Zb\]
-	
-	iii) BLUP, Zbb, predictors of random effects,
-	\[ Zb = E[y|b] − E[y]\]
+
+
 	%=============================================================================================================%
-	\section{Confounded Residuals}
-	Hilden-Minton (1995, PhD thesis, UCLA): residual is pure for a specific type of error if it depends only on the fixed components and
-	on the error that it is supposed to predict	Residuals that depend on other types of errors are called \textit{\textbf{confounded
-			residuals}}
+
 	
 	
 	%--Marginal and Conditional Residuals
@@ -769,15 +528,9 @@ Cook's D can be calibrated according to a chi-square distribution with degress o
 	
 	
 	%-------------------------------------------------------------- %
-
-	
-
-	
-
-%---------------------------------------------------------------------------%
-
 \chapter{Influence Diagnostics}
-\citet{cook86} introduces powerful tools for local-influence assessment and examining perturbations in the assumptions of a model. In particular the effect of local perturbations of parameters or observations are examined.
+
+
 
 
 \section{What is Influence} %1.1.5
@@ -785,73 +538,22 @@ Cook's D can be calibrated according to a chi-square distribution with degress o
 
 Broadly defined, influence is understood as the ability of a single or multiple data points, through their presence or absence in the data, to alter important aspects of the analysis, yield qualitatively different inferences, or violate assumptions of the statistical model. The goal of influence analysis is not primarily to mark data points for deletion so that a better model fit can be achieved for the reduced data, although this might be a result of influence analysis \citep{schabenberger}.
 
+%---------------------------------------------------------------------------%
 
 
-
-\section{Influence Diagnostics: Basic Idea and Statistics} %1.1.2
-%http://support.sas.com/documentation/cdl/en/statug/63033/HTML/default/viewer.htm#statug_mixed_sect024.htm
-
-The general idea of quantifying the influence of one or more observations relies on computing parameter estimates based on all data points, removing the cases in question from the data, refitting the model, and computing statistics based on the change between full-data and reduced-data estimation. 
+\citet{cook86} introduces powerful tools for local-influence assessment and examining perturbations in the assumptions of a model. In particular the effect of local perturbations of parameters or observations are examined.
 
 
-Influence statistics can be coarsely grouped by the aspect of estimation that is their primary target:
-\begin{itemize}
-	\item overall measures compare changes in objective functions: (restricted) likelihood distance (Cook and Weisberg 1982, Ch. 5.2)
-	\item influence on parameter estimates: Cook’s  (Cook 1977, 1979), MDFFITS (Belsley, Kuh, and Welsch 1980, p. 32)
-	\item influence on precision of estimates: CovRatio and CovTrace
-	\item influence on fitted and predicted values: PRESS residual, PRESS statistic (Allen 1974), DFFITS (Belsley, Kuh, and Welsch 1980, p. 15)
-	\item outlier properties: internally and externally studentized residuals, leverage
-\end{itemize}
-%For linear models for uncorrelated data, it is not necessary to refit the model after removing a data point in order to measure the impact of an observation on the model. The change in fixed effect estimates, residuals, residual sums of squares, and the variance-covariance matrix of the fixed effects can be computed based on the fit to the full data alone. By contrast, in mixed models several important complications arise. Data points can affect not only the fixed effects but also the covariance parameter estimates on which the fixed-effects estimates depend. 
-
-Furthermore, closed-form expressions for computing the change in important model quantities might not be available.
-This section provides background material for the various influence diagnostics available with the MIXED procedure. See the section Mixed Models Theory for relevant expressions and definitions. The parameter vector  denotes all unknown parameters in the  and  matrix.
-The observations whose influence is being ascertained are represented by the set  and referred to simply as "the observations in ." The estimate of a parameter vector, such as , obtained from all observations except those in the set  is denoted . In case of a matrix , the notation  represents the matrix with the rows in  removed; these rows are collected in . If  is symmetric, then notation  implies removal of rows and columns. The vector  comprises the responses of the data points being removed, and  is the variance-covariance matrix of the remaining observations. When , lowercase notation emphasizes that single points are removed, such as .
-
-\newpage
-
-
-%------------------------------------------------------------%
-
-		\section{A Procedure for Quantifying Influence}  %1.1.6
-		
-		
-		The basic procedure for quantifying influence is simple:
-		
-		\begin{enumerate}
-			\item Fit the model to the data and obtain estimates of all parameters.
-			\item Remove one or more data points from the analysis and compute updated estimates of model parameters.
-			\item Based on full- and reduced-data estimates, contrast quantities of interest to determine how the absence
-			of the observations changes the analysis.
-		\end{enumerate}
-		We use the subscript (U) to denote quantities obtained without the observations in the set U. For example,
-		%βb
-		(U) denotes the fixed-effects “\textit{\textbf{leave-U-out}}” estimates. Note that the set U can contain multiple observations.
-		
-		
-		%===================================================================================
-		If the global measure suggests that the points in U are influential, you should next determine the nature of
-		that influence. In particular, the points can affect
-		\begin{itemize}
-			\item the estimates of fixed effects
-			\item the estimates of the precision of the fixed effects
-			\item the estimates of the covariance parameters
-			\item the estimates of the precision of the covariance parameters
-			\item fitted and predicted values
-		\end{itemize}
-		
-		It is important to further decompose the initial finding to determine whether data points are actually troublesome.
-		Simply because they are influential “somehow”, should not trigger their removal from the analysis or
-		a change in the model. For example, if points primarily affect the precision of the covariance parameters
-		without exerting much influence on the fixed effects, then their presence in the data may not distort hypothesis
-		tests or confidence intervals about $\beta$.
-		%They will only do so if your inference depends on an estimate of the
-		%precision of the covariance parameter estimates, as is the case for the Satterthwaite and Kenward-Roger
-		%degrees of freedom methods and the standard error adjustment associated with the DDFM=KR option.
+	\section{Introduction to Influence analysis} %1.7
+	Model diagnostic techniques determine whether or not the distributional assumptions are satisfied, and to assess the influence of unusual observations. In classical linear models model diagnostics have been become a required part of any statistical analysis, and the methods are commonly available in statistical packages and standard textbooks on applied regression. However it has been noted by several papers that model diagnostics do not often accompany LME model analyses.
+	
+	For linear models for uncorrelated data, it is not necessary to refit the model after removing a data point in order to measure the impact of an observation on the model. The change in fixed effect estimates, residuals, residual sums of squares, and the variance-covariance matrix of the fixed effects can be computed based on the fit to the full data alone. By contrast, in mixed models several important complications arise. Data points can affect not only the fixed effects but also the covariance parameter estimates on which the fixed-effects estimates depend. 
+	
 		
 		%================================================ %
 		\subsection{Importance of Influence}
 		The influence of an observation can be thought of in terms of how much the predicted values for other observations would differ if the observation in question were not included in the model fit.
+		
 		Likelihood based estimation methods, such as ML and REML, are sensitive to unusual observations. Influence diagnostics are formal techniques that assess the influence of observations on parameter estimates for $\beta$ and $\theta$. A common technique is to refit the model with an observation or group of observations omitted. The basic procedure for quantifying influence is simple as follows:
 		
 		
@@ -861,10 +563,8 @@ The observations whose influence is being ascertained are represented by the set
 			\item Based on full- and reduced-data estimates, contrast quantities of interest to determine how the absence of the observations changes the analysis.
 		\end{enumerate}	
 		
-		%http://support.sas.com/documentation/cdl/en/statug/63033/HTML/default/viewer.htm#statug_mixed_sect024.htm
-		
-		
-		%===================================================================================================
+		%http://support.sas.com/documentation/cdl/en/statug/63033/HTML/default/viewer.htm#statug_mixed_sect024.htm	
+
 		\section{Influence Diagnostics: Basic Idea and Statistics} %1.1.2
 		Broadly defined, ``\textit{influence}” is understood as the ability of a single or multiple data points, through their presence or absence in the data, to alter important aspects of the analysis, yield qualitatively different inferences, or
 		violate assumptions of the statistical model. 
@@ -951,7 +651,116 @@ The observations whose influence is being ascertained are represented by the set
 		% The methods are illustrated using examples.
 		
 		
+
+\section{Influence analysis for LME Models} %1.7
+
+
+Model diagnostic techniques, well established for classical models, have since been adapted for use with linear mixed effects models. Diagnostic techniques for LME models are inevitably more difficult to implement, due to the increased complexity.
+
+Likelihood based estimation methods, such as ML and REML, are sensitive to unusual observations. Influence diagnostics are formal techniques that assess the influence of observations on parameter estimates for $\beta$ and $\theta$. A common technique is to refit the model with an observation or group of observations omitted.
+
+\citet{west} examines a group of methods that examine various aspects of influence diagnostics for LME models.
+For overall influence, the most common approaches are the `likelihood distance' and the `restricted likelihood distance'.
+
+
+%---------------------------------------------------------------------------%
+\section{Influence Diagnostics: Basic Idea and Statistics} %1.1.2
+%http://support.sas.com/documentation/cdl/en/statug/63033/HTML/default/viewer.htm#statug_mixed_sect024.htm
+
+The general idea of quantifying the influence of one or more observations relies on computing parameter estimates based on all data points, removing the cases in question from the data, refitting the model, and computing statistics based on the change between full-data and reduced-data estimation. 
+
+
+Influence statistics can be coarsely grouped by the aspect of estimation that is their primary target:
+\begin{itemize}
+	\item overall measures compare changes in objective functions: (restricted) likelihood distance (Cook and Weisberg 1982, Ch. 5.2)
+	\item influence on parameter estimates: Cook’s  (Cook 1977, 1979), MDFFITS (Belsley, Kuh, and Welsch 1980, p. 32)
+	\item influence on precision of estimates: CovRatio and CovTrace
+	\item influence on fitted and predicted values: PRESS residual, PRESS statistic (Allen 1974), DFFITS (Belsley, Kuh, and Welsch 1980, p. 15)
+	\item outlier properties: internally and externally studentized residuals, leverage
+\end{itemize}
+%For linear models for uncorrelated data, it is not necessary to refit the model after removing a data point in order to measure the impact of an observation on the model. The change in fixed effect estimates, residuals, residual sums of squares, and the variance-covariance matrix of the fixed effects can be computed based on the fit to the full data alone. By contrast, in mixed models several important complications arise. Data points can affect not only the fixed effects but also the covariance parameter estimates on which the fixed-effects estimates depend. 
+
+Furthermore, closed-form expressions for computing the change in important model quantities might not be available.
+This section provides background material for the various influence diagnostics available with the MIXED procedure. See the section Mixed Models Theory for relevant expressions and definitions. The parameter vector  denotes all unknown parameters in the  and  matrix.
+The observations whose influence is being ascertained are represented by the set  and referred to simply as "the observations in ." The estimate of a parameter vector, such as , obtained from all observations except those in the set  is denoted . In case of a matrix , the notation  represents the matrix with the rows in  removed; these rows are collected in . If  is symmetric, then notation  implies removal of rows and columns. The vector  comprises the responses of the data points being removed, and  is the variance-covariance matrix of the remaining observations. When , lowercase notation emphasizes that single points are removed, such as .
+
+\newpage
+
+
+%------------------------------------------------------------%
+
+		\section{A Procedure for Quantifying Influence}  %1.1.6
 		
+		
+		The basic procedure for quantifying influence is simple:
+		
+		\begin{enumerate}
+			\item Fit the model to the data and obtain estimates of all parameters.
+			\item Remove one or more data points from the analysis and compute updated estimates of model parameters.
+			\item Based on full- and reduced-data estimates, contrast quantities of interest to determine how the absence
+			of the observations changes the analysis.
+		\end{enumerate}
+		We use the subscript $(U)$ to denote quantities obtained without the observations in the set U. For example,
+		%βb
+		(U) denotes the fixed-effects “\textit{\textbf{leave-U-out}}” estimates. Note that the set U can contain multiple observations.
+		
+		
+		%===================================================================================
+		If the global measure suggests that the points in U are influential, you should next determine the nature of
+		that influence. In particular, the points can affect
+		\begin{itemize}
+			\item the estimates of fixed effects
+			\item the estimates of the precision of the fixed effects
+			\item the estimates of the covariance parameters
+			\item the estimates of the precision of the covariance parameters
+			\item fitted and predicted values
+		\end{itemize}
+		
+		It is important to further decompose the initial finding to determine whether data points are actually troublesome.
+		Simply because they are influential “somehow”, should not trigger their removal from the analysis or
+		a change in the model. For example, if points primarily affect the precision of the covariance parameters
+		without exerting much influence on the fixed effects, then their presence in the data may not distort hypothesis
+		tests or confidence intervals about $\beta$.
+		%They will only do so if your inference depends on an estimate of the
+		%precision of the covariance parameter estimates, as is the case for the Satterthwaite and Kenward-Roger
+		%degrees of freedom methods and the standard error adjustment associated with the DDFM=KR option.
+
+		
+		
+		%===================================================================================================
+
+\section{Measures of Influence} 
+% DFBETA
+% DFFITS
+% PRESS
+
+The impact of an observation on a regression fitting can be determined by the difference between the estimated regression coefficient of a model with all observations and the estimated coefficient when the particular observation is deleted. DFBETA and DFFITS are well known measures of influence. The measure DFBETA is the studentized value of this difference. DFFITS is a statistical measured designed to a show how influential an observation is in a statistical model. DFFITS is closely related to the studentized residual.
+
+\begin{eqnarray}
+DFBETA_{a} &=& \hat{\beta} - \hat{\beta}_{(a)} \\
+&=& B(Y-Y_{\bar{a}}
+\\ DFFITS = {\widehat{y_i} -
+	\widehat{y_{i(k)}} \over s_{(k)} \sqrt{h_{ii}}} 
+\end{eqnarray}
+
+The prediction residual sum of squares (PRESS) is an value associated with this calculation. When fitting linear models, PRESS can be used as a criterion for model selection, with smaller values indicating better model fits.
+\begin{displaymath}
+PRESS = \sum(y-y^{(k)})^2
+\end{displaymath}
+%	
+%	\begin{itemize}
+%		\item $e_{-Q} = y_{Q} - x_{Q}\hat{\beta}^{-Q}$
+%		\item $PRESS_{(U)} = y_{i} - x\hat{\beta}_{(U)}$
+%	\end{itemize}
+%	
+
+% http://stats.stackexchange.com/questions/22161/how-to-read-cooks-distance-plots
+% Cook's distance refers to how far, on average, predicted y-values will move if the observation in question is dropped from the data set. 
+%======================================================================================================%
+
+
+
+
 	\section{Influence Statistics for LME models} %1.1.4
 	Influence statistics can be coarsely grouped by the aspect of estimation that is their primary target:
 	\begin{itemize}
@@ -1012,20 +821,7 @@ The observations whose influence is being ascertained are represented by the set
 	The Andrews-Pregibon statistic $AP_{i}$ is a measure of influence based on the volume of the confidence ellipsoid.
 	The larger this statistic is for observation $i$, the stronger the influence that observation will have on the model fit.
 	
-	
-	
-	
-	\subsubsection{Random Effects}
-	
 
-	
-	
-	
-
-	
-	
-	
-	
 	\subsection{Cook's Distance}
 	\begin{itemize}
 		\item For variance components $\gamma$: $CD(\gamma)_i$,
@@ -1046,11 +842,6 @@ The observations whose influence is being ascertained are represented by the set
 	
 
 	
-	\section{Introduction to Influence analysis} %1.7
-	Model diagnostic techniques determine whether or not the distributional assumptions are satisfied, and to assess the influence of unusual observations. In classical linear models model diagnostics have been become a required part of any statistical analysis, and the methods are commonly available in statistical packages and standard textbooks on applied regression. However it has been noted by several papers that model diagnostics do not often accompany LME model analyses.
-	For linear models for uncorrelated data, it is not necessary to refit the model after removing a data point in order to measure the impact of an observation on the model. The change in fixed effect estimates, residuals, residual sums of squares, and the variance-covariance matrix of the fixed effects can be computed based on the fit to the full data alone. By contrast, in mixed models several important complications arise. Data points can affect not only the fixed effects but also the covariance parameter estimates on which the fixed-effects estimates depend. 
-	
-	
 
 \section{Influence Diagnostics}
 
@@ -1062,9 +853,7 @@ The observations whose influence is being ascertained are represented by the set
 	\item[e] Outlier properties : internally and externally studentized residuals, leverage
 \end{itemize}
 
-Cook 1986 introduced methods for local influence assessment. These methods provide a powerful tool for examining perturbations in the assumption of a model, particularly the effects of local perturbations of parameters of observations. The local-influence approach to influence assessment is quite different from the case deletion approach, comparisons are of interest.
 
-\citet{Christensen} developed their global influences for the deletion of single observations in two steps: a one-step estimate for the REML (or ML) estimate of the variance components, and an ordinary case-deletion diagnostic for a weighted resgression problem (conditional on the estimated covariance matrix) for fixed effects.
 
 \citet{cook77} greatly expanded the study of residuals and influence measures. Cook's key observation was the effects of deleting each observation in turn could be computed without undue additional computational expense. Consequently deletion diagnostics have become an integral part of assessing linear models.
 
@@ -1120,18 +909,7 @@ This can only be achieved in general is by omitting observations, then refitting
 
 
 
-\section{Influence analysis for LME Models} %1.7
 
-
-Model diagnostic techniques, well established for classical models, have since been adapted for use with linear mixed effects models. Diagnostic techniques for LME models are inevitably more difficult to implement, due to the increased complexity.
-
-Likelihood based estimation methods, such as ML and REML, are sensitive to unusual observations. Influence diagnostics are formal techniques that assess the influence of observations on parameter estimates for $\beta$ and $\theta$. A common technique is to refit the model with an observation or group of observations omitted.
-
-\citet{west} examines a group of methods that examine various aspects of influence diagnostics for LME models.
-For overall influence, the most common approaches are the `likelihood distance' and the `restricted likelihood distance'.
-
-
-%---------------------------------------------------------------------------%
 \section{Local Influence}
 % % Beckman, Nachtsheim and Cook (1987) 
 \citet{Beckman} applied the \index{local influence}local influence method of Cook (1986) to the analysis of the LME model.
@@ -1149,7 +927,9 @@ If the global measure suggests that the points in $U$ are influential, the natur
 
 
 
+Cook 1986 introduced methods for local influence assessment. These methods provide a powerful tool for examining perturbations in the assumption of a model, particularly the effects of local perturbations of parameters of observations. The local-influence approach to influence assessment is quite different from the case deletion approach, comparisons are of interest.
 
+\citet{Christensen} developed their global influences for the deletion of single observations in two steps: a one-step estimate for the REML (or ML) estimate of the variance components, and an ordinary case-deletion diagnostic for a weighted resgression problem (conditional on the estimated covariance matrix) for fixed effects.
 
 
 
@@ -1159,37 +939,6 @@ If the global measure suggests that the points in $U$ are influential, the natur
 
 
 %--------------------------------------------------------------------------------------------%
-\section{Measures of Influence} 
-% DFBETA
-% DFFITS
-% PRESS
-
-The impact of an observation on a regression fitting can be determined by the difference between the estimated regression coefficient of a model with all observations and the estimated coefficient when the particular observation is deleted. DFBETA and DFFITS are well known measures of influence. The measure DFBETA is the studentized value of this difference. DFFITS is a statistical measured designed to a show how influential an observation is in a statistical model. DFFITS is closely related to the studentized residual.
-
-\begin{eqnarray}
-DFBETA_{a} &=& \hat{\beta} - \hat{\beta}_{(a)} \\
-&=& B(Y-Y_{\bar{a}}
-\\ DFFITS = {\widehat{y_i} -
-	\widehat{y_{i(k)}} \over s_{(k)} \sqrt{h_{ii}}} 
-\end{eqnarray}
-
-The prediction residual sum of squares (PRESS) is an value associated with this calculation. When fitting linear models, PRESS can be used as a criterion for model selection, with smaller values indicating better model fits.
-\begin{displaymath}
-PRESS = \sum(y-y^{(k)})^2
-\end{displaymath}
-%	
-%	\begin{itemize}
-%		\item $e_{-Q} = y_{Q} - x_{Q}\hat{\beta}^{-Q}$
-%		\item $PRESS_{(U)} = y_{i} - x\hat{\beta}_{(U)}$
-%	\end{itemize}
-%	
-
-% http://stats.stackexchange.com/questions/22161/how-to-read-cooks-distance-plots
-% Cook's distance refers to how far, on average, predicted y-values will move if the observation in question is dropped from the data set. 
-%======================================================================================================%
-
-
-
 
 	\section{Iterative and non-iterative influence analysis}
 	\citet{schabenberger} highlights some of the issue regarding implementing mixed model diagnostics.
@@ -1358,6 +1107,43 @@ challenges that prompt us to reexamine the traditional ideas of influence and re
 %	
 %	
 %====================================================================================================================%
+\section{Non-iterative Update Procedures}
+
+
+The change in the fixed-effects estimates following removal of the observations in $U$ is
+\[ \hat{\beta} - \hat{\beta}_{(U)} = \boldsymbol{\Omega}\boldsymbol{X}\boldsymbol{V}
+\left( \boldsymbol{U} \boldsymbol{P}\boldsymbol{U}\right)   \]
+\subsubsection{Residual variance}
+When $\sigma^2$ is profiled out of the marginal variance-covariance matrix, a closed-form estimate of $\sigma^2$ that is only based on only the remaining observation
+an be computed as follows, provided $\boldsymbol{V} = \boldsymbol{V}(\boldsymbol{\theta}) $
+[cite: Hurtado 1993]
+
+\subsubsection{Likelihood Distances}
+For noniterative methods the following computational devices are used to compute (restricted) likelihood distances provided that the residual variance
+$\sigma^2$ is profiled.
+%-----------------------------------------------------------------------------------------%
+\subsection{Miscellaneous}
+
+
+\subsubsection{Mean Square Prediction Error}
+\begin{equation}
+MSPR = \frac{\sum (y_{i}-\hat{y}_{i})^2}{n^*}
+\end{equation}
+
+
+\subsubsection{Effects on parameter estimate}
+Cook's Distance. $CD$.
+
+\subsubsection{Effects on the fitted and predicted values}
+\citet{schabenberger} descibes the use of the $PRESS$ and $DFFITS$ in determining influence.
+
+The $PRESS$ residual is the difference between the observed value and the predicted (marginal)value.
+\begin{equation}
+\hat{e_{i}}_{(U)} = y_{i} - x\hat{\beta}_{(U)}
+\end{equation}
+%-----------------------------------------------------------------------------------------%
+
+
 	\section{Christensen et al}         %-Case Deletion section 6.3
 	Christensen, Pearson and Johnson (1992) (hereafter CPJ) studied
 	case deletion diagnostics, in particular the analog of Cooks
@@ -1386,20 +1172,7 @@ challenges that prompt us to reexamine the traditional ideas of influence and re
 	%--------------------------------------------------------------%
 	
 	
-	\section{Deletion Diagnostics}
-	
-	
-	Since the pioneering work of Cook in 1977, deletion measures have been applied to many statistical models for identifying influential observations.
-	
-	Deletion diagnostics provide a means of assessing the influence of an observation (or groups of observations) on inference on the estimated parameters of LME models.
-	
-	Data from single individuals, or a small group of subjects may influence non-linear mixed effects model selection. Diagnostics routinely applied in model building may identify such individuals, but these methods are not specifically designed for that purpose and are, therefore, not optimal. We describe two likelihood-based diagnostics for identifying individuals that can influence the choice between two competing models.
-	%
-	% Likelihood-Based Diagnostics for Influential Individuals in Non-Linear Mixed Effects Model Selection
-	
-	Deletion diagnostics are not commonly used with the LME models, as
-	yet.
-	
+
 	
 	
 \section{Deletion Diagnostics}
@@ -1464,13 +1237,7 @@ The computation of case deletion diagnostics in the classical model is made simp
 	'observation-diagnostics'. For multiple observations, Preisser
 	describes the diagnostics as 'cluster-deletion' diagnostics.
 	
-	
-	\subsection{Case-Deletion results for Variance components}
-	\citet{Christensen}examines case deletion results for estimates of
-	the variance components, proposing the use of one-step estimates
-	of variance components for examining case influence. The method
-	describes focuses on REML estimation, but can easily be adapted to
-	ML or other methods.
+
 	
 	
 	%--------------------------------------------------------------------------section 5.2---%
@@ -1480,6 +1247,11 @@ The computation of case deletion diagnostics in the classical model is made simp
 \citet{preisser} describes two type of diagnostics. When the set consists of only one observation, the type is called
 `\textit{observation-diagnostics}'. For multiple observations, Preisser describes the diagnostics as `\textit{cluster-deletion}' diagnostics. When applied to LME models, such update formulas are available only if one assumes that the covariance parameters are not affected by the removal of the observation in question. However, this is rarely a reasonable assumption.
 
+	\citet{Christensen}examines case deletion results for estimates of
+	the variance components, proposing the use of one-step estimates
+	of variance components for examining case influence. The method
+	describes focuses on REML estimation, but can easily be adapted to
+	ML or other methods.
 %\subsubsection{Effects on fitted and predicted values}
 %\begin{equation}
 %\hat{e_{i}}_{(U)} = y_{i} - x\hat{\beta}_{(U)}
@@ -1660,95 +1432,6 @@ If $V_{ij}$ denotes the element in row $i$, column $j$ of $\boldsymbol{V}^{-1}$,
 	\widehat{y_{i(k)}} \over s_{(k)} \sqrt{h_{ii}}} \end{displaymath}
 
 
-%-----------------------------------------------------------------------------------------%
-\section{Likelihood Distance} %1.11
-The \index{likelihood distance} likelihood distance is a global, summary measure, expressing the joint influence of the observations in the set $U$ on all parameters in $\phi$  that were subject to updating. 
-
-
-The likelihood distance gives the amount by which the log-likelihood of the full data changes if one were
-to evaluate it at the reduced-data estimates. The important point is that $l(\psi_{(U)})$ is not the log-likelihood
-obtained by fitting the model to the reduced data set.
-
-It is obtained by evaluating the likelihood function based on the full data set (containing all n observations) at the reduced-data estimates.
-
-
-
-
-%
-%
-%%---------------------------------------------------------- %
-%%Likelihood Displacement.
-%\[  LD(\boldsymbol{(U)})= 2[l\boldsymbol{\hat{(\phi)}} - l\boldsymbol{\hat{\phi}_\omega} ] \]
-%\[  RLD(\boldsymbol{(U)})= 2[ l_R\boldsymbol{\hat{(\phi)}} - l_R\boldsymbol{\hat{(\phi)}_\omega} ] \]
-%%	Large values indicate that $\boldsymbol{\hat{\theta}}$ and $\boldsymbol{\hat{\theta}_\omega}$ differ considerably.
-
-
-The log-likelihood function $l$ and restricted log-likelihood $l_R$ ofthe LME model.
-$\boldsymbol{\psi}$ is the collection of all parameters (i.e. the fixed effects $\boldsymbol{\beta}$ and the
-covariance parameters $\boldsymbol{\theta}$).
-
-Reduced data estimates $(\boldsymbol{\psi}_{(U)})$
-\[  RLD_{(U)}  = 2\{ l_{R}(\boldsymbol{\psi}) - l_{R}(\boldsymbol{\psi}_{(U)}) \} \]
-\[  LD_{(U)}  = 2\{ l(\boldsymbol{\psi}) - l(\boldsymbol{\psi}_{(U)}) \} \]
-Likelihood distance, known as likelihood displacements.
-The likelihood distance gives twice the amount by which the log likelihood of the full data changes if one were to use an estimate based on fewer data points.
-The likelihood distance is the a global summary measure of the influence of the observations in $U$ jointly on all parameters.
-
-An overall influence statistic measures the change in the objective function being minimized.
-In linear mixed models cook and Weisberg devised the Likelihood distance, known elsewhere as likelihood displacement.
-
-The likelihood distance gives the amount of data by which the log-likelihood found when using the full data sets woudld change when the data set is reduced.
-
-Importantly the value $l(\hat{\phi})_{(U)}$ is not the log-likelihood obtained from the reduced set, but the determining the likelihood function based on the full set at the reduced data estimates.
-
-The approach can be applied to ML and REML models. \citet{schabenberger} uses in notation the subscript $R$ to specify that REML models are under consideration.
-
-The likelihood distance $LD$ of observation group $U$ is given by
-\begin{equation}
-LD_{U} = 2l(\hat{\phi}) - 2l(\hat{\phi}_{(U)})
-\end{equation}
-where $l$ is the log likelihood function. If $LD_{U}$ is large then the observation group $U$ is influential on the likelihood function. The likelihood distance is a global summary measure, expressing the joint influence of the observation group $U$ on all parameters $\phi$ subject to updating.
-
-That $U$ is influential is not grounds for deletion or changing the model. Should $U$ be found to be influential, \citet{schabenberger} advises that the nature of that influence be determined. Estimates of the coefficients and precision of fixed effects, the coefficients and precision of covariance parameters, and fitted and predicted values should all be examined in light of determining that $U$ is influential.
-Influence may be exerted by $U$ on covariance parameters without affecting the fixed effects.
-
-The likelihood distance has been widely used to detect outlying observations in data analysis.
-[cite: Cook and Weisberg] suggested that the likelihood distance may be compared to a $\chi^2$ distribution for large samples.
-%-----------------------------------------------------------------------------------------%
-\section{Non-iterative Update Procedures}
-
-
-The change in the fixed-effects estimates following removal of the observations in $U$ is
-\[ \hat{\beta} - \hat{\beta}_{(U)} = \boldsymbol{\Omega}\boldsymbol{X}\boldsymbol{V}
-\left( \boldsymbol{U} \boldsymbol{P}\boldsymbol{U}\right)   \]
-\subsubsection{Residual variance}
-When $\sigma^2$ is profiled out of the marginal variance-covariance matrix, a closed-form estimate of $\sigma^2$ that is only based on only the remaining observation
-an be computed as follows, provided $\boldsymbol{V} = \boldsymbol{V}(\boldsymbol{\theta}) $
-[cite: Hurtado 1993]
-
-\subsubsection{Likelihood Distances}
-For noniterative methods the following computational devices are used to compute (restricted) likelihood distances provided that the residual variance
-$\sigma^2$ is profiled.
-%-----------------------------------------------------------------------------------------%
-\subsection{Miscellaneous}
-
-
-\subsubsection{Mean Square Prediction Error}
-\begin{equation}
-MSPR = \frac{\sum (y_{i}-\hat{y}_{i})^2}{n^*}
-\end{equation}
-
-
-\subsubsection{Effects on parameter estimate}
-Cook's Distance. $CD$.
-
-\subsubsection{Effects on the fitted and predicted values}
-\citet{schabenberger} descibes the use of the $PRESS$ and $DFFITS$ in determining influence.
-
-The $PRESS$ residual is the difference between the observed value and the predicted (marginal)value.
-\begin{equation}
-\hat{e_{i}}_{(U)} = y_{i} - x\hat{\beta}_{(U)}
-\end{equation}
 %-----------------------------------------------------------------------------------------%
 
 
@@ -2103,25 +1786,7 @@ Bivariate Analyses may be applied jointly to the both sets of data sets, e.g Mah
 
 
 
-	\section{Schabenberger}     % Case Deletion Section 4
-	
-	Standard residual and influence diagnostics for linear models can
-	be extended to linear mixed models. The dependence of
-	fixed-effects solutions on the covariance parameter estimates has
-	important ramifications in perturbation analysis. To gauge the
-	full impact of a set of observations on the analysis, covariance
-	parameters need to be updated, which requires refitting of the
-	model.
-	%---http://www.stat.purdue.edu/~bacraig/notes598S/SUGI_Paper_Schabenberger.pdf
-	
-	The conditional (subject-specific) and marginal
-	(population-averaged) formulations in the linear mixed model
-	enable you to consider conditional residuals that use the
-	estimated BLUPs of the random effects, and marginal residuals
-	which are deviations from the overall mean. Residuals using the
-	BLUPs are useful to diagnose whether the random effects components
-	in the model are specified correctly, marginal residuals are
-	useful to diagnose the fixed-effects components.
+
 \chapter{Galecki}
 \section*{Leave-One-Out Diagnostics with \texttt{lmeU}}
 Galecki et al discuss the matter of LME influence diagnostics in their book, although not into great detail.
@@ -2176,6 +1841,84 @@ For overall influence, the most common approaches are the \textit{likelihood dis
 \end{framed}
 %======================================================================================= %
 	
+\section{Likelihood Distance} %1.11
+The \index{likelihood distance} likelihood distance is a global, summary measure, expressing the joint influence of the observations in the set $U$ on all parameters in $\phi$  that were subject to updating.
+
+The likelihood distance gives the amount by which the log-likelihood of the full data changes if one were
+to evaluate it at the reduced-data estimates. The important point is that $l(\psi_{(U)})$ is not the log-likelihood
+obtained by fitting the model to the reduced data set.
+
+It is obtained by evaluating the likelihood function based on the full data set (containing all n observations) at the reduced-data estimates.
+
+The likelihood distance is a global, summary measure, expressing the joint influence of the observations in
+the set $U$ on all parameters in $\psi$  that were subject to updating.
+%------------%
+
+
+
+
+
+
+
+%------------------------------%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Complex Data
+
+
+
+\section{Likelihood Distance} %1.11
+The \index{likelihood distance} likelihood distance is a global, summary measure, expressing the joint influence of the observations in the set $U$ on all parameters in $\phi$  that were subject to updating. 
+
+
+The likelihood distance gives the amount by which the log-likelihood of the full data changes if one were
+to evaluate it at the reduced-data estimates. The important point is that $l(\psi_{(U)})$ is not the log-likelihood
+obtained by fitting the model to the reduced data set.
+
+It is obtained by evaluating the likelihood function based on the full data set (containing all n observations) at the reduced-data estimates.
+
+
+
+
+%
+%
+%%---------------------------------------------------------- %
+%%Likelihood Displacement.
+%\[  LD(\boldsymbol{(U)})= 2[l\boldsymbol{\hat{(\phi)}} - l\boldsymbol{\hat{\phi}_\omega} ] \]
+%\[  RLD(\boldsymbol{(U)})= 2[ l_R\boldsymbol{\hat{(\phi)}} - l_R\boldsymbol{\hat{(\phi)}_\omega} ] \]
+%%	Large values indicate that $\boldsymbol{\hat{\theta}}$ and $\boldsymbol{\hat{\theta}_\omega}$ differ considerably.
+
+
+The log-likelihood function $l$ and restricted log-likelihood $l_R$ ofthe LME model.
+$\boldsymbol{\psi}$ is the collection of all parameters (i.e. the fixed effects $\boldsymbol{\beta}$ and the
+covariance parameters $\boldsymbol{\theta}$).
+
+Reduced data estimates $(\boldsymbol{\psi}_{(U)})$
+\[  RLD_{(U)}  = 2\{ l_{R}(\boldsymbol{\psi}) - l_{R}(\boldsymbol{\psi}_{(U)}) \} \]
+\[  LD_{(U)}  = 2\{ l(\boldsymbol{\psi}) - l(\boldsymbol{\psi}_{(U)}) \} \]
+Likelihood distance, known as likelihood displacements.
+The likelihood distance gives twice the amount by which the log likelihood of the full data changes if one were to use an estimate based on fewer data points.
+The likelihood distance is the a global summary measure of the influence of the observations in $U$ jointly on all parameters.
+
+An overall influence statistic measures the change in the objective function being minimized.
+In linear mixed models cook and Weisberg devised the Likelihood distance, known elsewhere as likelihood displacement.
+
+The likelihood distance gives the amount of data by which the log-likelihood found when using the full data sets woudld change when the data set is reduced.
+
+Importantly the value $l(\hat{\phi})_{(U)}$ is not the log-likelihood obtained from the reduced set, but the determining the likelihood function based on the full set at the reduced data estimates.
+
+The approach can be applied to ML and REML models. \citet{schabenberger} uses in notation the subscript $R$ to specify that REML models are under consideration.
+
+The likelihood distance $LD$ of observation group $U$ is given by
+\begin{equation}
+LD_{U} = 2l(\hat{\phi}) - 2l(\hat{\phi}_{(U)})
+\end{equation}
+where $l$ is the log likelihood function. If $LD_{U}$ is large then the observation group $U$ is influential on the likelihood function. The likelihood distance is a global summary measure, expressing the joint influence of the observation group $U$ on all parameters $\phi$ subject to updating.
+
+That $U$ is influential is not grounds for deletion or changing the model. Should $U$ be found to be influential, \citet{schabenberger} advises that the nature of that influence be determined. Estimates of the coefficients and precision of fixed effects, the coefficients and precision of covariance parameters, and fitted and predicted values should all be examined in light of determining that $U$ is influential.
+Influence may be exerted by $U$ on covariance parameters without affecting the fixed effects.
+
+The likelihood distance has been widely used to detect outlying observations in data analysis.
+[cite: Cook and Weisberg] suggested that the likelihood distance may be compared to a $\chi^2$ distribution for large samples.
+%-----------------------------------------------------------------------------------------%
 \chapter{Cook's Distance}
 
 		\section{Cook's Distance for LMEs} %1.10
@@ -2321,7 +2064,7 @@ Cook (1977) greatly expanded the study of residuals and influence measures. Cook
 
 
 \subsection{Cook's Distance}
-In statistics, Cook's Distance or Cook's D is a commonly used estimate of the influence of a data point when performing least squares regression analysis.[1] In a practical ordinary least squares analysis, Cook's distance can be used in several ways: to indicate data points that are particularly worth checking for validity; to indicate regions of the design space where it would be good to be able to obtain more data points. It is named after the American statistician R. Dennis Cook, who introduced the concept in 1977.
+In statistics, Cook's Distance or Cook's D is a commonly used estimate of the influence of a data point when performing least squares regression analysis.In a practical ordinary least squares analysis, Cook's distance can be used in several ways: to indicate data points that are particularly worth checking for validity; to indicate regions of the design space where it would be good to be able to obtain more data points. It is named after the American statistician R. Dennis Cook, who introduced the concept in 1977.
 
 
 
@@ -2444,29 +2187,6 @@ In your case the observations 7 and 16 could be considered as influential. Well,
 
 %---------------------------------------------------------------------------%
 
-\section{Likelihood Distance} %1.11
-The \index{likelihood distance} likelihood distance is a global, summary measure, expressing the joint influence of the observations in the set $U$ on all parameters in $\phi$  that were subject to updating.
-
-The likelihood distance gives the amount by which the log-likelihood of the full data changes if one were
-to evaluate it at the reduced-data estimates. The important point is that $l(\psi_{(U)})$ is not the log-likelihood
-obtained by fitting the model to the reduced data set.
-
-It is obtained by evaluating the likelihood function based on the full data set (containing all n observations) at the reduced-data estimates.
-
-The likelihood distance is a global, summary measure, expressing the joint influence of the observations in
-the set $U$ on all parameters in $\psi$  that were subject to updating.
-%------------%
-
-
-
-
-
-
-
-%------------------------------%
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Complex Data
-
-
 
 \section{Cook's Distance}
 Cooks Distance ($D_{i}$) is an overall measure of the combined impact of the $i$th case of all estimated regression coefficients. It uses the same structure for measuring the combined impact of the differences in the estimated regression coefficients when the $k$th case is deleted. $D_{(k)}$ can be calculated without fitting
@@ -2537,7 +2257,9 @@ For LME models, Cook's distance can be extended to model influence diagnostics b
 
 It is also desirable to measure the influence of the case deletions on the covariance matrix of $\hat{\beta}$.
 
-
+\newpage
+\bibliographystyle{chicago}
+\bibliography{DB-txfrbib}
 
 
 \end{document}

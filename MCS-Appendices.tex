@@ -69,9 +69,144 @@ Two LME models are fitted to the data, one using the nlme package, one with the 
 In both cases the method is characterized by a fixed effect, while there is a random effect for each subject.
 This random effect accounts for the replicate measurements associated with each subject.
 The differences between the estimate provided by the respective models are negligible, due to the simplicity of the model specification.
+%----------------------------------------------------------------------------------------------%
+\newpage
+%http://blog.minitab.com/blog/adventures-in-statistics/why-you-need-to-check-your-residual-plots-for-regression-analysis
+In the graph above, you can predict non-zero values for the residuals based on the fitted value. For example, a fitted value of 8 has an expected residual that is negative. Conversely, a fitted value of 5 or 11 has an expected residual that is positive.
+
+The non-random pattern in the residuals indicates that the deterministic portion (predictor variables) of the model is not capturing some explanatory information that is “leaking” into the residuals. The graph could represent several ways in which the model is not explaining all that is possible. 
+
+Possibilities include:
+
+\begin{itemize}
+	\item A missing variable
+	\item A missing higher-order term of a variable in the model to explain the curvature
+	\item A missing interction between terms already in the model
+\end{itemize}
 
 
+Identifying and fixing the problem so that the predictors now explain the information that they missed before should produce a good-looking set of residuals!
 
+In addition to the above, here are two more specific ways that predictive information can sneak into the residuals:
+
+The residuals should not be correlated with another variable. If you can predict the residuals with another variable, that variable should be included in the model. In Minitab’s regression, you can plot the residuals by other variables to look for this problem.
+
+\noindent \textbf{Autocorrelation} \\
+Adjacent residuals should not be correlated with each other (\textbf{autocorrelation}). If you can use one residual to predict the next residual, there is some predictive information present that is not captured by the predictors. Typically, this situation involves time-ordered observations. For example, if a residual is more likely to be followed by another residual that has the same sign, adjacent residuals are positively correlated. You can include a variable that captures the relevant time-related information, or use a time series analysis. 
+
+In Minitab’s regression, you can perform the \textbf{\textit{Durbin-Watson} }test to test for autocorrelation.
+\newpage
+	\section{Chapter Overview}
+	\section{Overview}
+	\begin{enumerate}
+		\item Extending deletion diagnostics to LMEs
+		\item Christensen et al
+		\item Haslett hayes
+		\item Schabenberger
+		\item Tewomir
+	\end{enumerate}
+	
+	\begin{enumerate}
+		\item Residual Diagnostics
+		\begin{enumerate}
+			\item Marginal and Conditional Diagnostics
+			\item Scaled Residuals
+		\end{enumerate}
+		
+		\item Influence Diagnostics
+		\begin{enumerate}
+			\item Underlying Concepts
+			\item Managing the Covariance Parameters
+			\item Predicted Values, PRESS Residual and the PRESS Statistic
+			\item Leverage
+			\item Internally and Externally Studentized Residuals
+			\item DFFITs and MDFFITs
+			\item Covariance Ratio and Trace
+			\item Likelihood Distance
+			\item Non-iterative Update Procedures
+		\end{enumerate}
+	\end{enumerate}
+	\newpage
+	
+	\subsection{Residual}
+Residual (or error) represents unexplained (or residual) variation after fitting a regression model. It is the difference (or left over) between the observed value of the variable and the value suggested by the regression model.
+
+
+%------------------------- %
+
+The difference between the observed value of the dependent variable (y) and the predicted value (ŷ) is called the residual (e). Each data point has one residual.
+
+Residual = Observed value - Predicted value 
+\[e = y - \hat{y} \]
+
+Both the sum and the mean of the residuals are equal to zero. That is, Σ e = 0 and e = 0.
+
+%--------------------------------- %
+
+\subsection{Residual Plots}
+A residual plot is a graph that shows the residuals on the vertical axis and the independent variable on the horizontal axis. If the points in a residual plot are randomly dispersed around the horizontal axis, a linear regression model is appropriate for the data; otherwise, a non-linear model is more appropriate.
+
+Below the table on the left shows inputs and outputs from a simple linear regression analysis, and the chart on the right displays the residual (e) and independent variable (X) as a residual plot.
+
+%x	60	70	80	85	95
+%y	70	65	70	95	85
+%ŷ	65.411	71.849	78.288	81.507	87.945
+%e	4.589	-6.849	-8.288	13.493	-2.945
+% Image of residual plot
+\newpage
+The residual plot shows a fairly random pattern - the first residual is positive, the next two are negative, the fourth is positive, and the last residual is negative. This random pattern indicates that a linear model provides a decent fit to the data.
+
+Below, the residual plots show three typical patterns. The first plot shows a random pattern, indicating a good fit for a linear model. The other plot patterns are non-random (U-shaped and inverted U), suggesting a better fit for a non-linear model.
+
+
+%Random pattern	Non-random: U-shaped	Non-random: Inverted U
+In the next lesson, we will work on a problem, where the residual plot shows a non-random pattern. And we will show how to "transform" the data to use a linear model with nonlinear data.
+%----------------------------- %
+\subsection{Residual}
+A residual (or fitting error), on the other hand, is an observable estimate of the unobservable statistical error. Consider the previous example with men's heights and suppose we have a random sample of n people. The sample mean could serve as a good estimator of the population mean. Then we have:
+
+The difference between the height of each man in the sample and the unobservable population mean is a statistical error, whereas
+The difference between the height of each man in the sample and the observable sample mean is a residual.
+Note that the sum of the residuals within a random sample is necessarily zero, and thus the residuals are necessarily not independent. The statistical errors on the other hand are independent, and their sum within the random sample is almost surely not zero.
+
+%------------------------------- %
+
+Other uses of the word "error" in statistics: 
+
+The use of the term "error" as discussed in the sections above is in the sense of a deviation of a value from a hypothetical unobserved value. At least two other uses also occur in statistics, both referring to observable prediction errors:
+
+\begin{itemize}
+	\item Mean square error or mean squared error (abbreviated MSE) and root mean square error (RMSE) refer to the amount by which the values predicted by an estimator differ from the quantities being estimated (typically outside the sample from which the model was estimated).
+	
+	\item 
+	Sum of squared errors, typically abbreviated SSE or SSe, refers to the residual sum of squares (the sum of squared residuals) of a regression; this is the sum of the squares of the deviations of the actual values from the predicted values, within the sample used for estimation. Likewise, the sum of absolute errors (SAE) refers to the sum of the absolute values of the residuals, which is minimized in the least absolute deviations approach to regression.
+	
+\end{itemize}
+
+	%=================================================== %
+	% http://www.ime.usp.br/~jmsinger/MAE0610/Mixedmodelresiduals.pdf
+	
+	Cox and Snell (1968, JRSS-B): general definition of residuals for
+	models with single source of variability
+	Hilden-Minton (1995, PhD thesis UCLA), Verbeke and Lesaffre
+	(1997, CSDA) or Pinheiro and Bates (2000, Springer): extension to
+	define three types of residuals that accommodate the extra source of
+	variability present in linear mixed models, namely:
+	
+	i) Marginal residuals, 
+	%bξ = y − X\hat{\beta} = \hat{M}^{-1}\hat{Q}y ,
+	
+	predictors of marginal errors, 
+	
+	%ξ = y − E[y] = y − X\beta = Zb + e
+	
+	ii) Conditional residuals, 
+	\[be = y − X\hat{\beta} − Zbb = \hat{\sigma}Q\hat{y}\] , predictors of
+	conditional errors 
+	\[e = y − E[y|b] = y − X\beta − Zb\]
+	
+	iii) BLUP, Zbb, predictors of random effects,
+	\[ Zb = E[y|b] − E[y]\]
 \chapter{Fitting LME Models}
 %\subsection{Overview of R implementations}
 Further to previous material, an appraisal of the current state of development for statistical software for fitting for LME models, particularly for \texttt{nlme} and \texttt{lme4} fitted models.
@@ -100,7 +235,11 @@ With regards to \texttt{nlme}, the package is now maintained by the \texttt{R} c
 Also, the accompanying \texttt{R} package, nlmeU package is under current development, with a version being released $0.70-3$.
 
 
-\section{Fitting Models with nlme R package}
+
+\section{Studentization}
+In statistics, a studentized residual is the quotient resulting from the division of a residual by an estimate of its standard deviation. Typically the standard deviations of residuals in a sample vary greatly from one data point to another even when the errors all have the same standard deviation, particularly in regression analysis; thus it does not make sense to compare residuals at different data points without first studentizing. It is a form of a Student's t-statistic, with the estimate of error varying between points.
+
+This is an important technique in the detection of outliers. It is named in honor of William Sealey Gosset, who wrote under the pseudonym Student, and dividing by an estimate of scale is called studentizing, in analogy with standardizing and normalizing: see Studentization.
 
 %-------------------------------------------------------------------------------------------------------------------------------------%
 \section{Fitting Models with the LME4 R package}
@@ -272,7 +411,18 @@ properties in the standard linear models for independent data.
 Residuals that are scaled by the estimated variances of the responses are referred to as Pearson-type residuals.
 Standardization: \[ \frac{\hat{e}_i}{\sqrt{v_i}}\]
 Studentization \[ \frac{\hat{e}_i}{\sqrt{\hat{v}_i}}\]
-\chapter{Appendices}
+	\section{Confounded Residuals}
+	Hilden-Minton (1995, PhD thesis, UCLA): residual is pure for a specific type of error if it depends only on the fixed components and
+	on the error that it is supposed to predict	Residuals that depend on other types of errors are called \textit{\textbf{confounded
+			residuals}}
+	
+	\chapter{Appendices}
+
+\section{Diagnostics: Covariance Parameters} %1.5
+The unknown variance elements are referred to as the covariance parameters and collected in the vector $\theta$.
+% - where is this coming from?
+% - where is it used again?
+% - Has this got anything to do with CovTrace etc?
 	\section{Haslett Hayes}                %-Case Deletion section 3
 	
 	For fixed effect linear models with correlated error structure
@@ -3217,9 +3367,7 @@ compute an estimate for $\boldsymbol{V}$ and then compute the projector matrix $
 
 \citet{Zewotir} remarks that $\boldsymbol{D}$ is a block diagonal with the $i-$th block being $u \boldsymbol{I}$
 
-\newpage
-\bibliographystyle{chicago}
-\bibliography{DB-txfrbib}
+
 
 
 	\chapter{LME Likelihood}
