@@ -134,7 +134,144 @@ The key issue is that \texttt{nlme} allows for the particular specification of R
 The \texttt{lme4} package does not allow for Roy's Model, for reasons that will identified shortly.
 To advance the ideas that eminate from Roys' paper, one is required to use the \texttt{nlme} context. However, to take advantage of the infrastructure already provided for \texttt{lme4} models, one may change the research question away from that of Roy's paper. 
 To this end, an exploration of what textbf{influence.ME} can accomplished is merited.
+	%===================================================================================================%
+%-----------------------------------------------------------------------------------------%
+\subsection{Studentized Residuals}
+Standardization is not possible in practice. Studentized residuals are residuals divided by the estimated standard estimation.
+[Gregoire,Schabenberger, Barrett (1995)]
 
+\[\boldsymbol{r}_{m} = \boldsymbol{Y} -  \boldsymbol{X} \boldsymbol{\hat{\beta}} \]
+
+\[\boldsymbol{r}_{c} = \boldsymbol{Y} -  \boldsymbol{X} \boldsymbol{\hat{\beta}} -  \boldsymbol{Z} \boldsymbol{\hat{\gamma}}\]
+
+For the individual observation the raw studentized and pearson type residuals are computed as follows:
+\[r_{mi} =Y_{i} -X^{\prime} \boldsymbol{\hat{\beta}}\]
+
+\[r_{ci} = r_{mi} - Y_{i} - z_{i}^{\prime} \boldsymbol{\hat{\gamma}}\]
+
+
+	\subsection{Residuals in the Blood Data Example}
+	The fitted model used in the Blood data example, \texttt{JS.roy1}, was fitted using the \texttt{lme()} function from the nlme package, and as such, is stored as an \texttt{lme} object. The \texttt{residual} functions extracts residuals of a fitted LME model, depending on the type of residual required.
+	
+	For an lme object, the residuals at level $i$ are obtained by subtracting the fitted levels at that level from the response vector (and dividing by the estimated within-group standard error, if \texttt{type="pearson"}). The Pearson residual is the raw residual divided by the square root of the variance function (here, the Within-group standard error for both methods, 6.11 and 9.11 respectively). The fitted values at level $i$ are obtained by adding together the population fitted values (based only on the fixed effects estimates) and the estimated contributions of the random effects to the fitted values at grouping levels less or equal to $i$.
+	
+	\begin{description}
+		\item["\texttt{response}"]: the “raw” residuals (\textit{observed - fitted}) are used. This is the default option.
+		\item["\texttt{pearson}"]: the standardized residuals (raw residuals divided by the corresponding standard errors) are used; 
+		\item["\texttt{normalized}"]: the normalized residuals (standardized residuals pre-multiplied by the inverse square-root factor of the estimated error correlation matrix) are used.
+	\end{description}
+	
+	\begin{framed}
+		\begin{verbatim}
+		data.frame( response = resid(JS.roy1, type = "response"), 
+		pearson  = resid(JS.roy1, type = "pearson"), 
+		normalized = resid(JS.roy1, type = "normalized") )
+		\end{verbatim}
+	\end{framed}
+	
+	\begin{verbatim}
+	response      pearson    normalized
+	1    -4.65805902 -0.761587227 -0.7615872269
+	2    -0.88701342 -0.145025661  0.0776238081
+	3    -5.16580898 -0.844603753 -0.8446037530
+	4     2.29041830  0.374480726  0.6450898404
+	5     7.87508366  1.287567009  1.2875670086
+	6    -6.57048659 -1.074266908 -1.5090772378
+	...........................................
+	\end{verbatim}
+	For the $J$ observations, the variance is 6.116252 whereas for the $S$ observations, the denominator is 9.118144. (with the expected ratio of  1.490806)
+	
+	
+	\begin{framed}
+		\begin{verbatim}
+		> pearson %>%
+		+   as.numeric %>% 
+		+   matrix(nrow=85) %>%
+		+   round(4) 
+		[,1]    [,2]    [,3]    [,4]    [,5]    [,6]
+		[1,] -0.7616  0.2194  0.3829 -0.2983  0.3597 -0.0790
+		[2,] -0.1450  0.1820 -0.1450 -0.5014  0.1567  0.2663
+		[3,] -0.8446  0.4634  0.1364 -0.1630 -0.2727  0.1660
+		[4,]  0.3745 -0.2795 -0.2795 -0.2658 -0.2658  0.6115
+		[5,]  1.2876 -0.6744 -0.6744  0.8935 -0.0935 -0.8612
+		[6,] -1.0743  1.8687 -0.7473 -0.0383  0.2908 -0.3673
+		...........................................
+		
+		\end{verbatim}
+	\end{framed}
+	
+	We can plot the residuals against the fitted values, to assess the assumption of constant variance. 
+	\begin{framed}
+		\begin{verbatim}
+		# standardized residuals versus fitted values 
+		plot(JS.roy1, resid(., type = "pearson") ~ fitted(.) , 
+		abline = 0, id = 0.05)
+		\end{verbatim}
+	\end{framed}
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.9\linewidth]{images/Residuals-JS-Roy}
+		\caption{}
+		\label{fig:Residuals-JS-Roy}
+	\end{figure}
+	\subsection{Residual Plots}
+	A residual plot is a graph that shows the residuals on the vertical axis and the independent variable on the horizontal axis. If the points in a residual plot are randomly dispersed around the horizontal axis, a linear regression model is appropriate for the data; otherwise, a non-linear model is more appropriate.
+	
+	\begin{framed}
+		\begin{verbatim}
+		par(mfrow=c(1,2))
+		qqnorm((resid(JS.roy1)[1:255]),
+		pch="*",col="red",
+		ylim=c(-40,40),
+		main="Method J")
+		qqline(resid(JS.roy1)[1:255],col="blue")
+		qqnorm((resid(JS.roy1)[256:510]),
+		pch="*",col="red",
+		ylim=c(-40,40),
+		main="Method S")
+		qqline(resid(JS.roy1)[256:510],col="blue")
+		par(mfrow=c(1,1))
+		\end{verbatim}	
+	\end{framed}
+	
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=1.1\linewidth]{images/Resid-newplot2}
+		\caption{}
+		\label{fig:Resid-newplot2}
+	\end{figure}
+	
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.9\linewidth]{images/ResidPlot3}
+		\label{fig:ResidPlot3}
+	\end{figure}
+	
+	This code will allow you to make QQ plots for each level of the random effects.  LME models assume that not only the within-cluster residuals are normally distributed, but that each level of the random effects are as well. Depending on the model, you can vary the level from 0, 1, 2 and so on
+	\begin{framed}
+		\begin{verbatim}
+		qqnorm(JS.roy1, ~ranef(.))
+		
+		# 	qqnorm(JS.roy1, ~ranef(.,levels=1)
+		\end{verbatim}
+	\end{framed}
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.9\linewidth]{images/ResidPlot2}
+		\caption{}
+		\label{fig:ResidPlot2}
+	\end{figure}	
+\section{Residual Diagnostics}
+
+Consider a residual vector of the form $\hat{e} = \boldsymbol{PY} $, where $\boldsymbol{P}$ is a projection matrix, possibly an oblique projector.
+External studentization uses an estimate of $Var$ that does not involve the $i$th observation.
+Externally studentized residuals are often preferred over studentized residuals because they have well known distributional
+properties in the standard linear models for independent data.
+Residuals that are scaled by the estimated variances of the responses are referred to as Pearson-type residuals.
+Standardization: \[ \frac{\hat{e}_i}{\sqrt{v_i}}\]
+Studentization \[ \frac{\hat{e}_i}{\sqrt{\hat{v}_i}}\]
 \chapter{Appendices}
 	\section{Haslett Hayes}                %-Case Deletion section 3
 	
@@ -2443,6 +2580,515 @@ model provides for more insight into the behavior of the data.
 	t-value and p-values are presented. This is relevant to Roy's first test.\end{itemize}
 
 
+%---------------------------------------------------------------------------%
+
+\section{Application to MCS} %4.1
+
+Let $\hat{\beta}$ denote the least square estimate of $\beta$
+based upon the full set of observations, and let
+$\hat{\beta}^{(k)}$ denoted the estimate with the $k^{th}$ case
+excluded.
+
+
+\section{Grubbs' Data} %4.2
+
+For the Grubbs data the $\hat{\beta}$ estimated are
+$\hat{\beta}_{0}$ and $\hat{\beta}_{1}$ respectively. Leaving the
+fourth case out, i.e. $k=4$ the corresponding estimates are
+$\hat{\beta}_{0}^{-4}$ and $\hat{\beta}_{1}^{-4}$
+
+
+\begin{equation}
+Y^{-Q} = \hat{\beta}^{-Q}X^{-Q}
+\end{equation}
+
+When considering the regression of case-wise differences and averages, we write $D^{-Q} = \hat{\beta}^{-Q}A^{-Q}$
+
+
+\newpage
+
+\begin{table}[ht]
+	\begin{center}
+		\begin{tabular}{rrrrr}
+			\hline
+			& F & C & D & A \\
+			\hline
+			1 & 793.80 & 794.60 & -0.80 & 794.20 \\
+			2 & 793.10 & 793.90 & -0.80 & 793.50 \\
+			3 & 792.40 & 793.20 & -0.80 & 792.80 \\
+			4 & 794.00 & 794.00 & 0.00 & 794.00 \\
+			5 & 791.40 & 792.20 & -0.80 & 791.80 \\
+			6 & 792.40 & 793.10 & -0.70 & 792.75 \\
+			7 & 791.70 & 792.40 & -0.70 & 792.05 \\
+			8 & 792.30 & 792.80 & -0.50 & 792.55 \\
+			9 & 789.60 & 790.20 & -0.60 & 789.90 \\
+			10 & 794.40 & 795.00 & -0.60 & 794.70 \\
+			11 & 790.90 & 791.60 & -0.70 & 791.25 \\
+			12 & 793.50 & 793.80 & -0.30 & 793.65 \\
+			\hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+
+\newpage
+
+\begin{equation}
+Y^{(k)} = \hat{\beta}^{(k)}X^{(k)}
+\end{equation}
+
+Consider two sets of measurements , in this case F and C , with the vectors of case-wise averages $A$ and case-wise differences $D$ respectively. A regression model of differences on averages can be fitted with the view to exploring some characteristics of the data.
+
+When considering the regression of case-wise differences and averages, we write
+
+\begin{equation}
+D^{-Q} = \hat{\beta}^{-Q}A^{-Q}
+\end{equation}
+Let $\hat{\beta}$ denote the least square estimate of $\beta$ based upon the full set of observations, and let $\hat{\beta}^{(k)}$ denoted the estimate with the $k^{th}$ case excluded.
+
+For the Grubbs data the $\hat{\beta}$ estimated are $\hat{\beta}_{0}$ and $\hat{\beta}_{1}$ respectively. Leaving the
+fourth case out, i.e. $k=4$ the corresponding estimates are $\hat{\beta}_{0}^{-4}$ and $\hat{\beta}_{1}^{-4}$
+
+\begin{equation}
+Y^{(k)} = \hat{\beta}^{(k)}X^{(k)}
+\end{equation}
+
+Consider two sets of measurements , in this case F and C , with the vectors of case-wise averages $A$ and case-wise differences $D$ respectively. A regression model of differences on averages can be fitted with the view to exploring some characteristics of the data.
+
+\begin{verbatim}
+Call: lm(formula = D ~ A)
+
+Coefficients: (Intercept)            A
+-37.51896      0.04656
+
+\end{verbatim}
+
+
+
+
+When considering the regression of case-wise differences and averages, we write
+
+\begin{equation}
+D^{-Q} = \hat{\beta}^{-Q}A^{-Q}
+\end{equation}
+
+
+
+\subsection{Influence measures using R} %4.4
+\texttt{R} provides the following influence measures of each observation.
+
+%Influence measures: This suite of functions can be used to compute
+%some of the regression (leave-one-out deletion) diagnostics for
+%linear and generalized linear models discussed in Belsley, Kuh and
+% Welsch (1980), Cook and Weisberg (1982)
+
+
+
+\begin{table}[ht]
+	\begin{center}
+		\begin{tabular}{|c|c|c|c|c|c|c|}
+			\hline
+			& dfb.1\_ & dfb.A & dffit & cov.r & cook.d & hat \\
+			\hline
+			1 & 0.42 & -0.42 & -0.56 & 1.13 & 0.15 & 0.18 \\
+			2 & 0.17 & -0.17 & -0.34 & 1.14 & 0.06 & 0.11 \\
+			3 & 0.01 & -0.01 & -0.24 & 1.17 & 0.03 & 0.08 \\
+			4 & -1.08 & 1.08 & 1.57 & 0.24 & 0.56 & 0.16 \\
+			5 & -0.14 & 0.14 & -0.24 & 1.30 & 0.03 & 0.13 \\
+			6 & -0.00 & 0.00 & -0.11 & 1.31 & 0.01 & 0.08 \\
+			7 & -0.04 & 0.04 & -0.08 & 1.37 & 0.00 & 0.11 \\
+			8 & 0.02 & -0.02 & 0.15 & 1.28 & 0.01 & 0.09 \\
+			9 & 0.69 & -0.68 & 0.75 & 2.08 & 0.29 & 0.48 \\
+			10 & 0.18 & -0.18 & -0.22 & 1.63 & 0.03 & 0.27 \\
+			11 & -0.03 & 0.03 & -0.04 & 1.53 & 0.00 & 0.19 \\
+			12 & -0.25 & 0.25 & 0.44 & 1.05 & 0.09 & 0.12 \\
+			\hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+
+
+%-------------------------------------------------------------------------------------------------------%
+\chapter{Appendices} % Chapter 5
+%---------------------------------------------------------------------------------------------------------%
+% Appendices
+% - The Hat Matrix (5.1)
+% - Sherman Morrison Woodbury Formula (5.2)
+% -  Hat Matrix applied to MCS (5.3)
+% - Cross Validation (Updating standard deviation) (5.4)
+% - Updating Estimates (5.5)
+% - Lesaffre's paper (5.6)
+%---------------------------------------------------------------------------------------------------------%
+%------------------------------------------------------------------------%
+\newpage
+\section{The Hat Matrix} %5.1
+
+The projection matrix $H$ (also known as the hat matrix), is a
+well known identity that maps the fitted values $\hat{Y}$ to the
+observed values $Y$, i.e. $\hat{Y} = HY$.
+
+\begin{equation}
+H =\quad X(X^{T}X)^{-1}X^{T}
+\end{equation}
+
+$H$ describes the influence each observed value has on each fitted
+value. The diagonal elements of the $H$ are the `leverages', which
+describe the influence each observed value has on the fitted value
+for that same observation. The residuals ($R$) are related to the
+observed values by the following formula:
+\begin{equation}
+R = (I-H)Y
+\end{equation}
+
+The variances of $Y$ and $R$ can be expressed as:
+\begin{eqnarray}
+\mbox{var}(Y) = H\sigma^{2} \nonumber\\
+\mbox{var}(R) = (I-H)\sigma^{2}
+\end{eqnarray}
+
+Updating techniques allow an economic approach to recalculating
+the projection matrix, $H$, by removing the necessity to refit the
+model each time it is updated. However this approach is known for
+numerical instability in the case of down-dating.
+
+\section{Sherman Morrison Woodbury Formula} % 5.2
+
+The `Sherman Morrison Woodbury' Formula is a well known result in
+linear algebra;
+\begin{equation}
+(A+a^{T}B)^{-1} \quad = \quad A^{-1}-
+A^{-1}a^{T}(I-bA^{-1}a^{T})^{-1}bA^{-1}
+\end{equation}
+
+This result is highly useful for analyzing regression diagnostics,
+and for matrices inverses in general. Consider a $p \times p$
+matrix $X$, from which a row $x_{i}^{T}$ is to be added or
+deleted. \citet{CookWeisberg} sets $A = X^{T}X$, $a=-x_{i}^{T}$
+and $b=x_{i}^{T}$, and writes the above equation as
+
+\begin{equation}
+(X^{T}X \pm x_{i}x_{i}^{T})^{-1} = \quad(X^{T}X )^{-1} \mp \quad
+\frac{(X^{T}X)^{-1}(x_{i}x_{i}^{T}(X^{T}X)^{-1}}{1-x_{i}^{T}(X^{T}X)^{-1}x_{i}}
+\end{equation}
+
+The projection matrix $H$ (also known as the hat matrix), is a
+well known identity that maps the fitted values $\hat{Y}$ to the
+observed values $Y$, i.e. $\hat{Y} = HY$.
+
+\begin{equation}
+H =\quad X(X^{T}X)^{-1}X^{T}
+\end{equation}
+
+$H$ describes the influence each observed value has on each fitted value. The diagonal elements of the $H$ are the `leverages', which describe the influence each observed value has on the fitted value for that same observation. The residuals ($R$) are related to the observed values by the following formula:
+\begin{equation}
+R = (I-H)Y
+\end{equation}
+
+The variances of $Y$ and $R$ can be expressed as:
+\begin{eqnarray}
+\mbox{var}(Y) = H\sigma^{2} \nonumber\\
+\mbox{var}(R) = (I-H)\sigma^{2}
+\end{eqnarray}
+
+Updating techniques allow an economic approach to recalculating the projection matrix, $H$, by removing the necessity to refit the model each time it is updated. However this approach is known for
+numerical instability in the case of down-dating.
+
+
+
+\subsection{Hat Values for MCS regression}
+
+With A as the averages and D as the casewise differences.
+\begin{verbatim}
+fit = lm(D~A)
+\end{verbatim}
+
+\begin{displaymath}
+H = A \left(A^\top  A\right)^{-1} A^\top ,
+\end{displaymath}
+
+%------------------------------------------------------------------------%
+\newpage
+\section{Cross Validation} %5.4
+
+Cross validation techniques for linear regression employ the use `leave one out' re-calculations. In such procedures the regression coefficients are estimated for $n-1$ covariates, with the $Q^{th}$ observation omitted.
+
+Let $\hat{\beta}$ denote the least square estimate of $\beta$ based upon the full set of observations, and let
+$\hat{\beta}^{-Q}$ denoted the estimate with the $Q^{th}$ case
+excluded.
+
+
+In leave-one-out cross validation, each observation is omitted in turn, and a regression model is fitted on the rest of the data. Cross validation is used to estimate the generalization error of a given model. alternatively it can be used for model selection by determining the candidate model that has the smallest generalization error.
+
+
+Evidently leave-one-out cross validation has similarities with `jackknifing', a well known statistical technique. However cross validation is used to estimate generalization error, whereas the jackknife technique is used to estimate bias.
+
+\subsection{Cross Validation: Updating standard deviation} %5.4.1
+
+The variance of a data set can be calculated using the following formula.
+\begin{equation}
+S^{2}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-\frac{(\sum_{i=1}^{n}x_{i})^{2}}{n}}{n-1}
+\end{equation}
+
+While using bivariate data, the notation $Sxx$ and $Syy$ shall apply to the variance of $x$ and of $y$ respectively. The covariance term $Sxy$ is given by
+
+\begin{equation}
+Sxy=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-\frac{(\sum_{i=1}^{n}x_{i})(\sum_{i=1}^{n}y_{i})}{n}}{n-1}
+\end{equation}
+
+Let the observation $j$ be omitted from the data set. The estimates for the variance identities can be updating using minor adjustments to the full sample estimates. Where $(j)$ denotes that the $j$th has been omitted, these identities are
+
+\begin{equation}
+Sxx^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-(x_{j})^{2}-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})^{2}}{n-1}}{n-2}
+\end{equation}
+\begin{equation}
+Syy^{(j)}=\frac{\sum_{i=1}^{n}(y_{i}^{2})-(y_{j})^{2}-\frac{((\sum_{i=1}^{n}y_{i})-y_{j})^{2}}{n-1}}{n-2}
+\end{equation}
+\begin{equation}
+Sxy^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-(y_{j}x_{j})-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})(\sum_{i=1}^{n}y_{i})-y_{k})}{n-1}}{n-2}
+\end{equation}
+
+The updated estimate for the slope is therefore
+\begin{equation}
+\hat{\beta}_{1}^{(j)}=\frac{Sxy^{(j)}}{Sxx^{(j)}}
+\end{equation}
+
+It is necessary to determine the mean for $x$ and $y$ of the
+remaining $n-1$ terms
+\begin{equation}
+\bar{x}^{(j)}=\frac{(\sum_{i=1}^{n}x_{i})-(x_{j})}{n-1},
+\end{equation}
+
+\begin{equation}
+\bar{y}^{(j)}=\frac{(\sum_{i=1}^{n}y_{i})-(y_{j})}{n-1}.
+\end{equation}
+
+The updated intercept estimate is therefore
+
+\begin{equation}
+\hat{\beta}_{0}^{(j)}=\bar{y}^{(j)}-\hat{\beta}_{1}^{(j)}\bar{x}^{(j)}.
+\end{equation}
+
+%------------------------------------------------------------------------%
+\newpage
+\section{Updating Estimates} %5.5
+
+\subsection{Updating of Regression Estimates}
+Updating techniques are used in regression analysis to add or delete rows from a model, allowing the analyst the effect of the observation associated with that row. In time series problems, there will be scientific interest in the changing relationship between variables. In cases where there a single row is to be added or deleted, the procedure used is equivalent to a geometric rotation of a plane.
+
+Updating techniques are used in regression analysis to add or delete rows from a model, allowing the analyst the effect of the observation associated with that row.
+
+\subsection{Updating Standard deviation}
+A simple, but useful, example of updating is the updating of the standard deviation when an observation is omitted, as practised in statistical process control analyzes. From first principles, the variance of a data set can be calculated using the following formula.
+\begin{equation}
+S^{2}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-\frac{(\sum_{i=1}^{n}x_{i})^{2}}{n}}{n-1}
+\end{equation}
+
+While using bivariate data, the notation $Sxx$ and $Syy$ shall apply hither to the variance of $x$ and of $y$ respectively. The covariance term $Sxy$ is given by
+
+\begin{equation}
+Sxy=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-\frac{(\sum_{i=1}^{n}x_{i})(\sum_{i=1}^{n}y_{i})}{n}}{n-1}.
+\end{equation}
+
+\subsection{Updating of Regression Estimates}
+Updating techniques are used in regression analysis to add or
+delete rows from a model, allowing the analyst the effect of the
+observation associated with that row. In time series problems,
+there will be scientific interest in the changing relationship
+between variables. In cases where there a single row is to be
+added or deleted, the procedure used is equivalent to a geometric
+rotation of a plane.
+
+Consider a $p \times p$ matrix $X$, from which a row $x_{i}^{T}$
+is to be added or deleted. \citet{CookWeisberg} sets $A = X^{T}X$,
+$a=-x_{i}^{T}$ and $b=x_{i}^{T}$, and writes the above equation as
+
+\begin{equation}
+(X^{T}X \pm x_{i}x_{i}^{T})^{-1} = \quad(X^{T}X )^{-1} \mp \quad
+\frac{(X^{T}X)^{-1}(x_{i}x_{i}^{T}(X^{T}X)^{-1}}{1-x_{i}^{T}(X^{T}X)^{-1}x_{i}}
+\end{equation}
+
+\subsection{Updating Regression Estimates}
+Let the observation $j$ be omitted from the data set. The estimates for the variance identities can be updating using minor adjustments to the full sample estimates. Where $(j)$ denotes that the $j$th has been omitted, these identities are
+
+\begin{equation}
+Sxx^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-(x_{j})^{2}-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})^{2}}{n-1}}{n-2}
+\end{equation}
+\begin{equation}
+Syy^{(j)}=\frac{\sum_{i=1}^{n}(y_{i}^{2})-(y_{j})^{2}-\frac{((\sum_{i=1}^{n}y_{i})-y_{j})^{2}}{n-1}}{n-2}
+\end{equation}
+\begin{equation}
+Sxy^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-(y_{j}x_{j})-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})(\sum_{i=1}^{n}y_{i})-y_{k})}{n-1}}{n-2}
+\end{equation}
+
+The updated estimate for the slope is therefore
+\begin{equation}
+\hat{\beta}_{1}^{(j)}=\frac{Sxy^{(j)}}{Sxx^{(j)}}
+\end{equation}
+
+It is necessary to determine the mean for $x$ and $y$ of the
+remaining $n-1$ terms
+\begin{equation}
+\bar{x}^{(j)}=\frac{(\sum_{i=1}^{n}x_{i})-(x_{j})}{n-1},
+\end{equation}
+
+\begin{equation}
+\bar{y}^{(j)}=\frac{(\sum_{i=1}^{n}y_{i})-(y_{j})}{n-1}.
+\end{equation}
+
+The updated intercept estimate is therefore
+
+\begin{equation}
+\hat{\beta}_{0}^{(j)}=\bar{y}^{(j)}-\hat{\beta}_{1}^{(j)}\bar{x}^{(j)}.
+\end{equation}
+
+\subsection{Inference on intercept and slope}
+\begin{equation}
+\hat{\beta_{1}} \pm t_{(\alpha, n-2) }
+\sqrt{\frac{S^2}{(n-1)S^{2}_{x}}}
+\end{equation}
+
+\begin{equation}
+\frac{\hat{\beta_{0}}-\beta_{0}}{SE(\hat{\beta_{0}})}
+\end{equation}
+\begin{equation}
+\frac{\hat{\beta_{1}}-\beta_{1}}{SE(\hat{\beta_{0}})}
+\end{equation}
+
+
+\subsubsection{Inference on correlation coefficient} This test of
+the slope is coincidentally the equivalent of a test of the
+correlation of the $n$ observations of $X$ and $Y$.
+\begin{eqnarray}
+H_{0}: \rho_{XY} = 0 \nonumber \\
+H_{A}: \rho_{XY} \ne 0 \nonumber \\
+\end{eqnarray}
+
+%---------------------------------------------------------%
+\newpage
+\section{Lesaffre's paper.} %5.6
+
+Lesaffre considers the case-weight perturbation approach.
+
+
+%\citep{cook86}
+Cook's 86 describes a local approach wherein each case is given a weight $w_{i}$ and the effect on the parameter estimation is measured by perturbing these weights. Choosing weights close to zero or one corresponds to the global case-deletion approach.
+
+Lesaffre  describes the displacement in log-likelihood as a useful metric to evaluate local influence %\citep{cook86}.
+
+
+%\citet{lesaffre}
+Lesaffre describes a framework to detect outlying observations that matter in an LME model. Detection should be carried out by evaluating diagnostics $C_{i}$ , $C_{i}(\alpha)$ and $C_{i}(D,\sigma^2)$.
+
+
+Lesaffre defines the total local influence of individual $i$ as
+\begin{equation}
+C_{i} = 2 | \triangle \prime _{i} L^{-1} \triangle_{i}|.
+\end{equation}
+
+
+The influence function of the MLEs evaluated at the $i$th point $IF_{i}$, given by
+\begin{equation}
+IF_{i} = -L^{-1}\triangle _{i}
+\end{equation}
+can indicate how $\hat{theta}$ changes as the weight of the $i$th
+subject changes.
+
+The manner by which influential observations distort the estimation process can be determined by inspecting the
+interpretable components in the decomposition of the above measures of local influence.
+
+
+Lesaffre comments that there is no clear way of interpreting the information contained in the angles, but that this doesn't mean the information should be ignored.
+
+
+
+
+\chapter{Augmented GLMs} 
+
+
+%---------------------------------------------------------------------------%
+% - 3. Augmented GLMS
+%---------------------------------------------------------------------------%
+
+
+Generalized linear models are a generalization of classical linear  models.
+
+\section{Augmented GLMs} %3.1
+
+With the use of h-likihood, a random effected model of the form can be viewed as an `augmented GLM' with the response varaibkes $(y^t, \phi^t_m)^t$, (with $\mu = E(y)$,$ u = E(\phi)$, $var(y) = \theta V (\mu)$.
+The augmented linear predictor is \[\eta_{ma}  = (\eta^t, \eta^t_m)^t) = T\omega. \].
+
+
+
+%Augmented Generalized linear models.
+% Youngjo et al page 154
+
+The subscript $M$ is a label referring to the mean model.
+\begin{equation}
+\left(%
+\begin{array}{c}
+Y \\
+\psi_{M} \\
+\end{array}%
+\right) = \left(
+\begin{array}{cc}
+X & Z \\
+0 & I \\
+\end{array}\right) \left(%
+\begin{array}{c}
+\beta \\
+\nu \\
+\end{array}%
+\right)+ e^{*}
+\end{equation}
+
+
+%Augmented Generalized linear models.
+
+
+The error term $e^{*}$ is normal with mean zero. The variance matrix of the error term is given by
+\begin{equation}
+\Sigma_{a} = \left(%
+\begin{array}{cc}
+\Sigma & 0 \\
+0 & D \\
+\end{array}%
+\right).
+\end{equation}
+
+$y_{a} = T \delta + e^{*}$
+
+Weighted least squares equation
+
+
+% Youngjo et al page 154
+
+
+\subsection{The Augmented Model Matrix}  %3.2
+\begin{equation}
+X = \left(%
+\begin{array}{cc}
+T & Z \\
+0 & I \\
+\end{array}%
+\right)
+\delta = \left(%
+\begin{array}{c}
+\beta  \\
+\nu  \\
+\end{array}%
+\right)
+\end{equation}
+
+
+
+
+
+%-------------------------------------------------------------------------------------------------------------------------------------%
+%-------------------------------------------------------------------------------------------------------------------------------------%
+%-------------------------------------------------------------------------------------------------Chapter 4------------------------%
+%-------------------------------------------------------------------------------------------------------------------------------------%
+%-------------------------------------------------------------------------------------------------------------------------------------%
 
 
 
