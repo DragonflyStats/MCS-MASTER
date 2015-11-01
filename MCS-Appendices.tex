@@ -519,34 +519,6 @@ emphasis on linear mixed effects models, further to chapter two.
 
 For the fourth chapter, important linear mixed effects model diagnostic methods shall be extended to method comparison studies, and proposed methods shall be demonstrated on data sets that have become well known in literature on method comparison. The purpose is to both calibrate these methods and to demonstrate applications for them.
 The last chapter shall focus on robust measures of important parameters such as agreement.
-\section*{Using Roy's Test to Identify cause of Lack of agreement}
-
-Barnhart specifies three conditions for method of measurement that are required for two methods of measurement to be considered in agreement.
-
-\begin{itemize}
-	\item[(i)] No Significant Inter-method bias
-	\item[(ii)] No significant Difference in Within-Subject Variance
-	\item[(iii)] No significant Difference in Within-Subject Variance 
-\end{itemize}
-
-
-Roy(2009) demonstrates a LME model specification, and a series of tests that look at each of these agreement criteria individually. If two methods of measuement lack agreement, the specific reason or reasons for this lack of agreement can be identified.
-
-
-Roy proposes an LME model with Kronecker product covariance structure in a doubly multivariate setup. Response for $i$th subject can be written as
-\[ y_i = \beta_0 + \beta_1x_{i1} + \beta_2x_{i2} + b_{1i}z_{i1}  + b_{2i}z_{i2} + \epsilon_i \]
-\begin{itemize}
-	\item $\beta_1$ and $\beta_2$ are fixed effects corresponding to both methods. ($\beta_0$ is the intercept.)
-	\item $b_{1i}$ and $b_{2i}$ are random effects corresponding to both methods.
-\end{itemize}
-
-Overall variability between the two methods ($\Omega$) is sum of between-subject ($D$) and within-subject variability ($\Sigma$),
-\[
-\mbox{Block } \boldsymbol{\Omega}_i = \left[ \begin{array}{cc} d^2_1 & d_{12}\\ d_{12} & d^2_2\\ \end{array} \right]
-+ \left[\begin{array}{cc} \sigma^2_1 & \sigma_{12}\\ \sigma_{12} & \sigma^2_2\\ \end{array}\right].
-\]
-%============================================== %
-%- F:
 
 	\section{Alternative Agreement Indices}
 	As an alternative to limits of agreement, \citet{lin2002} proposes the use of
@@ -680,6 +652,76 @@ Overall variability between the two methods ($\Omega$) is sum of between-subject
 	$\pi_{0}$ may be determined. This boundary is known as the `total
 	deviation index' (TDI). Hence the TDI is the $100\pi_{0}$
 	percentile of the absolute difference of paired observations.
+
+\section{Alternative agreement indices}
+As an alternative to limits of agreement, \citet{lin2002} proposes the use of
+the mean square deviation is assessing agreement. The mean square
+deviation is defined as the expectation of the squared differences
+of two readings . The MSD is usually used for the case of two
+measurement methods $X$ and $Y$ , each making one measurement for
+the same subject, and is given by
+\[
+MSDxy = E[(x - y)^2]  = (\mu_{x} - \mu_{y})^2 + (\sigma_{x} -
+\sigma_{y})^2 + 2\sigma_{x}\sigma_{y}(1-\rho_{xy}).
+\]
+
+
+\citet{Barnhart} advises the use of a predetermined upper limit
+for the MSD value, $MSD_{ul}$, to define satisfactory agreement.
+However, a satisfactory upper limit may not be properly
+determinable, thus creating a drawback to this methodology.
+
+
+\citet{Barnhart} proposes both the use of the square root of the
+MSD or the expected absolute difference (EAD) as an alternative agreement indices. Both of these indices can be interpreted intuitively, being denominated in the same units of measurements as the original
+measurements. Also they can be compare to the maximum acceptable
+absolute difference between two methods of measurement $d_{0}$.
+\[
+EAD = E(|x - y|) = \frac{\sum |x_{i}- y_{i}|}{n}
+\]
+
+The EAD can be used to supplement the inter-method bias in an
+initial comparison study, as the EAD is informative as a measure
+of dispersion, is easy to calculate and requires no distributional
+assumptions.
+
+\citet{Barnhart} remarks that a comparison of EAD and MSD , using
+simulation studies, would be interesting, while further adding
+that `It will be of interest to investigate the benefits of these
+possible new unscaled agreement indices'. For the Grubbs' `F vs C' and `F vs T' comparisons, the inter-method bias, difference variances, limits of agreement and EADs are shown
+in Table 1.5. The corresponding Bland-Altman plots for `F vs C' and `F vs T' comparisons were depicted previously on Figure 1.3. While the inter-method bias for the `F vs T' comparison is smaller, the EAD penalizes the comparison for having a greater variance of differences. Hence the EAD values for both comparisons are much closer.
+\begin{table}[ht]
+	\begin{center}
+		\begin{tabular}{|c|c|c|}
+			\hline
+			& F vs C & F vs T  \\
+			\hline
+			Inter-method bias & -0.61 & 0.12 3 \\
+			Difference variances & 0.06 & 0.22  \\
+			Limits of agreement & (-1.08,	-0.13) & (-0.81,1.04) \\
+			EAD & 0.61 & 0.35  \\
+			\hline
+		\end{tabular}
+		\caption{Agreement indices for Grubbs' data comparisons.}
+	\end{center}
+\end{table}
+
+Further to  \citet{lin2000} and \citet{lin2002}, individual agreement between two measurement methods may be
+assessed using the the coverage probability (CP) criteria or the total deviation index (TDI). If $d_{0}$ is predetermined as the maximum acceptable absolute difference between two methods of measurement, the probability that the absolute difference of two measures being less than $d_{0}$ can be computed. This is known as the coverage probability (CP).
+
+\begin{equation}
+CP = P(|x_{i} - y_{i}| \leq d_{0})
+\end{equation}
+
+If $\pi_{0}$ is set as the predetermined coverage probability, the
+boundary under which the proportion of absolute differences is
+$\pi_{0}$ may be determined. This boundary is known as the `total
+deviation index' (TDI). Hence the TDI is the $100\pi_{0}$
+percentile of the absolute difference of paired observations.
+
+
+
+
 
 	\section{Alternative agreement indices}
 	As an alternative to limits of agreement, \citet{lin2002} proposes the use of
@@ -1390,6 +1432,35 @@ The overall conclusion of the procedure is that method $J$ and $S$ are not in ag
 %========================================================= %
 %% %% - Part E- Part E
 
+\section*{Using Roy's Test to Identify cause of Lack of agreement}
+
+Barnhart specifies three conditions for method of measurement that are required for two methods of measurement to be considered in agreement.
+
+\begin{itemize}
+	\item[(i)] No Significant Inter-method bias
+	\item[(ii)] No significant Difference in Within-Subject Variance
+	\item[(iii)] No significant Difference in Within-Subject Variance 
+\end{itemize}
+
+
+Roy(2009) demonstrates a LME model specification, and a series of tests that look at each of these agreement criteria individually. If two methods of measuement lack agreement, the specific reason or reasons for this lack of agreement can be identified.
+
+
+Roy proposes an LME model with Kronecker product covariance structure in a doubly multivariate setup. Response for $i$th subject can be written as
+\[ y_i = \beta_0 + \beta_1x_{i1} + \beta_2x_{i2} + b_{1i}z_{i1}  + b_{2i}z_{i2} + \epsilon_i \]
+\begin{itemize}
+	\item $\beta_1$ and $\beta_2$ are fixed effects corresponding to both methods. ($\beta_0$ is the intercept.)
+	\item $b_{1i}$ and $b_{2i}$ are random effects corresponding to both methods.
+\end{itemize}
+
+Overall variability between the two methods ($\Omega$) is sum of between-subject ($D$) and within-subject variability ($\Sigma$),
+\[
+\mbox{Block } \boldsymbol{\Omega}_i = \left[ \begin{array}{cc} d^2_1 & d_{12}\\ d_{12} & d^2_2\\ \end{array} \right]
++ \left[\begin{array}{cc} \sigma^2_1 & \sigma_{12}\\ \sigma_{12} & \sigma^2_2\\ \end{array}\right].
+\]
+%============================================== %
+%- F:
+
 \section*{Using Roy's Model to Compute LoAs and CR }
 
 In this short section, a demonstration of how Roy's technique can be used to compute two common MCS metrics: Limits of Agreement and the Coefficient of Repeatabilty. While Limits of Agreement are not used in the analysis proposed here, they are ubiquituous in literature, and a demonstration on how to compute them with the Roy Model would assist the adoption of this proposed method.
@@ -1626,75 +1697,6 @@ To conclude, Carstensen's models provided a rigorous way to determine limits of 
 Finally, to complement the blood pressure (i.e.`J vs S') method comparison from the previous section (i.e.`J vs S'), the limits of agreement are $15.62 \pm 1.96 \times 20.33 = (-24.22, 55.46)$.)
 %========================================================================================%
 \newpage
-\section{Alternative agreement indices}
-As an alternative to limits of agreement, \citet{lin2002} proposes the use of
-the mean square deviation is assessing agreement. The mean square
-deviation is defined as the expectation of the squared differences
-of two readings . The MSD is usually used for the case of two
-measurement methods $X$ and $Y$ , each making one measurement for
-the same subject, and is given by
-\[
-MSDxy = E[(x - y)^2]  = (\mu_{x} - \mu_{y})^2 + (\sigma_{x} -
-\sigma_{y})^2 + 2\sigma_{x}\sigma_{y}(1-\rho_{xy}).
-\]
-
-
-\citet{Barnhart} advises the use of a predetermined upper limit
-for the MSD value, $MSD_{ul}$, to define satisfactory agreement.
-However, a satisfactory upper limit may not be properly
-determinable, thus creating a drawback to this methodology.
-
-
-\citet{Barnhart} proposes both the use of the square root of the
-MSD or the expected absolute difference (EAD) as an alternative agreement indices. Both of these indices can be interpreted intuitively, being denominated in the same units of measurements as the original
-measurements. Also they can be compare to the maximum acceptable
-absolute difference between two methods of measurement $d_{0}$.
-\[
-EAD = E(|x - y|) = \frac{\sum |x_{i}- y_{i}|}{n}
-\]
-
-The EAD can be used to supplement the inter-method bias in an
-initial comparison study, as the EAD is informative as a measure
-of dispersion, is easy to calculate and requires no distributional
-assumptions.
-
-\citet{Barnhart} remarks that a comparison of EAD and MSD , using
-simulation studies, would be interesting, while further adding
-that `It will be of interest to investigate the benefits of these
-possible new unscaled agreement indices'. For the Grubbs' `F vs C' and `F vs T' comparisons, the inter-method bias, difference variances, limits of agreement and EADs are shown
-in Table 1.5. The corresponding Bland-Altman plots for `F vs C' and `F vs T' comparisons were depicted previously on Figure 1.3. While the inter-method bias for the `F vs T' comparison is smaller, the EAD penalizes the comparison for having a greater variance of differences. Hence the EAD values for both comparisons are much closer.
-\begin{table}[ht]
-	\begin{center}
-		\begin{tabular}{|c|c|c|}
-			\hline
-			& F vs C & F vs T  \\
-			\hline
-			Inter-method bias & -0.61 & 0.12 3 \\
-			Difference variances & 0.06 & 0.22  \\
-			Limits of agreement & (-1.08,	-0.13) & (-0.81,1.04) \\
-			EAD & 0.61 & 0.35  \\
-			\hline
-		\end{tabular}
-		\caption{Agreement indices for Grubbs' data comparisons.}
-	\end{center}
-\end{table}
-
-Further to  \citet{lin2000} and \citet{lin2002}, individual agreement between two measurement methods may be
-assessed using the the coverage probability (CP) criteria or the total deviation index (TDI). If $d_{0}$ is predetermined as the maximum acceptable absolute difference between two methods of measurement, the probability that the absolute difference of two measures being less than $d_{0}$ can be computed. This is known as the coverage probability (CP).
-
-\begin{equation}
-CP = P(|x_{i} - y_{i}| \leq d_{0})
-\end{equation}
-
-If $\pi_{0}$ is set as the predetermined coverage probability, the
-boundary under which the proportion of absolute differences is
-$\pi_{0}$ may be determined. This boundary is known as the `total
-deviation index' (TDI). Hence the TDI is the $100\pi_{0}$
-percentile of the absolute difference of paired observations.
-
-
-
-
 
 \section{Limits of agreement for Carstensen's data}
 
@@ -1794,101 +1796,82 @@ methodology assesses agreement.
 %----------------------------------------------------------------------------%
 \newpage
 
+\section{Computing DFBETAs with \texttt{R}}
+
+\begin{itemize}
+	\item This function computes the DFBETAS based on the information returned by the estex() function.
+	\item The dfbeta refers to how much a parameter estimate changes if the observation or case in question is dropped from the data set.  
+	\item Cook's distance is presumably more important to you if you are doing predictive modeling, whereas dfbeta is more important in explanatory modeling.
+	
+	%SAS help file?
+	\item The DFBETAS statistics are the scaled measures of the change in each parameter estimate and are calculated by deleting the th observation:
+	\[ \mbox{Missing Formula}\]
+	where  is the th element of .
+	In general, large values of DFBETAS indicate observations that are influential in estimating a given parameter. \item \textbf{Belsley, Kuh, and Welsch (1980)} recommend 2 as a general cutoff value to indicate influential observations and  as a size-adjusted cutoff.
+\end{itemize}
+
+
+
 	\newpage
-	\section{The Hat Matrix} %5.1
-	
-	The projection matrix $H$ (also known as the hat matrix), is a
-	well known identity that maps the fitted values $\hat{Y}$ to the
-	observed values $Y$, i.e. $\hat{Y} = HY$.
-	
-	\begin{equation}
-	H =\quad X(X^{T}X)^{-1}X^{T}
-	\end{equation}
-	
-	$H$ describes the influence each observed value has on each fitted
-	value. The diagonal elements of the $H$ are the `leverages', which
-	describe the influence each observed value has on the fitted value
-	for that same observation. The residuals ($R$) are related to the
-	observed values by the following formula:
-	\begin{equation}
-	R = (I-H)Y
-	\end{equation}
-	
-	The variances of $Y$ and $R$ can be expressed as:
-	\begin{eqnarray}
-	\mbox{var}(Y) = H\sigma^{2} \nonumber\\
-	\mbox{var}(R) = (I-H)\sigma^{2}
-	\end{eqnarray}
-	
-	Updating techniques allow an economic approach to recalculating
-	the projection matrix, $H$, by removing the necessity to refit the
-	model each time it is updated. However this approach is known for
-	numerical instability in the case of down-dating.
-	
 
-	
 
-	\section{Cross Validation} %5.4
-	
-	Cross validation techniques for linear regression employ the use `leave one out' re-calculations. In such procedures the regression coefficients are estimated for $n-1$ covariates, with the $Q^{th}$ observation omitted.
-	
-	Let $\hat{\beta}$ denote the least square estimate of $\beta$ based upon the full set of observations, and let
-	$\hat{\beta}^{-Q}$ denoted the estimate with the $Q^{th}$ case
-	excluded.
-	
-	
-	In leave-one-out cross validation, each observation is omitted in turn, and a regression model is fitted on the rest of the data. Cross validation is used to estimate the generalization error of a given model. alternatively it can be used for model selection by determining the candidate model that has the smallest generalization error.
+\section{LME diagnostic measures}
+	\subsection{Andrews-Pregibon statistic} %2.4.4
+	\begin{itemize}
+		\item For fixed effect parameters $\beta$.
+	\end{itemize}
+	The Andrews-Pregibon statistic $AP_{i}$ is a measure of influence based on the volume of the confidence ellipsoid.
+	The larger this statistic is for observation $i$, the stronger the influence that observation will have on the model fit.
 	
 	
-	Evidently leave-one-out cross validation has similarities with `jackknifing', a well known statistical technique. However cross validation is used to estimate generalization error, whereas the jackknife technique is used to estimate bias.
+\subsection{Cook's Distance} %2.4.1
+\begin{itemize}
+	\item For variance components $\gamma$
+\end{itemize}
+
+Diagnostic tool for variance components
+\[ C_{\theta i} =(\hat(\theta)_{[i]} - \hat(\theta))^{T}\mbox{cov}( \hat(\theta))^{-1}(\hat(\theta)_{[i]} - \hat(\theta))\]
+
+\subsection{Variance Ratio} %2.4.2
+\begin{itemize}
+	\item For fixed effect parameters $\beta$.
+\end{itemize}
+
+
+\subsection{Cook-Weisberg statistic} %2.4.3
+\begin{itemize}
+	\item For fixed effect parameters $\beta$.
+\end{itemize}
+
+\subsection{Andrews-Pregibon statistic} %2.4.4
+\begin{itemize}
+	\item For fixed effect parameters $\beta$.
+\end{itemize}
+The Andrews-Pregibon statistic $AP_{i}$ is a measure of influence based on the volume of the confidence ellipsoid.
+The larger this statistic is for observation $i$, the stronger the influence that observation will have on the model fit.
+
+%==============================================================================================================================%
+%--------------------------------------------------------------------------------------------%
 	
-	\subsection{Cross Validation: Updating standard deviation} %5.4.1
+	\subsection{Cook's Distance} %2.4.1
+	\begin{itemize}
+		\item For variance components $\gamma$
+	\end{itemize}
 	
-	The variance of a data set can be calculated using the following formula.
-	\begin{equation}
-	S^{2}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-\frac{(\sum_{i=1}^{n}x_{i})^{2}}{n}}{n-1}
-	\end{equation}
+	Diagnostic tool for variance components
+	\[ C_{\theta i} =(\hat(\theta)_{[i]} - \hat(\theta))^{T}\mbox{cov}( \hat(\theta))^{-1}(\hat(\theta)_{[i]} - \hat(\theta))\]
 	
-	While using bivariate data, the notation $Sxx$ and $Syy$ shall apply to the variance of $x$ and of $y$ respectively. The covariance term $Sxy$ is given by
+	%---------------------------------------------------------------------------%
+	\subsection{Variance Ratio} %2.4.2
+	\begin{itemize}
+		\item For fixed effect parameters $\beta$.
+	\end{itemize}
 	
-	\begin{equation}
-	Sxy=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-\frac{(\sum_{i=1}^{n}x_{i})(\sum_{i=1}^{n}y_{i})}{n}}{n-1}
-	\end{equation}
 	
-	Let the observation $j$ be omitted from the data set. The estimates for the variance identities can be updating using minor adjustments to the full sample estimates. Where $(j)$ denotes that the $j$th has been omitted, these identities are
-	
-	\begin{equation}
-	Sxx^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-(x_{j})^{2}-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})^{2}}{n-1}}{n-2}
-	\end{equation}
-	\begin{equation}
-	Syy^{(j)}=\frac{\sum_{i=1}^{n}(y_{i}^{2})-(y_{j})^{2}-\frac{((\sum_{i=1}^{n}y_{i})-y_{j})^{2}}{n-1}}{n-2}
-	\end{equation}
-	\begin{equation}
-	Sxy^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-(y_{j}x_{j})-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})(\sum_{i=1}^{n}y_{i})-y_{k})}{n-1}}{n-2}
-	\end{equation}
-	
-	The updated estimate for the slope is therefore
-	\begin{equation}
-	\hat{\beta}_{1}^{(j)}=\frac{Sxy^{(j)}}{Sxx^{(j)}}
-	\end{equation}
-	
-	It is necessary to determine the mean for $x$ and $y$ of the
-	remaining $n-1$ terms
-	\begin{equation}
-	\bar{x}^{(j)}=\frac{(\sum_{i=1}^{n}x_{i})-(x_{j})}{n-1},
-	\end{equation}
-	
-	\begin{equation}
-	\bar{y}^{(j)}=\frac{(\sum_{i=1}^{n}y_{i})-(y_{j})}{n-1}.
-	\end{equation}
-	
-	The updated intercept estimate is therefore
-	
-	\begin{equation}
-	\hat{\beta}_{0}^{(j)}=\bar{y}^{(j)}-\hat{\beta}_{1}^{(j)}\bar{x}^{(j)}.
-	\end{equation}
-	
-%====================================================================================================%
+	\subsection{Cook-Weisberg statistic} %2.4.3
+	\begin{itemize}
+		\item For fixed effect parameters $\beta$.
+	\end{itemize}
 
 	\section{DFbetas for Blood Data}
 	\begin{framed}
@@ -2202,65 +2185,6 @@ differences. Naturally the addition of further factors to the
 model provides for more insight into the behavior of the data.
 
 \newpage
-	\section{Sherman Morrison Woodbury Formula} % 5.2
-	
-	The `Sherman Morrison Woodbury' Formula is a well known result in
-	linear algebra;
-	\begin{equation}
-		(A+a^{T}B)^{-1} \quad = \quad A^{-1}-
-		A^{-1}a^{T}(I-bA^{-1}a^{T})^{-1}bA^{-1}
-	\end{equation}
-	
-	This result is highly useful for analyzing regression diagnostics,
-	and for matrices inverses in general. Consider a $p \times p$
-	matrix $X$, from which a row $x_{i}^{T}$ is to be added or
-	deleted. \citet{CookWeisberg} sets $A = X^{T}X$, $a=-x_{i}^{T}$
-	and $b=x_{i}^{T}$, and writes the above equation as
-	
-	\begin{equation}
-		(X^{T}X \pm x_{i}x_{i}^{T})^{-1} = \quad(X^{T}X )^{-1} \mp \quad
-		\frac{(X^{T}X)^{-1}(x_{i}x_{i}^{T}(X^{T}X)^{-1}}{1-x_{i}^{T}(X^{T}X)^{-1}x_{i}}
-	\end{equation}
-	
-	The projection matrix $H$ (also known as the hat matrix), is a
-	well known identity that maps the fitted values $\hat{Y}$ to the
-	observed values $Y$, i.e. $\hat{Y} = HY$.
-	
-	\begin{equation}
-		H =\quad X(X^{T}X)^{-1}X^{T}
-	\end{equation}
-	
-	$H$ describes the influence each observed value has on each fitted value. The diagonal elements of the $H$ are the `leverages', which describe the influence each observed value has on the fitted value for that same observation. The residuals ($R$) are related to the observed values by the following formula:
-	\begin{equation}
-		R = (I-H)Y
-	\end{equation}
-	
-	The variances of $Y$ and $R$ can be expressed as:
-	\begin{eqnarray}
-		\mbox{var}(Y) = H\sigma^{2} \nonumber\\
-		\mbox{var}(R) = (I-H)\sigma^{2}
-	\end{eqnarray}
-	
-	Updating techniques allow an economic approach to recalculating the projection matrix, $H$, by removing the necessity to refit the model each time it is updated. However this approach is known for
-	numerical instability in the case of down-dating.
-	
-	
-	
-	\subsection{Hat Values for MCS regression}
-	
-	With A as the averages and D as the casewise differences.
-	\begin{verbatim}
-	fit = lm(D~A)
-	\end{verbatim}
-	
-	\begin{displaymath}
-		H = A \left(A^\top  A\right)^{-1} A^\top ,
-	\end{displaymath}
-	
-	%------------------------------------------------------------------------%
-
-
-
 
 	\chapter{Generalized linear models}
 	\section{Generalized Linear model}
@@ -2369,6 +2293,68 @@ model provides for more insight into the behavior of the data.
 	%--------------------------------------------------------------------------------------%
 	\newpage
 	\chapter{Updating Techniques and Cross Validation}
+	\section{Cross Validation} %5.4
+	
+	Cross validation techniques for linear regression employ the use `leave one out' re-calculations. In such procedures the regression coefficients are estimated for $n-1$ covariates, with the $Q^{th}$ observation omitted.
+	
+	Let $\hat{\beta}$ denote the least square estimate of $\beta$ based upon the full set of observations, and let
+	$\hat{\beta}^{-Q}$ denoted the estimate with the $Q^{th}$ case
+	excluded.
+	
+	
+	In leave-one-out cross validation, each observation is omitted in turn, and a regression model is fitted on the rest of the data. Cross validation is used to estimate the generalization error of a given model. alternatively it can be used for model selection by determining the candidate model that has the smallest generalization error.
+	
+	
+	Evidently leave-one-out cross validation has similarities with `jackknifing', a well known statistical technique. However cross validation is used to estimate generalization error, whereas the jackknife technique is used to estimate bias.
+	
+	\subsection{Cross Validation: Updating standard deviation} %5.4.1
+	
+	The variance of a data set can be calculated using the following formula.
+	\begin{equation}
+	S^{2}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-\frac{(\sum_{i=1}^{n}x_{i})^{2}}{n}}{n-1}
+	\end{equation}
+	
+	While using bivariate data, the notation $Sxx$ and $Syy$ shall apply to the variance of $x$ and of $y$ respectively. The covariance term $Sxy$ is given by
+	
+	\begin{equation}
+	Sxy=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-\frac{(\sum_{i=1}^{n}x_{i})(\sum_{i=1}^{n}y_{i})}{n}}{n-1}
+	\end{equation}
+	
+	Let the observation $j$ be omitted from the data set. The estimates for the variance identities can be updating using minor adjustments to the full sample estimates. Where $(j)$ denotes that the $j$th has been omitted, these identities are
+	
+	\begin{equation}
+	Sxx^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-(x_{j})^{2}-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})^{2}}{n-1}}{n-2}
+	\end{equation}
+	\begin{equation}
+	Syy^{(j)}=\frac{\sum_{i=1}^{n}(y_{i}^{2})-(y_{j})^{2}-\frac{((\sum_{i=1}^{n}y_{i})-y_{j})^{2}}{n-1}}{n-2}
+	\end{equation}
+	\begin{equation}
+	Sxy^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-(y_{j}x_{j})-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})(\sum_{i=1}^{n}y_{i})-y_{k})}{n-1}}{n-2}
+	\end{equation}
+	
+	The updated estimate for the slope is therefore
+	\begin{equation}
+	\hat{\beta}_{1}^{(j)}=\frac{Sxy^{(j)}}{Sxx^{(j)}}
+	\end{equation}
+	
+	It is necessary to determine the mean for $x$ and $y$ of the
+	remaining $n-1$ terms
+	\begin{equation}
+	\bar{x}^{(j)}=\frac{(\sum_{i=1}^{n}x_{i})-(x_{j})}{n-1},
+	\end{equation}
+	
+	\begin{equation}
+	\bar{y}^{(j)}=\frac{(\sum_{i=1}^{n}y_{i})-(y_{j})}{n-1}.
+	\end{equation}
+	
+	The updated intercept estimate is therefore
+	
+	\begin{equation}
+	\hat{\beta}_{0}^{(j)}=\bar{y}^{(j)}-\hat{\beta}_{1}^{(j)}\bar{x}^{(j)}.
+	\end{equation}
+	
+	%====================================================================================================%
+	
 	\section{Efficient updating}
 	[cite:tewomir]
 	
@@ -2449,6 +2435,78 @@ model provides for more insight into the behavior of the data.
 	downdating.
 	
 	
+	\section{Updating of Regression Estimates}
+	Updating techniques are used in regression analysis to add or delete rows from a model, allowing the analyst the effect of the observation associated with that row. In time series problems, there will be scientific interest in the changing relationship between variables. In cases where there a single row is to be added or deleted, the procedure used is equivalent to a geometric rotation of a plane.
+	
+	Updating techniques are used in regression analysis to add or delete rows from a model, allowing the analyst the effect of the observation associated with that row.
+	
+	\subsection{Updating Standard deviation}
+	A simple, but useful, example of updating is the updating of the standard deviation when an observation is omitted, as practised in statistical process control analyzes. From first principles, the variance of a data set can be calculated using the following formula.
+	\begin{equation}
+	S^{2}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-\frac{(\sum_{i=1}^{n}x_{i})^{2}}{n}}{n-1}
+	\end{equation}
+	
+	While using bivariate data, the notation $Sxx$ and $Syy$ shall apply hither to the variance of $x$ and of $y$ respectively. The covariance term $Sxy$ is given by
+	
+	\begin{equation}
+	Sxy=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-\frac{(\sum_{i=1}^{n}x_{i})(\sum_{i=1}^{n}y_{i})}{n}}{n-1}.
+	\end{equation}
+	
+	
+	\subsection{Updating Regression Estimates}
+	Let the observation $j$ be omitted from the data set. The estimates for the variance identities can be updating using minor adjustments to the full sample estimates. Where $(j)$ denotes that the $j$th has been omitted, these identities are
+	
+	\begin{equation}
+	Sxx^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-(x_{j})^{2}-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})^{2}}{n-1}}{n-2}
+	\end{equation}
+	\begin{equation}
+	Syy^{(j)}=\frac{\sum_{i=1}^{n}(y_{i}^{2})-(y_{j})^{2}-\frac{((\sum_{i=1}^{n}y_{i})-y_{j})^{2}}{n-1}}{n-2}
+	\end{equation}
+	\begin{equation}
+	Sxy^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-(y_{j}x_{j})-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})(\sum_{i=1}^{n}y_{i})-y_{k})}{n-1}}{n-2}
+	\end{equation}
+	
+	The updated estimate for the slope is therefore
+	\begin{equation}
+	\hat{\beta}_{1}^{(j)}=\frac{Sxy^{(j)}}{Sxx^{(j)}}
+	\end{equation}
+	
+	It is necessary to determine the mean for $x$ and $y$ of the remaining $n-1$ terms
+	\begin{equation}
+	\bar{x}^{(j)}=\frac{(\sum_{i=1}^{n}x_{i})-(x_{j})}{n-1},
+	\end{equation}
+	
+	\begin{equation}
+	\bar{y}^{(j)}=\frac{(\sum_{i=1}^{n}y_{i})-(y_{j})}{n-1}.
+	\end{equation}
+	
+	The updated intercept estimate is therefore
+	
+	\begin{equation}
+	\hat{\beta}_{0}^{(j)}=\bar{y}^{(j)}-\hat{\beta}_{1}^{(j)}\bar{x}^{(j)}.
+	\end{equation}
+	
+	\subsection{Inference on intercept and slope}
+	\begin{equation}
+	\hat{\beta_{1}} \pm t_{(\alpha, n-2) }
+	\sqrt{\frac{S^2}{(n-1)S^{2}_{x}}}
+	\end{equation}
+	
+	\begin{equation}
+	\frac{\hat{\beta_{0}}-\beta_{0}}{SE(\hat{\beta_{0}})}
+	\end{equation}
+	\begin{equation}
+	\frac{\hat{\beta_{1}}-\beta_{1}}{SE(\hat{\beta_{0}})}
+	\end{equation}
+	
+	
+	\subsubsection{Inference on correlation coefficient} This test of the slope is coincidentally the equivalent of a test of the correlation of the $n$ observations of $X$ and $Y$.
+	\begin{eqnarray}
+	H_{0}: \rho_{XY} = 0 \nonumber \\
+	H_{A}: \rho_{XY} \ne 0 \nonumber \\
+	\end{eqnarray}
+	%--------------------------------------------------------------------------------------%
+	\newpage
 	\section{Updating of Regression Estimates}
 	Updating techniques are used in regression analysis to add or delete rows from a model, allowing the analyst the effect of the observation associated with that row. In time series problems, there will be scientific interest in the changing relationship between variables. In cases where there a single row is to be added or deleted, the procedure used is equivalent to a geometric rotation of a plane.
 	
@@ -2576,13 +2634,61 @@ model provides for more insight into the behavior of the data.
 	
 	
 	
-	\section{Hat Values for MCS regression}
+	\section{Sherman Morrison Woodbury Formula} % 5.2
+	
+	The `Sherman Morrison Woodbury' Formula is a well known result in
+	linear algebra;
+	\begin{equation}
+	(A+a^{T}B)^{-1} \quad = \quad A^{-1}-
+	A^{-1}a^{T}(I-bA^{-1}a^{T})^{-1}bA^{-1}
+	\end{equation}
+	
+	This result is highly useful for analyzing regression diagnostics,
+	and for matrices inverses in general. Consider a $p \times p$
+	matrix $X$, from which a row $x_{i}^{T}$ is to be added or
+	deleted. \citet{CookWeisberg} sets $A = X^{T}X$, $a=-x_{i}^{T}$
+	and $b=x_{i}^{T}$, and writes the above equation as
+	
+	\begin{equation}
+	(X^{T}X \pm x_{i}x_{i}^{T})^{-1} = \quad(X^{T}X )^{-1} \mp \quad
+	\frac{(X^{T}X)^{-1}(x_{i}x_{i}^{T}(X^{T}X)^{-1}}{1-x_{i}^{T}(X^{T}X)^{-1}x_{i}}
+	\end{equation}
+	
+	The projection matrix $H$ (also known as the hat matrix), is a
+	well known identity that maps the fitted values $\hat{Y}$ to the
+	observed values $Y$, i.e. $\hat{Y} = HY$.
+	
+	\begin{equation}
+	H =\quad X(X^{T}X)^{-1}X^{T}
+	\end{equation}
+	
+	$H$ describes the influence each observed value has on each fitted value. The diagonal elements of the $H$ are the `leverages', which describe the influence each observed value has on the fitted value for that same observation. The residuals ($R$) are related to the observed values by the following formula:
+	\begin{equation}
+	R = (I-H)Y
+	\end{equation}
+	
+	The variances of $Y$ and $R$ can be expressed as:
+	\begin{eqnarray}
+	\mbox{var}(Y) = H\sigma^{2} \nonumber\\
+	\mbox{var}(R) = (I-H)\sigma^{2}
+	\end{eqnarray}
+	
+	Updating techniques allow an economic approach to recalculating the projection matrix, $H$, by removing the necessity to refit the model each time it is updated. However this approach is known for
+	numerical instability in the case of down-dating.
+	
+	
+	
+	\subsection{Hat Values for MCS regression}
+	
+	With A as the averages and D as the casewise differences.
 	\begin{verbatim}
 	fit = lm(D~A)
 	\end{verbatim}
+	
 	\begin{displaymath}
-		H = A \left(A^\top  A\right)^{-1} A^\top ,
+	H = A \left(A^\top  A\right)^{-1} A^\top ,
 	\end{displaymath}
+
 	\newpage
 
 	\section{Cross Validation}
@@ -2636,78 +2742,7 @@ model provides for more insight into the behavior of the data.
 	
 	%--------------------------------------------------------------------------------------%
 	\newpage
-	\section{Updating of Regression Estimates}
-	Updating techniques are used in regression analysis to add or delete rows from a model, allowing the analyst the effect of the observation associated with that row. In time series problems, there will be scientific interest in the changing relationship between variables. In cases where there a single row is to be added or deleted, the procedure used is equivalent to a geometric rotation of a plane.
-	
-	Updating techniques are used in regression analysis to add or delete rows from a model, allowing the analyst the effect of the observation associated with that row.
-	
-	\subsection{Updating Standard deviation}
-	A simple, but useful, example of updating is the updating of the standard deviation when an observation is omitted, as practised in statistical process control analyzes. From first principles, the variance of a data set can be calculated using the following formula.
-	\begin{equation}
-		S^{2}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-\frac{(\sum_{i=1}^{n}x_{i})^{2}}{n}}{n-1}
-	\end{equation}
-	
-	While using bivariate data, the notation $Sxx$ and $Syy$ shall apply hither to the variance of $x$ and of $y$ respectively. The covariance term $Sxy$ is given by
-	
-	\begin{equation}
-		Sxy=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-\frac{(\sum_{i=1}^{n}x_{i})(\sum_{i=1}^{n}y_{i})}{n}}{n-1}.
-	\end{equation}
-	
-	
-	\subsection{Updating Regression Estimates}
-	Let the observation $j$ be omitted from the data set. The estimates for the variance identities can be updating using minor adjustments to the full sample estimates. Where $(j)$ denotes that the $j$th has been omitted, these identities are
-	
-	\begin{equation}
-		Sxx^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-(x_{j})^{2}-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})^{2}}{n-1}}{n-2}
-	\end{equation}
-	\begin{equation}
-		Syy^{(j)}=\frac{\sum_{i=1}^{n}(y_{i}^{2})-(y_{j})^{2}-\frac{((\sum_{i=1}^{n}y_{i})-y_{j})^{2}}{n-1}}{n-2}
-	\end{equation}
-	\begin{equation}
-		Sxy^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-(y_{j}x_{j})-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})(\sum_{i=1}^{n}y_{i})-y_{k})}{n-1}}{n-2}
-	\end{equation}
-	
-	The updated estimate for the slope is therefore
-	\begin{equation}
-		\hat{\beta}_{1}^{(j)}=\frac{Sxy^{(j)}}{Sxx^{(j)}}
-	\end{equation}
-	
-	It is necessary to determine the mean for $x$ and $y$ of the remaining $n-1$ terms
-	\begin{equation}
-		\bar{x}^{(j)}=\frac{(\sum_{i=1}^{n}x_{i})-(x_{j})}{n-1},
-	\end{equation}
-	
-	\begin{equation}
-		\bar{y}^{(j)}=\frac{(\sum_{i=1}^{n}y_{i})-(y_{j})}{n-1}.
-	\end{equation}
-	
-	The updated intercept estimate is therefore
-	
-	\begin{equation}
-		\hat{\beta}_{0}^{(j)}=\bar{y}^{(j)}-\hat{\beta}_{1}^{(j)}\bar{x}^{(j)}.
-	\end{equation}
-	
-	\subsection{Inference on intercept and slope}
-	\begin{equation}
-		\hat{\beta_{1}} \pm t_{(\alpha, n-2) }
-		\sqrt{\frac{S^2}{(n-1)S^{2}_{x}}}
-	\end{equation}
-	
-	\begin{equation}
-		\frac{\hat{\beta_{0}}-\beta_{0}}{SE(\hat{\beta_{0}})}
-	\end{equation}
-	\begin{equation}
-		\frac{\hat{\beta_{1}}-\beta_{1}}{SE(\hat{\beta_{0}})}
-	\end{equation}
-	
-	
-	\subsubsection{Inference on correlation coefficient} This test of the slope is coincidentally the equivalent of a test of the correlation of the $n$ observations of $X$ and $Y$.
-	\begin{eqnarray}
-		H_{0}: \rho_{XY} = 0 \nonumber \\
-		H_{A}: \rho_{XY} \ne 0 \nonumber \\
-	\end{eqnarray}
-	%--------------------------------------------------------------------------------------%
-	\newpage
+
 \chapter{Appendices 1}
 
 
@@ -2902,6 +2937,39 @@ the projection matrix, $H$, by removing the necessity to refit the
 model each time it is updated. However this approach is known for
 numerical instability in the case of down-dating.
 
+	\section{The Hat Matrix} %5.1
+	
+	The projection matrix $H$ (also known as the hat matrix), is a
+	well known identity that maps the fitted values $\hat{Y}$ to the
+	observed values $Y$, i.e. $\hat{Y} = HY$.
+	
+	\begin{equation}
+	H =\quad X(X^{T}X)^{-1}X^{T}
+	\end{equation}
+	
+	$H$ describes the influence each observed value has on each fitted
+	value. The diagonal elements of the $H$ are the `leverages', which
+	describe the influence each observed value has on the fitted value
+	for that same observation. The residuals ($R$) are related to the
+	observed values by the following formula:
+	\begin{equation}
+	R = (I-H)Y
+	\end{equation}
+	
+	The variances of $Y$ and $R$ can be expressed as:
+	\begin{eqnarray}
+	\mbox{var}(Y) = H\sigma^{2} \nonumber\\
+	\mbox{var}(R) = (I-H)\sigma^{2}
+	\end{eqnarray}
+	
+	Updating techniques allow an economic approach to recalculating
+	the projection matrix, $H$, by removing the necessity to refit the
+	model each time it is updated. However this approach is known for
+	numerical instability in the case of down-dating.
+	
+	
+	
+	
 \section{Sherman Morrison Woodbury Formula} % 5.2
 
 The `Sherman Morrison Woodbury' Formula is a well known result in
@@ -3329,36 +3397,6 @@ the fixed effects estimate of deleting each observation in turn could be cheaply
 
 %---------------------------------------------------------------------------------------------------------%
 
-\section{Measures 2} %2.4
-
-\subsection{Cook's Distance} %2.4.1
-\begin{itemize}
-	\item For variance components $\gamma$
-\end{itemize}
-
-Diagnostic tool for variance components
-\[ C_{\theta i} =(\hat(\theta)_{[i]} - \hat(\theta))^{T}\mbox{cov}( \hat(\theta))^{-1}(\hat(\theta)_{[i]} - \hat(\theta))\]
-
-\subsection{Variance Ratio} %2.4.2
-\begin{itemize}
-	\item For fixed effect parameters $\beta$.
-\end{itemize}
-
-
-\subsection{Cook-Weisberg statistic} %2.4.3
-\begin{itemize}
-	\item For fixed effect parameters $\beta$.
-\end{itemize}
-
-\subsection{Andrews-Pregibon statistic} %2.4.4
-\begin{itemize}
-	\item For fixed effect parameters $\beta$.
-\end{itemize}
-The Andrews-Pregibon statistic $AP_{i}$ is a measure of influence based on the volume of the confidence ellipsoid.
-The larger this statistic is for observation $i$, the stronger the influence that observation will have on the model fit.
-
-%==============================================================================================================================%
-%--------------------------------------------------------------------------------------------%
 
 \section{Computation and Notation } %2.3
 with $\boldsymbol{V}$ unknown, a standard practice for estimating $\boldsymbol{X \beta}$ is the estime the variance components $\sigma^2_j$,
