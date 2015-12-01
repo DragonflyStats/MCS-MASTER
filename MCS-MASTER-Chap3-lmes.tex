@@ -243,12 +243,6 @@ where $D$ and $\Sigma$ are positive definite matrices parameterized by an unknow
 % The likelihood function ($L(\theta)$)is a fundamental concept in statistical inference. It indicates how likely a particular population is to produce an observed sample. The set of values that maximize the likelihood function are considered to be optimal, and are used as the estimates of the parameters. For computational ease, it is common to use the logarithm of the likelihood function, known simply as the log-likelihood ($\ell(\theta)$).
 
 
-\section{Estimation}
-Estimation of LME models involve two complementary estimation issues'; estimating the vectors of the fixed and random effects estimates $\hat{\beta}$ and $\hat{b}$ and estimating the variance covariance matrices $D$ and $\Sigma$.
-Inference about fixed effects have become known as `estimates', while inferences about random effects have become known as `predictions'. The most common approach to obtain estimators are Best Linear Unbiased Estimator (BLUE) and Best Linear Unbiased Predictor (BLUP). For an LME model given by (\ref{LW}), the BLUE of $\hat{\beta}$ is given by
-\[\hat{\beta} = (X^\prime V^{-1}X)^{-1}X^\prime V^{-1}y,\]whereas the BLUP of $\hat{b}$ is given by
-\[\hat{b} = DZ^{\prime} V^{-1} (y-X\hat{\beta}).\]
-
 
 \section{Linear Mixed effects Models}
 A linear mixed effects (LME) model is a statistical model containing both fixed effects and random effects (random effects are also known as variance components). LME models are a generalization of the classical linear model, which contain fixed effects only. When the levels of factors are considered to be sampled from a population,
@@ -442,11 +436,74 @@ from estimating the fixed effects in $\boldsymbol{\beta}$. Restricted maximum li
 estimate the model. Therefore models derived using ML must be used instead.
 
 
-\section{Estimation for LME Models}
+\section{Estimation}
 Estimation of LME models involve two complementary estimation issues'; estimating the vectors of the fixed and random effects estimates $\hat{\beta}$ and $\hat{b}$ and estimating the variance covariance matrices $D$ and $\Sigma$.
-Inference about fixed effects have become known as `estimates', while inferences about random effects have become known as `predictions'. The most common approach to obtain estimators are Best Linear Unbiased Estimator (BLUE) and Best Linear Unbiased Predictor (BLUP). For an LME model given by \citet{LW82}, the BLUE of $\hat{\beta}$ is given by
+Inference about fixed effects have become known as `estimates', while inferences about random effects have become known as `predictions'. The most common approach to obtain estimators are Best Linear Unbiased Estimator (BLUE) and Best Linear Unbiased Predictor (BLUP). For an LME model given by (\ref{LW}), the BLUE of $\hat{\beta}$ is given by
 \[\hat{\beta} = (X^\prime V^{-1}X)^{-1}X^\prime V^{-1}y,\]whereas the BLUP of $\hat{b}$ is given by
 \[\hat{b} = DZ^{\prime} V^{-1} (y-X\hat{\beta}).\]
+
+
+
+\section{Henderson's equations}
+Because of the dimensionality of V (i.e. $n \times n$) computing the inverse of V can be difficult. As a way around the this problem \citet{Henderson53, Henderson59,Henderson63,Henderson73,Henderson84a} offered a more simpler approach of jointly estimating $\hat{\beta}$ and $\hat{b}$.
+\cite{Henderson:1950} made the (ad-hoc) distributional assumptions $y|b \sim \mathrm{N} (X \beta + Zb, \Sigma)$ and $b \sim \mathrm{N}(0,D),$ and proceeded to maximize the joint density of $y$ and $b$
+\begin{equation}
+\left|
+\begin{array}{cc}
+D & 0 \\
+0 & \Sigma \\
+\end{array}
+\right|^{-\frac{1}{2}}
+\exp
+\left\{ -\frac{1}{2}
+\left(
+\begin{array}{c}
+b \\
+y - X \beta -Zb \\
+\end{array}
+\right)^\prime
+\left( \begin{array}{cc}
+D & 0 \\
+0 & \Sigma \\
+\end{array}\right)^{-1}
+\left(
+\begin{array}{c}
+b \\
+y - X \beta -Zb \\
+\end{array}
+\right)
+\right\},
+\label{u&beta:JointDensity}
+\end{equation}
+with respect to $\beta$ and $b,$ which ultimately requires minimizing the criterion
+\begin{equation}
+(y - X \beta -Zb)'\Sigma^{-1}(y - X \beta -Zb) + b^\prime D^{-1}b.
+\label{Henderson:Criterion}
+\end{equation}
+This leads to the mixed model equations
+\begin{equation}
+\left(\begin{array}{cc}
+X^\prime\Sigma^{-1}X & X^\prime\Sigma^{-1}Z
+\\
+Z^\prime\Sigma^{-1}X & X^\prime\Sigma^{-1}X + D^{-1}
+\end{array}\right)
+\left(\begin{array}{c}
+\beta \\
+b
+\end{array}\right)
+=
+\left(\begin{array}{c}
+X^\prime\Sigma^{-1}y \\
+Z^\prime\Sigma^{-1}y
+\end{array}\right).
+\label{Henderson:Equations}
+\end{equation}
+Using these equations, obtaining the estimates requires the inversion of a matrix
+of dimension $p+q \times p+q$, considerably smaller in size than $V$. \citet{Henderson1963} shows that these mixed model equations do not depend on normality and that $\hat{\beta}$ and $\hat{b}$ are the BLUE and BLUP under general conditions, provided $D$ and $\Sigma$ are known.
+
+\cite{Robi:BLUP:1991} points out that although \cite{Henderson:1950} initially referred to the estimates $\hat{\beta}$ and $\hat{b}$ from (\ref{Henderson:Equations}) as ``joint maximum likelihood estimates", \cite{Henderson:1973} later advised that these estimates should not be referred to as ``maximum likelihood" as the function being maximized in (\ref{Henderson:Criterion}) is a joint density rather than a likelihood function. \cite{Lee:Neld:Pawi:2006} remarks that it is clear that Henderson used joint estimation for computational purposes, without recognizing the theoretical implications.
+
+
 
 \section{Henderson's equations}
 Because of the dimensionality of V (i.e. $n \times n$) computing the inverse of V can be difficult. As a way around the this problem \citet{Henderson53, Henderson59,Henderson63,Henderson73,Henderson84a} offered a more simpler approach of jointly estimating $\hat{\beta}$ and $\hat{b}$.
@@ -506,6 +563,43 @@ Using these equations, obtaining the estimates requires the inversion of a matri
 of dimension $p+q \times p+q$, considerably smaller in size than $V$. \citet{Henderson1963} shows that these mixed model equations do not depend on normality and that $\hat{\beta}$ and $\hat{b}$ are the BLUE and BLUP under general conditions, provided $D$ and $\Sigma$ are known.
 
 \cite{Robi:BLUP:1991} points out that although \cite{Henderson:1950} initially referred to the estimates $\hat{\beta}$ and $\hat{b}$ from (\ref{Henderson:Equations}) as ``joint maximum likelihood estimates", \cite{Henderson:1973} later advised that these estimates should not be referred to as ``maximum likelihood" as the function being maximized in (\ref{Henderson:Criterion}) is a joint density rather than a likelihood function. \cite{Lee:Neld:Pawi:2006} remarks that it is clear that Henderson used joint estimation for computational purposes, without recognizing the theoretical implications.
+
+\subsubsection{Estimation of the fixed parameters}
+
+The vector $y$ has marginal density $y \sim \mathrm{N}(X \beta,V),$ where $V = \Sigma + ZDZ^\prime$ is specified through the variance component parameters $\theta.$ The log-likelihood of the fixed parameters $(\beta, \theta)$ is
+\begin{equation}
+\ell (\beta, \theta|y) =
+-\frac{1}{2} \log |V| -\frac{1}{2}(y -
+X \beta)'V^{-1}(y -
+X \beta), \label{Likelihood:MarginalModel}
+\end{equation}
+and for fixed $\theta$ the estimate $\hat{\beta}$ of $\beta$ is obtained as the solution of
+\begin{equation}
+(X^\prime V^{-1}X) {\beta} = X^\prime V^{-1}y.
+\label{mle:beta:hat}
+\end{equation}
+
+Substituting $\hat{\beta}$ from (\ref{mle:beta:hat}) into $\ell(\beta, \theta|y)$ from (\ref{Likelihood:MarginalModel}) returns the \emph{profile} log-likelihood
+\begin{eqnarray*}
+	\ell_P(\theta \mid y) &=& \ell(\hat{\beta}, \theta \mid y) \\
+	&=& -\frac{1}{2} \log |V| -\frac{1}{2}(y - X \hat{\beta})'V^{-1}(y - X \hat{\beta})
+\end{eqnarray*}
+of the variance parameter $\theta.$ Estimates of the parameters $\theta$ specifying $V$ can be found by maximizing $\ell_P(\theta \mid y)$ over $\theta.$ These are the ML estimates. For REML estimation the \emph{restricted} log-likelihood is defined as
+\[
+\ell_R(\theta \mid y) =
+\ell_P(\theta \mid y) -\frac{1}{2} \log |X^\prime VX |.
+\]
+%\subsubsection{Likelihood estimation techniques}
+%Maximum likelihood and restricted maximum likelihood have become the most common strategies
+%for estimating the variance component parameter $\theta.$ Maximum likelihood estimation obtains
+%parameter estimates by optimizing the likelihood function.
+%To obtain ML estimate the likelihood is constructed as a function of the parameters in the specified LME model.
+% The maximum likelihood estimates (MLEs) of the parameters are the values of the arguments that maximize the likelihood function.
+
+The REML approach does not base estimates on a maximum likelihood fit of all the information, but instead uses a likelihood function derived from a data set, transformed to remove the irrelevant influences \citep{REMLDefine}.
+Restricted maximum likelihood is often preferred to maximum likelihood because REML estimation reduces the bias in the variance component by taking into account the loss of degrees of freedom that results
+from estimating the fixed effects in $\boldsymbol{\beta}$. Restricted maximum likelihood also handles high correlations more effectively, and is less sensitive to outliers than maximum likelihood.  The problem with REML for model building is that the likelihoods obtained for different fixed effects are not comparable. Hence it is not valid to compare models with different fixed effects using a likelihood ratio test or AIC when REML is used to
+estimate the model. Therefore models derived using ML must be used instead.
 
 \subsubsection{Estimation of the fixed parameters}
 
@@ -550,149 +644,6 @@ estimate the model. Therefore models derived using ML must be used instead.
 
 The established approach for estimating the random effects is to use the best linear predictor of $b$ from $y,$ which for a given $\beta$ equals $DZ^\prime V^{-1}(y - X \beta).$ In practice $\beta$ is replaced by an estimator such as $\hat{\beta}$ from (\ref{mle:beta:hat}) so that $\hat{b} = DZ^\prime V^{-1}(y - X \hat{\beta}).$ Pre-multiplying by the appropriate matrices it is straightforward to show that these estimates $\hat{\beta}$ and $\hat{b}$ satisfy the equations in (\ref{Henderson:Equations}).
 
-\subsubsection{Algorithms for likelihood function optimization}Iterative numerical techniques are used to optimize the log-likelihood function and estimate the covariance parameters $\theta$. The procedure is subject to the constraint that $R$ and $D$ are both positive definite. The most common iterative algorithms for optimizing the likelihood function are the Newton-Raphson method, which is the preferred method, the expectation maximization (EM) algorithm and the Fisher scoring methods.
-
-The EM algorithm, introduced by \citet{EM}, is an iterative technique for maximizing complicated likelihood functions. The algorithm alternates between performing an expectation (E) step
-and the maximization (M) step. The `E' step computes the expectation of the log-likelihood evaluated using the current
-estimate for the variables. In the `M' step, parameters that maximize the expected log-likelihood, found on the previous `E' step, are computed. These parameter estimates are then used to determine the distribution of the variables in the next `E' step. The algorithm alternatives between these two steps until convergence is reached.
-
-The main drawback of the EM algorithm is its slow rate of
-convergence. Consequently the EM algorithm is rarely used entirely in LME estimation,
-instead providing an initial set of values that can be passed to
-other optimization techniques.
-
-The Newton Raphson (NR) method is the most common, and recommended technique for ML and
-REML estimation. The NR algorithm minimizes an objective function defines as $-2$ times the log likelihood for the covariance parameters $\theta$. At every iteration the NR algorithm requires the
-calculation of a vector of partial derivatives, known as the gradient, and the second derivative matrix with respect to the covariance parameters. This is known as the observed Hessian matrix. Due to the Hessian matrix, the NR algorithm is more time-consuming, but convergence is reached with fewer iterations compared to the EM algorithm. The Fisher scoring algorithm is an variant of the NR algorithm that is more numerically stable and likely to converge, but not recommended to obtain final estimates.
-
-\subsubsection{The extended likelihood}
-
-The desire to have an entirely likelihood-based justification for estimates of random effects, in contrast to Henderson's equation, has motivated \citet[page 429]{Pawi:in:2001} to define the \emph{extended likelihood}. He remarks ``In mixed effects modelling the extended likelihood has been called \emph{h-likelihood} (for hierarchical  likelihood) by \cite{Lee:Neld:hier:1996}, while in smoothing literature it is known as the \emph{penalized likelihood} (e.g.\ \citeauthor{Gree:Silv:nonp:1994} \citeyear{Gree:Silv:nonp:1994})." The extended likelihood can be written $L(\beta,\theta,b|y) = p(y|b;\beta,\theta) p(b;\theta)$ and adopting the same distributional assumptions used by \cite{Henderson:1950} yields the log-likelihood function
-
-\begin{eqnarray*}
-	\ell_h(\beta,\theta,b|y)
-	& = \displaystyle -\frac{1}{2} \left\{ \log|\Sigma| + (y - X \beta -Zb)'\Sigma^{-1}( y - X \beta -Zb) \right.\\
-	&  \hspace{0.5in} \left. + \log|D| + b^\prime D^{-1}b \right\}.
-\end{eqnarray*}
-Given $\theta$, differentiating with respect to $\beta$ and $b$ returns Henderson's equations in (\ref{Henderson:Equations}).
-
-\subsubsection{The LME model as a general linear model}
-Henderson's equations in (\ref{Henderson:Equations}) can be rewritten $( T^\prime W^{-1} T ) \delta = T^\prime W^{-1} y_{a} $ using
-\[
-\delta = \left(\begin{array}{c}\beta \\ b \end{array}\right),
-\ y_{a} = \left(\begin{array}{c}
-y \cr \psi
-\end{array}\right),
-\ T = \left(\begin{array}{cc}
-X & Z  \\
-0 & I
-\end{array}\right),
-\ \textrm{and} \ W = \left(\begin{array}{cc}
-\Sigma & 0  \cr
-0 &  D \end{array}\right),
-\]
-where \cite{Lee:Neld:Pawi:2006} describe $\psi = 0$ as quasi-data with mean $\mathrm{E}(\psi) = b.$ Their formulation suggests that the joint estimation of the coefficients $\beta$ and $b$ of the linear mixed effects model can be derived via a classical augmented general linear model $y_{a} = T\delta + \varepsilon$ where $\mathrm{E}(\varepsilon) = 0$ and $\mathrm{var}(\varepsilon) = W,$ with \emph{both} $\beta$ and $b$ appearing as fixed parameters. The usefulness of this reformulation of an LME as a general linear model will be revisited.
-
-
-%------------------------------------------------------------------------------------%
-\newpage                                                                    % - Section 4
-%----------------------------------------------------------------------------------------%
-
-\section{Henderson's equations}
-Because of the dimensionality of V (i.e. $n \times n$) computing the inverse of V can be difficult. As a way around the this problem \citet{Henderson53, Henderson59,Henderson63,Henderson73,Henderson84a} offered a more simpler approach of jointly estimating $\hat{\beta}$ and $\hat{b}$.
-\cite{Henderson:1950} made the (ad-hoc) distributional assumptions $y|b \sim \mathrm{N} (X \beta + Zb, \Sigma)$ and $b \sim \mathrm{N}(0,D),$ and proceeded to maximize the joint density of $y$ and $b$
-\begin{equation}
-	\left|
-	\begin{array}{cc}
-		D & 0 \\
-		0 & \Sigma \\
-	\end{array}
-	\right|^{-\frac{1}{2}}
-	\exp
-	\left\{ -\frac{1}{2}
-	\left(
-	\begin{array}{c}
-		b \\
-		y - X \beta -Zb \\
-	\end{array}
-	\right)^\prime
-	\left( \begin{array}{cc}
-		D & 0 \\
-		0 & \Sigma \\
-	\end{array}\right)^{-1}
-	\left(
-	\begin{array}{c}
-		b \\
-		y - X \beta -Zb \\
-	\end{array}
-	\right)
-	\right\},
-	\label{u&beta:JointDensity}
-\end{equation}
-with respect to $\beta$ and $b,$ which ultimately requires minimizing the criterion
-\begin{equation}
-	(y - X \beta -Zb)'\Sigma^{-1}(y - X \beta -Zb) + b^\prime D^{-1}b.
-	\label{Henderson:Criterion}
-\end{equation}
-This leads to the mixed model equations
-\begin{equation}
-	\left(\begin{array}{cc}
-		X^\prime\Sigma^{-1}X & X^\prime\Sigma^{-1}Z
-		\\
-		Z^\prime\Sigma^{-1}X & X^\prime\Sigma^{-1}X + D^{-1}
-	\end{array}\right)
-	\left(\begin{array}{c}
-		\beta \\
-		b
-	\end{array}\right)
-	=
-	\left(\begin{array}{c}
-		X^\prime\Sigma^{-1}y \\
-		Z^\prime\Sigma^{-1}y
-	\end{array}\right).
-	\label{Henderson:Equations}
-\end{equation}
-Using these equations, obtaining the estimates requires the inversion of a matrix
-of dimension $p+q \times p+q$, considerably smaller in size than $V$. \citet{Henderson1963} shows that these mixed model equations do not depend on normality and that $\hat{\beta}$ and $\hat{b}$ are the BLUE and BLUP under general conditions, provided $D$ and $\Sigma$ are known.
-
-\cite{Robi:BLUP:1991} points out that although \cite{Henderson:1950} initially referred to the estimates $\hat{\beta}$ and $\hat{b}$ from (\ref{Henderson:Equations}) as ``joint maximum likelihood estimates", \cite{Henderson:1973} later advised that these estimates should not be referred to as ``maximum likelihood" as the function being maximized in (\ref{Henderson:Criterion}) is a joint density rather than a likelihood function. \cite{Lee:Neld:Pawi:2006} remarks that it is clear that Henderson used joint estimation for computational purposes, without recognizing the theoretical implications.
-
-\subsubsection{Estimation of the fixed parameters}
-
-The vector $y$ has marginal density $y \sim \mathrm{N}(X \beta,V),$ where $V = \Sigma + ZDZ^\prime$ is specified through the variance component parameters $\theta.$ The log-likelihood of the fixed parameters $(\beta, \theta)$ is
-\begin{equation}
-	\ell (\beta, \theta|y) =
-	-\frac{1}{2} \log |V| -\frac{1}{2}(y -
-	X \beta)'V^{-1}(y -
-	X \beta), \label{Likelihood:MarginalModel}
-\end{equation}
-and for fixed $\theta$ the estimate $\hat{\beta}$ of $\beta$ is obtained as the solution of
-\begin{equation}
-	(X^\prime V^{-1}X) {\beta} = X^\prime V^{-1}y.
-	\label{mle:beta:hat}
-\end{equation}
-
-Substituting $\hat{\beta}$ from (\ref{mle:beta:hat}) into $\ell(\beta, \theta|y)$ from (\ref{Likelihood:MarginalModel}) returns the \emph{profile} log-likelihood
-\begin{eqnarray*}
-	\ell_P(\theta \mid y) &=& \ell(\hat{\beta}, \theta \mid y) \\
-	&=& -\frac{1}{2} \log |V| -\frac{1}{2}(y - X \hat{\beta})'V^{-1}(y - X \hat{\beta})
-\end{eqnarray*}
-of the variance parameter $\theta.$ Estimates of the parameters $\theta$ specifying $V$ can be found by maximizing $\ell_P(\theta \mid y)$ over $\theta.$ These are the ML estimates. For REML estimation the \emph{restricted} log-likelihood is defined as
-\[
-\ell_R(\theta \mid y) =
-\ell_P(\theta \mid y) -\frac{1}{2} \log |X^\prime VX |.
-\]
-%\subsubsection{Likelihood estimation techniques}
-%Maximum likelihood and restricted maximum likelihood have become the most common strategies
-%for estimating the variance component parameter $\theta.$ Maximum likelihood estimation obtains
-%parameter estimates by optimizing the likelihood function.
-%To obtain ML estimate the likelihood is constructed as a function of the parameters in the specified LME model.
-% The maximum likelihood estimates (MLEs) of the parameters are the values of the arguments that maximize the likelihood function.
-
-The REML approach does not base estimates on a maximum likelihood fit of all the information, but instead uses a likelihood function derived from a data set, transformed to remove the irrelevant influences \citep{REMLDefine}.
-Restricted maximum likelihood is often preferred to maximum likelihood because REML estimation reduces the bias in the variance component by taking into account the loss of degrees of freedom that results
-from estimating the fixed effects in $\boldsymbol{\beta}$. Restricted maximum likelihood also handles high correlations more effectively, and is less sensitive to outliers than maximum likelihood.  The problem with REML for model building is that the likelihoods obtained for different fixed effects are not comparable. Hence it is not valid to compare models with different fixed effects using a likelihood ratio test or AIC when REML is used to
-estimate the model. Therefore models derived using ML must be used instead.
 
 \subsubsection{Estimation of the random effects}
 
@@ -723,6 +674,28 @@ The desire to have an entirely likelihood-based justification for estimates of r
 	&  \hspace{0.5in} \left. + \log|D| + b^\prime D^{-1}b \right\}.
 \end{eqnarray*}
 Given $\theta$, differentiating with respect to $\beta$ and $b$ returns Henderson's equations in (\ref{Henderson:Equations}).
+
+
+\subsubsection{The LME model as a general linear model}
+Henderson's equations in (\ref{Henderson:Equations}) can be rewritten $( T^\prime W^{-1} T ) \delta = T^\prime W^{-1} y_{a} $ using
+\[
+\delta = \left(\begin{array}{c}\beta \\ b \end{array}\right),
+\ y_{a} = \left(\begin{array}{c}
+y \cr \psi
+\end{array}\right),
+\ T = \left(\begin{array}{cc}
+X & Z  \\
+0 & I
+\end{array}\right),
+\ \textrm{and} \ W = \left(\begin{array}{cc}
+\Sigma & 0  \cr
+0 &  D \end{array}\right),
+\]
+where \cite{Lee:Neld:Pawi:2006} describe $\psi = 0$ as quasi-data with mean $\mathrm{E}(\psi) = b.$ Their formulation suggests that the joint estimation of the coefficients $\beta$ and $b$ of the linear mixed effects model can be derived via a classical augmented general linear model $y_{a} = T\delta + \varepsilon$ where $\mathrm{E}(\varepsilon) = 0$ and $\mathrm{var}(\varepsilon) = W,$ with \emph{both} $\beta$ and $b$ appearing as fixed parameters. The usefulness of this reformulation of an LME as a general linear model will be revisited.
+
+
+%------------------------------------------------------------------------------------%
+\newpage                                                                    % - Section 4
 %----------------------------------------------------------------------------------------%
 
 
@@ -1241,6 +1214,12 @@ These tests are complemented by the ability to consider the inter-method bias an
 \section{Roy's hypothesis tests}
 
 
+%------------------------------------------------------------------------%
+
+\section{Roy's variability tests}
+
+For the purposes of method comparison, Roy presents a methodology utilising linear mixed effects model. The formulation contains a Kronecker product covariance structure in a doubly multivariate setup. This methodology provides for the formal testing of inter-method bias, between-subject variability and within-subject variability of two methods. By doubly multivariate set up, Roy means that the information on each patient or item is multivariate at two levels, the number of methods and number of replicated measurements. Further to \citet{Lam}, it is assumed that the replicates are linked over time. However it is easy to modify to the unlinked case.
+
 Lack of agreement can also arise if there is a disagreement in overall variabilities. This lack of agreement may be due to differing between-item variabilities, differing within-item variabilities, or both. The formulation previously presented usefully facilitates a series of significance tests that assess if and where such differences arise. Roy allows for a formal test of each. These tests are comprised of a formal test for the equality of between-item variances,
 \begin{eqnarray*}
 	\operatorname{H_2} : g^2_1 = g^2_2 \\
@@ -1257,15 +1236,6 @@ A formal test for the equality of overall variances is also presented.
 	\operatorname{K_4} : \omega^2_1 \neq \omega^2_2
 \end{eqnarray*}
 
-These tests are complemented by the ability to the overall correlation coefficient of the two methods, which is determinable from variance estimates. Two methods can be considered to be in agreement if criteria based upon these tests are met. Inference for inter-method bias follows from well-established methods and, as such, will only be noted when describing examples.
-
-
-Conversely, the tests of variability required detailed explanation. Each test is performed by fitting two candidate models, according with the null and alternative hypothesis respectively. The distinction between the models arise in the specification in one, or both, of the variance-covariance matrices. % A likelihood ratio test can then be used to compare these respective fits.
-%------------------------------------------------------------------------%
-
-\section{Roy's variability tests}
-
-For the purposes of method comparison, Roy presents a methodology utilising linear mixed effects model. The formulation contains a Kronecker product covariance structure in a doubly multivariate setup. This methodology provides for the formal testing of inter-method bias, between-subject variability and within-subject variability of two methods. By doubly multivariate set up, Roy means that the information on each patient or item is multivariate at two levels, the number of methods and number of replicated measurements. Further to \citet{Lam}, it is assumed that the replicates are linked over time. However it is easy to modify to the unlinked case.
 
 Roy sets out three conditions for two methods to be considered in agreement. Firstly that there be no significant bias. Second that there is no difference in the between-subject variabilities, and lastly that there is no significant difference in the within-subject variabilities. Should both the second and third conditions be fulfilled, then the overall variabilities of both methods would be equal. Roy additionally uses the overall correlation coefficient to provide extra information about the comparison, with a minimum of 0.82 being required.
 
@@ -1273,10 +1243,16 @@ Roy proposes a series of three tests on the variance components of an LME model.
 
 
 
+Conversely, the tests of variability required detailed explanation. Each test is performed by fitting two candidate models, according with the null and alternative hypothesis respectively. The distinction between the models arise in the specification in one, or both, of the variance-covariance matrices. % A likelihood ratio test can then be used to compare these respective fits.
+
 
 
 
 \section{Correlation coefficient}
+
+These tests are complemented by the ability to the overall correlation coefficient of the two methods, which is determinable from variance estimates. Two methods can be considered to be in agreement if criteria based upon these tests are met. Inference for inter-method bias follows from well-established methods and, as such, will only be noted when describing examples.
+
+
 In addition to the variability tests, Roy advises that it is preferable that a correlation of greater than $0.82$ exist for two methods to be considered interchangeable. However if two methods fulfil all the other conditions for agreement, failure to comply with this one can be overlooked. Indeed Roy demonstrates that placing undue importance to it can lead to incorrect conclusions.
 \citet{roy} remarks that PROC MIXED only gives overall correlation coefficients, but not their variances. Similarly variance are not determinable in \texttt{R} as yet either. Consequently it is not possible to carry out inferences based on all overall correlation coefficients.
 
@@ -2455,6 +2431,198 @@ For Carstensen's `fat' data, the limits of agreement computed using Roy's
 method are consistent with the estimates given by \citet{BXC2008}; $0.044884  \pm 1.96 \times  0.1373979 = (-0.224,  0.314).$
 
 
+\section{BXC - Model Terms}
+
+\begin{itemize}
+	\item Let $y_{mir}$ be the response of method $m$ on the $i$th subject
+	at the $r-$th replicate.
+	\item Let $\boldsymbol{y}_{ir}$ be the $2 \times 1$ vector of measurements
+	corresponding to the $i-$th subject at the $r-$th replicate.
+	\item Let $\boldsymbol{y}_{i}$ be the $R_i \times 1$ vector of
+	measurements corresponding to the $i-$th subject, where $R_i$ is number of replicate measurements taken on item $i$.
+	\item Let $\alpha_mi$ be the fixed effect parameter for method for subject $i$.
+	\item Formally Roy uses a separate fixed effect parameter to describe the true value $\mu_i$, but later combines it with the other fixed effects when implementing the model.
+	\item Let $u_{1i}$ and $u_{2i}$ be the random effects corresponding to methods for item $i$.
+	
+	\item $\boldsymbol{\epsilon}_{i}$ is a $n_{i}$-dimensional vector
+	comprised of residual components. For the blood pressure data $n_{i} = 85$.
+	
+	\item $\boldsymbol{\beta}$ is the solutions of the means of the two methods. In the LME output, the bias ad corresponding
+	t-value and p-values are presented. This is relevant to Roy's first test.\end{itemize}
+
+\section{Carstensen's Mixed Models}
+
+\citet{BXC2004} proposes linear mixed effects models for deriving
+conversion calculations similar to Deming's regression, and for
+estimating variance components for measurements by different
+methods. The following model ( in the authors own notation) is
+formulated as follows, where $y_{mir}$ is the $r$th replicate
+measurement on subject $i$ with method $m$.
+
+\begin{equation}
+y_{mir}  = \alpha_{m} + \beta_{m}\mu_{i} + c_{mi} + e_{mir} \qquad
+( e_{mi} \sim N(0,\sigma^{2}_{m}), c_{mi} \sim N(0,\tau^{2}_{m}))
+\end{equation}
+The intercept term $\alpha$ and the $\beta_{m}\mu_{i}$ term follow
+from \citet{DunnSEME}, expressing constant and proportional bias
+respectively , in the presence of a real value $\mu_{i}.$
+$c_{mi}$ is a interaction term to account for replicate, and
+$e_{mir}$ is the residual associated with each observation.
+Since variances are specific to each method, this model can be
+fitted separately for each method.
+
+The above formulation doesn't require the data set to be balanced.
+However, it does require a sufficient large number of replicates
+and measurements to overcome the problem of identifiability. The
+import of which is that more than two methods of measurement may
+be required to carry out the analysis. There is also the
+assumptions that observations of measurements by particular
+methods are exchangeable within subjects. (Exchangeability means
+that future samples from a population behaves like earlier
+samples).
+
+%\citet{BXC2004} describes the above model as a `functional model',
+%similar to models described by \citet{Kimura}, but without any
+%assumptions on variance ratios. A functional model is . An
+%alternative to functional models is structural modelling
+
+\citet{BXC2004} uses the above formula to predict observations for
+a specific individual $i$ by method $m$;
+
+\begin{equation}BLUP_{mir} = \hat{\alpha_{m}} + \hat{\beta_{m}}\mu_{i} +
+c_{mi} \end{equation}. Under the assumption that the $\mu$s are
+the true item values, this would be sufficient to estimate
+parameters. When that assumption doesn't hold, regression
+techniques (known as updating techniques) can be used additionally
+to determine the estimates. The assumption of exchangeability can
+be unrealistic in certain situations. \citet{BXC2004} provides an
+amended formulation which includes an extra interaction term ($
+d_{mr} \sim N(0,\omega^{2}_{m}$)to account for this.
+
+
+\newpage
+\citet{BXC2008} sets out a methodology of computing the limits of
+agreement based upon variance component estimates derived using
+linear mixed effects models. Measures of repeatability, a
+characteristic of individual methods of measurements, are also
+derived using this method.
+
+\citet{BXC2004} also advocates the use of linear mixed models in
+the study of method comparisons. The model is constructed to
+describe the relationship between a value of measurement and its
+real value. The non-replicate case is considered first, as it is
+the context of the Bland-Altman plots. This model assumes that
+inter-method bias is the only difference between the two methods.
+A measurement $y_{mi}$ by method $m$ on individual $i$ is
+formulated as follows;
+\begin{equation}
+y_{mi}  = \alpha_{m} + \mu_{i} + e_{mi} \qquad ( e_{mi} \sim
+N(0,\sigma^{2}_{m}))
+\end{equation}
+The differences are expressed as $d_{i} = y_{1i} - y_{2i}$ For the
+replicate case, an interaction term $c$ is added to the model,
+with an associated variance component. All the random effects are
+assumed independent, and that all replicate measurements are
+assumed to be exchangeable within each method.
+
+\begin{equation}
+y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + e_{mir} \qquad ( e_{mi}
+\sim N(0,\sigma^{2}_{m}), c_{mi} \sim N(0,\tau^{2}_{m}))
+\end{equation}
+
+\citet{BXC2008} proposes a methodology to calculate prediction
+intervals in the presence of replicate measurements, overcoming
+problems associated with Bland-Altman methodology in this regard.
+It is not possible to estimate the interaction variance components
+$\tau^{2}_{1}$ and $\tau^{2}_{2}$ separately. Therefore it must be
+assumed that they are equal. The variance of the difference can be
+estimated as follows:
+\begin{equation}
+var(y_{1j}-y_{2j})
+\end{equation}
+
+
+\bibliographystyle{chicago}
+\bibliography{DB-txfrbib}
+\section{Carstensen's Model}
+
+
+Using Carstensen's notation, a measurement $y_{mi}$ by method $m$ on individual $i$ the measurement $y_{mir} $ is the $r$th replicate measurement on the $i$th item by the $m$th method, where $m=1,2,$ $i=1,\ldots,N,$ and $r = 1,\ldots,n_i$ is formulated as follows;
+
+\begin{equation}
+y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + \epsilon_{mir}, \qquad  e_{mi}
+\sim \mathcal{N}(0,\sigma^{2}_{m}), \quad c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}).
+\end{equation}
+
+Of particular importance is terms of the model, a true value for item $i$ ($\mu_{i}$).  The fixed effect of Roy's model comprise of an intercept term and fixed effect terms for both methods, with no reference to the true value of any individual item. A distinction can be made between the two models: Roy's model is a standard LME model, whereas Carstensen's model is a more complex additive model.
+
+The classical model is based on measurements $y_{mi}$
+by method $m=1,2$ on item $i = 1,2 \ldots$
+\[y_{mi} + \alpha_{m} + \mu_{i} + e_{mi}\]
+\[e_{mi} \sim N(0,\sigma^2_m)\]
+% \[e_{mi} \sim \mathcal{n} (0,\sigma^2_m)\]
+
+
+
+
+
+Here the terms $\alpha_{m}$ and $\mu_{i}$ represent the fixed effect for method $m$ and a true value for item $i$ respectively. The random effect terms comprise an interaction term $c_{mi}$ and the residuals $\epsilon_{mir}$.
+The $c_{mi}$ term represent random effect parameters corresponding to the two methods, having $\mathrm{E}(c_{mi})=0$ with $\mathrm{Var}(c_{mi})=\tau^2_m$. Carstensen specifies the variance of the interaction terms as being univariate normally distributed. As such, $\mathrm{Cov}(c_{mi}, c_{m^\prime i})= 0.$ All the random effects are assumed independent, and that all replicate measurements are assumed to be exchangeable within each method.
+
+
+Even though the separate variances can not be
+identified, their sum can be estimated by the empirical variance of the differences.
+
+Like wise the separate $\alpha$ can not be
+estimated, only theiir difference can be estimated as
+$\bar{D}$
+
+
+%---Key difference 1---The True Value
+%---Colollary -- Difference in model types
+
+%---Key difference 1---The True Value
+%---Colollary -- Difference in model types
+The presence of the true value term $\mu_i$ gives rise to an important difference between Carstensen's and Roy's models. The fixed effect of Roy's model comprise of an intercept term and fixed effect terms for both methods, with no reference to the true value of any individual item. In other words, Roy considers the group of items being measured as a sample taken from a population. Therefore a distinction can be made between the two models: Roy's model is a standard LME model, whereas Carstensen's model is a more complex additive model.
+
+
+
+With regards to specifying the variance terms, Carstensen remarks that using his approach is common, remarking that \emph{
+	The only slightly non-standard (meaning "not often used") feature is the differing residual variances between methods }\citep{bxc2010}.
+%---Key Difference 2 --- Univariate normal distribution
+
+\citet{BXC2008} makes some interesting remarks in this regard.
+
+\begin{quote}
+	The only slightly non-standard (meaning "not often used") feature
+	is the differing residual variances between methods.
+\end{quote}
+
+Further to his model, Carstensen computes the limits of agreement
+as
+
+\[
+\hat{\alpha}_1 - \hat{\alpha}_2 \pm \sqrt{2 \hat{\tau}^2 +
+	\hat{\sigma}^2_1 + \hat{\sigma}^2_2}
+\]
+
+
+
+As the difference between methods is of interest, the item term can be disregarded.
+
+We assume that that the variance of the measurements is different for both methods, but it does not mean that the separate variances can be estimated with the data available.\\
+% Carstensen also uses a LME model for examining MCS with replicates.\\
+
+
+% Carstensen allocates a fixed, but unknown, mean for each individual. [Grubbs(1948) model.]\\
+
+% His interest lies in calculating the LoA as opposed to formalized testing.
+
+
+
+
+
+%With regards to the specification of the variance terms, Carstensen  remarks that using their approach is common, %remarking that \emph{ The only slightly non-standard (meaning ``not often used") feature is the differing residual %variances between methods }\citep{bxc2010}.
 \section{Calculation of limits of agreement }
 
 % Component 1 
@@ -2694,19 +2862,6 @@ These test statistics follow a chi-square distribution with the degrees of freed
 
 
 
-\section{Computing LoAs from LME models}
-
-
-
-\emph{
-	One important feature of replicate observations is that they should be independent
-	of each other. In essence, this is achieved by ensuring that the observer makes each
-	measurement independent of knowledge of the previous value(s). This may be difficult
-	to achieve in practice.}
-
-%-----------------------------------------------------------------------------------%
-
-%%LME-LOAs
 
 \section{Carstensen's Limits of Agreement}
 \citet{BXC2008} presents a methodology to compute the limits of agreement based on LME models. The method of computation is the same as Roy's model, but with the covariance estimates set to zero.
@@ -2745,85 +2900,7 @@ as
 %	% Check this
 %	\operatorname{Var}(y_1 - y_2) = \sqrt{ \omega^2_1 + \omega^2_2 - 2\omega_{12}}.
 %	\]
-\section{Carstensen's Model}
 
-
-Using Carstensen's notation, a measurement $y_{mi}$ by method $m$ on individual $i$ the measurement $y_{mir} $ is the $r$th replicate measurement on the $i$th item by the $m$th method, where $m=1,2,$ $i=1,\ldots,N,$ and $r = 1,\ldots,n_i$ is formulated as follows;
-
-\begin{equation}
-	y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + \epsilon_{mir}, \qquad  e_{mi}
-	\sim \mathcal{N}(0,\sigma^{2}_{m}), \quad c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}).
-\end{equation}
-
-Of particular importance is terms of the model, a true value for item $i$ ($\mu_{i}$).  The fixed effect of Roy's model comprise of an intercept term and fixed effect terms for both methods, with no reference to the true value of any individual item. A distinction can be made between the two models: Roy's model is a standard LME model, whereas Carstensen's model is a more complex additive model.
-
-The classical model is based on measurements $y_{mi}$
-by method $m=1,2$ on item $i = 1,2 \ldots$
-\[y_{mi} + \alpha_{m} + \mu_{i} + e_{mi}\]
-\[e_{mi} \sim N(0,\sigma^2_m)\]
-% \[e_{mi} \sim \mathcal{n} (0,\sigma^2_m)\]
-
-
-
-
-
-Here the terms $\alpha_{m}$ and $\mu_{i}$ represent the fixed effect for method $m$ and a true value for item $i$ respectively. The random effect terms comprise an interaction term $c_{mi}$ and the residuals $\epsilon_{mir}$.
-The $c_{mi}$ term represent random effect parameters corresponding to the two methods, having $\mathrm{E}(c_{mi})=0$ with $\mathrm{Var}(c_{mi})=\tau^2_m$. Carstensen specifies the variance of the interaction terms as being univariate normally distributed. As such, $\mathrm{Cov}(c_{mi}, c_{m^\prime i})= 0.$ All the random effects are assumed independent, and that all replicate measurements are assumed to be exchangeable within each method.
-
-
-Even though the separate variances can not be
-identified, their sum can be estimated by the empirical variance of the differences.
-
-Like wise the separate $\alpha$ can not be
-estimated, only theiir difference can be estimated as
-$\bar{D}$
-
-
-%---Key difference 1---The True Value
-%---Colollary -- Difference in model types
-
-%---Key difference 1---The True Value
-%---Colollary -- Difference in model types
-The presence of the true value term $\mu_i$ gives rise to an important difference between Carstensen's and Roy's models. The fixed effect of Roy's model comprise of an intercept term and fixed effect terms for both methods, with no reference to the true value of any individual item. In other words, Roy considers the group of items being measured as a sample taken from a population. Therefore a distinction can be made between the two models: Roy's model is a standard LME model, whereas Carstensen's model is a more complex additive model.
-
-
-
-With regards to specifying the variance terms, Carstensen remarks that using his approach is common, remarking that \emph{
-	The only slightly non-standard (meaning "not often used") feature is the differing residual variances between methods }\citep{bxc2010}.
-%---Key Difference 2 --- Univariate normal distribution
-
-\citet{BXC2008} makes some interesting remarks in this regard.
-
-\begin{quote}
-	The only slightly non-standard (meaning "not often used") feature
-	is the differing residual variances between methods.
-\end{quote}
-
-Further to his model, Carstensen computes the limits of agreement
-as
-
-\[
-\hat{\alpha}_1 - \hat{\alpha}_2 \pm \sqrt{2 \hat{\tau}^2 +
-	\hat{\sigma}^2_1 + \hat{\sigma}^2_2}
-\]
-
-
-
-As the difference between methods is of interest, the item term can be disregarded.
-
-We assume that that the variance of the measurements is different for both methods, but it does not mean that the separate variances can be estimated with the data available.\\
-% Carstensen also uses a LME model for examining MCS with replicates.\\
-
-
-% Carstensen allocates a fixed, but unknown, mean for each individual. [Grubbs(1948) model.]\\
-
-% His interest lies in calculating the LoA as opposed to formalized testing.
-
-
-
-
-
-%With regards to the specification of the variance terms, Carstensen  remarks that using their approach is common, %remarking that \emph{ The only slightly non-standard (meaning ``not often used") feature is the differing residual %variances between methods }\citep{bxc2010}.
 \section{BXC2008 presents - Carstensen's Limits of agreement}
 
 
@@ -2945,6 +3022,20 @@ as
 \hat{\alpha}_1 - \hat{\alpha}_2 \pm \sqrt{2 \hat{\tau}^2 +
 	\hat{\sigma}^2_1 + \hat{\sigma}^2_2}
 \]
+\section{Computing LoAs from LME models}
+
+
+
+\emph{
+	One important feature of replicate observations is that they should be independent
+	of each other. In essence, this is achieved by ensuring that the observer makes each
+	measurement independent of knowledge of the previous value(s). This may be difficult
+	to achieve in practice.}
+
+%-----------------------------------------------------------------------------------%
+
+%%LME-LOAs
+
 \section{Computation of limits of agreement }
 
 %---Carstensen's limits of agreement
@@ -2997,24 +3088,6 @@ The computation thereof require that the variance of the difference of measureme
 
 
 
-\section{BXC - Model Terms}
-
-\begin{itemize}
-	\item Let $y_{mir}$ be the response of method $m$ on the $i$th subject
-	at the $r-$th replicate.
-	\item Let $\boldsymbol{y}_{ir}$ be the $2 \times 1$ vector of measurements
-	corresponding to the $i-$th subject at the $r-$th replicate.
-	\item Let $\boldsymbol{y}_{i}$ be the $R_i \times 1$ vector of
-	measurements corresponding to the $i-$th subject, where $R_i$ is number of replicate measurements taken on item $i$.
-	\item Let $\alpha_mi$ be the fixed effect parameter for method for subject $i$.
-	\item Formally Roy uses a separate fixed effect parameter to describe the true value $\mu_i$, but later combines it with the other fixed effects when implementing the model.
-	\item Let $u_{1i}$ and $u_{2i}$ be the random effects corresponding to methods for item $i$.
-	
-	\item $\boldsymbol{\epsilon}_{i}$ is a $n_{i}$-dimensional vector
-	comprised of residual components. For the blood pressure data $n_{i} = 85$.
-	
-	\item $\boldsymbol{\beta}$ is the solutions of the means of the two methods. In the LME output, the bias ad corresponding
-	t-value and p-values are presented. This is relevant to Roy's first test.\end{itemize}
 
 \section{Computation of limits of agreement under Roy's model}
 The limits of agreement computed by Roy's method are derived from the variance covariance matrix for overall variability.
@@ -3308,100 +3381,7 @@ follow from the general model.
 
 
 \newpage
-\section{Carstensen's Mixed Models}
 
-\citet{BXC2004} proposes linear mixed effects models for deriving
-conversion calculations similar to Deming's regression, and for
-estimating variance components for measurements by different
-methods. The following model ( in the authors own notation) is
-formulated as follows, where $y_{mir}$ is the $r$th replicate
-measurement on subject $i$ with method $m$.
-
-\begin{equation}
-	y_{mir}  = \alpha_{m} + \beta_{m}\mu_{i} + c_{mi} + e_{mir} \qquad
-	( e_{mi} \sim N(0,\sigma^{2}_{m}), c_{mi} \sim N(0,\tau^{2}_{m}))
-\end{equation}
-The intercept term $\alpha$ and the $\beta_{m}\mu_{i}$ term follow
-from \citet{DunnSEME}, expressing constant and proportional bias
-respectively , in the presence of a real value $\mu_{i}.$
-$c_{mi}$ is a interaction term to account for replicate, and
-$e_{mir}$ is the residual associated with each observation.
-Since variances are specific to each method, this model can be
-fitted separately for each method.
-
-The above formulation doesn't require the data set to be balanced.
-However, it does require a sufficient large number of replicates
-and measurements to overcome the problem of identifiability. The
-import of which is that more than two methods of measurement may
-be required to carry out the analysis. There is also the
-assumptions that observations of measurements by particular
-methods are exchangeable within subjects. (Exchangeability means
-that future samples from a population behaves like earlier
-samples).
-
-%\citet{BXC2004} describes the above model as a `functional model',
-%similar to models described by \citet{Kimura}, but without any
-%assumptions on variance ratios. A functional model is . An
-%alternative to functional models is structural modelling
-
-\citet{BXC2004} uses the above formula to predict observations for
-a specific individual $i$ by method $m$;
-
-\begin{equation}BLUP_{mir} = \hat{\alpha_{m}} + \hat{\beta_{m}}\mu_{i} +
-	c_{mi} \end{equation}. Under the assumption that the $\mu$s are
-the true item values, this would be sufficient to estimate
-parameters. When that assumption doesn't hold, regression
-techniques (known as updating techniques) can be used additionally
-to determine the estimates. The assumption of exchangeability can
-be unrealistic in certain situations. \citet{BXC2004} provides an
-amended formulation which includes an extra interaction term ($
-d_{mr} \sim N(0,\omega^{2}_{m}$)to account for this.
-
-
-\newpage
-\citet{BXC2008} sets out a methodology of computing the limits of
-agreement based upon variance component estimates derived using
-linear mixed effects models. Measures of repeatability, a
-characteristic of individual methods of measurements, are also
-derived using this method.
-
-\citet{BXC2004} also advocates the use of linear mixed models in
-the study of method comparisons. The model is constructed to
-describe the relationship between a value of measurement and its
-real value. The non-replicate case is considered first, as it is
-the context of the Bland-Altman plots. This model assumes that
-inter-method bias is the only difference between the two methods.
-A measurement $y_{mi}$ by method $m$ on individual $i$ is
-formulated as follows;
-\begin{equation}
-	y_{mi}  = \alpha_{m} + \mu_{i} + e_{mi} \qquad ( e_{mi} \sim
-	N(0,\sigma^{2}_{m}))
-\end{equation}
-The differences are expressed as $d_{i} = y_{1i} - y_{2i}$ For the
-replicate case, an interaction term $c$ is added to the model,
-with an associated variance component. All the random effects are
-assumed independent, and that all replicate measurements are
-assumed to be exchangeable within each method.
-
-\begin{equation}
-	y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + e_{mir} \qquad ( e_{mi}
-	\sim N(0,\sigma^{2}_{m}), c_{mi} \sim N(0,\tau^{2}_{m}))
-\end{equation}
-
-\citet{BXC2008} proposes a methodology to calculate prediction
-intervals in the presence of replicate measurements, overcoming
-problems associated with Bland-Altman methodology in this regard.
-It is not possible to estimate the interaction variance components
-$\tau^{2}_{1}$ and $\tau^{2}_{2}$ separately. Therefore it must be
-assumed that they are equal. The variance of the difference can be
-estimated as follows:
-\begin{equation}
-	var(y_{1j}-y_{2j})
-\end{equation}
-
-
-\bibliographystyle{chicago}
-\bibliography{DB-txfrbib}
 \end{document}
 
 %---------------------------------------------------------------------------------------------------%

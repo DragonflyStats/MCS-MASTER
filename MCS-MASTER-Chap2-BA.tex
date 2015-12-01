@@ -202,7 +202,11 @@
 	precision of each method. Noticeably the differences tend to
 	increase as the averages increase.
 	
-	
+	% %	\section{Normality of Case-wise Differences}
+		
+		The difference are assumed to be normally distributed, although the measurements themselves are not assumed to follow any distribution.Therefore the authors argue that the 95\% of differences are expected to lie within these limits. This assumption is justified because variation between subjects has been removed, leaving only measurement error \citep{BA86}. There are formal methodologies to test whether this assumption holds.
+		
+		
 	
 	
 	
@@ -316,6 +320,15 @@
 	%	there is curvilinearity present. In the region of linearity
 	%	,simple linear regression may yield results of interest.
 	
+		\subsection{Bias Detection}
+		further to this method, the presence of constant bias may be
+		indicated if the average value differences is not equal to zero.
+		\citet{BA86} does, however, indicate the indication of absence
+		of bias does not provide sufficient information to allow a
+		judgement as to whether or not one method can be substituted for
+		another.
+		
+		
 
 	\section{Inspecting the Data}
 	Bland-Altman plots are a powerful graphical methodology for making
@@ -803,6 +816,33 @@ The prevalence of contradictory definitions of what limits of agreement strictly
 	
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+		
+\section{Formal Testing}
+The Bland Altman plot is a simple tool for inspection of the data,
+but in itself it offers no formal testing procedure in this
+regard. To this end, the approach proposed by \citet{BA83} is a
+formal test on the Pearson correlation coefficient  of casewise
+differences and means ($\rho_{AD}$). According to the authors,
+this test is equivalent to a well established tests for equality
+of variances, known as the `Pitman Morgan Test' \citep{Pitman,
+	Morgan}.
+
+For the Grubbs data, the correlation coefficient estimate
+($r_{AD}$) is 0.2625, with a 95\% confidence interval of (-0.366,
+0.726) estimated by Fishers 'r to z' transformation \citep{Cohen}.
+The null hypothesis ($\rho_{AD}$ =0) would fail to be rejected.
+Consequently the null hypothesis of equal variances of each method
+would also fail to be rejected.
+
+There has no been no further mention of this particular test in
+the subsequent article published by Bland and Altman, although
+\citet{BA99} refers to Spearmans' rank correlation coefficient.
+\citet{BA99} comments `we do not see a
+place for methods of analysis based on hypothesis testing'.
+\citet{BA99} also states that consider structural equation models
+to be inappropriate.
 \section{Precision of Limits of Agreement}
 The limits of agreement are estimates derived from the sample
 studied, and will differ from values relevant to the whole
@@ -834,7 +874,32 @@ appropriate when there is an increase in variability of the differences as the m
 plot of case-wise ratios as percentage of averages. This will remove the need for $log$ transformation. This approach is useful
 when there is an increase in variability of the differences as the magnitude of the measurement increases. \citet{Eksborg} proposed
 such a ratio plot, independently of Bland and Altman. \citet{Dewitte} commented on the reception of this article by saying `Strange to say,this report has been overlooked'.
-
+	\subsection*{Bland and Altman's Percentage and Ratio Plots}
+	%------------------------------------------------------------- %
+	\citet{BA99} offer two variations of the Bland-Altman plot intended to overcome situations where the conventional plot is inappropriate. The first variation is a plot of casewise differences as percentage of averages, and is appropriate when the variability of the differences increase as the
+	magnitude increases. 
+	
+	%------------------------------------------------------------- %
+	% % RATIO / EKSBORG
+	The second variation is a plot of casewise ratios as percentage of averages. This will remove the need for
+	logarithmic transformation. This approach is useful when there is an increase in variability of the differences as the magnitude of the measurement increases. \citet{Eksborg} proposed such a ratio plot,
+	independently of Bland and Altman. \citet{Dewitte} commented on
+	the reception of this article by saying `\textit{Strange to say, this 
+		report has been overlooked}'.
+	
+	
+	%	%----------------------------------------------------------------%
+	%	\section{Dewitte et al }
+	%	\begin{quote}When the standard deviation increases with concentration, Bland and Altman recommend a logarithmic y scale, whereas others propose a percent y scale (Pollock et al, 2002). Although generally there is not much difference in effect between using percentages and using a log transformation of the data, we prefer the percent plot (except when data extend over several orders of magnitude) because numbers can be read directly from the plot without the need for back-transformation.
+	%	\end{quote}
+	%	
+	%	\begin{verbatim}
+	%	absolute - small range
+	%	percentage - medium range
+	%	log scale - large range
+	%	\end{verbatim}
+	%==================================================== %
+	
 \section{Limits of Agreement for Replicate Measurements}
 
 Computing limits of agreement features prominently in many method comparison studies since the publication of \citet{BA86}.
@@ -913,6 +978,9 @@ The case-wise differences $d_i = x_i - y_i$
 \]
 
 
+\subsection{Bartko's Ellipse}
+	
+
 
 \section{Outliers}
 The Bland-Altman plot also can be used to identify outliers. An outlier is an observation that is conspicuously different from the rest of the data that it arouses suspicion that it occurs due to a mechanism, or conditions, different to that of the rest of the observations. \citet*{BA99} do not recommend excluding outliers from analyses,
@@ -924,7 +992,18 @@ one or two large outlying differences'. Figure 1.6 demonstrates how the Bland-Al
 	
 As a complement to the Bland-Altman plot, \citet{Bartko} proposes
 the use of a bivariate confidence ellipse, constructed for a
-predetermined level. \citet{AltmanEllipse} provides the relevant calculations for the ellipse. This ellipse is intended as a visual
+predetermined level.
+\citet{Bartko} offers a graphical complement to the Bland-Altman
+plot, in the form of a bivariate confidence ellipse.
+%\citet{AltmanEllipse} provides the relevant calculations.
+
+\begin{figure}[h!]
+	% Requires \usepackage{graphicx}
+	\includegraphics[width=130mm]{images/GrubbsBartko.jpeg}
+	\caption{Bartko's Ellipse For Grubbs Data}\label{GrubbsBartko}
+\end{figure}
+
+ \citet{AltmanEllipse} provides the relevant calculations for the ellipse. This ellipse is intended as a visual
 guidelines for the scatter plot, for detecting outliers and to
 assess the within- and between-subject variances.
 
@@ -1266,7 +1345,28 @@ was found to be the sixth most cited paper of all time by the
 	%4 Inappropriate assessment of Agreement       %%%%%%%%%%%%%%%%%%%%%%%%%%
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
-
+	\section{Carstensen's Model}
+	
+	\citet{BXC2004} presents a model to describe the relationship between a value of measurement and its
+	real value. The non-replicate case is considered first, as it is the context of the Bland Altman plots. This model assumes that inter-method bias is the only difference between the two methods.
+	
+	A measurement $y_{mi}$ by method $m$ on individual $i$ is formulated as follows;
+	\begin{equation}
+	y_{mi}  = \alpha_{m} + \mu_{i} + e_{mi} \qquad  e_{mi} \sim
+	\mathcal{N}(0,\sigma^{2}_{m})
+	\end{equation}
+	The differences are expressed as $d_{i} = y_{1i} - y_{2i}$. For the replicate case, an interaction term $c$ is added to the model, with an associated variance component. All the random effects are assumed independent, and that all replicate measurements are assumed to be exchangeable within each method.
+	
+	\begin{equation}
+	y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + e_{mir}, \qquad  e_{mi}
+	\sim \mathcal{N}(0,\sigma^{2}_{m}), \quad c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}).
+	\end{equation}
+	%----
+	
+	Of particular importance is terms of the model, a true value for item $i$ ($\mu_{i}$).  The fixed effect of Roy's model comprise of an intercept term and fixed effect terms for both methods, with no reference to the true value of any individual item. A distinction can be made between the two models: Roy's model is a standard LME model, whereas Carstensen's model is a more complex additive model.
+	
+	\bigskip
+	
 \bibliographystyle{chicago}
 \bibliography{DB-txfrbib}
 \end{document}
