@@ -69,8 +69,9 @@
 	
 	%		\citet{BA83} highlighted the inadequacies of these approaches for comparing two methods of measurement, and proposed methodologies with this specific application in mind. Although the authors also acknowledge the opportunity to apply other, more complex, approaches, but argue that simpler approaches is preferable, especially when the
 	%		results must be `explained to non-statisticians'.
-	In light of shortcomings associated with scatterplots,
-	\citet*{BA83} recommend a further analysis of the data. Firstly
+In light of shortcomings associated with scatterplots, \citet*{BA83} recommend a further analysis of the data. Firstly
+differences of measurements of two methods on the same subject should  be calculated, and then the average of those measurements
+(Table 2.1). These differences and averages are then plotted (Figure ~\ref{GrubbsBA-noLOA}).
 
 		
 	The issue of whether two measurement methods comparable to the 	extent that they can be used interchangeably with sufficient accuracy is encountered frequently in scientific research. Statisticians Martin Bland and Douglas Altman recognized the inadequacies of several analyzes and articulated quite thoroughly the basis on which of which they are unsuitable for comparing two methods of measurement \citep*{BA83}, while instead recommended the use of graphical techniques to assess agreement.
@@ -122,55 +123,21 @@ should be calculated, and then the average of those measurements,
 	%	Construction of a Bland-Altman plot can be implemented easily with \texttt{R} packages such as Bendix Carstensen's \texttt{MethComp} package, which is designed to \textit{provide computational tools to manipulate, display and analyze data from method comparison studies} \citep{BXC2010}.
 	%	
 	\section{Bland Altman Plots}
-	The issue of whether two measurement methods comparable to the extent that they can be used interchangeably with sufficient accuracy is encountered frequently in scientific research. Historically comparison of two methods of measurement was carried
-	out by use of correlation coefficients or simple linear regression. Bland and Altman recognized the inadequacies of these
-	analyses and articulated quite thoroughly the basis on which of	which they are unsuitable for comparing two methods of measurement
-	\citep*{BA83}.
 
-In light of shortcomings associated with scatterplots, \citet*{BA83} recommend a further analysis of the data. Firstly
-differences of measurements of two methods on the same subject should  be calculated, and then the average of those measurements
-	(Table 2.1). These differences and averages are then plotted (Figure ~\ref{GrubbsBA-noLOA}).
+
+
 	
 	
-The Bland-Altman plot for comparing the `Fotobalk' and `Counter' methods, which shall henceforth be referred to as the `F vs C' comparison, is depicted in Figure ~\ref{GrubbsBA-noLOA}, using data from Table 1.3. The presence and magnitude of the inter-method bias is indicated by the dashed line.	
-	
-	The dashed line in Figure ~\ref{GrubbsBA-noLOA} alludes to the inter method bias between the two methods, as mentioned previously. Bland and Altman
+The Bland-Altman plot for comparing the `Fotobalk' and `Counter' methods, which shall henceforth be referred to as the `F vs C' comparison, is depicted in Figure ~\ref{GrubbsBA-noLOA}, using data from Table 1.3. The dashed line in . alludes to the inter method bias between the two methods, as mentioned previously. Bland and Altman
 	recommend the estimation of inter method bias by calculating the
 	average of the differences. In the case of Grubbs data the inter
 	method bias is $-0.6083$ metres per second.
-	\newpage
-	
-	% latex table generated in R 2.6.0 by xtable 1.5-5 package
-	% Thu Aug 27 16:31:52 2009
-	\begin{table}[tbh]
-		\begin{center}
-			
-			\begin{tabular}{rrrrr}
-				\hline
-				Round & Fotobalk [F] & Counter [C] & Differences [F-C] & Averages [(F+C)/2] \\
-				\hline
-				1 & 793.80 & 794.60 & -0.80 & 794.20 \\
-				2 & 793.10 & 793.90 & -0.80 & 793.50 \\
-				3 & 792.40 & 793.20 & -0.80 & 792.80 \\
-				4 & 794.00 & 794.00 & 0.00 & 794.00 \\
-				5 & 791.40 & 792.20 & -0.80 & 791.80 \\
-				6 & 792.40 & 793.10 & -0.70 & 792.80 \\
-				7 & 791.70 & 792.40 & -0.70 & 792.00 \\
-				8 & 792.30 & 792.80 & -0.50 & 792.50 \\
-				9 & 789.60 & 790.20 & -0.60 & 789.90 \\
-				10 & 794.40 & 795.00 & -0.60 & 794.70 \\
-				11 & 790.90 & 791.60 & -0.70 & 791.20 \\
-				12 & 793.50 & 793.80 & -0.30 & 793.60 \\
-				\hline
-			\end{tabular}
-			\caption{Fotobalk and Counter Methods: Differences and Averages}
-		\end{center}
-	\end{table}
+
 	
 
 By inspection of the plot, it is also possible to compare the precision of each method. Noticeably the differences tend to increase as the averages increase.
 		
-The difference are assumed to be normally distributed, although the measurements themselves are not assumed to follow any distribution. Therefore the authors argue that the 95\% of differences are expected to lie within these limits. This assumption is justified because variation between subjects has been removed, leaving only measurement error \citep{BA86}. There are formal methodologies to test whether this assumption holds.
+
 	
 \subsection{Bland-Altman plots for the Grubbs data}
 
@@ -339,6 +306,33 @@ noticeable vertical displacement from the rest of the observations.
 \citet*{BA99} do not recommend excluding outliers from analyses. However recalculation of the inter-method bias estimate , and further calculations based upon that estimate, are useful for assessing the influence of outliers.\citep{BA99} states that \emph{"We usually find that this method of analysis is not too sensitive to one or two large outlying differences."}
 
 
+\subsection{Detection of Outliers}
+In their 1983 paper they merely state that the plot can be used to
+'spot outliers'.In  their 1986 paper, Bland and Altman give an example of an
+outlier. They state that it could be omitted in practice, but make
+no further comments on the matter. In Bland and Altmans 1999 paper, we get the clearest indication of
+what Bland and Altman suggest on how to react to the presence of
+outliers. Their recommendation is to recalculate the limits
+without them, in order to test the difference with the calculation
+where outliers are retained.
+
+BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
+particularly large reduction.However, they do not recommend removing outliers. Furthermore, they say:
+
+\textit{We usually find that this method of analysis is not too sensitive
+	to one or two large outlying differences.}
+
+We ask if this would be so in all cases. Given that the limits of
+agreement may or may not be disregarded, depending on their
+perceived suitability, we examine whether it would possible that
+the deletion of an outlier may lead to a calculation of limits of
+agreement that are usable in all cases?
+
+Should an Outlying Observation be omitted from a data set? In
+general, this is not considered prudent. Also, it may be required that the outliers are worthy of particular attention themselves.
+
+Classifying outliers and recalculating We opted to examine this
+matter in more detail. The following points have to be considered how to suitably identify an outlier (in a generalized sense). Would a recalculation of the limits of agreement generally results in a compacted range between the upper and lower limits of agreement?
 \subsection{Outliers}
 The Bland-Altman plot also can be used to identify outliers. An outlier is an observation that is conspicuously different from the rest of the data that it arouses suspicion that it occurs due to a mechanism, or conditions, different to that of the rest of the observations. \citet*{BA99} do not recommend excluding outliers from analyses,
 but remark that recalculation of the inter-method bias estimate,
@@ -510,35 +504,7 @@ between the variance of the means $Var(a_{i})$ and the variance of the differenc
 %----------------------------------------------------------------------------%
 
 
-\subsection{Detection of Outliers}
 
-We wish to determine how outliers should be treated in a Bland
-Altman Plot. In their 1983 paper they merely state that the plot can be used to
-'spot outliers'.In  their 1986 paper, Bland and Altman give an example of an
-outlier. They state that it could be omitted in practice, but make
-no further comments on the matter. In Bland and Altmans 1999 paper, we get the clearest indication of
-what Bland and Altman suggest on how to react to the presence of
-outliers. Their recommendation is to recalculate the limits
-without them, in order to test the difference with the calculation
-where outliers are retained.
-
-BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
-particularly large reduction.However, they do not recommend removing outliers. Furthermore, they say:
-
-\textit{We usually find that this method of analysis is not too sensitive
-	to one or two large outlying differences.}
-
-We ask if this would be so in all cases. Given that the limits of
-agreement may or may not be disregarded, depending on their
-perceived suitability, we examine whether it would possible that
-the deletion of an outlier may lead to a calculation of limits of
-agreement that are usable in all cases?
-
-Should an Outlying Observation be omitted from a data set? In
-general, this is not considered prudent. Also, it may be required that the outliers are worthy of particular attention themselves.
-
-Classifying outliers and recalculating We opted to examine this
-matter in more detail. The following points have to be considered how to suitably identify an outlier (in a generalized sense). Would a recalculation of the limits of agreement generally results in a compacted range between the upper and lower limits of agreement?
 \section{Limits of Agreement}
 	Bland and Altman proposed a pair of Limits of agreement, not unlike control limits in control charts. These
 	limits are intended to demonstrate the range in which 95\% of the sample data should lie. The Limits of Agreement centre on the
@@ -593,6 +559,8 @@ The calculation removes a lot of the variation between subjects,  leaving measur
 	If one method is sometimes higher, and sometimes the other method is higher, the average of the differences will be close to zero.
 	If it is not close to zero, this indicates that the two assay methods are producing different results systematically.
 	
+The difference are assumed to be normally distributed, although the measurements themselves are not assumed to follow any distribution. Therefore the authors argue that the 95\% of differences are expected to lie within these limits. This assumption is justified because variation between subjects has been removed, leaving only measurement error \citep{BA86}. There are formal methodologies to test whether this assumption holds.
+
 The limits of agreement methodology assumes a constant level of bias throughout the range of measurements. Importantly the authors recommend prior determination of what would and would constitute acceptable
 agreement, and that sample sizes should be predetermined to give an accurate conclusion. 
 
@@ -659,21 +627,6 @@ Bland-Altman plot, with the limits of agreement shown in dashed
 lines.
 
 
-\begin{figure}[h!]
-	\begin{center}
-		\includegraphics[width=125mm]{images/GrubbsBAplot-LOA.jpeg}
-		\caption{Bland-Altman plot with limits of agreement}\label{GrubbsBAplot-noLOA}
-	\end{center}
-\end{figure}
-
-
-%	\section{Limits of Agreement}
-%	\citet{BA86} introduces an elaboration of the plot, adding to the
-%	plot `limits of agreement' to the plot. These limits are based
-%	upon the standard deviation of the differences. The discussion
-%	shall be reverted to these limits of agreement in due course.
-
-
 %----------------------------------------------------------------------------%
 
 \subsection{Appropriate Use of Limits of Agreement}
@@ -707,18 +660,6 @@ in \citet*{BA83} demonstrates the effect of recalculating without
 a particular outlier. Refering to the VCF data set in the same
 paper, there is more than one outlier.
 
-For the Grubbs `F vs C' comparison, these limits of
-agreement are calculated as -0.132 for the upper bound, and -1.08
-for the lower bound. Figure 1.9 shows the resultant Bland-Altman
-plot, with the limits of agreement shown in dashed lines.
-
-
-\begin{figure}[h!]
-	\begin{center}
-		\includegraphics[width=125mm]{images/GrubbsBAplot-LOA.jpeg}
-		\caption{Bland-Altman plot with limits of agreement}\label{GrubbsBAplot-noLOA}
-	\end{center}
-\end{figure}
 
 \subsection{Formal definition of Limits of Agreement}
 \citet{BA99} note the similarity of limits of agreement to confidence intervals, but are clear that they are not the same
@@ -742,10 +683,7 @@ width, adding that only for 61 or more subjects is the quantile less than 2.
 \citet{luiz} describes limits of agreement as tolerance limits. A
 tolerance interval for a measured quantity is the interval in
 which a specified fraction of the population's values lie, with a
-specified level of confidence. \citet{luiz} offers an alternative description of limits of agreement, this time as tolerance limits. A tolerance interval for
-a measured quantity is the interval in which a specified fraction of the population's values lie, with a specified level of
-confidence. \citet{Barnhart} describes them as a probability interval, and offers a clear description of how they should be used; `if the absolute limit is less than an acceptable difference $d_{0}$, then the agreement between the two methods is deemed
-satisfactory'.
+specified level of confidence. \citet{luiz} offers an alternative description of limits of agreement, this time as tolerance limits. A tolerance interval for a measured quantity is the interval in which a specified fraction of the population's values lie, with a specified level of confidence. \citet{Barnhart} describes them as a probability interval, and offers a clear description of how they should be used; `\textit{if the absolute limit is less than an acceptable difference $d_{0}$, then the agreement between the two methods is deemed satisfactory}'.
 
 The prevalence of contradictory definitions of what limits of agreement strictly are will inevitably attenuate the poor standard of reporting using limits of agreement, as mentioned by \citet{mantha}.
 
@@ -794,17 +732,9 @@ observations will fall, with a certain probability, given what has already been 
 \bar{d} \pm t_{(0.975, n-1)}s_{d} \sqrt{1+\frac{1}{n}}
 \]
 
-Various other interpretations as to how limits of agreement should properly be defined. \citet{luiz} offers an alternative description of limits of agreement, this time as tolerance limits. A tolerance interval for a measured quantity is the interval in which a specified fraction
-of the population's values lie, with a specified level of confidence. \citet{Barnhart} describes them as a probability interval, and offers a clear description of how they should be used; `\textit{if the absolute limit is less than an acceptable difference $d_{0}$, then the agreement between the two methods is deemed satisfactory}'.
+Various other interpretations as to how limits of agreement should properly be defined. 
 
 The prevalence of contradictory definitions of what limits of agreement strictly are will inevitably attenuate the poor standard of reporting using limits of agreement, as discussed by \citet{mantha}.
-
-%At least 100 historical
-%values must be used to determine the acceptable value (i.e the
-%process mean) and the process standard deviation. The principle
-%that the mean and variance of a large sample of a homogeneous
-%population is a close approximation of the population's mean and
-%variance justifies this.
 
 %\begin{figure}[h!]
 %\begin{center}
@@ -873,12 +803,7 @@ There has no been no further mention of this particular test in the subsequent a
 \citet{BA99} refers to Spearmans' rank correlation coefficient. \citet{BA99} comments `we do not see a
 place for methods of analysis based on hypothesis testing'. \citet{BA99} also states that consider structural equation models
 to be inappropriate.
-\subsection{Precision of Limits of Agreement}
-The limits of agreement are estimates derived from the sample
-studied, and will differ from values relevant to the whole population. A different sample would give different limits of agreement. \citet*{BA86} advance a formulation for confidence intervals of the inter-method bias and the limits of agreement.
-These calculations employ quantiles of the `t' distribution with
-$n -1$ degrees of freedom.
-
+%=================================================================%
 \section{Variations of the Bland-Altman Plot} 
 Importantly \citet{BA99} makes the following point:
 \begin{quote}These estimates are meaningful only if we can assume
