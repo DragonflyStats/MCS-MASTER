@@ -70,6 +70,15 @@ rulesepcolor=\color{black},
 
 \chapter{Introduction}
 % - A
+
+\begin{framed}
+\textit{ In this section, we introduce the LME model, discusss how it can be applied to MCS problems, and how it is desirable in the case of replicate measurements, giving some examples from previous work (i.e. Carstensen et Al, Lai \& Shaio, and Roy). Further to that, there will be a demonstration on fitting various types LME models using freely available software.}
+% To fully understand the complexities, a comparison of the \textbf{nlme} and \textbf{LME4} \texttt{R} Packages is required.
+
+\textit{ While the MCS problem is conventionally poised in the context of two methods of measurements, LME models allow for a straightforward analysis whereby several methods of measurement can be measured simulataneously. However simple models only can only indicate agreement of lack thereof, and the presence of inter-method bias. To consider more complex questions, more complex LME models are required.  Useful approaches will be introduced in a later section.
+}
+\end{framed}
+\newpage
 \section{LME models in method comparison studies}
 %With the greater computing power available for scientific
 %analysis, it is inevitable that complex models such as linear
@@ -101,10 +110,9 @@ precision between two sets of measurement.
 \subsection*{LAI-SHIAO}
 \citet{LaiShiao} views
 the uses of linear mixed effects models as an expansion on the
-Bland-Altman methodology, rather than as a replacement.\citet{LaiShiao} view the LME Models approach as an natural expansion to the Bland ? Altman method for comparing two measurement methods. Their focus is to explain lack of agreement by means of additional covariates outside the scope of the traditional method comparison problem. \citet{LaiShiao} is interesting in that it extends the usual method comparison study question. It correctly identifies LME models as a methodoloy that can used to make such questions tractable.	
+Bland-Altman methodology, rather than as a replacement.\citet{LaiShiao} view the LME Models approach as an natural expansion to the Bland ? Altman method for comparing two measurement methods. \citet{LaiShiao} is interesting in that it extends the usual method comparison study question. It correctly identifies LME models as a methodoloy that can used to make such questions tractable. Their focus is to explain lack of agreement by means of additional covariates outside the scope of the traditional method comparison problem. 	
 
-\citet{LaiShiao} extends the usual method comparison study question. It correctly identifies LME models as a methodoloy that can used to make such questions tractable.
-The Data Set used in their examples is unavailable for independent use. Therefore, for the sake of consistency, a data set will be simulated based on the Blood Data that will allow for extra variables.
+\citet{LaiShiao} extends the usual method comparison study question. It correctly identifies LME models as a methodoloy that can used to make such questions tractable. The data used for their examples is unavailable for independent use. Therefore, for the sake of consistency, a data set will be simulated based on the Blood Data that will allow for extra variables, and an exploration shall be provided in the appendices.
 % BXC
 \subsection*{Carstensen}
 \citet{BXC2008} remarks that modern statistical computation, such as that used for LME models, greatly improve the efficiency of
@@ -179,14 +187,6 @@ Due to computation complexity, linear mixed effects models have not seen widespr
 
 This approach has seen increased use in method comparison studies in recent years (Lai \& Shaio, Carstensen and Choudhary as examples). In part this is due to the increased profile of LME models, and furthermore the availability of capable software. Additionally LME based approaches may utilise the diagnostic and influence analysis techniques that have been developed in recent times.
 
-In this section, we introduce the LME model, discusss how it can be applied to MCS problems, and how it is desirable in the case of replicate measurements, giving some examples from previous work (i.e. Carstensen et Al, Lai \& Shaio, and Roy).
-
-Further to that, there will be a demonstration on fitting various types LME models using freely available software.
-% To fully understand the complexities, a comparison of the \textbf{nlme} and \textbf{LME4} \texttt{R} Packages is required.
-
-While the MCS problem is conventionally poised in the context of two methods of measurements, LME models allow for a straightforward analysis whereby several methods of measurement can be measured simulataneously. However simple models only can only indicate agreement of lack thereof, and the presence of inter-method bias. To consider more complex questions, more complex LME models are required.  Useful approaches will be introduced in a later section.
-
-
 %----------------------------------------------------------------------------%
 
 \section{Linear Mixed effects Models}
@@ -199,9 +199,6 @@ levels of each factor are of specific interest.
 
 \citet{Fisher4} introduced variance components models for use in genetical studies. Whereas an estimate for variance must take an non-negative value, an individual variance component, i.e.\ a component of the overall variance, may be negative.
 
-The methodology has developed since, including contributions from
-\citet{tippett}, who extend the use of variance components into linear models, and \citet{eisenhart}, who introduced the `mixed model' terminology and formally distinguished between mixed and random effects models. \citet{Henderson:1950} devised a methodology for deriving estimates for both the fixed effects and the random effects, using a set of equations that would become known as `mixed model equations' or `Henderson's equations'.
-LME methodology is further enhanced by Henderson's later works \citep{Henderson53, Henderson59,Henderson63,Henderson73,Henderson84a}. The key features of Henderson's work provide the basis for the estimation techniques.
 
 The framework has developed since, including contributions from
 \citet{tippett}, who extend the use of variance components into linear models, and \citet{eisenhart}, who introduced the `mixed model' terminology and formally distinguished between mixed and random effects models. \citet{Henderson:1950} devised a framework for deriving estimates for both the fixed effects and the random effects, using a set of equations that would become known as `mixed model equations' or `Henderson's equations'.
@@ -249,52 +246,15 @@ where $D$ and $\Sigma$ are positive definite matrices parameterized by an unknow
 
 
 
-\section{Linear Mixed effects Models}
-
-
-\section{Laird Ware}
-\citet{LW82} provides a form of notation for notation for LME models that has since become the standard form, or the basis for more complex formulations. 
-
-%SAS Institute added PROC MIXED to its software suite in 1992 \citep{singer}. \citet{PB} described how to compute LME models in the \texttt{R} environment.
 
 
 
-Using Laird-Ware form, the LME model is commonly described in matrix form,
-\begin{equation}
-	y = X\beta + Zb + \epsilon
-\end{equation}
 
-\noindent where $y$ is a vector of $N$ observable random variables, $\beta$ is a vector of $p$ fixed effects, $X$ and $Z$ are $N \times p$ and $N \times q$ known matrices, and $b$ and $\epsilon$  are vectors of $q$ and $N,$ respectively, random effects such that $\mathrm{E}(b)=0, \ \mathrm{E}(\epsilon)=0$
-and
-\begin{verbatim}
-\[
-\mathrm{var}
-\pmatrix{
-b \cr
-\epsilon }  =
-\pmatrix{
-D & 0 \cr
-0 & \Sigma }
-\]
-\end{verbatim}
-where $D$ and $\Sigma$ are positive definite matrices parameterized by an unknown variance component parameter vector $ \theta.$ The notation provided here is generic, and will be adapted to accord with complex formulations that will be encountered in due course.
-
-\section{Statement of the LME model}
-
-
-% http://www.artifex.org/~meiercl/R_statistics_guide.pdf
-These models are used when there are both fixed and random effects that need to be incorporated into a model.
-
-Fixed effects usually correspond to experimental treatments for which one has data for the entire population of samples corresponding to that treatment.
-
-Random effects,on the other hand, are assigned in the case where we have measurements on a group of samples, and those
-samples are taken from some larger sample pool, and are presumed to be representative.
-
-As such, linear mixed effects models treat the error for fixed effects differently than the error for random effects.
+\section{The Linear Mixed Effects Model}
 A linear mixed effects model is a linear mdoel that combined fixed and random effect terms formulated by \citet{LW82} as follows;
 
 \begin{displaymath}
-	Y_{i} =X_{i}\beta + Z_{i}b_{i} + \epsilon_{i}
+Y_{i} =X_{i}\beta + Z_{i}b_{i} + \epsilon_{i}
 \end{displaymath}
 \begin{itemize}
 	
@@ -308,13 +268,6 @@ A linear mixed effects model is a linear mdoel that combined fixed and random ef
 \end{itemize}
 
 
-%========================================================================================%
-
-
-
-
-
-\section{The Linear Mixed Effects Model}
 The linear mixed effects model is given by
 \begin{equation}
 	Y = X\beta + Zu + \epsilon
@@ -337,6 +290,22 @@ comprises $0$s or $1$s. It has dimension $n \times q$. \textbf{u
 }is a vector of random $q$ effects, and has dimension $q \times
 1$.
 
+\subsection{Statement of the LME model}
+
+
+% http://www.artifex.org/~meiercl/R_statistics_guide.pdf
+These models are used when there are both fixed and random effects that need to be incorporated into a model.
+
+Fixed effects usually correspond to experimental treatments for which one has data for the entire population of samples corresponding to that treatment.
+
+Random effects,on the other hand, are assigned in the case where we have measurements on a group of samples, and those
+samples are taken from some larger sample pool, and are presumed to be representative.
+
+As such, linear mixed effects models treat the error for fixed effects differently than the error for random effects.
+
+
+
+%========================================================================================%
 
 % \subsection{Formulation of the Variance Matrix V}
 \textbf{V} , the variance matrix of \textbf{Y}, can be expressed
@@ -554,11 +523,7 @@ For the response vector described, \citet{hamlett} presents a detailed covarianc
 The diagonal blocks are $\Sigma$, as described previously. The $2 \times 2$ block diagonal matrix in $\boldsymbol{\Omega}$ gives $\boldsymbol{\Sigma}$. $\boldsymbol{\Sigma}$ is the sum of the between-subject variability $\boldsymbol{D}$ and the within subject variability $\boldsymbol{\Lambda}$.
 
 
-$\boldsymbol{\Omega_{i}}$ can be expressed as
-\begin{equation}
-	\boldsymbol{\Omega_{i}} = \boldsymbol{Z}_{i}\boldsymbol{D}\boldsymbol{Z}_{i}\prime + ({\boldsymbol{I_{n_{i}}} \otimes \boldsymbol{\Lambda}}).
-\end{equation}
-The notation $\mbox{dim}_{n_{i}}$ means an $n_{i} \times n_{i}$ diagonal block.
+
 
 \subsection{Correlation terms}
 
@@ -599,26 +564,6 @@ uses a more intuitive approach, treating the observations as a random sample pop
 
 
 %=========================================================================================================== %
-%=========================================================================================================== %
-\newpage
-\subsection{BXC2004 Model}
-\citet{BXC2004} presents a model to describe the relationship between a value of measurement and its
-real value. The non-replicate case is considered first, as it is the context of the Bland Altman plots. This model assumes that inter-method bias is the only difference between the two methods.
-
-A measurement $y_{mi}$ by method $m$ on individual $i$ is formulated as follows;
-\begin{equation}
-	y_{mi}  = \alpha_{m} + \mu_{i} + e_{mi} \qquad  e_{mi} \sim
-	\mathcal{N}(0,\sigma^{2}_{m})
-\end{equation}
-The differences are expressed as $d_{i} = y_{1i} - y_{2i}$. For the replicate case, an interaction term $c$ is added to the model, with an associated variance component. All the random effects are assumed independent, and that all replicate measurements are assumed to be exchangeable within each method.
-
-\begin{equation}
-	y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + e_{mir}, \qquad  e_{mi}
-	\sim \mathcal{N}(0,\sigma^{2}_{m}), \quad c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}).
-\end{equation}
-%----
-
-Of particular importance is terms of the model, a true value for item $i$ ($\mu_{i}$).  The fixed effect of Roy's model comprise of an intercept term and fixed effect terms for both methods, with no reference to the true value of any individual item. A distinction can be made between the two models: Roy's model is a standard LME model, whereas Carstensen's model is a more complex additive model.
 
 
 
@@ -720,15 +665,22 @@ Here $\beta_0$ and $\beta_m$ are fixed-effect terms representing, respectively, 
 
 
 \citet{ARoy2009} proposes a suite of hypothesis tests for assessing the agreement of two methods of measurement, when replicate measurements are obtained for each item, using a LME approach. (An item would commonly be a patient).  
-Two methods of measurement are in complete agreement if the null hypotheses $\mathrm{H}_1\colon \alpha_1 = \alpha_2$ and $\mathrm{H}_2\colon \sigma^2_1 = \sigma^2_2 $ and $\mathrm{H}_3\colon g^2_1= g^2_2$ hold simultaneously. \citet{ARoy2009} uses a Bonferroni correction to control the familywise error rate for tests of $\{\mathrm{H}_1, \mathrm{H}_2, \mathrm{H}_3\}$ and account for difficulties arising due to multiple testing. Roy also integrates $\mathrm{H}_2$ and $\mathrm{H}_3$ into a single testable hypothesis $\mathrm{H}_4\colon \omega^2_1=\omega^2_2,$ where $\omega^2_m = \sigma^2_m + g^2_m$ represent the overall variability of method $m.$  Disagreement in overall variability may be caused by different between-item variabilities, by different within-item variabilities, or by both.  If the exact cause of disagreement between the two methods is not of interest, then the overall variability test $H_4$ is an alternative to testing $H_2$ and $H_3$ separately.
+Two methods of measurement are in complete agreement if the null hypotheses $\mathrm{H}_1\colon \alpha_1 = \alpha_2$ and $\mathrm{H}_2\colon \sigma^2_1 = \sigma^2_2 $ and $\mathrm{H}_3\colon g^2_1= g^2_2$ hold simultaneously. \citet{ARoy2009} uses a Bonferroni correction to control the familywise error rate for tests of $\{\mathrm{H}_1, \mathrm{H}_2, \mathrm{H}_3\}$ and account for difficulties arising due to multiple testing. 
+
+
 
 
 
 
 \newpage
+
+\citet{ARoy2009} proposes the use of LME models to perform a test on two methods of agreement to determine whether they can be used 	interchangeably.
+The well-known ``Limits of Agreement", as developed by Bland and Altman (1986) are easily computable using the LME framework, proposed by Roy. While we will not be considering this analysis, a demonstration will be provided in the example.
 \citet{ARoy2009} proposes the use of LME models to perform a test on two methods of agreement to comparing the agreement between two methods of measurement, where replicate measurements on items (often individuals) by both methods are available, determining whether they can be used
 interchangeably. This approach uses a Kronecker product covariance structure with doubly multivariate setup to
 assess the agreement, and is designed such that the data may be unbalanced and with unequal numbers of replications for each subject \citep{ARoy2009}.
+
+
 
 
 \subsection{Roy's Approach}
@@ -753,6 +705,9 @@ A symmetric matrix allows the diagonal terms $a_{11}$ and $a_{22}$ to differ. Th
 
 The first model acts as an alternative hypothesis to be compared against each of three other models, acting as null hypothesis models, successively. The models are compared using the likelihood ratio test. Likelihood ratio tests are a class of tests based on the comparison of the values of the likelihood functions of two candidate models. 
 
+
+Roy also integrates $\mathrm{H}_2$ and $\mathrm{H}_3$ into a single testable hypothesis $\mathrm{H}_4\colon \omega^2_1=\omega^2_2,$ where $\omega^2_m = \sigma^2_m + g^2_m$ represent the overall variability of method $m.$  Disagreement in overall variability may be caused by different between-item variabilities, by different within-item variabilities, or by both.  If the exact cause of disagreement between the two methods is not of interest, then the overall variability test $H_4$ is an alternative to testing $H_2$ and $H_3$ separately.
+
 \section{Introduction to Roy's methodology}
 
 For the purposes of comparing two methods of measurement, \citet{ARoy2009} presents a methodology utilizing linear mixed effects model. This methodology provides for the formal testing of inter-method bias, between-subject variability and within-subject variability of two methods.
@@ -763,12 +718,6 @@ These tests consider null hypotheses that assume: absence of inter-method bias; 
 
 
 
-
-\citet{ARoy2009} proposes the use of LME models to perform a test on two methods of agreement to determine whether they can be used 	interchangeably.
-The well-known ``Limits of Agreement", as developed by Bland and Altman (1986) are easily computable using the LME framework, proposed by Roy. While we will not be considering this analysis, a demonstration will be provided in the example.
-\citet{ARoy2009} proposes the use of LME models to perform a test on two methods of agreement to comparing the agreement between two methods of measurement, where replicate measurements on items (often individuals) by both methods are available, determining whether they can be used
-interchangeably. This approach uses a Kronecker product covariance structure with doubly multivariate setup to
-assess the agreement, and is designed such that the data may be unbalanced and with unequal numbers of replications for each subject \citep{ARoy2009}.
 
 
 
@@ -797,15 +746,421 @@ Overall variability between the two methods ($\Omega$) is sum of between-subject
 \bigskip
 For the purposes of comparing two methods of measurement, \citet{ARoy2009} presents a methodology utilizing linear mixed effects model. This methodology provides for the formal testing of inter-method bias, between-subject variability and within-subject variability of two methods. 
 
-
-
-
-
-\bigskip
+%==============================================================================%
 
 The formulation contains a Kronecker product covariance structure in a doubly multivariate setup. By doubly multivariate set up, Roy means that the information on each patient or item is multivariate at two levels, the number of methods and number of replicated measurements. Further to \citet{lam}, it is assumed that the replicates are linked over time. However it is easy to modify to the unlinked case.
 
 
+\chapter{Model Specification}
+
+\section{Model Specification for Roy's Hypotheses Tests}
+
+In order to express Roy's LME model in matrix notation we gather all $2n_i$ observations specific to item $i$ into a single vector  $\boldsymbol{y}_{i} = (y_{1i1},y_{2i1},y_{1i2},\ldots,y_{mir},\ldots,y_{1in_{i}},y_{2in_{i}})^\prime.$ The LME model can be written
+\[
+\boldsymbol{y_{i}} = \boldsymbol{X_{i}\beta} + \boldsymbol{Z_{i}b_{i}} + \boldsymbol{\epsilon_{i}},
+\]
+where $\boldsymbol{\beta}=(\beta_0,\beta_1,\beta_2)^\prime$ is a vector of fixed effects, and $\boldsymbol{X}_i$ is a corresponding $2n_i\times 3$ design matrix for the fixed effects. The random effects are expressed in the vector $\boldsymbol{b}=(b_1,b_2)^\prime$, with $\boldsymbol{Z}_i$ the corresponding $2n_i\times 2$ design matrix. The vector $\boldsymbol{\epsilon}_i$ is a $2n_i\times 1$ vector of residual terms. Random effects and residuals are assumed to be independent of each other.
+
+It is assumed that $\boldsymbol{b}_i \sim N(0,\boldsymbol{G})$, $\boldsymbol{\epsilon}_i$ is a matrix of random errors distributed as $N(0,\boldsymbol{R}_i)$ and that the random effects and residuals are 
+independent of each other.
+
+The random effects are assumed to be distributed as $\boldsymbol{b}_i \sim \mathcal{N}_2(0,\boldsymbol{G})$. 	$\boldsymbol{G}$ is the variance covariance matrix for the random effects $\boldsymbol{b}$.
+i.e. between-item sources of variation. The between-item variance covariance matrix $\boldsymbol{G}$ is constructed as follows:
+\[ \boldsymbol{G} = \mbox{Var}  \left[
+\begin{array}{c}
+b_1   \\
+b_2  \\
+\end{array}
+\right] =  \left(
+\begin{array}{cc}
+g^2_1  & g_{12} \\
+g_{12} & g^2_2 \\
+\end{array}
+\right) \]
+It is important to note that no special assumptions about the structure of $\boldsymbol{G}$ are made. An example of such an assumption would be that $\boldsymbol{G}$ is the product of a scalar value and the identity matrix.
+
+\bigskip
+It is assumed that $\boldsymbol{b}_i \sim N(0,\boldsymbol{G})$,
+$\boldsymbol{\epsilon}_i$ is a matrix of random errors distributed as $N(0,\boldsymbol{R}_i)$ and
+that the random effects and residuals are independent of each other. Assumptions made on the structures of $\boldsymbol{G}$ and $\boldsymbol{R}_i$ will be discussed in due course.
+
+\bigskip
+
+The random effects are assumed to be distributed as $\boldsymbol{b}_i \sim \mathcal{N}_2(0,\boldsymbol{G})$. The between-item variance covariance matrix $\boldsymbol{G}$ is constructed as follows:
+\[ \boldsymbol{G} =\left(
+\begin{array}{cc}
+g^2_1  & g_{12} \\
+g_{12} & g^2_2 \\
+\end{array}
+\right) \]
+It is important to note that no special assumptions about the structure of $\boldsymbol{G}$ are made. An example of such an assumption would be that $\boldsymbol{G}$ is the product of a scalar value and the identity matrix.
+
+% This is probably a good place to discuss how R_i can  be interpreted as a Kroneckor product
+
+The matrix of random errors $\boldsymbol{\epsilon}_i$ is distributed as $\mathcal{N}_2(0,\boldsymbol{R}_i)$.
+\citet{hamlett} shows that the variance covariance matrix for the residuals(i.e. the within-item sources of variation between both methods) can be expressed as the Kroneckor product of an $n_i \times n_i$ identity matrix and the partial within-item variance covariance matrix $\boldsymbol{\Sigma}$, i.e. $\boldsymbol{R}_{i} = \boldsymbol{I}_{n_{i}} \otimes \boldsymbol{\Sigma}$.
+\[
+\boldsymbol{\Sigma} = \left( \begin{array}{cc}
+\sigma^2_{1} & \sigma_{12} \\
+\sigma_{12} & \sigma^2_{2} \\
+\end{array}\right),
+\]
+where $\sigma^2_{1}$ and $\sigma^2_{2}$ are the within-subject variances of the respective methods, and $\sigma_{12}$ is the within-item covariance between the two methods. The within-item variance covariance matrix $\boldsymbol{\Sigma}$ is assumed to be the same for all replications. Computational analysis of linear mixed effects models allow for the explicit analysis of both $\boldsymbol{G}$ and $\boldsymbol{R_i}$. 
+
+
+The distribution of the random effects is described as $\boldsymbol{b}_i \sim N(0,\boldsymbol{G})$. Similarly  random errors are distributed as $\boldsymbol{\epsilon}_i \sim N(0,\boldsymbol{R}_i)$. The random effects and residuals are assumed to be independent. 
+
+\[ \mbox{Var}  \left[
+\begin{array}{c}
+b_1   \\
+b_2  \\
+\end{array}
+\right] =  \boldsymbol{G} =\left(
+\begin{array}{cc}
+g^2_1  & g_{12} \\
+g_{12} & g^2_2 \\
+\end{array}
+\right) \]
+It is important to note that no special assumptions about the structure of $\boldsymbol{G}$ are made. An example of such an assumption would be that $\boldsymbol{G}$ is the product of a scalar value and the identity matrix.
+
+$\boldsymbol{R}_{i}$ is the variance covariance matrix for the residuals, i.e. the within-item sources of variation between both methods. Computational analysis of linear mixed effects models allow for the explicit analysis of both $\boldsymbol{G}$ and $\boldsymbol{R_i}$.
+The above terms can be used to express the  variance covariance matrix $\boldsymbol{\Omega}_i$ for the responses on item $i$ ,
+\[
+\boldsymbol{\Omega}_i = \boldsymbol{Z}_i \boldsymbol{G} \boldsymbol{Z}_i^{\prime} + \boldsymbol{R}_i.
+\]
+
+%==========================================================================================%
+
+\section{G Component}
+
+% \texttt{finish}
+
+$\boldsymbol{G}$ is the variance covariance matrix for the random effects $\boldsymbol{b}$.
+i.e. between-item sources of variation.  
+
+It is important to note that no special assumptions about the structure of $\boldsymbol{G}$ are made. An example of such an assumption would be that $\boldsymbol{G}$ is the product of a scalar value and the identity matrix.
+
+It is assumed that $\boldsymbol{b}_i \sim N(0,\boldsymbol{G})$,
+$\boldsymbol{\epsilon}_i$ is a matrix of random errors distributed as $N(0,\boldsymbol{R}_i)$ and
+that the random effects and residuals are independent of each other. Assumptions made on the structures of $\boldsymbol{G}$ and $\boldsymbol{R}_i$ will be discussed in due course.
+
+The distribution of the random effects is described as $\boldsymbol{b}_i \sim N(0,\boldsymbol{G})$. Similarly  random errors are distributed as $\boldsymbol{\epsilon}_i \sim N(0,\boldsymbol{R}_i)$. The random effects and residuals are assumed to be independent.
+% Both covariance matrices can be written as follows;
+
+
+
+The random effects are assumed to be distributed as $\boldsymbol{b}_i \sim \mathcal{N}_2(0,\boldsymbol{G})$. The between-item variance covariance matrix $\boldsymbol{G}$ is constructed as follows:
+\[ \boldsymbol{G} =\left(
+\begin{array}{cc}
+g^2_1  & g_{12} \\
+g_{12} & g^2_2 \\
+\end{array}
+\right) \]
+
+\section{R Component}
+
+
+$\boldsymbol{R}_{i}$ is the variance covariance matrix for the residuals, i.e. the within-item sources of variation between both methods.	
+The matrix of random errors $\boldsymbol{\epsilon}_i$ is distributed as $\mathcal{N}_2(0,\boldsymbol{R}_i)$.
+
+\bigskip 
+
+\citet{hamlett} shows that the variance covariance matrix for the residuals(i.e. the within-item sources of variation between both methods) can be expressed as the Kroneckor product of an $n_i \times n_i$ identity matrix and the partial within-item variance covariance matrix $\boldsymbol{\Sigma}$, i.e. $\boldsymbol{R}_{i} = \boldsymbol{I}_{n_{i}} \otimes \boldsymbol{\Sigma}$.
+\[
+\boldsymbol{\Sigma} = \left( \begin{array}{cc}
+\sigma^2_{1} & \sigma_{12} \\
+\sigma_{12} & \sigma^2_{2} \\
+\end{array}\right),
+\]
+where $\sigma^2_{1}$ and $\sigma^2_{2}$ are the within-subject variances of the respective methods, and $\sigma_{12}$ is the within-item covariance between the two methods. The within-item variance covariance matrix $\boldsymbol{\Sigma}$ is assumed to be the same for all replications.  Again it is important to note that no special assumptions are made about the structure of the matrix. Computational analysis of linear mixed effects models allow for the explicit analysis of both $\boldsymbol{G}$ and $\boldsymbol{R_i}$.
+
+\[ \boldsymbol{R}_i =\left(
+\begin{array}{cccccccc}
+\sigma^2_1  & \sigma_{12} & 0 & 0 & \ldots & \ldots & 0 & 0 \\
+\sigma_{12} & \sigma^2_2  & 0 & 0  & \ldots & \ldots & 0 & 0\\
+
+0 & 0 &\sigma^2_1  & \sigma_{12} & \ldots & \ldots& 0 &  0 \\
+0 & 0 &\sigma_{12} & \sigma^2_2  & \ldots & \ldots & 0 & 0 \\
+\vdots & \vdots &\vdots & \vdots & \ddots & \ddots& \vdots & \vdots \\
+
+0 & 0 &0 & 0 & \ldots & \ldots&\sigma^2_1  & \sigma_{12} \\
+0 & 0 &0 & 0 & \ldots & \ldots &\sigma_{12} & \sigma^2_2 \\
+\end{array}
+\right). \]
+
+
+
+
+Computational analysis of linear mixed effects models allow for the explicit analysis of both $\boldsymbol{G}$ and $\boldsymbol{R_i}$.
+The above terms can be used to express the  variance covariance matrix $\boldsymbol{\Omega}_i$ for the responses on item $i$ ,
+\[
+\boldsymbol{\Omega}_i = \boldsymbol{Z}_i \boldsymbol{G} \boldsymbol{Z}_i^{\prime} + \boldsymbol{R}_i.
+\]
+
+\bigskip
+
+The partial within-item variance covariance matrix of two methods at any replicate is denoted $\boldsymbol{\Sigma}$, where $\sigma^2_{1}$ and $\sigma^2_{2}$ are the within-subject variances of both methods, and $\sigma_{12}$ is the within-item covariance between the two methods. The within-item variance covariance matrix $\boldsymbol{\Sigma}$ is assumed to be the same for all replications.
+
+\[
+\boldsymbol{\Sigma} = \left( \begin{array}{cc}
+\sigma^2_{1} & \sigma_{12} \\
+\sigma_{12} & \sigma^2_{2} \\
+\end{array}\right).
+\]	
+
+
+The variance of case-wise difference in measurements can be determined from Block-$\boldsymbol{\Omega}_{i}$. Hence limits of agreement can be computed.
+
+
+The computation of the limits of agreement require that the variance of the difference of measurements. This variance is easily computable from the estimate of the ${\mbox{Block - }\boldsymbol \Omega_{i}}$ matrix. Lack of agreement can arise if there is a disagreement in overall variabilities. This may be due to due to the disagreement in either between-item
+variabilities or within-item variabilities, or both. \citet{ARoy2009} allows for a formal test of each.
+\newpage
+%==========================================================================================%
+
+
+The matrix of random errors $\boldsymbol{\epsilon}_i$ is distributed as $\mathcal{N}_2(0,\boldsymbol{R}_i)$.
+\citet{hamlett} shows that the variance covariance matrix for the residuals(i.e. the within-item sources of variation between both methods) can be expressed as the Kroneckor product of an $n_i \times n_i$ identity matrix and the partial within-item variance covariance matrix $\boldsymbol{\Sigma}$, i.e. $\boldsymbol{R}_{i} = \boldsymbol{I}_{n_{i}} \otimes \boldsymbol{\Sigma}$.
+\[
+\boldsymbol{\Sigma} = \left( \begin{array}{cc}
+\sigma^2_{1} & \sigma_{12} \\
+\sigma_{12} & \sigma^2_{2} \\
+\end{array}\right),
+\]
+where $\sigma^2_{1}$ and $\sigma^2_{2}$ are the within-subject variances of the respective methods, and $\sigma_{12}$ is the within-item covariance between the two methods. The within-item variance covariance matrix $\boldsymbol{\Sigma}$ is assumed to be the same for all replications.Computational analysis of linear mixed effects models allow for the explicit analysis of both $\boldsymbol{G}$ and $\boldsymbol{R_i}$.
+
+
+%----------------------------------------------------- %	
+The distribution of the random effects is described as $\boldsymbol{b}_i \sim N(0,\boldsymbol{G})$. Similarly  random errors are distributed as $\boldsymbol{\epsilon}_i \sim N(0,\boldsymbol{R}_i)$. The random effects and residuals are assumed to be independent. Both covariance matrices can be written as follows;
+% Assumptions made on the structures of $\boldsymbol{G}$ and $\boldsymbol{R}_i$ will be discussed in due course.
+
+
+\bigskip
+The above terms can be used to express the  variance covariance matrix $\boldsymbol{\Omega}_i$ for the responses on item $i$ ,
+\[
+\boldsymbol{\Omega}_i = \boldsymbol{Z}_i \boldsymbol{G} \boldsymbol{Z}_i^{\prime} + \boldsymbol{R}_i.
+\]
+
+
+\section{Hamlett}
+
+$\boldsymbol{R}_{i}$ is the variance covariance matrix for the residuals, i.e. the within-item sources of variation between both methods. Computational analysis of linear mixed effects models allow for the explicit analysis of both $\boldsymbol{G}$ and $\boldsymbol{R_i}$.
+
+
+\citet{hamlett} shows that $\boldsymbol{R}_{i}$  can be expressed as $\boldsymbol{I}_{n_{i}} \otimes \boldsymbol{\Sigma}$. The covariance matrix has the same structure for all items, except for dimension, which depends on the number of replicates. The $2 \times 2$ block diagonal Block-$\boldsymbol{\Omega}_{i}$ represents the covariance matrix between two methods, and is the sum of $\boldsymbol{G}$ and $\boldsymbol{\Sigma}$.
+
+\[ \textrm{Block-}\boldsymbol{\Omega}_{i}  = \left(\begin{array}{cc}
+\omega^2_1  & \omega_{12} \\
+\omega_{12} & \omega^2_2 \\
+\end{array}  \right)
+=  \left(
+\begin{array}{cc}
+g^2_1  & g_{12} \\
+g_{12} & g^2_2 \\
+\end{array} \right)+
+\left(
+\begin{array}{cc}
+\sigma^2_1  & \sigma_{12} \\
+\sigma_{12} & \sigma^2_2 \\
+\end{array}\right)
+\]
+
+
+
+\citet{hamlett} shows that $\boldsymbol{R}_{i}$  can be expressed as $\boldsymbol{R}_{i} = \boldsymbol{I}_{n_{i}} \otimes \boldsymbol{\Sigma}$. The partial within-item variance?covariance matrix of two methods at any replicate is denoted $\boldsymbol{\Sigma}$, where $\sigma^2_{1}$ and $\sigma^2_{2}$ are the within-subject variances of the respective methods, and $\sigma_{12}$ is the within-item covariance between the two methods. It is assumed that the within-item variance?covariance matrix $\boldsymbol{\Sigma}$ is the same for all replications. Again it is important to note that no special assumptions are made about the structure of the matrix.
+
+\begin{equation}
+\boldsymbol{\Sigma} = \left( \begin{array}{cc}
+\sigma^2_{1} & \sigma_{12} \\
+\sigma_{12} & \sigma^2_{2} \\
+\end{array}\right)
+\end{equation}
+The variance of case-wise difference in measurements can be determined from Block-$\boldsymbol{\Omega}_{i}$. Hence limits of agreement can be computed.
+
+
+\section{For Expository Purposes}
+
+\bigskip
+
+For expository purposes consider the case where each item provides three replicates by each method. Then in matrix notation the model has the structure
+\[
+\boldsymbol{y}_{i} =
+\left(
+\begin{array}{c}
+y_{1i1} \\
+y_{2i1} \\
+y_{1i2} \\
+y_{2i2} \\
+y_{1i3} \\
+y_{2i3} \\
+\end{array}
+\right) = 
+\left(
+\begin{array}{ccc}
+1 & 1 & 0 \\
+1 & 0 & 1 \\
+1 & 1 & 0 \\
+1 & 0 & 1 \\
+1 & 1 & 0 \\
+1 & 0 & 1 \\
+\end{array}
+\right)
+\left(
+\begin{array}{c}
+\beta_0 \\ \beta_1 \\ \beta_2 \\
+\end{array}
+\right)
++
+\left(
+\begin{array}{cc}
+1 & 0 \\
+0 & 1 \\
+1 & 0 \\
+0 & 1 \\
+1 & 0 \\
+0 & 1 \\
+\end{array}
+\right)\left(
+\begin{array}{c}
+b_{1i} \\   b_{2i} \\
+\end{array}
+\right)
++
+\left(
+\begin{array}{c}
+\epsilon_{1i1} \\
+\epsilon_{2i1} \\
+\epsilon_{1i2} \\
+\epsilon_{2i2} \\
+\epsilon_{1i3} \\
+\epsilon_{2i3} \\
+\end{array}
+\right).
+\]
+The between item variance covariance $\boldsymbol{G}$ is as before, while the within item variance covariance is given as
+%------Specification of within item VC matrix R---%
+\[ \boldsymbol{G} =\left(
+\begin{array}{cc}
+g^2_1  & g_{12} \\
+g_{12} & g^2_2 \\
+\end{array}
+\right) \]
+
+\[
+\boldsymbol{R}_i = \left(
+\begin{array}{cccccc}
+\sigma^2_{1} & \sigma_{12} & 0 & 0 & 0 & 0 \\
+\sigma_{12} & \sigma^2_{2} & 0 & 0 & 0 & 0 \\
+0 & 0 & \sigma^2_{1} & \sigma_{12} & 0 & 0 \\
+0 & 0 & \sigma_{12} & \sigma^2_{2} & 0 & 0 \\
+0 & 0 & 0 & 0 & \sigma^2_{1} & \sigma_{12} \\
+0 & 0 & 0 & 0 & \sigma_{12} & \sigma^2_{2} \\
+\end{array} \right)
+\]
+Assumptions made on the structures of $\boldsymbol{G}$ and $\boldsymbol{R}_i$ will be discussed in due course.
+
+\section{Hamlett}
+%============================================================ %
+
+
+
+
+
+
+
+
+
+
+\citet{hamlett} shows that $\boldsymbol{R}_{i}$  can be expressed as $\boldsymbol{R}_{i} = \boldsymbol{I}_{n_{i}} \otimes \boldsymbol{\Sigma}$. The partial within-item variance?covariance matrix of two methods at any replicate is denoted $\boldsymbol{\Sigma}$, where $\sigma^2_{1}$ and $\sigma^2_{2}$ are the within-subject variances of the respective methods, and $\sigma_{12}$ is the within-item covariance between the two methods. It is assumed that the within-item variance?covariance matrix $\boldsymbol{\Sigma}$ is the same for all replications. Again it is important to note that no special assumptions are made about the structure of the matrix.
+
+\begin{equation}
+\boldsymbol{\Sigma} = \left( \begin{array}{cc}
+\sigma^2_{1} & \sigma_{12} \\
+\sigma_{12} & \sigma^2_{2} \\
+\end{array}\right)
+\end{equation}
+%	\vspace{1in}
+
+\citet{hamlett} shows that $\boldsymbol{R}_{i}$  can be expressed as $\boldsymbol{I}_{n_{i}} \otimes \boldsymbol{\Sigma}$. The covariance matrix has the same structure for all items, except for dimension, which depends on the number of replicates. The $2 \times 2$ block diagonal Block-$\boldsymbol{\Omega}_{i}$ represents the covariance matrix between two methods, and is the sum of $\boldsymbol{G}$ and $\boldsymbol{\Sigma}$.
+
+\[ \textrm{Block-}\boldsymbol{\Omega}_{i}  = \left(\begin{array}{cc}
+\omega^2_1  & \omega_{12} \\
+\omega_{12} & \omega^2_2 \\
+\end{array}  \right)
+=  \left(
+\begin{array}{cc}
+g^2_1  & g_{12} \\
+g_{12} & g^2_2 \\
+\end{array} \right)+
+\left(
+\begin{array}{cc}
+\sigma^2_1  & \sigma_{12} \\
+\sigma_{12} & \sigma^2_2 \\
+\end{array}\right)
+\]
+
+\section{Overall Variability}
+The overall variability between the two methods is the sum of between-item variability
+$\boldsymbol{G}$ and within-item variability $\boldsymbol{\Sigma}$. \citet{ARoy2009} denotes the overall variability	as ${\mbox{Block - }\boldsymbol \Omega_{i}}$. The overall variation for methods $1$ and $2$ are given by
+
+\begin{center}
+	\[\left(\begin{array}{cc}
+	\omega^2_1  & \omega_{12} \\
+	\omega_{12} & \omega^2_2 \\
+	\end{array}  \right)
+	=  \left(
+	\begin{array}{cc}
+	g^2_1  & g_{12} \\
+	g_{12} & g^2_2 \\
+	\end{array} \right)+
+	\left(
+	\begin{array}{cc}
+	\sigma^2_1  & \sigma_{12} \\
+	\sigma_{12} & \sigma^2_2 \\
+	\end{array}\right)
+	\]
+\end{center}
+
+The variance of case-wise difference in measurements can be determined from Block-$\boldsymbol{\Omega}_{i}$. Hence limits of agreement can be computed.
+
+
+The computation of the limits of agreement require that the variance of the difference of measurements. This variance is easily computable from the estimate of the ${\mbox{Block - }\boldsymbol \Omega_{i}}$ matrix. Lack of agreement can arise if there is a disagreement in overall variabilities. This may be due to due to the disagreement in either between-item
+variabilities or within-item variabilities, or both. \citet{ARoy2009} allows for a formal test of each.
+
+\section{Off-Diagonal Components in Roy's Model}
+
+The Within-item variability is specified as follows, where $x$ and $y$ are the methods of measurement in question.
+\[ \left(
+\begin{array}{cc}
+\sigma^2_x & \sigma_{xy} \\
+\sigma_{xy} & \sigma^2_y \\
+\end{array}
+\right)
+\]
+
+$\sigma^2_x$ and $\sigma^2_y$ describe the level of measurement error associated with each of the measurement methods for a given item. Attention must be given to the off-diagonal elements of the matrix.
+
+It is intuitive to consider the measurement error of the two methods as independent of each other.
+
+A formal test can be performed to test the hypothesis that the off-diagonal terms are zero.
+\[ \left(
+\begin{array}{cc}
+\sigma^2_x & \sigma_xy \\
+\sigma_xy & \sigma^2_y \\
+\end{array}
+\right) vs \left(
+\begin{array}{cc}
+\sigma^2_x & 0 \\
+0 & \sigma^2_y \\
+\end{array}
+\right)
+\]
+
+
+%----------------------------------------------------------------------------------------%
+
+
+
+\chapter{Roy Testing}
 \section{Agreement Criteria}	
 
 Roy sets out three conditions for two methods to be considered in agreement. Firstly that there be no significant bias. Second that there is no difference in the between-subject variabilities, and lastly that there is no significant difference in the within-subject variabilities. Should both the second and third conditions be fulfilled, then the overall variabilities of both methods would be equal. Roy additionally uses the overall correlation coefficient to provide extra information about the comparison, with a minimum of 0.82 being required.
@@ -1017,6 +1372,8 @@ These tests are complemented by the ability to consider the inter-method bias an
 For the purposes of method comparison, Roy presents a methodology utilising linear mixed effects model. The formulation contains a Kronecker product covariance structure in a doubly multivariate setup. This methodology provides for the formal testing of inter-method bias, between-subject variability and within-subject variability of two methods. By doubly multivariate set up, Roy means that the information on each patient or item is multivariate at two levels, the number of methods and number of replicated measurements. Further to \citet{Lam}, it is assumed that the replicates are linked over time. However it is easy to modify to the unlinked case.
 
 Lack of agreement can also arise if there is a disagreement in overall variabilities. This lack of agreement may be due to differing between-item variabilities, differing within-item variabilities, or both. The formulation previously presented usefully facilitates a series of significance tests that assess if and where such differences arise. Roy allows for a formal test of each. These tests are comprised of a formal test for the equality of between-item variances,
+Roy proposes a series of three tests on the variance components of an LME model. For these tests, four candidate models are constructed. The difference in the models are specifically in how the the $D$ and $\Lambda$ matrices are constructed, using either an unstructured form or a compound symmetry form. The first model is compared against each of three other models successively.
+
 \begin{eqnarray*}
 	\operatorname{H_2} : g^2_1 = g^2_2 \\
 	\operatorname{K_2} : g^2_1 \neq g^2_2
@@ -1035,9 +1392,10 @@ A formal test for the equality of overall variances is also presented.
 
 
 
-Roy proposes a series of three tests on the variance components of an LME model. For these tests, four candidate models are constructed. The difference in the models are specifically in how the the $D$ and $\Lambda$ matrices are constructed, using either an unstructured form or a compound symmetry form. The first model is compared against each of three other models successively.
 
 
+These tests are complemented by the ability to consider the inter-method bias and the overall correlation coefficient.
+Two methods can be considered to be in agreement if criteria based upon these methodologies are met. Additionally Roy makes reference to the overall correlation coefficient of the two methods, which is determinable from variance estimates.
 
 Conversely, the tests of variability required detailed explanation. Each test is performed by fitting two candidate models, according with the null and alternative hypothesis respectively. The distinction between the models arise in the specification in one, or both, of the variance-covariance matrices. % A likelihood ratio test can then be used to compare these respective fits.
 
@@ -1073,24 +1431,6 @@ $\Lambda = \frac{\mbox{max}_{H_{0}}L}{\mbox{max}_{H_{1}}L}$
 
 
 
-\begin{eqnarray*}
-	\operatorname{H_0} : g^2_1 = g^2_2 \\
-	\operatorname{H_1} : g^2_1 \neq g^2_2
-\end{eqnarray*}
-a formal test for the equality of within-item variances,
-\begin{eqnarray*}
-	\operatorname{H_0} : \sigma^2_1 = \sigma^2_2 \\
-	\operatorname{H_1} : \sigma^2_1 \neq \sigma^2_2
-\end{eqnarray*}
-and finally, a formal test for the equality of overall variances.
-\begin{eqnarray*}
-	\operatorname{H_0} : \omega^2_1 = \omega^2_2 \\
-	\operatorname{H_1} : \omega^2_1 \neq \omega^2_2
-\end{eqnarray*}
-
-
-These tests are complemented by the ability to consider the inter-method bias and the overall correlation coefficient.
-Two methods can be considered to be in agreement if criteria based upon these methodologies are met. Additionally Roy makes reference to the overall correlation coefficient of the two methods, which is determinable from variance estimates.
 
 
 
@@ -1157,9 +1497,7 @@ assesses the within-subject variability of two methods. A third test is a test t
 
 
 
-\newpage
-
-%	\subsection{Variability test 3 - Omnibus Test}
+	\subsection{Variability test 3 - Omnibus Test}
 The maximum likelihood estimate of the between-subject variance
 covariance matrix of two methods is given as $D$. The estimate for
 the within-subject variance covariance matrix is $\hat{\Sigma}$.
@@ -1290,490 +1628,6 @@ with $2 \times 2$ dimensions.
 
 %\section{VC Matrix Types}
 %-----------------------------------------------------------------------------------%
-\newpage
-
-
-
-%In the presented example, it is shown that Roy's LOAs are lower than those of (\ref{BXC-model}), when covariance between methods is present.
-
-
-
-There is three alternative structures for
-$\boldsymbol{\Psi}$, the diagonal form, the identity form and the general form.
-\[
-\boldsymbol{\Psi} =
-\left(%
-\begin{array}{c c}
-\psi^2_1 & 0  \\
-0 & \psi^2_2  \\
-\end{array}%
-\right)\qquad \mathrm{or} \qquad \boldsymbol{\Psi} =
-\left(%
-\begin{array}{c c}
-\psi_{11} & \psi_{12}  \\
-\psi_{21} & \psi_{22}  \\
-\end{array}%
-\right)
-\qquad \mathrm{or} \qquad \boldsymbol{\Psi} =
-\left(%
-\begin{array}{c c}
-\psi_{11} & \psi_{12}  \\
-\psi_{21} & \psi_{22}  \\
-\end{array}%
-\right)
-\]
-
-$\boldsymbol{\Psi}$ is the variance-covariance matrix of the random effects ,
-with $2 \times 2$ dimensions.
-\begin{equation}
-	\boldsymbol{\Psi} =
-	\left(%
-	\begin{array}{c c}
-		\psi_{11} & \psi_{12}  \\
-		\psi_{21} & \psi_{22}  \\
-	\end{array}%
-	\right)
-\end{equation}
-
-
-
-
-
-
-
-
-%
-%Roy's model uses fixed effects $\beta_0 + \beta_1$ and $\beta_0 + \beta_1$ to specify the mean of all observationsby \\ methods 1 and 2 respectively.
-%
-%
-%This model includes a method by item interaction term.\\
-\chapter{Model Specification}
-
-\section{Model Specification for Roy's Hypotheses Tests}
-
-In order to express Roy's LME model in matrix notation we gather all $2n_i$ observations specific to item $i$ into a single vector  $\boldsymbol{y}_{i} = (y_{1i1},y_{2i1},y_{1i2},\ldots,y_{mir},\ldots,y_{1in_{i}},y_{2in_{i}})^\prime.$ The LME model can be written
-\[
-\boldsymbol{y_{i}} = \boldsymbol{X_{i}\beta} + \boldsymbol{Z_{i}b_{i}} + \boldsymbol{\epsilon_{i}},
-\]
-where $\boldsymbol{\beta}=(\beta_0,\beta_1,\beta_2)^\prime$ is a vector of fixed effects, and $\boldsymbol{X}_i$ is a corresponding $2n_i\times 3$ design matrix for the fixed effects. The random effects are expressed in the vector $\boldsymbol{b}=(b_1,b_2)^\prime$, with $\boldsymbol{Z}_i$ the corresponding $2n_i\times 2$ design matrix. The vector $\boldsymbol{\epsilon}_i$ is a $2n_i\times 1$ vector of residual terms. Random effects and residuals are assumed to be independent of each other.
-
-It is assumed that $\boldsymbol{b}_i \sim N(0,\boldsymbol{G})$, $\boldsymbol{\epsilon}_i$ is a matrix of random errors distributed as $N(0,\boldsymbol{R}_i)$ and that the random effects and residuals are 
-independent of each other.
-
-The random effects are assumed to be distributed as $\boldsymbol{b}_i \sim \mathcal{N}_2(0,\boldsymbol{G})$. 	$\boldsymbol{G}$ is the variance covariance matrix for the random effects $\boldsymbol{b}$.
-i.e. between-item sources of variation. The between-item variance covariance matrix $\boldsymbol{G}$ is constructed as follows:
-\[ \boldsymbol{G} = \mbox{Var}  \left[
-\begin{array}{c}
-b_1   \\
-b_2  \\
-\end{array}
-\right] =  \left(
-\begin{array}{cc}
-g^2_1  & g_{12} \\
-g_{12} & g^2_2 \\
-\end{array}
-\right) \]
-It is important to note that no special assumptions about the structure of $\boldsymbol{G}$ are made. An example of such an assumption would be that $\boldsymbol{G}$ is the product of a scalar value and the identity matrix.
-
-\bigskip
-It is assumed that $\boldsymbol{b}_i \sim N(0,\boldsymbol{G})$,
-$\boldsymbol{\epsilon}_i$ is a matrix of random errors distributed as $N(0,\boldsymbol{R}_i)$ and
-that the random effects and residuals are independent of each other. Assumptions made on the structures of $\boldsymbol{G}$ and $\boldsymbol{R}_i$ will be discussed in due course.
-
-\bigskip
-
-The random effects are assumed to be distributed as $\boldsymbol{b}_i \sim \mathcal{N}_2(0,\boldsymbol{G})$. The between-item variance covariance matrix $\boldsymbol{G}$ is constructed as follows:
-\[ \boldsymbol{G} =\left(
-\begin{array}{cc}
-g^2_1  & g_{12} \\
-g_{12} & g^2_2 \\
-\end{array}
-\right) \]
-It is important to note that no special assumptions about the structure of $\boldsymbol{G}$ are made. An example of such an assumption would be that $\boldsymbol{G}$ is the product of a scalar value and the identity matrix.
-
-% This is probably a good place to discuss how R_i can  be interpreted as a Kroneckor product
-
-The matrix of random errors $\boldsymbol{\epsilon}_i$ is distributed as $\mathcal{N}_2(0,\boldsymbol{R}_i)$.
-\citet{hamlett} shows that the variance covariance matrix for the residuals(i.e. the within-item sources of variation between both methods) can be expressed as the Kroneckor product of an $n_i \times n_i$ identity matrix and the partial within-item variance covariance matrix $\boldsymbol{\Sigma}$, i.e. $\boldsymbol{R}_{i} = \boldsymbol{I}_{n_{i}} \otimes \boldsymbol{\Sigma}$.
-\[
-\boldsymbol{\Sigma} = \left( \begin{array}{cc}
-\sigma^2_{1} & \sigma_{12} \\
-\sigma_{12} & \sigma^2_{2} \\
-\end{array}\right),
-\]
-where $\sigma^2_{1}$ and $\sigma^2_{2}$ are the within-subject variances of the respective methods, and $\sigma_{12}$ is the within-item covariance between the two methods. The within-item variance covariance matrix $\boldsymbol{\Sigma}$ is assumed to be the same for all replications. Computational analysis of linear mixed effects models allow for the explicit analysis of both $\boldsymbol{G}$ and $\boldsymbol{R_i}$. 
-
-
-The distribution of the random effects is described as $\boldsymbol{b}_i \sim N(0,\boldsymbol{G})$. Similarly  random errors are distributed as $\boldsymbol{\epsilon}_i \sim N(0,\boldsymbol{R}_i)$. The random effects and residuals are assumed to be independent. 
-
-\[ \mbox{Var}  \left[
-\begin{array}{c}
-b_1   \\
-b_2  \\
-\end{array}
-\right] =  \boldsymbol{G} =\left(
-\begin{array}{cc}
-g^2_1  & g_{12} \\
-g_{12} & g^2_2 \\
-\end{array}
-\right) \]
-It is important to note that no special assumptions about the structure of $\boldsymbol{G}$ are made. An example of such an assumption would be that $\boldsymbol{G}$ is the product of a scalar value and the identity matrix.
-
-$\boldsymbol{R}_{i}$ is the variance covariance matrix for the residuals, i.e. the within-item sources of variation between both methods. Computational analysis of linear mixed effects models allow for the explicit analysis of both $\boldsymbol{G}$ and $\boldsymbol{R_i}$.
-The above terms can be used to express the  variance covariance matrix $\boldsymbol{\Omega}_i$ for the responses on item $i$ ,
-\[
-\boldsymbol{\Omega}_i = \boldsymbol{Z}_i \boldsymbol{G} \boldsymbol{Z}_i^{\prime} + \boldsymbol{R}_i.
-\]
-
-%==========================================================================================%
-
-
-
-\newpage\section{G Component}
-
-% \texttt{finish}
-
-$\boldsymbol{G}$ is the variance covariance matrix for the random effects $\boldsymbol{b}$.
-i.e. between-item sources of variation.  
-
-It is important to note that no special assumptions about the structure of $\boldsymbol{G}$ are made. An example of such an assumption would be that $\boldsymbol{G}$ is the product of a scalar value and the identity matrix.
-
-It is assumed that $\boldsymbol{b}_i \sim N(0,\boldsymbol{G})$,
-$\boldsymbol{\epsilon}_i$ is a matrix of random errors distributed as $N(0,\boldsymbol{R}_i)$ and
-that the random effects and residuals are independent of each other. Assumptions made on the structures of $\boldsymbol{G}$ and $\boldsymbol{R}_i$ will be discussed in due course.
-
-The distribution of the random effects is described as $\boldsymbol{b}_i \sim N(0,\boldsymbol{G})$. Similarly  random errors are distributed as $\boldsymbol{\epsilon}_i \sim N(0,\boldsymbol{R}_i)$. The random effects and residuals are assumed to be independent.
-% Both covariance matrices can be written as follows;
-
-
-
-The random effects are assumed to be distributed as $\boldsymbol{b}_i \sim \mathcal{N}_2(0,\boldsymbol{G})$. The between-item variance covariance matrix $\boldsymbol{G}$ is constructed as follows:
-\[ \boldsymbol{G} =\left(
-\begin{array}{cc}
-g^2_1  & g_{12} \\
-g_{12} & g^2_2 \\
-\end{array}
-\right) \]
-
-\section{R Component}
-
-
-$\boldsymbol{R}_{i}$ is the variance covariance matrix for the residuals, i.e. the within-item sources of variation between both methods.	
-The matrix of random errors $\boldsymbol{\epsilon}_i$ is distributed as $\mathcal{N}_2(0,\boldsymbol{R}_i)$.
-
-\bigskip 
-
-\citet{hamlett} shows that the variance covariance matrix for the residuals(i.e. the within-item sources of variation between both methods) can be expressed as the Kroneckor product of an $n_i \times n_i$ identity matrix and the partial within-item variance covariance matrix $\boldsymbol{\Sigma}$, i.e. $\boldsymbol{R}_{i} = \boldsymbol{I}_{n_{i}} \otimes \boldsymbol{\Sigma}$.
-\[
-\boldsymbol{\Sigma} = \left( \begin{array}{cc}
-\sigma^2_{1} & \sigma_{12} \\
-\sigma_{12} & \sigma^2_{2} \\
-\end{array}\right),
-\]
-where $\sigma^2_{1}$ and $\sigma^2_{2}$ are the within-subject variances of the respective methods, and $\sigma_{12}$ is the within-item covariance between the two methods. The within-item variance covariance matrix $\boldsymbol{\Sigma}$ is assumed to be the same for all replications.  Again it is important to note that no special assumptions are made about the structure of the matrix. Computational analysis of linear mixed effects models allow for the explicit analysis of both $\boldsymbol{G}$ and $\boldsymbol{R_i}$.
-
-\[ \boldsymbol{R}_i =\left(
-\begin{array}{cccccccc}
-\sigma^2_1  & \sigma_{12} & 0 & 0 & \ldots & \ldots & 0 & 0 \\
-\sigma_{12} & \sigma^2_2  & 0 & 0  & \ldots & \ldots & 0 & 0\\
-
-0 & 0 &\sigma^2_1  & \sigma_{12} & \ldots & \ldots& 0 &  0 \\
-0 & 0 &\sigma_{12} & \sigma^2_2  & \ldots & \ldots & 0 & 0 \\
-\vdots & \vdots &\vdots & \vdots & \ddots & \ddots& \vdots & \vdots \\
-
-0 & 0 &0 & 0 & \ldots & \ldots&\sigma^2_1  & \sigma_{12} \\
-0 & 0 &0 & 0 & \ldots & \ldots &\sigma_{12} & \sigma^2_2 \\
-\end{array}
-\right). \]
-
-
-
-
-Computational analysis of linear mixed effects models allow for the explicit analysis of both $\boldsymbol{G}$ and $\boldsymbol{R_i}$.
-The above terms can be used to express the  variance covariance matrix $\boldsymbol{\Omega}_i$ for the responses on item $i$ ,
-\[
-\boldsymbol{\Omega}_i = \boldsymbol{Z}_i \boldsymbol{G} \boldsymbol{Z}_i^{\prime} + \boldsymbol{R}_i.
-\]
-
-\bigskip
-
-The partial within-item variance covariance matrix of two methods at any replicate is denoted $\boldsymbol{\Sigma}$, where $\sigma^2_{1}$ and $\sigma^2_{2}$ are the within-subject variances of both methods, and $\sigma_{12}$ is the within-item covariance between the two methods. The within-item variance covariance matrix $\boldsymbol{\Sigma}$ is assumed to be the same for all replications.
-
-\[
-\boldsymbol{\Sigma} = \left( \begin{array}{cc}
-\sigma^2_{1} & \sigma_{12} \\
-\sigma_{12} & \sigma^2_{2} \\
-\end{array}\right).
-\]	
-
-
-The variance of case-wise difference in measurements can be determined from Block-$\boldsymbol{\Omega}_{i}$. Hence limits of agreement can be computed.
-
-
-The computation of the limits of agreement require that the variance of the difference of measurements. This variance is easily computable from the estimate of the ${\mbox{Block - }\boldsymbol \Omega_{i}}$ matrix. Lack of agreement can arise if there is a disagreement in overall variabilities. This may be due to due to the disagreement in either between-item
-variabilities or within-item variabilities, or both. \citet{ARoy2009} allows for a formal test of each.
-\newpage
-%==========================================================================================%
-
-
-The matrix of random errors $\boldsymbol{\epsilon}_i$ is distributed as $\mathcal{N}_2(0,\boldsymbol{R}_i)$.
-\citet{hamlett} shows that the variance covariance matrix for the residuals(i.e. the within-item sources of variation between both methods) can be expressed as the Kroneckor product of an $n_i \times n_i$ identity matrix and the partial within-item variance covariance matrix $\boldsymbol{\Sigma}$, i.e. $\boldsymbol{R}_{i} = \boldsymbol{I}_{n_{i}} \otimes \boldsymbol{\Sigma}$.
-\[
-\boldsymbol{\Sigma} = \left( \begin{array}{cc}
-\sigma^2_{1} & \sigma_{12} \\
-\sigma_{12} & \sigma^2_{2} \\
-\end{array}\right),
-\]
-where $\sigma^2_{1}$ and $\sigma^2_{2}$ are the within-subject variances of the respective methods, and $\sigma_{12}$ is the within-item covariance between the two methods. The within-item variance covariance matrix $\boldsymbol{\Sigma}$ is assumed to be the same for all replications.Computational analysis of linear mixed effects models allow for the explicit analysis of both $\boldsymbol{G}$ and $\boldsymbol{R_i}$.
-
-
-%----------------------------------------------------- %	
-The distribution of the random effects is described as $\boldsymbol{b}_i \sim N(0,\boldsymbol{G})$. Similarly  random errors are distributed as $\boldsymbol{\epsilon}_i \sim N(0,\boldsymbol{R}_i)$. The random effects and residuals are assumed to be independent. Both covariance matrices can be written as follows;
-% Assumptions made on the structures of $\boldsymbol{G}$ and $\boldsymbol{R}_i$ will be discussed in due course.
-
-
-\bigskip
-The above terms can be used to express the  variance covariance matrix $\boldsymbol{\Omega}_i$ for the responses on item $i$ ,
-\[
-\boldsymbol{\Omega}_i = \boldsymbol{Z}_i \boldsymbol{G} \boldsymbol{Z}_i^{\prime} + \boldsymbol{R}_i.
-\]
-
-
-\section{Hamlett}
-
-$\boldsymbol{R}_{i}$ is the variance covariance matrix for the residuals, i.e. the within-item sources of variation between both methods. Computational analysis of linear mixed effects models allow for the explicit analysis of both $\boldsymbol{G}$ and $\boldsymbol{R_i}$.
-
-
-\citet{hamlett} shows that $\boldsymbol{R}_{i}$  can be expressed as $\boldsymbol{I}_{n_{i}} \otimes \boldsymbol{\Sigma}$. The covariance matrix has the same structure for all items, except for dimension, which depends on the number of replicates. The $2 \times 2$ block diagonal Block-$\boldsymbol{\Omega}_{i}$ represents the covariance matrix between two methods, and is the sum of $\boldsymbol{G}$ and $\boldsymbol{\Sigma}$.
-
-\[ \textrm{Block-}\boldsymbol{\Omega}_{i}  = \left(\begin{array}{cc}
-\omega^2_1  & \omega_{12} \\
-\omega_{12} & \omega^2_2 \\
-\end{array}  \right)
-=  \left(
-\begin{array}{cc}
-g^2_1  & g_{12} \\
-g_{12} & g^2_2 \\
-\end{array} \right)+
-\left(
-\begin{array}{cc}
-\sigma^2_1  & \sigma_{12} \\
-\sigma_{12} & \sigma^2_2 \\
-\end{array}\right)
-\]
-
-
-
-\citet{hamlett} shows that $\boldsymbol{R}_{i}$  can be expressed as $\boldsymbol{R}_{i} = \boldsymbol{I}_{n_{i}} \otimes \boldsymbol{\Sigma}$. The partial within-item variance?covariance matrix of two methods at any replicate is denoted $\boldsymbol{\Sigma}$, where $\sigma^2_{1}$ and $\sigma^2_{2}$ are the within-subject variances of the respective methods, and $\sigma_{12}$ is the within-item covariance between the two methods. It is assumed that the within-item variance?covariance matrix $\boldsymbol{\Sigma}$ is the same for all replications. Again it is important to note that no special assumptions are made about the structure of the matrix.
-
-\begin{equation}
-	\boldsymbol{\Sigma} = \left( \begin{array}{cc}
-		\sigma^2_{1} & \sigma_{12} \\
-		\sigma_{12} & \sigma^2_{2} \\
-	\end{array}\right)
-\end{equation}
-The variance of case-wise difference in measurements can be determined from Block-$\boldsymbol{\Omega}_{i}$. Hence limits of agreement can be computed.
-
-
-\section{For Expository Purposes}
-
-\bigskip
-
-For expository purposes consider the case where each item provides three replicates by each method. Then in matrix notation the model has the structure
-\[
-\boldsymbol{y}_{i} =
-\left(
-\begin{array}{c}
-y_{1i1} \\
-y_{2i1} \\
-y_{1i2} \\
-y_{2i2} \\
-y_{1i3} \\
-y_{2i3} \\
-\end{array}
-\right) = 
-\left(
-\begin{array}{ccc}
-1 & 1 & 0 \\
-1 & 0 & 1 \\
-1 & 1 & 0 \\
-1 & 0 & 1 \\
-1 & 1 & 0 \\
-1 & 0 & 1 \\
-\end{array}
-\right)
-\left(
-\begin{array}{c}
-\beta_0 \\ \beta_1 \\ \beta_2 \\
-\end{array}
-\right)
-+
-\left(
-\begin{array}{cc}
-1 & 0 \\
-0 & 1 \\
-1 & 0 \\
-0 & 1 \\
-1 & 0 \\
-0 & 1 \\
-\end{array}
-\right)\left(
-\begin{array}{c}
-b_{1i} \\   b_{2i} \\
-\end{array}
-\right)
-+
-\left(
-\begin{array}{c}
-\epsilon_{1i1} \\
-\epsilon_{2i1} \\
-\epsilon_{1i2} \\
-\epsilon_{2i2} \\
-\epsilon_{1i3} \\
-\epsilon_{2i3} \\
-\end{array}
-\right).
-\]
-The between item variance covariance $\boldsymbol{G}$ is as before, while the within item variance covariance is given as
-%------Specification of within item VC matrix R---%
-\[
-\boldsymbol{R}_i = \left(
-\begin{array}{cccccc}
-\sigma^2_{1} & \sigma_{12} & 0 & 0 & 0 & 0 \\
-\sigma_{12} & \sigma^2_{2} & 0 & 0 & 0 & 0 \\
-0 & 0 & \sigma^2_{1} & \sigma_{12} & 0 & 0 \\
-0 & 0 & \sigma_{12} & \sigma^2_{2} & 0 & 0 \\
-0 & 0 & 0 & 0 & \sigma^2_{1} & \sigma_{12} \\
-0 & 0 & 0 & 0 & \sigma_{12} & \sigma^2_{2} \\
-\end{array} \right)
-\]
-Assumptions made on the structures of $\boldsymbol{G}$ and $\boldsymbol{R}_i$ will be discussed in due course.
-
-\section{Kroneckor}
-%============================================================ %
-
-The between-item variance covariance matrix $\boldsymbol{G}$ is constructed as follows:
-
-Both covariance matrices can be written as follows;
-% Assumptions made on the structures of $\boldsymbol{G}$ and $\boldsymbol{R}_i$ will be discussed in due course.
-
-
-\[ \boldsymbol{G} =\left(
-\begin{array}{cc}
-g^2_1  & g_{12} \\
-g_{12} & g^2_2 \\
-\end{array}
-\right) \]
-and
-
-
-\[ \boldsymbol{R}_i =\left(
-\begin{array}{cccccccc}
-\sigma^2_1  & \sigma_{12} & 0 & 0 & \ldots & \ldots & 0 & 0 \\
-\sigma_{12} & \sigma^2_2  & 0 & 0  & \ldots & \ldots & 0 & 0\\
-
-0 & 0 &\sigma^2_1  & \sigma_{12} & \ldots & \ldots& 0 &  0 \\
-0 & 0 &\sigma_{12} & \sigma^2_2  & \ldots & \ldots & 0 & 0 \\
-\vdots & \vdots &\vdots & \vdots & \ddots & \ddots& \vdots & \vdots \\
-
-0 & 0 &0 & 0 & \ldots & \ldots&\sigma^2_1  & \sigma_{12} \\
-0 & 0 &0 & 0 & \ldots & \ldots &\sigma_{12} & \sigma^2_2 \\
-\end{array}
-\right). \]
-
-
-
-
-
-\citet{hamlett} shows that $\boldsymbol{R}_{i}$  can be expressed as $\boldsymbol{R}_{i} = \boldsymbol{I}_{n_{i}} \otimes \boldsymbol{\Sigma}$. The partial within-item variance?covariance matrix of two methods at any replicate is denoted $\boldsymbol{\Sigma}$, where $\sigma^2_{1}$ and $\sigma^2_{2}$ are the within-subject variances of the respective methods, and $\sigma_{12}$ is the within-item covariance between the two methods. It is assumed that the within-item variance?covariance matrix $\boldsymbol{\Sigma}$ is the same for all replications. Again it is important to note that no special assumptions are made about the structure of the matrix.
-
-\begin{equation}
-	\boldsymbol{\Sigma} = \left( \begin{array}{cc}
-		\sigma^2_{1} & \sigma_{12} \\
-		\sigma_{12} & \sigma^2_{2} \\
-	\end{array}\right)
-\end{equation}
-%	\vspace{1in}
-
-\citet{hamlett} shows that $\boldsymbol{R}_{i}$  can be expressed as $\boldsymbol{I}_{n_{i}} \otimes \boldsymbol{\Sigma}$. The covariance matrix has the same structure for all items, except for dimension, which depends on the number of replicates. The $2 \times 2$ block diagonal Block-$\boldsymbol{\Omega}_{i}$ represents the covariance matrix between two methods, and is the sum of $\boldsymbol{G}$ and $\boldsymbol{\Sigma}$.
-
-\[ \textrm{Block-}\boldsymbol{\Omega}_{i}  = \left(\begin{array}{cc}
-\omega^2_1  & \omega_{12} \\
-\omega_{12} & \omega^2_2 \\
-\end{array}  \right)
-=  \left(
-\begin{array}{cc}
-g^2_1  & g_{12} \\
-g_{12} & g^2_2 \\
-\end{array} \right)+
-\left(
-\begin{array}{cc}
-\sigma^2_1  & \sigma_{12} \\
-\sigma_{12} & \sigma^2_2 \\
-\end{array}\right)
-\]
-
-\section{Overall Variability}
-The overall variability between the two methods is the sum of between-item variability
-$\boldsymbol{G}$ and within-item variability $\boldsymbol{\Sigma}$. \citet{ARoy2009} denotes the overall variability	as ${\mbox{Block - }\boldsymbol \Omega_{i}}$. The overall variation for methods $1$ and $2$ are given by
-
-\begin{center}
-	\[\left(\begin{array}{cc}
-	\omega^2_1  & \omega_{12} \\
-	\omega_{12} & \omega^2_2 \\
-	\end{array}  \right)
-	=  \left(
-	\begin{array}{cc}
-	g^2_1  & g_{12} \\
-	g_{12} & g^2_2 \\
-	\end{array} \right)+
-	\left(
-	\begin{array}{cc}
-	\sigma^2_1  & \sigma_{12} \\
-	\sigma_{12} & \sigma^2_2 \\
-	\end{array}\right)
-	\]
-\end{center}
-
-The variance of case-wise difference in measurements can be determined from Block-$\boldsymbol{\Omega}_{i}$. Hence limits of agreement can be computed.
-
-
-The computation of the limits of agreement require that the variance of the difference of measurements. This variance is easily computable from the estimate of the ${\mbox{Block - }\boldsymbol \Omega_{i}}$ matrix. Lack of agreement can arise if there is a disagreement in overall variabilities. This may be due to due to the disagreement in either between-item
-variabilities or within-item variabilities, or both. \citet{ARoy2009} allows for a formal test of each.
-
-\section{Off-Diagonal Components in Roy's Model}
-
-The Within-item variability is specified as follows, where $x$ and $y$ are the methods of measurement in question.
-\[ \left(
-\begin{array}{cc}
-\sigma^2_x & \sigma_{xy} \\
-\sigma_{xy} & \sigma^2_y \\
-\end{array}
-\right)
-\]
-
-$\sigma^2_x$ and $\sigma^2_y$ describe the level of measurement error associated with each of the measurement methods for a given item. Attention must be given to the off-diagonal elements of the matrix.
-
-It is intuitive to consider the measurement error of the two methods as independent of each other.
-
-\section{Formal Testing}
-A formal test can be performed to test the hypothesis that the off-diagonal terms are zero.
-\[ \left(
-\begin{array}{cc}
-\sigma^2_x & \sigma_xy \\
-\sigma_xy & \sigma^2_y \\
-\end{array}
-\right) vs \left(
-\begin{array}{cc}
-\sigma^2_x & 0 \\
-0 & \sigma^2_y \\
-\end{array}
-\right)
-\]
-
-
-%----------------------------------------------------------------------------------------%
-
 
 
 \chapter{Extending Current Methodologies}
@@ -1794,19 +1648,6 @@ Roy's methodology is not suitable for the case of single measurements because it
 
 \newpage
 
-\section{Outline of Thesis}
-In the first chapter the study of method comparison is introduced, while the second chapter provides a review of current methodologies. The intention of this thesis is to progress the
-study of method comparison studies, using a statistical method known as Linear mixed effects models.
-Chapter three shall describes linear mixed effects models, and how the use of the linear mixed
-effects models have so far extended to method comparison studies. Implementations of important existing work shall be presented, using the \texttt{R} programming language.
-
-Model diagnostics are an integral component of a complete statistical analysis.
-In chapter three model diagnostics shall be described in depth, with particular
-emphasis on linear mixed effects models, further to chapter two.
-
-For the fourth chapter, important linear mixed effects model diagnostic methods shall be extended to method comparison studies, and proposed methods shall be demonstrated on data sets that have become well known in literature on method comparison. The purpose is to both calibrate these methods and to demonstrate applications for them.
-The last chapter shall focus on robust measures of important parameters such as agreement.
-\newpage
 
 \chapter{Likelihood Ratio Tests}
 \section{Likelihood}
@@ -1841,7 +1682,11 @@ The significance of the likelihood ratio test can be found by comparing the like
 
 
 %=======================================================================================%
-\newpage
+\section{Likelihood Ratio Tests in Roy's Analysis}
+
+
+The first model acts as an alternative hypothesis to be compared against each of three other models, acting as null hypothesis models, successively. The models are compared using the likelihood ratio test. 
+\bigskip
 \section{Nesting: Model Selection Using Likelihood Ratio Tests}
 An important step in the process of model selection is to determine, for a given pair of models, if there is a ``nesting relationship" between the two.
 
@@ -2084,9 +1929,9 @@ are biased downwards.
 REML estimates accounts for the presence of these nuisance parameters by maximising the linearly independent error contrasts to obtain more unbiased estimates.
 
 %% -Treatment of items as fixed effects
-[Pinheiro Bates 2000] addresses the issue of treating items as fixed effects. Such a specification is useful only for the specific sample of items, rather than the population of items, where the interest would naturally lie.
+\citet{PB} addresses the issue of treating items as fixed effects. Such a specification is useful only for the specific sample of items, rather than the population of items, where the interest would naturally lie.
 
-[Pinheiro Bates 2000] advises the specification of random effects to correspond to items; treating the item effects as random deviations from the population mean.
+\citet{PB} advises the specification of random effects to correspond to items; treating the item effects as random deviations from the population mean.
 
 %Indeed [Roy 2009] follows this approach.
 %Grubb?s One Way Classification Model 
@@ -2100,11 +1945,7 @@ REML estimates accounts for the presence of these nuisance parameters by maximis
 
 
 
-\section{Likelihood Ratio Tests in Roy's Analysis}
 
-
-The first model acts as an alternative hypothesis to be compared against each of three other models, acting as null hypothesis models, successively. The models are compared using the likelihood ratio test. 
-\bigskip
 \section{BXC - Model Terms}
 
 \begin{itemize}
