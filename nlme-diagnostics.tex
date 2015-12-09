@@ -1,0 +1,156 @@
+
+
+%============================================%
+%  Page 174
+
+\subsection*{Examining a Fitted Model}
+
+\begin{description}
+\item[Assumption 1]
+
+\item[Assumption 2]
+\end{itemize
+
+
+\subsubsection{Assessing Assumptions on the Within-Group Error}
+
+%============================================%
+% Page 175
+
+Dependencies among the within-group errors are usually modelled with correlation structures
+
+
+\subsection{Primary Quantities}
+
+The primary quantities used to measure the adequcy of assumption 1 are the \textit{within-group residuals} defined as the difference 
+between the observed response and the within-group fitted value 
+
+\begin{framed}
+\begin{verbatim}
+
+\end{verbatim}
+\end{framed}
+
+%-----------------------%
+\subsubsection*{Orthodontic Growth Curve}
+
+\begin{verbatim}
+
+\end{verbatim}
+
+
+%============================================%
+% 
+%Page 176
+
+
+\begin{framed}
+\begin{verbatim}
+
+\end{verbatim}
+\end{framed}
+
+The \texttt{type=p} aregument to the \texttt{resid} method
+
+The outlying observation for subjects M09 and M13 are evident.
+
+%============================================%
+% 
+%Page 177
+
+% Scatterplots
+
+
+A more general model to represent the orthodontic growth data allows different varianbces by gender for the 
+within-group error.
+
+The lme function allow the heteroscedascity of the within-error group via the weights argument.
+
+The topic will be covered in detail in section 5.2 of Pinheio Bates
+\begin{framed}
+
+It suffices to know that the varIdent variance function structure allows different variances for each level of a factor
+and can be used to fit the heteroscedastic model for the orthodontic growth as follows
+\begin{verbatim}
+
+\end{verbatim}
+\end{framed}
+
+%============================================%
+% 
+%Page 178
+
+
+\begin{framed}
+\begin{verbatim}
+
+plot(fm30rth.lme, distance ~fitted(.) , id = 0.05, adj = -0.3 )
+\end{verbatim}
+\end{framed}
+
+the \texttt{fm30rth.lme} fitted values are in close agreement with the observed orthodontic measures, except for three
+ extreme observations on subjects M09 and M13.
+
+
+
+\begin{framed}
+\begin{verbatim}
+
+anova(fm20rth.lme, fm30rth.lme)
+\end{verbatim}
+\end{framed}
+
+
+%============================================%
+% 
+%Page 179
+
+The small $p-$value of the likelihood ratio statistic confirms that the heteroscedastic model
+explains the data significantly better than homoscedastic model.
+
+The assumption of normality for the within-group errors can be assessed with the normal probability plot of the
+residuals, produced by the \texttt{qqnorm} method.
+A typical call to \texttt{qqnorm} is of the form
+
+\begin{framed}
+\begin{verbatim}
+qqnorm(object, formula)
+\end{verbatim}
+\end{framed}
+
+
+\subsection{Radioinnumoassays of IGF-I}
+We initially consider the plot of the standardized residuals versus the fitted value by Lot for the fm2IGF.lme object, obtained with
+%============================================%
+% 
+%Page 180
+
+
+\begin{framed}
+\begin{verbatim}
+qqnorm( fm2IGF.lme, ~ resid(.) , id = 0.05, adj = -0.75) 
+\end{verbatim}
+\end{framed}
+
+
+\subsection*{thickness of Oxide Coating on a Semiconductor}
+
+The plot of the within-group standardized residuals (level =2 in this case) versus the within group fitted values is the defaul display
+produced by the plot method.
+
+%============================================%
+% 
+%Page 181
+
+% Scatter plots
+% Normal Probability Plots
+
+%============================================%
+% 
+%Page 182
+\begin{framed}
+\begin{verbatim}
+
+\end{verbatim}
+\end{framed}
+
