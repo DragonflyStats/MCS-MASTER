@@ -780,7 +780,60 @@ It is also desirable to measure the influence of the case deletions on the covar
 
 
 \chapter{Galecki}
-\section{Model Diagnostics for Roy's Models}
+% Diagnostics with nlmeU
+\newpage
+\subsection*{Leave-One-Out Diagnostics with \texttt{lmeU}}
+Galecki et al discuss the matter of LME influence diagnostics in their book, although not into great detail.
+
+
+The command \texttt{lmeU} fits a model with a particular subject removed. The identifier of the subject to be removed is passed as the only argument
+
+A plot ofthe per-observation diagnostics individual subject log-likelihood contributions can be rendered.
+
+\subsubsection*{Likelihood Displacement}
+%% Page 503 Galecki
+
+\subsection{Likelihood Distances}
+
+The \index{likelihood distance} likelihood distance is a global summary measure that expresses the joint influence of the subsets of observations, $U$, on all parameters in $\phi$ that were subject to updating. For classical linear models, the implementation of influence analysis is straightforward. \citet{schab} points out the likelihood distance gives the amount by which the log-likelihood of the model fitted from the full data changes if one were
+to estimate the model from a reduced-data estimates. Importantly $LD(\psi_{(U)})$ is not the log-likelihood obtained by fitting the model to the reduced data set. It is obtained by evaluating the likelihood function based on the full data set (containing all $n$ observations) at the reduced-data estimates.
+
+
+%---------------------------------------------------------- %
+%Likelihood Displacement.
+\[  LD(\boldsymbol{(U)})= 2[l\boldsymbol{\hat{(\phi)}} - l\boldsymbol{\hat{\phi}_\omega} ] \]
+\[  RLD(\boldsymbol{(U)})= 2[ l_R\boldsymbol{\hat{(\phi)}} - l_R\boldsymbol{\hat{(\phi)}_\omega} ] \]
+%	Large values indicate that $\boldsymbol{\hat{\theta}}$ and $\boldsymbol{\hat{\theta}_\omega}$ differ considerably.
+
+
+An overall influence statistic measures the change in the objective function being minimized. For example, in
+OLS regression, the residual sums of squares serves that purpose. In linear mixed models fit by
+\index{maximum likelihood} maximum likelihood (ML) or \index{restricted maximum likelihood} restricted maximum likelihood (REML), an overall influence measure is the \index{likelihood distance} likelihood distance \citep{cook}. In LME models, fitted by either ML or REML, an important overall
+influence measure is the likelihood distance \citep{cook82}. The  procedure requires the calculation of the full data estimates
+$\hat{\psi}$ and estimates based on the reduced data set  $\hat{\psi}_{(U)}$. The likelihood distance is given by
+determining
+
+
+\begin{eqnarray}
+LD_{(U)} &=& 2\{l(\hat{\psi}) - l( \hat{\psi}_{(U)}) \}\\
+RLD_{(U)} &=& 2\{l_{R}(\hat{\psi}) - l_{R}(\hat{\psi}_{(U)})\}
+\end{eqnarray}
+%----schabenberger page 8
+For classical linear models, the implementation of influence analysis is straightforward.
+However, for LME models, the problem is more complex. Update formulas for the fixed effects are available only when the covariance parameters are assumed to be known. A measure of total influence requires updates of all model parameters. This can only be achieved in general is by omitting observations or cases, then refitting the model. This is a very simplistic approach, and computationally expensive.
+
+\citet{west} examines a group of methods that examine various aspects of influence diagnostics for LME models.
+For overall influence, the most common approaches are the \textit{likelihood distance} and the \textit{restricted likelihood distance}.
+
+\subsubsection{The \texttt{logLik} Function}
+\texttt{logLik.lme} returns the log-likelihood value of the linear mixed-effects model represented by object evaluated at the estimated coefficients. It is also possible to determine the restricted log-likelihood, if relevant, using this function. For the Blood Data Example,  the loglikelihood of the JS.roy1 model can be computed as follows.
+\begin{framed}
+	\begin{verbatim}
+	> logLik(JS.roy1)
+	'log Lik.' -2030.736 (df=8)
+	\end{verbatim}
+\end{framed}
+%======================================================================================= %\section{Model Diagnostics for Roy's Models}
 
 Further to previous work, this section revisits case-deletion and residual diagnostics, and explores how approaches devised by  Galecki \& Burzykowski (2013) can be used to appraise Roy's model. These authors specifically look at Cook's Distances and Likelihood Distances.
 For the Roy Model, Cook's Distances may also be generated using the \textbf{\textit{predictmeans}}
@@ -1077,6 +1130,94 @@ If lack of agreement is indicated between methods of measurement, use of Roy's T
 	
 \end{figure}
 \newpage
+\subsection{Cook's Distance}
+\citet{CPJ} develops \index{case deletion diagnostics} case deletion diagnostics, in particular the equivalent of \index{Cook's distance} Cook's distance, a well-known metric, for diagnosing influential observations when estimating the fixed effect parameters and variance components. Deletion diagnostics provide a means of assessing the influence of an observation (or groups of observations) on inference on the estimated parameters of LME models. 
+%We shall provide a fuller discussion of Cook's distance in due course.
+Cook's Distance is a good measure of the influence of an observation that is a measure of aggregate impact of each observation on the group of regression coefficients, as well as the group of fitted values.
+%Cook's Distance is proportional to the sum of the squared differences between predictions made with all observations in the analysis and predictions made leaving out the observation in question. 
+If the predictions are the same with or without the observation in question, then the observation has no influence on the regression model. If the predictions differ greatly when the observation is not included in the analysis, then the observation is influential.
+
+%======================================================================================= %
+\newpage
+% Hence the name deletion diagnostics and case-deletion diagnostics. 
+\subsubsection{Cook's Distance for Blood Data}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\linewidth]{images/CooksDistancePlot-JS-Roy}
+	%	\caption{}
+	%	\label{fig:CooksDistancePlot-JS-Roy}
+\end{figure}
+
+\subsection{Cook's Distance}
+\citet{CPJ} develops \index{case deletion diagnostics} case deletion diagnostics, in particular the equivalent of \index{Cook's distance} Cook's distance, a well-known metric, for diagnosing influential observations when estimating the fixed effect parameters and variance components. Deletion diagnostics provide a means of assessing the influence of an observation (or groups of observations) on inference on the estimated parameters of LME models. 
+%We shall provide a fuller discussion of Cook's distance in due course.
+Cook's Distance is a good measure of the influence of an observation that is a measure of aggregate impact of each observation on the group of regression coefficients, as well as the group of fitted values.
+%Cook's Distance is proportional to the sum of the squared differences between predictions made with all observations in the analysis and predictions made leaving out the observation in question. 
+If the predictions are the same with or without the observation in question, then the observation has no influence on the regression model. If the predictions differ greatly when the observation is not included in the analysis, then the observation is influential.
+
+%======================================================================================= %
+\newpage
+% Hence the name deletion diagnostics and case-deletion diagnostics. 
+\subsubsection{Cook's Distance for Blood Data}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\linewidth]{images/CooksDistancePlot-JS-Roy}
+	%	\caption{}
+	%	\label{fig:CooksDistancePlot-JS-Roy}
+\end{figure}
+
+\subsubsection{Cooks distance- Predict means thing here}
+Cook's Distance is a model diagnostic measure of an observation that is a measure of aggregate impact of each observation on the group of regression coefficients. Observations, or sets of observations, that have high Cook's distance usually have high resdiauls. We will revisit Cook's distance fully in due cource.
+
+Cook's Distance is a good measure of the influence of an observation that is a measure of aggregate impact of each observation on the group of regression coefficients, as well as the group of fitted values.
+
+The \texttt{CookD} fucntion , from the predictmeans R package, produces Cook’s distance plots for an LME model 
+(predictmeans)
+
+
+
+\begin{framed}
+	\begin{verbatim}
+	library(predictMeans)
+	CookD(model, group=method, plot=TRUE, idn=5, newwd=FALSE)
+	\end{verbatim}
+\end{framed}
+
+
+\begin{verbatim}
+## Cook's Distance
+
+\end{verbatim}
+
+The particular cases that we will omit for the subsequent analysis are subjects 68,78 and 80.
+
+\subsubsection{Reduced Data Set}
+It is important to determine if a specific group of cases or subjects give rise to the lack of agreement in the methods. If one were to examine fitted model if these cases were removed.
+
+\begin{framed}
+	\begin{verbatim}
+	
+	blood.red <- blood[!(blood$subject %in% c(68,78,80)),]
+	dim(blood.red)
+	# 27 observations should be removed.
+	
+	blood.NLME.red <-lme(BP ~ method-1 , random=~1|subject,data = blood.red)
+	plot(blood.NLME.red, resid(., type = "p") ~ fitted(.) | method, abline = 0, id=.05)
+	\end{verbatim}
+\end{framed}
+
+In this instance, we conclude that there is a systemic diagreement between method S and the other two methods, and that lack of agreement can not be sourced to a handful of cases.
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{images/bloodnlmeResidPlot2B}
+\end{figure}
+
+
+\newpage
+
+
+
+
 \section{Computing DFBETAs with \texttt{R}}
 
 The dfbeta refers to how much a parameter estimate changes if the observation or case in question is dropped from the data set.Cook's distance is presumably more important to you if you are doing predictive modeling, whereas dfbeta is more important in explanatory modeling.
@@ -1386,8 +1527,142 @@ The analogue of the information ratio measures the change in the determinant of 
 
 Ideally when all observations have the same influence on the information matrix $IR{\gamma}$ is approximately one.
 Deviations from one indicate the group $U$ is influential. Since $\mbox{var}(\hat{\gamma})$ and $\boldsymbol{I}_{r}$ are fixed for all observations, $IR{\gamma}$ is a function of $\boldsymbol{G}$, in turn a function of $\boldsymbol{C}_{i}$ and $c_{ii}$.
+\newpage
+\subsection{Cook's Distance}
+\citet{CPJ} develops \index{case deletion diagnostics} case deletion diagnostics, in particular the equivalent of \index{Cook's distance} Cook's distance, a well-known metric, for diagnosing influential observations when estimating the fixed effect parameters and variance components. Deletion diagnostics provide a means of assessing the influence of an observation (or groups of observations) on inference on the estimated parameters of LME models. 
+%We shall provide a fuller discussion of Cook's distance in due course.
+Cook's Distance is a good measure of the influence of an observation that is a measure of aggregate impact of each observation on the group of regression coefficients, as well as the group of fitted values.
+%Cook's Distance is proportional to the sum of the squared differences between predictions made with all observations in the analysis and predictions made leaving out the observation in question. 
+If the predictions are the same with or without the observation in question, then the observation has no influence on the regression model. If the predictions differ greatly when the observation is not included in the analysis, then the observation is influential.
+
+%======================================================================================= %
+\newpage
+% Hence the name deletion diagnostics and case-deletion diagnostics. 
+\subsubsection{Cook's Distance for Blood Data}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\linewidth]{images/CooksDistancePlot-JS-Roy}
+	%	\caption{}
+	%	\label{fig:CooksDistancePlot-JS-Roy}
+\end{figure}
 
 %--------------------------------------------------------------%
+\chapter{Model Diagnostics for MCS}
+
+%-------------------------------------------------------------------------%
+\begin{abstract}
+	Model diagnostic techniques, well established for classical models, have since been adapted for use with linear mixed effects models. However, diagnostic techniques for LME models are inevitably more difficult to implement, due to the increased complexity. \\ \bigskip
+	
+	
+	\citet{schab} describes the examination of model-data agreement as comprising several elements; \begin{itemize}
+		\item residual analysis, 
+		\item goodness of fit, 
+		\item collinearity diagnostics
+		\item influence analysis.
+	\end{itemize} 
+	
+	This chapter is comprised of two sections:
+	\begin{enumerate}
+		\item Residual Diagnostics
+		\item Influence Diagnostics
+	\end{enumerate}
+\end{abstract}
+
+%=============================================================================== %
+\newpage
+\section{Introduction}
+In statistical modelling, the process of model validation is a critical step, but also a step that is too often overlooked. A very simple procedure is to examine well known
+metrics, such as the AIC and $R^2$ measures. However, using a small handful of simple measures and methods is insufficient to properly assess the quality of a fitted model. To do so properly, a full and comprehensive
+analysis that tests of all of the assumptions, as far as possible, must be carried out. 
+
+A statistical model, whether of the fixed-effects or mixed-effects variety, represents how you think your data were generated. Following model specification and estimation, it is of interest to explore the model-data
+agreement by raising pertinent questions. Further to the analysis of residuals, \citet{schab} recommends the examination of the following questions.
+\begin{itemize}
+	\item Does the model-data agreement support the model assumptions?
+	\item Should model components be refined, and if so, which components? For example, should certain explanatory variables
+	be added or removed, and is the covariance of the observations properly specified?
+	\item Are the results sensitive to model and/or data? Are individual data points or groups of cases particularly
+	influential on the analysis?
+\end{itemize}
+\newpage
+
+
+
+
+
+\newpage
+\subsection{Deviance}
+In statistics, deviance is a quality of fit statistic for a model that is often used for statistical hypothesis testing. It is a generalization of the idea of using the sum of squares of residuals in ordinary least squares to cases where model-fitting is achieved by maximum likelihood.
+
+%-----------------------------------%
+
+
+%================================================================================ %
+\section{Case Deletion Diagnostics for Variance Ratios}
+In this section, case deletion diagnostics are used on the variance components of the model. Specifically the ratio of between subject variances and the within subject variances respecitvely.
+
+
+\[ \mbox{BSVR} = \frac{\sigma^2_2}{\sigma^2_2} , \mbox{   } \mbox{WSVR} = \frac{d^2_2}{d^2_2} \]
+
+These variance ratios are re-computed for each case removed, and may be analysed seperately or jointly for outliers.
+
+\subsubsection{Methods for Identifying Outliers}
+The Grubbs' Test for Outliers is a commonly used technique for assessing outlier in a univariate data set, of which there are several variants. The first variant of Grubb's test is used to detect if the sample dataset contains one outlier, statistically different than
+the other values. The test statistic is based by calculating score of this outlier $G$ (outlier minus mean and divided
+by sd) and comparing it to appropriate critical values. Alternative method is calculating ratio of
+variances of two datasets - full dataset and dataset without outlier. 
+%The obtained value called U is bound with G by simple formula.
+The second variant is used to check if lowest and highest value are two outliers on opposite tails of
+sample. It is based on calculation of ratio of range to standard deviation of the sample.
+The third variant calculates ratio of variance of full sample and sample without two extreme observations.
+It is used to detect if dataset contains two outliers on the same tail.
+
+As there may be several outliers present, the Grubbs test is not practical. However an indication that a point being beyond the fences according to Tukey's 
+specification for boxplots, ( i.e. greater than $Q_3 +1.5 \mbox{IQR}$ or less than $Q_1 - 1.5 \mbox{IQR}$), will suffice.
+
+\subsubsection{Mahalanbis Distance}
+Bivariate Analyses may be applied jointly to the both sets of data sets, e.g Mahalanobis distances.
+
+The WSVR values are plotted against the corresponding BSVR values. Confidence Ellipses can be superimposed over the plot with minimal effort. Two ellipses are generated by this technique, a 50 \% and 97.5\% confidence ellipse respectively. Outlying cases are idenified by the plot. Subject 68 is evident
+
+The subjects were ranked by Mahalanobis distance, with the top 10 being presented in the following table. Both sets of ratio are addtionally expressed as a ratio of the full model variance ratios. 
+\begin{center}
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		Subject (u) &  MD & WSVR$_{(u)}$ & WSVR (\%) & BSVR$_{(u)}$   & BSVR (\%)     \\ \hline \hline
+		68 & 44.7284   & 1.3615  & 0.9132   & 1.0353  & 0.9849 \\ \hline
+		30 & 16.7228   & 1.5045  & 1.0092   & 1.1024  & 1.0487 \\ \hline
+		71 & 11.5887   & 1.5210  & 1.0202   & 1.0932  & 1.0400 \\ \hline
+		80 & 11.0326   & 1.4796  & 0.9925   & 1.0114  & 0.9621 \\ \hline 
+		38 & 10.3671   & 1.5011  & 1.0069   & 1.0917  & 1.0385 \\ \hline 
+		67 & 10.1940   & 1.4308  & 0.9598   & 1.0514  & 1.0002 \\ \hline
+		43  & 7.6932   & 1.4385  & 0.9649   & 1.0511  & 0.9999 \\ \hline
+		72  & 4.7350   & 1.4900  & 0.9995   & 1.0262  & 0.9762 \\ \hline
+		48  & 4.4321   & 1.4950  & 1.0028   & 1.0280  & 0.9779 \\ \hline
+		29  & 4.3005   & 1.4910  & 1.0001   & 1.0769  & 1.0244 \\ \hline
+	\end{tabular} 
+\end{center}
+From this table one may conclude that subjects 72, 48 and 29 are not particularly influential. Interestingly Subject 78, which was noticeable in the case deletion diagnostics for fixed effects, does not feature in this table.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\linewidth]{08-plot1}
+	\caption{}
+	\label{fig:08-plot1}
+\end{figure}
+%===========================================================================%
+\newpage
+\section{Variance Ratios}
+The approach proposed by Roy deals with the question of agreement, and indeed interchangeability, as developed by Bland and Altman’s corpus of work.  In the view of Dunn, a question relevant to many practitioners is which of the two methods is more precise.
+The relationship between precision and the within-item and between-item variability must be established. Roy establishes the equivalence of repeatability and within-item variability, and hence precision.  The method with the smaller within-item variability can be deemed to be the more precise.
+A useful approach is to compute the confidence intervals for the ratio of within-item standard deviations (equivalent to the ratio of repeatability coefficients), which can be interpreted in the usual manner.  
+In fact, the ratio of within-item standard deviations, with the attendant confidence interval,  can be determined using a single R command: intervals().
+Pinheiro and Bates (pg 93-95) give a description of how confidence intervals for the variance components are computed. Furthermore a complete set of confidence intervals can be computed to complement the variance component estimates. 
+What is required is the computation of the variance ratios of within-item and between-item standard deviations.  
+A naïve approach would be to compute the variance ratios by relevant F distribution quantiles. However, the question arises as to the appropriate degrees of freedom.
+Limits of agreement are easily computable using the LME framework. While we will not be considering this analysis, a demonstration will be provided in the example.
+
+
 \section{Case Deletion Diagnostics for Variance Ratios}
 In this section, case deletion diagnostics are used on the variance components of the model. Specifically the ratio of between subject variances and the within subject variances respecitvely.
 
@@ -1442,7 +1717,165 @@ From this table one may conclude that subjects 72, 48 and 29 are not particularl
 \end{figure}
 
 
+\newpage% PArt C
+\subsection*{3. Case Deletion Diagnostics for LME Data: Cooks Distance, DFBetas}
+In this section we introduce influence analysis and case deletion diagnosics. A full overview of the topic will be provided although there are specific tools that are particularly useful in the case of MCS problems: specifically the Cook's Distance and the DFBeta.
+
+A discussion of how leave-k-out diagnostics would work in the context of MCS problems is required. There are several scenaros. Suppose we have two methods of measurement X and Y, each with three measurements for a specific case: $(x_1,x_2,x_3,y_1,y_2,y_3)$
+
+\begin{itemize}
+	\item Leave One Out - one observation is omitted (e.g. $x_1$)
+	\item Leave Pair Out - one pair of observation  is omitted (e.g. $x_1$ and $y_1$)
+	\item Leave Case (or Subject) Out - All observations associated with a particular case or subject are omitted. (e.g. $\{x_1,x_2,x_3,y_1,y_2,y_3\}$)
+\end{itemize}
+Other metrics, such as the likelihood distance, will also be introduced, and revisited in a later section.
+%========================================================= %
+%- D
+\newpage
+\subsection*{4. Using DFBETAs to Assess Agreement}
+Suppose an LME model was formulated to model agreement for various (i.e. 2 or more) methods of measurement, with replicate measurements. If the methods are to be agreement, the DFBetas for each case would be the same for both methods.\textbf{As such, agreement between any two methods can be determined by a simple scatterplot of the DFBetas. If the points align along the line of equality, then both methods can be said to be in agreement.}
+
+%Cook's Distance can be used to identify and rank cases, in terms of influence.
+For the model fitted to the blood data with the lme4 R package, the results tabulated below can be produced. All 85 subjects are ranked by Cook's Distance (with only the top 6 being presented here). The remaining columns are the DFBeta for each of the fixed effects, for each of the 85 subject.
+\begin{center}
+	\begin{tabular}{|c|c|c|c|c|} \hline
+		Subject &    Cook's D  &    methodJ  &   methodR  & methodS \\ \hline \hline
+		78 & 0.61557407 & -0.02934556 & -0.03387780 & 0.2954937  \\ \hline
+		80 & 0.41590973 & -0.06305026 & -0.06515241 & 0.2123881  \\ \hline
+		68 & 0.22536651 & -0.05334867 & -0.05062375 & 0.1555187  \\ \hline
+		72 & 0.09348500  & 0.02388626  & 0.02419887 & 0.1617474  \\ \hline
+		48 & 0.08706988  & 0.02147541  & 0.03145273 & 0.1581591  \\ \hline
+		30 & 0.07118415  & 0.26925807  & 0.26215970 & 0.1581569  \\ \hline
+	\end{tabular} 
+\end{center}
+\newpage
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\linewidth]{images/04-DFbetaplots}
+	% \caption{}
+	% \label{fig:04-DFbetaplots}
+\end{figure}
+
+In the first of the three plots (\textit{Top Right}), strong agreement between method J and method R is indicated. The other plots indicate lack of agreement of methods J and R with method S.
 
 
 
+If lack of agreement is indicated, a subsequent analysis using a technique proposed by Roy(2009) can be used to identify the specific cause for this lack of agreement (see next section).
+\newpage
+
+The Pearson Correlation coefficient of the DFBetas can be used in conjection with this analysis. A high correlation confirms good agreement. No threshold value for agreement is suggested, and analysts are advised to perform model diagnostics regardless of the correlation coeffient. 
+
+
+The Bonferroni Outlier Test and Cook's Distance values can be used to identify unusual cases, when the relationship between sets of dfbeta is modelled as a (classical) linear model. In this model, the covariates should be homoskedastic. A test for non-constant variance may be used to verify this. These diagnostic procedures are implementable using the \textbf{\textit{car}} R package.
+
+Deming Regression can be used to verify the line of equality. Significance test for Deming regression estimates are not available, but 95\% bootstrap confidence intervals for the slope estimate and intercept estimates can be computed. 
+
+
+Additionally a mean difference plot can be used to identify outliers. This mean-difference plot differs from the Bland-Altman plot in that the plot is denominated in terms of dfbeta values, and not in measurement units.
+
+If lack of agreement is indicated between methods of measurement, use of Roy's Testing is advised (This is the subject of the next section).
+\begin{figure}[h1]
+	\centering
+	\includegraphics[width=0.7\linewidth]{images/04-TMDplot}
+	\caption{}
+	\label{fig:04-TMDplot}
+\end{figure}
+\newpage
+%========================================================= %
+%% - Part E
+\subsection*{5. Using Roy's Test to Identify cause of Lack of agreement}
+
+Barnhart specifies three conditions for method of measurement that are required for two methods of measurement to be considered in agreement.
+
+\begin{itemize}
+	\item[(i)] No Significant Inter-method bias
+	\item[(ii)] No significant Difference in Within-Subject Variance
+	\item[(iii)] No significant Difference in Within-Subject Variance 
+\end{itemize}
+
+
+Roy(2009) demonstrates a LME model specification, and a series of tests that look at each of these agreement criteria individually. If two methods of measuement lack agreement, the specific reason or reasons for this lack of agreement can be identified.
+
+
+Roy proposes an LME model with Kronecker product covariance structure in a doubly multivariate setup. Response for $i$th subject can be written as
+\[ y_i = \beta_0 + \beta_1x_{i1} + \beta_2x_{i2} + b_{1i}z_{i1}  + b_{2i}z_{i2} + \epsilon_i \]
+\begin{itemize}
+	\item $\beta_1$ and $\beta_2$ are fixed effects corresponding to both methods. ($\beta_0$ is the intercept.)
+	\item $b_{1i}$ and $b_{2i}$ are random effects corresponding to both methods.
+\end{itemize}
+
+Overall variability between the two methods ($\Omega$) is sum of between-subject ($D$) and within-subject variability ($\Sigma$),
+\[
+\mbox{Block } \boldsymbol{\Omega}_i = \left[ \begin{array}{cc} d^2_1 & d_{12}\\ d_{12} & d^2_2\\ \end{array} \right]
++ \left[\begin{array}{cc} \sigma^2_1 & \sigma_{12}\\ \sigma_{12} & \sigma^2_2\\ \end{array}\right].
+\]
+%============================================== %
+%- F:
+\subsection*{6. Using Roy's Model to Compute LoAs and CR }
+
+In this short section, a demonstration of how Roy's technique can be used to compute two common MCS metrics: Limits of Agreement and the Coefficient of Repeatabilty. While Limits of Agreement are not used in the analysis proposed here, they are ubiquituous in literature, and a demonstration on how to compute them with the Roy Model would assist the adoption of this proposed method.
+
+The coefficient of repeatability is encountered in Gage R \& R analysis. \textit{(A future exploration of how LME models can be used in that field would be of interest. This is something to include in the Conclusions Section).}
+%============================================== %
+%- G:
+\subsection*{7. Model Diagnostics for Roy's Models}
+
+Further to previous work, this section revisits case-deletion and residual diagnostics, and explores how approaches devised by  Galecki \& Burzykowski (2013) can be used to appraise Roy's model. These authors specifically look at Cook's Distances and Likelihood Distances.
+For the Roy Model, Cook's Distances may also be generated using the \textbf{\textit{predictmeans}}
+
+
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{images/CooksDistancePlot-JS-Roy}
+	\caption{}
+	\label{fig:CooksDistancePlot-JS-Roy}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{images/LogLik-JS-Roy}
+	\caption{}
+	\label{fig:LogLik-JS-Roy}
+\end{figure}
+
+As the model is structurally different from the models discussed in the earlier sections, Residual analysis will be briefly revisited.
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{images/Residuals-JS-Roy}
+	\caption{}
+	\label{fig:Residuals-JS-Roy}
+\end{figure}
+
+\newpage
+\subsection*{8. Case Deletion Diagnostics for the Variance Ratios}
+%- H Case Deletion Diagnostics 
+
+Schabenberger advises on the use of deletion diagnostics for variance components of an LME model.
+Taking the core principals of his methods, and applying them to the Method Comparison problem, case deletion diagnostics are used on the variance components of the Roy model., specifically the ratio of between subject variances and the within subject covariances respecitvely.
+
+
+\[ \mbox{BSVR} = \frac{\sigma^2_2}{\sigma^2_2} \phantom{makespace}  \mbox{WSVR} = \frac{d^2_2}{d^2_2} \]
+
+These variance ratios are re-computed for each case removed, and may be analysed seperately or jointly for outliers. 
+
+The Grubbs' Test for Outliers is a commonly used technique for assessing outlier in a univariate data set. As there may be several outliers (i.e. influential cases) present, the Grubbs test is not practical. However outlier detection using to Tukey's 
+specification for boxplots (i.e. greater than $Q_3 +1.5 IQR$ or less than $Q_1 - 1.5 IQR$), will suffice. Ranking the asbolute values of the standardizaed scores can also can be used to identify influential cases, even if the data is not normally distributed.
+
+Bivariate Analyses may be applied jointly to the both sets of data sets, e.g Mahalanobis distances. The Mahalanobis distance, while not an intuitive measure in the context of the data, can be used to rank highly influential cases. 
+
+%============================================== %
+% - I: 
+\subsection*{9. Permutation Test, Power Tests and Missing Data }
+
+This section explores topics such as dependent variable simulation and power analysis, introduced by Galecki \& Burzykowski (2013), and implementable with their \textbf{\textit{nlmeU}} \texttt{R} package.
+Using the \textbf{\textit{predictmeans}} \texttt{R} package, it is possible to perform permutation t-tests for coefficients of (fixed) effects and permutation F-tests.
+
+The matter of missing data has not been commonly encountered in either Method Comparison Studies or Linear Mixed Effects Modelling. However Roy (2009) deals with the relevant assumptions regrading missing data. Galecki \& Burzykowski (2013) approaches the subject of missing data in LME Modelling. The \textbf{\textit{nlmeU}} package includes the \texttt{patMiss} function, which ``\textit{allows to compactly present pattern of missing data in a given vector/matrix/data
+	frame or combination of thereof}".
+
+
+
+
+\bibliography{DB-txfrbib}
 \end{document}
