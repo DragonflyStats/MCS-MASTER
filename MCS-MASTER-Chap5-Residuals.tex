@@ -309,6 +309,192 @@ Cook's D can be calibrated according to a chi-square distribution with degress o
 
 
 %========================================================================================== %
+\subsection{Conditional and Marginal Residuals}
+A residual is the difference between an observed quantity and its estimated or predicted value. For LME models, \citet{schab} describes two types of residuals, marginal residuals and conditional residuals. 
+
+\begin{itemize}
+	\item A marginal residual is the difference between the observed data and the estimated (marginal) mean, $r_{mi} = y_i - x_0^{\prime} \hat{b}$
+	\item A conditional residual is the difference between the observed data and the predicted value of the observation,
+	$r_{ci} = y_i - x_i^{\prime} \hat{b} - z_i^{\prime} \hat{\gamma}$	
+\end{itemize} 
+In a model without random effects, both sets of
+residuals coincide \citep{schab} . We shall revert to this matter in due course.
+
+
+
+%\subsection{Marginal and Conditional Residuals}
+
+
+
+
+In linear mixed effects models, diagnostic techniques may consider `conditional' residuals. A conditional residual is the difference between an observed value $y_{i}$ and the conditional predicted value $\hat{y}_{i} $.
+
+\[ \hat{\epsilon}_{i} = y_{i} - \hat{y}_{i} = y_{i} - ( X_{i}\hat{\beta} + Z_{i}\hat{b}_{i}) \]
+
+However, using conditional residuals for diagnostics presents difficulties, as they tend to be correlated and their variances may be different for different subgroups, which can lead to erroneous conclusions.
+
+%========================================================%
+
+\newpage
+
+\section{Checking the Assumption by Method}
+
+
+\subsection{Residual Analysis}
+
+
+\textbf{qqnorm.lme}
+% {nlme}	R Documentation
+Normal Plot of Residuals or Random Effects from an lme Object
+
+Description
+
+Diagnostic plots for assessing the normality of residuals and random effects in the linear mixed-effects fit are obtained. 
+The form argument gives considerable flexibility in the type of plot specification. 
+A conditioning expression (on the right side of a | operator) always implies that different panels are used 
+for each level of the conditioning factor, according to a Trellis display.
+
+%============================================================================== %
+
+%====================================================================%
+\subsubsection{Residuals plots}
+
+lme allows to plot the residuals in the following ways:
+
+\begin{framed}
+	\begin{verbatim}
+	res_lme=residuals(model_lme)
+	plot(res_lme)
+	qqnorm(res_lme)
+	qqline(res_lme)
+	plot(model_lme)
+	\end{verbatim}
+\end{framed}
+
+%==============================================================%
+
+
+\subsection{Diagnostic Plots for LME models}
+
+
+
+When the \texttt{plot} function calls the model object, the residual plot is produced.
+
+
+
+
+
+\begin{framed}
+	\begin{verbatim}
+	plot(JS.roy1, which=c(1) )
+	\end{verbatim}
+\end{framed}
+
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\linewidth]{images/ResidPlot1}
+	\caption{}
+	\label{fig:ResidPlot1}
+\end{figure}
+LME models assume that the residuals of the model are normally distributed. A Normal probability plot can be constructed to check this assumption. Commonly used \texttt{R} commands can be used to construct the plot.
+\newpage
+
+\begin{framed}
+	\begin{verbatim}
+	qqnorm(resid(JS.roy1),pch="*",col="red")
+	qqline(resid(JS.roy1),col="blue")
+	\end{verbatim}
+\end{framed}
+
+
+
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{images/Resid-newplot}
+	\caption{}
+	\label{fig:Resid-newplot}
+\end{figure}
+
+\begin{framed}
+	\begin{verbatim}
+	table(dat$method[1:255])
+	## 
+	##   J   S 
+	## 255   0
+	table(dat$method[256:510])
+	## 
+	##   J   S 
+	##   0 255
+	\end{verbatim}	
+\end{framed}
+%==================================================================================%
+\newpage
+\begin{framed}
+	\begin{verbatim}
+	plot(roy.NLME, resid(., type = "p") ~ fitted(.) | method, 
+	abline = 0, id=.05)
+	\end{verbatim}
+\end{framed}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{images/bloodnlmeResidPlot2}
+	\caption{}
+	\label{fig:blood}
+\end{figure}
+
+
+\subsubsection{Cooks distance- Predict means thing here}
+Cook's Distance is a model diagnostic measure of an observation that is a measure of aggregate impact of each observation on the group of regression coefficients. Observations, or sets of observations, that have high Cook's distance usually have high resdiauls. We will revisit Cook's distance fully in due cource.
+
+Cook's Distance is a good measure of the influence of an observation that is a measure of aggregate impact of each observation on the group of regression coefficients, as well as the group of fitted values.
+
+The \texttt{CookD} fucntion , from the predictmeans R package, produces Cook’s distance plots for an LME model 
+(predictmeans)
+
+
+
+\begin{framed}
+	\begin{verbatim}
+	library(predictMeans)
+	CookD(model, group=method, plot=TRUE, idn=5, newwd=FALSE)
+	\end{verbatim}
+\end{framed}
+
+
+\begin{verbatim}
+## Cook's Distance
+
+\end{verbatim}
+
+The particular cases that we will omit for the subsequent analysis are subjects 68,78 and 80.
+
+\subsubsection{Reduced Data Set}
+It is important to determine if a specific group of cases or subjects give rise to the lack of agreement in the methods. If one were to examine fitted model if these cases were removed.
+
+\begin{framed}
+	\begin{verbatim}
+	
+	blood.red <- blood[!(blood$subject %in% c(68,78,80)),]
+	dim(blood.red)
+	# 27 observations should be removed.
+	
+	blood.NLME.red <-lme(BP ~ method-1 , random=~1|subject,data = blood.red)
+	plot(blood.NLME.red, resid(., type = "p") ~ fitted(.) | method, abline = 0, id=.05)
+	\end{verbatim}
+\end{framed}
+
+In this instance, we conclude that there is a systemic diagreement between method S and the other two methods, and that lack of agreement can not be sourced to a handful of cases.
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{images/bloodnlmeResidPlot2B}
+\end{figure}
+
+
+\newpage
+
+
 \chapter{Residuals diagnostics in LME Models}
 Residuals are used to examine model assumptions and to detect outliers and potentially influential data
 point. In LME models, there are two types of residuals, marginal residuals and conditional residuals. A marginal residual is the difference between the observed data and the estimated marginal mean. A conditional residual is the difference between the observed data and the predicted value of the observation. In a model without random effects, both sets of residuals coincide. \citet{schabenberger} provides a useful summary. In a model without random effects, both sets of residuals coincide.
@@ -569,6 +755,18 @@ The application of well-known concepts in model-data diagnostics to the mixed mo
 	
 		
 
+
+
+
+\newpage
+\section{Residual Analysis for MCS}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\linewidth]{images/ResidPlot}
+	\caption{}
+	\label{fig:ResidPlot}
+\end{figure}
 
 		\section{Residuals in the Blood Data Example}
 		The fitted model used in the Blood data example, \texttt{JS.roy1}, was fitted using the \texttt{lme()} function from the nlme package, and as such, is stored as an \texttt{lme} object. The \texttt{residual} functions extracts residuals of a fitted LME model, depending on the type of residual required.
