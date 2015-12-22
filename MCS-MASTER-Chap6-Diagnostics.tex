@@ -1529,6 +1529,107 @@ If lack of agreement is indicated between methods of measurement, use of Roy's T
 	\includegraphics[width=0.7\linewidth]{images/04-TMDplot}
 	
 \end{figure}
+\section{Case Deletion Diagnostics for LME models}
+
+\citet{HaslettDillane} remark that linear mixed effects models
+didn't experience a corresponding growth in the use of deletion
+diagnostics, adding that \citet{McCullSearle} makes no mention of
+diagnostics whatsoever.
+
+\citet{Christensen} describes three propositions that are required
+for efficient case-deletion in LME models. The first proposition
+decribes how to efficiently update $V$ when the $i$th element is
+deleted.
+\begin{equation}
+V_{[i]}^{-1} = \Lambda_{[i]} - \frac{\lambda
+	\lambda\prime}{\nu^{}ii}
+\end{equation}
+
+
+The second of christensen's propostions is the following set of
+equations, which are variants of the Sherman Wood bury updating
+formula.
+\begin{eqnarray}
+X'_{[i]}V_{[i]}^{-1}X_{[i]} &=& X' V^{-1}X -
+\frac{\hat{x}_{i}\hat{x}'_{i}}{s_{i}}\\
+(X'_{[i]}V_{[i]}^{-1}X_{[i]})^{-1} &=& (X' V^{-1}X)^{-1} +
+\frac{(X' V^{-1}X)^{-1}\hat{x}_{i}\hat{x}' _{i}
+	(X' V^{-1}X)^{-1}}{s_{i}- \bar{h}_{i}}\\
+X'_{[i]}V_{[i]}^{-1}Y_{[i]} &=& X\prime V^{-1}Y -
+\frac{\hat{x}_{i}\hat{y}' _{i}}{s_{i}}
+\end{eqnarray}
+
+
+\citet{schabenberger} examines the use and implementation of
+influence measures in LME models.
+
+Influence is understood to be the ability of a single or multiple
+data points, through their presences or absence in the data, to
+alter important aspects of the analysis, yield qualitatively
+different inferences, or violate assumptions of the statistical
+model \citep{schabenberger}.
+
+Outliers are the most noteworthy data points in an analysis, and
+an objective of influence analysis is how influential they are,
+and the manner in which they are influential.
+
+\citet{schabenberger} describes a simple procedure for quantifying
+influence. Firstly a model should be fitted to the data, and
+estimates of the parameters should be obtained. The second step is
+that either single of multiple data points, specifically outliers,
+should be omitted from the analysis, with the original parameter
+estimates being updated. This is known as `leave one out \ leave k
+out' analysis. The final step of the procedure is comparing the
+sets of estimates computed from the entire and reduced data sets
+to determine whether the absence of observations changed the
+analysis.
+
+
+
+A residual is the difference between an observed quantity and its
+estimated or predicted value. In LME models, there are two types
+of residuals, marginal residuals and conditional residuals. A
+marginal residual is the difference between the observed data and
+the estimated marginal mean. A conditional residual is the
+difference between the observed data and the predicted value of
+the observation. In a model without random effects, both sets of
+residuals coincide.
+
+\citet{schabenberger} notes that it is not always possible to
+derive influence statistics necessary for comparing full- and
+reduced-data parameter estimates. \citet{HaslettDillane} offers an
+procedure to assess the influences for the variance components
+within the linear model, complementing the existing methods for
+the fixed components. The essential problem is that there is no
+useful updating procedures for $\hat{V}$, or for $\hat{V}^{-1}$.
+\citet{HaslettDillane} propose an alternative , and
+computationally inexpensive approach, making use of the
+`delete=replace' identity.
+
+\citet{Haslett99} considers the effect of `leave k out'
+calculations on the parameters $\beta$ and $\sigma^{2}$, using
+several key results from \citet{HaslettHayes} on partioned
+matrices.
+
+
+
+
+
+
+In LME models, fitted by either ML or REML, an important overall
+influence measure is the likelihood distance \citep{cook82}. The
+procedure requires the calculation of the full data estimates
+$\hat{\psi}$ and estimates based on the reduced data set
+$\hat{\psi}_{(U)}$. The likelihood distance is given by
+determining
+
+
+\begin{eqnarray}
+LD_{(U)} &=& 2\{l(\hat{\psi}) - l( \hat{\psi}_{(U)}) \}\\
+RLD_{(U)} &=& 2\{l_{R}(\hat{\psi}) - l_{R}(\hat{\psi}_{(U)})\}
+\end{eqnarray}
+
+
 \newpage
 
 
