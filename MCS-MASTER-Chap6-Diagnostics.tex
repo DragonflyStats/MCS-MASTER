@@ -217,12 +217,9 @@ As well as individual observations, Cook's distance can be used to analyse the i
 
 
 % \citet{cook86} 
-\textit{Cook (1986)} gives a completely general method for assessing the influence of local departures from assumptions in statistical models.
+\citet{cook86} gives a completely general method for assessing the influence of local departures from assumptions in statistical models.
 For classical OLS \citet{cook86} introduces powerful tools for local-influence assessment and examining perturbations in the assumptions of a model. In particular the effect of local perturbations of parameters or observations are examined.
-Cook 1986 introduced methods for local influence assessment. These methods provide a powerful tool for examining perturbations in the assumption of a model, particularly the effects of local perturbations of parameters of observations.
-
-The local-influence approach to influence assessment is quite different from the case deletion approach, comparisons are of
-interest. \citet{cook86} introduces powerful tools for local-influence assessment and examining perturbations in the assumptions of a model. In particular the effect of local perturbations of parameters or observations are examined.
+\citet{cook86} introduced methods for local influence assessment. These methods provide a powerful tool for examining perturbations in the assumption of a model, particularly the effects of local perturbations of parameters of observations.
 
 
 
@@ -351,7 +348,7 @@ While the concept of influence analysis is straightforward, implementation in mi
 
 Likelihood based estimation methods, such as ML and REML, are sensitive to unusual observations. Influence diagnostics are formal techniques that assess the influence of observations on parameter estimates for $\beta$ and $\theta$. A common technique is to refit the model with an observation or group of observations omitted. 
 
-\citet{west} examines a group of methods that examine various aspects of influence diagnostics for LME models. For overall influence, the +++++++++++++++++++++++most common approaches are the `likelihood distance' and the `restricted likelihood distance'.
+\citet{west} examines a group of methods that examine various aspects of influence diagnostics for LME models. For overall influence, the most common approaches are the `likelihood distance' and the `restricted likelihood distance'.
 
 
 %---------------------------------------------------------------------------%
@@ -363,15 +360,6 @@ Likelihood based estimation methods, such as ML and REML, are sensitive to unusu
 
 Outliers are the most noteworthy data points in an analysis, and an objective of influence analysis is how influential they are,
 and the manner in which they are influential.
-
-
-
-
-%
-%\begin{abstract}
-%	\noindent This paper reviews the use of diagnostic measures for LME models in SAS. This text has been widely cited by texts that don't deal with SAS implementations.
-%\end{abstract}
-%
 
 
 
@@ -412,20 +400,8 @@ longitudinal, and spatial data, to name just a few important applications.
 %	
 %	
 %====================================================================================================================%
-\section{Methods and Measures}
-The key to making deletion diagnostics useable is the development of efficient computational formulas, allowing one to obtain the \index{case deletion diagnostics} case deletion diagnostics by making use of basic building blocks, computed only once for the full model.
 
-
-\citet{Zewotir} lists several established methods of analyzing influence in LME models. These methods include \begin{itemize}
-	\item Cook's distance for LME models,
-	\item \index{likelihood distance} likelihood distance,
-	\item the variance (information) ration,
-	\item the \index{Cook-Weisberg statistic} Cook-Weisberg statistic,
-	\item the \index{Andrews-Prebigon statistic} Andrews-Prebigon statistic.
-\end{itemize}
-
-
-\subsection{Leverage}
+\section{Leverage}
 
 Leverage can be defined through the projection matrix that results from a transformation of the model with the inverse of the Cholesky decomposition of $\boldsymbol{V}$, or an oblique projector.
 
@@ -452,13 +428,25 @@ Influence statistics can be coarsely grouped by the aspect of estimation that is
 \end{itemize}
 
 %============================================================================================== %
-
-Influence arises at two stages of the linear model. Firstly when $V$ is estimated by $\hat{V}$, and subsequent
+Influence arises at two stages of the LME model. Firstly when $V$ is estimated by $\hat{V}$, and subsequent
 estimations of the fixed and random regression coefficients $\beta$ and $u$, given $\hat{V}$.
 
 The impact of an observation on a regression fitting can be determined by the difference between the estimated regression coefficient of a model with all observations and the estimated coefficient when the particular observation is deleted. The measure DFBETA is the studentized value of this difference.
 
 %======================================================= %
+\section{Methods and Measures}
+The key to making deletion diagnostics useable is the development of efficient computational formulas, allowing one to obtain the \index{case deletion diagnostics} case deletion diagnostics by making use of basic building blocks, computed only once for the full model.
+
+
+\citet{Zewotir} lists several established methods of analyzing influence in LME models. These methods include \begin{itemize}
+	\item Cook's distance for LME models,
+	\item \index{likelihood distance} likelihood distance,
+	\item the variance (information) ration,
+	\item the \index{Cook-Weisberg statistic} Cook-Weisberg statistic,
+	\item the \index{Andrews-Prebigon statistic} Andrews-Prebigon statistic.
+\end{itemize}
+
+
 \section{DFBETA, DFFITS and PRESS}
 
 The impact of an observation on a regression fitting can be determined by the difference between the estimated regression coefficient of a model with all observations and the estimated coefficient when the particular observation is deleted. DFBETA and DFFITS are well known measures of influence. The measure DFBETA is the studentized value of this difference. DFFITS is a statistical measured designed to a show how influential an observation is in a statistical model. DFFITS is closely related to the studentized residual.
@@ -557,7 +545,7 @@ PRESS = \sum(y-y^{(k)})^2
 %============================================================================= %
 \subsection{PRESS Residuals and PRESS Statistic}
 % % - Wikipedia
-In statistics, the predicted residual sum of squares (PRESS) statistic is a form of cross-validation used in regression analysis to provide a summary measure of the fit of a model to a sample of observations that were not themselves used to estimate the model. It is calculated as the sums of squares of the prediction residuals for those observations.
+The predicted residual sum of squares (PRESS) statistic is a form of cross-validation used in regression analysis to provide a summary measure of the fit of a model to a sample of observations that were not themselves used to estimate the model. It is calculated as the sums of squares of the prediction residuals for those observations.
 
 A fitted model having been produced, each observation in turn is removed and the model is refitted using the remaining observations. The out-of-sample predicted value is calculated for the omitted observation in each case, and the PRESS statistic is calculated as the sum of the squares of all the resulting prediction errors:[4]
 \[\mbox{PRESS} =\sum_{i=1}^n (y_i - \hat{y}_{i, -i})^2 \]
@@ -589,9 +577,9 @@ where the sum is over the observations in $\boldsymbol{U}$.
 
 
 %---------------------------------------------------------------------------%
-\newpage
 
-Pinheiro and Bates provide some insight into how to compute and interpret model diagnostic plots for lme models. Unfortunately this aspect of LME theory is not as expansive as the corresponding body of work for Linear Models.
+
+Pinheiro and Bates provide some insight into how to compute and interpret model diagnostic plots for LME models. Unfortunately this aspect of LME theory is not as expansive as the corresponding body of work for Linear Models.
 
 
 \section{Overall Influence}
@@ -600,7 +588,7 @@ OLS regression, the residual sums of squares serves that purpose. In linear mixe
 \index{maximum likelihood} maximum likelihood (ML) or \index{restricted maximum likelihood} restricted maximum likelihood (REML), an overall influence measure is the \index{likelihood distance} likelihood distance [Cook and Weisberg ].
 
 
-\subsection{Iterative Influence Analysis}
+\section{Iterative Influence Analysis}
 
 \citet{schabenberger} highlights some of the issue regarding implementing mixed model diagnostics, describing  the choice between \index{iterative influence analysis} iterative influence analysis and \index{non-iterative influence analysis} non-iterative influence analysis.
 
@@ -609,23 +597,29 @@ For linear models, the implementation of influence analysis is straightforward. 
 
 %============================================================================================================================ %
 
-\subsection{Local Influence}
+\section{Local Influence}
 % % Beckman, Nachtsheim and Cook (1987) 
 \citet{Beckman} applied the \index{local influence}local influence method of Cook (1986) to the analysis of the LME model.
 While the concept of influence analysis is straightforward, implementation in mixed models is more complex. Update formulae for fixed effects models are available only when the covariance parameters are assumed to be known.
 
-Cook 1986 introduced methods for local influence assessment. These methods provide a powerful tool for examining perturbations in the assumption of a model, particularly the effects of local perturbations of parameters of observations. The local-influence approach to influence assessment is quite different from the case deletion approach, comparisons are of interest.
+
+The local-influence approach to influence assessment is quite different from the case deletion approach, comparisons are of
+interest. 
+
+\citet{cook86} introduces powerful tools for local-influence assessment and examining perturbations in the assumptions of a model. In particular the effect of local perturbations of parameters or observations are examined.
+
+\citet{cook86} introduced methods for local influence assessment. These methods provide a powerful tool for examining perturbations in the assumption of a model, particularly the effects of local perturbations of parameters of observations. The local-influence approach to influence assessment is quite different from the case deletion approach, comparisons are of interest.
 
 \citet{Christensen} developed their global influences for the deletion of single observations in two steps: a one-step estimate for the REML (or ML) estimate of the variance components, and an ordinary case-deletion diagnostic for a weighted resgression problem (conditional on the estimated covariance matrix) for fixed effects.
 
 %--------------------------------------------------------------------------------------------%
 
-\subsection{Iterative and non-iterative influence analysis}
+\section{Iterative and non-iterative influence analysis}
 \citet{schabenberger} highlights some of the issue regarding implementing mixed model diagnostics.
 A measure of total influence requires updates of all model parameters.
 However, this doesnt increase the procedures execution time by the same degree.
 
-\subsubsection{estimation}
+\noindent \textbf{Estimation}
 
 \begin{eqnarray}
 \hat{\beta} &=& X^{T} \\
@@ -649,8 +643,6 @@ Computationally inexpensive diagnostics tools have been developed to examine the
 \subsection*{Residuals}
 Studentized residuals, error contrast matrices and the inverse of the response variance covariance matrix are regular components of these tools.
 
-Influence arises at two stages of the LME model. Firstly when $V$ is estimated by $\hat{V}$, and subsequent
-estimations of the fixed and random regression coefficients $\beta$ and $u$, given $\hat{V}$.
 
 %--------------------------------------------------------------%
 
@@ -722,39 +714,25 @@ Importantly $LD(\psi_{(U)})$ is not the log-likelihood obtained by fitting the m
 
 However, for LME models, the problem is more complex. Update formulas for the fixed effects are available only when the covariance parameters are assumed to be known. A measure of total influence requires updates of all model parameters. This can only be achieved in general is by omitting observations or cases, then refitting the model. This is a very simplistic approach, and computationally expensive.
 
-\newpage
-
-\subsection{The \texttt{logLik} Function}
-\texttt{logLik.lme} returns the log-likelihood value of the linear mixed-effects model represented by object evaluated at the estimated coefficients. It is also possible to determine the restricted log-likelihood, if relevant, using this function. For the Blood Data Example,  the loglikelihood of the JS.roy1 model can be computed as follows.
-\begin{framed}
-	\begin{verbatim}
-	> logLik(JS.roy1)
-	'log Lik.' -2030.736 (df=8)
-	\end{verbatim}
-\end{framed}
 
 %======================================================================================= %\section{Model Diagnostics for Roy's Models}
 
 %==================================================================== %
 \chapter{Cook's Distance}
-Application of Cooks Distances are limited
-by compuation tractability.
+Application of Cooks Distances are limited by compuation tractability.
 
 
-Application of case-deletion diagnostics
-offer some interested for Method Comparison Studies
+Application of case-deletion diagnostics offer some interested for Method Comparison Studies
 
 
-Care must be given when interpreting these plots. 
-
-For example the position of case 68 on the BSVR indicates that that
+Care must be given when interpreting these plots. For example the position of case 68 on the BSVR indicates that that
 case 68 
 
 A similar plot may be constructed using the
 
 Any diagnostic plot may constructed using Overall variability and intermethod bias.
 
-\newpage
+
 
 \section{Cook's Distance}
 \citet{Christensen} develops \index{case deletion diagnostics} case deletion diagnostics, in particular the equivalent of \index{Cook's distance} Cook's distance, a well-known metric, for diagnosing influential observations when estimating the fixed effect parameters and variance components. Deletion diagnostics provide a means of assessing the influence of an observation (or groups of observations) on inference on the estimated parameters of LME models. 
@@ -851,7 +829,7 @@ The \texttt{CookD} fucntion , from the predictmeans R package, produces Cook’s
 
 The particular cases that we will omit for the subsequent analysis are subjects 68,78 and 80.
 
-\subsubsection{Reduced Data Set}
+\subsection{Reduced Data Set}
 It is important to determine if a specific group of cases or subjects give rise to the lack of agreement in the methods. If one were to examine fitted model if these cases were removed.
 
 \begin{framed}
@@ -1021,11 +999,21 @@ This is known as `\textit{leave one out} or \texttt{leave k
 
 
 
+\section*{Case Deletion Diagnostics for LME Data: Cooks Distance, DFBetas}
+In this section we introduce influence analysis and case deletion diagnosics. A full overview of the topic will be provided although there are specific tools that are particularly useful in the case of MCS problems: specifically the Cook's Distance and the DFBeta.
+
+A discussion of how leave-k-out diagnostics would work in the context of MCS problems is required. There are several scenaros. Suppose we have two methods of measurement X and Y, each with three measurements for a specific case: $(x_1,x_2,x_3,y_1,y_2,y_3)$
+
+\begin{itemize}
+	\item Leave One Out - one observation is omitted (e.g. $x_1$)
+	\item Leave Pair Out - one pair of observation  is omitted (e.g. $x_1$ and $y_1$)
+	\item Leave Case (or Subject) Out - All observations associated with a particular case or subject are omitted. (e.g. $\{x_1,x_2,x_3,y_1,y_2,y_3\}$)
+\end{itemize}
+Other metrics, such as the likelihood distance, will also be introduced, and revisited in a later section.
+
 \section{Application of DFBETAs in MCS Analysis}
 
-
 When in an MCS study. DFBetas can be used as a proxy measurement, allowing simple techniques to be used for assessing agreement.
-
 
 Suppose an LME model was formulated to model agreement for various (i.e. 2 or more) methods of measurement, with replicate measurements. If the methods are to be agreement, the DFBetas for each case would be the same for both methods.\textbf{As such, agreement between any two methods can be determined by a simple scatterplot of the DFBetas. If the points align along the line of equality, then both methods can be said to be in agreement.}
 
@@ -1086,7 +1074,7 @@ distance, for diagnosing influential observations when estimating
 the fixed effect parameters and variance
 components.
 
-\citet{CPJ} develops \index{case deletion diagnostics} case deletion diagnostics, in particular the equivalent of \index{Cook's distance} Cook's distance, for diagnosing influential observations when estimating the fixed effect parameters and variance components.
+\citet{Christensen} develops \index{case deletion diagnostics} case deletion diagnostics, in particular the equivalent of \index{Cook's distance} Cook's distance, for diagnosing influential observations when estimating the fixed effect parameters and variance components.
 
 
 \citet{Christensen} provides an overview of case deletion
@@ -1401,14 +1389,8 @@ Ideally when all observations have the same influence on the information matrix 
 Deviations from one indicate the group $U$ is influential. Since $\mbox{var}(\hat{\gamma})$ and $\boldsymbol{I}_{r}$ are fixed for all observations, $IR{\gamma}$ is a function of $\boldsymbol{G}$, in turn a function of $\boldsymbol{C}_{i}$ and $c_{ii}$.
 \newpage
 
-\chapter{Model Diagnostics for MCS}
 
-%-------------------------------------------------------------------------%
-
-%=============================================================================== %
-\newpage
-
-\subsection{Model Diagnostics for Roy's Models}
+\section{Model Diagnostics for Roy's Models}
 
 Further to previous work, this section revisits case-deletion and residual diagnostics, and explores how approaches devised by  Galecki \& Burzykowski (2013) can be used to appraise Roy's model. These authors specifically look at Cook's Distances and Likelihood Distances.
 For the Roy Model, Cook's Distances may also be generated using the \textbf{\textit{predictmeans}}
@@ -1437,20 +1419,10 @@ As the model is structurally different from the models discussed in the earlier 
 	\label{fig:Residuals-JS-Roy}
 \end{figure}
 
-\newpage
-
-
-
-%============================================================================= %
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Complex Data
-
-
 \section{Case Deletion Diagnostics for Variance Ratios}
 %- H Case Deletion Diagnostics 
 
-Schabenberger advises on the use of deletion diagnostics for variance components of an LME model.
+\citet{schabenberger} advises on the use of deletion diagnostics for variance components of an LME model.
 
 Taking the core principals of his methods, and applying them to the Method Comparison problem, case deletion diagnostics are used on the variance components of the Roy model., specifically the ratio of between subject variances and the within subject covariances respecitvely.
 
@@ -1466,8 +1438,8 @@ the other values. The test statistic is based by calculating score of this outli
 by sd) and comparing it to appropriate critical values. Alternative method is calculating ratio of
 variances of two datasets - full dataset and dataset without outlier. 
 %The obtained value called U is bound with G by simple formula.
-The second variant is used to check if lowest and highest value are two outliers on opposite tails of
-sample. It is based on calculation of ratio of range to standard deviation of the sample.
+The second variant is used to check if lowest and highest value are two outliers on opposite tails of sample. It is based on calculation of ratio of range to standard deviation of the sample.
+
 The third variant calculates ratio of variance of full sample and sample without two extreme observations.
 It is used to detect if dataset contains two outliers on the same tail.
 
@@ -1515,7 +1487,8 @@ The relationship between precision and the within-item and between-item variabil
 
 A useful approach is to compute the confidence intervals for the ratio of within-item standard deviations (equivalent to the ratio of repeatability coefficients), which can be interpreted in the usual manner.  
 
-In fact, the ratio of within-item standard deviations, with the attendant confidence interval,  can be determined using a single R command: intervals().
+In fact, the ratio of within-item standard deviations, with the attendant confidence interval,  can be determined using a single R command: \texttt{intervals()}.
+
 Pinheiro and Bates (pg 93-95) give a description of how confidence intervals for the variance components are computed. Furthermore a complete set of confidence intervals can be computed to complement the variance component estimates. 
 
 What is required is the computation of the variance ratios of within-item and between-item standard deviations.  
@@ -1557,29 +1530,6 @@ Limits of agreement are easily computable using the LME framework. While we will
 %============================================== %
 %- F:
 
-%\subsection*{6. Using Roy's Model to Compute LoAs and CR }
-%
-%In this short section, a demonstration of how Roy's technique can be used to compute two common MCS metrics: Limits of Agreement and the Coefficient of Repeatabilty. While Limits of Agreement are not used in the analysis proposed here, they are ubiquituous in literature, and a demonstration on how to compute them with the Roy Model would assist the adoption of this proposed method.
-%
-%The coefficient of repeatability is encountered in Gage R \& R analysis. \textit{(A future exploration of how LME models can be used in that field would be of interest. This is something to include in the Conclusions Section).}
-
-\section*{Case Deletion Diagnostics for LME Data: Cooks Distance, DFBetas}
-In this section we introduce influence analysis and case deletion diagnosics. A full overview of the topic will be provided although there are specific tools that are particularly useful in the case of MCS problems: specifically the Cook's Distance and the DFBeta.
-
-A discussion of how leave-k-out diagnostics would work in the context of MCS problems is required. There are several scenaros. Suppose we have two methods of measurement X and Y, each with three measurements for a specific case: $(x_1,x_2,x_3,y_1,y_2,y_3)$
-
-\begin{itemize}
-	\item Leave One Out - one observation is omitted (e.g. $x_1$)
-	\item Leave Pair Out - one pair of observation  is omitted (e.g. $x_1$ and $y_1$)
-	\item Leave Case (or Subject) Out - All observations associated with a particular case or subject are omitted. (e.g. $\{x_1,x_2,x_3,y_1,y_2,y_3\}$)
-\end{itemize}
-Other metrics, such as the likelihood distance, will also be introduced, and revisited in a later section.
-%========================================================= %
-%- D
-\newpage
-
-
-
 \chapter{Other Stuff}
 
 \section{Diagnostic Tools for the nlme package}
@@ -1591,8 +1541,6 @@ The within-group errors are allowed to be correlated and/or have unequal varianc
 
 The nlme package has a limited set of diagnostic tools that can be used to assess the model fit. A review of the package manual is sufficient to get a sense of the package's capability in that regard.
 
-
-\newpage
 
 
 
@@ -1657,6 +1605,16 @@ The matter of missing data has not been commonly encountered in either Method Co
 	frame or combination of thereof}".
 
 
+
+
+\section{The \texttt{logLik} Function}
+\texttt{logLik.lme} returns the log-likelihood value of the linear mixed-effects model represented by object evaluated at the estimated coefficients. It is also possible to determine the restricted log-likelihood, if relevant, using this function. For the Blood Data Example,  the loglikelihood of the JS.roy1 model can be computed as follows.
+\begin{framed}
+	\begin{verbatim}
+	> logLik(JS.roy1)
+	'log Lik.' -2030.736 (df=8)
+	\end{verbatim}
+\end{framed}
 \bibliographystyle{chicago}
 \bibliography{DB-txfrbib}
 
