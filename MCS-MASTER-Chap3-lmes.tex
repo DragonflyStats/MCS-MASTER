@@ -355,7 +355,7 @@ effects models , based on the same data. \citet{Demi} illustrates
 this with a comparison of simple regression model of prices
 against sales, with a mixed model, that takes groups of data into
 account.
-\newpage
+
 
 \section{Grouped Data Sets}
 In modern statistical analysis , data sets have very complex
@@ -416,6 +416,60 @@ shall be introduced presently.
 
 \chapter{Linear Mixed effects Models}
 
+\section{Linear Mixed effects Models}
+A linear mixed effects (LME) model is a statistical model containing both fixed effects and random effects (random effects are also known as variance components). LME models are a generalization of the classical linear model, which contain fixed effects only. When the levels of factors are considered to be sampled from a population,
+and each level is not of particular interest, they are considered random quantities with associated variances.
+The effects of the levels, as described, are known as random effects. Random effects are represented by unobservable
+normally distributed random variables. Conversely fixed effects are considered non-random and the
+levels of each factor are of specific interest.
+%LME models are useful models when considering repeated measurements or grouped observations.
+
+\citet{Fisher4} introduced variance components models for use in genetical studies. Whereas an estimate for variance must take an non-negative value, an individual variance component, i.e.\ a component of the overall variance, may be negative.
+
+
+The framework has developed since, including contributions from
+\citet{tippett}, who extend the use of variance components into linear models, and \citet{eisenhart}, who introduced the `mixed model' terminology and formally distinguished between mixed and random effects models. \citet{Henderson:1950} devised a framework for deriving estimates for both the fixed effects and the random effects, using a set of equations that would become known as `mixed model equations' or `Henderson's equations'.
+LME methodology is further enhanced by Henderson's later works \citep{Henderson53, Henderson59,Henderson63,Henderson73,Henderson84a}. The key features of Henderson's work provide the basis for the estimation techniques.
+
+\citet{HartleyRao} demonstrated that unique estimates of the variance components could be obtained using maximum likelihood methods. However these estimates are known to be biased `downwards' (i.e.\ underestimated) , because of the assumption that the fixed estimates are known, rather than being estimated from the data. \citet{PattersonThompson} produced an alternative set of estimates, known as the restricted maximum likelihood (REML) estimates, that do not require the fixed effects to be known. Thusly there is a distinction the REML estimates and the original estimates, now commonly referred to as ML estimates.
+
+\citet{LW82} provides a form of notation for notation for LME models that has since become the standard form, or the basis for more complex formulations. Due to computation complexity, linear mixed effects models have not seen widespread use until many well known statistical software applications began facilitating them. SAS Institute added PROC MIXED to its software suite in 1992 \citep{singer}. \citet{PB} described how to compute LME models in the \texttt{S-plus} environment.
+
+Using Laird-Ware form, the LME model is commonly described in matrix form,
+\begin{equation}
+y = X\beta + Zb + \epsilon
+\label{LW}
+\end{equation}
+
+\noindent where $y$ is a vector of $N$ observable random variables, $\beta$ is a vector of $p$ fixed effects, $X$ and $Z$ are $N \times p$ and $N \times q$ known matrices, and $b$ and $\epsilon$  are vectors of $q$ and $N,$ respectively, random effects such that $\mathrm{E}(b)=0, \ \mathrm{E}(\epsilon)=0$
+and
+\[
+\mathrm{var}
+\left(
+\begin{array}{c}
+b \\
+\epsilon \\
+\end{array}
+\right)
+=
+\left(
+\begin{array}{cc}
+D & 0 \\
+0 & \Sigma \\
+\end{array}
+\right)
+\]
+
+
+
+
+where $D$ and $\Sigma$ are positive definite matrices parameterized by an unknown variance component parameter vector $ \theta.$ The variance-covariance matrix for the vector of observations $y$ is given by $V = ZDZ^{\prime}+ \Sigma.$ This implies $y \sim(X\beta, V) = (X\beta,ZDZ^{\prime}+ \Sigma)$. It is worth noting that $V$ is an $n \times n$ matrix, as the dimensionality becomes relevant later on. The notation provided here is generic, and will be adapted to accord with complex formulations that will be encountered in due course.
+
+%\subsection{Likelihood and estimation}
+
+% Likelihood is the hypothetical probability that an event that has already occurred would yield a specific outcome. Likelihood differs from probability in that probability refers to future occurrences, while likelihood refers to past known outcomes.
+
+
 \section{Statement of the LME model}
 A linear mixed effects model is a linear mdoel that combined fixed and random effect terms formulated by \citet{LW82} as follows;
 
@@ -458,30 +512,6 @@ As such, linear mixed effects models treat the error for fixed effects different
 
 %========================================================================================%
 
-% \subsection{Formulation of the Variance Matrix V}
-\textbf{V} , the variance matrix of \textbf{Y}, can be expressed
-as follows;
-\begin{eqnarray}
-\textbf{V}= \textrm{Var} ( \textbf{Xb} + \textbf{Zu} + \textbf{e})\\
-\textbf{V}= \textrm{Var} ( \textbf{Xb} ) + \textrm{Var} (\textbf{Zu}) +
-var(\textbf{e}))
-\end{eqnarray}
-
-$\mbox{Var}(\textbf{Xb})$ is known to be zero. The variance of the
-random effects $\mbox{Var}(\textbf{Zu})$ can be written as
-$Z\mbox{Var}(\textbf{u})Z^{T}$.
-
-By letting var$(u) = G$ (i.e $\textbf{u} ~ N(0,\textbf{G})$), this
-becomes $ZGZ^{T}$. This specifies the covariance due to random
-effects. The residual covariance matrix $var(e)$ is denoted as
-$R$, ($\textbf{e} \sim N(0,\textbf{R})$). Residual are uncorrelated,
-hence \textbf{R} is equivalent to $\sigma^{2}$\textbf{I}, where
-\textbf{I} is the identity matrix. The variance matrix \textbf{V}
-can therefore be written as;
-
-\begin{equation}
-\textbf{V}  = ZGZ^{T} + \textbf{R}
-\end{equation}
 
 \subsection{Laird Ware Model} 
 \citet{LW82} provides a form of notation for notation for LME models that has since become the standard form, or the basis for more complex formulations. Due to computation complexity, linear mixed effects models have not seen widespread use until many well known statistical software applications began facilitating them. SAS Institute added PROC MIXED to its software suite in 1992 \citep{singer}. \citet{PB} described how to compute LME models in the \texttt{S-plus} environment.
@@ -586,24 +616,25 @@ The response vector $\boldsymbol{y_{i}}$ can be formulated as an LME model accor
 Information on the fixed effects are contained in a three dimensional vector $\boldsymbol{\beta} = (\beta_{0},\beta_{1},\beta_{2})\prime$. For computational purposes $\beta_{2}$ is conventionally set to zero. Consequently $\boldsymbol{\beta}$ is the solutions of the means of the two methods, i.e. $E(\boldsymbol{y}_{i})  = \boldsymbol{X}_{i}\boldsymbol{\beta}$. The variance covariance matrix $\boldsymbol{D}$ is a general $2 \times 2$ matrix, while $\boldsymbol{R}_{i}$ is a $2n_{i} \times 2n_{i}$ matrix.
 
 %------------------------------------------------------------------------------%
-\newpage
+
+
 \subsection{Formulation of the Variance Matrix V}
 \textbf{V} , the variance matrix of \textbf{Y}, can be expressed
 as follows;
 \begin{eqnarray}
-\textbf{V}= var ( \textbf{Xb} + \textbf{Zu} + \textbf{e})\\
-\textbf{V}= var ( \textbf{Xb} ) + var (\textbf{Zu}) +
+\textbf{V}= \textrm{Var} ( \textbf{Xb} + \textbf{Zu} + \textbf{e})\\
+\textbf{V}= \textrm{Var} ( \textbf{Xb} ) + \textrm{Var} (\textbf{Zu}) +
 var(\textbf{e}))
 \end{eqnarray}
 
-$\mbox{var}(\textbf{Xb})$ is known to be zero. The variance of the
-random effects $\mbox{var}(\textbf{Zu})$ can be written as
-$Z\mbox{var}(\textbf{u})Z^{T}$.
+$\mbox{Var}(\textbf{Xb})$ is known to be zero. The variance of the
+random effects $\mbox{Var}(\textbf{Zu})$ can be written as
+$Z\mbox{Var}(\textbf{u})Z^{T}$.
 
 By letting var$(u) = G$ (i.e $\textbf{u} ~ N(0,\textbf{G})$), this
 becomes $ZGZ^{T}$. This specifies the covariance due to random
 effects. The residual covariance matrix $var(e)$ is denoted as
-$R$, ($\textbf{e} ~ N(0,\textbf{R})$). Residual are uncorrelated,
+$R$, ($\textbf{e} \sim N(0,\textbf{R})$). Residual are uncorrelated,
 hence \textbf{R} is equivalent to $\sigma^{2}$\textbf{I}, where
 \textbf{I} is the identity matrix. The variance matrix \textbf{V}
 can therefore be written as;
@@ -613,61 +644,6 @@ can therefore be written as;
 \end{equation}
 
 
-
-
-
-\section{Linear Mixed effects Models}
-A linear mixed effects (LME) model is a statistical model containing both fixed effects and random effects (random effects are also known as variance components). LME models are a generalization of the classical linear model, which contain fixed effects only. When the levels of factors are considered to be sampled from a population,
-and each level is not of particular interest, they are considered random quantities with associated variances.
-The effects of the levels, as described, are known as random effects. Random effects are represented by unobservable
-normally distributed random variables. Conversely fixed effects are considered non-random and the
-levels of each factor are of specific interest.
-%LME models are useful models when considering repeated measurements or grouped observations.
-
-\citet{Fisher4} introduced variance components models for use in genetical studies. Whereas an estimate for variance must take an non-negative value, an individual variance component, i.e.\ a component of the overall variance, may be negative.
-
-
-The framework has developed since, including contributions from
-\citet{tippett}, who extend the use of variance components into linear models, and \citet{eisenhart}, who introduced the `mixed model' terminology and formally distinguished between mixed and random effects models. \citet{Henderson:1950} devised a framework for deriving estimates for both the fixed effects and the random effects, using a set of equations that would become known as `mixed model equations' or `Henderson's equations'.
-LME methodology is further enhanced by Henderson's later works \citep{Henderson53, Henderson59,Henderson63,Henderson73,Henderson84a}. The key features of Henderson's work provide the basis for the estimation techniques.
-
-\citet{HartleyRao} demonstrated that unique estimates of the variance components could be obtained using maximum likelihood methods. However these estimates are known to be biased `downwards' (i.e.\ underestimated) , because of the assumption that the fixed estimates are known, rather than being estimated from the data. \citet{PattersonThompson} produced an alternative set of estimates, known as the restricted maximum likelihood (REML) estimates, that do not require the fixed effects to be known. Thusly there is a distinction the REML estimates and the original estimates, now commonly referred to as ML estimates.
-
-\citet{LW82} provides a form of notation for notation for LME models that has since become the standard form, or the basis for more complex formulations. Due to computation complexity, linear mixed effects models have not seen widespread use until many well known statistical software applications began facilitating them. SAS Institute added PROC MIXED to its software suite in 1992 \citep{singer}. \citet{PB} described how to compute LME models in the \texttt{S-plus} environment.
-
-Using Laird-Ware form, the LME model is commonly described in matrix form,
-\begin{equation}
-y = X\beta + Zb + \epsilon
-\label{LW}
-\end{equation}
-
-\noindent where $y$ is a vector of $N$ observable random variables, $\beta$ is a vector of $p$ fixed effects, $X$ and $Z$ are $N \times p$ and $N \times q$ known matrices, and $b$ and $\epsilon$  are vectors of $q$ and $N,$ respectively, random effects such that $\mathrm{E}(b)=0, \ \mathrm{E}(\epsilon)=0$
-and
-\[
-\mathrm{var}
-\left(
-\begin{array}{c}
-b \\
-\epsilon \\
-\end{array}
-\right)
-=
-\left(
-\begin{array}{cc}
-D & 0 \\
-0 & \Sigma \\
-\end{array}
-\right)
-\]
-
-
-
-
-where $D$ and $\Sigma$ are positive definite matrices parameterized by an unknown variance component parameter vector $ \theta.$ The variance-covariance matrix for the vector of observations $y$ is given by $V = ZDZ^{\prime}+ \Sigma.$ This implies $y \sim(X\beta, V) = (X\beta,ZDZ^{\prime}+ \Sigma)$. It is worth noting that $V$ is an $n \times n$ matrix, as the dimensionality becomes relevant later on. The notation provided here is generic, and will be adapted to accord with complex formulations that will be encountered in due course.
-
-%\subsection{Likelihood and estimation}
-
-% Likelihood is the hypothetical probability that an event that has already occurred would yield a specific outcome. Likelihood differs from probability in that probability refers to future occurrences, while likelihood refers to past known outcomes.
 
 
 \section{Likelihood and estimation}
@@ -1970,13 +1946,6 @@ Four candidates models are fitted to the data. These models are similar to one a
 These tests are the pairwise comparison of candidate models, one formulated without constraints, the other with a constraint.
 
 \bigskip
-The tests are implemented by fitting a four variants of a specific LME model to the data. For the purpose of comparing models, one of the models acts as a reference model while the three other variant are nested models that introduce equality constraints to serves as null hypothesis cases. The methodology uses a linear mixed effects regression fit using a combination of symmetric and 
-compound symmetry (CS) correlation structure the variance covariance matrices.
-
-Other important aspects of the method comparison study are consequent. The limits of agreement are computed using the results of the reference model.
-
-% $\Lambda = \frac{\mbox{max}_{H_{0}}L}{\mbox{max}_{H_{1}}L}$
-% \citet{ARoy2009} uses examples from \citet{BA86} to be able to compare both types of analysis.
 
 %============================================================================ %
 
@@ -1993,41 +1962,32 @@ Bias is determinable by examination of the 't-table'. Estimate for both methods 
 
 % Three hypothesis tests follow from this equation.
 The presence of an inter-method bias is the source of disagreement between two methods of measurement that is most easily identified. As the first in a series of hypothesis tests, \citet{roy} presents a formal test for inter-method bias. With the null and alternative hypothesis denoted $H_1$ and $K_1$ respectively, this test is formulated as
-%
-%\[	\operatorname{H_1} : \mu_1 = \mu_2 ,\]
-%\[	\operatorname{K_1} : \mu_1 \neq \mu_2.\]
+
+\[	\operatorname{H_1} : \mu_1 = \mu_2 ,\]
+\[	\operatorname{K_1} : \mu_1 \neq \mu_2.\]
 
 
-\section{Roy's variability tests}
+\section{Testing Procedures (LRTs)}
+Roy's methodology requires the construction of four candidate models. The first candidate model is compared to each of the three other models successively. It is the alternative model in each of the three tests, with the other three models acting as the respective null models.
 
 
-The tests are implemented by fitting a specific LME model, and three variations thereof, to the data. These three variant models introduce equality constraints that act null hypothesis cases.
+The probability distribution of the test statistic can be approximated by a chi-square distribution with ($\nu_1$ - $\nu_2$) degrees of freedom, where $\nu_1$ and $\nu_2$ are the degrees of freedom of models 1 and 2 respectively.
 
-Other important aspects of the method comparison study are consequent. The limits of agreement are computed using the results of the first model.
+Likelihood ratio tests are very simple to implement in \texttt{R}, simply use the '\texttt{anova()}' commands. Sample output will be given for each variability test.
 
+The likelihood ratio test is the procedure used to compare the fit of two models. For each candidate model, the `-2 log likelihood' ($M2LL$) is computed. The test statistic for each of the three hypothesis tests is the difference of the $M2LL$ for each pair of models. If the $p-$value in each of the respective tests exceed as significance level chosen by the analyst, then the null model must be rejected.
 
+\begin{equation}
+-2\mbox{ ln }\Lambda_{d} =  [ M2LL \mbox{ under }H_{0} \mbox{ model}] - [ M2LL \mbox{ under }H_{A} \mbox{ model}]
+\end{equation}
 
+These test statistics follow a chi-square distribution with the degrees of freedom computed as the difference of the LRT degrees of freedom.
 
-The methodology uses a linear mixed effects regression fit using
-compound symmetry (CS) correlation structure on \textbf{V}.
-
-
-$\Lambda = \frac{\mbox{max}_{H_{0}}L}{\mbox{max}_{H_{1}}L}$
-
-
-
-
-
-
-
-
-
-
-%--------------------------------------------------%
+\begin{equation}
+\nu = [\mbox{ LRT df under }H_{0} \mbox{ model}] - [\mbox{ LRT df under }H_{A} \mbox{ model}]
+\end{equation}
 
 \section{Variability Tests}
-
-
 Variability tests proposed by \citet{ARoy2009} affords the opportunity to expand upon Carstensen's approach. \citet{ARoy2009} considers four independent hypothesis tests. The first test allows of the comparison the begin-subject variability of two methods. Similarly, the second test assesses the within-subject variability of two methods. A third test is a test that compares the overall variability of the two methods.
 \begin{itemize}
 	\item Testing of hypotheses of differences between the means of
@@ -2063,9 +2023,20 @@ a_{21} & a_{22}  \\
 
 A symmetric matrix allows the diagonal terms $a_{11}$ and $a_{22}$ to differ. The compound symmetry structure requires that both of these terms be equal, i.e $a_{11} = a_{22}$.
 
+The tests are implemented by fitting a four variants of a specific LME model to the data. For the purpose of comparing models, one of the models acts as a reference model while the three other variant are nested models that introduce equality constraints to serves as null hypothesis cases. The methodology uses a linear mixed effects regression fit using a combination of symmetric and 
+compound symmetry (CS) correlation structure the variance covariance matrices.
 
-%---------------------------------------- %
+Other important aspects of the method comparison study are consequent. The limits of agreement are computed using the results of the reference model.
 
+% $\Lambda = \frac{\mbox{max}_{H_{0}}L}{\mbox{max}_{H_{1}}L}$
+% \citet{ARoy2009} uses examples from \citet{BA86} to be able to compare both types of analysis.
+
+
+The methodology uses a linear mixed effects regression fit using
+compound symmetry (CS) correlation structure on \textbf{V}.
+
+$\Lambda = \frac{\mbox{max}_{H_{0}}L}{\mbox{max}_{H_{1}}L}$
+%--------------------------------------------------%
 
 \subsection{Variability test 1}
 The first test determines whether or not both methods $A$ and $B$ have the same between-subject variability, further to the second of Roy's criteria.
@@ -2489,13 +2460,6 @@ $\boldsymbol{\Psi}$, the diagonal form, the identity form and the general form.
 \]
 
 
-
-
-
-%\section{VC Matrix Types}
-%-----------------------------------------------------------------------------------%
-
-
 \chapter{LME Model Specification}
 
 \subsubsection{Model Terms (Roy 2009)}
@@ -2577,7 +2541,12 @@ Let $y_{mir} $ denote the $r$th replicate measurement on the $i$th item by the $
 \begin{equation}\label{Roy-model}
 y_{mir} = \beta_{0} + \beta_{m} + b_{mi} + \epsilon_{mir}.
 \end{equation}
-Here $\beta_0$ and $\beta_m$ are fixed-effect terms representing, respectively, a model intercept and an overall effect for method $m.$ The $b_{1i}$ and $b_{2i}$ terms represent random effect parameters corresponding to the two methods, having $\mathrm{E}(b_{mi})=0$ with $\mathrm{Var}(b_{mi})=g^2_m$ and $\mathrm{Cov}(b_{mi}, b_{m^\prime i})=g_{12}.$ The random error term for each response is denoted $\epsilon_{mir}$ having $\mathrm{E}(\epsilon_{mir})=0$, $\mathrm{Var}(\epsilon_{mir})=\sigma^2_m$, $\mathrm{Cov}(b_{mir}, b_{m^\prime ir})=\sigma_{12}$, $\mathrm{Cov}(\epsilon_{mir}, \epsilon_{mir^\prime})= 0$ and $\mathrm{Cov}(\epsilon_{mir}, \epsilon_{m^\prime ir^\prime})= 0.$
+Here $\beta_0$ and $\beta_m$ are fixed-effect terms representing, respectively, a model intercept and an overall effect for method $m.$ 
+
+
+The $b_{1i}$ and $b_{2i}$ terms represent random effect parameters corresponding to the two methods, having $\mathrm{E}(b_{mi})=0$ with $\mathrm{Var}(b_{mi})=g^2_m$ and $\mathrm{Cov}(b_{mi}, b_{m^\prime i})=g_{12}.$ The random error term for each response is denoted $\epsilon_{mir}$ having $\mathrm{E}(\epsilon_{mir})=0$, $\mathrm{Var}(\epsilon_{mir})=\sigma^2_m$, $\mathrm{Cov}(b_{mir}, b_{m^\prime ir})=\sigma_{12}$, $\mathrm{Cov}(\epsilon_{mir}, \epsilon_{mir^\prime})= 0$ and $\mathrm{Cov}(\epsilon_{mir}, \epsilon_{m^\prime ir^\prime})= 0.$
+
+
 When two methods of measurement are in agreement, there is no significant differences between $\beta_1$ and $\beta_2,$ $g^2_1 $ and$ g^2_2$, and $\sigma^2_1 $ and$ \sigma^2_2$.\\
 \bigskip
 Here $\beta_0$ and $\beta_m$ are fixed-effect terms representing, respectively, a model intercept and an overall effect for method $m.$ The model can be reparameterized by gathering the $\beta$ terms together into (fixed effect) intercept terms $\alpha_m=\beta_0+\beta_m.$ The $b_{1i}$ and $b_{2i}$ terms are correlated random effect parameters having $\mathrm{E}(b_{mi})=0$ with $\mathrm{Var}(b_{mi})=g^2_m$ and $\mathrm{Cov}(b_{1i}, b_{2 i})=g_{12}.$ \\
@@ -2861,30 +2830,6 @@ Roy's methodology is not suitable for the case of single measurements because it
 
 \section{Conclusion}
 \citet{BXC2008} and \citet{roy} highlight the need for method comparison methodologies suitable for use in the presence of replicate measurements. \citet{roy} presents a comprehensive methodology for assessing the agreement of two methods, for replicate measurements. This methodology has the added benefit of overcoming the problems of unbalanced data and unequal numbers of replicates. Implementation of the methodology, and interpretation of the results, is relatively easy for practitioners who have only basic statistical training. Furthermore, it can be shown that widely used existing methodologies, such as the limits of agreement, can be incorporated into Roy's methodology.
-
-
-
-
-\section{Testing Procedures}
-Roy's methodology requires the construction of four candidate models. The first candidate model is compared to each of the three other models successively. It is the alternative model in each of the three tests, with the other three models acting as the respective null models.
-
-
-The probability distribution of the test statistic can be approximated by a chi-square distribution with ($\nu_1$ - $\nu_2$) degrees of freedom, where $\nu_1$ and $\nu_2$ are the degrees of freedom of models 1 and 2 respectively.
-
-Likelihood ratio tests are very simple to implement in \texttt{R}, simply use the 'anova()' commands. Sample output will be given for each variability test.
-The likelihood ratio test is the procedure used to compare the fit of two models. For each candidate model, the `-2 log likelihood' ($M2LL$) is computed. The test statistic for each of the three hypothesis tests is the difference of the $M2LL$ for each pair of models. If the $p-$value in each of the respective tests exceed as significance level chosen by the analyst, then the null model must be rejected.
-
-\begin{equation}
--2\mbox{ ln }\Lambda_{d} =  [ M2LL \mbox{ under }H_{0} \mbox{ model}] - [ M2LL \mbox{ under }H_{A} \mbox{ model}]
-\end{equation}
-
-These test statistics follow a chi-square distribution with the degrees of freedom computed as the difference of the LRT degrees of freedom.
-
-\begin{equation}
-\nu = [\mbox{ LRT df under }H_{0} \mbox{ model}] - [\mbox{ LRT df under }H_{A} \mbox{ model}]
-\end{equation}
-
-
 
 
 
