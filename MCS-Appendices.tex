@@ -97,7 +97,30 @@ Adjacent residuals should not be correlated with each other (\textbf{autocorrela
 In Minitab’s regression, you can perform the \textbf{\textit{Durbin-Watson} }test to test for autocorrelation.
 \newpage
 	\section{Chapter Overview}
-	\section{Overview}
+	\section{Lin's Reproducibility Index} Lin proposes the use of a
+	reproducibility index, called the Concordance Correlation
+	Coefficent (CCC).While it is not strictly a measure of agreement
+	as such, it can form part of an overall method comparision
+	methodology.
+\section{Outline of Thesis}
+Thus the study of method comparison is introduced. The intention of this thesis is to progress the
+study of method comparison studies, using a statistical method known as Linear mixed effects models.
+Chapter two shall describe linear mixed effects models, and how the use of the linear mixed
+effects models have so far extended to method comparison studies. Implementations of important existing work shall be presented, using the \texttt{R} programming language.
+
+In the first chapter the study of method comparison is introduced, while the second chapter provides a review of current methodologies. The intention of this thesis is to progress the study of method comparison studies, using a statistical method known as Linear mixed effects models.
+	
+Chapter three shall describes linear mixed effects models, and how the use of the linear mixed effects models have so far extended to method comparison studies. Implementations of important existing work shall be presented, using the \texttt{R} programming language.
+	
+Model diagnostics are an integral component of a complete statistical analysis.
+In chapter three model diagnostics shall be described in depth, with particular
+emphasis on linear mixed effects models, further to chapter two.
+
+For the fourth chapter, important linear mixed effects model diagnostic methods shall be extended to method comparison studies, and proposed methods shall be demonstrated on data sets that have become well known in literature on method comparison. The purpose is to both calibrate these methods and to demonstrate applications for them.
+The last chapter shall focus on robust measures of important parameters such as agreement.
+
+
+		\section{Overview}
 	\begin{enumerate}
 		\item Extending deletion diagnostics to LMEs
 		\item Christensen et al
@@ -126,22 +149,71 @@ In Minitab’s regression, you can perform the \textbf{\textit{Durbin-Watson} }t
 			\item Non-iterative Update Procedures
 		\end{enumerate}
 	\end{enumerate}
+
+
+%=======================================================================================================================%
+	
 	\newpage
 	
-	\subsection{Residual}
+\section{Residual}
+
+A residual (or fitting error), on the other hand, is an observable estimate of the unobservable statistical error.
 Residual (or error) represents unexplained (or residual) variation after fitting a regression model. It is the difference (or left over) between the observed value of the variable and the value suggested by the regression model.
+Consider the previous example with men's heights and suppose we have a random sample of n people. The sample mean could serve as a good estimator of the population mean. Then we have:
 
-
-%------------------------- %
 
 The difference between the observed value of the dependent variable (y) and the predicted value (ŷ) is called the residual (e). Each data point has one residual.
 
-Residual = Observed value - Predicted value 
+\[ \mbox{Residual} = \mbox{Observed value} - \mbox{Predicted value}\]
 \[e = y - \hat{y} \]
 
-Both the sum and the mean of the residuals are equal to zero. That is, Σ e = 0 and e = 0.
+Both the sum and the mean of the residuals are equal to zero. .
 
 %--------------------------------- %
+
+
+The difference between the height of each man in the sample and the unobservable population mean is a statistical error, whereas
+The difference between the height of each man in the sample and the observable sample mean is a residual.
+Note that the sum of the residuals within a random sample is necessarily zero, and thus the residuals are necessarily not independent. The statistical errors on the other hand are independent, and their sum within the random sample is almost surely not zero.
+
+%------------------------------- %
+
+Other uses of the word "error" in statistics: 
+
+The use of the term "error" as discussed in the sections above is in the sense of a deviation of a value from a hypothetical unobserved value. At least two other uses also occur in statistics, both referring to observable prediction errors:
+
+\begin{itemize}
+	\item Mean square error or mean squared error (abbreviated MSE) and root mean square error (RMSE) refer to the amount by which the values predicted by an estimator differ from the quantities being estimated (typically outside the sample from which the model was estimated).
+	
+	\item 
+	Sum of squared errors, typically abbreviated SSE or SSe, refers to the residual sum of squares (the sum of squared residuals) of a regression; this is the sum of the squares of the deviations of the actual values from the predicted values, within the sample used for estimation. Likewise, the sum of absolute errors (SAE) refers to the sum of the absolute values of the residuals, which is minimized in the least absolute deviations approach to regression.
+	
+\end{itemize}
+
+%=================================================== %
+% http://www.ime.usp.br/~jmsinger/MAE0610/Mixedmodelresiduals.pdf
+
+Cox and Snell (1968, JRSS-B): general definition of residuals for
+models with single source of variability
+Hilden-Minton (1995, PhD thesis UCLA), Verbeke and Lesaffre
+(1997, CSDA) or Pinheiro and Bates (2000, Springer): extension to
+define three types of residuals that accommodate the extra source of
+variability present in linear mixed models, namely:
+
+i) Marginal residuals, 
+%bξ = y − X\hat{\beta} = \hat{M}^{-1}\hat{Q}y ,
+
+predictors of marginal errors, 
+
+%ξ = y − E[y] = y − X\beta = Zb + e
+
+ii) Conditional residuals, 
+\[be = y − X\hat{\beta} − Zbb = \hat{\sigma}Q\hat{y}\] , predictors of
+conditional errors 
+\[e = y − E[y|b] = y − X\beta − Zb\]
+
+iii) BLUP, Zbb, predictors of random effects,
+\[ Zb = E[y|b] − E[y]\]
 
 \subsection{Residual Plots}
 A residual plot is a graph that shows the residuals on the vertical axis and the independent variable on the horizontal axis. If the points in a residual plot are randomly dispersed around the horizontal axis, a linear regression model is appropriate for the data; otherwise, a non-linear model is more appropriate.
@@ -162,51 +234,7 @@ Below, the residual plots show three typical patterns. The first plot shows a ra
 %Random pattern	Non-random: U-shaped	Non-random: Inverted U
 In the next lesson, we will work on a problem, where the residual plot shows a non-random pattern. And we will show how to "transform" the data to use a linear model with nonlinear data.
 %----------------------------- %
-\subsection{Residual}
-A residual (or fitting error), on the other hand, is an observable estimate of the unobservable statistical error. Consider the previous example with men's heights and suppose we have a random sample of n people. The sample mean could serve as a good estimator of the population mean. Then we have:
 
-The difference between the height of each man in the sample and the unobservable population mean is a statistical error, whereas
-The difference between the height of each man in the sample and the observable sample mean is a residual.
-Note that the sum of the residuals within a random sample is necessarily zero, and thus the residuals are necessarily not independent. The statistical errors on the other hand are independent, and their sum within the random sample is almost surely not zero.
-
-%------------------------------- %
-
-Other uses of the word "error" in statistics: 
-
-The use of the term "error" as discussed in the sections above is in the sense of a deviation of a value from a hypothetical unobserved value. At least two other uses also occur in statistics, both referring to observable prediction errors:
-
-\begin{itemize}
-	\item Mean square error or mean squared error (abbreviated MSE) and root mean square error (RMSE) refer to the amount by which the values predicted by an estimator differ from the quantities being estimated (typically outside the sample from which the model was estimated).
-	
-	\item 
-	Sum of squared errors, typically abbreviated SSE or SSe, refers to the residual sum of squares (the sum of squared residuals) of a regression; this is the sum of the squares of the deviations of the actual values from the predicted values, within the sample used for estimation. Likewise, the sum of absolute errors (SAE) refers to the sum of the absolute values of the residuals, which is minimized in the least absolute deviations approach to regression.
-	
-\end{itemize}
-
-	%=================================================== %
-	% http://www.ime.usp.br/~jmsinger/MAE0610/Mixedmodelresiduals.pdf
-	
-	Cox and Snell (1968, JRSS-B): general definition of residuals for
-	models with single source of variability
-	Hilden-Minton (1995, PhD thesis UCLA), Verbeke and Lesaffre
-	(1997, CSDA) or Pinheiro and Bates (2000, Springer): extension to
-	define three types of residuals that accommodate the extra source of
-	variability present in linear mixed models, namely:
-	
-	i) Marginal residuals, 
-	%bξ = y − X\hat{\beta} = \hat{M}^{-1}\hat{Q}y ,
-	
-	predictors of marginal errors, 
-	
-	%ξ = y − E[y] = y − X\beta = Zb + e
-	
-	ii) Conditional residuals, 
-	\[be = y − X\hat{\beta} − Zbb = \hat{\sigma}Q\hat{y}\] , predictors of
-	conditional errors 
-	\[e = y − E[y|b] = y − X\beta − Zb\]
-	
-	iii) BLUP, Zbb, predictors of random effects,
-	\[ Zb = E[y|b] − E[y]\]
 \chapter{Fitting LME Models}
 %\subsection{Overview of R implementations}
 Further to previous material, an appraisal of the current state of development for statistical software for fitting for LME models, particularly for \texttt{nlme} and \texttt{lme4} fitted models.
@@ -235,6 +263,69 @@ With regards to \texttt{nlme}, the package is now maintained by the \texttt{R} c
 Also, the accompanying \texttt{R} package, nlmeU package is under current development, with a version being released $0.70-3$.
 
 
+
+\section{Implementation in R}
+To implement an LME model in \texttt{R}, the \texttt{nlme} package is used. This package is loaded into the \texttt{R} environment using the library command, (i.e.\ \texttt{library(nlme)}). The \texttt{lme} command is used to fit LME models. The first two arguments to the \texttt{lme} function specify the fixed effect component of the model, and the data set to which the model is to be fitted. The first candidate model (`MCS1') fits an LME model on the data set `dat'. The variable `method' is assigned as the fixed effect, with the response variable `BP' (i.e.\ blood pressure).
+
+The third argument contain the random effects component of the formulation, describing the random effects, and their grouping structure. The \texttt{nlme} package provides a set of positive-definite matrices , the \texttt{pdMat} class, that can be used to specify a structure for the between-subject variance-covariance matrix for the random effects. For Roy's methodology, we will use the \texttt{pdSymm} and \texttt{pdCompSymm} to specify a symmetric structure and a compound symmetry structure respectively. A full discussion of these structures can be found in \citet[pg. 158]{PB}.
+
+Similarly a variety of structures for the with-subject variance-covariance matrix can be implemented using \texttt{nlme}. To implement a particular matrix structure, one must specify both a variance function and correlation structure accordingly. Variance functions are used to model the variance structure of the within-subject errors. \texttt{varIdent} is a variance function object used to allow different variances according to the levels of a classification factor in the data. A compound symmetry structure is implemented using the \texttt{corCompSymm} class, while the symmetric form is specified by \texttt{corSymm} class. Finally, the estimation methods is specified as ``ML" or ``REML".
+\bigskip
+The first of Roy's candidate model can be implemented using the following code;\\
+
+\begin{framed}
+	\begin{verbatim}
+	MCS1 = lme(BP ~ method-1, data = dat,
+	random =  list(subject=pdSymm(~ method-1)),
+	weights=varIdent(form=~1|method),
+	correlation = corSymm(form=~1 | subject/obs), method="ML")
+	\end{verbatim}
+\end{framed}
+
+For the blood pressure data used in \citet{ARoy2009}, all four candidate models are implemented by slight variations of this piece of code, specifying either \texttt{pdSymm} or \texttt{pdCompSymm} in the second line, and either \texttt{corSymm} or \texttt{corCompSymm} in the fourth line.
+For example, the second candidate model `MCS2' is implemented with the same code as MCS1, except for the term \texttt{pdCompSymm} in the second line, rather than \texttt{pdSymm}.
+
+\begin{framed}
+	\begin{verbatim}
+	MCS2 = lme(BP ~ method-1, data = dat,
+	random = list(subject=pdCompSymm(~ method-1)),
+	weights = varIdent(form=~1|method),
+	correlation = corSymm(form=~1 | subject/obs), method="ML")
+	\end{verbatim}
+\end{framed}
+
+Using this \texttt{R} implementation for other data sets requires that the data set is structured appropriately (i.e.\ each case of observation records the index, response, method and replicate). Once formatted properly, implementation is simply a case of re-writing the first line of code, and computing the four candidate models accordingly.
+
+
+To perform a likelihood ratio test for two candidate models, simply use the \texttt{anova} command with the names of the candidate models as arguments. The following piece of code implement the first of Roy's variability tests.
+
+\begin{framed}
+	\begin{verbatim}
+	> anova(MCS1,MCS2)
+	Model df    AIC    BIC  logLik   Test L.Ratio p-value
+	MCS1     1  8 4077.5 4111.3 -2030.7
+	MCS2     2  7 4075.6 4105.3 -2030.8 1 vs 2 0.15291  0.6958
+	>
+	\end{verbatim}
+\end{framed}
+
+The fixed effects estimates are the same for all four candidate models. The inter-method bias can be easily determined by inspecting a summary of any model. The summary presents estimates for all of the important parameters, but not the complete variance-covariance matrices (although some simple \texttt{R} functions can be written to overcome this). The variance estimates for the random effects for MCS2 is presented below.
+
+\begin{framed}
+	\begin{verbatim}
+	Random effects:
+	Formula: ~method - 1 | subject
+	Structure: Compound Symmetry
+	StdDev Corr
+	methodJ  30.765
+	methodS  30.765 0.829
+	Residual  6.115
+	\end{verbatim}
+\end{framed}
+\vspace{1cm}
+Similarly, for computing the limits of agreement the standard deviation of the differences is not explicitly given. Again, A simple \texttt{R} function can be written to calculate the limits of agreement directly.
+
+%------------------------------------------------------------------------------------%
 
 \section{Studentization}
 In statistics, a studentized residual is the quotient resulting from the division of a residual by an estimate of its standard deviation. Typically the standard deviations of residuals in a sample vary greatly from one data point to another even when the errors all have the same standard deviation, particularly in regression analysis; thus it does not make sense to compare residuals at different data points without first studentizing. It is a form of a Student's t-statistic, with the estimate of error varying between points.
@@ -418,11 +509,7 @@ Studentization \[ \frac{\hat{e}_i}{\sqrt{\hat{v}_i}}\]
 	
 	\chapter{Appendices}
 
-\section{Diagnostics: Covariance Parameters} %1.5
-The unknown variance elements are referred to as the covariance parameters and collected in the vector $\theta$.
-% - where is this coming from?
-% - where is it used again?
-% - Has this got anything to do with CovTrace etc?
+
 	\section{Haslett Hayes}                %-Case Deletion section 3
 	
 	For fixed effect linear models with correlated error structure
@@ -507,20 +594,6 @@ and $k \times k$ covariance matrix
 
 
 
-\section{Outline of Thesis}
-Thus the study of method comparison is introduced. The intention of this thesis is to progress the
-study of method comparison studies, using a statistical method known as Linear mixed effects models.
-Chapter two shall describe linear mixed effects models, and how the use of the linear mixed
-effects models have so far extended to method comparison studies. Implementations of important existing work shall be presented, using the \texttt{R} programming language.
-
-Model diagnostics are an integral component of a complete statistical analysis.
-In chapter three model diagnostics shall be described in depth, with particular
-emphasis on linear mixed effects models, further to chapter two.
-
-For the fourth chapter, important linear mixed effects model diagnostic methods shall be extended to method comparison studies, and proposed methods shall be demonstrated on data sets that have become well known in literature on method comparison. The purpose is to both calibrate these methods and to demonstrate applications for them.
-The last chapter shall focus on robust measures of important parameters such as agreement.
-
-	\section{Alternative Agreement Indices}
 
 \section{Alternative agreement indices}
 As an alternative to limits of agreement, \citet{lin2002} proposes the use of
@@ -535,46 +608,50 @@ MSDxy = E[(x - y)^2]  = (\mu_{x} - \mu_{y})^2 + (\sigma_{x} -
 \]
 
 
-\citet{Barnhart} advises the use of a predetermined upper limit
-for the MSD value, $MSD_{ul}$, to define satisfactory agreement.
-However, a satisfactory upper limit may not be properly
-determinable, thus creating a drawback to this methodology.
-
-
-\citet{Barnhart} proposes both the use of the square root of the
-MSD or the expected absolute difference (EAD) as an alternative agreement indices. Both of these indices can be interpreted intuitively, being denominated in the same units of measurements as the original
-measurements. Also they can be compare to the maximum acceptable
-absolute difference between two methods of measurement $d_{0}$.
-\[
-EAD = E(|x - y|) = \frac{\sum |x_{i}- y_{i}|}{n}
-\]
-
-The EAD can be used to supplement the inter-method bias in an
-initial comparison study, as the EAD is informative as a measure
-of dispersion, is easy to calculate and requires no distributional
-assumptions.
+	\citet{Barnhart} advises the use of a predetermined upper limit
+	for the MSD value, $MSD_{ul}$, to define satisfactory agreement.
+	However, a satisfactory upper limit may not be properly
+	determinable, thus creating a drawback to this methodology.
+	
+	\citet{Barnhart} proposes both the use of the square root of the
+	MSD or the expected absolute difference (EAD) as an alternative agreement indices. Both of these indices can be interpreted intuitively, being denominated in the same units of measurements as the original
+	measurements. Also they can be compare to the maximum acceptable
+	absolute difference between two methods of measurement $d_{0}$.
+	\[
+	EAD = E(|x - y|) = \frac{\sum |x_{i}- y_{i}|}{n}
+	\]
+	
+	The EAD can be used to supplement the inter-method bias in an
+	initial comparison study, as the EAD is informative as a measure
+	of dispersion, is easy to calculate and requires no distributional
+	assumptions.
+	
 
 \citet{Barnhart} remarks that a comparison of EAD and MSD , using
 simulation studies, would be interesting, while further adding
 that `It will be of interest to investigate the benefits of these
 possible new unscaled agreement indices'. For the Grubbs' `F vs C' and `F vs T' comparisons, the inter-method bias, difference variances, limits of agreement and EADs are shown
 in Table 1.5. The corresponding Bland-Altman plots for `F vs C' and `F vs T' comparisons were depicted previously on Figure 1.3. While the inter-method bias for the `F vs T' comparison is smaller, the EAD penalizes the comparison for having a greater variance of differences. Hence the EAD values for both comparisons are much closer.
-\begin{table}[ht]
-	\begin{center}
-		\begin{tabular}{|c|c|c|}
-			\hline
-			& F vs C & F vs T  \\
-			\hline
-			Inter-method bias & -0.61 & 0.12 3 \\
-			Difference variances & 0.06 & 0.22  \\
-			Limits of agreement & (-1.08,	-0.13) & (-0.81,1.04) \\
-			EAD & 0.61 & 0.35  \\
-			\hline
-		\end{tabular}
-		\caption{Agreement indices for Grubbs' data comparisons.}
-	\end{center}
-\end{table}
 
+\begin{table}[ht]
+		\begin{center}
+			\begin{tabular}{|c|c|c|}
+				\hline
+				& F vs C & F vs T  \\
+				\hline
+				Inter-method bias & -0.61 & 0.12 3 \\
+				Difference variances & 0.06 & 0.22  \\
+				Limits of agreement & (-1.08,	-0.13) & (-0.81,1.04) \\
+				EAD & 0.61 & 0.35  \\
+				\hline
+			\end{tabular}
+			\caption{Agreement indices for Grubbs' data comparisons.}
+		\end{center}
+	\end{table}
+
+
+
+\section{Coverage Probability}
 Further to  \citet{lin2000} and \citet{lin2002}, individual agreement between two measurement methods may be
 assessed using the the coverage probability (CP) criteria or the total deviation index (TDI). If $d_{0}$ is predetermined as the maximum acceptable absolute difference between two methods of measurement, the probability that the absolute difference of two measures being less than $d_{0}$ can be computed. This is known as the coverage probability (CP).
 
@@ -592,136 +669,9 @@ percentile of the absolute difference of paired observations.
 
 
 
-	\section{Alternative agreement indices}
-	As an alternative to limits of agreement, \citet{lin2002} proposes the use of
-	the mean square deviation is assessing agreement. The mean square
-	deviation is defined as the expectation of the squared differences
-	of two readings . The MSD is usually used for the case of two
-	measurement methods $X$ and $Y$ , each making one measurement for
-	the same subject, and is given by
-	\[
-	MSDxy = E[(x - y)^2]  = (\mu_{x} - \mu_{y})^2 + (\sigma_{x} -
-	\sigma_{y})^2 + 2\sigma_{x}\sigma_{y}(1-\rho_{xy}).
-	\]
-	
-	
-	\citet{Barnhart} advises the use of a predetermined upper limit
-	for the MSD value, $MSD_{ul}$, to define satisfactory agreement.
-	However, a satisfactory upper limit may not be properly
-	determinable, thus creating a drawback to this methodology.
-	
-	
-	\citet{Barnhart} proposes both the use of the square root of the
-	MSD or the expected absolute difference (EAD) as an alternative agreement indices. Both of these indices can be interpreted intuitively, being denominated in the same units of measurements as the original
-	measurements. Also they can be compare to the maximum acceptable
-	absolute difference between two methods of measurement $d_{0}$.
-	\[
-	EAD = E(|x - y|) = \frac{\sum |x_{i}- y_{i}|}{n}
-	\]
-	
-	The EAD can be used to supplement the inter-method bias in an
-	initial comparison study, as the EAD is informative as a measure
-	of dispersion, is easy to calculate and requires no distributional
-	assumptions.
-	
-	\citet{Barnhart} remarks that a comparison of EAD and MSD , using
-	simulation studies, would be interesting, while further adding
-	that `It will be of interest to investigate the benefits of these
-	possible new unscaled agreement indices'. For the Grubbs' `F vs C' and `F vs T' comparisons, the inter-method bias, difference variances, limits of agreement and EADs are shown
-	in Table 1.5. The corresponding Bland-Altman plots for `F vs C' and `F vs T' comparisons were depicted previously on Figure 1.3. While the inter-method bias for the `F vs T' comparison is smaller, the EAD penalizes the comparison for having a greater variance of differences. Hence the EAD values for both comparisons are much closer.
-	\begin{table}[ht]
-		\begin{center}
-			\begin{tabular}{|c|c|c|}
-				\hline
-				& F vs C & F vs T  \\
-				\hline
-				Inter-method bias & -0.61 & 0.12 3 \\
-				Difference variances & 0.06 & 0.22  \\
-				Limits of agreement & (-1.08,	-0.13) & (-0.81,1.04) \\
-				EAD & 0.61 & 0.35  \\
-				\hline
-			\end{tabular}
-			\caption{Agreement indices for Grubbs' data comparisons.}
-		\end{center}
-	\end{table}
-	
-	Further to  \citet{lin2000} and \citet{lin2002}, individual agreement between two measurement methods may be
-	assessed using the the coverage probability (CP) criteria or the total deviation index (TDI). If $d_{0}$ is predetermined as the maximum acceptable absolute difference between two methods of measurement, the probability that the absolute difference of two measures being less than $d_{0}$ can be computed. This is known as the coverage probability (CP).
-	
-	\begin{equation}
-		CP = P(|x_{i} - y_{i}| \leq d_{0})
-	\end{equation}
-	
-	If $\pi_{0}$ is set as the predetermined coverage probability, the
-	boundary under which the proportion of absolute differences is
-	$\pi_{0}$ may be determined. This boundary is known as the `total
-	deviation index' (TDI). Hence the TDI is the $100\pi_{0}$
-	percentile of the absolute difference of paired observations.
-	
+
 	
 
-\section{Implementation in R}
-To implement an LME model in \texttt{R}, the \texttt{nlme} package is used. This package is loaded into the \texttt{R} environment using the library command, (i.e.\ \texttt{library(nlme)}). The \texttt{lme} command is used to fit LME models. The first two arguments to the \texttt{lme} function specify the fixed effect component of the model, and the data set to which the model is to be fitted. The first candidate model (`MCS1') fits an LME model on the data set `dat'. The variable `method' is assigned as the fixed effect, with the response variable `BP' (i.e.\ blood pressure).
-
-The third argument contain the random effects component of the formulation, describing the random effects, and their grouping structure. The \texttt{nlme} package provides a set of positive-definite matrices , the \texttt{pdMat} class, that can be used to specify a structure for the between-subject variance-covariance matrix for the random effects. For Roy's methodology, we will use the \texttt{pdSymm} and \texttt{pdCompSymm} to specify a symmetric structure and a compound symmetry structure respectively. A full discussion of these structures can be found in \citet[pg. 158]{PB}.
-
-Similarly a variety of structures for the with-subject variance-covariance matrix can be implemented using \texttt{nlme}. To implement a particular matrix structure, one must specify both a variance function and correlation structure accordingly. Variance functions are used to model the variance structure of the within-subject errors. \texttt{varIdent} is a variance function object used to allow different variances according to the levels of a classification factor in the data. A compound symmetry structure is implemented using the \texttt{corCompSymm} class, while the symmetric form is specified by \texttt{corSymm} class. Finally, the estimation methods is specified as ``ML" or ``REML".
-\bigskip
-The first of Roy's candidate model can be implemented using the following code;\\
-
-\begin{framed}
-	\begin{verbatim}
-	MCS1 = lme(BP ~ method-1, data = dat,
-	random =  list(subject=pdSymm(~ method-1)),
-	weights=varIdent(form=~1|method),
-	correlation = corSymm(form=~1 | subject/obs), method="ML")
-	\end{verbatim}
-\end{framed}
-
-For the blood pressure data used in \citet{ARoy2009}, all four candidate models are implemented by slight variations of this piece of code, specifying either \texttt{pdSymm} or \texttt{pdCompSymm} in the second line, and either \texttt{corSymm} or \texttt{corCompSymm} in the fourth line.
-For example, the second candidate model `MCS2' is implemented with the same code as MCS1, except for the term \texttt{pdCompSymm} in the second line, rather than \texttt{pdSymm}.
-
-\begin{framed}
-	\begin{verbatim}
-	MCS2 = lme(BP ~ method-1, data = dat,
-	random = list(subject=pdCompSymm(~ method-1)),
-	weights = varIdent(form=~1|method),
-	correlation = corSymm(form=~1 | subject/obs), method="ML")
-	\end{verbatim}
-\end{framed}
-
-Using this \texttt{R} implementation for other data sets requires that the data set is structured appropriately (i.e.\ each case of observation records the index, response, method and replicate). Once formatted properly, implementation is simply a case of re-writing the first line of code, and computing the four candidate models accordingly.
-
-
-To perform a likelihood ratio test for two candidate models, simply use the \texttt{anova} command with the names of the candidate models as arguments. The following piece of code implement the first of Roy's variability tests.
-
-\begin{framed}
-	\begin{verbatim}
-	> anova(MCS1,MCS2)
-	Model df    AIC    BIC  logLik   Test L.Ratio p-value
-	MCS1     1  8 4077.5 4111.3 -2030.7
-	MCS2     2  7 4075.6 4105.3 -2030.8 1 vs 2 0.15291  0.6958
-	>
-	\end{verbatim}
-\end{framed}
-
-The fixed effects estimates are the same for all four candidate models. The inter-method bias can be easily determined by inspecting a summary of any model. The summary presents estimates for all of the important parameters, but not the complete variance-covariance matrices (although some simple \texttt{R} functions can be written to overcome this). The variance estimates for the random effects for MCS2 is presented below.
-
-\begin{framed}
-	\begin{verbatim}
-	Random effects:
-	Formula: ~method - 1 | subject
-	Structure: Compound Symmetry
-	StdDev Corr
-	methodJ  30.765
-	methodS  30.765 0.829
-	Residual  6.115
-	\end{verbatim}
-\end{framed}
-\vspace{1cm}
-Similarly, for computing the limits of agreement the standard deviation of the differences is not explicitly given. Again, A simple \texttt{R} function can be written to calculate the limits of agreement directly.
-
-%------------------------------------------------------------------------------------%
 
 \section{Basic Models Fits}
 Further to \citet{PB}, several simple LME models are constructed
@@ -1073,6 +1023,82 @@ $\mu$s are the true item values.
 
 
 \section{Demonstration of Roy's testing}
+Roy provides three case studies, using data sets well known in method comparison studies, to demonstrate how the methodology should be used. The first two examples used are from the `blood pressure' data set introduced by \citet{BA99}. The data set is a tabulation of simultaneous measurements of systolic blood pressure were made by each of two experienced observers (denoted `J' and `R') using a sphygmomanometer and by a semi-automatic blood pressure monitor (denoted `S'). Three sets of readings were made in quick succession. Roy compares the `J' and `S' methods in the first of her examples.
+
+The inter-method bias between the two method is found to be $15.62$ , with a $t-$value of $-7.64$, with a $p-$value of less than $0.0001$. Consequently there is a significant inter-method bias present between methods $J$ and $S$, and the first of the Roy's three agreement criteria is unfulfilled.
+
+Next, the first variability test is carried out, yielding maximum likelihood estimates of the between-subject variance covariance matrix, for both the null model, in compound symmetry (CS) form, and the alternative model in symmetric (symm) form. These matrices are determined to be as follows;
+\[
+\boldsymbol{\hat{D}}_{CS} = \left( \begin{array}{cc}
+946.50 & 784.32  \\
+784.32 & 946.50  \\
+\end{array}\right),
+\hspace{1.5cm}
+\boldsymbol{\hat{D}}_{Symm} = \left( \begin{array}{cc}
+923.98 & 785.24  \\
+785.24 & 971.30  \\
+\end{array}\right).
+\]
+
+A likelihood ratio test is perform to compare both candidate models. The log-likelihood of the null model is $-2030.7$, and for the alternative model $-2030.8$. The test statistic, presented with greater precision than the log-likelihoods, is $0.1592$. The $p-$value is $0.6958$. Consequently we fail to reject the null model, and by extension, conclude that the hypothesis that methods $J$ and $S$ have the same between-subject variability. Thus the second of the criteria is fulfilled.
+
+The second variability test determines maximum likelihood estimates of the within-subject variance covariance matrix, for both the null model, in CS form, and the alternative model in symmetric form.
+
+\[
+\boldsymbol{\hat{\Lambda}_{CS}} = \left( \begin{array}{cc}
+60.27  & 16.06  \\
+16.06  & 60.27  \\
+\end{array}\right),
+\hspace{1.5cm}
+\boldsymbol{\hat{\Lambda}}_{Symm} = \left( \begin{array}{cc}
+37.40 & 16.06  \\
+16.06 & 83.14  \\
+\end{array}\right).
+\]
+
+Again, A likelihood ratio test is perform to compare both candidate models. The log-likelihood of the alternative model model is $-2045.0$. As before, the null model has a log-likelihood of $-2030.7$. The test statistic is computed as $28.617$, again presented with greater precision. The $p-$value is less than $0.0001$. In this case we reject the null hypothesis of equal within-subject variability. Consequently the third of Roy's criteria is unfulfilled.
+The coefficient of repeatability for methods $J$ and $S$ are found to be 16.95 mmHg and 25.28 mmHg respectively.
+
+The last of the three variability tests is carried out to compare the overall variabilities of both methods.
+With the null model the MLE of the within-subject variance covariance matrix is given below. The overall variabilities for the null and alternative models, respectively, are determined to be as follows;
+\[
+\boldsymbol{\hat{\Sigma}}_{CS} = \left( \begin{array}{cc}
+1007.92  & 801.65  \\
+801.65  & 1007.92  \\
+\end{array}\right),
+\hspace{1.5cm}
+\boldsymbol{\hat{\Sigma}}_{Symm} = \left( \begin{array}{cc}
+961.38 & 801.40  \\
+801.40 & 1054.43  \\
+\end{array}\right),
+\]
+
+The log-likelihood of the alternative model model is $-2045.2$, and again, the null model has a log-likelihood of $-2030.7$. The test statistic is $28.884$, and the $p-$value is less than $0.0001$. The null hypothesis, that both methods have equal overall variability, is rejected. Further to the second variability test, it is known that this difference is specifically due to the difference of within-subject variabilities.
+
+Lastly, Roy considers the overall correlation coefficient. The diagonal blocks $\boldsymbol{\hat{r}_{\Omega}}_{ii}$ of the correlation matrix indicate an overall coefficient of $0.7959$. This is less than the threshold of 0.82 that Roy recommends.
+
+\[
+\boldsymbol{\hat{r}_{\Omega}}_{ii} = \left( \begin{array}{cc}
+1  & 0.7959  \\
+0.7959  & 1  \\
+\end{array}\right)
+\]
+
+The off-diagonal blocks of the overall correlation matrix $\boldsymbol{\hat{r}_{\Omega}}_{ii'}$ present the correlation coefficients further to \citet{hamlett}.
+\[
+\boldsymbol{\hat{r}_{\Omega}}_{ii'} = \left( \begin{array}{cc}
+0.9611  & 0.7799  \\
+0.7799  & 0.9212  \\
+\end{array}\right).
+\]
+
+The overall conclusion of the procedure is that method $J$ and $S$ are not in agreement, specifically due to the within-subject variability, and the inter-method bias. The repeatability coefficients are substantially different, with the coefficient for method $S$ being 49\% larger than for method $J$. Additionally the overall correlation coefficient did not exceed the recommended threshold of $0.82$.
+
+
+%========================================================= %
+%% %% - Part E- Part E
+
+\section{Demonstration of Roy's testing}
 Roy provides three case studies, using data sets well known in method comparison studies, to demonstrate how the methodology should be used. The first two examples used are from the `blood pressure' data set introduced by \citet{BA99}. The data set is a tabulation of simultaneous measurements of systolic blood pressure were made by each of two experienced observers (denoted `J' and `R') using a sphygmomanometer and by a semi-automatic blood pressure monitor (denoted `S'). Three sets of readings were made in quick succession. Roy compares the `J' and `S' methods in his first example, and the `R' and `S' methods in his second.
 
 
@@ -1225,81 +1251,6 @@ The overall conclusion of the procedure is that the two methods are not in agree
 
 %------------------------------------------------------------------------------------%
 \newpage
-\section{Demonstration of Roy's testing}
-Roy provides three case studies, using data sets well known in method comparison studies, to demonstrate how the methodology should be used. The first two examples used are from the `blood pressure' data set introduced by \citet{BA99}. The data set is a tabulation of simultaneous measurements of systolic blood pressure were made by each of two experienced observers (denoted `J' and `R') using a sphygmomanometer and by a semi-automatic blood pressure monitor (denoted `S'). Three sets of readings were made in quick succession. Roy compares the `J' and `S' methods in the first of her examples.
-
-The inter-method bias between the two method is found to be $15.62$ , with a $t-$value of $-7.64$, with a $p-$value of less than $0.0001$. Consequently there is a significant inter-method bias present between methods $J$ and $S$, and the first of the Roy's three agreement criteria is unfulfilled.
-
-Next, the first variability test is carried out, yielding maximum likelihood estimates of the between-subject variance covariance matrix, for both the null model, in compound symmetry (CS) form, and the alternative model in symmetric (symm) form. These matrices are determined to be as follows;
-\[
-\boldsymbol{\hat{D}}_{CS} = \left( \begin{array}{cc}
-946.50 & 784.32  \\
-784.32 & 946.50  \\
-\end{array}\right),
-\hspace{1.5cm}
-\boldsymbol{\hat{D}}_{Symm} = \left( \begin{array}{cc}
-923.98 & 785.24  \\
-785.24 & 971.30  \\
-\end{array}\right).
-\]
-
-A likelihood ratio test is perform to compare both candidate models. The log-likelihood of the null model is $-2030.7$, and for the alternative model $-2030.8$. The test statistic, presented with greater precision than the log-likelihoods, is $0.1592$. The $p-$value is $0.6958$. Consequently we fail to reject the null model, and by extension, conclude that the hypothesis that methods $J$ and $S$ have the same between-subject variability. Thus the second of the criteria is fulfilled.
-
-The second variability test determines maximum likelihood estimates of the within-subject variance covariance matrix, for both the null model, in CS form, and the alternative model in symmetric form.
-
-\[
-\boldsymbol{\hat{\Lambda}_{CS}} = \left( \begin{array}{cc}
-60.27  & 16.06  \\
-16.06  & 60.27  \\
-\end{array}\right),
-\hspace{1.5cm}
-\boldsymbol{\hat{\Lambda}}_{Symm} = \left( \begin{array}{cc}
-37.40 & 16.06  \\
-16.06 & 83.14  \\
-\end{array}\right).
-\]
-
-Again, A likelihood ratio test is perform to compare both candidate models. The log-likelihood of the alternative model model is $-2045.0$. As before, the null model has a log-likelihood of $-2030.7$. The test statistic is computed as $28.617$, again presented with greater precision. The $p-$value is less than $0.0001$. In this case we reject the null hypothesis of equal within-subject variability. Consequently the third of Roy's criteria is unfulfilled.
-The coefficient of repeatability for methods $J$ and $S$ are found to be 16.95 mmHg and 25.28 mmHg respectively.
-
-The last of the three variability tests is carried out to compare the overall variabilities of both methods.
-With the null model the MLE of the within-subject variance covariance matrix is given below. The overall variabilities for the null and alternative models, respectively, are determined to be as follows;
-\[
-\boldsymbol{\hat{\Sigma}}_{CS} = \left( \begin{array}{cc}
-1007.92  & 801.65  \\
-801.65  & 1007.92  \\
-\end{array}\right),
-\hspace{1.5cm}
-\boldsymbol{\hat{\Sigma}}_{Symm} = \left( \begin{array}{cc}
-961.38 & 801.40  \\
-801.40 & 1054.43  \\
-\end{array}\right),
-\]
-
-The log-likelihood of the alternative model model is $-2045.2$, and again, the null model has a log-likelihood of $-2030.7$. The test statistic is $28.884$, and the $p-$value is less than $0.0001$. The null hypothesis, that both methods have equal overall variability, is rejected. Further to the second variability test, it is known that this difference is specifically due to the difference of within-subject variabilities.
-
-Lastly, Roy considers the overall correlation coefficient. The diagonal blocks $\boldsymbol{\hat{r}_{\Omega}}_{ii}$ of the correlation matrix indicate an overall coefficient of $0.7959$. This is less than the threshold of 0.82 that Roy recommends.
-
-\[
-\boldsymbol{\hat{r}_{\Omega}}_{ii} = \left( \begin{array}{cc}
-1  & 0.7959  \\
-0.7959  & 1  \\
-\end{array}\right)
-\]
-
-The off-diagonal blocks of the overall correlation matrix $\boldsymbol{\hat{r}_{\Omega}}_{ii'}$ present the correlation coefficients further to \citet{hamlett}.
-\[
-\boldsymbol{\hat{r}_{\Omega}}_{ii'} = \left( \begin{array}{cc}
-0.9611  & 0.7799  \\
-0.7799  & 0.9212  \\
-\end{array}\right).
-\]
-
-The overall conclusion of the procedure is that method $J$ and $S$ are not in agreement, specifically due to the within-subject variability, and the inter-method bias. The repeatability coefficients are substantially different, with the coefficient for method $S$ being 49\% larger than for method $J$. Additionally the overall correlation coefficient did not exceed the recommended threshold of $0.82$.
-
-
-%========================================================= %
-%% %% - Part E- Part E
 
 \section*{Using Roy's Test to Identify cause of Lack of agreement}
 
@@ -1336,7 +1287,7 @@ In this short section, a demonstration of how Roy's technique can be used to com
 
 The coefficient of repeatability is encountered in Gage R \& R analysis. \textit{(A future exploration of how LME models can be used in that field would be of interest. This is something to include in the Conclusions Section).}
 %======================
-\section{Worked Eamples:LikelihoodRatio Tests}
+\section{Worked Eamples : LikelihoodRatio Tests}
 
 Conventionally LME models can be tested using Likelihood Ratio Tests, wherein a reference model is compared to a nested model.
 \begin{framed}
@@ -1525,10 +1476,6 @@ To conclude, Carstensen's models provided a rigorous way to determine limits of 
 Finally, to complement the blood pressure (i.e.`J vs S') method comparison from the previous section (i.e.`J vs S'), the limits of agreement are $15.62 \pm 1.96 \times 20.33 = (-24.22, 55.46)$.)
 
 
-\citet{BXC2008} demonstrate the necessity of accounting for linked replicated by comparing the limits of agreement from the `oximetry' data set using a model with the additional term, and one without. When the interaction is accounted for the limits of agreement are (-9.62,14.56). When the interaction is not accounted for, the limits of agreement are (-11.88,16.83). It is shown that the failure to include this additional term results in an over-estimation of the standard deviations of differences.
-
-
-\citet{BXC2008} demonstrates the use of the interaction term when computing the limits of agreement for the `Oximetry' data set. When the interaction term is omitted, the limits of agreement are $(-9.97, 14.81)$. Carstensen advises the inclusion of the interaction term for linked replicates, and hence the limits of agreement are recomputed as $(-12.18,17.12)$.
 
 \section{Linked replicates}
 
@@ -1538,8 +1485,6 @@ Finally, to complement the blood pressure (i.e.`J vs S') method comparison from 
 Melbourne to assess the agreement between co-oximetry and pulse oximetry in small babies.
 
 In most cases, measurements were taken by both method at three different times. In some cases there are either one or two pairs of measurements, hence the data is unbalanced. \citet{BXC2008} describes many of the children as being very sick, and with very low oxygen saturations levels. Therefore it must be assumed that a biological change can occur in interim periods, and measurements are not true replicates.
-
-\citet{BXC2008} demonstrate the necessity of accounting for linked replicated by comparing the limits of agreement from the `oximetry' data set using a model with the additional term, and one without. When the interaction is accounted for the limits of agreement are (-9.62,14.56). When the interaction is not accounted for, the limits of agreement are (-11.88,16.83). It is shown that the failure to include this additional term results in an over-estimation of the standard deviations of differences.
 
 Limits of agreement are determined using Roy's methodology, without adding any additional terms, are found to be consistent with the `interaction' model; $(-9.562, 14.504 )$. Roy's methodology assumes that replicates are linked. However, following Carstensen's example, an addition interaction term is added to the implementation of Roy's model to assess the effect, the limits of agreement estimates do not change. However there is a conspicuous difference in within-subject matrices of Roy's model and the modified model (denoted $1$ and $2$ respectively);
 \begin{equation}
@@ -1564,21 +1509,23 @@ The $\boldsymbol{\hat{\Lambda}}$ matrices are informative as to the difference b
 To conclude, Carstensen's models provided a rigorous way to determine limits of agreement, but don't provide for the computation of $\boldsymbol{\hat{D}}$ and $\boldsymbol{\hat{\Lambda}}$. Therefore the test's proposed by \citet{roy} can not be implemented. Conversely, accurate limits of agreement as determined by Carstensen's model may also be found using Roy's method. Addition of the interaction term erodes the capability of Roy's methodology to compare candidate models, and therefore shall not be adopted.
 
 Finally, to complement the blood pressure (i.e.`J vs S') method comparison from the previous section (i.e.`J vs S'), the limits of agreement are $15.62 \pm 1.96 \times 20.33 = (-24.22, 55.46)$.)
-%========================================================================================%
-\newpage
+%==============================================%
+
 
 \section{Limits of agreement for Carstensen's data}
 
 
-\citet{bxc2008} describes the calculation of the limits of agreement (with the inter-method bias implicit) for both data sets, based on his formulation;
+\citet{BXC2008} describes the calculation of the limits of agreement (with the inter-method bias implicit) for both data sets, based on his formulation;
 
 \[\hat{\alpha}_1 - \hat{\alpha}_2 \pm 2\sqrt{2\hat{\tau}^2 +\hat{\sigma}_1^2 +\hat{\sigma}_2^2 }.\]
 
 For the `Fat' data set, the inter-method bias is shown to be $0.045$. The limits of agreement are $(-0.23 , 0.32)$
 
-Carstensen demonstrates the use of the interaction term when computing the limits of agreement for the `Oximetry' data set. When the interaction term is omitted, the limits of agreement are $(-9.97, 14.81)$. Carstensen advises the inclusion of the interaction term for linked replicates, and hence the limits of agreement are recomputed as $(-12.18,17.12)$.
+
+\citet{BXC2008} demonstrate the necessity of accounting for linked replicated by comparing the limits of agreement from the `oximetry' data set using a model with the additional term, and one without. When the interaction is accounted for the limits of agreement are (-9.62,14.56). When the interaction is not accounted for, the limits of agreement are (-11.88,16.83). It is shown that the failure to include this additional term results in an over-estimation of the standard deviations of differences.
 
 
+\citet{BXC2008} demonstrates the use of the interaction term when computing the limits of agreement for the `Oximetry' data set. When the interaction term is omitted, the limits of agreement are $(-9.97, 14.81)$. Carstensen advises the inclusion of the interaction term for linked replicates, and hence the limits of agreement are recomputed as $(-12.18,17.12)$.
 
 
 \subsection{RV-IV}
@@ -1665,34 +1612,15 @@ methodology assesses agreement.
 %----------------------------------------------------------------------------%
 \newpage
 
-\section{Computing DFBETAs with \texttt{R}}
-
-\begin{itemize}
-	\item This function computes the DFBETAS based on the information returned by the estex() function.
-	\item The dfbeta refers to how much a parameter estimate changes if the observation or case in question is dropped from the data set.  
-	\item Cook's distance is presumably more important to you if you are doing predictive modeling, whereas dfbeta is more important in explanatory modeling.
-	
-	%SAS help file?
-	\item The DFBETAS statistics are the scaled measures of the change in each parameter estimate and are calculated by deleting the th observation:
-	\[ \mbox{Missing Formula}\]
-	where  is the th element of .
-	In general, large values of DFBETAS indicate observations that are influential in estimating a given parameter. \item \textbf{Belsley, Kuh, and Welsch (1980)} recommend 2 as a general cutoff value to indicate influential observations and  as a size-adjusted cutoff.
-\end{itemize}
-
-
-
-	\newpage
-
-
 \section{LME diagnostic measures}
-	\subsection{Andrews-Pregibon statistic} %2.4.4
-	\begin{itemize}
-		\item For fixed effect parameters $\beta$.
-	\end{itemize}
-	The Andrews-Pregibon statistic $AP_{i}$ is a measure of influence based on the volume of the confidence ellipsoid.
-	The larger this statistic is for observation $i$, the stronger the influence that observation will have on the model fit.
-	
-	
+\subsection{Andrews-Pregibon statistic} %2.4.4
+\begin{itemize}
+	\item For fixed effect parameters $\beta$.
+\end{itemize}
+The Andrews-Pregibon statistic $AP_{i}$ is a measure of influence based on the volume of the confidence ellipsoid.
+The larger this statistic is for observation $i$, the stronger the influence that observation will have on the model fit.
+
+
 \subsection{Cook's Distance} %2.4.1
 \begin{itemize}
 	\item For variance components $\gamma$
@@ -1701,6 +1629,8 @@ methodology assesses agreement.
 Diagnostic tool for variance components
 \[ C_{\theta i} =(\hat(\theta)_{[i]} - \hat(\theta))^{T}\mbox{cov}( \hat(\theta))^{-1}(\hat(\theta)_{[i]} - \hat(\theta))\]
 
+
+%---------------------------------------------------------------------------%
 \subsection{Variance Ratio} %2.4.2
 \begin{itemize}
 	\item For fixed effect parameters $\beta$.
@@ -1721,26 +1651,29 @@ The larger this statistic is for observation $i$, the stronger the influence tha
 
 %==============================================================================================================================%
 %--------------------------------------------------------------------------------------------%
+
+
+
+
+\section{Computing DFBETAs with \texttt{R}}
+
+\begin{itemize}
+	\item This function computes the DFBETAS based on the information returned by the estex() function.
+	\item The dfbeta refers to how much a parameter estimate changes if the observation or case in question is dropped from the data set.  
+	\item Cook's distance is presumably more important to you if you are doing predictive modeling, whereas dfbeta is more important in explanatory modeling.
 	
-	\subsection{Cook's Distance} %2.4.1
-	\begin{itemize}
-		\item For variance components $\gamma$
-	\end{itemize}
-	
-	Diagnostic tool for variance components
-	\[ C_{\theta i} =(\hat(\theta)_{[i]} - \hat(\theta))^{T}\mbox{cov}( \hat(\theta))^{-1}(\hat(\theta)_{[i]} - \hat(\theta))\]
-	
-	%---------------------------------------------------------------------------%
-	\subsection{Variance Ratio} %2.4.2
-	\begin{itemize}
-		\item For fixed effect parameters $\beta$.
-	\end{itemize}
-	
-	
-	\subsection{Cook-Weisberg statistic} %2.4.3
-	\begin{itemize}
-		\item For fixed effect parameters $\beta$.
-	\end{itemize}
+	%SAS help file?
+	\item The DFBETAS statistics are the scaled measures of the change in each parameter estimate and are calculated by deleting the th observation:
+	\[ \mbox{Missing Formula}\]
+	where  is the th element of .
+	In general, large values of DFBETAS indicate observations that are influential in estimating a given parameter. \item \textbf{Belsley, Kuh, and Welsch (1980)} recommend 2 as a general cutoff value to indicate influential observations and  as a size-adjusted cutoff.
+\end{itemize}
+
+
+
+	\newpage
+
+
 
 	\section{DFbetas for Blood Data}
 	\begin{framed}
@@ -1763,100 +1696,7 @@ The larger this statistic is for observation $i$, the stronger the influence tha
 Cook's Distance is a measure indicating to what extent model parameters are influenced by (a set of) influential data on which the model is based. This function computes the Cook's distance based on the information returned by the \texttt{estex()} function.
 	
 %====================================================================================================%	
-	\section{Updating Estimates} %5.5
-	
-	\subsection{Updating of Regression Estimates}
-	Updating techniques are used in regression analysis to add or delete rows from a model, allowing the analyst the effect of the observation associated with that row. In time series problems, there will be scientific interest in the changing relationship between variables. In cases where there a single row is to be added or deleted, the procedure used is equivalent to a geometric rotation of a plane.
-	
-	Updating techniques are used in regression analysis to add or delete rows from a model, allowing the analyst the effect of the observation associated with that row.
-	
-	\subsection{Updating Standard deviation}
-	A simple, but useful, example of updating is the updating of the standard deviation when an observation is omitted, as practised in statistical process control analyzes. From first principles, the variance of a data set can be calculated using the following formula.
-	\begin{equation}
-	S^{2}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-\frac{(\sum_{i=1}^{n}x_{i})^{2}}{n}}{n-1}
-	\end{equation}
-	
-	While using bivariate data, the notation $Sxx$ and $Syy$ shall apply hither to the variance of $x$ and of $y$ respectively. The covariance term $Sxy$ is given by
-	
-	\begin{equation}
-	Sxy=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-\frac{(\sum_{i=1}^{n}x_{i})(\sum_{i=1}^{n}y_{i})}{n}}{n-1}.
-	\end{equation}
-	
-	\subsection{Updating of Regression Estimates}
-	Updating techniques are used in regression analysis to add or
-	delete rows from a model, allowing the analyst the effect of the
-	observation associated with that row. In time series problems,
-	there will be scientific interest in the changing relationship
-	between variables. In cases where there a single row is to be
-	added or deleted, the procedure used is equivalent to a geometric
-	rotation of a plane.
-	
-	Consider a $p \times p$ matrix $X$, from which a row $x_{i}^{T}$
-	is to be added or deleted. \citet{CookWeisberg} sets $A = X^{T}X$,
-	$a=-x_{i}^{T}$ and $b=x_{i}^{T}$, and writes the above equation as
-	
-	\begin{equation}
-	(X^{T}X \pm x_{i}x_{i}^{T})^{-1} = \quad(X^{T}X )^{-1} \mp \quad
-	\frac{(X^{T}X)^{-1}(x_{i}x_{i}^{T}(X^{T}X)^{-1}}{1-x_{i}^{T}(X^{T}X)^{-1}x_{i}}
-	\end{equation}
-	
-	\subsection{Updating Regression Estimates}
-	Let the observation $j$ be omitted from the data set. The estimates for the variance identities can be updating using minor adjustments to the full sample estimates. Where $(j)$ denotes that the $j$th has been omitted, these identities are
-	
-	\begin{equation}
-	Sxx^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-(x_{j})^{2}-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})^{2}}{n-1}}{n-2}
-	\end{equation}
-	\begin{equation}
-	Syy^{(j)}=\frac{\sum_{i=1}^{n}(y_{i}^{2})-(y_{j})^{2}-\frac{((\sum_{i=1}^{n}y_{i})-y_{j})^{2}}{n-1}}{n-2}
-	\end{equation}
-	\begin{equation}
-	Sxy^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-(y_{j}x_{j})-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})(\sum_{i=1}^{n}y_{i})-y_{k})}{n-1}}{n-2}
-	\end{equation}
-	
-	The updated estimate for the slope is therefore
-	\begin{equation}
-	\hat{\beta}_{1}^{(j)}=\frac{Sxy^{(j)}}{Sxx^{(j)}}
-	\end{equation}
-	
-	It is necessary to determine the mean for $x$ and $y$ of the
-	remaining $n-1$ terms
-	\begin{equation}
-	\bar{x}^{(j)}=\frac{(\sum_{i=1}^{n}x_{i})-(x_{j})}{n-1},
-	\end{equation}
-	
-	\begin{equation}
-	\bar{y}^{(j)}=\frac{(\sum_{i=1}^{n}y_{i})-(y_{j})}{n-1}.
-	\end{equation}
-	
-	The updated intercept estimate is therefore
-	
-	\begin{equation}
-	\hat{\beta}_{0}^{(j)}=\bar{y}^{(j)}-\hat{\beta}_{1}^{(j)}\bar{x}^{(j)}.
-	\end{equation}
-	
-	\subsection{Inference on intercept and slope}
-	\begin{equation}
-	\hat{\beta_{1}} \pm t_{(\alpha, n-2) }
-	\sqrt{\frac{S^2}{(n-1)S^{2}_{x}}}
-	\end{equation}
-	
-	\begin{equation}
-	\frac{\hat{\beta_{0}}-\beta_{0}}{SE(\hat{\beta_{0}})}
-	\end{equation}
-	\begin{equation}
-	\frac{\hat{\beta_{1}}-\beta_{1}}{SE(\hat{\beta_{0}})}
-	\end{equation}
-	
-	
-	\subsubsection{Inference on correlation coefficient} This test of
-	the slope is coincidentally the equivalent of a test of the
-	correlation of the $n$ observations of $X$ and $Y$.
-	\begin{eqnarray}
-	H_{0}: \rho_{XY} = 0 \nonumber \\
-	H_{A}: \rho_{XY} \ne 0 \nonumber \\
-	\end{eqnarray}
-	
-%------------------------------------------------------------------------%
+
 \section{residuals.lme {nlme}- Extract lme Residuals}
 
 The residuals at level $i$ are obtained by subtracting the fitted levels at that level from the response vector (and dividing by the estimated within-group standard error, if \texttt{type="pearson"}). 
@@ -1881,6 +1721,43 @@ The fitted values at level i are obtained by adding together the population fitt
 
 
 	\chapter{Lesaffre's paper.}
+\section{Lesaffre's paper.} %5.6
+
+Lesaffre considers the case-weight perturbation approach.
+
+
+%\citep{cook86}
+Cook's 86 describes a local approach wherein each case is given a weight $w_{i}$ and the effect on the parameter estimation is measured by perturbing these weights. Choosing weights close to zero or one corresponds to the global case-deletion approach.
+
+Lesaffre  describes the displacement in log-likelihood as a useful metric to evaluate local influence %\citep{cook86}.
+
+
+%\citet{lesaffre}
+Lesaffre describes a framework to detect outlying observations that matter in an LME model. Detection should be carried out by evaluating diagnostics $C_{i}$ , $C_{i}(\alpha)$ and $C_{i}(D,\sigma^2)$.
+
+
+Lesaffre defines the total local influence of individual $i$ as
+\begin{equation}
+C_{i} = 2 | \triangle \prime _{i} L^{-1} \triangle_{i}|.
+\end{equation}
+
+
+The influence function of the MLEs evaluated at the $i$th point $IF_{i}$, given by
+\begin{equation}
+IF_{i} = -L^{-1}\triangle _{i}
+\end{equation}
+can indicate how $\hat{theta}$ changes as the weight of the $i$th
+subject changes.
+
+The manner by which influential observations distort the estimation process can be determined by inspecting the
+interpretable components in the decomposition of the above measures of local influence.
+
+
+Lesaffre comments that there is no clear way of interpreting the information contained in the angles, but that this doesn't mean the information should be ignored.
+
+
+
+
 	\section{Lesaffre's paper.}
 	Lesaffre considers the case-weight perturbation approach.
 	
@@ -2054,181 +1931,9 @@ differences. Naturally the addition of further factors to the
 model provides for more insight into the behavior of the data.
 
 \newpage
+\chapter{Updating Techniques and Cross Validation}
 
-	\chapter{Generalized linear models}
-	\section{Generalized Linear model}
-	In statistics, the generalized linear model (GzLM) is a flexible
-	generalization of ordinary least squares regression. The GzLM
-	generalizes linear regression by allowing the linear model to be
-	related to the response variable via a link function and by
-	allowing the magnitude of the variance of each measurement to be a
-	function of its predicted value.
-	
-	
-	Mixed Effects Models offer a flexible framework by which to model
-	the sources of variation and correlation that arise from grouped
-	data. This grouping can arise when data collection is undertaken
-	in a hierarchical manner, when a number of observations are taken
-	on the same observational unit over time, or when observational
-	units are in some other way related, violating assumptions of
-	independence.
-	
-	\section{Generalized  Model(GzLM)}
-	
-	Nelder and Wedderburn (1972) integrated the previously disparate
-	and separate approaches to models for non-normal cases in a
-	framework called "generalized linear models."  The key elements of
-	their approach is to describe any given model in terms of it's
-	link function and it's variance function.
-	
-	\subsection{What is a GzLM}
-	
-	\begin{equation}
-		\operatorname{E}(\mathbf{Y}) = \boldsymbol{\mu} =
-		g^{-1}(\mathbf{X}\boldsymbol{\beta})
-	\end{equation}
-	
-	where $E(Y)$ is the expected value of $Y$, $X\beta$ is the linear
-	predictor, a linear combination of unknown parameters,$\beta$ and
-	$g$ is the link function.
-	
-	
-	$\operatorname{Var}(\mathbf{Y}) = \operatorname{V}(
-	\boldsymbol{\mu} ) =
-	\operatorname{V}(g^{-1}(\mathbf{X}\boldsymbol{\beta}))$
-	\\
-	
-	
-	\subsection{GzLM Structure}
-	The GzLM consists of three elements. \\1. A probability
-	distribution from the exponential family. \\2. A linear predictor
-	$\eta= X\beta$ . \\3. A link function $g$ such that $E(Y)$ = $\mu$
-	= $g^{-1}(eta)$.
-	
-	\subsection{Link Function}
-	Definition 1 : The link function provides the relationship between
-	the linear predictor and the mean of the distribution function.
-	There are many commonly used link functions, and their choice can
-	be somewhat arbitrary. It can be convenient to match the domain of
-	the link function to the range of the distribution function's
-	mean.
-	
-	\noindent Definition 2 : A link function is the function that
-	links the linear model specified in the design matrix, where
-	columns represent the beta parameters and rows the real
-	parameters.
-	
-	\subsection{Canonical parameter}
-	$\theta$, called the dispersion parameter,
-	\subsection{Dispersion parameter}
-	$\tau$, called the dispersion parameter, typically is known and is
-	usually related to the variance of the distribution.
-	
-	\subsection{Iteratively weighted least square}
-	IWLS is used to find the maximum likelihood estimates of a
-	generalized linear model.
-	
-	\noindent Definition: An iterative algorithm for fitting a linear
-	model in the case where the data may contain outliers that would
-	distort the parameter estimates if other estimation procedures
-	were used. The procedure uses weighted least squares, the
-	influence of an outlier being reduced by giving that observation a
-	small weight. The weights chosen in one iteration are related to
-	the magnitudes of the residuals in the previous iteration  with a
-	large residual earning a small weight.
-	
-	\subsection{Residual Components}
-	In GzLMS the deviance is the sum of the deviance components
-	
-	\begin{equation}
-		D = \sum d_{i}
-	\end{equation}
-	
-	In GzLMS the deviance is the sum of the deviance components
-	
-	\newpage
-	\section{Generalized linear mixed models}
-	[pawitan section 17.8]
-	
-	The Generalized linear mixed model (GLMM) extend classical mixed models to non-normal outcome data.
-	
-	In statistics, a generalized linear mixed model (GLMM) is a particular type of mixed model. It is an extension to the
-	generalized linear model in which the linear predictor contains random effects in addition to the usual fixed effects. These random effects are usually assumed to have a normal distribution.
-	
-	Fitting such models by maximum likelihood involves integrating over these random effects.
-	
-	
-	
-	%--------------------------------------------------------------------------------------%
-	\newpage
-	\chapter{Updating Techniques and Cross Validation}
-	\section{Cross Validation} %5.4
-	
-	Cross validation techniques for linear regression employ the use `leave one out' re-calculations. In such procedures the regression coefficients are estimated for $n-1$ covariates, with the $Q^{th}$ observation omitted.
-	
-	Let $\hat{\beta}$ denote the least square estimate of $\beta$ based upon the full set of observations, and let
-	$\hat{\beta}^{-Q}$ denoted the estimate with the $Q^{th}$ case
-	excluded.
-	
-	
-	In leave-one-out cross validation, each observation is omitted in turn, and a regression model is fitted on the rest of the data. Cross validation is used to estimate the generalization error of a given model. alternatively it can be used for model selection by determining the candidate model that has the smallest generalization error.
-	
-	
-	Evidently leave-one-out cross validation has similarities with `jackknifing', a well known statistical technique. However cross validation is used to estimate generalization error, whereas the jackknife technique is used to estimate bias.
-	
-	\subsection{Cross Validation: Updating standard deviation} %5.4.1
-	
-	The variance of a data set can be calculated using the following formula.
-	\begin{equation}
-	S^{2}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-\frac{(\sum_{i=1}^{n}x_{i})^{2}}{n}}{n-1}
-	\end{equation}
-	
-	While using bivariate data, the notation $Sxx$ and $Syy$ shall apply to the variance of $x$ and of $y$ respectively. The covariance term $Sxy$ is given by
-	
-	\begin{equation}
-	Sxy=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-\frac{(\sum_{i=1}^{n}x_{i})(\sum_{i=1}^{n}y_{i})}{n}}{n-1}
-	\end{equation}
-	
-	Let the observation $j$ be omitted from the data set. The estimates for the variance identities can be updating using minor adjustments to the full sample estimates. Where $(j)$ denotes that the $j$th has been omitted, these identities are
-	
-	\begin{equation}
-	Sxx^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-(x_{j})^{2}-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})^{2}}{n-1}}{n-2}
-	\end{equation}
-	\begin{equation}
-	Syy^{(j)}=\frac{\sum_{i=1}^{n}(y_{i}^{2})-(y_{j})^{2}-\frac{((\sum_{i=1}^{n}y_{i})-y_{j})^{2}}{n-1}}{n-2}
-	\end{equation}
-	\begin{equation}
-	Sxy^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-(y_{j}x_{j})-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})(\sum_{i=1}^{n}y_{i})-y_{k})}{n-1}}{n-2}
-	\end{equation}
-	
-	The updated estimate for the slope is therefore
-	\begin{equation}
-	\hat{\beta}_{1}^{(j)}=\frac{Sxy^{(j)}}{Sxx^{(j)}}
-	\end{equation}
-	
-	It is necessary to determine the mean for $x$ and $y$ of the
-	remaining $n-1$ terms
-	\begin{equation}
-	\bar{x}^{(j)}=\frac{(\sum_{i=1}^{n}x_{i})-(x_{j})}{n-1},
-	\end{equation}
-	
-	\begin{equation}
-	\bar{y}^{(j)}=\frac{(\sum_{i=1}^{n}y_{i})-(y_{j})}{n-1}.
-	\end{equation}
-	
-	The updated intercept estimate is therefore
-	
-	\begin{equation}
-	\hat{\beta}_{0}^{(j)}=\bar{y}^{(j)}-\hat{\beta}_{1}^{(j)}\bar{x}^{(j)}.
-	\end{equation}
-	
-	%====================================================================================================%
-	
-	\section{Efficient updating}
-	[cite:tewomir]
-	
-	%--------------------------------------------------------------------------section 5.2.1---%
-	\subsection{The Hat Matrix}
+\section{The Hat Matrix}
 	The hat matrix, also known as the projection matrix, is well known in classical linear models. The diagonal elements $h_{ii}$ are known as `leverages'. The properties of $\boldsymbol{H}$  ,such as symmetry and idempotency, are well known.
 	
 	
@@ -2257,8 +1962,38 @@ model provides for more insight into the behavior of the data.
 		\right]
 	\end{equation*}
 	
-	%--------------------------------------------------------------------------section 5.2.2---%
+\subsection{The Hat Matrix} %5.1
 
+The projection matrix $H$ (also known as the hat matrix), is a
+well known identity that maps the fitted values $\hat{Y}$ to the
+observed values $Y$, i.e. $\hat{Y} = HY$.
+
+\begin{equation}
+H =\quad X(X^{T}X)^{-1}X^{T}
+\end{equation}
+
+$H$ describes the influence each observed value has on each fitted
+value. The diagonal elements of the $H$ are the `leverages', which
+describe the influence each observed value has on the fitted value
+for that same observation. The residuals ($R$) are related to the
+observed values by the following formula:
+\begin{equation}
+R = (I-H)Y
+\end{equation}
+
+The variances of $Y$ and $R$ can be expressed as:
+\begin{eqnarray}
+\mbox{var}(Y) = H\sigma^{2} \nonumber\\
+\mbox{var}(R) = (I-H)\sigma^{2}
+\end{eqnarray}
+
+Updating techniques allow an economic approach to recalculating
+the projection matrix, $H$, by removing the necessity to refit the
+model each time it is updated. However this approach is known for
+numerical instability in the case of down-dating.
+
+
+\newpage
 	\section{Efficient updating theorem}
 	
 	It is convenient to write partitioned matrices in which the $i$-th case is isolated. The partitioned matrix is written as $ i = 1$, but the results apply in general.
@@ -2280,82 +2015,93 @@ model provides for more insight into the behavior of the data.
 	
 	
 	\begin{equation}
-		\boldsymbol{H}^{-1} = \boldsymbol{I} - \boldsymbol{Z}(\boldsymbol{D}^{-1} + \boldsymbol{ZZ})^{-1}\boldsymbol{Z^{\prime}}
+	\boldsymbol{H}^{-1} = \boldsymbol{I} - \boldsymbol{Z}(\boldsymbol{D}^{-1} + \boldsymbol{ZZ})^{-1}\boldsymbol{Z^{\prime}}
 	\end{equation}
 	
 	
 	%------------------------------------------------------------------------Chapter 6-----%
 	\newpage
 	%--------------------------------------------------------------%
-	\section{Updating of Regression Estimates}
-	Updating techniques are used in regression analysis to add or
-	delete rows from a model, allowing the analyst the effect of the
-	observation associated with that row. In time series problems,
-	there will be scientific interest in the changing relationship
-	between variables. In cases where there a single row is to be
-	added or deleted, the procedure used is equivalent to a geometric
-	rotation of a plane.
-	
-	This approach allows an economic approach to recalculating the
-	projection matrix, $V$, by removing the necessity to refit the
-	model each time it is updated.
-	
-	This approach is known for numerical instability in the case of
-	downdating.
 	
 	
-	\section{Updating of Regression Estimates}
-	Updating techniques are used in regression analysis to add or delete rows from a model, allowing the analyst the effect of the observation associated with that row. In time series problems, there will be scientific interest in the changing relationship between variables. In cases where there a single row is to be added or deleted, the procedure used is equivalent to a geometric rotation of a plane.
-	
-	Updating techniques are used in regression analysis to add or delete rows from a model, allowing the analyst the effect of the observation associated with that row.
-	
-	\subsection{Updating Standard deviation}
-	A simple, but useful, example of updating is the updating of the standard deviation when an observation is omitted, as practised in statistical process control analyzes. From first principles, the variance of a data set can be calculated using the following formula.
-	\begin{equation}
-	S^{2}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-\frac{(\sum_{i=1}^{n}x_{i})^{2}}{n}}{n-1}
-	\end{equation}
-	
-	While using bivariate data, the notation $Sxx$ and $Syy$ shall apply hither to the variance of $x$ and of $y$ respectively. The covariance term $Sxy$ is given by
-	
-	\begin{equation}
-	Sxy=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-\frac{(\sum_{i=1}^{n}x_{i})(\sum_{i=1}^{n}y_{i})}{n}}{n-1}.
-	\end{equation}
 	
 	
-	\subsection{Updating Regression Estimates}
-	Let the observation $j$ be omitted from the data set. The estimates for the variance identities can be updating using minor adjustments to the full sample estimates. Where $(j)$ denotes that the $j$th has been omitted, these identities are
 	
-	\begin{equation}
-	Sxx^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-(x_{j})^{2}-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})^{2}}{n-1}}{n-2}
-	\end{equation}
-	\begin{equation}
-	Syy^{(j)}=\frac{\sum_{i=1}^{n}(y_{i}^{2})-(y_{j})^{2}-\frac{((\sum_{i=1}^{n}y_{i})-y_{j})^{2}}{n-1}}{n-2}
-	\end{equation}
-	\begin{equation}
-	Sxy^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-(y_{j}x_{j})-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})(\sum_{i=1}^{n}y_{i})-y_{k})}{n-1}}{n-2}
-	\end{equation}
 	
-	The updated estimate for the slope is therefore
-	\begin{equation}
-	\hat{\beta}_{1}^{(j)}=\frac{Sxy^{(j)}}{Sxx^{(j)}}
-	\end{equation}
-	
-	It is necessary to determine the mean for $x$ and $y$ of the remaining $n-1$ terms
-	\begin{equation}
-	\bar{x}^{(j)}=\frac{(\sum_{i=1}^{n}x_{i})-(x_{j})}{n-1},
-	\end{equation}
+\subsection{Updating Regression Estimates}
+Let the observation $j$ be omitted from the data set. The estimates for the variance identities can be updating using minor adjustments to the full sample estimates. Where $(j)$ denotes that the $j$th has been omitted, these identities are
+
+\begin{equation}
+Sxx^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-(x_{j})^{2}-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})^{2}}{n-1}}{n-2}
+\end{equation}
+\begin{equation}
+Syy^{(j)}=\frac{\sum_{i=1}^{n}(y_{i}^{2})-(y_{j})^{2}-\frac{((\sum_{i=1}^{n}y_{i})-y_{j})^{2}}{n-1}}{n-2}
+\end{equation}
+\begin{equation}
+Sxy^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-(y_{j}x_{j})-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})(\sum_{i=1}^{n}y_{i})-y_{k})}{n-1}}{n-2}
+\end{equation}
+
+The updated estimate for the slope is therefore
+\begin{equation}
+\hat{\beta}_{1}^{(j)}=\frac{Sxy^{(j)}}{Sxx^{(j)}}
+\end{equation}
+
+It is necessary to determine the mean for $x$ and $y$ of the remaining $n-1$ terms
+\begin{equation}
+\bar{x}^{(j)}=\frac{(\sum_{i=1}^{n}x_{i})-(x_{j})}{n-1},
+\end{equation}
+
+\begin{equation}
+\bar{y}^{(j)}=\frac{(\sum_{i=1}^{n}y_{i})-(y_{j})}{n-1}.
+\end{equation}
+
+The updated intercept estimate is therefore
+
+\begin{equation}
+\hat{\beta}_{0}^{(j)}=\bar{y}^{(j)}-\hat{\beta}_{1}^{(j)}\bar{x}^{(j)}.
+\end{equation}
+
+
+
+
+
+
+\newpage
+
+
+
+\subsection{Updating of Regression Estimates}
+Updating techniques are used in regression analysis to add or delete rows from a model, allowing the analyst the effect of the observation associated with that row. In time series problems, there will be scientific interest in the changing relationship between variables. In cases where there a single row is to be added or deleted, the procedure used is equivalent to a geometric rotation of a plane.
+
+Updating techniques are used in regression analysis to add or delete rows from a model, allowing the analyst the effect of the observation associated with that row.
+
+Consider a $p \times p$ matrix $X$, from which a row $x_{i}^{T}$ is to be added or deleted. \citet{CookWeisberg} sets $A = X^{T}X$,
+$a=-x_{i}^{T}$ and $b=x_{i}^{T}$, and writes the above equation as
 	
 	\begin{equation}
-	\bar{y}^{(j)}=\frac{(\sum_{i=1}^{n}y_{i})-(y_{j})}{n-1}.
+	(X^{T}X \pm x_{i}x_{i}^{T})^{-1} = \quad(X^{T}X )^{-1} \mp \quad
+	\frac{(X^{T}X)^{-1}(x_{i}x_{i}^{T}(X^{T}X)^{-1}}{1-x_{i}^{T}(X^{T}X)^{-1}x_{i}}
 	\end{equation}
 	
-	The updated intercept estimate is therefore
-	
-	\begin{equation}
-	\hat{\beta}_{0}^{(j)}=\bar{y}^{(j)}-\hat{\beta}_{1}^{(j)}\bar{x}^{(j)}.
-	\end{equation}
-	
-	\subsection{Inference on intercept and slope}
+This approach allows an economic approach to recalculating the
+projection matrix, $V$, by removing the necessity to refit the
+model each time it is updated.
+
+This approach is known for numerical instability in the case of
+downdating.
+\subsection{Updating Standard deviation}
+A simple, but useful, example of updating is the updating of the standard deviation when an observation is omitted, as practised in statistical process control analyzes. From first principles, the variance of a data set can be calculated using the following formula.
+\begin{equation}
+S^{2}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-\frac{(\sum_{i=1}^{n}x_{i})^{2}}{n}}{n-1}
+\end{equation}
+
+While using bivariate data, the notation $Sxx$ and $Syy$ shall apply hither to the variance of $x$ and of $y$ respectively. The covariance term $Sxy$ is given by
+
+\begin{equation}
+Sxy=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-\frac{(\sum_{i=1}^{n}x_{i})(\sum_{i=1}^{n}y_{i})}{n}}{n-1}.
+\end{equation}
+
+\subsection{Inference on intercept and slope}
 	\begin{equation}
 	\hat{\beta_{1}} \pm t_{(\alpha, n-2) }
 	\sqrt{\frac{S^2}{(n-1)S^{2}_{x}}}
@@ -2367,121 +2113,48 @@ model provides for more insight into the behavior of the data.
 	\begin{equation}
 	\frac{\hat{\beta_{1}}-\beta_{1}}{SE(\hat{\beta_{0}})}
 	\end{equation}
-	
-	
-	\subsubsection{Inference on correlation coefficient} This test of the slope is coincidentally the equivalent of a test of the correlation of the $n$ observations of $X$ and $Y$.
-	\begin{eqnarray}
-	H_{0}: \rho_{XY} = 0 \nonumber \\
-	H_{A}: \rho_{XY} \ne 0 \nonumber \\
-	\end{eqnarray}
-	%--------------------------------------------------------------------------------------%
-	\newpage
-	\section{Updating of Regression Estimates}
-	Updating techniques are used in regression analysis to add or delete rows from a model, allowing the analyst the effect of the observation associated with that row. In time series problems, there will be scientific interest in the changing relationship between variables. In cases where there a single row is to be added or deleted, the procedure used is equivalent to a geometric rotation of a plane.
-	
-	Updating techniques are used in regression analysis to add or delete rows from a model, allowing the analyst the effect of the observation associated with that row.
-	
-	\subsection{Updating Standard deviation}
-	A simple, but useful, example of updating is the updating of the standard deviation when an observation is omitted, as practised in statistical process control analyzes. From first principles, the variance of a data set can be calculated using the following formula.
-	\begin{equation}
-		S^{2}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-\frac{(\sum_{i=1}^{n}x_{i})^{2}}{n}}{n-1}
-	\end{equation}
-	
-	While using bivariate data, the notation $Sxx$ and $Syy$ shall
-	apply hither to the variance of $x$ and of $y$ respectively. The
-	covariance term $Sxy$ is given by
-	
-	\begin{equation}
-		Sxy=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-\frac{(\sum_{i=1}^{n}x_{i})(\sum_{i=1}^{n}y_{i})}{n}}{n-1}.
-	\end{equation}
-	
-	\subsection{Updating Regression Estimates}
-	Let the observation $j$ be omitted from the data set. The
-	estimates for the variance identities can be updating using minor
-	adjustments to the full sample estimates. Where $(j)$ denotes that
-	the $j$th has been omitted, these identities are
-	
-	\begin{equation}
-		Sxx^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-(x_{j})^{2}-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})^{2}}{n-1}}{n-2}
-	\end{equation}
-	\begin{equation}
-		Syy^{(j)}=\frac{\sum_{i=1}^{n}(y_{i}^{2})-(y_{j})^{2}-\frac{((\sum_{i=1}^{n}y_{i})-y_{j})^{2}}{n-1}}{n-2}
-	\end{equation}
-	\begin{equation}
-		Sxy^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-(y_{j}x_{j})-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})(\sum_{i=1}^{n}y_{i})-y_{k})}{n-1}}{n-2}
-	\end{equation}
-	
-	The updated estimate for the slope is therefore
-	\begin{equation}
-		\hat{\beta}_{1}^{(j)}=\frac{Sxy^{(j)}}{Sxx^{(j)}}
-	\end{equation}
-	
-	It is necessary to determine the mean for $x$ and $y$ of the remaining $n-1$ terms
-	\begin{equation}
-		\bar{x}^{(j)}=\frac{(\sum_{i=1}^{n}x_{i})-(x_{j})}{n-1},
-	\end{equation}
-	
-	\begin{equation}
-		\bar{y}^{(j)}=\frac{(\sum_{i=1}^{n}y_{i})-(y_{j})}{n-1}.
-	\end{equation}
-	
-	The updated intercept estimate is therefore
-	
-	\begin{equation}
-		\hat{\beta}_{0}^{(j)}=\bar{y}^{(j)}-\hat{\beta}_{1}^{(j)}\bar{x}^{(j)}.
-	\end{equation}
-	
-	\subsection{Inference on intercept and slope}
-	\begin{equation}
-		\hat{\beta_{1}} \pm t_{(\alpha, n-2) }
-		\sqrt{\frac{S^2}{(n-1)S^{2}_{x}}}
-	\end{equation}
-	
-	\begin{equation}
-		\frac{\hat{\beta_{0}}-\beta_{0}}{SE(\hat{\beta_{0}})}
-	\end{equation}
-	\begin{equation}
-		\frac{\hat{\beta_{1}}-\beta_{1}}{SE(\hat{\beta_{0}})}
-	\end{equation}
-	
-	
-	\subsubsection{Inference on correlation coefficient} This test of
-	the slope is coincidentally the equivalent of a test of the
-	correlation of the $n$ observations of $X$ and $Y$.
-	\begin{eqnarray}
-		H_{0}: \rho_{XY} = 0 \nonumber \\
-		H_{A}: \rho_{XY} \ne 0 \nonumber \\
-	\end{eqnarray}
-	%------------------SMW formula---%
-	\newpage
-	\section{Sherman Morrison Woodbury Formula}
-	The `Sherman Morrison Woodbury' Formula is a well known result in
-	linear algebra;
-	\begin{equation}
+
+
+\subsection{Inference on correlation coefficient} This test of
+the slope is coincidentally the equivalent of a test of the
+correlation of the $n$ observations of $X$ and $Y$.
+\begin{eqnarray}
+H_{0}: \rho_{XY} = 0 \nonumber \\
+H_{A}: \rho_{XY} \ne 0 \nonumber \\
+\end{eqnarray}
+
+%------------------------------------------------------------------------%
+
+	\subsection{Sherman Morrison Woodbury Formula}
+		
+		The `Sherman Morrison Woodbury' Formula is a well known result in
+		linear algebra;
+		\begin{equation}
 		(A+a^{T}B)^{-1} \quad = \quad A^{-1}-
 		A^{-1}a^{T}(I-bA^{-1}a^{T})^{-1}bA^{-1}
-	\end{equation}
-	
-	This result is highly useful for analyzing regression diagnostics,
-	and for matrices inverses in general. Consider a $p \times p$
-	matrix $X$, from which a row $x_{i}^{T}$ is to be added or
-	deleted. \citet{CookWeisberg} sets $A = X^{T}X$, $a=-x_{i}^{T}$
-	and $b=x_{i}^{T}$, and writes the above equation as
-	
-	\begin{equation}
+		\end{equation}
+		
+		This result is highly useful for analyzing regression diagnostics,
+		and for matrices inverses in general. Consider a $p \times p$
+		matrix $X$, from which a row $x_{i}^{T}$ is to be added or
+		deleted. \citet{CookWeisberg} sets $A = X^{T}X$, $a=-x_{i}^{T}$
+		and $b=x_{i}^{T}$, and writes the above equation as
+		
+		\begin{equation}
 		(X^{T}X \pm x_{i}x_{i}^{T})^{-1} = \quad(X^{T}X )^{-1} \mp \quad
 		\frac{(X^{T}X)^{-1}(x_{i}x_{i}^{T}(X^{T}X)^{-1}}{1-x_{i}^{T}(X^{T}X)^{-1}x_{i}}
-	\end{equation}
-	
-	The projection matrix $H$ (also known as the hat matrix), is a
-	well known identity that maps the fitted values $\hat{Y}$ to the
-	observed values $Y$, i.e. $\hat{Y} = HY$.
-	
-	\begin{equation}
-		H =\quad X(X^{T}X)^{-1}X^{T}
-	\end{equation}
-	
-	$H$ describes the influence each observed value has on each fitted
+		\end{equation}
+		
+
+The projection matrix $H$ (also known as the hat matrix), is a
+well known identity that maps the fitted values $\hat{Y}$ to the
+observed values $Y$, i.e. $\hat{Y} = HY$.
+
+\begin{equation}
+H =\quad X(X^{T}X)^{-1}X^{T}
+\end{equation}
+
+$H$ describes the influence each observed value has on each fitted
 	value. The diagonal elements of the $H$ are the `leverages', which
 	describe the influence each observed value has on the fitted value
 	for that same observation. The residuals ($R$) are related to the
@@ -2501,116 +2174,6 @@ model provides for more insight into the behavior of the data.
 	model each time it is updated. However this approach is known for
 	numerical instability in the case of down-dating.
 	
-	
-	
-	\section{Sherman Morrison Woodbury Formula} % 5.2
-	
-	The `Sherman Morrison Woodbury' Formula is a well known result in
-	linear algebra;
-	\begin{equation}
-	(A+a^{T}B)^{-1} \quad = \quad A^{-1}-
-	A^{-1}a^{T}(I-bA^{-1}a^{T})^{-1}bA^{-1}
-	\end{equation}
-	
-	This result is highly useful for analyzing regression diagnostics,
-	and for matrices inverses in general. Consider a $p \times p$
-	matrix $X$, from which a row $x_{i}^{T}$ is to be added or
-	deleted. \citet{CookWeisberg} sets $A = X^{T}X$, $a=-x_{i}^{T}$
-	and $b=x_{i}^{T}$, and writes the above equation as
-	
-	\begin{equation}
-	(X^{T}X \pm x_{i}x_{i}^{T})^{-1} = \quad(X^{T}X )^{-1} \mp \quad
-	\frac{(X^{T}X)^{-1}(x_{i}x_{i}^{T}(X^{T}X)^{-1}}{1-x_{i}^{T}(X^{T}X)^{-1}x_{i}}
-	\end{equation}
-	
-	The projection matrix $H$ (also known as the hat matrix), is a
-	well known identity that maps the fitted values $\hat{Y}$ to the
-	observed values $Y$, i.e. $\hat{Y} = HY$.
-	
-	\begin{equation}
-	H =\quad X(X^{T}X)^{-1}X^{T}
-	\end{equation}
-	
-	$H$ describes the influence each observed value has on each fitted value. The diagonal elements of the $H$ are the `leverages', which describe the influence each observed value has on the fitted value for that same observation. The residuals ($R$) are related to the observed values by the following formula:
-	\begin{equation}
-	R = (I-H)Y
-	\end{equation}
-	
-	The variances of $Y$ and $R$ can be expressed as:
-	\begin{eqnarray}
-	\mbox{var}(Y) = H\sigma^{2} \nonumber\\
-	\mbox{var}(R) = (I-H)\sigma^{2}
-	\end{eqnarray}
-	
-	Updating techniques allow an economic approach to recalculating the projection matrix, $H$, by removing the necessity to refit the model each time it is updated. However this approach is known for
-	numerical instability in the case of down-dating.
-	
-	
-	
-	\subsection{Hat Values for MCS regression}
-	
-	With A as the averages and D as the casewise differences.
-	\begin{verbatim}
-	fit = lm(D~A)
-	\end{verbatim}
-	
-	\begin{displaymath}
-	H = A \left(A^\top  A\right)^{-1} A^\top ,
-	\end{displaymath}
-
-	\newpage
-
-	\section{Cross Validation}
-	Cross validation techniques for linear regression employ the use
-	`leave one out' re-calculations. In such procedures the regression
-	coefficients are estimated for $n-1$ covariates, with the $k^{th}$
-	observation omitted.
-	
-	
-	
-	Let $\hat{\beta}$ denote the least square estimate of $\beta$ based upon the full set of observations, and let $\hat{\beta}^{-Q}$ denoted the estimate with the $Q^{th}$ case excluded.
-	
-	
-	Cross validation is used to estimate the generalization error of a
-	given model. Alternatively it can be used for model selection by
-	determining the candidate model that has the smallest
-	generalization error.Evidently leave-one-out cross validation has similarities with
-	`jackknifing', a well known statistical technique. However cross
-	validation is used to estimate generalization error, whereas the
-	jackknife technique is used to estimate bias.
-	
-	
-	
-	
-	\section{Model Validation}
-	Three basic approaches are described by Neter et al
-	\begin{enumerate}
-		\item Collection of new data to check the model
-		\item Comparision of results with theoretical expectations
-		\item use of a `hold out sample' to check the model and its predictive capability.
-	\end{enumerate}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	%--------------------------------------------------------------------------------------%
-	\newpage
 
 \chapter{Appendices 1}
 
@@ -2684,9 +2247,6 @@ When considering the regression of case-wise differences and averages, we write 
 	\end{center}
 \end{table}
 
-
-\newpage
-
 \begin{equation}
 Y^{(k)} = \hat{\beta}^{(k)}X^{(k)}
 \end{equation}
@@ -2726,117 +2286,104 @@ When considering the regression of case-wise differences and averages, we write
 D^{-Q} = \hat{\beta}^{-Q}A^{-Q}
 \end{equation}
 
-
-
-\subsection{Influence measures using R} %4.4
-\texttt{R} provides the following influence measures of each observation.
-
-%Influence measures: This suite of functions can be used to compute
-%some of the regression (leave-one-out deletion) diagnostics for
-%linear and generalized linear models discussed in Belsley, Kuh and
-% Welsch (1980), Cook and Weisberg (1982)
-
-
-
-\begin{table}[ht]
-	\begin{center}
-		\begin{tabular}{|c|c|c|c|c|c|c|}
-			\hline
-			& dfb.1\_ & dfb.A & dffit & cov.r & cook.d & hat \\
-			\hline
-			1 & 0.42 & -0.42 & -0.56 & 1.13 & 0.15 & 0.18 \\
-			2 & 0.17 & -0.17 & -0.34 & 1.14 & 0.06 & 0.11 \\
-			3 & 0.01 & -0.01 & -0.24 & 1.17 & 0.03 & 0.08 \\
-			4 & -1.08 & 1.08 & 1.57 & 0.24 & 0.56 & 0.16 \\
-			5 & -0.14 & 0.14 & -0.24 & 1.30 & 0.03 & 0.13 \\
-			6 & -0.00 & 0.00 & -0.11 & 1.31 & 0.01 & 0.08 \\
-			7 & -0.04 & 0.04 & -0.08 & 1.37 & 0.00 & 0.11 \\
-			8 & 0.02 & -0.02 & 0.15 & 1.28 & 0.01 & 0.09 \\
-			9 & 0.69 & -0.68 & 0.75 & 2.08 & 0.29 & 0.48 \\
-			10 & 0.18 & -0.18 & -0.22 & 1.63 & 0.03 & 0.27 \\
-			11 & -0.03 & 0.03 & -0.04 & 1.53 & 0.00 & 0.19 \\
-			12 & -0.25 & 0.25 & 0.44 & 1.05 & 0.09 & 0.12 \\
-			\hline
-		\end{tabular}
-	\end{center}
-\end{table}
-
-
-
-%-------------------------------------------------------------------------------------------------------%
-\chapter{Appendices} % Chapter 5
-%---------------------------------------------------------------------------------------------------------%
-% Appendices
-% - The Hat Matrix (5.1)
-% - Sherman Morrison Woodbury Formula (5.2)
-% -  Hat Matrix applied to MCS (5.3)
-% - Cross Validation (Updating standard deviation) (5.4)
-% - Updating Estimates (5.5)
-% - Lesaffre's paper (5.6)
-%---------------------------------------------------------------------------------------------------------%
-%------------------------------------------------------------------------%
-\newpage
-\section{The Hat Matrix} %5.1
-
-The projection matrix $H$ (also known as the hat matrix), is a
-well known identity that maps the fitted values $\hat{Y}$ to the
-observed values $Y$, i.e. $\hat{Y} = HY$.
-
-\begin{equation}
-H =\quad X(X^{T}X)^{-1}X^{T}
-\end{equation}
-
-$H$ describes the influence each observed value has on each fitted
-value. The diagonal elements of the $H$ are the `leverages', which
-describe the influence each observed value has on the fitted value
-for that same observation. The residuals ($R$) are related to the
-observed values by the following formula:
-\begin{equation}
-R = (I-H)Y
-\end{equation}
-
-The variances of $Y$ and $R$ can be expressed as:
-\begin{eqnarray}
-\mbox{var}(Y) = H\sigma^{2} \nonumber\\
-\mbox{var}(R) = (I-H)\sigma^{2}
-\end{eqnarray}
-
-Updating techniques allow an economic approach to recalculating
-the projection matrix, $H$, by removing the necessity to refit the
-model each time it is updated. However this approach is known for
-numerical instability in the case of down-dating.
-
-	\section{The Hat Matrix} %5.1
+\section{Grubbs' data}
+Let $\hat{\beta}$ denote the least square estimate of $\beta$ based upon the full set of observations, and let
+	$\hat{\beta}^{(k)}$ denoted the estimate with the $k^{th}$ case excluded.
 	
-	The projection matrix $H$ (also known as the hat matrix), is a
-	well known identity that maps the fitted values $\hat{Y}$ to the
-	observed values $Y$, i.e. $\hat{Y} = HY$.
+For the Grubbs data the $\hat{\beta}$ estimated are $\hat{\beta}_{0}$ and $\hat{\beta}_{1}$ respectively. Leaving the fourth case out, i.e. $k=4$ the corresponding estimates are $\hat{\beta}_{0}^{-4}$ and $\hat{\beta}_{1}^{-4}$
 	
 	\begin{equation}
-	H =\quad X(X^{T}X)^{-1}X^{T}
+	Y^{(k)} = \hat{\beta}^{(k)}X^{(k)}
 	\end{equation}
 	
-	$H$ describes the influence each observed value has on each fitted
-	value. The diagonal elements of the $H$ are the `leverages', which
-	describe the influence each observed value has on the fitted value
-	for that same observation. The residuals ($R$) are related to the
-	observed values by the following formula:
+	Consider two sets of measurements , in this case F and C , with the vectors of case-wise averages $A$ and case-wise differences $D$ respectively. A regression model of differences on averages can be fitted with the view to exploring some characteristics of the data.
+	
+	\begin{verbatim}
+	Call: lm(formula = D ~ A)
+	
+	Coefficients: (Intercept)            A
+	-37.51896      0.04656
+	
+	\end{verbatim}
+	
+
+	
+	% latex table generated in R 2.9.2 by xtable 1.5-5 package
+	% Wed Oct 21 14:04:18 2009
+	\begin{table}[ht]
+		\begin{center}
+			\begin{tabular}{rrrrr}
+				\hline
+				& F & C & D & A \\
+				\hline
+				1 & 793.80 & 794.60 & -0.80 & 794.20 \\
+				2 & 793.10 & 793.90 & -0.80 & 793.50 \\
+				3 & 792.40 & 793.20 & -0.80 & 792.80 \\
+				4 & 794.00 & 794.00 & 0.00 & 794.00 \\
+				5 & 791.40 & 792.20 & -0.80 & 791.80 \\
+				6 & 792.40 & 793.10 & -0.70 & 792.75 \\
+				7 & 791.70 & 792.40 & -0.70 & 792.05 \\
+				8 & 792.30 & 792.80 & -0.50 & 792.55 \\
+				9 & 789.60 & 790.20 & -0.60 & 789.90 \\
+				10 & 794.40 & 795.00 & -0.60 & 794.70 \\
+				11 & 790.90 & 791.60 & -0.70 & 791.25 \\
+				12 & 793.50 & 793.80 & -0.30 & 793.65 \\
+				\hline
+			\end{tabular}
+		\end{center}
+	\end{table}
+	
+	When considering the regression of case-wise differences and
+	averages, we write
+	
 	\begin{equation}
-	R = (I-H)Y
+	D^{-Q} = \hat{\beta}^{-Q}A^{-Q}
 	\end{equation}
 	
-	The variances of $Y$ and $R$ can be expressed as:
-	\begin{eqnarray}
-	\mbox{var}(Y) = H\sigma^{2} \nonumber\\
-	\mbox{var}(R) = (I-H)\sigma^{2}
-	\end{eqnarray}
+	\section{Grubb's example}
+	For the Grubbs data the $\hat{\beta}$ estimated are $\hat{\beta}_{0}$ and $\hat{\beta}_{1}$ respectively. Leaving the
+	fourth case out, i.e. $Q=4$ the corresponding estimates are $\hat{\beta}_{0}^{-4}$ and $\hat{\beta}_{1}^{-4}$
 	
-	Updating techniques allow an economic approach to recalculating
-	the projection matrix, $H$, by removing the necessity to refit the
-	model each time it is updated. However this approach is known for
-	numerical instability in the case of down-dating.
+	\begin{equation}
+	Y^{-Q} = \hat{\beta}^{-Q}X^{-Q}
+	\end{equation}
 	
 	
+	\section{Influence measures using R}
+	R provides the following influence measures of each observation.
+	
+	%Influence measures: This suite of functions can be used to compute
+	%some of the regression (leave-one-out deletion) diagnostics for
+	%linear and generalized linear models discussed in Belsley, Kuh and
+	% Welsch (1980), Cook and Weisberg (1982)
+	
+	\begin{table}[ht]
+		\begin{center}
+			\begin{tabular}{|c|c|c|c|c|c|c|}
+				\hline
+				& dfb.1\_ & dfb.A & dffit & cov.r & cook.d & hat \\
+				\hline
+				1 & 0.42 & -0.42 & -0.56 & 1.13 & 0.15 & 0.18 \\
+				2 & 0.17 & -0.17 & -0.34 & 1.14 & 0.06 & 0.11 \\
+				3 & 0.01 & -0.01 & -0.24 & 1.17 & 0.03 & 0.08 \\
+				4 & -1.08 & 1.08 & 1.57 & 0.24 & 0.56 & 0.16 \\
+				5 & -0.14 & 0.14 & -0.24 & 1.30 & 0.03 & 0.13 \\
+				6 & -0.00 & 0.00 & -0.11 & 1.31 & 0.01 & 0.08 \\
+				7 & -0.04 & 0.04 & -0.08 & 1.37 & 0.00 & 0.11 \\
+				8 & 0.02 & -0.02 & 0.15 & 1.28 & 0.01 & 0.09 \\
+				9 & 0.69 & -0.68 & 0.75 & 2.08 & 0.29 & 0.48 \\
+				10 & 0.18 & -0.18 & -0.22 & 1.63 & 0.03 & 0.27 \\
+				11 & -0.03 & 0.03 & -0.04 & 1.53 & 0.00 & 0.19 \\
+				12 & -0.25 & 0.25 & 0.44 & 1.05 & 0.09 & 0.12 \\
+				\hline
+			\end{tabular}
+		\end{center}
+	\end{table}
+	
+	
+	
+	
+
 	
 	
 \section{Sherman Morrison Woodbury Formula} % 5.2
@@ -2883,7 +2430,7 @@ numerical instability in the case of down-dating.
 
 
 
-\subsection{Hat Values for MCS regression}
+\section{Hat Values for MCS regression}
 
 With A as the averages and D as the casewise differences.
 \begin{verbatim}
@@ -2893,202 +2440,6 @@ fit = lm(D~A)
 \begin{displaymath}
 H = A \left(A^\top  A\right)^{-1} A^\top ,
 \end{displaymath}
-
-%------------------------------------------------------------------------%
-\newpage
-\section{Cross Validation} %5.4
-
-Cross validation techniques for linear regression employ the use `leave one out' re-calculations. In such procedures the regression coefficients are estimated for $n-1$ covariates, with the $Q^{th}$ observation omitted.
-
-Let $\hat{\beta}$ denote the least square estimate of $\beta$ based upon the full set of observations, and let
-$\hat{\beta}^{-Q}$ denoted the estimate with the $Q^{th}$ case
-excluded.
-
-
-In leave-one-out cross validation, each observation is omitted in turn, and a regression model is fitted on the rest of the data. Cross validation is used to estimate the generalization error of a given model. alternatively it can be used for model selection by determining the candidate model that has the smallest generalization error.
-
-
-Evidently leave-one-out cross validation has similarities with `jackknifing', a well known statistical technique. However cross validation is used to estimate generalization error, whereas the jackknife technique is used to estimate bias.
-
-\subsection{Cross Validation: Updating standard deviation} %5.4.1
-
-The variance of a data set can be calculated using the following formula.
-\begin{equation}
-S^{2}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-\frac{(\sum_{i=1}^{n}x_{i})^{2}}{n}}{n-1}
-\end{equation}
-
-While using bivariate data, the notation $Sxx$ and $Syy$ shall apply to the variance of $x$ and of $y$ respectively. The covariance term $Sxy$ is given by
-
-\begin{equation}
-Sxy=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-\frac{(\sum_{i=1}^{n}x_{i})(\sum_{i=1}^{n}y_{i})}{n}}{n-1}
-\end{equation}
-
-Let the observation $j$ be omitted from the data set. The estimates for the variance identities can be updating using minor adjustments to the full sample estimates. Where $(j)$ denotes that the $j$th has been omitted, these identities are
-
-\begin{equation}
-Sxx^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-(x_{j})^{2}-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})^{2}}{n-1}}{n-2}
-\end{equation}
-\begin{equation}
-Syy^{(j)}=\frac{\sum_{i=1}^{n}(y_{i}^{2})-(y_{j})^{2}-\frac{((\sum_{i=1}^{n}y_{i})-y_{j})^{2}}{n-1}}{n-2}
-\end{equation}
-\begin{equation}
-Sxy^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-(y_{j}x_{j})-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})(\sum_{i=1}^{n}y_{i})-y_{k})}{n-1}}{n-2}
-\end{equation}
-
-The updated estimate for the slope is therefore
-\begin{equation}
-\hat{\beta}_{1}^{(j)}=\frac{Sxy^{(j)}}{Sxx^{(j)}}
-\end{equation}
-
-It is necessary to determine the mean for $x$ and $y$ of the
-remaining $n-1$ terms
-\begin{equation}
-\bar{x}^{(j)}=\frac{(\sum_{i=1}^{n}x_{i})-(x_{j})}{n-1},
-\end{equation}
-
-\begin{equation}
-\bar{y}^{(j)}=\frac{(\sum_{i=1}^{n}y_{i})-(y_{j})}{n-1}.
-\end{equation}
-
-The updated intercept estimate is therefore
-
-\begin{equation}
-\hat{\beta}_{0}^{(j)}=\bar{y}^{(j)}-\hat{\beta}_{1}^{(j)}\bar{x}^{(j)}.
-\end{equation}
-
-%------------------------------------------------------------------------%
-\newpage
-\section{Updating Estimates} %5.5
-
-\subsection{Updating of Regression Estimates}
-Updating techniques are used in regression analysis to add or delete rows from a model, allowing the analyst the effect of the observation associated with that row. In time series problems, there will be scientific interest in the changing relationship between variables. In cases where there a single row is to be added or deleted, the procedure used is equivalent to a geometric rotation of a plane.
-
-Updating techniques are used in regression analysis to add or delete rows from a model, allowing the analyst the effect of the observation associated with that row.
-
-\subsection{Updating Standard deviation}
-A simple, but useful, example of updating is the updating of the standard deviation when an observation is omitted, as practised in statistical process control analyzes. From first principles, the variance of a data set can be calculated using the following formula.
-\begin{equation}
-S^{2}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-\frac{(\sum_{i=1}^{n}x_{i})^{2}}{n}}{n-1}
-\end{equation}
-
-While using bivariate data, the notation $Sxx$ and $Syy$ shall apply hither to the variance of $x$ and of $y$ respectively. The covariance term $Sxy$ is given by
-
-\begin{equation}
-Sxy=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-\frac{(\sum_{i=1}^{n}x_{i})(\sum_{i=1}^{n}y_{i})}{n}}{n-1}.
-\end{equation}
-
-\subsection{Updating of Regression Estimates}
-Updating techniques are used in regression analysis to add or
-delete rows from a model, allowing the analyst the effect of the
-observation associated with that row. In time series problems,
-there will be scientific interest in the changing relationship
-between variables. In cases where there a single row is to be
-added or deleted, the procedure used is equivalent to a geometric
-rotation of a plane.
-
-Consider a $p \times p$ matrix $X$, from which a row $x_{i}^{T}$
-is to be added or deleted. \citet{CookWeisberg} sets $A = X^{T}X$,
-$a=-x_{i}^{T}$ and $b=x_{i}^{T}$, and writes the above equation as
-
-\begin{equation}
-(X^{T}X \pm x_{i}x_{i}^{T})^{-1} = \quad(X^{T}X )^{-1} \mp \quad
-\frac{(X^{T}X)^{-1}(x_{i}x_{i}^{T}(X^{T}X)^{-1}}{1-x_{i}^{T}(X^{T}X)^{-1}x_{i}}
-\end{equation}
-
-\subsection{Updating Regression Estimates}
-Let the observation $j$ be omitted from the data set. The estimates for the variance identities can be updating using minor adjustments to the full sample estimates. Where $(j)$ denotes that the $j$th has been omitted, these identities are
-
-\begin{equation}
-Sxx^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}^{2})-(x_{j})^{2}-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})^{2}}{n-1}}{n-2}
-\end{equation}
-\begin{equation}
-Syy^{(j)}=\frac{\sum_{i=1}^{n}(y_{i}^{2})-(y_{j})^{2}-\frac{((\sum_{i=1}^{n}y_{i})-y_{j})^{2}}{n-1}}{n-2}
-\end{equation}
-\begin{equation}
-Sxy^{(j)}=\frac{\sum_{i=1}^{n}(x_{i}y_{i})-(y_{j}x_{j})-\frac{((\sum_{i=1}^{n}x_{i})-x_{j})(\sum_{i=1}^{n}y_{i})-y_{k})}{n-1}}{n-2}
-\end{equation}
-
-The updated estimate for the slope is therefore
-\begin{equation}
-\hat{\beta}_{1}^{(j)}=\frac{Sxy^{(j)}}{Sxx^{(j)}}
-\end{equation}
-
-It is necessary to determine the mean for $x$ and $y$ of the
-remaining $n-1$ terms
-\begin{equation}
-\bar{x}^{(j)}=\frac{(\sum_{i=1}^{n}x_{i})-(x_{j})}{n-1},
-\end{equation}
-
-\begin{equation}
-\bar{y}^{(j)}=\frac{(\sum_{i=1}^{n}y_{i})-(y_{j})}{n-1}.
-\end{equation}
-
-The updated intercept estimate is therefore
-
-\begin{equation}
-\hat{\beta}_{0}^{(j)}=\bar{y}^{(j)}-\hat{\beta}_{1}^{(j)}\bar{x}^{(j)}.
-\end{equation}
-
-\subsection{Inference on intercept and slope}
-\begin{equation}
-\hat{\beta_{1}} \pm t_{(\alpha, n-2) }
-\sqrt{\frac{S^2}{(n-1)S^{2}_{x}}}
-\end{equation}
-
-\begin{equation}
-\frac{\hat{\beta_{0}}-\beta_{0}}{SE(\hat{\beta_{0}})}
-\end{equation}
-\begin{equation}
-\frac{\hat{\beta_{1}}-\beta_{1}}{SE(\hat{\beta_{0}})}
-\end{equation}
-
-
-\subsubsection{Inference on correlation coefficient} This test of
-the slope is coincidentally the equivalent of a test of the
-correlation of the $n$ observations of $X$ and $Y$.
-\begin{eqnarray}
-H_{0}: \rho_{XY} = 0 \nonumber \\
-H_{A}: \rho_{XY} \ne 0 \nonumber \\
-\end{eqnarray}
-
-%---------------------------------------------------------%
-\newpage
-\section{Lesaffre's paper.} %5.6
-
-Lesaffre considers the case-weight perturbation approach.
-
-
-%\citep{cook86}
-Cook's 86 describes a local approach wherein each case is given a weight $w_{i}$ and the effect on the parameter estimation is measured by perturbing these weights. Choosing weights close to zero or one corresponds to the global case-deletion approach.
-
-Lesaffre  describes the displacement in log-likelihood as a useful metric to evaluate local influence %\citep{cook86}.
-
-
-%\citet{lesaffre}
-Lesaffre describes a framework to detect outlying observations that matter in an LME model. Detection should be carried out by evaluating diagnostics $C_{i}$ , $C_{i}(\alpha)$ and $C_{i}(D,\sigma^2)$.
-
-
-Lesaffre defines the total local influence of individual $i$ as
-\begin{equation}
-C_{i} = 2 | \triangle \prime _{i} L^{-1} \triangle_{i}|.
-\end{equation}
-
-
-The influence function of the MLEs evaluated at the $i$th point $IF_{i}$, given by
-\begin{equation}
-IF_{i} = -L^{-1}\triangle _{i}
-\end{equation}
-can indicate how $\hat{theta}$ changes as the weight of the $i$th
-subject changes.
-
-The manner by which influential observations distort the estimation process can be determined by inspecting the
-interpretable components in the decomposition of the above measures of local influence.
-
-
-Lesaffre comments that there is no clear way of interpreting the information contained in the angles, but that this doesn't mean the information should be ignored.
-
-
-
 
 \chapter{Augmented GLMs} 
 
@@ -3238,7 +2589,6 @@ of both EM (Expectation-Maximization) algorithms and Newton-Raphson algorithms.
 
 %--Marginal and Conditional Residuals
 
-
 \section{Covariance Parameters} %1.5
 The unknown variance elements are referred to as the covariance parameters and collected in the vector $\theta$.
 % - where is this coming from?
@@ -3277,6 +2627,112 @@ compute an estimate for $\boldsymbol{V}$ and then compute the projector matrix $
 
 
 
+	\chapter{Generalized linear models}
+	\section{Generalized Linear model}
+	In statistics, the generalized linear model (GzLM) is a flexible
+	generalization of ordinary least squares regression. The GzLM
+	generalizes linear regression by allowing the linear model to be
+	related to the response variable via a link function and by
+	allowing the magnitude of the variance of each measurement to be a
+	function of its predicted value.
+	
+	
+	Mixed Effects Models offer a flexible framework by which to model
+	the sources of variation and correlation that arise from grouped
+	data. This grouping can arise when data collection is undertaken
+	in a hierarchical manner, when a number of observations are taken
+	on the same observational unit over time, or when observational
+	units are in some other way related, violating assumptions of
+	independence.
+	
+	\section{Generalized  Model(GzLM)}
+	
+	Nelder and Wedderburn (1972) integrated the previously disparate
+	and separate approaches to models for non-normal cases in a
+	framework called "generalized linear models."  The key elements of
+	their approach is to describe any given model in terms of it's
+	link function and it's variance function.
+	
+	\subsection{What is a GzLM}
+	
+	\begin{equation}
+	\operatorname{E}(\mathbf{Y}) = \boldsymbol{\mu} =
+	g^{-1}(\mathbf{X}\boldsymbol{\beta})
+	\end{equation}
+	
+	where $E(Y)$ is the expected value of $Y$, $X\beta$ is the linear
+	predictor, a linear combination of unknown parameters,$\beta$ and
+	$g$ is the link function.
+	
+	
+	$\operatorname{Var}(\mathbf{Y}) = \operatorname{V}(
+	\boldsymbol{\mu} ) =
+	\operatorname{V}(g^{-1}(\mathbf{X}\boldsymbol{\beta}))$
+	\\
+	
+	
+	\subsection{GzLM Structure}
+	The GzLM consists of three elements. \\1. A probability
+	distribution from the exponential family. \\2. A linear predictor
+	$\eta= X\beta$ . \\3. A link function $g$ such that $E(Y)$ = $\mu$
+	= $g^{-1}(eta)$.
+	
+	\subsection{Link Function}
+	Definition 1 : The link function provides the relationship between
+	the linear predictor and the mean of the distribution function.
+	There are many commonly used link functions, and their choice can
+	be somewhat arbitrary. It can be convenient to match the domain of
+	the link function to the range of the distribution function's
+	mean.
+	
+	\noindent Definition 2 : A link function is the function that
+	links the linear model specified in the design matrix, where
+	columns represent the beta parameters and rows the real
+	parameters.
+	
+	\subsection{Canonical parameter}
+	$\theta$, called the dispersion parameter,
+	\subsection{Dispersion parameter}
+	$\tau$, called the dispersion parameter, typically is known and is
+	usually related to the variance of the distribution.
+	
+	\subsection{Iteratively weighted least square}
+	IWLS is used to find the maximum likelihood estimates of a
+	generalized linear model.
+	
+	\noindent Definition: An iterative algorithm for fitting a linear
+	model in the case where the data may contain outliers that would
+	distort the parameter estimates if other estimation procedures
+	were used. The procedure uses weighted least squares, the
+	influence of an outlier being reduced by giving that observation a
+	small weight. The weights chosen in one iteration are related to
+	the magnitudes of the residuals in the previous iteration  with a
+	large residual earning a small weight.
+	
+	\subsection{Residual Components}
+	In GzLMS the deviance is the sum of the deviance components
+	
+	\begin{equation}
+	D = \sum d_{i}
+	\end{equation}
+	
+	In GzLMS the deviance is the sum of the deviance components
+	
+	\newpage
+	\section{Generalized linear mixed models}
+	[pawitan section 17.8]
+	
+	The Generalized linear mixed model (GLMM) extend classical mixed models to non-normal outcome data.
+	
+	In statistics, a generalized linear mixed model (GLMM) is a particular type of mixed model. It is an extension to the
+	generalized linear model in which the linear predictor contains random effects in addition to the usual fixed effects. These random effects are usually assumed to have a normal distribution.
+	
+	Fitting such models by maximum likelihood involves integrating over these random effects.
+	
+	
+	
+	%--------------------------------------------------------------------------------------%
+	\newpage
 	\chapter{LME Likelihood}
 	\section{One Way ANOVA}
 	\subsection{Page 448}
@@ -3536,122 +2992,12 @@ compute an estimate for $\boldsymbol{V}$ and then compute the projector matrix $
 	The matter of missing data has not been commonly encountered in either Method Comparison Studies or Linear Mixed Effects Modelling. However Roy (2009) deals with the relevant assumptions regrading missing data. Galecki \& Burzykowski (2013) approaches the subject of missing data in LME Modelling. The \textbf{\textit{nlmeU}} package includes the \texttt{patMiss} function, which ``\textit{allows to compactly present pattern of missing data in a given vector/matrix/data
 		frame or combination of thereof}".
 	
-	\section{Grubbs' data}
-	Let $\hat{\beta}$ denote the least square estimate of $\beta$ based upon the full set of observations, and let
-	$\hat{\beta}^{(k)}$ denoted the estimate with the $k^{th}$ case excluded.
-	For the Grubbs data the $\hat{\beta}$ estimated are $\hat{\beta}_{0}$ and $\hat{\beta}_{1}$ respectively. Leaving the
-	fourth case out, i.e. $k=4$ the corresponding estimates are $\hat{\beta}_{0}^{-4}$ and $\hat{\beta}_{1}^{-4}$
 	
-	\begin{equation}
-	Y^{(k)} = \hat{\beta}^{(k)}X^{(k)}
-	\end{equation}
-	
-	Consider two sets of measurements , in this case F and C , with the vectors of case-wise averages $A$ and case-wise differences $D$ respectively. A regression model of differences on averages can be fitted with the view to exploring some characteristics of the data.
-	
-	\begin{verbatim}
-	Call: lm(formula = D ~ A)
-	
-	Coefficients: (Intercept)            A
-	-37.51896      0.04656
-	
-	\end{verbatim}
-	
-	\newpage
-	
-	% latex table generated in R 2.9.2 by xtable 1.5-5 package
-	% Wed Oct 21 14:04:18 2009
-	\begin{table}[ht]
-		\begin{center}
-			\begin{tabular}{rrrrr}
-				\hline
-				& F & C & D & A \\
-				\hline
-				1 & 793.80 & 794.60 & -0.80 & 794.20 \\
-				2 & 793.10 & 793.90 & -0.80 & 793.50 \\
-				3 & 792.40 & 793.20 & -0.80 & 792.80 \\
-				4 & 794.00 & 794.00 & 0.00 & 794.00 \\
-				5 & 791.40 & 792.20 & -0.80 & 791.80 \\
-				6 & 792.40 & 793.10 & -0.70 & 792.75 \\
-				7 & 791.70 & 792.40 & -0.70 & 792.05 \\
-				8 & 792.30 & 792.80 & -0.50 & 792.55 \\
-				9 & 789.60 & 790.20 & -0.60 & 789.90 \\
-				10 & 794.40 & 795.00 & -0.60 & 794.70 \\
-				11 & 790.90 & 791.60 & -0.70 & 791.25 \\
-				12 & 793.50 & 793.80 & -0.30 & 793.65 \\
-				\hline
-			\end{tabular}
-		\end{center}
-	\end{table}
-	
-	When considering the regression of case-wise differences and
-	averages, we write
-	
-	\begin{equation}
-	D^{-Q} = \hat{\beta}^{-Q}A^{-Q}
-	\end{equation}
-	
-	\subsection{Grubb's example}
-	For the Grubbs data the $\hat{\beta}$ estimated are $\hat{\beta}_{0}$ and $\hat{\beta}_{1}$ respectively. Leaving the
-	fourth case out, i.e. $Q=4$ the corresponding estimates are $\hat{\beta}_{0}^{-4}$ and $\hat{\beta}_{1}^{-4}$
-	
-	\begin{equation}
-	Y^{-Q} = \hat{\beta}^{-Q}X^{-Q}
-	\end{equation}
-	
-	When considering the regression of case-wise differences and
-	averages, we write
-	
-	\begin{equation}
-	D^{-Q} = \hat{\beta}^{-Q}A^{-Q}
-	\end{equation}
-	
-	
-	\subsection{Influence measures using R}
-	R provides the following influence measures of each observation.
-	
-	%Influence measures: This suite of functions can be used to compute
-	%some of the regression (leave-one-out deletion) diagnostics for
-	%linear and generalized linear models discussed in Belsley, Kuh and
-	% Welsch (1980), Cook and Weisberg (1982)
-	
-	
-	\newpage
-	%% latex table generated in R 2.9.2 by xtable 1.5-5 package
-	% Wed Oct 21 14:10:26 2009
-	\begin{table}[ht]
-		\begin{center}
-			\begin{tabular}{|c|c|c|c|c|c|c|}
-				\hline
-				& dfb.1\_ & dfb.A & dffit & cov.r & cook.d & hat \\
-				\hline
-				1 & 0.42 & -0.42 & -0.56 & 1.13 & 0.15 & 0.18 \\
-				2 & 0.17 & -0.17 & -0.34 & 1.14 & 0.06 & 0.11 \\
-				3 & 0.01 & -0.01 & -0.24 & 1.17 & 0.03 & 0.08 \\
-				4 & -1.08 & 1.08 & 1.57 & 0.24 & 0.56 & 0.16 \\
-				5 & -0.14 & 0.14 & -0.24 & 1.30 & 0.03 & 0.13 \\
-				6 & -0.00 & 0.00 & -0.11 & 1.31 & 0.01 & 0.08 \\
-				7 & -0.04 & 0.04 & -0.08 & 1.37 & 0.00 & 0.11 \\
-				8 & 0.02 & -0.02 & 0.15 & 1.28 & 0.01 & 0.09 \\
-				9 & 0.69 & -0.68 & 0.75 & 2.08 & 0.29 & 0.48 \\
-				10 & 0.18 & -0.18 & -0.22 & 1.63 & 0.03 & 0.27 \\
-				11 & -0.03 & 0.03 & -0.04 & 1.53 & 0.00 & 0.19 \\
-				12 & -0.25 & 0.25 & 0.44 & 1.05 & 0.09 & 0.12 \\
-				\hline
-			\end{tabular}
-		\end{center}
-	\end{table}
-	
-	
-	
-	
-		
 	%================================================%
 	
 	\newpage
 	\bibliographystyle{chicago}
 	\bibliography{DB-txfrbib}
-	
-	
 	
 \end{document}
 
