@@ -3161,6 +3161,32 @@ of a
 \citet{BXC2008} and \citet{roy} highlight the need for method comparison methodologies suitable for use in the presence of replicate measurements. \citet{roy} presents a comprehensive methodology for assessing the agreement of two methods, for replicate measurements. This methodology has the added benefit of overcoming the problems of unbalanced data and unequal numbers of replicates. Implementation of the methodology, and interpretation of the results, is relatively easy for practitioners who have only basic statistical training. Furthermore, it can be shown that widely used existing methodologies, such as the limits of agreement, can be incorporated into Roy's methodology.
 
 
+\section{Extension of Roy's methodology}
+Roy's methodology is constructed to compare two methods in the presence of replicate measurements. Necessarily it is worth examining whether this methodology can be adapted for different circumstances.
+
+An implementation of Roy's methodology, whereby three or more methods are used, is not feasible due to computational restrictions. Specifically there is a failure to reach convergence before the iteration limit is reached. This may be due to the presence of additional variables, causing the problem of non-identifiability. In the case of two variables, it is required to estimate two variance terms and four correlation terms, six in all. For the case of three variabilities, three variance terms must be estimated as well as nine correlation terms, twelve in all. In general for $n$ methods has $2 \times T_{n}$ variance terms, where $T_n$ is the triangular number for $n$, i.e. the addition analogue of the factorial. Hence the computational complexity quite increases substantially for every increase in $n$.
+
+Should an implementation be feasible, further difficulty arises when interpreting the results. The fundamental question is whether two methods have close agreement so as to be interchangeable. When three methods are present in the model, the null hypothesis is that all three methods have the same variability relevant to the respective tests. The outcome of the analysis will either be that all three are interchangeable or that all three are not interchangeable.
+
+The tests would not be informative as to whether any two of those three were interchangeable, or equivalently if one method in particular disagreed with the other two. Indeed it is easier to perform three pair-wise comparisons separately and then to combine the results.
+
+
+
+\section{Roy's methodology for single measurements}
+Roy's methodology follows from the decomposition for the covariance matrix of the response vector $y_{i}$, as presented in \citet{hamlett}. The decomposition depends on the estimation of correlation terms, which would be absent in the single measurement case. Indeed there can be no within-subject variability if there are no repeated terms for it to describe. There would only be the covariance matrix of the measurements by both methods, which doesn't require the use of LME models. To conlude, simple existing methodologies would be the correct approach where there only one measurements by each method.
+Roy's methodology is not suitable for the case of single measurements because it follows from the decomposition for the covariance matrix of the response vector $y_{i}$, as presented in \citet{hamlett}. The decomposition depends on the estimation of correlation terms, which would be absent in the single measurement case. Indeed there can be no within-subject variability if there are no repeated terms for it to describe. There would only be the covariance matrix of the measurements by both methods, which doesn't require the use of LME models. To conclude, simpler existing methodologies, such as Deming regression, would be the correct approach where there only one measurements by each method.
+
+Roy's methodology is not suitable for the case of single measurements because it follows from the decomposition for the covariance matrix of the response vector $y_{i}$, as presented in \citet{hamlett}. The decomposition depends on the estimation of correlation terms, which would be absent in the single measurement case. Indeed there can be no within-subject variability if there are no repeated terms for it to describe. There would only be the covariance matrix of the measurements by both methods, which doesn't require the use of LME models. To conclude, simpler existing methodologies, such as Deming regression, would be the correct approach where there only one measurements by each method.
+
+
+
+
+
+
+%-----------------------------------------------------------------------------------%
+
+
+
 \chapter{Likelihood Ratio Tests}
 \section{Likelihood}
 Likelihood is the hypothetical probability that an event that has
@@ -3792,6 +3818,77 @@ interences about the mean response are of specific interest.
 
 \bibliographystyle{chicago}
 \bibliography{DB-txfrbib}
+\section{LME}
+Consistent with the conventions of mixed models, \citet{pkc}
+formulates the measurement $y_{ij} $from method $i$ on individual
+$j$ as follows;
+\begin{equation}
+y_{ij} =P_{ij}\theta + W_{ij}v_{i} + X_{ij}b_{j} + Z_{ij}u_{j} +
+\epsilon_{ij},     (j=1,2, i=1,2....n)
+\end{equation}
+The design matrix $P_{ij}$ , with its associated column vector
+$\theta$, specifies the fixed effects common to both methods. The
+fixed effect specific to the $j$th method is articulated by the
+design matrix $W_{ij}$ and its column vector $v_{i}$. The random
+effects common to both methods is specified in the design matrix
+$X_{ij}$, with vector $b_{j}$ whereas the random effects specific
+to the $i$th subject by the $j$th method is expressed by $Z_{ij}$,
+and vector $u_{j}$. Noticeably this notation is not consistent
+with that described previously.  The design matrices are specified
+so as to includes a fixed intercept for each method, and a random
+intercept for each individual. Additional assumptions must also be
+specified;
+\begin{equation}
+v_{ij} \sim N(0,\Sigma),
+\end{equation}
+These vectors are assumed to be independent for different $i$s,
+and are also mutually independent. All Covariance matrices are
+positive definite.  In the above model effects can be classed as
+those common to both methods, and those that vary with method.
+When considering differences, the effects common to both
+effectively cancel each other out. The differences of each pair of
+measurements can be specified as following;
+\begin{equation}
+d_{ij} = X_{ij}b_{j} + Z_{ij}u_{j} + \epsilon_{ij},     (j=1,2,
+i=1,2....n)
+\end{equation}
+This formulation has seperate distributional assumption from the
+model stated previously.
+
+This agreement covariate $x$ is the key step in how this
+methodology assesses agreement.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+
+
+\section{Other Approaches}
+
+
+\citet{pkcng} generalize this approach to account for situations
+where the distributions are not identical, which is commonly the
+case. The TDI is not consistent and may not preserve its
+asymptotic nominal level, and that the coverage probability
+approach of \citet{lin2002} is overly conservative for moderate
+sample sizes. This methodology proposed by \citet{pkcng} is a
+regression based approach that models the mean and the variance of
+differences as functions of observed values of the average of the
+paired measurements.
+
+\section{Remarks}
+The relationship between precision and the within-item and between-item variability must be established. Roy establishes the equivalence of repeatability and within-item variability, and hence precision.  The method with the smaller within-item variability can be deemed to be the more precise.
+
+A useful approach is to compute the confidence intervals for the ratio of within-item standard deviations (equivalent to the ratio of repeatability coefficients), which can be interpreted in the usual manner.  
+
+In fact, the ratio of within-item standard deviations, with the attendant confidence interval,  can be determined using a single R command: \texttt{intervals()}.
+
+Pinheiro and Bates (pg 93-95) give a description of how confidence intervals for the variance components are computed. Furthermore a complete set of confidence intervals can be computed to complement the variance component estimates. 
+
+What is required is the computation of the variance ratios of within-item and between-item standard deviations.  
+
+A naive  approach would be to compute the variance ratios by relevant F distribution quantiles. However, the question arises as to the appropriate degrees of freedom.
+Limits of agreement are easily computable using the LME framework. While we will not be considering this analysis, a demonstration will be provided in the example.
+
+%============================================================== %
+
 \end{document}
 
 
