@@ -2147,7 +2147,93 @@
 		\label{fig:dfbetas-JS-ARoy2009}
 	\end{figure}
 	
-	%============================================================================= %
+
+\section{Diagnostic Tools for the nlme package}
+
+
+With the nlme package, the generic function \texttt{lme()} fits a linear mixed-effects model in the formulation described in Laird and Ware (1982) but allowing for nested random effects. 
+
+The within-group errors are allowed to be correlated and/or have unequal variances, which is very important in fitting the models for Roy's Tests
+
+The nlme package has a limited set of diagnostic tools that can be used to assess the model fit. A review of the package manual is sufficient to get a sense of the package's capability in that regard.
+
+
+
+
+\section{The \texttt{logLik} Function}
+\texttt{logLik.lme} returns the log-likelihood value of the linear mixed-effects model represented by object evaluated at the estimated coefficients. It is also possible to determine the restricted log-likelihood, if relevant, using this function. For the Blood Data Example,  the loglikelihood of the JS.roy1 model can be computed as follows.
+\begin{framed}
+	\begin{verbatim}
+	> logLik(JS.roy1)
+	'log Lik.' -2030.736 (df=8)
+	\end{verbatim}
+\end{framed}
+
+
+\section{Influence() - Description}
+\texttt{influence()} is the workhorse function of the \texttt{influence.ME} package. 
+
+
+Based on a priorly estimated mixed effects regression model (estimated using lme4), the \texttt{influence()} function iteratively 
+
+modifies the mixed effects model to neutralize the effect a grouped set of data has on the parameters, and which 
+
+returns returns the fixed parameters of these iteratively modified models. 
+
+These are used to compute measures of influential data.
+
+
+
+
+%\subsection*{Usage}
+%\begin{framed}
+%	\begin{verbatim}
+%	
+%	influence(model, group=NULL, select=NULL, obs=FALSE, 
+%	gf="single", count = FALSE, delete=TRUE, ...)
+%	\
+%	\end{verbatim}
+%\end{framed}
+%
+%
+%The \texttt{influence()} function was known as the \texttt{estex()} command in previous versions of the influence.ME pacakge
+%===========================================================================%
+%- http://support.sas.com/documentation/cdl/en/statug/63347/HTML/default/statug_reg_sect040.htm
+
+
+
+
+
+
+
+
+
+\section{Leave-One-Out Diagnostics with \texttt{lmeU}}
+Galecki et al discuss the matter of LME influence diagnostics in their book, although not into great detail.
+
+
+The command \texttt{lmeU} fits a model with a particular subject removed. The identifier of the subject to be removed is passed as the only argument
+
+A plot ofthe per-observation diagnostics individual subject log-likelihood contributions can be rendered.
+
+%% Page 503 Galecki
+
+\section{Partitioning Matrices} %1.14.2
+Without loss of generality, matrices can be partitioned as if the $i-$th omitted observation is the first row; i.e. $i=1$.
+
+
+\section{Permutation Test, Power Tests and Missing Data }
+
+This section explores topics such as dependent variable simulation and power analysis, introduced by Galecki \& Burzykowski (2013), and implementable with their \textbf{\textit{nlmeU}} \texttt{R} package.
+Using the \textbf{\textit{predictmeans}} \texttt{R} package, it is possible to perform permutation t-tests for coefficients of (fixed) effects and permutation F-tests.
+
+The matter of missing data has not been commonly encountered in either Method Comparison Studies or Linear Mixed Effects Modelling. However Roy (2009) deals with the relevant assumptions regrading missing data. Galecki \& Burzykowski (2013) approaches the subject of missing data in LME Modelling. The \textbf{\textit{nlmeU}} package includes the \texttt{patMiss} function, which ``\textit{allows to compactly present pattern of missing data in a given vector/matrix/data
+	frame or combination of thereof}".
+
+
+
+
+
 	\section{Zewotir: Computation and Notation } %2.3
 	with $\boldsymbol{V}$ unknown, a standard practice for estimating $\boldsymbol{X \beta}$ is the estime the variance components $\sigma^2_j$,
 	compute an estimate for $\boldsymbol{V}$ and then compute the projector matrix $A$, $\boldsymbol{X \hat{\beta}}  = \boldsymbol{AY}$.
@@ -4174,6 +4260,36 @@
 	\section{Correlation indices}
 	\citet{ARoy2009} remarks that PROC MIXED only gives overall correlation coefficients, but not their variances. Consequently it is not possible to carry out inferences based on all overall correlation coefficients.
 	
+\section{Likelihood Ratio Test}
+A general method for comparing nested models fit by maximum liklihood is the liklihood ratio 
+test. This test can be used for models fit by REML (restricted maximum liklihood), but only if the 
+fixed terms in the two models are invariant, and both models have been fit by REML. Otherwise, 
+the argument: method=”ML” must be employed (ML = maximum liklihood). 
+
+Example of a liklihood ratio test used to compare two models: 
+
+
+
+The output will contain a p-value, and this should be used in conjunction with the AIC scores to 
+judge which model is preferred. Lower AIC scores are better. 
+
+Generally, liklihood ratio tests should be used to evaluate the significance of terms on the 
+random effects portion of two nested models, and should not be used to determine the 
+significance of the fixed effects. 
+
+A simple way to more reliably test for the significance of fixed effects in an LME model is to use 
+conditional F-tests, as implemented with the simple “anova” function. 
+
+Example: 
+
+will give the most reliable test of the fixed effects included in model1. 
+
+
+
+
+
+
+
 	\section{Formal testing for covariances }
 	As it is pertinent to the difference between the two described methodologies, the facilitation of a formal test would be useful. Extending the approach proposed by ARoy2009, the test for overall covariance can be formulated:
 	\begin{eqnarray*}
