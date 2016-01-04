@@ -313,15 +313,37 @@ In the Bland-Altman plot, the horizontal displacement of any observation is supp
 
 
 
-\subsection{Outliers}
 
 
-%Grubbs' test is a statistical test used for detecting outliers in a
-%univariate data set that is assumed to be normally distributed.
 
-%\citet{Grubbs} defined an outlier as a co-variate that appears to
-%deviate markedly from other members of the sample in which it
-%occurs.
+\subsection{Detection of Outliers}
+In their 1983 paper they merely state that the plot can be used to
+``spot outliers". In  their 1986 paper, Bland and Altman give an example of an
+outlier. They state that it could be omitted in practice, but make
+no further comments on the matter. In Bland and Altmans 1999 paper, we get the clearest indication of
+what Bland and Altman suggest on how to react to the presence of
+outliers. Their recommendation is to recalculate the limits
+without them, in order to test the difference with the calculation
+where outliers are retained.
+
+BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
+particularly large reduction.However, they do not recommend removing outliers. Furthermore, they say:
+
+\textit{We usually find that this method of analysis is not too sensitive
+	to one or two large outlying differences.}
+
+We ask if this would be so in all cases. Given that the limits of
+agreement may or may not be disregarded, depending on their
+perceived suitability, we examine whether it would possible that
+the deletion of an outlier may lead to a calculation of limits of
+agreement that are usable in all cases?
+
+Should an Outlying Observation be omitted from a data set? In
+general, this is not considered prudent. Also, it may be required that the outliers are worthy of particular attention themselves.
+
+%%Classifying outliers and recalculating 
+We opted to examine this
+matter in more detail. The following points have to be considered how to suitably identify an outlier (in a generalized sense). Would a recalculation of the limits of agreement generally results in a compacted range between the upper and lower limits of agreement?
 
 \subsection{Bartko's Ellipse}
 
@@ -437,27 +459,25 @@ between the variance of the means $Var(a_{i})$ and the variance of the differenc
 
 
 %----------------------------------------------------------------------------%
-
-
-
 \subsection{Grubbs' Test for Outliers}
-In classifying whether a observation from a univariate data set is
-an outlier, many formal tests are available, such as the Grubbs test for outliers. In assessing
-whether a covariate in a Bland-Altman plot is an outlier, this
-test is useful when applied to the case-wise difference values treated as a
-univariate data set. The null hypothesis of the Grubbs test procedure is the absence
-of any outliers in the data set. 
+%Grubbs' test is a statistical test used for detecting outliers in a
+%univariate data set that is assumed to be normally distributed.
 
-The test statistic for the Grubbs test ($G$) is the largest
-absolute deviation from the sample mean divided by the standard
+%\citet{Grubbs} defined an outlier as a co-variate that appears to
+%deviate markedly from other members of the sample in which it
+%occurs.
+
+In classifying whether a observation from a univariate data set is an outlier, many formal tests are available, such as the Grubbs test for outliers. In assessing whether a covariate in a Bland-Altman plot is an outlier, this
+test is useful when applied to the case-wise difference values treated as a univariate data set. The null hypothesis of the Grubbs test procedure is the absence of any outliers in the data set. 
+
+The test statistic for the Grubbs test ($G$) is the largest absolute deviation from the sample mean divided by the standard
 deviation of the differences,
 \begin{equation}
 G =  \displaystyle\max_{i=1,\ldots, n}\frac{\left \vert d_i -
 	\bar{d}\right\vert}{S_{d}}.
 \end{equation}
 
-For the `F vs C' comparison it is the fourth observation gives
-rise to the test statistic, $G = 3.64$. The critical value is
+For the `F vs C' comparison it is the fourth observation gives rise to the test statistic, $G = 3.64$. The critical value is
 calculated using Student's $t$ distribution and the sample size,
 \[
 U = \frac{n-1}{\sqrt{n}} \sqrt{\frac{t_{\alpha/(2n),n-2}^2}{n - 2
@@ -469,46 +489,222 @@ For this test $U = 0.75$. The conclusion of this test is that the fourth observa
 %========================================================================================== %
 
 
-\subsection{Detection of Outliers}
-In their 1983 paper they merely state that the plot can be used to
-``spot outliers". In  their 1986 paper, Bland and Altman give an example of an
-outlier. They state that it could be omitted in practice, but make
-no further comments on the matter. In Bland and Altmans 1999 paper, we get the clearest indication of
-what Bland and Altman suggest on how to react to the presence of
-outliers. Their recommendation is to recalculate the limits
-without them, in order to test the difference with the calculation
-where outliers are retained.
 
-BAExample -	The span has reduced from 77 to 59 mmHg, a noticeable but not
-particularly large reduction.However, they do not recommend removing outliers. Furthermore, they say:
-
-\textit{We usually find that this method of analysis is not too sensitive
-	to one or two large outlying differences.}
-
-We ask if this would be so in all cases. Given that the limits of
-agreement may or may not be disregarded, depending on their
-perceived suitability, we examine whether it would possible that
-the deletion of an outlier may lead to a calculation of limits of
-agreement that are usable in all cases?
-
-Should an Outlying Observation be omitted from a data set? In
-general, this is not considered prudent. Also, it may be required that the outliers are worthy of particular attention themselves.
-
-%%Classifying outliers and recalculating 
-We opted to examine this
-matter in more detail. The following points have to be considered how to suitably identify an outlier (in a generalized sense). Would a recalculation of the limits of agreement generally results in a compacted range between the upper and lower limits of agreement?
 \section{Limits of Agreement}
-A third element of the Bland-Altman methodology, an interval known as `limits of agreement' is introduced in \citet*{BA86}
-(sometimes referred to in literature as 95\% limits of agreement). 
-	
-	Bland and Altman proposed a pair of Limits of agreement, not unlike control limits in control charts. 
-	
-%	These limits are intended to demonstrate the range in which 95\% of the sample data should lie. The Limits of Agreement centre on the average difference line and are 1.96 times the standard deviation above and below the average difference line.
-	
+
+Several problems have been highlighted regarding Limits of Agreement. One is the somewhat arbitrary manner in which they are
+constructed. While in essence a confidence interval, they are not constructed a such. They are designed for future values.
+
+The formulation is also heavily influenced by outliers. An example in \citet*{BA83} demonstrates the effect of recalculating without
+a particular outlier. Refering to the VCF data set in the same paper, there is more than one outlier.
+
+
+\section{Limits Of Agreement}
+Bland and Altman proposed a pair of Limits of agreement. These
+limits are intended to demonstrate the range in which 95\% of the
+sample data should lie. The Limits of agreement centre on the
+average difference line and are 1.96 times the standard deviation
+above and below the average difference line.
+
+How this relates the overall population is unclear. It seems that
+it depends on an expert to decide whether or not the range of
+differences is acceptable. In a study A Bland-Altman plots compare
+two assay methods. It plots the difference between the two
+measurements on the Y axis, and the average of the two
+measurements on the X axis
+
+\section{Limits of Agreement}
+% introduces
+A third element of the Bland-Altman methodology, an interval known
+as `limits of agreement' is introduced in \citet*{BA86},
+(sometimes referred to in literature as 95\% limits of agreement).
+Limits of agreement are used to assess whether the two methods of
+measurement can be used interchangeably. \citet{BA86} refer to
+this as the `equivalence' of two measurement methods. It must be
+established clearly the specific purpose of the limits of
+agreement. \citet*{BA95} comment that the limits of agreement
+``how far apart measurements by the two methods were likely to be
+for most individuals'', a definition echoed in their 1999 paper:
+
+\begin{quote} ``We can then say that nearly all pairs
+	of measurements by the two methods will be closer together than
+	these extreme values, which we call 95\% limits of agreement.
+	These values define the range within which most differences
+	between measurements by the two methods will lie."
+\end{quote}
+
+The limits of agreement (LoA) are computed by the following
+formula:
+\begin{equation}
+	LoA = \bar{d} \pm 1.96 S(d)
+\end{equation}
+with $\bar{d}$ as the estimate of the inter method bias, $S(d)$ as
+the standard deviation of the differences and 1.96 is the 95\%
+quantile for the standard normal distribution. (However, in some
+literature, 2 standard deviations are used instead for
+simplicity.) For the Grubbs `F vs C' comparison, these limits of
+agreement are calculated as -0.132 for the upper bound, and -1.08
+for the lower bound. Figure 1.9 shows the resultant Bland-Altman
+plot, with the limits of agreement shown in dashed lines.
+
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=125mm]{images/GrubbsBAplot-LOA.jpeg}
+		\caption{Bland-Altman plot with limits of agreement}\label{GrubbsBAplot-noLOA}
+	\end{center}
+\end{figure}
+
+The limits of agreement methodology assumes a constant level of
+bias throughout the range of measurements. As \citet*{BA86} point
+out this may not be the case. Bland and Altman advises on how to
+calculate of confidence intervals for the inter-method bias and
+the limits of agreement. Importantly the authors recommend prior
+determination of what would and would constitute acceptable
+agreement, and that sample sizes should be predetermined to give
+an accurate conclusion.
+
+\begin{quote}
+	`How far apart measurements can be without causing difficulties
+	will be a question of judgment. Ideally, it should be defined in
+	advance to help in the interpretation of the method comparison and
+	to choose the sample size.'\citep{BA86}
+\end{quote}
+
+%\subsubsection{Small Sample Sizes} The limits of agreement are
+%estimates derived from the sample studied, and will differ from
+%values relevant to the whole population, hence the importance of a
+%suitably large sample size. A different sample would give
+%different limits of agreement. Student's t-distribution is a well
+%known probability distribution used in statistical inference for
+%normally distributed populations when the sample size is small
+%\citep{student,Fisher3}. Consequently, using 't' quantiles , as
+%opposed to standard normal quantiles, may give a more appropriate
+%calculation for limits of agreement when the sample size is small.
+%For sample size $n=12$ the `t' quantile is 2.2 and the limits of
+%agreement are (-0.074,-1.143).
+\citet{BA99} note the similarity of limits of agreement to
+confidence intervals, but are clear that they are not the same
+thing. Interestingly, they describe the limits as ``being like a
+reference interval."
+
+Limits of agreement have very similar construction to Shewhart
+control limits. The Shewhart chart is a well known graphical
+methodology used in statistical process control. Consequently
+there is potential for misinterpreting the limits of agreement as
+if equivalent to Shewhart control limits. Importantly the
+parameters used to determine the limits, the mean and standard
+deviation, are not based on any sample used for an analysis, but
+on the process's historical values, a key difference with
+Bland-Altman limits of agreement.
+
+\citet{BXC2008} regards the limits of agreement as a prediction
+interval for the difference between future measurements with the
+two methods on a new individual, but states that it does not fit
+the formal definition of a prediction interval, since the
+definition does not consider the errors in estimation of the
+parameters. Prediction intervals, which are often used in
+regression analysis, are estimates of an interval in which future
+observations will fall, with a certain probability, given what has
+already been observed. \citet{BXC2008} offers an alternative
+formulation, a $95\%$ prediction interval for the difference
+\begin{equation}
+	\bar{d} \pm t_{(0.975, n-1)}S_{d} \sqrt{1+\frac{1}{n}}
+\end{equation}
+
+\noindent where $n$ is the number of subjects. Only for 61 or more
+subjects is there a quantile less than 2.
+
+\citet{luiz} describes limits of agreement as tolerance limits. A
+tolerance interval for a measured quantity is the interval in
+which a specified fraction of the population's values lie, with a
+specified level of confidence.
+
+%At least 100 historical
+%values must be used to determine the acceptable value (i.e the
+%process mean) and the process standard deviation. The principle
+%that the mean and variance of a large sample of a homogeneous
+%population is a close approximation of the population's mean and
+%variance justifies this.
+
+
+\section{Limits of Agreement}
+% introduces
+A third element of the Bland-Altman methodology, an interval known
+as `limits of agreement' is introduced in \citet*{BA86}
+(sometimes referred to in literature as 95\% limits of agreement). Bland and Altman proposed a pair of Limits of agreement. These
+limits are intended to demonstrate the range in which 95\% of the
+sample data should lie. The Limits of agreement centre on the
+average difference line and are 1.96 times the standard deviation
+above and below the average difference line.
+
 The Limits of agreement are intended to demonstrate the range in which 95\% of the
 sample data should lie. Following basic principles of the normal probability disribution, the Limits of Agreement are centred on the
 average difference line (which indicates the inter-method bias) and are 1.96 times the standard deviation
 above and below the average difference line.
+
+Limits of agreement are used to assess whether the two methods of
+measurement can be used interchangeably. \citet{BA86} refer to
+this as the `equivalence' of two measurement methods. The specific purpose of the limits of
+agreement must be
+established clearly. \citet*{BA95} comment that the limits of agreement `\textit{how
+	far apart measurements by the two methods were likely to be for
+	most individuals}', a definition echoed in their 1999 paper:
+
+\begin{quote}"We can then say that nearly all pairs
+	of measurements by the two methods will be closer together than
+	these extreme values, which we call 95\% limits of agreement.
+	These values define the range within which most differences
+	between measurements by the two methods will lie."
+\end{quote}
+
+
+The limits of agreement (LoA) are computed by the following
+formula:
+\[
+LoA = \bar{d} \pm 1.96 s_{d}
+\]
+with $\bar{d}$ as the estimate of the inter method bias, $s_{d}$
+as the standard deviation of the differences and 1.96 is the 95\%
+quantile for the standard normal distribution. (Some descriptions of the
+Bland-Altman plot use 2 standard deviations instead
+for simplicity.)
+
+The limits of agreement methodology assumes a constant level of bias throughout the range of measurements. Importantly the authors recommend prior determination of what would and would constitute acceptable
+agreement, and that sample sizes should be predetermined to give an accurate conclusion. 
+
+\begin{quote}
+	``How far apart measurements can be without causing difficulties
+	will be a question of judgment. Ideally, it should be defined in
+	advance to help in the interpretation of the method comparison and
+	to choose the sample size \citep{BA86}".
+\end{quote}
+
+However \citet{mantha} highlights inadequacies in the correct application of limits of agreement, resulting in contradictory estimates for limits of agreement in various papers.
+
+For the Grubbs `F vs C' comparison, these limits
+of agreement are calculated as -0.132 for the upper bound, and
+-1.08 for the lower bound. Figure ~\ref{GrubbsBAplot-noLOA} shows the resultant
+Bland-Altman plot, with the limits of agreement shown in dashed
+lines.
+
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=125mm]{images/GrubbsBAplot-LOA.jpeg}
+		\caption{Bland-Altman plot with limits of agreement}
+		% %\label{GrubbsBAplot-noLOA}
+	\end{center}
+\end{figure}
+\newpage
+
+%But as \citet*{BA86} point out this may not be the case. Variants of the limits of agreement that overcome this
+% problem shall be introduced in due course.
+
+%========================================================== %
+\newpage
+
+
 
 
 
@@ -517,7 +713,7 @@ Limits of agreement are intended to analyse equivalence. How this
 is assessed is the considered judgement of the practitioner. In
 \citet{BA86} an example of good agreement is cited. For two
 methods of measuring `oxygen saturation', the limits of agreement
-are calculated as (-2.0,2.8).A practitioner would ostensibly find
+are calculated as (-2.0,2.8). A practitioner would ostensibly find
 this to be sufficiently narrow.
 
 If the limits of agreement are not clinically important, which is
@@ -699,6 +895,26 @@ The prevalence of contradictory definitions of what limits of agreement strictly
 %\end{center}
 %\end{figure}
 
+\subsection{Purpose of Limits of Agreement} It must be established
+clearly the specific purpose of the limits of agreement.
+\citet*{BA95} comment that the limits of agreement \emph{how far
+	apart measurements by the two methods were likely to be for most
+	individuals.}, a definition echoed in their 1999 paper:
+\begin{quote} We can then say that nearly all pairs
+	of measurements by the two methods will be closer together than
+	these extreme values, which we call 95\% limits of agreement.
+	These values define the range within which most differences
+	between measurements by the two methods will lie\citep{BA99}.
+\end{quote}
+\citet{BXC} offers an alternative, more specific,  definition of
+the limits of agreement \emph{"a prediction interval for the
+	difference between future measurements with the two methods on a
+	new individual."} \citet{luiz} describes them as tolerance limits.
+
+Importantly they have the same construction as Shewhart Control
+limits.
+
+
 \subsection{Formal Definition of Limits of Agreement}
 \citet{BA99} note the similarity of limits of agreement to
 confidence intervals, but are clear that they are not the same thing. Interestingly, they describe the limits as `\textit{being like a reference interval}'.
@@ -757,6 +973,14 @@ The prevalence of contradictory definitions of what limits of agreement strictly
 
 
 
+\section{Interpretation of Limits Of Agreement}
+
+How this relates the overall population is unclear. It seems that it depends on an expert to decide whether or not the range of differences is acceptable. 
+
+If one method is sometimes higher, and sometimes the other method is higher, the average of the differences will be close to zero. If it is not close to zero, this indicates that the two assay methods are producing different results systematically.
+
+
+
 \section{Inferences on Bland-Altman estimates}
 	The limits of agreement are estimates derived from the sample studied, and will differ from values relevant to the whole
 	population. \citet*{BA86} advance a formulation for confidence
@@ -796,6 +1020,21 @@ The prevalence of contradictory definitions of what limits of agreement strictly
 
 		
 
+\subsubsection{Precision of Limits of Agreement}
+The limits of agreement are estimates derived from the sample
+studied, and will differ from values relevant to the whole
+population. A different sample would give different limits of
+agreement. \citet*{BA86} advance a formulation for confidence
+intervals of the inter-method bias and the limits of agreement.
+These calculations employ quantiles of the `t' distribution with
+$n -1$ degrees of freedom.
+
+%This page also shows the standard deviation (SD) of the
+%differences between the two assay methods. The SD value is used to
+%calculate the limits of agreement, computed as the mean bias plus
+%or minus 1.96 times its SD.
+
+
 \subsection{Confidence Intervals and Standard Error}
 \citet*{BA99} argue that it is possible to estimate confidence
 intervals and standard error, if it is assumed that the
@@ -817,56 +1056,8 @@ A $95\%$ confidence interval can be determined, by means of the
 \emph{t} distribution with $n-1$ degrees of freedom. \citet*{BA99} comment that such calculations  may be `somewhat
 optimistic' on account of the associated assumptions not being
 realized.
-\subsection{Confidence Intervals and Standard Error}
-\citet*{BA99} argue that it is possible to estimate confidence
-intervals and standard error, if it is assumed that the
-differences approximately follow a normal distribution,
-
-\begin{equation}
-\mbox{Var}(LoA) = (\frac{1}{n}+\frac{1.96^{2}}{2(n-1)})S_{d}^{2}.
-\end{equation}
-
-If $n$ is sufficiently large this can be following approximation
-can be used
-\begin{equation}
-\mbox{Var}(LoA) \approx 1.71^{2}\frac{S_{d}^{2}}{n}.
-\end{equation}
-Consequently the standard errors of both limits can be
-approximated as $1.71 S.E.(\bar{d})$
-
-A $95\%$ confidence interval can be determined, by means of the
-\emph{t} distribution with $n-1$ degrees of freedom. \citet*{BA99} comment that such calculations  may be `somewhat
-optimistic' on account of the associated assumptions not being
-realized.
 
 
-
-
-	\subsection{Confidence Intervals and Standard Error}
-	\citet*{BA99} argue that it is possible to estimate confidence
-	intervals and standard error, if it is assumed that the
-	differences approximately follow a normal distribution,
-	
-	\begin{equation}
-	\mbox{Var}(LoA) = (\frac{1}{n}+\frac{1.96^{2}}{2(n-1)})S_{d}^{2}.
-	\end{equation}
-	
-	If $n$ is sufficiently large this can be following approximation
-	can be used
-	\begin{equation}
-	\mbox{Var}(LoA) \approx 1.71^{2}\frac{S_{d}^{2}}{n}.
-	\end{equation}
-	Consequently the standard errors of both limits can be
-	approximated as $1.71 S.E.(\bar{d})$
-	
-	A $95\%$ confidence interval can be determined, by means of the
-	\emph{t} distribution with $n-1$ degrees of freedom. \citet*{BA99} comment that such calculations  may be `somewhat
-	optimistic' on account of the associated assumptions not being
-	realized.
-	\addcontentsline{toc}{section}{Bibliography}
-	
-	\bibliography{transferbib}
-	
 \section{Variations of the Bland-Altman Plot} 
 The limits of agreement methodology assumes a constant level of bias throughout the range of measurements. As \citet*{BA86} point out this may not be the case. Bland and Altman advises on how to calculate of confidence intervals for the inter-method bias and
 the limits of agreement. Importantly the authors recommend prior determination of what would and would constitute acceptable
@@ -919,20 +1110,7 @@ Computing limits of agreement features prominently in many method comparison stu
 all the data to compare the two methods. However, the original Bland-Altman method was developed for two sets of measurements done on one occasion, and so this approach is not suitable for replicate measures data. However, as a naive analysis, it may be used to explore the data because of the simplicity of the method.
 In addition to \citet{BA99}, \citet{BXC2008} computes the limits of agreement to the case with replicate measurements by using LME models, an approach that will be discussed in due course.
 
-\subsubsection{Precision of Limits of Agreement}
-The limits of agreement are estimates derived from the sample
-studied, and will differ from values relevant to the whole
-population. A different sample would give different limits of
-agreement. \citet*{BA86} advance a formulation for confidence
-intervals of the inter-method bias and the limits of agreement.
-These calculations employ quantiles of the `t' distribution with
-$n -1$ degrees of freedom.
 
-%This page also shows the standard deviation (SD) of the
-%differences between the two assay methods. The SD value is used to
-%calculate the limits of agreement, computed as the mean bias plus
-%or minus 1.96 times its SD.
-%----------------------------------------------------------------------------%
 \subsection{Appropriate Use of Limits of Agreement}
 Importantly \citet{BA99} makes the following point:
 \begin{quote}These estimates are meaningful only if we can assume
@@ -940,8 +1118,13 @@ Importantly \citet{BA99} makes the following point:
 	measurement, assumptions which can be checked graphically.
 \end{quote}
 
-The import of this statement is that, should the Bland-Altman plot indicate that these assumptions are not met, then their entire methodology, as posited thus far, is inappropriate for use in a method comparison study. Again, in the context of potential outlier in the Grubbs data (figure 1.2), this raises the question on how to correctly continue.
-%
+The import of this statement is that , should the Bland Altman
+plot indicate that these assumptions are not met, then their
+entire methodology, as posited thus far, is inappropriate for use
+in a method comparison study. Again, in the context of potential
+outlier in the Grubbs data (figure 1.2), this raises the question
+on how to correctly continue.
+%================================================================================================================ %%
 %Carstensen attends to the issue of repeated data, using the
 %expression replicate to express a repeated measurement on a
 %subject by the same methods. Carstensen formulates the data as
@@ -965,14 +1148,6 @@ The import of this statement is that, should the Bland-Altman plot indicate that
 
 
 
-\newpage
-%---------------------------------------------%
-\section{Limits of Agreement for Replicate Measurements}
-
-Computing limits of agreement features prominently in many method comparison studies since the publication of \citet{BA86}.
-\citet{BA99} addresses the issue of computing LoAs in the presence of replicate measurements, suggesting several computationally simple approaches. When repeated measures data are available, it is desirable to use
-all the data to compare the two methods. However, the original Bland-Altman method was developed for two sets of measurements done on one occasion, and so this approach is not suitable for replicate measures data. However, as a naive analysis, it may be used to explore the data because of the simplicity of the method.
-In addition to \citet{BA99}, \citet{BXC2008} computes the limits of agreement to the case with replicate measurements by using LME models, an approach that will be discussed in due course.
 
 
 
@@ -981,199 +1156,8 @@ In addition to \citet{BA99}, \citet{BXC2008} computes the limits of agreement to
 
 
 
-\newpage
-\subsection{Limits Of Agreement}
-Bland and Altman proposed a pair of Limits of agreement. These
-limits are intended to demonstrate the range in which 95\% of the
-sample data should lie. The Limits of agreement centre on the
-average difference line and are 1.96 times the standard deviation
-above and below the average difference line.
-\\
-How this relates the overall population is unclear. It seems that
-it depends on an expert to decide whether or not the range of
-differences is acceptable. In a study A Bland-Altman plots compare
-two assay methods. It plots the difference between the two
-measurements on the Y axis, and the average of the two
-measurements on the X axis
-\subsection{Appropriate Use of Limits of Agreement}
-Importantly \citet{BA99} makes the following point:
-\begin{quote}These estimates are meaningful only if we can assume
-	bias and variability are uniform throughout the range of
-	measurement, assumptions which can be checked graphically.
-\end{quote}
-
-The import of this statement is that , should the Bland Altman
-plot indicate that these assumptions are not met, then their
-entire methodology, as posited thus far, is inappropriate for use
-in a method comparison study. Again, in the context of potential
-outlier in the Grubbs data (figure 1.2), this raises the question
-on how to correctly continue.
-\section{Intervals}
-\subsection{Precision of Limits of Agreement}
-The limits of agreement are estimates derived from the sample
-studied, and will differ from values relevant to the whole
-population. A different sample would give different limits of
-agreement. \citet*{BA86} advance a formulation for confidence
-intervals of the inter-method bias and the limits of agreement.
-These calculations employ quantiles of the `t' distribution with
-$n -1$ degrees of freedom.
-
-\subsection{Purpose of Limits of Agreement} It must be established
-clearly the specific purpose of the limits of agreement.
-\citet*{BA95} comment that the limits of agreement \emph{how far
-	apart measurements by the two methods were likely to be for most
-	individuals.}, a definition echoed in their 1999 paper:
-\begin{quote} We can then say that nearly all pairs
-	of measurements by the two methods will be closer together than
-	these extreme values, which we call 95\% limits of agreement.
-	These values define the range within which most differences
-	between measurements by the two methods will lie\citep{BA99}.
-\end{quote}
-\citet{BXC} offers an alternative, more specific,  definition of
-the limits of agreement \emph{"a prediction interval for the
-	difference between future measurements with the two methods on a
-	new individual."} \citet{luiz} describes them as tolerance limits.
-
-Importantly they have the same construction as Shewhart Control
-limits.
-\subsection{Tolerance Intervals}
-
-Shewhart formaulted a tolerance limits to determine acceptable
-ranges for a production process.
-
-Further to the Higher Certificate, new certification programs can
-be formulated to take advantage of the proposed exam delivery
-mechanism\citep*{BB}.There is a precedent for maths examinations
-from the Professional Risk Management Industry Association.
 
 
-\section{Limits of Agreement}
-
-Several problems have been highlighted regarding Limits of
-Agreement. One is the somewhat arbitrary manner in which they are
-constructed. While in essence a confidence interval, they are not
-constructed a such. They are designed for future values.
-\\
-\\
-The formulation is also heavily influenced by outliers. An Example
-in \citet*{BA83} demonstrates the effect of recalculating without
-a particular outlier. Refering to the VCF data set in the same
-paper, there is more than one outlier.
-
-
-\section{Limits of Agreement}
-% introduces
-A third element of the Bland-Altman methodology, an interval known
-as `limits of agreement' is introduced in \citet*{BA86},
-(sometimes referred to in literature as 95\% limits of agreement).
-Limits of agreement are used to assess whether the two methods of
-measurement can be used interchangeably. \citet{BA86} refer to
-this as the `equivalence' of two measurement methods. It must be
-established clearly the specific purpose of the limits of
-agreement. \citet*{BA95} comment that the limits of agreement
-``how far apart measurements by the two methods were likely to be
-for most individuals'', a definition echoed in their 1999 paper:
-
-\begin{quote} ``We can then say that nearly all pairs
-	of measurements by the two methods will be closer together than
-	these extreme values, which we call 95\% limits of agreement.
-	These values define the range within which most differences
-	between measurements by the two methods will lie."
-\end{quote}
-
-The limits of agreement (LoA) are computed by the following
-formula:
-\begin{equation}
-LoA = \bar{d} \pm 1.96 S(d)
-\end{equation}
-with $\bar{d}$ as the estimate of the inter method bias, $S(d)$ as
-the standard deviation of the differences and 1.96 is the 95\%
-quantile for the standard normal distribution. (However, in some
-literature, 2 standard deviations are used instead for
-simplicity.) For the Grubbs `F vs C' comparison, these limits of
-agreement are calculated as -0.132 for the upper bound, and -1.08
-for the lower bound. Figure 1.9 shows the resultant Bland-Altman
-plot, with the limits of agreement shown in dashed lines.
-
-
-\begin{figure}[h!]
-	\begin{center}
-		\includegraphics[width=125mm]{images/GrubbsBAplot-LOA.jpeg}
-		\caption{Bland-Altman plot with limits of agreement}\label{GrubbsBAplot-noLOA}
-	\end{center}
-\end{figure}
-
-The limits of agreement methodology assumes a constant level of
-bias throughout the range of measurements. As \citet*{BA86} point
-out this may not be the case. Bland and Altman advises on how to
-calculate of confidence intervals for the inter-method bias and
-the limits of agreement. Importantly the authors recommend prior
-determination of what would and would constitute acceptable
-agreement, and that sample sizes should be predetermined to give
-an accurate conclusion.
-
-\begin{quote}
-	`How far apart measurements can be without causing difficulties
-	will be a question of judgment. Ideally, it should be defined in
-	advance to help in the interpretation of the method comparison and
-	to choose the sample size.'\citep{BA86}
-\end{quote}
-
-%\subsubsection{Small Sample Sizes} The limits of agreement are
-%estimates derived from the sample studied, and will differ from
-%values relevant to the whole population, hence the importance of a
-%suitably large sample size. A different sample would give
-%different limits of agreement. Student's t-distribution is a well
-%known probability distribution used in statistical inference for
-%normally distributed populations when the sample size is small
-%\citep{student,Fisher3}. Consequently, using 't' quantiles , as
-%opposed to standard normal quantiles, may give a more appropriate
-%calculation for limits of agreement when the sample size is small.
-%For sample size $n=12$ the `t' quantile is 2.2 and the limits of
-%agreement are (-0.074,-1.143).
-\citet{BA99} note the similarity of limits of agreement to
-confidence intervals, but are clear that they are not the same
-thing. Interestingly, they describe the limits as ``being like a
-reference interval."
-
-Limits of agreement have very similar construction to Shewhart
-control limits. The Shewhart chart is a well known graphical
-methodology used in statistical process control. Consequently
-there is potential for misinterpreting the limits of agreement as
-if equivalent to Shewhart control limits. Importantly the
-parameters used to determine the limits, the mean and standard
-deviation, are not based on any sample used for an analysis, but
-on the process's historical values, a key difference with
-Bland-Altman limits of agreement.
-
-\citet{BXC2008} regards the limits of agreement as a prediction
-interval for the difference between future measurements with the
-two methods on a new individual, but states that it does not fit
-the formal definition of a prediction interval, since the
-definition does not consider the errors in estimation of the
-parameters. Prediction intervals, which are often used in
-regression analysis, are estimates of an interval in which future
-observations will fall, with a certain probability, given what has
-already been observed. \citet{BXC2008} offers an alternative
-formulation, a $95\%$ prediction interval for the difference
-\begin{equation}
-\bar{d} \pm t_{(0.975, n-1)}S_{d} \sqrt{1+\frac{1}{n}}
-\end{equation}
-
-\noindent where $n$ is the number of subjects. Only for 61 or more
-subjects is there a quantile less than 2.
-
-\citet{luiz} describes limits of agreement as tolerance limits. A
-tolerance interval for a measured quantity is the interval in
-which a specified fraction of the population's values lie, with a
-specified level of confidence.
-
-%At least 100 historical
-%values must be used to determine the acceptable value (i.e the
-%process mean) and the process standard deviation. The principle
-%that the mean and variance of a large sample of a homogeneous
-%population is a close approximation of the population's mean and
-%variance justifies this.
 
 
 \section{Prevalence of the Bland-Altman plot}
@@ -1356,81 +1340,6 @@ was found to be the sixth most cited paper of all time by the
 	percentile of the absolute difference of paired observations.
 		
 %----------------------------------------------------------------------------%
-\section{Limits of Agreement}
-% introduces
-A third element of the Bland-Altman methodology, an interval known
-as `limits of agreement' is introduced in \citet*{BA86}
-(sometimes referred to in literature as 95\% limits of agreement). Bland and Altman proposed a pair of Limits of agreement. These
-limits are intended to demonstrate the range in which 95\% of the
-sample data should lie. The Limits of agreement centre on the
-average difference line and are 1.96 times the standard deviation
-above and below the average difference line.
-Limits of agreement are used to assess whether the two methods of
-measurement can be used interchangeably. \citet{BA86} refer to
-this as the `equivalence' of two measurement methods. The specific purpose of the limits of
-agreement must be
-established clearly. \citet*{BA95} comment that the limits of agreement `\textit{how
-	far apart measurements by the two methods were likely to be for
-	most individuals}', a definition echoed in their 1999 paper:
-
-\begin{quote}"We can then say that nearly all pairs
-	of measurements by the two methods will be closer together than
-	these extreme values, which we call 95\% limits of agreement.
-	These values define the range within which most differences
-	between measurements by the two methods will lie."
-\end{quote}
-
-
-The limits of agreement (LoA) are computed by the following
-formula:
-\[
-LoA = \bar{d} \pm 1.96 s_{d}
-\]
-with $\bar{d}$ as the estimate of the inter method bias, $s_{d}$
-as the standard deviation of the differences and 1.96 is the 95\%
-quantile for the standard normal distribution. (Some descriptions of the
-Bland-Altman plot use 2 standard deviations instead
-for simplicity.)
-
-The limits of agreement methodology assumes a constant level of bias throughout the range of measurements. Importantly the authors recommend prior determination of what would and would constitute acceptable
-agreement, and that sample sizes should be predetermined to give an accurate conclusion. 
-
-\begin{quote}
-	``How far apart measurements can be without causing difficulties
-	will be a question of judgment. Ideally, it should be defined in
-	advance to help in the interpretation of the method comparison and
-	to choose the sample size \citep{BA86}".
-\end{quote}
-
-However \citet{mantha} highlights inadequacies in the correct application of limits of agreement, resulting in contradictory estimates for limits of agreement in various papers.
-
-For the Grubbs `F vs C' comparison, these limits
-of agreement are calculated as -0.132 for the upper bound, and
--1.08 for the lower bound. Figure ~\ref{GrubbsBAplot-noLOA} shows the resultant
-Bland-Altman plot, with the limits of agreement shown in dashed
-lines.
-
-
-\begin{figure}[h!]
-	\begin{center}
-		\includegraphics[width=125mm]{images/GrubbsBAplot-LOA.jpeg}
-		\caption{Bland-Altman plot with limits of agreement}
-		% %\label{GrubbsBAplot-noLOA}
-	\end{center}
-\end{figure}
-\newpage
-
-%But as \citet*{BA86} point out this may not be the case. Variants of the limits of agreement that overcome this
-% problem shall be introduced in due course.
-
-%========================================================== %
-\newpage
-\section{Interpretation of Limits Of Agreement}
-
-How this relates the overall population is unclear. It seems that it depends on an expert to decide whether or not the range of differences is acceptable. 
-
-If one method is sometimes higher, and sometimes the other method is higher, the average of the differences will be close to zero. If it is not close to zero, this indicates that the two assay methods are producing different results systematically.
-
 
 \section{Coefficient of Repeatability}
 \subsection{Repeatability}
@@ -1445,13 +1354,13 @@ is straightforward. The coefficient is calculated from the (in some texts called
 
 
 %------------------------------------------------------------------------------%
-
-\subsection{Repeatability coefficient}
 \citet{BA99} introduces the repeatability coefficient for a method, which is defined as the upper limits of a prediction interval for the absolute difference between two measurements by the same
 method on the same item under identical circumstances \citep{BXC2008}.
 
 $\sigma^2_{x}$ is the within-subject variance of method $x$. The repeatability coefficient is $2.77 \sigma_{x}$ (i.e. $1.96 \times \sqrt{2} \sigma_{x}$). For $95\%$ of subjects, two replicated measurement by the same method will be within this repeatability coefficient.
 
+%================================================== %
+\newpage
 
 
 \section{Model Specification}
@@ -1474,7 +1383,7 @@ The case-wise differences $d_i = x_i - y_i$
 
 
 
-\section{Formal Testing}
+\subsection{Formal Testing}
 The Bland Altman plot is a simple tool for inspection of the data,
 but in itself it offers no formal testing procedure in this regard. To this end, the approach proposed by \citet{BA83} is a formal test on the Pearson correlation coefficient  of casewise differences and means ($\rho_{AD}$). According to the authors, this test is equivalent to a well established tests for equality of variances, known as the `Pitman Morgan Test' \citep{Pitman,
 	Morgan}.
@@ -1488,7 +1397,7 @@ There has no been no further mention of this particular test in the subsequent a
 place for methods of analysis based on hypothesis testing'. \citet{BA99} also states that consider structural equation models
 to be inappropriate.
 %=================================================================%
-	\section{Analysis of Variance }
+	\subsection{Analysis of Variance }
 	
 	\citet{BXC2004} presents a model to describe the relationship between a value of measurement and its
 	real value. The non-replicate case is considered first, as it is the context of the Bland Altman plots. This model assumes that inter-method bias is the only difference between the two methods.
@@ -1510,8 +1419,8 @@ to be inappropriate.
 	%A distinction can be made between the two models: Roy's model is a standard LME model, whereas Carstensen's model is a more complex additive model.
 
 	
-	\bigskip
-		\section{Two Way ANOVA}
+
+		\subsection{Two Way ANOVA}
 		
 		\citet{BXC2008} develop their model from a standard two-way analysis of variance model, reformulated for the case of replicate measurements, with random effects terms specified as appropriate. 
 		Their model describing $y_{mir} $, again the $r$th replicate measurement on the $i$th item by the $m$th method ($m=1,2,$ $i=1,\ldots,N,$ and $r = 1,\ldots,n$), can be written as
@@ -1531,7 +1440,7 @@ to be inappropriate.
 		%----------------------------------------------------------------------------
 		
 
-\section{Classical Model}
+\subsection{Classical Model}
 The classical model is based on measurements $y_{mi}$
 by method $m=1,2$ on item $i = 1,2 \ldots$
 
