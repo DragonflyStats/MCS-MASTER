@@ -1233,6 +1233,72 @@
 	
 	
 	\chapter{Linear Mixed effects Models}
+\section{Introduction to Mixed Models}
+
+%\citet{BrownPrescott} defines random effects as realizations of
+%samples from a normal distribution with mean equal to zero.
+
+All models are characterized by the mean $\alpha$ and the error
+terms. In addition to these terms, any model described so far will
+have either random effects terms or fixed effects terms and
+accordingly are referred to as random or fixed models. Models that
+have both fixed effects terms and random effects terms are known
+as 'mixed effects models'. Once the theory underlying fixed and
+random effects models has been fully understood, the progression
+to understanding mixed models is very simple.
+
+Elaborating on the original mice litter example, the six litters
+by each mouse were fed according to three different dietary
+treatments \citep{Searle}. Therefore a fixed effect $\phi_{j}$ has
+been added to the model, which is now formulated as follows;
+\begin{equation}
+y_{ij} = \mu + \delta_{i} + \phi_{j} + \gamma_{ij} +
+\epsilon_{ijk}
+\end{equation}
+As before, an interaction effect $\gamma_{ij}$ must also be added
+to the model. In cases where the interaction term describes the
+combined effect of fixed and random components, it should be
+treated as random effect. The variance of the above model is
+composed of the $\sigma^{2}_{\delta}$, $\sigma^{2}_{\gamma}$ and
+$\sigma^{2}_{\epsilon}$ .
+
+
+It may be shown that the interaction factors make no contribution
+to the outcome, i.e $\gamma_{ij}$ is consistently calculated as
+zero. Considering the skin tumour example, a person's age would
+bear no relation to their gender and hence there would be
+plausible interaction between the two factors. Indeed , in keeping
+with the `Law of Parsimony', factors should be specified such that
+each would convey separate information. However, interaction terms
+are extant when the model specifies repeated observations, as
+there is necessarily a relationship between observations from the
+same subject. Importantly, interaction effects, being random
+effects, are attended by variance component terms and therefore
+also contribute to the overall variance of the model.
+
+\citet{Searle} gives a mixed effects model formulation for the
+Grubbs artillery study. $y_{ij}$ is the muzzle velocity of the
+$i$th shell, as measured by the $j$th chronometer.
+\begin{equation}
+y_{ij} = \mu + \alpha_{i} + \beta_{j}  + \epsilon_{ij}
+\end{equation}
+In this formulation $\alpha_{i}$ is the random effect of round
+$i$, and the fixed effect component $\beta_{j}$ is the bias in
+chronometer $j$. (Also, no interaction term is used).
+
+
+
+
+\section{Likelihood and estimation}
+
+ Likelihood is the hypothetical probability that an event that has already occurred would yield a specific outcome. Likelihood differs from probability in that probability refers to future occurrences, while likelihood refers to past known outcomes.
+
+ The likelihood function ($L(\theta)$)is a fundamental concept in statistical inference. It indicates how likely a particular population is to produce an observed sample. The set of values that maximize the likelihood function are considered to be optimal, and are used as the estimates of the parameters. For computational ease, it is common to use the logarithm of the likelihood function, known simply as the log-likelihood ($\ell(\theta)$).
+
+%========================================================= %
+
+\newpage
+
 	\section{Linear Mixed effects Models}
 	A linear mixed effects (LME) model is a statistical model containing both fixed effects and random effects (random effects are also known as variance components). LME models are a generalization of the classical linear model, which contain fixed effects only. When the levels of factors are considered to be sampled from a population,
 	and each level is not of particular interest, they are considered random quantities with associated variances.
@@ -1422,9 +1488,407 @@
 	
 	
 	
+
+
+
+
+
+
+
+
+\section{Matrix Formulation} There are matrix (i.e multivariate)
+formulations of both fixed effects models and random effects
+models. \citet{BrownPrescott} remarks that the matrix notation
+makes the underlying theory of mixed effects models much easier to
+work with. The fixed effects models can be specified as follows;
+
+\begin{equation}
+\textbf{Y} = \textbf{Xb} + \textbf{e}
+\end{equation}
+
+\textbf{Y} is the vector of $n$ observations, with dimension $n
+\times 1$. \textbf{b} is a vector of fixed $p$ effects, and has
+dimension $p \times 1$. It is composed of coefficients, with the
+first element being the population mean. For the skin tumour
+example, with the three specified fixed effects, $p=4$. \textbf{X}
+is known as the design `matrix', model matrix for fixed effects,
+and comprises $0$s or $1$s, depending on whether the relevant
+fixed effects have any effect on the observation is question.
+\textbf{X} has dimension $n \times p$. \textbf{e} is the vector of
+residuals with dimension $n \times 1$.
+
+The random effects models can be specified similarly. \textbf{Z}
+is known as the `model matrix for random effects', and also
+comprises $0$s or $1$s. It has dimension $n \times q$. \textbf{u}
+is a vector of random $q$ effects, and has dimension $q \times 1$.
+
+\begin{equation}
+\textbf{Y} = \textbf{Zu} + \textbf{e}
+\end{equation}
+
+Again, once the component fixed effects and random effects
+components are considered, progression to a mixed model
+formulation is a simple step. Further to \citet{LW82}, it is
+conventional to formulate a mixed effects model in matrix form as
+follows:
+
+\begin{equation}
+\textbf{Y} = \textbf{Xb} + \textbf{Zu} + \textbf{e}
+\end{equation}
+
+($E(\textbf{u})=0$, $E(\textbf{e})=0 $ and $E(\textbf{y}) =
+\textbf{Xb}$)
+
+
+\section{Computation of LMEs using R} \cite{PB} advises how to
+implement LME models in statistical software (ostensibly for S and
+S PLUS, but R is very similar). When tackling linear mixed effects
+models using the R language, a statistician can call upon the
+\emph{lme} command found in the \emph{nlme} package.This command
+fits a LME model to the data set using either Maximum Likelihood
+(ML) or Restricted Maximum Likelihood (REML). ML may be referred
+to as 'full maximum likelihood' estimation.
+
+The first two arguments for \emph{lme} are \emph{fixed} and
+\emph{data}, which give the model for the expected responses (i.e.
+the fixed part of the model), and the data that themodel should be
+fitted from. The next argument is  \emph{random}, a one-sided
+formula which describes the random effects, and the grouping
+structure for the model. The  \emph{method} argument can specify
+whether to use 'REML', the default setting, or 'ML'.
+
+\citet{PB} describes an experiment whereby the productivity of six
+randomly chosen workers are assessed three times on each of three
+machines, yielding the 54 observations in the following table.
+
+
+% latex table generated in R 2.9.2 by xtable 1.5-5 package
+% Wed Sep 16 13:56:04 2009
+\begin{table}[h!]
+	\begin{center}
+		\begin{tabular}{|c|c|c|c||c|c|c|c|}
+			\hline
+			Observation & Worker & Machine & score & Observation & Worker & Machine & score \\
+			\hline
+			1 & 1 & A & 52.00 &	28 & 4 & B & 63.20 \\
+			2 & 1 & A & 52.80 &	  29 & 4 & B & 62.80 \\
+			3 & 1 & A & 53.10 &	  30 & 4 & B & 62.20 \\
+			4 & 2 & A & 51.80 &	  31 & 5 & B & 64.80 \\
+			5 & 2 & A & 52.80 &	  32 & 5 & B & 65.00 \\
+			6 & 2 & A & 53.10 &	  33 & 5 & B & 65.40 \\
+			7 & 3 & A & 60.00 &	  34 & 6 & B & 43.70 \\
+			8 & 3 & A & 60.20 &	  35 & 6 & B & 44.20 \\
+			9 & 3 & A & 58.40 &	  36 & 6 & B & 43.00 \\
+			10 & 4 & A & 51.10 &	  37 & 1 & C & 67.50 \\
+			11 & 4 & A & 52.30 &	  38 & 1 & C & 67.20 \\
+			12 & 4 & A & 50.30 &	  39 & 1 & C & 66.90 \\
+			13 & 5 & A & 50.90 &	  40 & 2 & C & 61.50 \\
+			14 & 5 & A & 51.80 &	  41 & 2 & C & 61.70 \\
+			15 & 5 & A & 51.40 &	  42 & 2 & C & 62.30 \\
+			16 & 6 & A & 46.40 &	  43 & 3 & C & 70.80 \\
+			17 & 6 & A & 44.80 &	  44 & 3 & C & 70.60 \\
+			18 & 6 & A & 49.20 &	  45 & 3 & C & 71.00 \\
+			19 & 1 & B & 62.10 &	  46 & 4 & C & 64.10 \\
+			20 & 1 & B & 62.60 &	  47 & 4 & C & 66.20 \\
+			21 & 1 & B & 64.00 &	  48 & 4 & C & 64.00 \\
+			22 & 2 & B & 59.70 &	  49 & 5 & C & 72.10 \\
+			23 & 2 & B & 60.00 &	  50 & 5 & C & 72.00 \\
+			24 & 2 & B & 59.00 &	  51 & 5 & C & 71.10 \\
+			25 & 3 & B & 68.60 &	  52 & 6 & C & 62.00 \\
+			26 & 3 & B & 65.80 &	  53 & 6 & C & 61.40 \\
+			27 & 3 & B & 69.70 &	  54 & 6 & C & 60.50 \\
+			
+			\hline
+		\end{tabular}
+		\caption{Machines Data , Pinheiro Bates}
+	\end{center}
+\end{table}
+(Overall mean score = $59.65$, mean on machine A = $52.35$ , mean
+on machine B = $60.32$, mean on machine C = $66.27$)
+
+
+The `worker' factor is modelled with random effects($u_{i}$),
+whereas the `machine' factor is modelled with fixed effects
+($\beta_{j}$). Due to the repeated nature of the data, interaction
+effects between these factors are assumed to be extant, and shall
+be examined accordingly. The interaction effect in this case
+($\tau_{ij}$) describes whether the effect of changing from one
+machine to another is different for each worker. The productivity
+score $y_{ijk}$ is the $k$th observation taken on worker $i$ on
+machine $j$, and is formulated
+as follows;
+
+\begin{equation}
+y_{ijk} = \beta_{j} + u_{i} + \tau_{ij} + \epsilon_{ijk}
+\end{equation}
+%\begin{equation*}
+%	u_{i} \sim N(0, \sigma^{2}_{u}), \epsilon_{ijk} \sim N(0,
+%	\sigma^{2}), \tau_{i} \sim N(0, \sigma^{2}_{\tau})
+%\end{equation*}
+
+The `nlme' package is incorporated into the R programming to
+perform linear mixed model calculations. For the `Machines' data,
+\citet{pb} use the following code, with the hierarchical structure
+specified in the last argument.
+\begin{verbatim}
+lme(score~Machine, data=Machines, random=~1|Worker/Machine)
+\end{verbatim}
+
+
+The output of the R computation is given below.
+\begin{verbatim}
+Linear mixed-effects model fit by REML
+Data: Machines
+Log-restricted-likelihood: -107.8438
+Fixed: score ~ Machine
+(Intercept)    MachineB    MachineC
+52.355556    7.966667   13.916667
+
+Random effects:
+Formula: ~1 | Worker
+(Intercept)
+StdDev:     4.78105
+
+Formula: ~1 | Machine %in% Worker
+(Intercept)  Residual
+StdDev:    3.729532 0.9615771
+
+Number of Observations: 54 Number of Groups:
+Worker Machine %in% Worker
+6                  18
+
+\end{verbatim}
+
+
+The crucial pieces of information given in the programme output
+are the estimates of the intercepts for each of the three
+machines. Machine A, which is treated as a control case, is
+estimated to have an intercept of 52.35. The intercept estimates
+for machines B and C are found to be $60.32$ and $66.27$ (by
+adding the values 7.96 and 13.91 to 52.35 respectively). Estimate
+for the variance components are also given; $\sigma^{2}_{u} =
+(4.78)^{2}$ , $\sigma^{2}_{\tau} = (3.73)^{2}$ and
+$\sigma^{2}_{\epsilon} = (0.96)^{2}$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MODEL SELECTION
+
+
+\section{Implementation in R}
+To implement an LME model in \texttt{R}, the \texttt{nlme} package is used. This package is loaded into the \texttt{R} environment using the library command, (i.e.\ \texttt{library(nlme)}). The \texttt{lme} command is used to fit LME models. The first two arguments to the \texttt{lme} function specify the fixed effect component of the model, and the data set to which the model is to be fitted. The first candidate model (`MCS1') fits an LME model on the data set `dat'. The variable `method' is assigned as the fixed effect, with the response variable `BP' (i.e.\ blood pressure).
+
+The third argument contain the random effects component of the formulation, describing the random effects, and their grouping structure. The \texttt{nlme} package provides a set of positive-definite matrices , the \texttt{pdMat} class, that can be used to specify a structure for the between-subject variance-covariance matrix for the random effects. For Roy's methodology, we will use the \texttt{pdSymm} and \texttt{pdCompSymm} to specify a symmetric structure and a compound symmetry structure respectively. A full discussion of these structures can be found in \citet[pg. 158]{PB}.
+
+Similarly a variety of structures for the with-subject variance-covariance matrix can be implemented using \texttt{nlme}. To implement a particular matrix structure, one must specify both a variance function and correlation structure accordingly. Variance functions are used to model the variance structure of the within-subject errors. \texttt{varIdent} is a variance function object used to allow different variances according to the levels of a classification factor in the data. A compound symmetry structure is implemented using the \texttt{corCompSymm} class, while the symmetric form is specified by \texttt{corSymm} class. Finally, the estimation methods is specified as ``ML" or ``REML".
+
+The first of Roy's candidate model can be implemented using the following code;\\
+\hrule
+\begin{verbatim}
+MCS1 = lme(BP ~ method-1, data = dat,
+random =  list(subject=pdSymm(~ method-1)),
+weights=varIdent(form=~1|method),
+correlation = corSymm(form=~1 | subject/obs), method="ML")
+\end{verbatim}
+\hrule
+\vspace{1cm}
+For the blood pressure data used in \citet{roy}, all four candidate models are implemented by slight variations of this piece of code, specifying either \texttt{pdSymm} or \texttt{pdCompSymm} in the second line, and either \texttt{corSymm} or \texttt{corCompSymm} in the fourth line.
+For example, the second candidate model `MCS2' is implemented with the same code as MCS1, except for the term \texttt{pdCompSymm} in the second line, rather than \texttt{pdSymm}.
+\\
+\hrule
+\begin{verbatim}
+MCS2 = lme(BP ~ method-1, data = dat,
+random = list(subject=pdCompSymm(~ method-1)),
+weights = varIdent(form=~1|method),
+correlation = corSymm(form=~1 | subject/obs), method="ML")
+\end{verbatim}
+\hrule
+\vspace{1cm}
+Using this \texttt{R} implementation for other data sets requires that the data set is structured appropriately (i.e.\ each case of observation records the index, response, method and replicate). Once formatted properly, implementation is simply a case of re-writing the first line of code, and computing the four candidate models accordingly.
+
+To perform a likelihood ratio test for two candidate models, simply use the \texttt{anova} command with the names of the candidate models as arguments. The following piece of code implement the first of Roy's variability tests.
+\\
+\hrule
+\begin{verbatim}
+> anova(MCS1,MCS2)
+Model df    AIC    BIC  logLik   Test L.Ratio p-value
+MCS1     1  8 4077.5 4111.3 -2030.7
+MCS2     2  7 4075.6 4105.3 -2030.8 1 vs 2 0.15291  0.6958
+>
+\end{verbatim}
+\hrule
+\vspace{1cm}
+The fixed effects estimates are the same for all four candidate models. The inter-method bias can be easily determined by inspecting a summary of any model. The summary presents estimates for all of the important parameters, but not the complete variance-covariance matrices (although some simple \texttt{R} functions can be written to overcome this). The variance estimates for the random effects for MCS2 is presented below.
+\\
+\hrule
+\begin{verbatim}
+Random effects:
+Formula: ~method - 1 | subject
+Structure: Compound Symmetry
+StdDev Corr
+methodJ  30.765
+methodS  30.765 0.829
+Residual  6.115
+\end{verbatim}
+\hrule
+\vspace{1cm}
+Similarly, for computing the limits of agreement the standard deviation of the differences is not explicitly given. Again, A simple \texttt{R} function can be written to calculate the limits of agreement directly.
+
+%------------------------------------------------------------------------------------%
+
+\section{LRTs wtih \texttt{R}}
+Likelihood ratio tests are very simple to implement in \texttt{R}, simply use the `\texttt{anova()}'
+commands. Sample output will be given for each variability test. The likelihood ratio
+test is the procedure used to compare the fit of two models. For each candidate model,
+the `-2 log likelihood' (M2LL) is computed. The test statistic for each of the three
+hypothesis tests is the difference of the M2LL for each pair of models. If the p-value
+in each of the respective tests exceed as significance level chosen by the analyst, then
+the null model must be rejected.
+
+\begin{equation}
+-??2 ln \Lambda_d = [\mbox{M2LL under H0 model}] - [\mbox{M2LL under HA model}] 
+\end{equation}
+
+These test statistics follow a chi-square distribution with the degrees of freedom
+computed as the difference of the LRT degrees of freedom.
+\begin{equation}	
+\nu_ = [ \mbox{LRT df under H0 model}] - [\mbox{ LRT df under HA model}]
+\end{equation}	
+
+%	\begin{framed}
+%		\begin{verbatim}
+%	
+%		> anova(MCS1,MCS2)
+%	
+%		Model df AIC BIC logLik Test L.Ratio p-value
+%		MCS1 1 8 4077.5 4111.3 -2030.7
+%		MCS2 2 7 4075.6 4105.3 -2030.8 1 vs 2 0.15291 0.6958
+%		
+%		\end{verbatim}
+%	\end{framed}
+\begin{center}
+	\begin{tabular}{|c|c|c|c|c|c|c|c|}
+		\hline
+		Model   &      df &   AIC  & BIC      & logLik & Test & L.Ratio & p-value \\ \hline
+		MCS1    &       8 & 4077.5 & 4111.3 & -2030.7  &       &         &        \\ \hline
+		MCS2    &       7 & 4075.6 & 4105.3 & -2030.8  & 1 vs 2 & 0.15291 & 0.6958 \\
+		\hline 
+	\end{tabular} 
+\end{center}
+
+\section{BXC - Model Terms}
+
+\begin{itemize}
+	\item Let $y_{mir}$ be the response of method $m$ on the $i$th subject
+	at the $r-$th replicate.
+	\item Let $\boldsymbol{y}_{ir}$ be the $2 \times 1$ vector of measurements
+	corresponding to the $i-$th subject at the $r-$th replicate.
+	\item Let $\boldsymbol{y}_{i}$ be the $R_i \times 1$ vector of
+	measurements corresponding to the $i-$th subject, where $R_i$ is number of replicate measurements taken on item $i$.
+	\item Let $\alpha_mi$ be the fixed effect parameter for method for subject $i$.
+	\item Formally Roy uses a separate fixed effect parameter to describe the true value $\mu_i$, but later combines it with the other fixed effects when implementing the model.
+	\item Let $u_{1i}$ and $u_{2i}$ be the random effects corresponding to methods for item $i$.
 	
+	\item $\boldsymbol{\epsilon}_{i}$ is a $n_{i}$-dimensional vector
+	comprised of residual components. For the blood pressure data $n_{i} = 85$.
 	
-	\bibliography{DB-txfrbib}
+	\item $\boldsymbol{\beta}$ is the solutions of the means of the two methods. In the LME output, the bias ad corresponding
+	t-value and p-values are presented. This is relevant to Roy's first test.\end{itemize}
+%-----------------------------------------------------------------------------------%
+
+\section{Other Approaches}
+
+\subsection{Random coefficient growth curve model} (Chincilli
+1996) Random coefficient growth curve model, a special type of
+mixed model have been proposed a single measure of agreement for
+repeated measurements.
+\begin{equation}
+\textbf{d}= \textbf{Xb} + \textbf{Zu} + \textbf{e}
+\end{equation}
+The distributional asummptions also require \textbf{d} to
+\textbf{N}
+
+\subsection{Marginal Modelling}
+(Diggle 2002) proposes the use of marginal models as an
+alternative to mixed models.m Marginal models are appropriate when
+interences about the mean response are of specific interest.
+
+
+
+\bigskip
+\addcontentsline{toc}{section}{Bibliography}
+
+\bibliographystyle{chicago}
+\bibliography{DB-txfrbib}
+\section{LME}
+Consistent with the conventions of mixed models, \citet{pkc}
+formulates the measurement $y_{ij} $from method $i$ on individual
+$j$ as follows;
+\begin{equation}
+y_{ij} =P_{ij}\theta + W_{ij}v_{i} + X_{ij}b_{j} + Z_{ij}u_{j} +
+\epsilon_{ij},     (j=1,2, i=1,2....n)
+\end{equation}
+The design matrix $P_{ij}$ , with its associated column vector
+$\theta$, specifies the fixed effects common to both methods. The
+fixed effect specific to the $j$th method is articulated by the
+design matrix $W_{ij}$ and its column vector $v_{i}$. The random
+effects common to both methods is specified in the design matrix
+$X_{ij}$, with vector $b_{j}$ whereas the random effects specific
+to the $i$th subject by the $j$th method is expressed by $Z_{ij}$,
+and vector $u_{j}$. Noticeably this notation is not consistent
+with that described previously.  The design matrices are specified
+so as to includes a fixed intercept for each method, and a random
+intercept for each individual. Additional assumptions must also be
+specified;
+\begin{equation}
+v_{ij} \sim N(0,\Sigma),
+\end{equation}
+These vectors are assumed to be independent for different $i$s,
+and are also mutually independent. All Covariance matrices are
+positive definite.  In the above model effects can be classed as
+those common to both methods, and those that vary with method.
+When considering differences, the effects common to both
+effectively cancel each other out. The differences of each pair of
+measurements can be specified as following;
+\begin{equation}
+d_{ij} = X_{ij}b_{j} + Z_{ij}u_{j} + \epsilon_{ij},     (j=1,2,
+i=1,2....n)
+\end{equation}
+This formulation has seperate distributional assumption from the
+model stated previously.
+
+This agreement covariate $x$ is the key step in how this
+methodology assesses agreement.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+
+
+\section{Other Approaches}
+
+
+\citet{pkcng} generalize this approach to account for situations
+where the distributions are not identical, which is commonly the
+case. The TDI is not consistent and may not preserve its
+asymptotic nominal level, and that the coverage probability
+approach of \citet{lin2002} is overly conservative for moderate
+sample sizes. This methodology proposed by \citet{pkcng} is a
+regression based approach that models the mean and the variance of
+differences as functions of observed values of the average of the
+paired measurements.
+
+\section{Remarks}
+The relationship between precision and the within-item and between-item variability must be established. Roy establishes the equivalence of repeatability and within-item variability, and hence precision.  The method with the smaller within-item variability can be deemed to be the more precise.
+
+A useful approach is to compute the confidence intervals for the ratio of within-item standard deviations (equivalent to the ratio of repeatability coefficients), which can be interpreted in the usual manner.  
+
+In fact, the ratio of within-item standard deviations, with the attendant confidence interval,  can be determined using a single R command: \texttt{intervals()}.
+
+Pinheiro and Bates (pg 93-95) give a description of how confidence intervals for the variance components are computed. Furthermore a complete set of confidence intervals can be computed to complement the variance component estimates. 
+
+What is required is the computation of the variance ratios of within-item and between-item standard deviations.  
+
+A naive  approach would be to compute the variance ratios by relevant F distribution quantiles. However, the question arises as to the appropriate degrees of freedom.
+Limits of agreement are easily computable using the LME framework. While we will not be considering this analysis, a demonstration will be provided in the example.
+
+%============================================================== %
+
 	\chapter{LME Likelihood}
 	\section{One Way ANOVA}
 	\subsection{Page 448}
@@ -2142,7 +2606,7 @@
 	\end{framed}
 	\begin{figure}
 		\centering
-		\includegraphics[width=0.7\linewidth]{images/dfbetas-JS-roya}
+		\includegraphics[width=0.7\linewidth]{images/dfbetas-JS-Roy}
 		\caption{}
 		\label{fig:dfbetas-JS-ARoy2009}
 	\end{figure}
@@ -2602,6 +3066,109 @@ The matter of missing data has not been commonly encountered in either Method Co
 	\newpage
 	
 	
+\section{Lai Shiao}
+\citet{LaiShiao} use mixed models to determine the factors that
+affect the difference of two methods of measurement using the
+conventional formulation of linear mixed effects models.
+
+If the parameter \textbf{b}, and the variance components are not
+significantly different from zero, the conclusion that there is no
+inter-method bias can be drawn. If the fixed effects component
+contains only the intercept, and a simple correlation coefficient
+is used, then the estimate of the intercept in the model is the
+inter-method bias. Conversely the estimates for the fixed effects
+factors can advise the respective influences each factor has on
+the differences. It is possible to pre-specify different
+correlation structures of the variance components \textbf{G} and
+\textbf{R}.
+
+
+Oxygen saturation is one of the most frequently measured variables
+in clinical nursing studies. `Fractional saturation' ($HbO_{2}$)
+is considered to be the gold standard method of measurement, with
+`functional saturation' ($SO_{2}$) being an alternative method.
+The method of examining the causes of differences between these
+two methods is applied to a clinical study conducted by
+\citet{Shiao}. This experiment was conducted by 8 lab
+practitioners on blood samples, with varying levels of
+haemoglobin, from two donors. The samples have been in storage for
+varying periods ( described by the variable `Bloodage') and are
+categorized according to haemoglobin percentages(i.e
+$0\%$,$20\%$,$40\%$,$60\%$,$80\%$,$100\%$). There are 625
+observations in all.
+
+\citet{LaiShiao} fits two models on this data, with the lab
+technicians and the replicate measurements as the random effects
+in both models. The first model uses haemoglobin level as a fixed
+effects component. For the second model, blood age is added as a
+second fixed factor.
+
+\subsubsection{Single fixed effect} The first model fitted by \citet{LaiShiao} takes the
+blood level as the sole fixed effect to be analyzed. The following
+coefficient estimates are estimated by `Proc Mixed';
+\begin{framed}\begin{eqnarray}
+	\mbox{fixed effects :   } 2.5056 - 0.0263\mbox{Fhbperct}_{ijtl} \\
+	(\mbox{p-values :   } = 0.0054, <0.0001, <0.0001)\nonumber\\\nonumber\\
+	\mbox{random effects :   } u(\sigma^{2}=3.1826) + e_{ijtl}
+	(\sigma^{2}_{e}=0.1525, \rho= 0.6978) \nonumber\\
+	(\mbox{p-values :   } = 0.8113, <0.0001, <0.0001)\nonumber
+	\end{eqnarray}
+\end{framed}
+With the intercept estimate being both non-zero and statistically
+significant ($p=0.0054$), this models supports the presence
+inter-method bias is $2.5\%$ in favour of $SO_{2}$. Also, the
+negative value of the haemoglobin level coefficient indicate that
+differences will decrease by $0.0263\%$ for every percentage
+increase in the haemoglobin .
+
+In the random effects estimates, the variance due to the
+practitioners is $3.1826$, indicating that there is a significant
+variation due to technicians ($p=0.0311$) affecting the
+differences. The variance for the estimates is given as $0.1525$,
+($p<0.0001$).
+
+\subsubsection{Two fixed effects}
+Blood age is added as a second fixed factor to the model,
+whereupon new estimates are calculated;
+\begin{framed}
+	\begin{eqnarray}
+	\mbox{fixed effects :   } -0.2866 + 0.1072 \mbox{Bloodage}_{ijtl}
+	- 0.0264\mbox{Fhbperct}_{ijtl}\nonumber\\
+	( \mbox{p-values :   } = 0.8113, <0.0001, <0.0001)\nonumber\\\nonumber\\
+	\mbox{random effects :   } u(\sigma^{2}=10.2346) + e_{ijtl}
+	(\sigma^{2}_{e}=0.0920, \rho= 0.5577) \nonumber\\
+	(\mbox{p-values :   } = 0.0446, <0.0001, <0.0001)
+	\end{eqnarray}
+\end{framed}
+
+
+With this extra fixed effect added to the model, the intercept
+term is no longer statistically significant. Therefore, with the
+presence of the second fixed factor, the model is no longer
+supporting the presence of inter-method bias. Furthermore, the
+second coefficient indicates that the blood age of the observation
+has a significant bearing on the size of the difference between
+both methods ($p <0.0001$). Longer storage times for blood will
+lead to higher levels of particular blood factors such as MetHb
+and HbCO (due to the breakdown and oxidisation of the
+haemoglobin). Increased levels of MetHb and HbCO are concluded to
+be the cause of the differences. The coefficient for the
+haemoglobin level doesn't differ greatly from the single fixed
+factor model, and has a much smaller effect on the differences.
+The random effects estimates also indicate significant variation
+for the various technicians; $10.2346$ with $p=0.0446$.
+
+\citet{LaiShiao} demonstrates how that linear mixed effects models
+can be used to provide greater insight into the cause of the
+differences. Naturally the addition of further factors to the
+model provides for more insight into the behavior of the data.
+
+
+
+
+
+
+
 	\chapter{BXC}	
 	\section{2004 Model}
 	\cite{BXC2004} also advocates the use of linear mixed models in the study of method comparisons. 
