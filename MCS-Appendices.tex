@@ -67,6 +67,86 @@
 	\title{Mixed Models for Method Comparison Studies}
 	\tableofcontents
 	\chapter{Review of MCS Methodologies}
+\begin{itemize}		
+	%-------------------------------------------------%
+	% Chapter 1
+	
+	\item[1]	Introduction to Method Comparison Studies	
+	\begin{itemize}	
+		\item	Accuracy and Precision
+		\item	Repeatability (Bland Altman 1999)
+		\item	Remarks in Barnhart's Paper
+		\item	Regression Techniques (i.e. Orthonormal Regression and Deming Regression)
+		\item   Bradley and Blackwood's, and Bartko's Techniques
+		\item   Coefficient of Repeatability
+	\end{itemize}	
+	
+	%-------------------------------------------------%
+	% Chapter 2
+	
+	\item[2]	Bland and Altman Plot	
+	\begin{itemize}	
+		\item	Bland and Altman 1983 and 1986
+		\item	Limits of Agreement
+		\item	Variants of the Bland-Altman Technique
+		\item   Prevalence and Usage of BA's approach
+		\item   Discussion of ShinyMCS appendix
+	\end{itemize}
+	%-------------------------------------------------%		
+	% Chapter 3
+	
+	\item[3]	Introduction to LME Models	
+	\begin{itemize}	
+		\item	Model Specification of LME Models
+		\item	Carstensen et al's Techniques
+		\item	Using the nlme R package
+		\item   Using the lme4 R package
+	\end{itemize}
+	
+	%-------------------------------------------------%				
+	% Chapter 4		
+	
+	\item[4]	Roy's Hypothesis Tests	
+	\begin{itemize}	
+		\item	Roy's Hypothesis Tests
+		\item   Likelihood Ratio Tests
+		\item	Differences with Bendix Carstensens's Approach
+		\item	Other Research Questions prompted by Roy's Methods
+	\end{itemize}		
+	
+	%-------------------------------------------------%				
+	% Chapter 5		
+	
+	\item[5]	Model Diagnostics for LMEs 
+	\begin{itemize}	
+		\item	Review of Model Diagnostics for Linear Models
+		\item	Model Diagnostics for LME Models
+		\item	Applications to MCS problems
+		\item   The influence.MCS R package
+	\end{itemize}		
+	
+	
+	%-------------------------------------------------%				
+	% Chapter 6		
+	
+	\item[6]	Other Matters: Profile Likelihood, Augmented GLMs	
+	\begin{itemize}	
+		\item   \textit{Spare Chapter for some as-yet unspecified matters}	
+		\item	Douglas Bates Comments on Interval Estimation
+		\item	Augmented GLMS
+		
+	\end{itemize}			
+	
+	\item[A]   ShinyMCS web application
+	\begin{itemize}
+		\item What is Shiny
+		\item Why use Shiny for MCS?
+		\item Technology Acceptance Model
+		\item Design Considerations and Deployment
+		\item Citation of a Shiny Web Application
+	\end{itemize}
+\end{itemize}		
+\newpage
 	\section{Bland-Altman methodology}
 	The issue of whether two measurement methods comparable to the 	extent that they can be used interchangeably with sufficient
 	accuracy is encountered frequently in scientific research.
@@ -2090,7 +2170,135 @@ Limits of agreement are easily computable using the LME framework. While we will
 	Adjacent residuals should not be correlated with each other (\textbf{autocorrelation}). If you can use one residual to predict the next residual, there is some predictive information present that is not captured by the predictors. Typically, this situation involves time-ordered observations. For example, if a residual is more likely to be followed by another residual that has the same sign, adjacent residuals are positively correlated. You can include a variable that captures the relevant time-related information, or use a time series analysis. 
 	
 	In Minitab’s regression, you can perform the \textbf{\textit{Durbin-Watson} }test to test for autocorrelation.
+	\newpage
+	\section{Gold and Bronze Standards}
 	
+	\noindent \citet[p.47]{DunnSEME} cautions that 'gold standards' should not be assumed to be error free. \emph{It is of necessity a subjective decision when we come to decide that a particular method or instrument can be treated as if it was a gold standard}.
+	The clinician gold standard , the sphygmomanometer, is used as an example thereof.  The sphygmomanometer\emph{leaves considerable room for improvement} \citep{DunnSEME}. \citet{pizzi} similarly addresses the issue of glod standards: \emph{well-established gold standard may itself be imprecise or even unreliable}.
+	
+	
+	The NIST F1 Caesium fountain atomic clock is considered to be the gold standard when measuring time, and is the primary time and frequency standard for the United States. The NIST F1 is accurate
+	to within one second per 60 million years. \citep{NIST}.
+	
+	Measurements of the interior of the human body are, by definition, invasive medical procedures. The design of method must balance the need for accuracy of measurement with the well being of the patient. This will inevitably lead to the measurement error as described by \citet{DunnSEME}. The magnetic resonance angiogram ,used to measure internal anatomy,  is considered to the gold standard for measuring aortic dissection. Medical test based upon the Angiogram is reported to have a false positive reporting rate of 5\% and a false negative reporting rate of 8\%. ( This is
+	reported as sensitivity of 95\% and a specificity of 92\%)
+	\citep{ACR}
+	
+	In literature they are, perhaps more accurately, referred to as
+	'bronze standards'. Consequently when one of the methods is
+	essentially a bronze standard, as opposed to a `true' gold
+	standard, the comparison of the criterion and test methods should
+	be consider in the context of a comparison study, as well as of a
+	calibration study.
+	
+	
+	
+	\subsection{Fuzzy Gold Standards} The Gold Standard is considered to be the most
+	accurate measurement of a particular parameter. But even gold
+	standard raters must be assumed to have some level of measurement
+	error. Fuzzy gold standard are considered by Phelps and Hutson (
+	1994)
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section{Fuzzball Agreement}
+	Fuzzball agreement is a case where the correlation coefficient is close to zero. The sample values is restricted to a narrow range. but an examination of a relevant scatter-plot would indicate that
+	there is agreement between the two methods.
+	\\
+	Agreement - a numerical measure Hutson et al define a numerical measure for agreement.
+	\\
+	For example, suppose the pairs of rater measurements are (1, 1), (1.1, 1), (1, 1.1), and (1.1, 1.1) then the sample Pearson correlation r = .0, yet the two raters or devices are considered to be in good agreement. We will refer to the instance where r is close to 0, yet there may be good agreement as "fuzzball agreement." \\Fuzzball agreement occurs quite often in practice when the sample values have very narrow or restricted ranges. Fuzzball agreement is just one instance where the correlation coefficient is a poor measure of agreement. \\Furthermore, note that the ICC is also a poor measure of agreement when there is fuzzball agreement. At the other extreme suppose the same raters given in the previous example had pairs of measurements (1, 101), (2, 102), (3, 103), and (4, 104) on the same relative scale as before. In this instance, r = 1.0, yet there is large disagreement between rater.
+	
+	\section{Types of Method Comparisons} \citet{Lewis} categorize
+	method comparison studies into three different types, with the
+	first two being of immediate concern. A method that is not considered to be a gold standard is referred
+	to as an 'approximate method'.
+	
+	\textbf{1. Calibration problems}. The purpose is to establish a
+	relationship between methods, one of which is an approximate
+	method, the other a gold standard. The results of the approximate
+	method can be mapped to a known probability distribution of the
+	results of the gold standard.
+	
+	\smallskip
+	\textbf{2. Comparison problems} - When two approximate methods,
+	that use the same units of measurement, are to be compared.
+	
+	\smallskip
+	\textbf{3. Conversion problems} -  When two approximate methods,
+	that use different units of measurement, are to be compared. This
+	situation would arise when the measurement methods use 'different
+	proxies', i.e different mechanisms of measurement.
+	
+	\bigskip
+	\citet{DunnSEME} makes two important points in relation to these
+	categories. Firstly he remarks that there isn't clear cut
+	differences between each category.
+	
+	Secondly he comments on the clinician gold standard, the
+	sphygmomanometer, \emph{leaves considerable room for improvement}.
+	\citet{pizzi} also attends to this issue: \emph{well-established
+		gold standard may itself be imprecise or even unreliable}.
+	\bigskip
+	The Magnetic resonance angiogram is considered to the gold
+	standard for measuring aortic dissection, with a sensitivity of
+	95\% and a specificity of 92\% . \citep{ACR}
+	\bigskip
+	In literature they are, perhaps more accurately, referred to as
+	'bronze standards'.
+	\bigskip
+	
+	Consequently when one of the methods is essentially a bronze
+	standard, as opposed to a true gold standard, the comparison
+	procedure should be considered as being of the second category.
+	
+	%-------------------------------------------------------------------------------%
+	\section{Structural Equation Modelling}
+	This is a statistical technique used for testing and estimating causal relationships using a combination of statistical data and qualitative causal assumptions. This technique was proposed by \citet{Lewis} as a method of assessing the reliability of a new measurement technique. It can indicate the presence of bias. However Bland and Altman (1987) have criticized it on the basis that it offers no insights into the variability about the line of equality.
+	\\
+	In this paper, the SEM method is used to assess the linear relationship between the new method and the standard method.
+	\\
+	Structural analysis is a generalization of regression analysis.
+	\\
+	In Hopkins papers, a critique of the Bland-Altman plot he makes the following remark:
+	\\
+	\emph{What's needed for a comparison of two or more measures is a
+		generic approach more powerful even than regression to model the
+		relationship and error structure of each measure with a latent
+		variable representing the true value.}
+	\\
+	Hopkins also adds that he himself is collaborating in research utilising SEM and Mixed Effects modelling.This is a methodology proposed by Kelly (1985).
+	%-------------------------------------------------------------------------------%
+	\section{ICC, Reproducibility Index and Passing-Bablok }
+	
+	
+	\subsection{Intraclass Correlation Coefficient} This measure of agreement is estimated using variance components from appropriate analysis of variance models. Measures of agreement are variance dependent, and so the ICC can be misleading. The ICC takes a value between $0$ and $1$, and is based on Analysis of Variance
+	methodologies.
+	\\
+	The ICC is a measure of reliability.
+	\\
+	\\\citet{bartko} considers the ICC as just another measure of agreement.
+	
+	%-------------------------------------------------------------------------------%
+	
+	\subsection{Passing and Bablok ( 1983) }
+	Passing \& Bablok have described a linear regression model that
+	are without the usual assumptions regarding the distribution of
+	the samples and the measurement errors. The result does not depend
+	on the assignment of the methods (or instruments) to X and Y. The
+	slope and intercept  are calculated with their 95\% confidence
+	interval.Hypothesis tests on the slope and intercept maybe then
+	carried out.
+	\\
+	If the hypothesis of the intercept is rejected, then it is
+	concluded that it is significant different from $0$ and both
+	raters differ at least by a constant amount.
+	\\
+	If the hypothesis of the slope is rejected, then it is concluded
+	that the slope is significant different from $1$ and there is at
+	least a proportional difference between the two raters.
+	
+	\subsection{Lin's Reproducibility Index} Lin proposes the use of a reproducibility index, called the Concordance Correlation Coefficent (CCC).While it is not strictly a measure of agreement as such, we have included it.
+	%-------------------------------------------------------------------------------%
 	\section{Repeated Measurements}
 	
 	In cases where there are repeated measurements by each of the two
@@ -4189,8 +4397,231 @@ model provides for more insight into the behavior of the data.
 	
 	%--------------------------------------------------------------%
 	\chapter{ARoy2009 Testing}
+	\begin{framed}	\begin{verbatim}
+		
+	> Ref.Fit = lme(y ~ meth-1, data = dat,   #Symm , Symm#
+	+     random = list(item=pdSymm(~ meth-1)), 
+	+     weights=varIdent(form=~1|meth),
+	+     correlation = corSymm(form=~1 | item/repl), 
+	+     method="ML")
+	
+	Roy(2009) presents two nested models that specify the condition of equality as required, with a third nested model for an additional test. There three formulations share the same structure, and can be specified by making slight alterations of the code for the Reference Model.
+	Nested Model (Between-Item Variability)
+	> NMB.fit  = lme(y ~ meth-1, data = dat,   #CS , Symm#
+	+     random = list(item=pdCompSymm(~ meth-1)),
+	+     correlation = corSymm(form=~1 | item/repl), 
+	+     method="ML")
 	
 	
+	Nested Model (Within –item Variability)
+	> NMW.fit = lme(y ~ meth-1, data = dat,   #Symm , CS# 
+	+     random = list(item=pdSymm(~ meth-1)),
+	+     weights=varIdent(form=~1|meth), 
+	+     correlation = corCompSymm(form=~1 | item/repl), 
+	+     method="ML")
+	
+	
+	
+	
+	Nested Model (Overall Variability)
+	Additionally there is a third nested model, that can be used to test overall variability, substantively a a joint test for between-item and within-item variability. The motivation for including such a test in the suite is not clear, although it does circumvent the need for multiple comparison procedures in certain circumstances, hence providing a simplified procedure for non-statisticians.
+	> NMO.fit = lme(y ~ meth-1, data = dat,   #CS , CS# 
+	+     random = list(item=pdCompSymm(~ meth-1)), 
+	+     correlation = corCompSymm(form=~1 | item/repl), 
+	+     method="ML")
+	
+	
+	ANOVAs  for  Original Fits
+	The likelihood Ratio test is very simple to implement in R. All that is required it to specify the reference model and the relevant nested mode as arguments to the command anova().
+	The figure below displays the three tests described by Roy (2009).
+	> testB    = anova(Ref.Fit,NMB.fit)                        # Between-Subject Variabilities
+	> testW   = anova(Ref.Fit,NMW.fit)                        # Within-Subject Variabilities
+	> testO     = anova(Ref.Fit,NMO.fit)                        # Overall Variabilities
+	
+	
+	
+	
+			\end{verbatim}
+		\end{framed}
+		\newpage
+	\noindent \textbf{Using REML Fitting}
+			
+			Noticeably Roy (2009) uses ML estimation when specifying the LME models. No explanation is given, although plausibly it is due to the constraints of the computational environment being used.
+			Both West et al (2010) and Pinheiro and Bates (2000) compare ML and REML estimation, describing what types of tests are appropriate for each.  When variance components are being tested, REML estimation is in fact the correct approach.
+			
+		\begin{framed}	\begin{verbatim}
+	
+	
+	
+	> fit1r = lme(y ~ meth-1, data = dat,   #Symm , Symm#
+	+     random = list(item=pdSymm(~ meth-1)), 
+	+     weights=varIdent(form=~1|meth),
+	+     correlation = corSymm(form=~1 | item/repl), 
+	+     method="REML")
+	
+	
+	
+	
+	
+	> fit2r = lme(y ~ meth-1, data = dat,   #CS , Symm#
+	+     random = list(item=pdCompSymm(~ meth-1)),
+	+     correlation = corSymm(form=~1 | item/repl), 
+	+     method="REML")
+	
+	
+	
+	
+	> fit3r = lme(y ~ meth-1, data = dat,   #Symm , CS# 
+	+     random = list(item=pdSymm(~ meth-1)),
+	+     weights=varIdent(form=~1|meth), 
+	+     correlation = corCompSymm(form=~1 | item/repl), 
+	+     method="REML")
+	
+	
+	
+	> fit4r = lme(y ~ meth-1, data = dat,   #CS , CS# 
+	+     random = list(item=pdCompSymm(~ meth-1)), 
+	+     correlation = corCompSymm(form=~1 | item/repl), 
+	+     method="REML")
+	
+	
+	
+	> test1r = anova(fit1r,fit2r)                     # Between-Subject Variabilities
+	> test2r = anova(fit1r,fit3r)                    # Within-Subject Variabilities
+	> test3r = anova(fit1r,fit4r)                    # Overall Variabilities   
+	
+	
+	
+	> fit1bias = lme(y ~ meth, data = dat,   #Symm , Symm#
+	+     random = list(item=pdSymm(~ meth-1)), 
+	+     weights=varIdent(form=~1|meth),
+	+     correlation = corSymm(form=~1 | item/repl), 
+	+     method="ML")
+	
+	
+		\end{verbatim}
+	\end{framed}
+	\newpage
+	
+	\begin{framed}	\begin{verbatim}	
+	
+	
+	
+	Comparison of ML and REML fits
+	Fit 1 (ML)
+	
+	Dataset: Blood RS
+	
+	Fixed : 127.3126 , 143.0275
+	
+	AIC: 4075.594
+	
+	Between Subject Variability
+	
+	Fit1r (REML)
+	
+	Dataset: Blood RS
+	
+	Fixed : 127.3126 , 143.0275
+	
+	AIC: 4068.172
+	
+	Between Subject Variability
+	
+	
+	
+		\end{verbatim}
+	\end{framed}
+	\newpage
+	
+	\begin{framed}	\begin{verbatim}	
+	
+	
+	# Systolic blood pressure measurements made 
+	# simultaneously by two observers (J and R) 
+	# and an automatic blood pressure measuring
+	# machine (S), each making three observations 
+	# in quick succession (supplied by Dr E O'Brien)
+	
+	Blood = matrix(data=c(100, 106, 107, 98, 98, 111, 122, 128, 124, 108, 110, 108, 108, 112, 110, 121, 
+	127, 128, 76, 84, 82, 76, 88, 82, 95, 94, 98,108, 104, 104, 110, 100, 106, 127, 127, 135,124, 112, 112, 128, 112, 114, 140, 131, 124,122, 140, 124, 124, 140, 126, 139, 142, 136,116, 108, 102, 118, 110, 102, 122, 112, 112,114, 110, 112, 112, 108, 112, 130, 129, 135,100, 108, 112, 100, 106, 112, 119, 122, 122,108, 92, 100, 108, 98, 100, 126, 113, 111,100, 106, 104, 102, 108, 106, 107, 113, 111,108, 112, 122, 108, 116, 120, 123, 125, 125,112, 112, 110, 114, 112, 110, 131, 129, 122,104, 108, 104, 104, 108, 104, 123, 126, 114,106, 108, 102, 104, 106, 102, 127, 119, 126,122, 122, 114, 118, 122, 114, 142, 133, 137,100, 102, 102, 102, 102, 100, 104, 116, 115,118, 118, 120, 116, 118, 118, 117, 113, 112,140, 134, 138, 138, 136, 134, 139, 127, 113,150, 148, 144, 148, 146, 144, 143, 155, 133,166, 154, 154, 164, 154, 148, 181, 170, 166,148, 156, 134, 136, 154, 132, 149, 156, 140,
+	174, 172, 166, 170, 170, 164, 173, 170, 154,174, 166, 150, 174, 166, 154, 160, 155, 170,140, 144, 144, 140, 144, 144, 158, 152, 154,128, 134, 130, 128, 134, 130, 139, 144, 141,
+	146, 138, 140, 146, 138, 138, 153, 150, 154,146, 152, 148, 146, 152, 148, 138, 144, 131,220, 218, 220, 220, 218, 220, 228, 228, 226,208, 200, 192, 204, 200, 190, 190, 183, 184,
+	94, 84, 86, 94, 84, 88, 103, 99, 106,114, 124, 116, 112, 126, 118, 131, 131, 124,126, 120, 122, 124, 120, 120, 131, 123, 124,124, 124, 132, 126, 126, 120, 126, 129, 125,110, 120, 128, 110, 122, 126, 121, 114, 125,90, 90, 94, 88, 88, 94, 97, 94, 96,106, 106, 110, 106, 108, 110, 116, 121, 127,218, 202, 208, 218, 200, 206, 215, 201, 207,130, 128, 130, 128, 126, 128, 141, 133, 146,136, 136, 130, 136, 138, 128, 153, 143, 138,100, 96, 88, 100, 96, 86, 113, 107, 102,100, 98, 88, 100, 98, 88, 109, 105, 97,
+	124, 116, 122, 126, 116, 122, 145, 102, 137,164, 168, 154, 164, 168, 154, 192, 178, 171,100, 102, 100, 100, 104, 102, 112, 116, 116,136, 126, 122, 136, 124, 122, 152, 144, 147,114, 108, 122, 114, 108, 122, 141, 141, 137,148, 120, 132, 146, 130, 132, 206, 188, 166,160, 150, 148, 160, 152, 146, 151, 147, 136,84, 92, 98, 86, 92, 98, 112, 125, 124,156, 162, 152, 156, 158, 152, 162, 165, 189,110, 98, 98, 108, 100, 98, 117, 118, 109,100, 106, 106, 100, 108, 108, 119, 131, 124,100, 102, 94, 100, 102, 96, 136, 116, 113,86, 74, 76, 88, 76, 76, 112, 115, 104,106, 100, 110, 106, 100, 108, 120, 118, 132,108, 110, 106, 106, 118, 106, 117, 118, 115,168, 188, 178, 170, 188, 182, 194, 191, 196,166, 150, 154, 164, 150, 154, 167, 160, 161,146, 142, 132, 144, 142, 130, 173, 161, 154,204, 198, 188, 206, 198, 188, 228, 218, 189,96, 94, 86, 96, 94, 84, 77, 89, 101,134, 126, 124, 132, 126, 124, 154, 156, 141,138, 144, 140, 140, 142, 138, 154, 155, 148,134, 136, 142, 136, 134, 140, 145, 154, 166,156, 160, 154, 156, 162, 156, 200, 180, 179,124, 138, 138, 122, 140, 136, 188, 147, 139,114, 110, 114, 112, 114, 114, 149, 217, 192,112, 116, 122, 112, 114, 124, 136, 132, 133,112, 116, 134, 114, 114, 136, 128, 125, 142,202, 220, 228, 200, 220, 226, 204, 222, 224,132, 136, 134, 134, 136, 132, 184, 187, 192,158, 162, 152, 158, 164, 150, 163, 160, 152,88, 76, 88, 90, 76, 86, 93, 88, 88,170, 174, 176, 172, 174, 178, 178, 181, 181,182, 176, 180, 184, 174, 178, 202, 199, 195,112, 114, 124, 112, 112, 126, 162, 166, 148,120, 118, 120, 118, 116, 120, 227, 227, 219,110, 108, 106, 110, 108, 106, 133, 127, 126,112, 112, 106, 112, 110, 106, 202, 190, 213,154, 134, 130, 156, 136, 132, 158, 121, 134,
+	116, 112, 94, 118, 114, 96, 124, 149, 137,108, 110, 114, 106, 110, 114, 114, 118, 126,106, 98, 100, 104, 100, 100, 137, 135, 134,122, 112, 112, 122, 114, 114, 121, 123, 128), 
+	nrow = 85, ncol = 9, byrow = TRUE,
+	dimnames = list(NULL, c("J1","J2","J3","R1","R2","R3","S1","S2","S3")) )
+	
+	
+	
+	#####################################################################
+	#Preparing the Blood Data
+	library(nlme)
+	blood = groupedData( y ~ meth | item ,
+	data = data.frame( y = c(Blood), item = c(row(Blood)),
+	meth = rep(c("J","R","S"), rep(nrow(Blood)*3, 3)),
+	repl = rep(rep(c(1:3), rep(nrow(Blood), 3)), 3) ),
+	labels = list(BP = "Systolic Blood Pressure", method = "Measurement Device"),
+	order.groups = FALSE )
+	
+	#pick out two of the three methods ( use J and S ) 
+	
+	dat = subset(blood, subset = meth != "R")
+		\end{verbatim}
+	\end{framed}
+	\newpage
+
+\begin{framed}	\begin{verbatim}
+
+	#####################################################################
+	#Roy's Candidate Models
+	
+	
+	fit1 = lme(y ~ meth-1, data = dat,   #Symm , Symm#
+	random = list(item=pdSymm(~ meth-1)), 
+	weights=varIdent(form=~1|meth),
+	correlation = corSymm(form=~1 | item/repl), 
+	method="ML")
+	
+	fit2 = lme(y ~ meth-1, data = dat,   #CS , Symm#
+	random = list(item=pdCompSymm(~ meth-1)),
+	correlation = corSymm(form=~1 | item/repl), 
+	method="ML")
+	
+	fit3 = lme(y ~ meth-1, data = dat,   #Symm , CS# 
+	random = list(item=pdSymm(~ meth-1)),
+	weights=varIdent(form=~1|meth), 
+	correlation = corCompSymm(form=~1 | item/repl), 
+	method="ML")
+	
+	fit4 = lme(y ~ meth-1, data = dat,   #CS , CS# 
+	random = list(item=pdCompSymm(~ meth-1)), 
+	correlation = corCompSymm(form=~1 | item/repl), 
+	method="ML")
+	
+	#####################################################################
+	#ANOVAs
+	test1 = anova(fit1,fit2) # Between-Subject Variabilities
+	test2 = anova(fit1,fit3) # Within-Subject Variabilities
+	test3 = anova(fit1,fit4) # Overall Variabilities
+	
+	
+	#####################################################################
+	#Using REML Fitting
+	
+	
+	fit1r = lme(y ~ meth-1, data = dat,   #Symm , Symm#
+	random = list(item=pdSymm(~ meth-1)), 
+	weights=varIdent(form=~1|meth),
+	correlation = corSymm(form=~1 | item/repl), 
+	method="REML")
+	
+	
+	
+	\end{verbatim}
+	\end{framed}
+	\newpage
 	\section{Introduction}
 	
 	\citet{AARoy20092009} uses an approach based on linear mixed effects (LME) models for the purpose of comparing the agreement between two methods of measurement, where replicate measurements on items, typically individuals, by both methods are available. She provides three tests of hypothesis appropriate for evaluating the agreement between the two methods of measurement under this sampling scheme. These tests consider null hypotheses that assume: absence of inter-method bias; equality of between-subject variabilities of the two methods; equality of within-subject variabilities of the two methods. By inter-method bias we mean that a systematic difference exists between observations recorded by the two methods. Differences in between-subject variabilities of the two methods arise when one method is yielding average response levels for individuals than are more variable than the average response levels for the same sample of individuals taken by the other method.  Differences in within-subject variabilities of the two methods arise when one method is yielding responses for an individual than are more variable than the responses for this same individual taken by the other method. The two methods of measurement can be considered to agree, and subsequently can be used interchangeably, if all three null hypotheses are true.
@@ -4865,6 +5296,304 @@ will give the most reliable test of the fixed effects included in model1.
 	\end{eqnarray*}
 	As with the tests for variability, this test is performed by comparing a pair of model fits corresponding to the null and alternative hypothesis. In addition to testing the overall covariance, similar tests can be formulated for both the component variabilities if necessary.
 	
+
+\section{Roy's examples}
+Roy provides three case studies, using data sets well known in method comparison studies, to demonstrate how the methodology should be used.
+
+
+%--------------------------------------------------------------------------Example 1a  ----  JSR Data %
+
+The first case study is the Systolic blood pressure data, taken from \citet{BA99}.
+
+
+%--------------------------------------------------------------------------Example 1b  ----  JSR Data %
+
+To complete the study, the relevant values are provided for the $R \mbox{vs} S$ comparison also.
+
+%--------------------------------------------------------------------------Example 2  ----  PEFR Data %
+
+The second data set, a comparison of two peak expiratory flow rate measurements, is referenced by \citet{BA86}.
+
+
+%--------------------------------------------------------------------------Example 3 Cardiac Ejection Fraction Data %
+The last case study is also based on a data set from  \citet{BA99}. It contains the measurements of left ventricular cardiac eject fraction, measured by impedance cartography and radionuclide ventriculography, on twelve patients.
+The number of replicated differs for each patient.
+
+The bias is shown to be $0.7040$, with a p-value of $0.0204$. The MLEa of the between-method and within-method variance-covariance matrices of methods $RV$ and $IC$ are given by
+
+\begin{equation}\hat{D}=\left(
+\begin{array}{cc}
+1.6323 & 1.1427 \\
+1.1427 & 1.4498 \\
+\end{array}
+\right),
+\end{equation}
+
+
+
+\begin{equation}\hat{\Sigma}=\left(
+\begin{array}{cc}
+1.6323 & 1.1427 \\
+1.1427 & 1.4498 \\
+\end{array}
+\right).
+\end{equation}
+
+\citet{roy} notes that these are the same estimate for variance as given by \citet{BA99}.
+
+
+The repeatability coefficients are determined to be $0.9080$ for the RV method and $1.0293$ for the IC method.
+
+From the estimated $\boldsymbol{\Omega_{i}}$ correlation matrix, the overall correlation coefficient is $0.7100$.
+The overall correllation coefficients between two methods RV and IC are $0.9384$ and $0.9131$ respectively.
+
+\citet{roy} concludes that is appropriate to switch between the two methods if needed.
+
+%--------------------------------------------------------------------------Example 4 Coronary Artery Calcium data%
+
+\citet{haber}
+
+\citet{roy} recommends to not switch between the two method.
+
+\section{LME}
+
+Fitting model according to Roy
+
+\newpage
+\begin{verbatim}
+Linear mixed-effects model fit by REML
+Data: BA99
+AIC      BIC    logLik
+4319.707 4336.629 -2155.853
+
+Random effects:
+Formula: ~1 | subj
+(Intercept) Residual
+StdDev:    29.39085 12.44454
+
+Fixed effects: ob.js ~ method
+Value Std.Error  DF  t-value p-value
+(Intercept) 127.40784  3.281757 424 38.82306       0
+
+methodS     15.61961   1.102107 424 14.17250       0
+
+Correlation:
+(Intr)
+methodS -0.168
+
+Standardized Within-Group Residuals:
+Min          Q1         Med          Q3         Max
+-3.61292639 -0.42538402 -0.02467651  0.40166235  4.84280044
+
+Number of Observations: 510 Number of Groups: 85
+
+\end{verbatim}
+%----------------------------------------------------------------------------------------%
+
+\newpage
+\section{Roy's examples}
+Roy provides three case studies, using data sets well known in method comparison studies, to demonstrate how the methodology should be used.
+
+
+%--------------------------------------------------------------------------Example 1a  ----  JSR Data %
+
+The first case study is the Systolic blood pressure data, taken from \citet{BA99}.
+
+
+%--------------------------------------------------------------------------Example 1b  ----  JSR Data %
+
+To complete the study, the relevant values are provided for the $R \mbox{vs} S$ comparison also.
+
+%--------------------------------------------------------------------------Example 2  ----  PEFR Data %
+
+The second data set, a comparison of two peak expiratory flow rate measurements, is referenced by \citet{BA86}.
+
+
+%--------------------------------------------------------------------------Example 3 Cardiac Ejection Fraction Data %
+The last case study is also based on a data set from  \citet{BA99}. It contains the measurements of left ventricular cardiac eject fraction, measured by impedance cartography and radionuclide ventriculography, on twelve patients.
+The number of replicated differs for each patient.
+
+The bias is shown to be $0.7040$, with a p-value of $0.0204$. The MLEa of the between-method and within-method variance-covariance matrices of methods $RV$ and $IC$ are given by
+
+\begin{equation}\hat{D}=\left(
+\begin{array}{cc}
+1.6323 & 1.1427 \\
+1.1427 & 1.4498 \\
+\end{array}
+\right),
+\end{equation}
+
+
+
+\begin{equation}\hat{\Sigma}=\left(
+\begin{array}{cc}
+1.6323 & 1.1427 \\
+1.1427 & 1.4498 \\
+\end{array}
+\right).
+\end{equation}
+
+\citet{roy} notes that these are the same estimate for variance as given by \citet{BA99}.
+
+
+The repeatability coefficients are determined to be $0.9080$ for the RV method and $1.0293$ for the IC method.
+
+From the estimated $\boldsymbol{\Omega_{i}}$ correlation matrix, the overall correlation coefficient is $0.7100$.
+The overall correllation coefficients between two methods RV and IC are $0.9384$ and $0.9131$ respectively.
+
+\citet{roy} concludes that is appropriate to switch between the two methods if needed.
+
+%--------------------------------------------------------------------------Example 4 Coronary Artery Calcium data%
+
+\citet{haber}
+
+\citet{roy} recommends to not switch between the two method.
+
+
+\section{LME}
+
+Fitting model according to Roy
+
+\newpage
+\begin{verbatim}
+Linear mixed-effects model fit by REML
+Data: BA99
+AIC      BIC    logLik
+4319.707 4336.629 -2155.853
+
+Random effects:
+Formula: ~1 | subj
+(Intercept) Residual
+StdDev:    29.39085 12.44454
+
+Fixed effects: ob.js ~ method
+Value Std.Error  DF  t-value p-value
+(Intercept) 127.40784  3.281757 424 38.82306       0
+
+methodS     15.61961   1.102107 424 14.17250       0
+
+Correlation:
+(Intr)
+methodS -0.168
+
+Standardized Within-Group Residuals:
+Min          Q1         Med          Q3         Max
+-3.61292639 -0.42538402 -0.02467651  0.40166235  4.84280044
+
+Number of Observations: 510 Number of Groups: 85
+
+\end{verbatim}
+
+%---------------------------------------------------------------------------------------------------%
+\newpage
+
+\section{IC/RV comparison}
+
+
+
+For the the RV-IC comparison, $\hat{D}$ is given by
+
+
+\begin{equation}
+\hat{D}= \left[ \begin{array}{cc}
+1.6323 & 1.1427  \\
+1.1427 & 1.4498 \\
+\end{array} \right]
+\end{equation}
+
+The estimate for the within-subject variance covariance matrix is
+given by
+\begin{equation}
+\hat{\Sigma}= \left[ \begin{array}{cc}
+0.1072 & 0.0372  \\
+0.0372 & 0.1379  \\
+\end{array}\right]
+\end{equation}
+The estimated overall variance covariance matrix for the the 'RV
+vs IC' comparison is given by
+\begin{equation}
+Block \Omega_{i}= \left[ \begin{array}{cc}
+1.7396 & 1.1799  \\
+1.1799 & 1.5877  \\
+\end{array} \right].
+\end{equation}
+
+The power of the
+likelihood ratio test may depends on specific sample size and the
+specific number of  replications, and the author proposes
+simulation studies to examine this further.
+
+\newpage
+For the the RV-IC comparison, $\hat{D}$ is given by
+
+
+\begin{equation}
+\hat{D}= \left[ \begin{array}{cc}
+1.6323 & 1.1427  \\
+1.1427 & 1.4498 \\
+\end{array} \right]
+\end{equation}
+
+The estimate for the within-subject variance covariance matrix is
+given by
+\begin{equation}
+\hat{\Sigma}= \left[ \begin{array}{cc}
+0.1072 & 0.0372  \\
+0.0372 & 0.1379  \\
+\end{array}\right]
+\end{equation}
+The estimated overall variance covariance matrix for the the 'RV
+vs IC' comparison is given by
+\begin{equation}
+Block \Omega_{i}= \left[ \begin{array}{cc}
+1.7396 & 1.1799  \\
+1.1799 & 1.5877  \\
+\end{array} \right].
+\end{equation}
+
+The power of the
+likelihood ratio test may depends on specific sample size and the
+specific number of  replications, and the author proposes
+simulation studies to examine this further.
+
+
+% \begin{equation}
+% data here
+% \end{equation}
+%==================================================================%
+
+For the the RV-IC comparison, $\hat{D}$ is given by
+
+
+\begin{equation}
+\hat{D}= \left[ \begin{array}{cc}
+1.6323 & 1.1427  \\
+1.1427 & 1.4498 \\
+\end{array} \right]
+\end{equation}
+
+The estimate for the within-subject variance covariance matrix is
+given by
+\begin{equation}
+\hat{\Sigma}= \left[ \begin{array}{cc}
+0.1072 & 0.0372  \\
+0.0372 & 0.1379  \\
+\end{array}\right]
+\end{equation}
+The estimated overall variance covariance matrix for the the 'RV
+vs IC' comparison is given by
+\begin{equation}
+Block \Omega_{i}= \left[ \begin{array}{cc}
+1.7396 & 1.1799  \\
+1.1799 & 1.5877  \\
+\end{array} \right].
+\end{equation}
+
+The power of the
+likelihood ratio test may depends on specific sample size and the
+specific number of  replications, and the author proposes
+simulation studies to examine this further.
+
 	\chapter{Repeatability}
 	%========================================================= %
 	
@@ -6104,6 +6833,100 @@ will give the most reliable test of the fixed effects included in model1.
 	
 	
 	
+
+\chapter{BA99}
+
+\section{Regression-based Limits of Agreement} Assuming that
+there will be no curvature in the scatter-plot, the methodology
+regresses the difference of methods ($d$) on the average of those
+methods ($a$) with a simple intercept slope model; $\hat{d} =
+b_{0}+ b_{1}a.$ Should the slope $b_{1}$ be found to be
+negligible, $\hat{d}$ takes the value $\bar{d}$.
+
+The next step to take in calculating the limits is also a
+regression, this time of the residuals as a function of the scale
+of the measurements, expressed by the averages $a_{i}$;
+$ \hat{R} = c_{0}+ c_{1}a_{i}$
+
+With reference to absolute values following a half-normal
+distribution with mean $\sigma\sqrt{\frac{2}{\pi}}$, \citet{BA99} formulate the regression based limits of agreement as
+follows
+\begin{equation}
+\hat{d} \pm 1.96\sqrt{\frac{\pi}{2}}\hat{R} = \hat{d} \pm 2.46\hat{R}
+\end{equation}
+
+%------------------------------------------------%
+\newpage
+
+\chapter{BXC2010}
+
+\section{1. Introduction}
+
+\section{2. Model for LoA}
+
+$95\%$ prediction interval
+
+\[ \bar{D} \pm 1.96 \times s.d.(D_i) \sqrt{\frac{n+1}{n}} \]
+
+The correct factor is $\sigma^2_1 + \sigma^2_2 \frac{n+1}{n}$
+
+\section{3.Non constant difference}
+
+3.1 Model
+
+$D_i = (\alpha_1 - \alpha_2) + (\beta_1 + \beta_2)\mu_i +(e_{1i} + e_{2i})$
+
+3.2 Regression of differences on averages
+
+$\beta_{2|1} = \frac{1-b/2}{1+b/2} \geq 1-b $
+
+$Y_{2|1} = -a +(1-b)y_1  \pm 2 \tau $
+
+\section{4. Worked Examples}
+4.1 Blood Glucose (Plasma and Capillary)
+
+\begin{itemize}
+	\item 46 non diabetic obese people at 120 minutes after a 75g oral glucose challenge
+	\item $D = -2.24 + 0.33A$ with residual standard deviation of 1.08
+	\item Prediction  interval for the difference of sizes.
+	\item $Y_{C|P}  = 1.92 + 0.71Y_N \pm 1.86$ and $Y_{P|C}  =2.69 +1.40Y_N \pm 2.60$
+\end{itemize}
+4.2 Plasma volume (Nadler Hurley)
+
+\section{5. Why is it wrong to use the regression of the differences on the averages.}
+
+5.1 Substantially wrong
+
+5.2 Statistically wrong
+It is assumed that the averages are independent of the error terms.
+
+\[
+\frac{\sigma_1 - \sigma_2}
+{\sigma_1 + \sigma_2}
+=
+\frac{\beta_1 - \beta_2}
+{\beta_1 + \beta_2}
+\] \therefore 
+\[ \frac{\sigma_1 - \sigma_2}
+{\sigma_1 + \sigma_2}
+=
+\frac{\beta_1 - \beta_2}
+{\beta_1 + \beta_2}
+\]
+5.3 Why are the limits straight lines
+The prediction limits are straight lines because the estimation variance $\sigma2,1$ and $\beta2,1$ is ignored.
+
+5.4 What is the relation to Standard regression
+The model (2) is not a standard model
+
+Classical regression models are based on the conditional distribution of one method given another.
+5.5 What is the relation to Deming Regression
+Deming Regression does not solve the prediction problem
+unless we are willing to assume a known value for the ratio of the variances.
+In studies without replicates, there is no information about the variance ratio for the two methods.
+6. How wrong is it to do it anyway?
+
+\section{7. Discussion}
 	\chapter{Lesaffre's paper.}
 	\section{Lesaffre's paper.} %5.6
 	
