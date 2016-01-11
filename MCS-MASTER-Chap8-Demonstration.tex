@@ -69,6 +69,160 @@
 	
 	\chapter{Fitting MCS Models with R}
 	%========================================================= %
+\section{Computation of LMEs using R} \cite{PB} advises how to
+implement LME models in statistical software (ostensibly for S and
+S PLUS, but R is very similar). When tackling linear mixed effects
+models using the R language, a statistician can call upon the
+\emph{lme} command found in the \emph{nlme} package.This command
+fits a LME model to the data set using either Maximum Likelihood
+(ML) or Restricted Maximum Likelihood (REML). ML may be referred
+to as 'full maximum likelihood' estimation.
+
+The first two arguments for \emph{lme} are \emph{fixed} and
+\emph{data}, which give the model for the expected responses (i.e.
+the fixed part of the model), and the data that themodel should be
+fitted from. The next argument is  \emph{random}, a one-sided
+formula which describes the random effects, and the grouping
+structure for the model. The  \emph{method} argument can specify
+whether to use 'REML', the default setting, or 'ML'.
+
+\citet{PB} describes an experiment whereby the productivity of six
+randomly chosen workers are assessed three times on each of three
+machines, yielding the 54 observations in the following table.
+
+
+% latex table generated in R 2.9.2 by xtable 1.5-5 package
+% Wed Sep 16 13:56:04 2009
+\begin{table}[h!]
+	\begin{center}
+		\begin{tabular}{|c|c|c|c||c|c|c|c|}
+			\hline
+			Observation & Worker & Machine & score & Observation & Worker & Machine & score \\
+			\hline
+			1 & 1 & A & 52.00 &	28 & 4 & B & 63.20 \\
+			2 & 1 & A & 52.80 &	  29 & 4 & B & 62.80 \\
+			3 & 1 & A & 53.10 &	  30 & 4 & B & 62.20 \\
+			4 & 2 & A & 51.80 &	  31 & 5 & B & 64.80 \\
+			5 & 2 & A & 52.80 &	  32 & 5 & B & 65.00 \\
+			6 & 2 & A & 53.10 &	  33 & 5 & B & 65.40 \\
+			7 & 3 & A & 60.00 &	  34 & 6 & B & 43.70 \\
+			8 & 3 & A & 60.20 &	  35 & 6 & B & 44.20 \\
+			9 & 3 & A & 58.40 &	  36 & 6 & B & 43.00 \\
+			10 & 4 & A & 51.10 &	  37 & 1 & C & 67.50 \\
+			11 & 4 & A & 52.30 &	  38 & 1 & C & 67.20 \\
+			12 & 4 & A & 50.30 &	  39 & 1 & C & 66.90 \\
+			13 & 5 & A & 50.90 &	  40 & 2 & C & 61.50 \\
+			14 & 5 & A & 51.80 &	  41 & 2 & C & 61.70 \\
+			15 & 5 & A & 51.40 &	  42 & 2 & C & 62.30 \\
+			16 & 6 & A & 46.40 &	  43 & 3 & C & 70.80 \\
+			17 & 6 & A & 44.80 &	  44 & 3 & C & 70.60 \\
+			18 & 6 & A & 49.20 &	  45 & 3 & C & 71.00 \\
+			19 & 1 & B & 62.10 &	  46 & 4 & C & 64.10 \\
+			20 & 1 & B & 62.60 &	  47 & 4 & C & 66.20 \\
+			21 & 1 & B & 64.00 &	  48 & 4 & C & 64.00 \\
+			22 & 2 & B & 59.70 &	  49 & 5 & C & 72.10 \\
+			23 & 2 & B & 60.00 &	  50 & 5 & C & 72.00 \\
+			24 & 2 & B & 59.00 &	  51 & 5 & C & 71.10 \\
+			25 & 3 & B & 68.60 &	  52 & 6 & C & 62.00 \\
+			26 & 3 & B & 65.80 &	  53 & 6 & C & 61.40 \\
+			27 & 3 & B & 69.70 &	  54 & 6 & C & 60.50 \\
+			
+			\hline
+		\end{tabular}
+		\caption{Machines Data , Pinheiro Bates}
+	\end{center}
+\end{table}
+(Overall mean score = $59.65$, mean on machine A = $52.35$ , mean
+on machine B = $60.32$, mean on machine C = $66.27$)
+
+
+The `worker' factor is modelled with random effects($u_{i}$),
+whereas the `machine' factor is modelled with fixed effects
+($\beta_{j}$). Due to the repeated nature of the data, interaction
+effects between these factors are assumed to be extant, and shall
+be examined accordingly. The interaction effect in this case
+($\tau_{ij}$) describes whether the effect of changing from one
+machine to another is different for each worker. The productivity
+score $y_{ijk}$ is the $k$th observation taken on worker $i$ on
+machine $j$, and is formulated
+as follows;
+
+\begin{equation}
+y_{ijk} = \beta_{j} + u_{i} + \tau_{ij} + \epsilon_{ijk}
+\end{equation}
+%\begin{equation*}
+%	u_{i} \sim N(0, \sigma^{2}_{u}), \epsilon_{ijk} \sim N(0,
+%	\sigma^{2}), \tau_{i} \sim N(0, \sigma^{2}_{\tau})
+%\end{equation*}
+
+The `nlme' package is incorporated into the R programming to
+perform linear mixed model calculations. For the `Machines' data,
+\citet{pb} use the following code, with the hierarchical structure
+specified in the last argument.
+\begin{verbatim}
+lme(score~Machine, data=Machines, random=~1|Worker/Machine)
+\end{verbatim}
+
+
+The output of the R computation is given below.
+\begin{verbatim}
+Linear mixed-effects model fit by REML
+Data: Machines
+Log-restricted-likelihood: -107.8438
+Fixed: score ~ Machine
+(Intercept)    MachineB    MachineC
+52.355556    7.966667   13.916667
+
+Random effects:
+Formula: ~1 | Worker
+(Intercept)
+StdDev:     4.78105
+
+Formula: ~1 | Machine %in% Worker
+(Intercept)  Residual
+StdDev:    3.729532 0.9615771
+
+Number of Observations: 54 Number of Groups:
+Worker Machine %in% Worker
+6                  18
+
+\end{verbatim}
+
+
+The crucial pieces of information given in the programme output
+are the estimates of the intercepts for each of the three
+machines. Machine A, which is treated as a control case, is
+estimated to have an intercept of 52.35. The intercept estimates
+for machines B and C are found to be $60.32$ and $66.27$ (by
+adding the values 7.96 and 13.91 to 52.35 respectively). Estimate
+for the variance components are also given; $\sigma^{2}_{u} =
+(4.78)^{2}$ , $\sigma^{2}_{\tau} = (3.73)^{2}$ and
+$\sigma^{2}_{\epsilon} = (0.96)^{2}$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MODEL SELECTION
+
+
+
+	\section{Introduction}
+	
+	\citet{AARoy20092009} uses an approach based on linear mixed effects (LME) models for the purpose of comparing the agreement between two methods of measurement, where replicate measurements on items, typically individuals, by both methods are available. She provides three tests of hypothesis appropriate for evaluating the agreement between the two methods of measurement under this sampling scheme. These tests consider null hypotheses that assume: absence of inter-method bias; equality of between-subject variabilities of the two methods; equality of within-subject variabilities of the two methods. By inter-method bias we mean that a systematic difference exists between observations recorded by the two methods. Differences in between-subject variabilities of the two methods arise when one method is yielding average response levels for individuals than are more variable than the average response levels for the same sample of individuals taken by the other method.  Differences in within-subject variabilities of the two methods arise when one method is yielding responses for an individual than are more variable than the responses for this same individual taken by the other method. The two methods of measurement can be considered to agree, and subsequently can be used interchangeably, if all three null hypotheses are true.
+	
+	\subsection{Model Specification}
+	Let $y_{mir} $ be the $r$th replicate measurement on the $i$th item by the $m$th method, where $m=1,2,$ $i=1,\ldots,N,$ and $r = 1,\ldots,n_i.$ When the design is balanced and there is no ambiguity we can set $n_i=n.$ The LME model can be written
+	\begin{equation}
+	y_{mir} = \beta_{0} + \beta_{m} + b_{mi} + \epsilon_{mir}.
+	\end{equation}
+	Here $\beta_0$ and $\beta_m$ are fixed-effect terms representing, respectively, a model intercept and an overall effect for method $m.$ The $b_{1i}$ and $b_{2i}$ terms represent random effect parameters corresponding to the two methods, having $\mathrm{E}(b_{mi})=0$ with $\mathrm{Var}(b_{mi})=g^2_m$ and $\mathrm{Cov}(b_{mi}, b_{m^\prime i})=g_{12}.$ The random error term for each response is denoted $\epsilon_{mir}$ having $\mathrm{E}(\epsilon_{mir})=0$, $\mathrm{Var}(\epsilon_{mir})=\sigma^2_m$, $\mathrm{Cov}(b_{mir}, b_{m^\prime ir})=\sigma_{12}$, $\mathrm{Cov}(\epsilon_{mir}, \epsilon_{mir^\prime})= 0$ and $\mathrm{Cov}(\epsilon_{mir}, \epsilon_{m^\prime ir^\prime})= 0.$
+	When two methods of measurement are in agreement, there is no significant differences between $\beta_1$ and $\beta_2,$ $g^2_1 $ and$ g^2_2$, and $\sigma^2_1 $ and$ \sigma^2_2$.
+	\bigskip
+	
+	% Complete paragraph by specifying variances and covariances for epsilons.
+	% I thing that these are your sigmas?
+	% Also, state equality of the parameters in this model when each of the three hypotheses above are true.
+	
+	
+	\newpage
+	
 	\section{Model terms}
 	It is important to note the following characteristics of this model.
 	\begin{itemize}
@@ -1164,139 +1318,6 @@ Similarly, for computing the limits of agreement the standard deviation of the d
 	%------------------------------------------------------------------------------------%
 	
 
-\section{Computation of LMEs using R} \cite{PB} advises how to
-implement LME models in statistical software (ostensibly for S and
-S PLUS, but R is very similar). When tackling linear mixed effects
-models using the R language, a statistician can call upon the
-\emph{lme} command found in the \emph{nlme} package.This command
-fits a LME model to the data set using either Maximum Likelihood
-(ML) or Restricted Maximum Likelihood (REML). ML may be referred
-to as 'full maximum likelihood' estimation.
-
-The first two arguments for \emph{lme} are \emph{fixed} and
-\emph{data}, which give the model for the expected responses (i.e.
-the fixed part of the model), and the data that themodel should be
-fitted from. The next argument is  \emph{random}, a one-sided
-formula which describes the random effects, and the grouping
-structure for the model. The  \emph{method} argument can specify
-whether to use 'REML', the default setting, or 'ML'.
-
-\citet{PB} describes an experiment whereby the productivity of six
-randomly chosen workers are assessed three times on each of three
-machines, yielding the 54 observations in the following table.
-
-
-% latex table generated in R 2.9.2 by xtable 1.5-5 package
-% Wed Sep 16 13:56:04 2009
-\begin{table}[h!]
-	\begin{center}
-		\begin{tabular}{|c|c|c|c||c|c|c|c|}
-			\hline
-			Observation & Worker & Machine & score & Observation & Worker & Machine & score \\
-			\hline
-			1 & 1 & A & 52.00 &	28 & 4 & B & 63.20 \\
-			2 & 1 & A & 52.80 &	  29 & 4 & B & 62.80 \\
-			3 & 1 & A & 53.10 &	  30 & 4 & B & 62.20 \\
-			4 & 2 & A & 51.80 &	  31 & 5 & B & 64.80 \\
-			5 & 2 & A & 52.80 &	  32 & 5 & B & 65.00 \\
-			6 & 2 & A & 53.10 &	  33 & 5 & B & 65.40 \\
-			7 & 3 & A & 60.00 &	  34 & 6 & B & 43.70 \\
-			8 & 3 & A & 60.20 &	  35 & 6 & B & 44.20 \\
-			9 & 3 & A & 58.40 &	  36 & 6 & B & 43.00 \\
-			10 & 4 & A & 51.10 &	  37 & 1 & C & 67.50 \\
-			11 & 4 & A & 52.30 &	  38 & 1 & C & 67.20 \\
-			12 & 4 & A & 50.30 &	  39 & 1 & C & 66.90 \\
-			13 & 5 & A & 50.90 &	  40 & 2 & C & 61.50 \\
-			14 & 5 & A & 51.80 &	  41 & 2 & C & 61.70 \\
-			15 & 5 & A & 51.40 &	  42 & 2 & C & 62.30 \\
-			16 & 6 & A & 46.40 &	  43 & 3 & C & 70.80 \\
-			17 & 6 & A & 44.80 &	  44 & 3 & C & 70.60 \\
-			18 & 6 & A & 49.20 &	  45 & 3 & C & 71.00 \\
-			19 & 1 & B & 62.10 &	  46 & 4 & C & 64.10 \\
-			20 & 1 & B & 62.60 &	  47 & 4 & C & 66.20 \\
-			21 & 1 & B & 64.00 &	  48 & 4 & C & 64.00 \\
-			22 & 2 & B & 59.70 &	  49 & 5 & C & 72.10 \\
-			23 & 2 & B & 60.00 &	  50 & 5 & C & 72.00 \\
-			24 & 2 & B & 59.00 &	  51 & 5 & C & 71.10 \\
-			25 & 3 & B & 68.60 &	  52 & 6 & C & 62.00 \\
-			26 & 3 & B & 65.80 &	  53 & 6 & C & 61.40 \\
-			27 & 3 & B & 69.70 &	  54 & 6 & C & 60.50 \\
-			
-			\hline
-		\end{tabular}
-		\caption{Machines Data , Pinheiro Bates}
-	\end{center}
-\end{table}
-(Overall mean score = $59.65$, mean on machine A = $52.35$ , mean
-on machine B = $60.32$, mean on machine C = $66.27$)
-
-
-The `worker' factor is modelled with random effects($u_{i}$),
-whereas the `machine' factor is modelled with fixed effects
-($\beta_{j}$). Due to the repeated nature of the data, interaction
-effects between these factors are assumed to be extant, and shall
-be examined accordingly. The interaction effect in this case
-($\tau_{ij}$) describes whether the effect of changing from one
-machine to another is different for each worker. The productivity
-score $y_{ijk}$ is the $k$th observation taken on worker $i$ on
-machine $j$, and is formulated
-as follows;
-
-\begin{equation}
-y_{ijk} = \beta_{j} + u_{i} + \tau_{ij} + \epsilon_{ijk}
-\end{equation}
-%\begin{equation*}
-%	u_{i} \sim N(0, \sigma^{2}_{u}), \epsilon_{ijk} \sim N(0,
-%	\sigma^{2}), \tau_{i} \sim N(0, \sigma^{2}_{\tau})
-%\end{equation*}
-
-The `nlme' package is incorporated into the R programming to
-perform linear mixed model calculations. For the `Machines' data,
-\citet{pb} use the following code, with the hierarchical structure
-specified in the last argument.
-\begin{verbatim}
-lme(score~Machine, data=Machines, random=~1|Worker/Machine)
-\end{verbatim}
-
-
-The output of the R computation is given below.
-\begin{verbatim}
-Linear mixed-effects model fit by REML
-Data: Machines
-Log-restricted-likelihood: -107.8438
-Fixed: score ~ Machine
-(Intercept)    MachineB    MachineC
-52.355556    7.966667   13.916667
-
-Random effects:
-Formula: ~1 | Worker
-(Intercept)
-StdDev:     4.78105
-
-Formula: ~1 | Machine %in% Worker
-(Intercept)  Residual
-StdDev:    3.729532 0.9615771
-
-Number of Observations: 54 Number of Groups:
-Worker Machine %in% Worker
-6                  18
-
-\end{verbatim}
-
-
-The crucial pieces of information given in the programme output
-are the estimates of the intercepts for each of the three
-machines. Machine A, which is treated as a control case, is
-estimated to have an intercept of 52.35. The intercept estimates
-for machines B and C are found to be $60.32$ and $66.27$ (by
-adding the values 7.96 and 13.91 to 52.35 respectively). Estimate
-for the variance components are also given; $\sigma^{2}_{u} =
-(4.78)^{2}$ , $\sigma^{2}_{\tau} = (3.73)^{2}$ and
-$\sigma^{2}_{\epsilon} = (0.96)^{2}$.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MODEL SELECTION
-
-
 
 \section{LRTs wtih \texttt{R}}
 Likelihood ratio tests are very simple to implement in \texttt{R}, simply use the `\texttt{anova()}'
@@ -1433,10 +1454,6 @@ Both West et al (2010) and Pinheiro and Bates (2000) compare ML and REML estimat
 +     weights=varIdent(form=~1|meth),
 +     correlation = corSymm(form=~1 | item/repl), 
 +     method="REML")
-
-
-     
- 
 
 
 > fit2r = lme(y ~ meth-1, data = dat,   #CS , Symm#
@@ -2038,26 +2055,7 @@ fit1r = lme(y ~ meth-1, data = dat,   #Symm , Symm#
 		\end{verbatim}
 	\end{framed}
 	\newpage
-	\section{Introduction}
-	
-	\citet{AARoy20092009} uses an approach based on linear mixed effects (LME) models for the purpose of comparing the agreement between two methods of measurement, where replicate measurements on items, typically individuals, by both methods are available. She provides three tests of hypothesis appropriate for evaluating the agreement between the two methods of measurement under this sampling scheme. These tests consider null hypotheses that assume: absence of inter-method bias; equality of between-subject variabilities of the two methods; equality of within-subject variabilities of the two methods. By inter-method bias we mean that a systematic difference exists between observations recorded by the two methods. Differences in between-subject variabilities of the two methods arise when one method is yielding average response levels for individuals than are more variable than the average response levels for the same sample of individuals taken by the other method.  Differences in within-subject variabilities of the two methods arise when one method is yielding responses for an individual than are more variable than the responses for this same individual taken by the other method. The two methods of measurement can be considered to agree, and subsequently can be used interchangeably, if all three null hypotheses are true.
-	
-	\subsection{Model Specification}
-	Let $y_{mir} $ be the $r$th replicate measurement on the $i$th item by the $m$th method, where $m=1,2,$ $i=1,\ldots,N,$ and $r = 1,\ldots,n_i.$ When the design is balanced and there is no ambiguity we can set $n_i=n.$ The LME model can be written
-	\begin{equation}
-	y_{mir} = \beta_{0} + \beta_{m} + b_{mi} + \epsilon_{mir}.
-	\end{equation}
-	Here $\beta_0$ and $\beta_m$ are fixed-effect terms representing, respectively, a model intercept and an overall effect for method $m.$ The $b_{1i}$ and $b_{2i}$ terms represent random effect parameters corresponding to the two methods, having $\mathrm{E}(b_{mi})=0$ with $\mathrm{Var}(b_{mi})=g^2_m$ and $\mathrm{Cov}(b_{mi}, b_{m^\prime i})=g_{12}.$ The random error term for each response is denoted $\epsilon_{mir}$ having $\mathrm{E}(\epsilon_{mir})=0$, $\mathrm{Var}(\epsilon_{mir})=\sigma^2_m$, $\mathrm{Cov}(b_{mir}, b_{m^\prime ir})=\sigma_{12}$, $\mathrm{Cov}(\epsilon_{mir}, \epsilon_{mir^\prime})= 0$ and $\mathrm{Cov}(\epsilon_{mir}, \epsilon_{m^\prime ir^\prime})= 0.$
-	When two methods of measurement are in agreement, there is no significant differences between $\beta_1$ and $\beta_2,$ $g^2_1 $ and$ g^2_2$, and $\sigma^2_1 $ and$ \sigma^2_2$.
-	\bigskip
-	
-	% Complete paragraph by specifying variances and covariances for epsilons.
-	% I thing that these are your sigmas?
-	% Also, state equality of the parameters in this model when each of the three hypotheses above are true.
-	
-	
-	\newpage
-	
+
 	\section{ARoy2009's Hypotheses Tests}
 	
 	In order to express ARoy2009's LME model in matrix notation we gather all $2n_i$ observations specific to item $i$ into a single vector  $\boldsymbol{y}_{i} = (y_{1i1},y_{2i1},y_{1i2},\ldots,y_{mir},\ldots,y_{1in_{i}},y_{2in_{i}})^\prime.$ The LME model can be written

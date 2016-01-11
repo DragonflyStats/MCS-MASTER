@@ -2198,8 +2198,36 @@ Limits of agreement are easily computable using the LME framework. While we will
 		\end{enumerate}
 	\end{enumerate}
 	
+%------------------------------------------------------------------------------------%
+
+\section{Likelihood ratio test}
+
+
+%http://www.princeton.edu/~achaney/tmve/wiki100k/docs/Likelihood-ratio_test.html
+%http://warnercnr.colostate.edu/~gwhite/fw663/LikelihoodRatioTests.PDF
+
+The likelihood ratio test (LRT) is a statistical test of the goodness-of-fit between two models. A relatively more complex model is compared to a simpler model to see if it fits a particular dataset significantly better. If so, the additional parameters of the more complex model are often used in subsequent analyses. The LRT is only valid if used to compare hierarchically nested models. That is, the more complex model must differ from the simple model only by the addition of one or more parameters. Adding additional parameters will always result in a higher likelihood score. However, there comes a point when adding additional parameters is no longer justified in terms of significant improvement in fit of a model to a particular dataset. The LRT provides one objective criterion for selecting among possible models.
+
+The LRT begins with a comparison of the likelihood scores of the two models:
+
+LR = 2*(lnL1-lnL2)
+This LRT statistic approximately follows a chi-square distribution. To determine if the difference in likelihood scores among the two models is statistically significant, we next must consider the degrees of freedom. In the LRT, degrees of freedom is equal to the number of additional parameters in the more complex model. Using this information we can then determine the critical value of the test statistic from standard statistical tables.
+
+The LRT is explained in more detail by Felsenstein (1981), Huelsenbeck and Crandall (1997), Huelsenbeck and Rannala (1997), and Swofford et al. (1996). While the focus of this page is using the LRT to compare two competing models, under some circumstances one can compare two competing trees estimated using the same likelihood model. There are many additional considerations (e.g., see Kishino and Hasegawa 1989, Shimodaira and Hasegawa 1999, and Swofford et al. 1996).
+
+%------------------------------------------------------------------------------------%
+
+In statistics, a likelihood ratio test is used to compare the fit of two models, one of which is nested within the other. This often occurs when testing whether a simplifying assumption for a model is valid, as when two or more model parameters are assumed to be related.
+
+Both models are fitted to the data and their log-likelihood recorded. The test statistic (usually denoted D) is twice the difference in these log-likelihoods:
+
+The model with more parameters will always fit at least as well (have a greater log-likelihood). Whether it fits significantly better and should thus be preferred can be determined by deriving the probability or p-value of the obtained difference D. In many cases, the probability distribution of the test statistic can be approximated by a chi-square distribution with (df1 − df2) degrees of freedom, where df1 and df2 are the degrees of freedom of models 1 and 2 respectively.
+
+The test requires nested models, that is, models in which the more complex one can be transformed into the simpler model by imposing a set of linear constraints on the parameters.
+
+In a concrete case, if model 1 has 1 free parameter and a log-likelihood of 8012 and the alternative model has 3 degrees of freedom and a LL of 8024, then the probability of this difference is that of chi-square of 24 = 2·(8024 − 8012) under 2 = 3 − 1 degrees of freedom. Certain assumptions must be met for the statistic to follow a chi-squared distribution and often empirical p-values are computed.
 	
-	
+\newpage	
 	
 	
 	\section{RSquared for LME models}
@@ -2402,6 +2430,93 @@ Limits of agreement are easily computable using the LME framework. While we will
 	\end{itemize}
 	
 	\chapter{Residual Diagnostics}
+
+\title{Roy's Candidate models}
+The original Bland Altman Method was developed for two sets of
+measurements done on one occasion (i.e. independent data), and so
+this approach is not suitable for repeated measures data. However,
+as a naïve analysis, it may be used to explore the data because of
+the simplicity of the method. Myles states that such misuse of the
+standards Bland Altman method is widespread in Anaesthetic and
+critical care literature.
+\\
+\\
+Bland and Altman have provided a modification for analysing
+repeated measures under stable or chaninging conditions, where
+repeated data is collected over a period of time. Myers proposes
+an alternative Random effects model for this purpose.
+\\
+\\
+with repeated measures data, we can
+calculate the mean of the repeated measurements by each method on
+each individuals. \emph{ The pairs of means can then be used to
+	compare the two methods based on the 95\% limits of agreement for
+	the difference of means. The bias between the two methods will not
+	be affected by averaging the repeated measurements.}.However the
+variation of the differences will be underestimated by this
+practice because the measurement error is, to some extent,
+removed. Some advanced statistical calculations are needed to take
+into account these measurement errors. \emph{Random effects models
+	can be used to estimate the within-subject variation after
+	accounting for other observed and unobserved variations, in which
+	each subject has a different intercept and slope over the
+	observation period .On the basis of the within-subject variance
+	estimated by the random effects model, we can then create an
+	appropriate Bland Altman Plot.}The sequence or the time of the
+measurement over the observation period can be taken as a random
+effect.
+\section{Random effects Model} \citet{Myles} proposes the use of
+Random effects models to address the issue of repeated
+measurement. Myles proposes a formulation of the BlandAltman
+plot, using the within-subject variance estimated by the random
+effects model, with the time of the measurement taken as a random
+effect. He states that \emph{random effects models account for the
+	dependent nature of the data, and additional explanatory
+	variables, to provide reliable estimates of agreement in this
+	setting.}
+\\
+Agreement between methods is reflected by the between-subject
+variation.The Random Effects Model takes this into account before
+calculating the within-subject standard deviation.
+\subsection{Myers Random Effects Model} The presentation of the
+95\% limits of agreement is for visual judgement of how well two
+methods of measurement agree. The smaller the range between the
+two, the better the agreement is The question of small is small is
+a question of clinical judgement
+\\
+\\
+Repeated measurements for each subjects are often used in clinical
+research.
+
+\subsection{Random Effects Modelling}
+Random effects models are used to examine the within-subject
+variation after adjusting for known and unknown variables, in
+which each subject has a different intercept and slope over a time
+period period.
+\\
+\\
+\citet{Myles} remarks that the random effects model is an
+extension of the analysis of variance method, accounting for more
+covariates.
+\\
+\\
+A random effect (in Myles's case, time of measurement) is chosen
+to reflect the different intercept and slope for each subject with
+respect to their change of measurements over the time period.
+\\
+\\
+In Myles's methodology, the standard deviation of difference
+between the means of the repeated measurements can be calculated
+based on the within-subject standard deviation estimates.
+
+A random effects model (also variance components model)is a type
+of hierarchical linear model. Hierarchical linear modelling (HLM)
+is a more advanced form of simple linear regression and multiple
+linear regression. HLM is appropriate for use with nested
+data.\\Faraway comments that the random effects approach is
+\emph{more ambitious than the LME model in that it attempts to say
+	something about the wider population beyond the particular
+	sample}.
 	
 	\section{Residual}
 	
@@ -2586,6 +2701,85 @@ Limits of agreement are easily computable using the LME framework. While we will
 	Residuals that are scaled by the estimated variances of the responses are referred to as Pearson-type residuals.
 	Standardization: \[ \frac{\hat{e}_i}{\sqrt{v_i}}\]
 	Studentization \[ \frac{\hat{e}_i}{\sqrt{\hat{v}_i}}\]
+	
+	\section{Why use LMEs for Method Comparison?}
+	The LME model approach has seen increased use as a framework for method comparison studies in recent years (Lai $\&$ Shaio, Carstensen and Choudhary as examples). In part this is due to the increased profile of LME models, and furthermore the availability of capable software. Additionally LME based approaches may utilise the diagnostic and influence analysis techniques that have been developed in recent times.
+	
+	
+	Roy proposes an LME model with Kronecker product covariance structure in a doubly multivariate setup. Response for $i$th subject can be written as
+	\[ y_i = \beta_0 + \beta_1x_{i1} + \beta_2x_{i2} + b_{1i}z_{i1}  + b_{2i}z_{i2} + \epsilon_i \]
+	\begin{itemize}
+		\item $\beta_1$ and $\beta_2$ are fixed effects corresponding to both methods. ($\beta_0$ is the intercept.)
+		\item $b_{1i}$ and $b_{2i}$ are random effects corresponding to both methods.
+	\end{itemize}
+	
+	Overall variability between the two methods ($\Omega$) is sum of between-subject ($D$) and within-subject variability ($\Sigma$),
+	\[
+	\mbox{Block } \boldsymbol{\Omega}_i = \left[ \begin{array}{cc} d^2_1 & d_{12}\\ d_{12} & d^2_2\\ \end{array} \right]
+	+ \left[\begin{array}{cc} \sigma^2_1 & \sigma_{12}\\ \sigma_{12} & \sigma^2_2\\ \end{array}\right].
+	\]
+	
+	The well-known ``Limits of Agreement", as developed by Bland and Altman (1986) are easily computable using the LME framework, proposed by Roy. While we will not be considering this analysis, a demonstration will be provided in the example.
+	
+	Further to this, Roy(2009) demonstrates an suite of tests that can be used to determine how well two methods of measurement, in the presence of repeated measures, agree with each other.
+	
+	\begin{itemize}\itemsep0.5cm
+		\item No Significant inter-method bias
+		\item No difference in the between-subject variabilities of the two methods
+		\item No difference in the within-subject variabilities of the two methods
+	\end{itemize}
+	
+	\section{Two-tailed testing} A test for equality of variances, based on the likelihood Ratio test, is very simple to implement using existing methodologies. All that is required it to specify the reference model and the relevant nested mode as arguments to the command \texttt{anova()}. The output can be interpreted in the usual way.
+	
+	\section{One Tailed Testing}
+	The approach proposed by Roy deals with the question of agreement, and indeed interchangeability, as developed by Bland and Altman's corpus of work. In the view of Dunn, a question relevant to many practitioners is which of the two methods is more precise.
+	
+	The relationship between precision and the within-item and between-item variability must be established. Roy establishes the equivalence of repeatability and within-item variability, and hence precision.  The method with the smaller within-item variability can be deemed to be the more precise.
+	
+	\section{Enabling One Tailed Testing}
+	A useful approach is to compute the confidence intervals for the ratio of within-item standard deviations (equivalent to the ratio of repeatability coefficients), which can be interpreted in the usual manner ( or alternatively, the ratio of the variances). In fact, the ratio of within-item standard deviations, with the attendant confidence interval,  can be determined using a single \texttt{R} command: \texttt{intervals()}.
+	
+	Pinheiro and Bates (pg 93-95) give a description of how confidence intervals for the variance components are computed. Furthermore a complete set of confidence intervals can be computed to complement the variance component estimates.
+	However , to facilitate one tailed testing, What is required is the computation of the variance ratios of within-item and between-item standard deviations.
+	
+	A naïve approach would be to compute the variance ratios by relevant F distribution quantiles. However, the question arises as to the appropriate degrees of freedom. However, Douglas Bates has stated that an alternative approach is required (i.e. Profile Likelihoods)
+	
+	\begin{quote}
+		"The omission of standard errors on variance components is intentional.
+		The distribution of an estimator of a variance component is highly
+		skewed and obtaining an estimate of the standard deviation of a skewed
+		distribution is not very useful.  A much better approach is based on
+		profiling the objective function." (Douglas Bates May 2012)
+	\end{quote}
+	
+	
+	\section{Profile Likelihood}
+	Normal-based confidence intervals for a parameter of interest are inaccurate when the sampling distribution of the estimate is skewed. The technique known as profile likelihood can produce confidence intervals with better coverage. It may be used when the model includes only the variable of interest or several other variables in addition. Profile-likelihood confidence intervals are particularly useful in nonlinear models.
+	
+	Profile likelihood confidence intervals are based on the log-likelihood function.  
+	%For a single parameter, likelihood theory shows that the 2 points 1.92 units down from the maximum of the log-likelihood function provide a $95\%$ confidence interval when there is no extrabinomial variation (i.e. c = 1)..  The value 1.92 is half of the chi-square value of 3.84 with 1 degree of freedom.
+	
+	%Thus, the same confidence interval can be computed with the deviance by adding 3.84 to the minimum of the deviance function, where the deviance is the log-likelihood multiplied by -2 minus the -2 log likelihood value of the saturated model.
+	
+	\section{Implementation of PL Confidence Intervals}
+	
+	The suitable calculation of confidence limits for this variance ratio are to be computed using the profile likelihood approach. The \texttt{R} package \texttt{profilelikelihood} will be assessed for feasibility, particularly the command \texttt{profilelikelihood.lme()}
+	
+	
+	Normal-based condence intervals for a parameter of interest are inaccurate when the sampling 
+	distribution of the estimate is skewed. The technique known as profile likelihood can produce confidence 
+	intervals with better coverage. It may be used when the model includes only the variable of interest or 
+	several other variables in addition.
+	Profile-likelihood confidence intervals are particularly useful in nonlinear models. 
+	Profile likelihood confidence intervals are based on the log-likelihood function.
+	
+	%http://cran.r-project.org/web/packages/ProfileLikelihood/ProfileLikelihood.pdf
+	
+	%http://lme4.r-forge.r-project.org/slides/2011-03-16-Amsterdam/3Profiling.pdf
+	
+	%http://lme4.r-forge.r-project.org/slides/2009-07-21-Seewiesen/4PrecisionD.pdf
+	
+	
 	
 	\section{residuals.lme {nlme}- Extract lme Residuals}
 	
