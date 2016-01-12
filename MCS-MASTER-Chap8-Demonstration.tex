@@ -1448,6 +1448,8 @@ The figure below displays the three tests described by Roy (2009).
 
 Noticeably Roy (2009) uses ML estimation when specifying the LME models. No explanation is given, although plausibly it is due to the constraints of the computational environment being used.
 Both West et al (2010) and Pinheiro and Bates (2000) compare ML and REML estimation, describing what types of tests are appropriate for each.  When variance components are being tested, REML estimation is in fact the correct approach.
+
+
 \begin{framed}
 	\begin{verbatim}   > fit1r = lme(y ~ meth-1, data = dat,   #Symm , Symm#
 +     random = list(item=pdSymm(~ meth-1)), 
@@ -1591,27 +1593,18 @@ test2 = anova(fit1,fit3) # Within-Subject Variabilities
 test3 = anova(fit1,fit4) # Overall Variabilities
 
 
-#####################################################################
-#Using REML Fitting
-
-
-fit1r = lme(y ~ meth-1, data = dat,   #Symm , Symm#
-    random = list(item=pdSymm(~ meth-1)), 
-    weights=varIdent(form=~1|meth),
-    correlation = corSymm(form=~1 | item/repl), 
-    method="REML")
-    
- 
-
-
+\end{verbatim}
+\end{framed}
 MAY 2012 : Research Notes
 Roy (2009) proposes a suite of hypothesis tests for assessing the agreement of two methods of measurement, when replicate measurements are obtained for each item, using a LME approach. (An item would commonly be a patient).  Two methods of measurement can be said to be in agreement if there is no significant difference between in three key respects. Firstly, there is no inter-method bias between the two methods, i.e. there is no persistent tendency for one method to give higher values than the other.
 Secondly, both methods of measurement have the same  within-subject variability. In such a case the variance of the replicate measurements would consistent for both methods.
 Lastly, the methods have equal between-subject variability.  Put simply, for the mean measurements for each case, the variances of the mean measurements from both methods are equal.
 Testing for Inter-method Bias
 Firstly, a practitioner would investigate whether a significant inter-method bias is present between the methods. This bias is specified as a fixed effect in the LME model.  For a practitioner who has a reasonable level of competency in R and undergraduate statistics (in particular simple linear regression model) this is a straight-forward procedure.
-Reference Model (Ref.Fit)
+\subsubsection{Reference Model (Ref.Fit)}
 Conventionally LME models can be tested using Likelihood Ratio Tests, wherein a reference model is compared to a nested model.
+\begin{framed}
+\begin{verbatim}
 > Ref.Fit = lme(y ~ meth-1, data = dat,   #Symm , Symm#
 +     random = list(item=pdSymm(~ meth-1)), 
 +     weights=varIdent(form=~1|meth),
@@ -1658,46 +1651,6 @@ The figure below displays the three tests described by Roy (2009).
  
 
 
-Using REML Fitting
-
-Noticeably Roy (2009) uses ML estimation when specifying the LME models. No explanation is given, although plausibly it is due to the constraints of the computational environment being used.
-Both West et al (2010) and Pinheiro and Bates (2000) compare ML and REML estimation, describing what types of tests are appropriate for each.  When variance components are being tested, REML estimation is in fact the correct approach.
-> fit1r = lme(y ~ meth-1, data = dat,   #Symm , Symm#
-+     random = list(item=pdSymm(~ meth-1)), 
-+     weights=varIdent(form=~1|meth),
-+     correlation = corSymm(form=~1 | item/repl), 
-+     method="REML")
-
-     
- 
-
-
-> fit2r = lme(y ~ meth-1, data = dat,   #CS , Symm#
-+     random = list(item=pdCompSymm(~ meth-1)),
-+     correlation = corSymm(form=~1 | item/repl), 
-+     method="REML")
-
-
-
-  
-> fit3r = lme(y ~ meth-1, data = dat,   #Symm , CS# 
-+     random = list(item=pdSymm(~ meth-1)),
-+     weights=varIdent(form=~1|meth), 
-+     correlation = corCompSymm(form=~1 | item/repl), 
-+     method="REML")
-
-
-
-> fit4r = lme(y ~ meth-1, data = dat,   #CS , CS# 
-+     random = list(item=pdCompSymm(~ meth-1)), 
-+     correlation = corCompSymm(form=~1 | item/repl), 
-+     method="REML")
-
-
-
-> test1r = anova(fit1r,fit2r)                     # Between-Subject Variabilities
-> test2r = anova(fit1r,fit3r)                    # Within-Subject Variabilities
-> test3r = anova(fit1r,fit4r)                    # Overall Variabilities   
 
 
 
