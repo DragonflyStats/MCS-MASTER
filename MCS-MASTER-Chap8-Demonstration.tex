@@ -411,6 +411,50 @@ $\sigma^{2}_{\epsilon} = (0.96)^{2}$.
 	\end{figure}	
 	
 	
+	\section{ARoy2009's LME methodology for assessing agreement}
+	
+	\citet{Barnhart}  describes the sources of disagreement as
+	differing population means, different between-subject variances,
+	different within-subject variances between two methods and poor
+	correlation between measurements of two methods.
+	
+	
+	\citet{AARoy20092009}proposes the use of LME models to perform a test
+	on two methods of agreement to determine whether they can be used
+	interchangeably.
+	
+	Bivariate correlation coefficients have been shown to be of
+	limited use in method comparison studies \citep{BA86}. However,
+	recently correlation analysis has been developed to cope with
+	repeated measurements, enhancing their potential usefulness. ARoy2009
+	incorporates the use of correlation into his methodology.
+	
+	
+	\citet{AARoy20092009} considers the problem of assessing the agreement
+	between two methods with replicate observations in a doubly
+	multivariate set-up using linear mixed effects models.
+	
+	
+	\citet{AARoy20092009} uses examples from \citet{BA86} to be able to
+	compare both types of analysis.
+	
+	\citet{AARoy20092009} proposes a LME based approach with Kronecker
+	product covariance structure with doubly multivariate setup to
+	assess the agreement between two methods. This method is designed
+	such that the data may be unbalanced and with unequal numbers of
+	replications for each subject.
+	
+	\citet{AARoy20092009} considers four independent hypothesis tests.
+	\begin{itemize}
+		\item Testing of hypotheses of differences between the means of
+		two methods\item Testing of hypotheses in between subject
+		variabilities in two methods, \item Testing of hypotheses of
+		differences in within-subject variability of the two methods,
+		\item Testing of hypotheses in differences in overall variability
+		of the two methods.
+	\end{itemize}
+	
+	
 	\section{Model Terms for ARoy2009's Techniques}
 	\begin{enumerate}
 		\item $\boldsymbol{b}_{i}$ is a $m-$dimensional vector comprised of
@@ -1193,67 +1237,7 @@ $\sigma^{2}_{\epsilon} = (0.96)^{2}$.
 %============================================================================================================ %	
 \newpage	
 	
-\section{Implementation in R}
-To implement an LME model in \texttt{R}, the \texttt{nlme} package is used. This package is loaded into the \texttt{R} environment using the library command, (i.e.\ \texttt{library(nlme)}). The \texttt{lme} command is used to fit LME models. The first two arguments to the \texttt{lme} function specify the fixed effect component of the model, and the data set to which the model is to be fitted. The first candidate model (`MCS1') fits an LME model on the data set `dat'. The variable `method' is assigned as the fixed effect, with the response variable `BP' (i.e.\ blood pressure).
 
-The third argument contain the random effects component of the formulation, describing the random effects, and their grouping structure. The \texttt{nlme} package provides a set of positive-definite matrices , the \texttt{pdMat} class, that can be used to specify a structure for the between-subject variance-covariance matrix for the random effects. For Roy's methodology, we will use the \texttt{pdSymm} and \texttt{pdCompSymm} to specify a symmetric structure and a compound symmetry structure respectively. A full discussion of these structures can be found in \citet[pg. 158]{PB}.
-
-Similarly a variety of structures for the with-subject variance-covariance matrix can be implemented using \texttt{nlme}. To implement a particular matrix structure, one must specify both a variance function and correlation structure accordingly. Variance functions are used to model the variance structure of the within-subject errors. \texttt{varIdent} is a variance function object used to allow different variances according to the levels of a classification factor in the data. A compound symmetry structure is implemented using the \texttt{corCompSymm} class, while the symmetric form is specified by \texttt{corSymm} class. Finally, the estimation methods is specified as ``ML" or ``REML".
-
-The first of Roy's candidate model can be implemented using the following code;\\
-\hrule
-\begin{verbatim}
-MCS1 = lme(BP ~ method-1, data = dat,
-random =  list(subject=pdSymm(~ method-1)),
-weights=varIdent(form=~1|method),
-correlation = corSymm(form=~1 | subject/obs), method="ML")
-\end{verbatim}
-\hrule
-\vspace{1cm}
-For the blood pressure data used in \citet{roy}, all four candidate models are implemented by slight variations of this piece of code, specifying either \texttt{pdSymm} or \texttt{pdCompSymm} in the second line, and either \texttt{corSymm} or \texttt{corCompSymm} in the fourth line.
-For example, the second candidate model `MCS2' is implemented with the same code as MCS1, except for the term \texttt{pdCompSymm} in the second line, rather than \texttt{pdSymm}.
-\\
-\hrule
-\begin{verbatim}
-MCS2 = lme(BP ~ method-1, data = dat,
-random = list(subject=pdCompSymm(~ method-1)),
-weights = varIdent(form=~1|method),
-correlation = corSymm(form=~1 | subject/obs), method="ML")
-\end{verbatim}
-\hrule
-\vspace{1cm}
-Using this \texttt{R} implementation for other data sets requires that the data set is structured appropriately (i.e.\ each case of observation records the index, response, method and replicate). Once formatted properly, implementation is simply a case of re-writing the first line of code, and computing the four candidate models accordingly.
-
-To perform a likelihood ratio test for two candidate models, simply use the \texttt{anova} command with the names of the candidate models as arguments. The following piece of code implement the first of Roy's variability tests.
-\\
-\hrule
-\begin{verbatim}
-> anova(MCS1,MCS2)
-Model df    AIC    BIC  logLik   Test L.Ratio p-value
-MCS1     1  8 4077.5 4111.3 -2030.7
-MCS2     2  7 4075.6 4105.3 -2030.8 1 vs 2 0.15291  0.6958
->
-\end{verbatim}
-\hrule
-\vspace{1cm}
-The fixed effects estimates are the same for all four candidate models. The inter-method bias can be easily determined by inspecting a summary of any model. The summary presents estimates for all of the important parameters, but not the complete variance-covariance matrices (although some simple \texttt{R} functions can be written to overcome this). The variance estimates for the random effects for MCS2 is presented below.
-\\
-\hrule
-\begin{verbatim}
-Random effects:
-Formula: ~method - 1 | subject
-Structure: Compound Symmetry
-StdDev Corr
-methodJ  30.765
-methodS  30.765 0.829
-Residual  6.115
-\end{verbatim}
-\hrule
-\vspace{1cm}
-Similarly, for computing the limits of agreement the standard deviation of the differences is not explicitly given. Again, A simple \texttt{R} function can be written to calculate the limits of agreement directly.
-
-%------------------------------------------------------------------------------------%
-\newpage
 	\section{Implementation in R}
 	To implement an LME model in \texttt{R}, the \texttt{nlme} package is used. This package is loaded into the \texttt{R} environment using the library command, (i.e.\ \texttt{library(nlme)}). The \texttt{lme} command is used to fit LME models. The first two arguments to the \texttt{lme} function specify the fixed effect component of the model, and the data set to which the model is to be fitted. The first candidate model (`MCS1') fits an LME model on the data set `dat'. The variable `method' is assigned as the fixed effect, with the response variable `BP' (i.e.\ blood pressure).
 	
@@ -1762,17 +1746,6 @@ test1 = anova(fit1,fit2) # Between-Subject Variabilities
 test2 = anova(fit1,fit3) # Within-Subject Variabilities
 test3 = anova(fit1,fit4) # Overall Variabilities
 
-
-#####################################################################
-#Using REML Fitting
-
-
-fit1r = lme(y ~ meth-1, data = dat,   #Symm , Symm#
-    random = list(item=pdSymm(~ meth-1)), 
-    weights=varIdent(form=~1|meth),
-    correlation = corSymm(form=~1 | item/repl), 
-    method="REML")
-    
 \end{verbatim}
 \end{framed}
 
@@ -1829,65 +1802,7 @@ fit1r = lme(y ~ meth-1, data = dat,   #Symm , Symm#
 		
 		\end{verbatim}
 	\end{framed}
-	\newpage
-	\noindent \textbf{Using REML Fitting}
-	
-	Noticeably Roy (2009) uses ML estimation when specifying the LME models. No explanation is given, although plausibly it is due to the constraints of the computational environment being used.
-	Both West et al (2010) and Pinheiro and Bates (2000) compare ML and REML estimation, describing what types of tests are appropriate for each.  When variance components are being tested, REML estimation is in fact the correct approach.
-	
-	\begin{framed}	\begin{verbatim}
-		
-		
-		
-		> fit1r = lme(y ~ meth-1, data = dat,   #Symm , Symm#
-		+     random = list(item=pdSymm(~ meth-1)), 
-		+     weights=varIdent(form=~1|meth),
-		+     correlation = corSymm(form=~1 | item/repl), 
-		+     method="REML")
-		
-		
-		
-		
-		
-		> fit2r = lme(y ~ meth-1, data = dat,   #CS , Symm#
-		+     random = list(item=pdCompSymm(~ meth-1)),
-		+     correlation = corSymm(form=~1 | item/repl), 
-		+     method="REML")
-		
-		
-		
-		
-		> fit3r = lme(y ~ meth-1, data = dat,   #Symm , CS# 
-		+     random = list(item=pdSymm(~ meth-1)),
-		+     weights=varIdent(form=~1|meth), 
-		+     correlation = corCompSymm(form=~1 | item/repl), 
-		+     method="REML")
-		
-		
-		
-		> fit4r = lme(y ~ meth-1, data = dat,   #CS , CS# 
-		+     random = list(item=pdCompSymm(~ meth-1)), 
-		+     correlation = corCompSymm(form=~1 | item/repl), 
-		+     method="REML")
-		
-		
-		
-		> test1r = anova(fit1r,fit2r)                     # Between-Subject Variabilities
-		> test2r = anova(fit1r,fit3r)                    # Within-Subject Variabilities
-		> test3r = anova(fit1r,fit4r)                    # Overall Variabilities   
-		
-		
-		
-		> fit1bias = lme(y ~ meth, data = dat,   #Symm , Symm#
-		+     random = list(item=pdSymm(~ meth-1)), 
-		+     weights=varIdent(form=~1|meth),
-		+     correlation = corSymm(form=~1 | item/repl), 
-		+     method="ML")
-		
-		
-		\end{verbatim}
-	\end{framed}
-	\newpage
+\newpage
 	
 	\begin{framed}	\begin{verbatim}	
 		
@@ -1991,18 +1906,6 @@ fit1r = lme(y ~ meth-1, data = dat,   #Symm , Symm#
 		test1 = anova(fit1,fit2) # Between-Subject Variabilities
 		test2 = anova(fit1,fit3) # Within-Subject Variabilities
 		test3 = anova(fit1,fit4) # Overall Variabilities
-		
-		
-		#####################################################################
-		#Using REML Fitting
-		
-		
-		fit1r = lme(y ~ meth-1, data = dat,   #Symm , Symm#
-		random = list(item=pdSymm(~ meth-1)), 
-		weights=varIdent(form=~1|meth),
-		correlation = corSymm(form=~1 | item/repl), 
-		method="REML")
-		
 		
 		
 		\end{verbatim}
@@ -2330,50 +2233,7 @@ fit1r = lme(y ~ meth-1, data = dat,   #Symm , Symm#
 	
 	%-----------------------------------------------------------------------------------------------------%
 	
-	\section{ARoy2009's LME methodology for assessing agreement}
-	
-	\citet{Barnhart}  describes the sources of disagreement as
-	differing population means, different between-subject variances,
-	different within-subject variances between two methods and poor
-	correlation between measurements of two methods.
-	
-	
-	\citet{AARoy20092009}proposes the use of LME models to perform a test
-	on two methods of agreement to determine whether they can be used
-	interchangeably.
-	
-	Bivariate correlation coefficients have been shown to be of
-	limited use in method comparison studies \citep{BA86}. However,
-	recently correlation analysis has been developed to cope with
-	repeated measurements, enhancing their potential usefulness. ARoy2009
-	incorporates the use of correlation into his methodology.
-	
-	
-	\citet{AARoy20092009} considers the problem of assessing the agreement
-	between two methods with replicate observations in a doubly
-	multivariate set-up using linear mixed effects models.
-	
-	
-	\citet{AARoy20092009} uses examples from \citet{BA86} to be able to
-	compare both types of analysis.
-	
-	\citet{AARoy20092009} proposes a LME based approach with Kronecker
-	product covariance structure with doubly multivariate setup to
-	assess the agreement between two methods. This method is designed
-	such that the data may be unbalanced and with unequal numbers of
-	replications for each subject.
-	
-	\citet{AARoy20092009} considers four independent hypothesis tests.
-	\begin{itemize}
-		\item Testing of hypotheses of differences between the means of
-		two methods\item Testing of hypotheses in between subject
-		variabilities in two methods, \item Testing of hypotheses of
-		differences in within-subject variability of the two methods,
-		\item Testing of hypotheses in differences in overall variability
-		of the two methods.
-	\end{itemize}
-	
-	
+
 	\section{Replicates}
 	Measurements taken in quick succession by the same observer using the same instrument on the same subject can be considered true replicates. \citet{ARoy20092009} notes that some measurements may not be `true' replicates.
 	
