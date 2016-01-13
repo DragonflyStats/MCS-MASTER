@@ -289,6 +289,20 @@ y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + \epsilon_{mir}, \qquad  e_{mi}
 \sim \mathcal{N}(0,\sigma^{2}_{m}), \quad c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}).
 \end{equation}
 
+Let $y_{mir} $ be the $r$th replicate measurement on the $i$th item by the $m$th method, where $m=1,2,$ $i=1,\ldots,N,$ and $r = 1,\ldots,n_i.$ When the design is balanced and there is no ambiguity we can set $n_i=n.$ The LME model can be written
+\begin{equation}
+y_{mir} = \beta_{0} + \beta_{m} + b_{mi} + \epsilon_{mir}.
+\end{equation}
+Here $\beta_0$ and $\beta_m$ are fixed-effect terms representing, respectively, a model intercept and an overall effect for method $m.$ The $b_{1i}$ and $b_{2i}$ terms represent random effect parameters corresponding to the two methods, having $\mathrm{E}(b_{mi})=0$ with $\mathrm{Var}(b_{mi})=g^2_m$ and $\mathrm{Cov}(b_{mi}, b_{m^\prime i})=g_{12}.$ The random error term for each response is denoted $\epsilon_{mir}$ having $\mathrm{E}(\epsilon_{mir})=0$, $\mathrm{Var}(\epsilon_{mir})=\sigma^2_m$, $\mathrm{Cov}(b_{mir}, b_{m^\prime ir})=\sigma_{12}$, $\mathrm{Cov}(\epsilon_{mir}, \epsilon_{mir^\prime})= 0$ and $\mathrm{Cov}(\epsilon_{mir}, \epsilon_{m^\prime ir^\prime})= 0.$
+When two methods of measurement are in agreement, there is no significant differences between $\beta_1$ and $\beta_2,$ $g^2_1 $ and$ g^2_2$, and $\sigma^2_1 $ and$ \sigma^2_2$.
+\bigskip
+
+% Complete paragraph by specifying variances and covariances for epsilons.
+% I thing that these are your sigmas?
+% Also, state equality of the parameters in this model when each of the three hypotheses above are true.
+
+
+\newpage
 
 Let $y_{mir} $ denote the $r$th replicate measurement on the $i$th item by the $m$th method, where $m=1,2$ ; $i=1,\ldots,N;$ and $r = 1,\ldots,n_i.$ When the design is balanced and there is no ambiguity we can set $n_i=n.$ The LME model underpinning Roy's approach can be written
 \begin{equation}\label{Roy-model}
@@ -328,7 +342,41 @@ Carstensen specifies the variance of the interaction terms as being univariate n
 
 %======================================================================================= %
 
-\section{Prediction Intervals}
+	\section{Using LME models to create Prediction Intervals}
+	\citet{BXC2004} also advocates the use of linear mixed models in
+	the study of method comparisons. The model is constructed to
+	describe the relationship between a value of measurement and its
+	real value. The non-replicate case is considered first, as it is
+	the context of the Bland Altman plots. This model assumes that
+	inter-method bias is the only difference between the two methods.
+	A measurement $y_{mi}$ by method $m$ on individual $i$ is
+	formulated as follows;
+	\begin{equation}
+	y_{mi}  = \alpha_{m} + \mu_{i} + e_{mi} \qquad ( e_{mi} \sim
+	N(0,\sigma^{2}_{m}))
+	\end{equation}
+	The differences are expressed as $d_{i} = y_{1i} - y_{2i}$ For the
+	replicate case, an interaction term $c$ is added to the model,
+	with an associated variance component. All the random effects are
+	assumed independent, and that all replicate measurements are
+	assumed to be exchangeable within each method.
+	
+	\begin{equation}
+	y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + e_{mir} \qquad ( e_{mi}
+	\sim N(0,\sigma^{2}_{m}), c_{mi} \sim N(0,\tau^{2}_{m}))
+	\end{equation}
+	
+	\citet{BXC2008} proposes a methodology to calculate prediction
+	intervals in the presence of replicate measurements, overcoming
+	problems associated with Bland-Altman methodology in this regard.
+	It is not possible to estimate the interaction variance components
+	$\tau^{2}_{1}$ and $\tau^{2}_{2}$ separately. Therefore it must be
+	assumed that they are equal. The variance of the difference can be
+	estimated as follows:
+	\begin{equation}
+	var(y_{1j}-y_{2j})
+	\end{equation}
+	\section{Prediction Intervals}
 
 \citet{BXC2008} proposes a methodology to calculate prediction intervals in the presence of replicate measurements, overcoming
 problems associated with Bland-Altman methodology in this regard. It is not possible to estimate the interaction variance components
@@ -918,6 +966,46 @@ matrix are close to zero, the limits of agreement due to
 follow from the general model.
 
 
+	\section{Carstensen's Limits of agreement}
+	\citet{BXC2008} presents a methodology to compute the limits of
+	agreement based on LME models. Importantly, Carstensen's underlying model differs from ARoy2009's model in some key respects, and therefore a prior discussion of Carstensen's model is required.
+	
+	
+	
+	\subsection{Assumptions on Variability}
+	
+	Aside from the fixed effects, another important difference is that Carstensen's model requires that particular assumptions be applied, specifically that the off-diagonal elements of the between-item
+	and within-item variability matrices are zero. By extension the
+	overall variability off diagonal elements are also zero.
+	
+	Also, implementation requires that the between-item variances are
+	estimated as the same value: $g^2_1 = g^2_2 = g^2$. Necessarily
+	Carstensen's method does not allow for a formal test of the
+	between-item variability.
+	
+	\[\left(\begin{array}{cc}
+	\omega^1_2  & 0 \\
+	0 & \omega^2_2 \\
+	\end{array}  \right)
+	=  \left(
+	\begin{array}{cc}
+	g^2  & 0 \\
+	0 & g^2 \\
+	\end{array} \right)+
+	\left(
+	\begin{array}{cc}
+	\sigma^2_1  & 0 \\
+	0 & \sigma^2_2 \\
+	\end{array}\right)
+	\]
+	
+	In cases where the off-diagonal terms in the overall variability
+	matrix are close to zero, the limits of agreement due to
+	\citet{BXC2008} are very similar to the limits of agreement that
+	follow from the general model.
+	
+	
+	
 \section{Differences Between Models}
 \citet{BXC2008} also presents a methodology to compute the limits of agreement based on LME models. In many cases the limits of agreement derived from this method accord with those to Roy's model. However, in other cases dissimilarities emerge. An explanation for this differences can be found by considering how the respective models account for covariance in the observations. Specifying the relevant terms using a bivariate normal distribution, Roy's model allows for both between-method and within-method covariance. \citet{BXC2008} formulate a model whereby random effects have univariate normal distribution, and no allowance is made for correlation between observations.
 
@@ -1017,33 +1105,53 @@ as
 
 
 
-\section{Difference Variance further to Carstensen}
 
-\citet{BXC2008} states a model where the variation between items
-for method $m$ is captured by $\tau_m$ (our notation $d^2_m$) and the within-item
-variation by $\sigma_m$.
-
-\emph{The formulation of this model is general and refers to comparison
-	of any number of methods � however, if only two methods are
-	compared, separate values of $\tau^2_1$ and $\tau^2_2$ cannot be
-	estimated, only their average value $\tau$, so in the case of only
-	two methods we are forced to assume that $\tau_1 = \tau_2 = \tau$}\citep{BXC2008}.
-
-
-
-
-
-
-%
-%\section{Note 1: Coefficient of Repeatability}
-%The coefficient of repeatability is a measure of how well a
-%measurement method agrees with itself over replicate measurements
-%\citep{BA99}. Once the within-item variability is known, the
-%computation of the coefficients of repeatability for both methods
-%is straightforward.
-
-
-\section{Relevance of Roy's Methodology}
+	\section{Difference Variance further to Carstensen}
+	
+	\citet{BXC2008} states a model where the variation between items
+	for method $m$ is captured by $\tau_m$ (our notation $d^2_m$) and the within-item
+	variation by $\sigma_m$.
+	
+	\emph{The formulation of this model is general and refers to comparison
+		of any number of methods  however, if only two methods are
+		compared, separate values of $\tau^2_1$ and $\tau^2_2$ cannot be
+		estimated, only their average value $\tau$, so in the case of only
+		two methods we are forced to assume that $\tau_1 = \tau_2 = \tau$}\citep{BXC2008}.
+	
+	Another important point is that there is no covariance terms, so
+	further to  \citet{BXC2008} the variance covariance matrices for
+	between-item and within-item variability are respectively.
+	
+	\[\boldsymbol{D} = \left(
+	\begin{array}{cc}
+	d^1_2  & 0 \\
+	0 & d^2_2 \\
+	\end{array}
+	\right) \]
+	and  $\boldsymbol{\Sigma}$ is constructed as follows:
+	\[\boldsymbol{\Sigma} = \left(
+	\begin{array}{cc}
+	\sigma^1_2  & 0 \\
+	0 & \sigma^2_2 \\
+	\end{array}
+	\right) \]
+	
+	
+	Under this model the limits of agreement should be computed based
+	on the standard deviation of the difference between a pair of
+	measurements by the two methods on a new individual, j, say:
+	
+	\[ \mbox{var}(y_{1j} - y_{2j}) = 2d^2 + \sigma^2_1 + \sigma^2_2  \]
+	
+	Further to his model, Carstensen computes the limits of agreement
+	as
+	
+	\[
+	\hat{\alpha}_1 - \hat{\alpha}_2 \pm \sqrt{2 \hat{d}^2 + 	\hat{\sigma}^2_1 + \hat{\sigma}^2_2}
+	\]
+	
+	
+	\section{Relevance of Roy's Methodology}
 
 The relevance of Roy's methodology is that estimates for the between-item variances for both methods $\hat{d}^2_m$ are computed. Also the VC matrices are constructed with covariance
 terms and, so the difference variance must be formulated accordingly.
