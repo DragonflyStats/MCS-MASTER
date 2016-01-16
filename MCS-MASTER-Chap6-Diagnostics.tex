@@ -72,11 +72,6 @@ rulesepcolor=\color{black},
 		\item influence analysis.
 	\end{itemize} 
 	
-	This chapter is comprised of two sections:
-	\begin{enumerate}
-		\item Residual Diagnostics
-		\item Influence Diagnostics
-	\end{enumerate}
 \end{abstract}
 \chapter{Influence Diagnostics}
 
@@ -182,24 +177,6 @@ Diagnostic methods for variance components are based on `one-step' methods. \cit
 %---------------------------------------------------------------------------%
 
 
-\subsection{A Procedure for Quantifying Influence}  %1.1.6
-\citet{schabenberger} describes a simple procedure for quantifying influence. Firstly a model should be fitted to the data, and
-estimates of the parameters should be obtained. The second step is that either single or multiple data points, specifically outliers,
-should be omitted from the analysis, with the original parameter estimates being updated. This is known as `\textit{leave one out \ leave k out}' analysis. The final step of the procedure is comparing the sets of estimates computed from the entire and reduced data sets to determine whether the absence of observations changed the
-analysis.
-
-The basic procedure for quantifying influence is simple:
-
-\begin{enumerate}
-	\item Fit the model to the data and obtain estimates of all parameters.
-	\item Remove one or more data points from the analysis and compute updated estimates of model parameters.
-	\item Based on full- and reduced-data estimates, contrast quantities of interest to determine how the absence
-	of the observations changes the analysis.
-\end{enumerate}
-We use the subscript $(U)$ to denote quantities obtained without the observations in the set U. For example,
-%βb
-(U) denotes the fixed-effects “\textit{\textbf{leave-U-out}}” estimates. Note that the set U can contain multiple observations.
-
 
 \subsection{Cook's 1986 paper on Local Influence}%1.7.1
 
@@ -213,11 +190,11 @@ For linear models for uncorrelated data, it is not necessary to refit the model 
 
 % Cook's Distance for OLS models
 
+
+\subsection{Diagnostic Methods for OLS models}
 \citet{cook77} greatly expanded the study of residuals and influence measures.  Cook proposed a measure that combines the information of leverage and residual of the observation, now known simply as the Cook's Distance. 
 
 Cook's key observation was the effects of deleting each observation in turn could be calculated with little additional computation. That is to say, $D_{(i)}$ can be calculated without fitting a new regression coefficient each time an observation is deleted. Consequently deletion diagnostics have become an integral part of assessing linear models. 
-
-\subsection{Diagnostic Methods for OLS models}
 
 
 The focus of this analysis is related to the estimation of point estimates (i.e. regression coefficients). It must be pointed out that the effect on the precision of estimates is separate from the effect on the point estimates. Data points that
@@ -316,6 +293,12 @@ The observations whose influence is being ascertained are represented by the set
 Model diagnostic techniques, well established for classical models, have since been adapted for use with linear mixed effects models. Diagnostic techniques for LME models are inevitably more difficult to implement, due to the increased complexity.
 
 
+\citet{schabenberger} examines the use and implementation of influence measures in LME models.
+
+Outliers are the most noteworthy data points in an analysis, and an objective of influence analysis is how influential they are,
+and the manner in which they are influential.
+
+
 \citet{schabenberger} considers several important aspects of the use and implementation of influence measures in LME models, noting that it is not always possible to
 derive influence statistics necessary for comparing full- and reduced-data parameter estimates. 
 
@@ -336,22 +319,29 @@ reduced-data parameter estimates.
 
 While the concept of influence analysis is straightforward, implementation in mixed models is more complex. Update formulae for fixed effects models are available only when the covariance parameters are assumed to be known.
 
-Likelihood based estimation methods, such as ML and REML, are sensitive to unusual observations. Influence diagnostics are formal techniques that assess the influence of observations on parameter estimates for $\beta$ and $\theta$. A common technique is to refit the model with an observation or group of observations omitted. 
-
 \citet{west} examines a group of methods that examine various aspects of influence diagnostics for LME models. For overall influence, the most common approaches are the `likelihood distance' and the `restricted likelihood distance'.
 
 
 %---------------------------------------------------------------------------%
 
 
-\section{Influence in LME models}
+\subsection{A Procedure for Quantifying Influence}  %1.1.6
+\citet{schabenberger} describes a simple procedure for quantifying influence. Firstly a model should be fitted to the data, and
+estimates of the parameters should be obtained. The second step is that either single or multiple data points, specifically outliers,
+should be omitted from the analysis, with the original parameter estimates being updated. This is known as `\textit{leave one out \ leave k out}' analysis. The final step of the procedure is comparing the sets of estimates computed from the entire and reduced data sets to determine whether the absence of observations changed the
+analysis.
 
-\citet{schabenberger} examines the use and implementation of influence measures in LME models.
+The basic procedure for quantifying influence is simple:
 
-Outliers are the most noteworthy data points in an analysis, and an objective of influence analysis is how influential they are,
-and the manner in which they are influential.
-
-
+\begin{enumerate}
+	\item Fit the model to the data and obtain estimates of all parameters.
+	\item Remove one or more data points from the analysis and compute updated estimates of model parameters.
+	\item Based on full- and reduced-data estimates, contrast quantities of interest to determine how the absence
+	of the observations changes the analysis.
+\end{enumerate}
+We use the subscript $(U)$ to denote quantities obtained without the observations in the set U. For example,
+%βb
+(U) denotes the fixed-effects “\textit{\textbf{leave-U-out}}” estimates. Note that the set U can contain multiple observations.
 
 
 %==================================================================================================== %
@@ -399,6 +389,69 @@ If $V_{ij}$ denotes the element in row $i$, column $j$ of $\boldsymbol{V}^{-1}$,
 
 
 %-----------------------------------------------------------------------------------------%
+
+
+section{Case Deletion Diagnostics for LME models}
+
+\citet{HaslettDillane} remark that linear mixed effects models
+didn't experience a corresponding growth in the use of deletion
+diagnostics, adding that \citet{McCullSearle} makes no mention of
+diagnostics whatsoever.
+
+\citet{Christensen} describes three propositions that are required
+for efficient case-deletion in LME models. The first proposition
+decribes how to efficiently update $V$ when the $i$th element is
+deleted.
+\begin{equation}
+	V_{[i]}^{-1} = \Lambda_{[i]} - \frac{\lambda
+		\lambda\prime}{\nu^{}ii}
+\end{equation}
+
+
+The second of christensen's propostions is the following set of
+equations, which are variants of the Sherman Wood bury updating
+formula.
+\begin{eqnarray}
+	X'_{[i]}V_{[i]}^{-1}X_{[i]} &=& X' V^{-1}X -
+	\frac{\hat{x}_{i}\hat{x}'_{i}}{s_{i}}\\
+	(X'_{[i]}V_{[i]}^{-1}X_{[i]})^{-1} &=& (X' V^{-1}X)^{-1} +
+	\frac{(X' V^{-1}X)^{-1}\hat{x}_{i}\hat{x}' _{i}
+		(X' V^{-1}X)^{-1}}{s_{i}- \bar{h}_{i}}\\
+	X'_{[i]}V_{[i]}^{-1}Y_{[i]} &=& X\prime V^{-1}Y -
+	\frac{\hat{x}_{i}\hat{y}' _{i}}{s_{i}}
+\end{eqnarray}
+
+
+\citet{schabenberger} examines the use and implementation of
+influence measures in LME models.
+
+
+
+
+
+
+
+
+
+
+
+
+
+In LME models, fitted by either ML or REML, an important overall
+influence measure is the likelihood distance \citep{cook82}. The
+procedure requires the calculation of the full data estimates
+$\hat{\psi}$ and estimates based on the reduced data set
+$\hat{\psi}_{(U)}$. The likelihood distance is given by
+determining
+
+
+\begin{eqnarray}
+	LD_{(U)} &=& 2\{l(\hat{\psi}) - l( \hat{\psi}_{(U)}) \}\\
+	RLD_{(U)} &=& 2\{l_{R}(\hat{\psi}) - l_{R}(\hat{\psi}_{(U)})\}
+\end{eqnarray}
+
+
+
 
 
 \section{Influence Statistics for LME models} %1.1.4
@@ -466,18 +519,6 @@ tests or confidence intervals about $\beta$.
 \section{DFBETA, DFFITS and PRESS}
 
 The impact of an observation on a regression fitting can be determined by the difference between the estimated regression coefficient of a model with all observations and the estimated coefficient when the particular observation is deleted. DFBETA and DFFITS are well known measures of influence. The measure DFBETA is the studentized value of this difference. DFFITS is a statistical measured designed to a show how influential an observation is in a statistical model. DFFITS is closely related to the studentized residual.
-
-\begin{eqnarray}
-DFBETA_{a} &=& \hat{\beta} - \hat{\beta}_{(a)} \\
-&=& B(Y-Y_{\bar{a}}
-\\ DFFITS = {\widehat{y_i} -
-	\widehat{y_{i(k)}} \over s_{(k)} \sqrt{h_{ii}}} 
-\end{eqnarray}
-
-The prediction residual sum of squares (PRESS) is an value associated with this calculation. When fitting linear models, PRESS can be used as a criterion for model selection, with smaller values indicating better model fits.
-\begin{displaymath}
-PRESS = \sum(y-y^{(k)})^2
-\end{displaymath}
 %	
 %	\begin{itemize}
 %		\item $e_{-Q} = y_{Q} - x_{Q}\hat{\beta}^{-Q}$
@@ -568,52 +609,28 @@ The $PRESS$ residual is the difference between the observed value and the predic
 \hat{e_{i}}_{(U)} = y_{i} - x\hat{\beta}_{(U)}
 \end{equation}
 
-
-
-
-
-
-
-
-
-
-
-%
-
-%Predicted Values, PRESS Residuals and PRESS statistics
-The PRESS statistic is the sum of the squared PRESS residuals
-$\mbox{PRESS} = \sum \hat{\varepsilon}^2_{i(U)}$
-
-
-
-The Prediction residual sum of squares (PRESS) is an value associated with this calculation.
-
-When fitting linear models, PRESS can be used as a criterion for model selection, with smaller values indicating better model fits.
+The prediction residual sum of squares (PRESS) is an value associated with this calculation. When fitting linear models, PRESS can be used as a criterion for model selection, with smaller values indicating better model fits.
 \begin{equation}
-PRESS = \sum(y-y^{(k)})^2
+	PRESS = \sum(y-y^{(k)})^2
 \end{equation}
-
-The Prediction residual sum of squares (PRESS) is an value associated with this calculation. When fitting linear models, PRESS can be used as a criterion for model selection, with smaller values indicating better model fits.
-
 \begin{eqnarray*}
 	e_{-Q} = y_{Q} - x_{Q}\hat{\beta}^{-Q}\\
 	PRESS = \sum(y-y^{-Q})^2\\
 	PRESS_{(U)} = y_{i} - x\hat{\beta}_{(U)}\\
 \end{eqnarray*}
-%-----------------------------------------------------------------------------------------%
-%---------------------------------------------------------------------------%
-\subsection{PRESS} %1.16.2
-The prediction residual sum of squares (PRESS) is an value associated with this calculation. When fitting linear models, PRESS can be used as a criterion for model selection, with smaller values indicating better model fits.
+
+%Predicted Values, PRESS Residuals and PRESS statistics
+The PRESS statistic is the sum of the squared PRESS residuals
+$\mbox{PRESS} = \sum \hat{\varepsilon}^2_{i(U)}$
+\[ PRESS = \sum \varepsilon^2_{i(U)} \]
+where the sum is over the observations in $\boldsymbol{U}$.
+
+
+When fitting linear models, PRESS can be used as a criterion for model selection, with smaller values indicating better model fits.
 \begin{equation}
 PRESS = \sum(y-y^{(k)})^2
 \end{equation}
-
-
-\begin{itemize}
-	\item $e_{-Q} = y_{Q} - x_{Q}\hat{\beta}^{-Q}$
-	\item $PRESS_{(U)} = y_{i} - x\hat{\beta}_{(U)}$
-\end{itemize}
-
+%-----------------------------------------------------------------------------------------%
 
 
 
@@ -646,9 +663,6 @@ the vector $x_i$ is the $i$th row of $\boldsymbol{X}$. For an \texttt{lme} objec
 The (raw) residual is given as $\varepsilon_i = y_i - \hat{y}_i$. The PRESS residual is
 similarly constructed, using the predicted value for observation $i$ with a model fitted from reduced data.
 \[ \varepsilon_{i(U)} = y_i - x^{\prime}_i \boldsymbol{\hat{\beta}}_{(U)} \]
-The PRESS statistic is the sum of the squared PRESS residuals:
-\[ PRESS = \sum \varepsilon^2_{i(U)} \]
-where the sum is over the observations in $\boldsymbol{U}$.
 
 
 %---------------------------------------------------------------------------%
@@ -749,8 +763,19 @@ $\sigma^2$ is profiled.
 The \index{likelihood distance} likelihood distance is a global summary measure that expresses the joint influence of the subsets of observations, $U$, on all parameters in $\phi$ that were subject to updating. For classical linear models, the implementation of influence analysis is straightforward. \citet{schabenberger} points out the likelihood distance gives the amount by which the log-likelihood of the model fitted from the full data changes if one were
 to estimate the model from a reduced-data estimates. 
 
+The likelihood distance gives the amount by which the log-likelihood of the full data changes if one were to evaluate it at the reduced-data estimates. The important point is that $l(\psi_{(U)})$ is not the log-likelihood obtained by fitting the model to the reduced data set.
+
+It is obtained by evaluating the likelihood function based on the full data set (containing all n observations) at the reduced-data estimates.
+
+%------------%
+
+
+For classical linear models, the implementation of influence analysis is straightforward. \citet{schab} points out the likelihood distance gives the amount by which the log-likelihood of the model fitted from the full data changes if one were to estimate the model from a reduced-data estimates. 
+
 Importantly $LD(\psi_{(U)})$ is not the log-likelihood obtained by fitting the model to the reduced data set. It is obtained by evaluating the likelihood function based on the full data set (containing all $n$ observations) at the reduced-data estimates.
 
+
+However, for LME models, the problem is more complex. Update formulas for the fixed effects are available only when the covariance parameters are assumed to be known. A measure of total influence requires updates of all model parameters. This can only be achieved in general is by omitting observations or cases, then refitting the model. This is a very simplistic approach, and computationally expensive.
 
 
 
@@ -778,19 +803,6 @@ RLD_{(U)} &=& 2\{l_{R}(\hat{\psi}) - l_{R}(\hat{\psi}_{(U)})\}
 For overall influence, the most common approaches are the \textit{likelihood distance} and the \textit{restricted likelihood distance}.
 
 
-The likelihood distance gives the amount by which the log-likelihood of the full data changes if one were to evaluate it at the reduced-data estimates. The important point is that $l(\psi_{(U)})$ is not the log-likelihood obtained by fitting the model to the reduced data set.
-
-It is obtained by evaluating the likelihood function based on the full data set (containing all n observations) at the reduced-data estimates.
-
-%------------%
-
-
-For classical linear models, the implementation of influence analysis is straightforward. \citet{schab} points out the likelihood distance gives the amount by which the log-likelihood of the model fitted from the full data changes if one were to estimate the model from a reduced-data estimates. 
-
-Importantly $LD(\psi_{(U)})$ is not the log-likelihood obtained by fitting the model to the reduced data set. It is obtained by evaluating the likelihood function based on the full data set (containing all $n$ observations) at the reduced-data estimates.
-
-
-However, for LME models, the problem is more complex. Update formulas for the fixed effects are available only when the covariance parameters are assumed to be known. A measure of total influence requires updates of all model parameters. This can only be achieved in general is by omitting observations or cases, then refitting the model. This is a very simplistic approach, and computationally expensive.
 
 
 %======================================================================================= %\section{Model Diagnostics for Roy's Models}
@@ -1018,12 +1030,6 @@ The particular cases that we will omit for the subsequent analysis are subjects 
 % %- OLS
 \index{Cook's Distance} Cooks Distance ($D_{i}$) is a well known diagnostic technique used in classical linear models, that functions an overall measure of the combined impact of the $i$th case of all estimated regression coefficients. It uses the same structure for measuring the combined impact of the differences in the estimated regression coefficients when the $i$th case is deleted. $D_{(i)}$ can be calculated without fitting a new regression coefficient each time an observation is deleted. Importantly, $D_{(i)}$ can be calculated without fitting a new regression coefficient each time an observation is deleted.
 
-\index{Cook's distance} Cook's $D$ statistics (i.e. colloquially Cook's Distance) is a measure of the influence of observations in subset $U$ on a vector of parameter estimates \citep{cook77}.
-
-\[ \delta_{(U)} = \hat{\beta} - \hat{\beta}_{(U)}\]
-
-If V is known, Cook's D can be calibrated according to a chi-square distribution with degrees of freedom equal to the rank of $\boldsymbol{X}$ \citep{cpj92}. (\textbf{State V and X})
-
 
 % %- Interpretation
 Cook's distance can be used in several ways: to indicate data points that are particularly worth checking for validity; to indicate regions of the design space where it would be good to be able to obtain more data points. 
@@ -1140,7 +1146,6 @@ Any diagnostic plot may constructed using Overall variability and intermethod bi
 
 
 
-
 \section{Case Deletion Diagnostics for LME models}
 
 \citet{HaslettDillane} remark that linear mixed effects models
@@ -1153,9 +1158,57 @@ for efficient case-deletion in LME models. The first proposition
 decribes how to efficiently update $V$ when the $i$th element is
 deleted.
 \begin{equation}
-V_{[i]}^{-1} = \Lambda_{[i]} - \frac{\lambda
-	\lambda\prime}{\nu^{}ii}
+	V_{[i]}^{-1} = \Lambda_{[i]} - \frac{\lambda
+		\lambda\prime}{\nu^{}ii}
 \end{equation}
+
+The second of christensen's propostions is the following set of
+equations, which are variants of the Sherman Wood bury updating
+formula.
+\begin{eqnarray}
+	X'_{[i]}V_{[i]}^{-1}X_{[i]} &=& X' V^{-1}X -
+	\frac{\hat{x}_{i}\hat{x}'_{i}}{s_{i}}\\
+	(X'_{[i]}V_{[i]}^{-1}X_{[i]})^{-1} &=& (X' V^{-1}X)^{-1} +
+	\frac{(X' V^{-1}X)^{-1}\hat{x}_{i}\hat{x}' _{i}
+		(X' V^{-1}X)^{-1}}{s_{i}- \bar{h}_{i}}\\
+	X'_{[i]}V_{[i]}^{-1}Y_{[i]} &=& X\prime V^{-1}Y -
+	\frac{\hat{x}_{i}\hat{y}' _{i}}{s_{i}}
+\end{eqnarray}
+
+
+\citet{schabenberger} examines the use and implementation of
+influence measures in LME models.
+
+
+
+
+
+
+
+
+
+
+
+
+
+In LME models, fitted by either ML or REML, an important overall
+influence measure is the likelihood distance \citep{cook82}. The
+procedure requires the calculation of the full data estimates
+$\hat{\psi}$ and estimates based on the reduced data set
+$\hat{\psi}_{(U)}$. The likelihood distance is given by
+determining
+
+
+\begin{eqnarray}
+	LD_{(U)} &=& 2\{l(\hat{\psi}) - l( \hat{\psi}_{(U)}) \}\\
+	RLD_{(U)} &=& 2\{l_{R}(\hat{\psi}) - l_{R}(\hat{\psi}_{(U)})\}
+\end{eqnarray}
+
+
+
+
+
+
 
 
 
@@ -1368,68 +1421,6 @@ If lack of agreement is indicated between methods of measurement, use of Roy's T
 	\includegraphics[width=0.7\linewidth]{images/04-TMDplot}
 	
 \end{figure}
-\section{Case Deletion Diagnostics for LME models}
-
-\citet{HaslettDillane} remark that linear mixed effects models
-didn't experience a corresponding growth in the use of deletion
-diagnostics, adding that \citet{McCullSearle} makes no mention of
-diagnostics whatsoever.
-
-\citet{Christensen} describes three propositions that are required
-for efficient case-deletion in LME models. The first proposition
-decribes how to efficiently update $V$ when the $i$th element is
-deleted.
-\begin{equation}
-V_{[i]}^{-1} = \Lambda_{[i]} - \frac{\lambda
-	\lambda\prime}{\nu^{}ii}
-\end{equation}
-
-
-The second of christensen's propostions is the following set of
-equations, which are variants of the Sherman Wood bury updating
-formula.
-\begin{eqnarray}
-X'_{[i]}V_{[i]}^{-1}X_{[i]} &=& X' V^{-1}X -
-\frac{\hat{x}_{i}\hat{x}'_{i}}{s_{i}}\\
-(X'_{[i]}V_{[i]}^{-1}X_{[i]})^{-1} &=& (X' V^{-1}X)^{-1} +
-\frac{(X' V^{-1}X)^{-1}\hat{x}_{i}\hat{x}' _{i}
-	(X' V^{-1}X)^{-1}}{s_{i}- \bar{h}_{i}}\\
-X'_{[i]}V_{[i]}^{-1}Y_{[i]} &=& X\prime V^{-1}Y -
-\frac{\hat{x}_{i}\hat{y}' _{i}}{s_{i}}
-\end{eqnarray}
-
-
-\citet{schabenberger} examines the use and implementation of
-influence measures in LME models.
-
-
-
-
-
-
-
-
-
-
-
-
-
-In LME models, fitted by either ML or REML, an important overall
-influence measure is the likelihood distance \citep{cook82}. The
-procedure requires the calculation of the full data estimates
-$\hat{\psi}$ and estimates based on the reduced data set
-$\hat{\psi}_{(U)}$. The likelihood distance is given by
-determining
-
-
-\begin{eqnarray}
-LD_{(U)} &=& 2\{l(\hat{\psi}) - l( \hat{\psi}_{(U)}) \}\\
-RLD_{(U)} &=& 2\{l_{R}(\hat{\psi}) - l_{R}(\hat{\psi}_{(U)})\}
-\end{eqnarray}
-
-
-
-
 
 \section{Model Diagnostics for Roy's Models}
 
