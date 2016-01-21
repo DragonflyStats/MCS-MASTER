@@ -67,6 +67,99 @@
 %	with a paired t-test , with estimates of slope and intercept.
 %\end{itemize}
 %subsection{t-test}
+\section{Model Specification}
+The model underpinning the Bland-Altman approach can be presented as follows:
+
+
+
+The case-wise differences $d_i = x_i - y_i$
+\[
+\Sigma = \left( \begin{array}{cc}
+\sigma^2_1 + \sigma^2_2 &  \frac{1}{2}(\sigma^2_1 - \sigma^2_2) \\
+\frac{1}{2}(\sigma^2_1 - \sigma^2_2) &   \sigma^2_b + \frac{1}{4}(\sigma^2_1 + \sigma^2_2)
+\end{array}\right)
+\]
+
+
+
+
+
+
+
+
+\subsection{Formal Testing}
+The Bland Altman plot is a simple tool for inspection of the data,
+but in itself it offers no formal testing procedure in this regard. To this end, the approach proposed by \citet{BA83} is a formal test on the Pearson correlation coefficient  of casewise differences and means ($\rho_{AD}$). According to the authors, this test is equivalent to a well established tests for equality of variances, known as the `Pitman Morgan Test' \citep{Pitman,
+	Morgan}.
+
+For the Grubbs data, the correlation coefficient estimate ($r_{AD}$) is 0.2625, with a 95\% confidence interval of (-0.366,
+0.726) estimated by Fishers ``\textit{r to z}" transformation \citep{Cohen}. The null hypothesis ($\rho_{AD}$ =0) would fail to be rejected.
+Consequently the null hypothesis of equal variances of each method would also fail to be rejected.
+
+There has no been no further mention of this particular test in the subsequent article published by Bland and Altman, although
+\citet{BA99} refers to Spearmans' rank correlation coefficient. \citet{BA99} comments `we do not see a
+place for methods of analysis based on hypothesis testing'. \citet{BA99} also states that consider structural equation models
+to be inappropriate.
+%=================================================================%
+\subsection{Analysis of Variance }
+
+\citet{BXC2004} presents a model to describe the relationship between a value of measurement and its
+real value. The non-replicate case is considered first, as it is the context of the Bland Altman plots. This model assumes that inter-method bias is the only difference between the two methods.
+
+A measurement $y_{mi}$ by method $m$ on individual $i$ is formulated as follows;
+\begin{equation}
+y_{mi}  = \alpha_{m} + \mu_{i} + e_{mi} \qquad  e_{mi} \sim
+\mathcal{N}(0,\sigma^{2}_{m})
+\end{equation}
+The differences are expressed as $d_{i} = y_{1i} - y_{2i}$. For the replicate case, an interaction term $c$ is added to the model, with an associated variance component. All the random effects are assumed independent, and that all replicate measurements are assumed to be exchangeable within each method.
+
+\begin{equation}
+y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + e_{mir}, \qquad  e_{mi}
+\sim \mathcal{N}(0,\sigma^{2}_{m}), \quad c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}).
+\end{equation}
+%----
+
+Of particular importance is terms of the model, a true value for item $i$ ($\mu_{i}$).  The fixed effect of Roy's model comprise of an intercept term and fixed effect terms for both methods, with no reference to the true value of any individual item. 
+%A distinction can be made between the two models: Roy's model is a standard LME model, whereas Carstensen's model is a more complex additive model.
+
+
+
+\subsection{Two Way ANOVA}
+
+\citet{BXC2008} develop their model from a standard two-way analysis of variance model, reformulated for the case of replicate measurements, with random effects terms specified as appropriate. 
+Their model describing $y_{mir} $, again the $r$th replicate measurement on the $i$th item by the $m$th method ($m=1,2,$ $i=1,\ldots,N,$ and $r = 1,\ldots,n$), can be written as
+\begin{equation}\label{BXC-model}
+y_{mir}  = \alpha_{m} + \mu_{i} + a_{ir} + c_{mi} + \epsilon_{mir}.
+\end{equation}
+The fixed effects $\alpha_{m}$ and $\mu_{i}$  represent the intercept for method $m$ and the `true value' for item $i$ respectively. The random-effect terms comprise an item-by-replicate interaction term $a_{ir} \sim \mathcal{N}(0,\varsigma^{2})$, a method-by-item interaction term $c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}),$ and model error terms $\varepsilon \sim \mathcal{N}(0,\varphi^{2}_{m}).$ All random-effect terms are assumed to be independent.
+For the case when replicate measurements are assumed to be exchangeable for item $i$, $a_{ir}$ can be removed.
+
+The model expressed in (2) describes measurements by $m$ methods, where $m = \{1,2,3\ldots\}$. Based on the model expressed in (2), \citet{BXC2008} compute the limits of agreement as
+\[
+\alpha_1 - \alpha_2 \pm 2 \sqrt{ \tau^2_1 +  \tau^2_2 +  \varphi^2_1 +  \varphi^2_2 }
+\]
+\citet{BXC2008} notes that, for $m=2$,  separate estimates of $\tau^2_m$ can not be obtained. To overcome this, the assumption of equality, i.e. $\tau^2_1 = \tau^2_2$ is required.
+
+
+%----------------------------------------------------------------------------
+
+
+\subsection{Classical Model}
+The classical model is based on measurements $y_{mi}$
+by method $m=1,2$ on item $i = 1,2 \ldots$
+
+\[y_{mi} + \alpha_{m} + \mu_{i} + e_{mi}\]
+
+\[e_{mi} \sim \mathcal{n} (0,\sigma^2_m)\]
+
+Even though the separate variances can not be
+identified, their sum can be estimated by the empirical variance of the differences.
+
+Like wise the separate $\alpha$ can not be
+estimated, only theiir difference can be estimated as
+$\bar{D}$
+
+
 \chapter{Formal tests}
 For the most part, Bland and Altman intentionally avoid computational intensive methods or formal hypothesis testing, on the basis
 that the intended users are non-statisticians. Several other authors express dislike of this, and argue in favour of
