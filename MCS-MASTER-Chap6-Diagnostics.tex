@@ -78,6 +78,22 @@ rulesepcolor=\color{black},
 
 
 
+\section{Framework for Model Validation using Residual Diagnostics}
+In statistical modelling, the process of model validation is a critical step, but also a step that is too often overlooked. A very simple procedure is to examine commonly encountered
+metrics, such as the $R^2$ value. However, using a small handful of simple measures and methods is insufficient to properly assess the quality of a fitted model. To do so properly, a full and comprehensive
+analysis that tests of all of the assumptions, as far as possible, must be carried out. A statistical model, whether of the fixed-effects or mixed-effects variety, represents how you think your data
+were generated. Following model specification and estimation, it is of interest to explore the model-data
+agreement by raising questions such as
+\begin{itemize}
+	\item Does the model-data agreement support the model assumptions?
+	\item Should model components be refined, and if so, which components? For example, should regressors
+	be added or removed, and is the covariation of the observations modeled properly?
+	\item Are the results sensitive to model and/or data? Are individual data points or groups of cases particularly
+	influential on the analysis?
+\end{itemize}
+
+
+
 \section{Introduction}
 In statistical modelling, the process of model validation is a critical step, but also a step that is too often overlooked. A very simple procedure is to examine well known
 metrics, such as the AIC and $R^2$ measures. However, using a small handful of simple measures and methods is insufficient to properly assess the quality of a fitted model. To do so properly, a full and comprehensive
@@ -675,6 +691,48 @@ Pinheiro and Bates provide some insight into how to compute and interpret model 
 An overall influence statistic measures the change in the objective function being minimized. For example, in
 OLS regression, the residual sums of squares serves that purpose. In linear mixed models fit by
 \index{maximum likelihood} maximum likelihood (ML) or \index{restricted maximum likelihood} restricted maximum likelihood (REML), an overall influence measure is the \index{likelihood distance} likelihood distance [Cook and Weisberg ].
+
+
+\section{Extension of Diagnostic Methods to LME models}
+
+
+
+When similar notions of statistical influence are applied to mixed models,
+things are more complicated. Removing data points affects fixed effects and covariance parameter estimates.
+Update formulas for “\textit{leave-one-out}” estimates typically fail to account for changes in covariance
+parameters. 
+%
+%
+%In LME models, there are two types of residuals, marginal residuals and conditional residuals. A
+%marginal residual is the difference between the observed data and the estimated marginal mean. A conditional residual is the
+%difference between the observed data and the predicted value of the observation. In a model without random effects, both sets of residuals coincide \citep{schab}.
+
+\citet{Christiansen} noted the case deletion diagnostics techniques have not been applied to linear mixed effects models and seeks to develop methodologies in that respect. \citet{Christiansen} develops these techniques in the context of REML.
+=======
+\citet{CPJ} noted the case deletion diagnostics techniques had not been applied to linear mixed effects models and seeks to develop methodologies in that respect. \citet{CPJ} develops these techniques in the context of REML.
+
+
+%\citet{CPJ} develops \index{case deletion diagnostics} case deletion diagnostics, in particular the equivalent of \index{Cook's distance} Cook's distance, a well-known metric, for diagnosing influential observations when estimating the fixed effect parameters and variance components. Deletion diagnostics provide a means of assessing the influence of an observation (or groups of observations) on inference on the estimated parameters of LME models. We shall provide a fuller discussion of Cook's distance in due course.
+
+
+\citet{Demi} extends several regression diagnostic techniques commonly used in linear regression, such as leverage, infinitesimal influence, case deletion diagnostics, Cook's distance, and local influence to the linear mixed-effects model. In each case, the proposed new measure has a direct interpretation in terms of the effects on a parameter of interest, and reduces to the familiar linear regression measure when there are no random effects. 
+
+The new measures that are proposed by \citet{Demi} are explicitly defined functions and do not require re-estimation of the model, especially for cluster deletion diagnostics. The basis for both the cluster deletion diagnostics and Cook's distance is a generalization of Miller's simple update formula for case deletion for linear models. Furthermore \citet{Demi} shows how Pregibon's infinitesimal case deletion diagnostics is adapted to the linear mixed-effects model. 
+%A simple compact matrix formula is derived to assess the local influence of the fixed-effects regression coefficients. 
+
+
+%
+%
+%\section{Case Deletion Diagnostics for LME models} %1.6
+%
+%Data from single individuals, or a small group of subjects may influence non-linear mixed effects model selection. Diagnostics routinely applied in model building may identify such individuals, but these methods are not specifically designed for that purpose and are, therefore, not optimal. 
+
+\citet{Demi} proposes two likelihood-based diagnostics for identifying individuals that can influence the choice between two competing models.
+
+
+\newpage
+
+
 
 
 \section{Iterative Influence Analysis}
