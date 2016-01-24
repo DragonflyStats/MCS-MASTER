@@ -68,26 +68,25 @@
 %\end{itemize}
 %subsection{t-test}
 
-Dunn : Regression Models for Method Comparison Data
+\subsection{Regression Models for Method Comparison Data}
 In many models,  naïve assumptions are required to overcome issues of identifiabilty.
 Precision is defined by the reciprocal of the variance of the random errors. 
 Also it is assumed that the error variance is independent of the amount of material being measured. However, in practice, this is often not the case. Variability increases over the scale of measurements over many cases.
 Estimators of scale parameters are estimable only if the analyst is prepared to make naïve, if not unacceptable, assumptions.
+
 Equation 4 
 $\psi$  and $\varepsilon$ are statistically independent of each other.
 Contamination effect that arises from non-specificity /  specimen specific bias.
 Random error is measured by ε. Homogenity of variances is assumed.
 If there are no replicate measures,  both variances are completely confounded, and there is no way of telling them apart.
 Scaling of new measurements is measured by β.
+
 \subsection{Sampling Protocols}
 Dunn discusses the sampling protocols in depth. Consider a random sample of N specimens. A simple design is a  set of measurements on each specimen using each of the two methods, yield 2N measurments. Dunn remarks that such a design would not yield much in the way of information.
 The criticism projected at the correlation coefficient is only valid if one is specifically interested in assessing “agreement”. However, it should be used as an exploratory tool in the first instance.
 Exchangealility encompasses the qualities of similar precision.
 
 
-\subsection{Deming Regression}
-The appropriate estimates were derived by Kummel (1879), but were popularized in the context of medical statistics and clinical chemistry by Deming (1943).
-Orthogonal regression describes the special case where the variance ratio is equal to one.
 
 \section{Formal Models and Tests}
 While the Bland-Altman plot is useful for inspection of data, \citet{Kinsella} notes the lack of formal testing offered by
@@ -381,8 +380,11 @@ comparative precision of both methods.
 
 
 
+\newpage
+
 \section{Measurement Error Models}
-\textbf{DunnSEME} proposes a measurement error model for use in
+
+\citet{DunnSEME} proposes a measurement error model for use in
 method comparison studies. Consider n pairs of measurements
 $X_{i}$ and $Y_{i}$ for $i=1,2,...n$.
 \begin{equation}
@@ -411,10 +413,12 @@ E(\delta_{i}) = E(\epsilon_{i}) = 0 \nonumber
 The value $\alpha$ is the inter-method bias between the two
 methods.
 
+
 \begin{eqnarray}
 z_0 &=& d = 0 \\
 z_{n+1} &=& z_n^2+c
 \end{eqnarray}
+
 
 \section{Model Specification}
 The model underpinning the Bland-Altman approach can be presented as follows:
@@ -615,43 +619,6 @@ Bland Altman
 %------------------------------------------------------------------------------------%
 
 
-\section{Measurement Error Models}
-
-\citet{DunnSEME} proposes a measurement error model for use in
-method comparison studies. Consider n pairs of measurements
-$X_{i}$ and $Y_{i}$ for $i=1,2,...n$.
-\begin{equation}
-X_{i} = \tau_{i}+\delta_{i}\\
-\end{equation}
-\begin{equation}
-Y_{i} = \alpha +\beta\tau_{i}+\epsilon_{i} \nonumber
-\end{equation}
-
-In the above formulation is in the form of a linear structural
-relationship, with $\tau_{i}$ and $\beta\tau_{i}$ as the true
-values , and $\delta_{i}$ and $\epsilon_{i}$ as the corresponding
-measurement errors. In the case where the units of measurement are
-the same, then $\beta =1$.
-
-\begin{equation}
-E(X_{i}) = \tau_{i}\\
-\end{equation}
-\begin{equation}
-E(Y_{i}) = \alpha +\beta\tau_{i} \nonumber
-\end{equation}
-\begin{equation}
-E(\delta_{i}) = E(\epsilon_{i}) = 0 \nonumber
-\end{equation}
-
-The value $\alpha$ is the inter-method bias between the two
-methods.
-
-
-\begin{eqnarray}
-z_0 &=& d = 0 \\
-z_{n+1} &=& z_n^2+c
-\end{eqnarray}
-
 
 \section{Structural Equation modelling}
 This is a statistical technique used for testing and estimating causal relationships using a combination of statistical data and qualitative causal assumptions. This technique was proposed by \citet{Lewis} and G. Kelly as a method of assessing the reliability of a new measurement technique. It can indicate the presence of bias. However Bland and Altman (1987) have criticized it on the basis that it offers no insights into the variability about the line of equality.
@@ -741,6 +708,22 @@ Latent variables are variables that are not measured (i.e. not observed) but who
 
 
 
+\section{Structural Equation Modelling}
+This is a statistical technique used for testing and estimating causal relationships using a combination of statistical data and qualitative causal assumptions. This technique was proposed by \citet{Lewis} as a method of assessing the reliability of a new measurement technique. It can indicate the presence of bias. However Bland and Altman (1987) have criticized it on the basis that it offers no insights into the variability about the line of equality.
+\\
+In this paper, the SEM method is used to assess the linear relationship between the new method and the standard method.
+\\
+Structural analysis is a generalization of regression analysis.
+\\
+In Hopkins papers, a critique of the Bland-Altman plot he makes the following remark:
+\\
+\emph{What's needed for a comparison of two or more measures is a
+	generic approach more powerful even than regression to model the
+	relationship and error structure of each measure with a latent
+	variable representing the true value.}
+\\
+Hopkins also adds that he himself is collaborating in research utilising SEM and Mixed Effects modelling.This is a methodology proposed by Kelly (1985).
+%-------------------------------------------------------------------------------%
 \chapter{Error In Variable Models}
 
 \section{Conclusions about Existing Methodologies}
@@ -920,7 +903,10 @@ papers dispute this.
 
 
 
-\chapter{Errors-in-variables Regression}
+\section{Deming Regression}
+The appropriate estimates were derived by Kummel (1879), but were popularized in the context of medical statistics and clinical chemistry by Deming (1943).
+Orthogonal regression describes the special case where the variance ratio is equal to one.
+
 
 
 % 1. SLR
@@ -1029,6 +1015,46 @@ For single measurement method comparisons, Deming regression offers a useful com
 
 
 %-----------------------------------------%
+
+
+\section{Kummel's Estimates}
+
+
+For a given $\lambda$, \citet{Kummel} derived the following estimate that would later be used for the Deming regression slope
+parameter. The intercept estimate $\alpha$ is simply estimated in the same way as in conventional linear
+regression, by using the identity $\bar{Y}-\hat{\beta}\bar{X}$;
+\begin{equation}
+\hat{\beta} =\quad \frac{S_{yy} - \lambda S_{xx}+[(S_{yy} -
+	\lambda S_{xx})^{2}+ 4\lambda S^{2}_{xy}]^{1/2}}{2S_{xy}}
+\end{equation},
+with $\lambda$ as the variance ratio. As stated previously $\lambda$ is often unknown, and therefore must be assumed to equal one. 
+
+\citet{CarollRupert} states that Deming
+regression is acceptable only when the precision ratio ($\lambda$,in their paper as $\eta$) is correctly specified, but in practice this is often not the case, with the $\lambda$ being underestimated. Several candidate models, with varying variance ratios may be fitted, and estimates of the slope and intercept are produced. However no model selection information is available to determine the best fitting model.
+
+As with conventional regression methodologies, Deming regression calculates an estimate for both the slope and intercept for the
+fitted line, and standard errors thereof. Therefore there is sufficient information to carry out hypothesis tests on both
+estimates, that are informative about presence of fixed and proportional bias.
+
+
+% Koning
+% http://www.springerlink.com/content/r1063462u618q483/
+
+\begin{verbatim}
+Use of deming regression in method comparison studies.
+Henk Konings
+\end{verbatim}
+
+Accuracy is closeness to the true value, or alternatively, having a low measurement error.
+
+The determination of a true value for a biological specimen is difficult and sometimes impossible.
+
+Precision is expressed in terms of standard deviation, coefficient of variance or variance.
+
+In Deming regression, the errors between methods are assigned to both methods in proportion to the variances of the methods.
+
+
+
 
 
 \section{Drawbacks of Deming Regression}
@@ -1173,45 +1199,6 @@ in \citet[p.398]{AltmanBook} .
 
 
 %============================================================================================= %
-\section{Kummel's Estimates}
-
-
-For a given $\lambda$, \citet{Kummel} derived the following estimate that would later be used for the Deming regression slope
-parameter. The intercept estimate $\alpha$ is simply estimated in the same way as in conventional linear
-regression, by using the identity $\bar{Y}-\hat{\beta}\bar{X}$;
-\begin{equation}
-	\hat{\beta} =\quad \frac{S_{yy} - \lambda S_{xx}+[(S_{yy} -
-		\lambda S_{xx})^{2}+ 4\lambda S^{2}_{xy}]^{1/2}}{2S_{xy}}
-\end{equation},
-with $\lambda$ as the variance ratio. As stated previously $\lambda$ is often unknown, and therefore must be assumed to equal one. 
-
-\citet{CarollRupert} states that Deming
-regression is acceptable only when the precision ratio ($\lambda$,in their paper as $\eta$) is correctly specified, but in practice this is often not the case, with the $\lambda$ being underestimated. Several candidate models, with varying variance ratios may be fitted, and estimates of the slope and intercept are produced. However no model selection information is available to determine the best fitting model.
-
-As with conventional regression methodologies, Deming regression calculates an estimate for both the slope and intercept for the
-fitted line, and standard errors thereof. Therefore there is sufficient information to carry out hypothesis tests on both
-estimates, that are informative about presence of fixed and proportional bias.
-
-
-% Koning
-% http://www.springerlink.com/content/r1063462u618q483/
-
-\begin{verbatim}
-Use of deming regression in method comparison studies.
-Henk Konings
-\end{verbatim}
-
-Accuracy is closeness to the true value, or alternatively, having a low measurement error.
-
-The determination of a true value for a biological specimen is difficult and sometimes impossible.
-
-Precision is expressed in terms of standard deviation, coefficient of variance or variance.
-
-In Deming regression, the errors between methods are assigned to both methods in proportion to the variances of the methods.
-
-
-
-
 
 \section{Implementations}
 Thus far, one of the few \texttt{R} implementations of Deming regression is contained in the `MethComp' package. \citep{BXC2008}.
