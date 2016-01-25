@@ -68,26 +68,9 @@
 %\end{itemize}
 %subsection{t-test}
 
-\subsection{Regression Models for Method Comparison Data}
-In many models,  naïve assumptions are required to overcome issues of identifiabilty.
-Precision is defined by the reciprocal of the variance of the random errors. 
-Also it is assumed that the error variance is independent of the amount of material being measured. However, in practice, this is often not the case. Variability increases over the scale of measurements over many cases.
-Estimators of scale parameters are estimable only if the analyst is prepared to make naïve, if not unacceptable, assumptions.
-
-Equation 4 
-$\psi$  and $\varepsilon$ are statistically independent of each other.
-Contamination effect that arises from non-specificity /  specimen specific bias.
-Random error is measured by ε. Homogenity of variances is assumed.
-If there are no replicate measures,  both variances are completely confounded, and there is no way of telling them apart.
-Scaling of new measurements is measured by β.
-
-\subsection{Sampling Protocols}
-Dunn discusses the sampling protocols in depth. Consider a random sample of N specimens. A simple design is a  set of measurements on each specimen using each of the two methods, yield 2N measurments. Dunn remarks that such a design would not yield much in the way of information.
-The criticism projected at the correlation coefficient is only valid if one is specifically interested in assessing “agreement”. However, it should be used as an exploratory tool in the first instance.
-Exchangealility encompasses the qualities of similar precision.
 
 
-
+\chapter{Formal tests}
 \section{Formal Models and Tests}
 While the Bland-Altman plot is useful for inspection of data, \citet{Kinsella} notes the lack of formal testing offered by
 this methodology. Furthermore, \citet{Kinsella} formulates a model for
@@ -183,6 +166,111 @@ $\Sigma_{(a,d)}$ is
 
 
 
+\subsection{Formal Testing}
+The Bland Altman plot is a simple tool for inspection of the data,
+but in itself it offers no formal testing procedure in this regard. To this end, the approach proposed by \citet{BA83} is a formal test on the Pearson correlation coefficient  of casewise differences and means ($\rho_{AD}$). According to the authors, this test is equivalent to a well established tests for equality of variances, known as the `Pitman Morgan Test' \citep{Pitman,
+	Morgan}.
+
+
+%=================================================================%
+
+	\subsection{Classical model for single measurements}
+	The classical model is based on measurements $y_{mi}$
+	by method $m=1,2$ on item $i = 1,2 \ldots$
+	
+	
+	
+	
+	In the first instance, we require a simple model to describe a measurement by method $m$. We use the term $item$ to denote an individual, subject or sample, to be measured, being randomly sampled from a population. Let $y_{mi}$ be the$y_{mi}$
+	by method $m=1,2$ on item $i = 1,2 \ldots$
+	
+	\[ y_{mi} = \alpha_{m} + \mu_{i} + e_{mi}  \]
+	
+	\begin{itemize}
+		\item $\alpha_m$ is the fixed effect associated with method $m$,
+		\item $\mu_i$ is the true value for subject $i$ (fixed effect),
+		\item $e_{mi}$ is a
+		random effect term for errors with $e_{mi}  \sim \mathcal{N}(0,\sigma^2_m)$. \end{itemize}.
+	
+	\[y_{mi} + \alpha_{m} + \mu_{i} + e_{mi}\]
+	
+	\[e_{mi} \sim N(0,\sigma^2_m)\]
+	
+	Even though the separate variances can not be
+	identified, their sum can be estimated by the empirical variance of the differences.
+	
+	Like wise the separate $\alpha$ can not be
+	estimated, only theiir difference can be estimated as
+	$\bar{D}$
+	
+	This model implies that the difference between the paired measurements can be expressed as
+	
+	\[ d_{i} = y_{1i} - y_{2i} \sim \mathcal{N} (\alpha_{1} - \alpha_{2}, \sigma^2_{1} - \sigma^2_{2}). \]
+	
+	Importantly, this is independent of the item levels $\mu_i$. As the case-wise differences are of interest, the parameters of interest are the fixed effects for methods $\alpha_{m}$.
+	
+	% \[ y_{mi} =  \alpha_{m}  + \mu_{i} + e_{mi}  \]
+	% Importantly these variance covariance structures are central to ARoy2009 methodology.
+	% \citet{ARoy2009} proposes a series of hypothesis tests based on these matrices as part of her methodology. These tests shall be reverted to in due course.
+	
+	The standard deviation of the differences of variables $a$ and $b$ is computed as
+	\[
+	\mbox{var}(a - b) = \mbox{var} ( a )  + \mbox{var} ( b ) - 2\mbox{cov} ( a ,b )
+	\]
+	
+	Hence the variance of the difference of two methods, that allows for the calculation of the limits of agreement, can be calculated as
+	
+	\[
+	\mbox{var}(d) = \omega^2_1  + \omega^2_2 - 2 \times \omega_12
+	\]
+	
+	
+	
+	
+	
+	
+\subsection{Two Way ANOVA}
+\citet{BXC2004} presents a model to describe the relationship between a value of measurement and its
+real value. The non-replicate case is considered first, as it is the context of the Bland Altman plots. This model assumes that inter-method bias is the only difference between the two methods.
+
+A measurement $y_{mi}$ by method $m$ on individual $i$ is formulated as follows;
+\begin{equation}
+y_{mi}  = \alpha_{m} + \mu_{i} + e_{mi} \qquad  e_{mi} \sim
+\mathcal{N}(0,\sigma^{2}_{m})
+\end{equation}
+The differences are expressed as $d_{i} = y_{1i} - y_{2i}$. For the replicate case, an interaction term $c$ is added to the model, with an associated variance component. All the random effects are assumed independent, and that all replicate measurements are assumed to be exchangeable within each method.
+
+\citet{BXC2008} develop their model from a standard two-way analysis of variance model, reformulated for the case of replicate measurements, with random effects terms specified as appropriate. 
+Their model describing $y_{mir} $, again the $r$th replicate measurement on the $i$th item by the $m$th method ($m=1,2,$ $i=1,\ldots,N,$ and $r = 1,\ldots,n$), can be written as
+
+\begin{equation}\label{BXC-model}
+y_{mir}  = \alpha_{m} + \mu_{i} + a_{ir} + c_{mi} + \epsilon_{mir}.
+\end{equation}
+The fixed effects $\alpha_{m}$ and $\mu_{i}$  represent the intercept for method $m$ and the `true value' for item $i$ respectively. The random-effect terms comprise an item-by-replicate interaction term $a_{ir} \sim \mathcal{N}(0,\varsigma^{2})$, a method-by-item interaction term $c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}),$ and model error terms $\varepsilon \sim \mathcal{N}(0,\varphi^{2}_{m}).$ All random-effect terms are assumed to be independent.
+For the case when replicate measurements are assumed to be exchangeable for item $i$, $a_{ir}$ can be removed.
+
+The model expressed in (2) describes measurements by $m$ methods, where $m = \{1,2,3\ldots\}$. Based on the model expressed in (2), \citet{BXC2008} compute the limits of agreement as
+\[
+\alpha_1 - \alpha_2 \pm 2 \sqrt{ \tau^2_1 +  \tau^2_2 +  \varphi^2_1 +  \varphi^2_2 }
+\]
+\citet{BXC2008} notes that, for $m=2$,  separate estimates of $\tau^2_m$ can not be obtained. To overcome this, the assumption of equality, i.e. $\tau^2_1 = \tau^2_2$ is required.
+
+
+%----------------------------------------------------------------------------
+
+
+
+\begin{equation}
+y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + e_{mir}, \qquad  e_{mi}
+\sim \mathcal{N}(0,\sigma^{2}_{m}), \quad c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}).
+\end{equation}
+%----
+
+Of particular importance is terms of the model, a true value for item $i$ ($\mu_{i}$).  The fixed effect of Roy's model comprise of an intercept term and fixed effect terms for both methods, with no reference to the true value of any individual item. 
+%A distinction can be made between the two models: Roy's model is a standard LME model, whereas Carstensen's model is a more complex additive model.
+
+
+
 \subsection{Morgan Pitman Testing}
 An early contribution to formal testing in method comparison was
 made by both \citet{morgan} and \citet{pitman}, in separate
@@ -244,28 +332,6 @@ precision then the paired sample student t-test is appropriate for
 assessing the magnitude of the bias.
 
 
-\subsection{Analysis of Variance }
-
-\citet{BXC2004} presents a model to describe the relationship between a value of measurement and its
-real value. The non-replicate case is considered first, as it is the context of the Bland Altman plots. This model assumes that inter-method bias is the only difference between the two methods.
-
-A measurement $y_{mi}$ by method $m$ on individual $i$ is formulated as follows;
-\begin{equation}
-y_{mi}  = \alpha_{m} + \mu_{i} + e_{mi} \qquad  e_{mi} \sim
-\mathcal{N}(0,\sigma^{2}_{m})
-\end{equation}
-The differences are expressed as $d_{i} = y_{1i} - y_{2i}$. For the replicate case, an interaction term $c$ is added to the model, with an associated variance component. All the random effects are assumed independent, and that all replicate measurements are assumed to be exchangeable within each method.
-
-\begin{equation}
-y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + e_{mir}, \qquad  e_{mi}
-\sim \mathcal{N}(0,\sigma^{2}_{m}), \quad c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}).
-\end{equation}
-%----
-
-Of particular importance is terms of the model, a true value for item $i$ ($\mu_{i}$).  The fixed effect of Roy's model comprise of an intercept term and fixed effect terms for both methods, with no reference to the true value of any individual item. 
-%A distinction can be made between the two models: Roy's model is a standard LME model, whereas Carstensen's model is a more complex additive model.
-
-
 
 \subsection{Bland-Altman correlation test}
 
@@ -284,29 +350,37 @@ correlation coefficient. \citet{BA99} comments `we do not see a
 place for methods of analysis based on hypothesis testing'.
 \citet{BA99} also states that consider structural equation models
 to be inappropriate.
-\subsection{The Problem of Identifiability}
-\citet{DunnSEME} highlights an important issue regarding using
-models such as these, the identifiability problem. This comes as a
-result of there being too many parameters to be estimated.
-Therefore assumptions about some parameters, or estimators used,
-must be made so that others can be estimated. 
-
-For example $\alpha$
-may take the value of the inter-method bias estimate from Bland -
-Altman methodology. 
 
 
-For example in literature the variance
-ratio $\lambda=\frac{\sigma^{2}_{1}}{\sigma^{2}_{2}}$
-must often be assumed to be equal to $1$ \citep{linnet98}.\citet{DunnSEME} considers methodologies based on two methods with single measurements on each subject as inadequate for a serious
-study on the measurement characteristics of the methods. This is
-because there would not be enough data to allow for a meaningful
-analysis. There is, however, a contrary argument that in many
-practical settings it is very difficult to get replicate
-observations when the measurement method requires invasive medical
-procedure.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Bartko's BB
+	\subsection{Regression Methods}
+	Conventional regression models are estimated using the ordinary
+	least squares (OLS) technique, and are referred to as `Model I
+	regression' \citep{CornCoch,ludbrook97}. A key feature of Model I
+	models is that the independent variable is assumed to be measured
+	without error. As often pointed out in several papers
+	\citep{BA83,ludbrook97}, this assumption invalidates simple linear
+	regression for use in method comparison studies, as both methods
+	must be assumed to be measured with error.
+	
+	The use of regression models that assumes the presence of error in
+	both variables $X$ and $Y$ have been proposed for use instead
+	\citep{CornCoch,ludbrook97}. These methodologies are collectively
+	known as `Model II regression'. They differ in the method used to
+	estimate the parameters of the regression.
+	
+	Regression estimates depend on formulation of the model. A
+	formulation with one method considered as the $X$ variable will
+	yield different estimates for a formulation where it is the $Y$
+	variable. With Model I regression, the models fitted in both cases
+	will entirely different and inconsistent. However with Model II
+	regression, they will be consistent and complementary.
+	
+	Regression approaches are useful for a making a detailed examination of the biases across the range of measurements, allowing bias to be decomposed into fixed bias and proportional bias.
+	Fixed bias describes the case where one method gives values that are consistently different
+	to the other across the whole range. Proportional
+	bias describes the difference in measurements getting progressively greater, or smaller, across the range of measurements. A measurement method may have either an attendant fixed bias or proportional bias, or both. \citep{ludbrook}. Determination of these biases shall be discussed in due course.
+	%===================================================%
+\subsection{Bradley-Blackwood Method}
 \citet{BB89} offers a formal simultaneous hypothesis test for the
 mean and variance of two paired data sets. Using simple linear
 regression of the differences of each pair against the sums, a
@@ -382,6 +456,43 @@ comparative precision of both methods.
 
 \newpage
 
+\subsection{The Problem of Identifiability}
+\citet{DunnSEME} highlights an important issue regarding using
+models such as these, the identifiability problem. This comes as a
+result of there being too many parameters to be estimated.
+Therefore assumptions about some parameters, or estimators used,
+must be made so that others can be estimated. 
+
+For example $\alpha$
+may take the value of the inter-method bias estimate from Bland -
+Altman methodology. 
+
+
+For example in literature the variance
+ratio $\lambda=\frac{\sigma^{2}_{1}}{\sigma^{2}_{2}}$
+must often be assumed to be equal to $1$ \citep{linnet98}.\citet{DunnSEME} considers methodologies based on two methods with single measurements on each subject as inadequate for a serious
+study on the measurement characteristics of the methods. This is
+because there would not be enough data to allow for a meaningful
+analysis. There is, however, a contrary argument that in many
+practical settings it is very difficult to get replicate
+observations when the measurement method requires invasive medical
+procedure.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Bartko's BB
+
+\subsection{Identifiability}
+In many models,  naïve assumptions are required to overcome issues of identifiabilty.
+Precision is defined by the reciprocal of the variance of the random errors. 
+Also it is assumed that the error variance is independent of the amount of material being measured. However, in practice, this is often not the case. Variability increases over the scale of measurements over many cases.
+Estimators of scale parameters are estimable only if the analyst is prepared to make naïve, if not unacceptable, assumptions.
+
+Equation 4 
+$\psi$  and $\varepsilon$ are statistically independent of each other.
+Contamination effect that arises from non-specificity /  specimen specific bias.
+Random error is measured by ε. Homogenity of variances is assumed.
+If there are no replicate measures,  both variances are completely confounded, and there is no way of telling them apart.
+Scaling of new measurements is measured by β.
+
 \section{Measurement Error Models}
 
 \citet{DunnSEME} proposes a measurement error model for use in
@@ -440,142 +551,14 @@ The case-wise differences $d_i = x_i - y_i$
 
 
 
-\subsection{Formal Testing}
-The Bland Altman plot is a simple tool for inspection of the data,
-but in itself it offers no formal testing procedure in this regard. To this end, the approach proposed by \citet{BA83} is a formal test on the Pearson correlation coefficient  of casewise differences and means ($\rho_{AD}$). According to the authors, this test is equivalent to a well established tests for equality of variances, known as the `Pitman Morgan Test' \citep{Pitman,
-	Morgan}.
-
-For the Grubbs data, the correlation coefficient estimate ($r_{AD}$) is 0.2625, with a 95\% confidence interval of (-0.366,
-0.726) estimated by Fishers ``\textit{r to z}" transformation \citep{Cohen}. The null hypothesis ($\rho_{AD}$ =0) would fail to be rejected.
-Consequently the null hypothesis of equal variances of each method would also fail to be rejected.
-
-There has no been no further mention of this particular test in the subsequent article published by Bland and Altman, although
-\citet{BA99} refers to Spearmans' rank correlation coefficient. \citet{BA99} comments `we do not see a
-place for methods of analysis based on hypothesis testing'. \citet{BA99} also states that consider structural equation models
-to be inappropriate.
-%=================================================================%
-
-\subsection{Two Way ANOVA}
-
-\citet{BXC2008} develop their model from a standard two-way analysis of variance model, reformulated for the case of replicate measurements, with random effects terms specified as appropriate. 
-Their model describing $y_{mir} $, again the $r$th replicate measurement on the $i$th item by the $m$th method ($m=1,2,$ $i=1,\ldots,N,$ and $r = 1,\ldots,n$), can be written as
-\begin{equation}\label{BXC-model}
-y_{mir}  = \alpha_{m} + \mu_{i} + a_{ir} + c_{mi} + \epsilon_{mir}.
-\end{equation}
-The fixed effects $\alpha_{m}$ and $\mu_{i}$  represent the intercept for method $m$ and the `true value' for item $i$ respectively. The random-effect terms comprise an item-by-replicate interaction term $a_{ir} \sim \mathcal{N}(0,\varsigma^{2})$, a method-by-item interaction term $c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}),$ and model error terms $\varepsilon \sim \mathcal{N}(0,\varphi^{2}_{m}).$ All random-effect terms are assumed to be independent.
-For the case when replicate measurements are assumed to be exchangeable for item $i$, $a_{ir}$ can be removed.
-
-The model expressed in (2) describes measurements by $m$ methods, where $m = \{1,2,3\ldots\}$. Based on the model expressed in (2), \citet{BXC2008} compute the limits of agreement as
-\[
-\alpha_1 - \alpha_2 \pm 2 \sqrt{ \tau^2_1 +  \tau^2_2 +  \varphi^2_1 +  \varphi^2_2 }
-\]
-\citet{BXC2008} notes that, for $m=2$,  separate estimates of $\tau^2_m$ can not be obtained. To overcome this, the assumption of equality, i.e. $\tau^2_1 = \tau^2_2$ is required.
-
-
-%----------------------------------------------------------------------------
 
 
 
-	\section{Classical model for single measurements}
-	The classical model is based on measurements $y_{mi}$
-	by method $m=1,2$ on item $i = 1,2 \ldots$
-	
-	\[y_{mi} + \alpha_{m} + \mu_{i} + e_{mi}\]
-	
-	\[e_{mi} \sim N(0,\sigma^2_m)\]
-	
-	Even though the separate variances can not be
-	identified, their sum can be estimated by the empirical variance of the differences.
-	
-	Like wise the separate $\alpha$ can not be
-	estimated, only theiir difference can be estimated as
-	$\bar{D}$
-	
-	
-	In the first instance, we require a simple model to describe a measurement by method $m$. We use the term $item$ to denote an individual, subject or sample, to be measured, being randomly sampled from a population. Let $y_{mi}$ be the measurement for item $i$ made by method $m$.
-	
-	\[ y_{mi} = \alpha_{m} + \mu_{i} + e_{mi}  \]
-	
-	\begin{itemize}
-		\item $\alpha_m$ is the fixed effect associated with method $m$,
-		\item $\mu_i$ is the true value for subject $i$ (fixed effect),
-		\item $e_{mi}$ is a
-		random effect term for errors with $e_{mi}  \sim \mathcal{N}(0,\sigma^2_m)$. \end{itemize}.
-	
-	This model implies that the difference between the paired measurements can be expressed as
-	
-	\[ d_{i} = y_{1i} - y_{2i} \sim \mathcal{N} (\alpha_{1} - \alpha_{2}, \sigma^2_{1} - \sigma^2_{2}). \]
-	
-	Importantly, this is independent of the item levels $\mu_i$. As the case-wise differences are of interest, the parameters of interest are the fixed effects for methods $\alpha_{m}$.
-	
-	\[ y_{mi} =  \alpha_{m}  + \mu_{i} + e_{mi}  \]
-	
-	
-	
-	
-	
-	Importantly these variance covariance structures are central to ARoy2009 methodology.
-	
-	
-	\citet{ARoy2009} proposes a series of hypothesis tests based on these matrices as part of her methodology. These tests shall be reverted to in due course.
-	
-	The standard deviation of the differences of variables $a$ and $b$ is computed as
-	\[
-	\mbox{var}(a - b) = \mbox{var} ( a )  + \mbox{var} ( b ) - 2\mbox{cov} ( a ,b )
-	\]
-	
-	Hence the variance of the difference of two methods, that allows for the calculation of the limits of agreement, can be calculated as
-	
-	\[
-	\mbox{var}(d) = \omega^2_1  + \omega^2_2 - 2 \times \omega_12
-	\]
-	
-	
-	
-	
-	
-	
-\chapter{Formal tests}
-For the most part, Bland and Altman intentionally avoid computational intensive methods or formal hypothesis testing, on the basis
-that the intended users are non-statisticians. Several other authors express dislike of this, and argue in favour of
-formal methods.
-
-The work of several authors lay the foundation for a formal consideration of the method comparison study problem.
-Deming Regression is discussed by several authors.
-
-% Structural equation modelling
-% Deming Regression
 
 
 
-	\section{Regression Methods}
-	Conventional regression models are estimated using the ordinary
-	least squares (OLS) technique, and are referred to as `Model I
-	regression' \citep{CornCoch,ludbrook97}. A key feature of Model I
-	models is that the independent variable is assumed to be measured
-	without error. As often pointed out in several papers
-	\citep{BA83,ludbrook97}, this assumption invalidates simple linear
-	regression for use in method comparison studies, as both methods
-	must be assumed to be measured with error.
-	
-	The use of regression models that assumes the presence of error in
-	both variables $X$ and $Y$ have been proposed for use instead
-	\citep{CornCoch,ludbrook97}. These methodologies are collectively
-	known as `Model II regression'. They differ in the method used to
-	estimate the parameters of the regression.
-	
-	Regression estimates depend on formulation of the model. A
-	formulation with one method considered as the $X$ variable will
-	yield different estimates for a formulation where it is the $Y$
-	variable. With Model I regression, the models fitted in both cases
-	will entirely different and inconsistent. However with Model II
-	regression, they will be consistent and complementary.
-	
-	Regression approaches are useful for a making a detailed examination of the biases across the range of measurements, allowing bias to be decomposed into fixed bias and proportional bias.
-	Fixed bias describes the case where one method gives values that are consistently different
-	to the other across the whole range. Proportional
-	bias describes the difference in measurements getting progressively greater, or smaller, across the range of measurements. A measurement method may have either an attendant fixed bias or proportional bias, or both. \citep{ludbrook}. Determination of these biases shall be discussed in due course.
-%===================================================%
+
+
 \chapter{SEMS}
 
 % Structural equation modelling
@@ -585,25 +568,6 @@ Deming Regression is discussed by several authors.
 
 
 	%----------------------------------------------------------------------------%
-
-\section{Kelly}
-
-Use of the Structural Equations Model in Assessing the Reliability of a New Measurement Technique
-
-Gabrielle E. Kelly
-
-Applied Statistics (1985) vol. 34 no. 3 pp 258- 263
-
-Introduction
-The Structural equations model is used to estimate the linear relationship between new and standards method.
-
-The Delta method is used to find the variance of the estimated parameters.
-
-Reply
-Bland Altman 
-
-%------------------------------------------------------------------------------------%
-
 
 
 \section{Structural Equation modelling}
@@ -623,6 +587,27 @@ In Hopkins papers, a critique of the Bland-Altman plot he makes the following re
 Hopkins also adds that he himself is collaborating in research utilising SEM and Mixed Effects modelling. This is a methodology proposed by Kelly (1985).
 
 
+
+
+
+
+\section{Kelly}
+
+Use of the Structural Equations Model in Assessing the Reliability of a New Measurement Technique
+
+Gabrielle E. Kelly
+
+Applied Statistics (1985) vol. 34 no. 3 pp 258- 263
+
+Introduction
+The Structural equations model is used to estimate the linear relationship between new and standards method.
+
+The Delta method is used to find the variance of the estimated parameters.
+
+Reply
+Bland Altman 
+
+%------------------------------------------------------------------------------------%
 
 
 
@@ -659,57 +644,12 @@ It is, however, the variability around Y=X that is of major interest
 
 
 
-%-------------------------------------------------------------%
-\subsection{Steps of Structural Equation modelling}
-
-\begin{itemize}
-\item[1.] \textbf{Model Specification}
-We must state the theoretical model either as a set of equations.
-
-\item[2.] \textbf{Identification }
-This step involves checking that the model can be estimated with observable data, both in theory and in practice.
-
-\item[3.] \textbf{Estimation}
-The models parameters are statistically estimated from data. (multiple regression is one such method)
-
-\item[4.] \textbf{Model Fit}
-The estimated model parameters are used to predict the correlations and covariance between measured variables 
-The predicted correlations, or covariance are compared to the observed correlations, or covariance. (Measures of model fit are calculated)
-\end{itemize}
-%-------------------------------------------------------------%
-
-\subsection{Lewis’s test} 
-While regarding a comparison of two pump meters under operational conditions
-
-‘..It is suspected that the various assumptions made by each method are weak under operational conditions’
-Lewis listed several sources of variation that relate to the practical aspects of each measurement method.
-
-‘There is little reasons to believe that the laboratory conditions of the devise provide a suitable basis for the conversion of data gathered under operational conditions.
-
-
-%-------------------------------------------------------------%
-Latent variables are variables that are not measured (i.e. not observed) but whose values is observed from other observed variables. One advantage of using latent variables is that it reduces the dimensionality of data. A large number of observable variables can be aggregated in a model to represent an underlying concept, making it easier for humans to understand the data.	[wikipedia]
 
 
 
 
 
-\section{Structural Equation Modelling}
-This is a statistical technique used for testing and estimating causal relationships using a combination of statistical data and qualitative causal assumptions. This technique was proposed by \citet{Lewis} as a method of assessing the reliability of a new measurement technique. It can indicate the presence of bias. However Bland and Altman (1987) have criticized it on the basis that it offers no insights into the variability about the line of equality.
-\\
-In this paper, the SEM method is used to assess the linear relationship between the new method and the standard method.
-\\
-Structural analysis is a generalization of regression analysis.
-\\
-In Hopkins papers, a critique of the Bland-Altman plot he makes the following remark:
-\\
-\emph{What's needed for a comparison of two or more measures is a
-	generic approach more powerful even than regression to model the
-	relationship and error structure of each measure with a latent
-	variable representing the true value.}
-\\
-Hopkins also adds that he himself is collaborating in research utilising SEM and Mixed Effects modelling.This is a methodology proposed by Kelly (1985).
-%-------------------------------------------------------------------------------%
+
 \chapter{Error In Variable Models}
 
 \section{Conclusions about Existing Methodologies}
@@ -775,22 +715,7 @@ Regression approaches are useful for a making a detailed examination of the bias
 bias describes the difference in measurements getting progressively greater, or smaller, across the range of measurements. A measurement method may have either an attendant fixed bias or proportional bias, or both. \citep{ludbrook}. Determination of these biases shall be discussed in due course.
 
 
-\section{Cornbleet - Cochran }
-This regression method also calculates a line of best fit for two sets of data. It differs from Model I regression in that it is derived in a way that factors in for error in the x-axis, as well as the y-axis. \citet{CornCoch} refer to it as 'Model II regression'.
 
-\begin{itemize}
-\item Model II regression [Test V Test] In this type of analysis, both of the measurement methods are test methods, with both expected to be subject to error. Deming regression is an approach to model II regression.
-
-\item Model I regression [Criterion v Test] \citet{CornCoch} define this analysis as the case in which the independent variable, X, is measured without error, with $Y$ as the dependent
-variable.
-
-\item In method comparison studies, the X variable is a precisely measured reference method. In the \citet{CornCoch} paper It is argued that criterion may be regarded as the correct value.
-Other papers dispute this.
-\end{itemize}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%6 Regression Based Approaches          %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Model I and II Regression}
 
 On account of the fact that one set of measurements are linearly related to another, one could surmise that Linear Regression is the most suitable approach to analyzing comparisons. This approach is unsuitable on two counts. Firstly one of the assumptions of Regression analysis is that the independent variable values are without error. 
@@ -809,10 +734,19 @@ OLS approach to determine the slope and intercept.
 
 They describe three such alternative methods of regression; Deming, Mandel, and Bartlett regression. Collectively the authors refer to these approaches as Model II regression techniques.
 
+\begin{itemize}
+	\item The authors make the distinction between model I and model II regression types.
+	\item Model II regression is the appropriate type when the predictor variable “x” is measured with imprecision.
+	Cornbleet and Cochrane remark that clinical laboratory measurements usually increase in absolute imprecision when larger values are measured. % - [**]
+\end{itemize}
+
+\begin{itemize}
+	\item Model II regression is the appropriate type when the predictor variable “x” is measured with imprecision.
+	Cornbleet and Cochrane remark that clinical laboratory measurements usually increase in absolute imprecision when larger values are measured. % - [**]
+\end{itemize}
 \subsection{Model I regression [Criterion v Test]}
 \citet{CornCoch} define this analysis as the case in which the independent variable, X, is measured without error, with y as the dependent variable.
  
-In method comparison studies, the X variable is a precisely measured reference method. In the \citet{CornCoch} paper. It is argued that criterion may be regarded as the correct value. Other papers dispute this.
  
 
 Simple Linear Regression is well known statistical technique, wherein estimates for slope and
@@ -853,7 +787,37 @@ The validity of this approach has been disputed elsewhere.
 
 This regression method also calculates a line of best fit for two sets of data. It differs from Model I regression in that it is derived in a way that factors in for error in the x-axis, as well as the y-axis. \citet{CornCoch} refer to it as 'Model II regression'.
 
-\subsection{Comparison of Model II regressions}
+%\subsection{Cornbleet - Cochran }
+Model II regression method also calculates a line of best fit for two sets of data. It differs from Model I regression in that it is derived in a way that factors in for error in the x-axis, as well as the y-axis. \citet{CornCoch} refer to it as 'Model II regression'.
+
+\begin{itemize}
+	\item Model II regression [Test V Test] In this type of analysis, both of the measurement methods are test methods, with both expected to be subject to error. Deming regression is an approach to model II regression.
+	
+	\item Model I regression [Criterion v Test] \citet{CornCoch} define this analysis as the case in which the independent variable, X, is measured without error, with $Y$ as the dependent
+	variable.
+	
+	\item In method comparison studies, the X variable is a precisely measured reference method. In the \citet{CornCoch} paper It is argued that criterion may be regarded as the correct value.
+	Other papers dispute this.
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%6 Regression Based Approaches          %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Contention }
+Several papers have commented that this approach is undermined
+when the basic assumptions underlying linear regression are not
+met, the regression equation, and consequently the estimations of
+bias are undermined. Outliers are a source of error in regression
+estimates.
+
+
+In method comparison studies, the X variable is a precisely measured reference method. In the \citet{CornCoch} paper. It is argued that criterion may be regarded as the correct value. Other papers dispute this.
+
+
+
+
+
+\subsection{Comparison of Various Model II regressions}
 \citet{CornCoch} comparing the three methods, citing studies by other authors, concluding that Deming regression is the most useful of these methods. They found the Bartlett method to be
 flawed in determining slopes.
 
@@ -870,25 +834,9 @@ However the author point out that \emph{ clinical laboratory measurements usuall
 	
 
 
-\section{Contention }
-Several papers have commented that this approach is undermined
-when the basic assumptions underlying linear regression are not
-met, the regression equation, and consequently the estimations of
-bias are undermined. Outliers are a source of error in regression
-estimates.In method comparison studies, the X variable is a
-precisely measured reference method. Cornbleet Gochman (1979)
-argued that criterion may be regarded as the correct value. Other
-papers dispute this.
-
-
-
-
-
-
 
 \section{Deming Regression}
 The appropriate estimates were derived by Kummel (1879), but were popularized in the context of medical statistics and clinical chemistry by Deming (1943).
-Orthogonal regression describes the special case where the variance ratio is equal to one.
 
 
 
@@ -899,33 +847,48 @@ Orthogonal regression describes the special case where the variance ratio is equ
 
 
 
-\section{Deming's Regression}
+\section{Error-In-Variable Models for Regression}
 
 Errors-in-variables models or measurement errors models are regression models that account for measurement errors in the independent variables, as well as the dependent variable.
 
+The Bland Altman Plot is uninformative about the comparative influence of proportional bias and fixed bias. Model II approaches, such as Deming regression,  can provide independent tests for
+both types of bias.
+
+
+As with conventional regression methodologies, Deming regression calculates an estimate for both the slope and intercept for the
+fitted line, and standard errors thereof. Therefore there is sufficient information to carry out hypothesis tests on both
+estimates, that are informative about presence of fixed and proportional bias.
+
+
 The most commonly known Model II methodology is known as Deming's Regression, (also known an Ordinary Least Product regression). Deming regression is recommended by \citet*{CornCoch} as the preferred Model II regression for use in method comparison studies. 
 
+Informative analysis for the purposes of method comparison, Deming Regression is a regression technique taking into account uncertainty in both the independent and dependent variables.
 
+Deming’s method always results in one regression fit, regardless of which variable takes the place of the predictor variables.
+
+%Significant error in the least-squares slope estimation occurs when the ratio of the standard deviation of measurement of a single x value to the standard deviation of the indepedent variable data set exceeds 0.2.
+
+%Errors in the least-squares coefficients attributable to outliers can be avoided by eliminating data points whose vertical distance from the regression line exceed four times the standard error the estimate.
+
+
+
+To compute the slope by Deming’s formula,  normally distributed error of both variables  is assumed, as well as a constant level of imprecision throughout the range of measurements.
+
+%======================================================= %
+
+\subsection{Compuational Aspects of Deming Regression}
+Deming approaches the matter by simultaneously minimizing the sum of the square of the residuals of both variables. This derivation results in the best fit to minimize the sum of the squares of the perpendicular distances from the data points.
 
 Deming regression method also calculates a line of best fit for two sets of data. It differs from simple linear regression in that it is derived in a way that factors in for error in the x-axis, as well as the y-axis.
+
+Deming regression is a regression fitting approach that assumes error in both variables. Deming regression is recommended by \citet*{CornCoch} as the preferred Model II regression for use in method comparison studies. 
 
 Deming regression is a type of error-in-variable regression approach that assumes that the ratio $\lambda = \sigma^2_{\epsilon}/\sigma^2_{\eta}$ is known. 
 
 This approach would be appropriate when errors in $y$ and $x$ are both caused by measurements, and the accuracy of measuring devices or procedures are known. The case when $\lambda = 1$ is also known as the \textbf{\emph{orthogonal regression}}.
 
-Deming regression is a regression fitting approach that assumes error in both variables. Deming regression is recommended by \citet*{CornCoch} as the preferred Model II regression for use in method comparison studies. 
 
-The sum of squared distances from measured sets of values to the regression line is minimized at an angles specified by the ratio $\lambda$ of the residual variance of both variables. 
 
-The variance of the ratio,$\lambda$, specifies the angle.  When $\lambda$ is one, the angle is 45 degrees. In ordinary linear regression, the distances are minimized in the vertical directions \citep{linnet99}.
-
-The Deming regression method also calculates a line of best fit for two sets of data. Deming Regression differs from simple linear regression in that it is derived in a way that factors in for error in the x-axis, as well as the y-axis.
-
-The Deming regression line is estimated by minimizing the sums of squared deviations in both the x and y directions at an angle determined by the ratio of the analytical standard deviations for the two methods.
-
-In cases involving only single measurements by each method, $\lambda$ may be unknown and is therefore assumes a value of one. While this will bias the estimates, it is less biased than ordinary linear regression.
-
-This ratio can be estimated if multiple measurements were taken with each method, but if only one measurement was taken with each method, it can be assumed to be equal to one.
 
 
 
@@ -937,69 +900,7 @@ As stated previously, the fundamental flaw of simple linear regression is that i
 
 %-----------------------------------------------------------------------------------------------%
 
-\section{Variance Ratio}
-
-The Bland Altman Plot is uninformative about the comparative influence of proportional bias and fixed bias. Model II approaches, such as Deming regression,  can provide independent tests for
-both types of bias.
-
-
-As with conventional regression methodologies, Deming regression calculates an estimate for both the slope and intercept for the
-fitted line, and standard errors thereof. Therefore there is sufficient information to carry out hypothesis tests on both
-estimates, that are informative about presence of fixed and proportional bias.
-
-
-
-%================================================================================================= %
-
-
-
-\section{Deming Regression}
-% - http://www.medcalc.org/manual/deming_regression.php
-The Intercept and Slope are calculated according to Combleet \& Gochman, 1979. The standard errors and confidence intervals are estimated using the jackknife method (Armitage et al., 2002).
-
-The 95\% confidence interval for the Intercept can be used to test the hypothesis that A=0. This hypothesis is accepted if the confidence interval for A contains the value 0. If the hypothesis is rejected, then it is concluded that A is significantly different from 0 and both methods differ at least by a constant amount.
-
-The 95\% confidence interval for the Slope can be used to test the hypothesis that B=1. This hypothesis is accepted if the confidence interval for B contains the value 1. If the hypothesis is rejected, then it is concluded that B is significantly different from 1 and there is at least a proportional difference between the two methods.
-
-
-
-\section{Deming Regression}
-
-Informative analysis for the purposes of method comparison, Deming Regression is a regression technique taking into account uncertainty in both the independent and dependent variables.
-
-Deming’s method always results in one regression fit, regardless of which variable takes the place of the predictor variables.
-	
-	%Significant error in the least-squares slope estimation occurs when the ratio of the standard deviation of measurement of a single x value to the standard deviation of the indepedent variable data set exceeds 0.2.
-	
-	%Errors in the least-squares coefficients attributable to outliers can be avoided by eliminating data points whose vertical distance from the regression line exceed four times the standard error the estimate.
-	
- The measurement error (lambda or $\lambda$) is specified with measurement error variance related as 
-	\[\lambda = \sigma^2_y/\sigma^2_x\]
-	
-	(where $\sigma^2_x$ and $\sigma^2_y$ is the measurement error variance of the $x$ and $y$ variables, respectively).
-	
-In the case where $\lambda$ is equal to one, (i.e. equal error variances), the methodology is equivalent to \textit{\textbf{orthogonal regression}}.
-	
-Deming approaches the matter by simultaneously minimizing the sum of the square of the residuals of both variables. This derivation results in the best fit to minimize the sum of the squares of the perpendicular distances from the data points.
-	
- To compute the slope by Deming’s formula,  normally distributed error of both variables  is assumed, as well as a constant level of imprecision throughout the range of measurements.
-	
-%======================================================= %
-
-
-
-\section{Deming Regression for MCS}
-As noted before, Deming regression is an important and informative methodology in method comparison studies.
-For single measurement method comparisons, Deming regression offers a useful complement to LME models.
-
-
-
-
-
-%-----------------------------------------%
-
-
-\section{Kummel's Estimates}
+\subsection{Kummel's Estimates}
 
 
 For a given $\lambda$, \citet{Kummel} derived the following estimate that would later be used for the Deming regression slope
@@ -1039,22 +940,41 @@ In Deming regression, the errors between methods are assigned to both methods in
 
 
 
-\section{Drawbacks of Deming Regression}
+\subsection{Variance Ratio}
 
-As stated previously, the fundamental flaw of simple linear regression is that it allows for measurement error in one variable only. This causes a downward biased slope estimate.
+	
+	The measurement error (lambda or $\lambda$) is specified with measurement error variance related as 
+	\[\lambda = \sigma^2_y/\sigma^2_x\]
+	
+	(where $\sigma^2_x$ and $\sigma^2_y$ is the measurement error variance of the $x$ and $y$ variables, respectively).
+	
+	In the case where $\lambda$ is equal to one, (i.e. equal error variances), the methodology is equivalent to \textit{\textbf{orthogonal regression}}.
+	
 
-Deming's Regression suffers from some crucial drawback. Firstly it is computationally complex, and it requires specific software packages to perform calculations. Secondly it is uninformative
-about the comparative precision of two methods of measurement. Most importantly \citet{CarollRupert} states that
+The sum of squared distances from measured sets of values to the regression line is minimized at an angles specified by the ratio $\lambda$ of the residual variance of both variables. 
 
-Deming's regression is acceptable only when the precision ratio ($\lambda$, in their paper as $\eta$) is correctly specified, but in practice this is often not the case, with the $\lambda$ being underestimated. This underestimation leads to an overcorrection for attenuation.
+The variance of the ratio,$\lambda$, specifies the angle.  When $\lambda$ is one, the angle is 45 degrees. In ordinary linear regression, the distances are minimized in the vertical directions \citep{linnet99}.
 
-\section{Diagnostics for Deming Regression}
-Model selection and diagnostic technique are well developed for classical linear regression methods.
-Typically an implementation of a linear model fit will be accompanied by additional information, such as the coefficient of determination and likelihood and information criterions, and a regression ANOVA table. Such additional information has not, as yet, been implemented for Deming regression.
+The Deming regression line is estimated by minimizing the sums of squared deviations in both the x and y directions at an angle determined by the ratio of the analytical standard deviations for the two methods.
+
+In cases involving only single measurements by each method, $\lambda$ may be unknown and is therefore assumes a value of one. While this will bias the estimates, it is less biased than ordinary linear regression.
+
+This ratio can be estimated if multiple measurements were taken with each method, but if only one measurement was taken with each method, it can be assumed to be equal to one.
+
+Orthogonal regression describes the special case where the variance ratio is equal to one.
+
+
+%================================================================================================= %
 
 
 
-\section{Estimating the Variance ratio}
+
+
+
+\subsection{Estimating the Variance ratio}
+In cases involving only single measurements by each method, $\lambda$ may be unknown and is therefore assumes a value of one. While this will bias the estimates, it is less biased than ordinary linear regression.
+
+\bigskip
 
 \begin{eqnarray*}
 	x_{i} = \mu +  \beta_{0} + \epsilon_{xi}\\
@@ -1086,31 +1006,6 @@ Assuming constant standard deviations, and given duplicate measurements, the ana
 	SD^{2}_{ay} = \frac{1}{2n} \sum (y_{2i} - y_{1i})^{2}\\
 \end{eqnarray*}
 
-\begin{eqnarray*}
-	x_{i} = \mu +  \beta_{0} + \epsilon_{xi}\\
-	y_{i} = \mu +  \beta_{1} + \epsilon_{yi}\\
-\end{eqnarray*}
-The inter-method bias is the difference of these biases. In order to determine an estimate for the residual variances, one of the method biases must be assumed to be zero, i.e. $\beta_{0} = 0$. The inter-method bias is now represented by $\beta_{1}$.
-
-\begin{eqnarray*}
-	x_{i} &=& \mu + \epsilon_{xi}\\
-	y_{i} &=& \mu +  \beta_{1} + \epsilon_{yi}\\
-\end{eqnarray*}
-
-The residuals can be expressed as
-\begin{eqnarray*}
-	\epsilon_{xi} &=& x_{i} - \mu  \\
-	\epsilon_{yi} &=& y_{i} - (\mu + \beta_{1}) \\
-\end{eqnarray*}
-
-The variance of the residuals are equivalent to the variance of the corresponding observations, $\sigma^{2}_{\epsilon x} =
-\sigma^{2}_{x}$ and $\sigma^{2}_{\epsilon y} = \sigma^{2}_{y}$.
-\begin{equation}
-\lambda = \frac{\sigma^{2}_{yx}}{\sigma^{2}_{y}}.
-\end{equation}
-
-
-
 Using duplicate measurements, one can estimate the analytical
 standard deviations and compute their ratio. This ratio is then
 used for computing the slope by the Deming method.[Linnet]
@@ -1119,10 +1014,46 @@ used for computing the slope by the Deming method.[Linnet]
 %\section{performance in the presence of oultiers}
 %All least square estimation methods are sensitive to outliers.
 
-\section{Single measurements}
-In cases involving only single measurements by each method, $\lambda$ may be unknown and is therefore assumes a value of one. While this will bias the estimates, it is less biased than ordinary linear regression.
+\subsection{Inferences for Deming Regression}
+% - http://www.medcalc.org/manual/deming_regression.php
+The Intercept and Slope are calculated according to Combleet \& Gochman, 1979. The standard errors and confidence intervals are estimated using the jackknife method (Armitage et al., 2002).
 
-%\citet{linnet93} defines analytical standard deviation as the standard deviation of measures values around the target value.\citet{linnet93} defines analytical standard deviation as the standard deviation of measures values around the target value.
+The 95\% confidence interval for the Intercept can be used to test the hypothesis that A=0. This hypothesis is accepted if the confidence interval for A contains the value 0. If the hypothesis is rejected, then it is concluded that A is significantly different from 0 and both methods differ at least by a constant amount.
+
+The 95\% confidence interval for the Slope can be used to test the hypothesis that B=1. This hypothesis is accepted if the confidence interval for B contains the value 1. If the hypothesis is rejected, then it is concluded that B is significantly different from 1 and there is at least a proportional difference between the two methods.
+
+
+
+
+
+
+\subsection{Expaning the use of Deming Regression for MCS}
+As noted before, Deming regression is an important and informative methodology in method comparison studies.
+For single measurement method comparisons, Deming regression offers a useful complement to LME models.
+
+
+
+
+
+%-----------------------------------------%
+
+
+
+\section{Drawbacks of Deming Regression}
+
+As stated previously, the fundamental flaw of simple linear regression is that it allows for measurement error in one variable only. This causes a downward biased slope estimate.
+
+Deming's Regression suffers from some crucial drawback. Firstly it is computationally complex, and it requires specific software packages to perform calculations. Secondly it is uninformative
+about the comparative precision of two methods of measurement. Most importantly \citet{CarollRupert} states that
+
+Deming's regression is acceptable only when the precision ratio ($\lambda$, in their paper as $\eta$) is correctly specified, but in practice this is often not the case, with the $\lambda$ being underestimated. This underestimation leads to an overcorrection for attenuation.
+
+\section{Diagnostics for Deming Regression}
+Model selection and diagnostic technique are well developed for classical linear regression methods.
+Typically an implementation of a linear model fit will be accompanied by additional information, such as the coefficient of determination and likelihood and information criterions, and a regression ANOVA table. Such additional information has not, as yet, been implemented for Deming regression.
+
+
+
 
 
 \section{Performance in the presence of outliers}
@@ -1142,17 +1073,6 @@ without this outlier, to assess its influence.
 %------------------------------------------------%
 
 
-\section{Deming Regression : Parameters and Estimation}
-
-The root mean squared error is an estimate of the total error of the slope and includes the random error and the systemic error.
-
-The root mean square error, RMSE,  is given by
-\begin{equation*}
-	\mbox{RMSE} = \sqrt{\sum{(b-1)^2/nruns}} =
-	\sqrt{\mbox{(Bias)}^{2}+ \mbox{(SE)}^{2}}
-\end{equation*}
-
-where `nruns' is the number of runs.
 
 
 
@@ -1167,22 +1087,13 @@ test the hypothesis that the slope is equal to $1$. This hypothesis is accepted 
 contains the value $1$ in its range. If the hypothesis is rejected, then it is concluded that the slope is significant
 different from $1$ and that a proportional bias exists.
 
-\begin{itemize}
-\item The authors make the distinction between model I and model II regression types.
-	\item Model II regression is the appropriate type when the predictor variable “x” is measured with imprecision.
-	Cornbleet and Cochrane remark that clinical laboratory measurements usually increase in absolute imprecision when larger values are measured. % - [**]
-\end{itemize}
 
-\begin{itemize}
-\item Model II regression is the appropriate type when the predictor variable “x” is measured with imprecision.
-	Cornbleet and Cochrane remark that clinical laboratory measurements usually increase in absolute imprecision when larger values are measured. % - [**]
-\end{itemize}
 
-\subsubsection*{Guidelines}
-Always plot the data. Suspected outliers may be identified from the scatter plot.
-$S_{ex}$  represents the precision of a single x measurement near the mean value of X
-\[\lambda = \frac{S^2_{ex}}{S^2_{ey}}\]
-%=========================================================================================================== %
+%\subsubsection*{Guidelines}
+%Always plot the data. Suspected outliers may be identified from the scatter plot.
+%$S_{ex}$  represents the precision of a single x measurement near the mean value of X
+%\[\lambda = \frac{S^2_{ex}}{S^2_{ey}}\]
+%%=========================================================================================================== %
 
 
 
@@ -1254,28 +1165,6 @@ Unless specified otherwise, the variance ratio $\lambda$ has a default value of 
 
 
 
-\section{Using LMEs to estimate the ratio}
-
-\begin{eqnarray*}
-	y_{mi} &=& \mu + \beta_{m} + b_{i} + \epsilon_{mi}
-\end{eqnarray*}
-
-with $\beta_{m}$ is a fixed effect for the method $m$ and $b_{i}$
-is a random effect associated with patient $i$, and
-$\epsilon_{mi}$ as the measurement error.
-
-This is a simple single level LME model. \citet{pb} provides for
-the implementation of fitting a model.
-
-The variance ratio of the residual variances is immediately
-determinable from the output. This variance ratio can be use to
-fit a Deming regression, as described in chapter 1.
-
-
-%------------------------------------------------------------------------------------%
-
-
-
 
 \section{Methods} 
 Theoretical calculations and simulations were used to consider the statistical power for detection of slope deviations from 
@@ -1285,12 +1174,6 @@ unity and intercept deviations from zero. For situations with proportional analy
 be reconsidered. A main factor is the range of values, which should be as wide as possible for the given analyte. 
 For a range ratio (maximum value divided by minimum value) of 2, 544 samples are required to detect one standardized slope 
 deviation; the number of required samples decreases to 64 at a range ratio of 10 (proportional analytical error). For electrolytes having very narrow ranges of values, very large sample sizes usually are necessary. In case of proportional analytical error, application of a weighted approach is important to assure an efficient analysis; e.g., for a range ratio of 10, the weighted approach reduces the requirement of samples by >50%.
-
-\section{Conclusions} Estimation of the necessary sample size for a method comparison study assures a valid result; either no difference is found or the existence of a relevant difference is confirmed.
-
-
-
-
 
 
 \section{Weighted Deming Regression}
@@ -1312,7 +1195,7 @@ Linnet K. Estimation of the linear relationship between measurements of two meth
 \section{Bootstap Techniques}
 Use of Bootstap Techniques to obtain Confidence Interval estimates
 
-\section{References}
+
 Carpenter, J., Bithell, J. (2000) Bootstrap conﬁdence intervals: when, which, what? A practical
 guide for medical statisticians. Stat Med, 19 (9), 1141–1164.
 
@@ -1320,14 +1203,6 @@ guide for medical statisticians. Stat Med, 19 (9), 1141–1164.
 
 
 
-
-\section{weighted least square regression}
-The constancy of variance is a necessary assumption for ordinary
-linear regression.
-
-\begin{equation}
-	\mbox{SD}_{ay}  = ch(x_{i})
-\end{equation}
 
 
 \section{Ordinary Least Product Regression}
