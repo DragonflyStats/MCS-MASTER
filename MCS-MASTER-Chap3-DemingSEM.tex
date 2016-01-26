@@ -72,6 +72,121 @@
 
 \chapter{Formal tests}
 \section{Formal Models and Tests}
+
+The Bland Altman plot is a simple tool for inspection of the data,
+but in itself it offers no formal testing procedure in this regard. To this end, the approach proposed by \citet{BA83} is a formal test on the Pearson correlation coefficient  of casewise differences and means ($\rho_{AD}$). According to the authors, this test is equivalent to a well established tests for equality of variances, known as the `Pitman Morgan Test' \citep{Pitman,
+	Morgan}.
+
+	\subsection{Classical model for single measurements}
+	The classical model is based on measurements $y_{mi}$
+	by method $m=1,2$ on item $i = 1,2 \ldots$
+	
+	
+	
+	
+	In the first instance, we require a simple model to describe a measurement by method $m$. We use the term $item$ to denote an individual, subject or sample, to be measured, being randomly sampled from a population. Let $y_{mi}$ be the$y_{mi}$
+	by method $m=1,2$ on item $i = 1,2 \ldots$
+	
+	\[ y_{mi} = \alpha_{m} + \mu_{i} + e_{mi}  \]
+	
+Here $\alpha_m$ is the fixed effect associated with method $m$,
+ $\mu_i$ is the true value for subject $i$ (fixed effect) and $e_{mi}$ is a
+		random effect term for errors with $e_{mi}  \sim \mathcal{N}(0,\sigma^2_m)$.
+	
+%	\[e_{mi} \sim N(0,\sigma^2_m)\]
+	
+	Even though the separate variances can not be
+	identified, their sum can be estimated by the empirical variance of the differences. Likewise the separate $\alpha$ can not be
+	estimated, only their difference can be estimated as
+	$\bar{d}$ (i.e. the inter-method bias). This model implies that the difference between the paired measurements can be expressed as
+	
+	\[ d_{i} = y_{1i} - y_{2i} \sim \mathcal{N} (\alpha_{1} - \alpha_{2}, \sigma^2_{1} - \sigma^2_{2}). \]
+	
+	Importantly, this is independent of the item levels $\mu_i$. As the case-wise differences are of interest, the parameters of interest are the fixed effects for methods $\alpha_{m}$.
+	
+	% \[ y_{mi} =  \alpha_{m}  + \mu_{i} + e_{mi}  \]
+	% Importantly these variance covariance structures are central to ARoy2009 methodology.
+	% \citet{ARoy2009} proposes a series of hypothesis tests based on these matrices as part of her methodology. These tests shall be reverted to in due course.
+	
+%	The standard deviation of the differences of variables $a$ and $b$ is computed as
+%	\[
+%	\mbox{var}(a - b) = \mbox{var} ( a )  + \mbox{var} ( b ) - 2\mbox{cov} ( a ,b )
+%	\]
+Using standard statistical theory, the variance of the case-wise difference, that allows for the calculation of the limits of agreement, can be calculated as
+	
+	\[
+	\mbox{var}(d) = \omega^2_1  + \omega^2_2 - 2 \times \omega_12
+	\]
+	
+	
+	
+	
+	
+	
+\subsection{Model Specification}
+The model underpinning the Bland-Altman approach can be presented as follows:
+
+
+
+The case-wise differences $d_i = x_i - y_i$
+\[
+\Sigma = \left( \begin{array}{cc}
+\sigma^2_1 + \sigma^2_2 &  \frac{1}{2}(\sigma^2_1 - \sigma^2_2) \\
+\frac{1}{2}(\sigma^2_1 - \sigma^2_2) &   \sigma^2_b + \frac{1}{4}(\sigma^2_1 + \sigma^2_2)
+\end{array}\right)
+\]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Two Way ANOVA}
+\citet{BXC2004} presents a model to describe the relationship between a value of measurement and its
+real value. The non-replicate case is considered first, as it is the context of the Bland Altman plots. This model assumes that inter-method bias is the only difference between the two methods.
+
+A measurement $y_{mi}$ by method $m$ on individual $i$ is formulated as follows;
+\begin{equation}
+y_{mi}  = \alpha_{m} + \mu_{i} + e_{mi} \qquad  e_{mi} \sim
+\mathcal{N}(0,\sigma^{2}_{m})
+\end{equation}
+The differences are expressed as $d_{i} = y_{1i} - y_{2i}$. For the replicate case, an interaction term $c$ is added to the model, with an associated variance component. All the random effects are assumed independent, and that all replicate measurements are assumed to be exchangeable within each method.
+
+\citet{BXC2008} develop their model from a standard two-way analysis of variance model, reformulated for the case of replicate measurements, with random effects terms specified as appropriate. 
+Their model describing $y_{mir} $, again the $r$th replicate measurement on the $i$th item by the $m$th method ($m=1,2,$ $i=1,\ldots,N,$ and $r = 1,\ldots,n$), can be written as
+\begin{equation}\label{BXC-model}
+y_{mir}  = \alpha_{m} + \mu_{i} + a_{ir} + c_{mi} + \epsilon_{mir}.
+\end{equation}
+The fixed effects $\alpha_{m}$ and $\mu_{i}$  represent the intercept for method $m$ and the `true value' for item $i$ respectively. The random-effect terms comprise an item-by-replicate interaction term $a_{ir} \sim \mathcal{N}(0,\varsigma^{2})$, a method-by-item interaction term $c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}),$ and model error terms $\varepsilon \sim \mathcal{N}(0,\varphi^{2}_{m}).$ All random-effect terms are assumed to be independent.
+For the case when replicate measurements are assumed to be exchangeable for item $i$, $a_{ir}$ can be removed.
+
+The model expressed in (2) describes measurements by $m$ methods, where $m = \{1,2,3\ldots\}$. Based on the model expressed in (2), \citet{BXC2008} compute the limits of agreement as
+\[
+\alpha_1 - \alpha_2 \pm 2 \sqrt{ \tau^2_1 +  \tau^2_2 +  \varphi^2_1 +  \varphi^2_2 }
+\]
+\citet{BXC2008} notes that, for $m=2$,  separate estimates of $\tau^2_m$ can not be obtained. To overcome this, the assumption of equality, i.e. $\tau^2_1 = \tau^2_2$ is required.
+\begin{equation}
+y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + e_{mir}, \qquad  e_{mi}
+\sim \mathcal{N}(0,\sigma^{2}_{m}), \quad c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}).
+\end{equation}
+
+Of particular importance is terms of the model, a true value for item $i$ ($\mu_{i}$).  The fixed effect of Roy's model comprise of an intercept term and fixed effect terms for both methods, with no reference to the true value of any individual item. 
+%A distinction can be made between the two models: Roy's model is a standard LME model, whereas Carstensen's model is a more complex additive model.
+
+
+
+\subsection{Formal Testing}
+
 While the Bland-Altman plot is useful for inspection of data, \citet{Kinsella} notes the lack of formal testing offered by
 this methodology. Furthermore, \citet{Kinsella} formulates a model for
 single measurement observations as a
@@ -166,108 +281,10 @@ $\Sigma_{(a,d)}$ is
 
 
 
-\subsection{Formal Testing}
-The Bland Altman plot is a simple tool for inspection of the data,
-but in itself it offers no formal testing procedure in this regard. To this end, the approach proposed by \citet{BA83} is a formal test on the Pearson correlation coefficient  of casewise differences and means ($\rho_{AD}$). According to the authors, this test is equivalent to a well established tests for equality of variances, known as the `Pitman Morgan Test' \citep{Pitman,
-	Morgan}.
+
 
 
 %=================================================================%
-
-	\subsection{Classical model for single measurements}
-	The classical model is based on measurements $y_{mi}$
-	by method $m=1,2$ on item $i = 1,2 \ldots$
-	
-	
-	
-	
-	In the first instance, we require a simple model to describe a measurement by method $m$. We use the term $item$ to denote an individual, subject or sample, to be measured, being randomly sampled from a population. Let $y_{mi}$ be the$y_{mi}$
-	by method $m=1,2$ on item $i = 1,2 \ldots$
-	
-	\[ y_{mi} = \alpha_{m} + \mu_{i} + e_{mi}  \]
-	
-	\begin{itemize}
-		\item $\alpha_m$ is the fixed effect associated with method $m$,
-		\item $\mu_i$ is the true value for subject $i$ (fixed effect),
-		\item $e_{mi}$ is a
-		random effect term for errors with $e_{mi}  \sim \mathcal{N}(0,\sigma^2_m)$. \end{itemize}.
-	
-	\[y_{mi} + \alpha_{m} + \mu_{i} + e_{mi}\]
-	
-	\[e_{mi} \sim N(0,\sigma^2_m)\]
-	
-	Even though the separate variances can not be
-	identified, their sum can be estimated by the empirical variance of the differences.
-	
-	Like wise the separate $\alpha$ can not be
-	estimated, only theiir difference can be estimated as
-	$\bar{D}$
-	
-	This model implies that the difference between the paired measurements can be expressed as
-	
-	\[ d_{i} = y_{1i} - y_{2i} \sim \mathcal{N} (\alpha_{1} - \alpha_{2}, \sigma^2_{1} - \sigma^2_{2}). \]
-	
-	Importantly, this is independent of the item levels $\mu_i$. As the case-wise differences are of interest, the parameters of interest are the fixed effects for methods $\alpha_{m}$.
-	
-	% \[ y_{mi} =  \alpha_{m}  + \mu_{i} + e_{mi}  \]
-	% Importantly these variance covariance structures are central to ARoy2009 methodology.
-	% \citet{ARoy2009} proposes a series of hypothesis tests based on these matrices as part of her methodology. These tests shall be reverted to in due course.
-	
-	The standard deviation of the differences of variables $a$ and $b$ is computed as
-	\[
-	\mbox{var}(a - b) = \mbox{var} ( a )  + \mbox{var} ( b ) - 2\mbox{cov} ( a ,b )
-	\]
-	
-	Hence the variance of the difference of two methods, that allows for the calculation of the limits of agreement, can be calculated as
-	
-	\[
-	\mbox{var}(d) = \omega^2_1  + \omega^2_2 - 2 \times \omega_12
-	\]
-	
-	
-	
-	
-	
-	
-\subsection{Two Way ANOVA}
-\citet{BXC2004} presents a model to describe the relationship between a value of measurement and its
-real value. The non-replicate case is considered first, as it is the context of the Bland Altman plots. This model assumes that inter-method bias is the only difference between the two methods.
-
-A measurement $y_{mi}$ by method $m$ on individual $i$ is formulated as follows;
-\begin{equation}
-y_{mi}  = \alpha_{m} + \mu_{i} + e_{mi} \qquad  e_{mi} \sim
-\mathcal{N}(0,\sigma^{2}_{m})
-\end{equation}
-The differences are expressed as $d_{i} = y_{1i} - y_{2i}$. For the replicate case, an interaction term $c$ is added to the model, with an associated variance component. All the random effects are assumed independent, and that all replicate measurements are assumed to be exchangeable within each method.
-
-\citet{BXC2008} develop their model from a standard two-way analysis of variance model, reformulated for the case of replicate measurements, with random effects terms specified as appropriate. 
-Their model describing $y_{mir} $, again the $r$th replicate measurement on the $i$th item by the $m$th method ($m=1,2,$ $i=1,\ldots,N,$ and $r = 1,\ldots,n$), can be written as
-
-\begin{equation}\label{BXC-model}
-y_{mir}  = \alpha_{m} + \mu_{i} + a_{ir} + c_{mi} + \epsilon_{mir}.
-\end{equation}
-The fixed effects $\alpha_{m}$ and $\mu_{i}$  represent the intercept for method $m$ and the `true value' for item $i$ respectively. The random-effect terms comprise an item-by-replicate interaction term $a_{ir} \sim \mathcal{N}(0,\varsigma^{2})$, a method-by-item interaction term $c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}),$ and model error terms $\varepsilon \sim \mathcal{N}(0,\varphi^{2}_{m}).$ All random-effect terms are assumed to be independent.
-For the case when replicate measurements are assumed to be exchangeable for item $i$, $a_{ir}$ can be removed.
-
-The model expressed in (2) describes measurements by $m$ methods, where $m = \{1,2,3\ldots\}$. Based on the model expressed in (2), \citet{BXC2008} compute the limits of agreement as
-\[
-\alpha_1 - \alpha_2 \pm 2 \sqrt{ \tau^2_1 +  \tau^2_2 +  \varphi^2_1 +  \varphi^2_2 }
-\]
-\citet{BXC2008} notes that, for $m=2$,  separate estimates of $\tau^2_m$ can not be obtained. To overcome this, the assumption of equality, i.e. $\tau^2_1 = \tau^2_2$ is required.
-
-
-%----------------------------------------------------------------------------
-
-
-
-\begin{equation}
-y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + e_{mir}, \qquad  e_{mi}
-\sim \mathcal{N}(0,\sigma^{2}_{m}), \quad c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}).
-\end{equation}
-%----
-
-Of particular importance is terms of the model, a true value for item $i$ ($\mu_{i}$).  The fixed effect of Roy's model comprise of an intercept term and fixed effect terms for both methods, with no reference to the true value of any individual item. 
-%A distinction can be made between the two models: Roy's model is a standard LME model, whereas Carstensen's model is a more complex additive model.
 
 
 
@@ -454,8 +471,6 @@ comparative precision of both methods.
 
 
 
-\newpage
-
 \subsection{The Problem of Identifiability}
 \citet{DunnSEME} highlights an important issue regarding using
 models such as these, the identifiability problem. This comes as a
@@ -531,33 +546,6 @@ z_{n+1} &=& z_n^2+c
 \end{eqnarray}
 
 
-\section{Model Specification}
-The model underpinning the Bland-Altman approach can be presented as follows:
-
-
-
-The case-wise differences $d_i = x_i - y_i$
-\[
-\Sigma = \left( \begin{array}{cc}
-\sigma^2_1 + \sigma^2_2 &  \frac{1}{2}(\sigma^2_1 - \sigma^2_2) \\
-\frac{1}{2}(\sigma^2_1 - \sigma^2_2) &   \sigma^2_b + \frac{1}{4}(\sigma^2_1 + \sigma^2_2)
-\end{array}\right)
-\]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 \chapter{SEMS}
 
@@ -571,49 +559,44 @@ The case-wise differences $d_i = x_i - y_i$
 
 
 \section{Structural Equation modelling}
-This is a statistical technique used for testing and estimating causal relationships using a combination of statistical data and qualitative causal assumptions. This technique was proposed by \citet{Lewis} and G. Kelly as a method of assessing the reliability of a new measurement technique. It can indicate the presence of bias. However Bland and Altman (1987) have criticized it on the basis that it offers no insights into the variability about the line of equality.
+Structural Equation modelling is a statistical technique used for testing and estimating causal relationships using a combination of statistical data and qualitative causal assumptions. This technique was proposed by \citet{Lewis} and G. Kelly as a method of assessing the reliability of a new measurement technique. It can indicate the presence of bias. However Bland and Altman (1987) have criticized it on the basis that it offers no insights into the variability about the line of equality.
 
 In this paper, the SEM method is used to assess the linear relationship between the new method and the standard method.
 
 Structural analysis is a generalization of regression analysis.
 
-In Hopkins papers, a critique of the Bland-Altman plot he makes the following remark:
+In Hopkins' papers, a critique of the Bland-Altman plot he makes the following remark:
 \\
 \emph{What's needed for a comparison of two or more measures is a
 	generic approach more powerful even than regression to model the
 	relationship and error structure of each measure with a latent
 	variable representing the true value.}
 \\
-Hopkins also adds that he himself is collaborating in research utilising SEM and Mixed Effects modelling. This is a methodology proposed by Kelly (1985).
+Hopkins also adds that he himself is collaborating in research utilising SEM and Mixed Effects modelling. This is a methodology proposed by \citet{gkelly1985}.
 
 
 
 
 
 
-\section{Kelly}
 
-Use of the Structural Equations Model in Assessing the Reliability of a New Measurement Technique
 
-Gabrielle E. Kelly
 
-Applied Statistics (1985) vol. 34 no. 3 pp 258- 263
-
-Introduction
-The Structural equations model is used to estimate the linear relationship between new and standards method.
-
-The Delta method is used to find the variance of the estimated parameters.
-
-Reply
-Bland Altman 
-
-%------------------------------------------------------------------------------------%
+%----------------------------------------------------------------%
 
 
 
 \section{Structural Equations}
+The structural equation model is a regression approach that allows to estimate a linear 
+regression when independent variables are measured with error \citep{carrasco2004}.
 
-Kelly proposed the ‘Structural Equation method’ [Kelly 1985]
+\citet{gkelly1985} proposed the ‘Structural Equation method’ 
+
+The Structural equations model is used to estimate the linear relationship between new and standards method.
+The Delta method is used to find the variance of the estimated parameters.
+
+% - Reply by Bland Altman 
+
 
 Altman and Bland [1987]criticize it for a reason that should come as no surprise: 
 Knowing the data are consistent with a structural equation with a slope of 1 says something 
@@ -1170,12 +1153,18 @@ Unless specified otherwise, the variance ratio $\lambda$ has a default value of 
 Theoretical calculations and simulations were used to consider the statistical power for detection of slope deviations from 
 unity and intercept deviations from zero. For situations with proportional analytical standard deviations, weighted forms of regression analysis were evaluated.
 
-\section{Results} In general, sample sizes of 40–100 samples conventionally used in method comparison studies often must 
-be reconsidered. A main factor is the range of values, which should be as wide as possible for the given analyte. 
-For a range ratio (maximum value divided by minimum value) of 2, 544 samples are required to detect one standardized slope 
-deviation; the number of required samples decreases to 64 at a range ratio of 10 (proportional analytical error). For electrolytes having very narrow ranges of values, very large sample sizes usually are necessary. In case of proportional analytical error, application of a weighted approach is important to assure an efficient analysis; e.g., for a range ratio of 10, the weighted approach reduces the requirement of samples by >50%.
+%======================================================== %
 
+%\section{Results} 
+%
+% - Dont Know Where this is from
+%
+% In general, sample sizes of 40–100 samples conventionally used in method comparison studies often must 
+%be reconsidered. A main factor is the range of values, which should be as wide as possible for the given analyte. 
+%For a range ratio (maximum value divided by minimum value) of 2, 544 samples are required to detect one standardized slope 
+%deviation; the number of required samples decreases to 64 at a range ratio of 10 (proportional analytical error). For electrolytes having very narrow ranges of values, very large sample sizes usually are necessary. In case of proportional analytical error, application of a weighted approach is important to assure an efficient analysis; e.g., for a range ratio of 10, the weighted approach reduces the requirement of samples by >50%.
 
+%=========================================================== %
 \section{Weighted Deming Regression}
 Weighted linear regression allows for non-constancy of the standard deviation of the $y$ variable. However it is assumed that $X$ is without measurement error. Weighted Deming regression takes into account the non-constant proportional measurement errors in both variables.Despite the non-constancy, it is necessary to retain the constant value of $\lambda$.
 
@@ -1213,8 +1202,8 @@ Observations between groups are independent, but observations
 within each groups are dependent because they belong to the same
 subpopulation. Therefore there are two sources of variation:
 between-group and within-group variance.
- \vspace{5 mm} \noindent Mean correction is a method of reducing
-bias.
+% \vspace{5 mm} \noindent Mean correction is a method of reducing
+%bias.
 %-------------------------------------------------
 
 
@@ -1223,37 +1212,14 @@ bias.
 \section{Least Products Regression}
 Used as an alternative to Bland-Altman Analysis, this method is also known as 'Geometric Mean Regression' and 'Reduced Major Axis Regression'. This regression model minimizes the areas of the right triangles formed by the data points' vertical and horizontal deviations from the fitted line and the fitted line.
 
-\begin{itemize}
-	\item Model II regression analysis caters for cases in which random error is attached to both dependent and independent variables. Comparing methods of measurement is just such a case.(Ludbrook)
+ Model II regression analysis caters for cases in which random error is attached to both dependent and independent variables. Comparing methods of measurement is just such a case.(Ludbrook)
 	
-	\item Least products regression is the reviewer's preferred technique for analysing the Model II case. In this, the sum of the products of the vertical and horizontal deviations of the x,y values from the line is minimized.
+ Least products regression is the reviewer's preferred technique for analysing the Model II case. In this, the sum of the products of the vertical and horizontal deviations of the x,y values from the line is minimized.
 	
-	\item Least products regression analysis is suitable for calibrating one method against another. It is also a sensitive technique for detecting and distinguishing fixed and proportional bias between
+ Least products regression analysis is suitable for calibrating one method against another. It is also a sensitive technique for detecting and distinguishing fixed and proportional bias between
 	methods.
-\end{itemize}
 
 Least-products regression can lead to inflated SEEs and estimates that do not tend to their true values an N approaches infinity (Draper and Smith, 1998).
-
-\subsubsection{Difference with Least Squares Regression}
-Least-products regression can lead to inflated SEEs and estimates
-that do not tend to their true values an N approaches infinity
-(Draper and Smith, 1998).
-
-
-
-
-\subsection{Ordinary Least Product Regression}
-\citet{ludbrook97} states that the grouping structure can be
-straightforward, but there are more complex data sets that have a
-hierarchical(nested) model.
-\\
-
-Observations between groups are independent, but observations
-within each groups are dependent because they belong to the same
-subpopulation. Therefore there are two sources of variation:
-between-group and within-group variance.
-\vspace{5 mm} \noindent Mean correction is a method of reducing
-bias.
 
 
 
