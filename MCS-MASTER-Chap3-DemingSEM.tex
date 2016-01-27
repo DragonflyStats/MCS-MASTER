@@ -70,12 +70,12 @@
 
 
 
-\chapter{Formal tests}
+\chapter{Formal Models and Tests}
 
 
-The Bland Altman plot is a simple tool for inspection of the data,
-but in itself it offers little in the way of formal testing. It is upon the practitioner opinion to judge the outcome of the methodology.
-A formal test, proposed by \citet{BA83} on the Pearson correlation coefficient of casewise differences and means ($\rho_{AD}$). According to the authors, this test is equivalent to a well established tests for equality of variances, known as the `Pitman-Morgan Test' \citep{Pitman,
+The Bland-Altman plot is a simple tool for inspection of the data,
+but in itself offers little in the way of formal testing. It is upon the practitioner opinion to judge the outcome of the methodology.
+A formal test, proposed by \citet{BA83} on the Pearson correlation coefficient of case-wise differences and means ($\rho_{AD}$). According to \citet{BA86}, this test is equivalent to a well established tests for equality of variances, known as the `Pitman-Morgan Test' \citep{Pitman,
 	Morgan}.
 
 	\section{Classical model for single measurements}
@@ -84,11 +84,11 @@ A formal test, proposed by \citet{BA83} on the Pearson correlation coefficient o
 Before continuing, we require a simple model to describe a measurement by method $m$. \citet{BXC2004} presents a model to describe the relationship between a value of measurement and its
 real value. The non-replicate case is considered first, as it is the context of the Bland Altman plots. This model assumes that inter-method bias is the only difference between the two methods.
 
-This model is based on measurements $y_{mi}$ by method $m=1,2$ on item $i = 1,2 \ldots$. We use the term $item$ to denote an individual, subject or sample, to be measured, being randomly sampled from a population.
+This model is based on measurements $y_{mi}$ by method $m=1,2$ on item $i = 1,2 \ldots$. We use the term $item$ to denote an individual, subject or sample, to be measured, being randomly sampled from a population
 % Let $y_{mi}$ be the $y_{mi}$ by method $m=1,2$ on item $i = 1,2 \ldots$
 \begin{equation}
-y_{mi}  = \alpha_{m} + \mu_{i} + e_{mi} \qquad  e_{mi} \sim
-\mathcal{N}(0,\sigma^{2}_{m})
+y_{mi}  = \alpha_{m} + \mu_{i} + e_{mi}, \qquad  e_{mi} \sim
+\mathcal{N}(0,\sigma^{2}_{m}).
 \end{equation}
 	
 Here $\alpha_m$ is the fixed effect associated with method $m$,
@@ -104,7 +104,7 @@ The case-wise differences are expressed as $d_{i} = y_{1i} - y_{2i}$. Even thoug
 
 
 Likewise the separate $\alpha$ can not be estimated, only their difference can be estimated as $\bar{d}$ (i.e. the inter-method bias). This model implies that the difference between the paired measurements can be expressed as
-	\[ d_{i} = y_{1i} - y_{2i} \sim \mathcal{N} (\alpha_{1} - \alpha_{2}, \sigma^2_{1} - \sigma^2_{2}). \]
+	\[ d_{i} = y_{1i} - y_{2i} \sim \mathcal{N} (\alpha_{1} - \alpha_{2}, \sigma^2_{1} + \sigma^2_{2}). \]
 Importantly, this is independent of the item levels $\mu_i$. As the case-wise differences are of interest, the parameters of interest are the fixed effects for methods $\alpha_{m}$.
 	
 	% \[ y_{mi} =  \alpha_{m}  + \mu_{i} + e_{mi}  \]
@@ -115,6 +115,31 @@ Importantly, this is independent of the item levels $\mu_i$. As the case-wise di
 %	\[
 %	\mbox{var}(a - b) = \mbox{var} ( a )  + \mbox{var} ( b ) - 2\mbox{cov} ( a ,b )
 %	\]
+
+
+\subsection{Move to Chapter 3}
+\citet{BXC2004} also advocates the use of linear mixed models in
+the study of method comparisons. The model is constructed to
+describe the relationship between a value of measurement and its
+real value. The non-replicate case is considered first, as it is
+the context of the Bland-Altman plots. This model assumes that
+inter-method bias is the only difference between the two methods.
+A measurement $y_{mi}$ by method $m$ on individual $i$ is
+formulated as follows;
+\begin{equation}
+y_{mi}  = \alpha_{m} + \mu_{i} + e_{mi} \qquad ( e_{mi} \sim
+N(0,\sigma^{2}_{m}))
+\end{equation}
+The differences are expressed as $d_{i} = y_{1i} - y_{2i}$ For the
+replicate case, an interaction term $c$ is added to the model,
+with an associated variance component. All the random effects are
+assumed independent, and that all replicate measurements are
+assumed to be exchangeable within each method.
+
+\begin{equation}
+y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + e_{mir} \qquad ( e_{mi}
+\sim N(0,\sigma^{2}_{m}), c_{mi} \sim N(0,\tau^{2}_{m}))
+\end{equation}
 
 
 \section{Carstensen Model for Replicate Measurements}
@@ -198,7 +223,7 @@ t^{*} = \frac{\bar{d}}{ \frac{s_{d}}{\sqrt{n}}}
 
 where $\bar{d}$ and $s_{d}$ is the average of the differences of
 the $n$ observations. Only if the two methods show comparable
-precision then the paired sample student t-test is appropriate for
+precision then the paired sample student $t$-test is appropriate for
 assessing the magnitude of the bias.
 
 
@@ -214,9 +239,9 @@ data points will tend to cluster around the line of equality,
 obscuring interpretation.
 
 
-The Bland Altman methodology is well noted for its ease of use,
+The Bland-Altman methodology is well noted for its ease of use,
 and can be easily implemented with most software packages. Also it
-doesn't require the practitioner to have more than basic
+does not require the practitioner to have more than basic
 statistical training. The plot is quite informative about the
 variability of the differences over the range of measurements. For
 example, an inspection of the plot will indicate the 'fan effect'.
@@ -242,7 +267,7 @@ Regression approaches are useful for a making a detailed examination of the bias
 Constant or proportional bias in method comparison studies using linear regression can be detected by an individual test on the intercept or the slope of the line regressed from the results of the two methods to be compared.
 
 
-Proportional bias describes the difference in measurements getting progressively greater, or smaller, across the range of measurements. A measurement method may have either an attendant fixed bias or proportional bias, or both \citep{ludbrook}.
+Proportional bias describes the difference in measurements getting progressively greater, or smaller, across the range of measurements. A measurement method may have either an attendant fixed bias or proportional bias, or both \citep{ludbrook02}.
 
 If the basic assumptions underlying linear regression are not met, the regression equation, and consequently the estimations of bias are undermined. Outliers are a source of error in regression estimates.
  % Determination of these biases shall be discussed in due course.
@@ -383,7 +408,7 @@ estimates, that are informative about presence of fixed and proportional bias.
 
 Deming regression method also calculates a line of best fit for two sets of data. It differs from simple linear regression in that it is derived in a way that factors in for error in the x-axis, as well as the y-axis. The sum of the square of the residuals of both variables are simultaneously minimized. This derivation results in the best fit to minimize the sum of the squares of the perpendicular distances from the data points. Normally distributed error of both variables is assumed, as well as a constant level of imprecision throughout the range of measurements.
 
-The sum of squared distances from measured sets of values to the regression line is minimized at an angles specified by the ratio $\lambda$ of the residual variance of both variables. The measurement error (lambda or $\lambda$) is specified with measurement error variance related as 
+The sum of squared distances from measured sets of values to the regression line is minimized at an angles specified by the ratio $\lambda$ of the residual variance of both variables. The measurement error is specified with measurement error variance related as 
 	\[\lambda = \sigma^2_y/\sigma^2_x\]
 	
 where $\sigma^2_x$ and $\sigma^2_y$ is the measurement error variance of the $x$ and $y$ variables, respectively.
@@ -405,7 +430,7 @@ regression, by using the identity $\bar{Y}-\hat{\beta}\bar{X}$;
 with $\lambda$ as the variance ratio. As stated previously $\lambda$ is often unknown, and therefore must be assumed to equal one. 
 
 \citet{CarollRupert} states that Deming
-regression is acceptable only when the precision ratio ($\lambda$,in their paper as $\eta$) is correctly specified, but in practice this is often not the case, with the $\lambda$ being underestimated. Several candidate models, with varying variance ratios may be fitted, and estimates of the slope and intercept are produced. However no model selection information is available to determine the best fitting model.
+regression is acceptable only when the precision ratio ($\lambda$, in their paper as $\eta$) is correctly specified, but in practice this is often not the case, with the $\lambda$ being underestimated. Several candidate models, with varying variance ratios may be fitted, and estimates of the slope and intercept are produced. However no model selection information is available to determine the best fitting model.
 
 As with conventional regression methodologies, Deming regression calculates an estimate for both the slope and intercept for the
 fitted line, and standard errors thereof. Therefore there is sufficient information to carry out hypothesis tests on both
@@ -574,7 +599,7 @@ $\Sigma_{(a,d)}$ is
 
 
 
-\chapter{Structural Equation Modelling}
+\section{Structural Equation Modelling}
 
 Structural Equation modelling is a statistical technique used for testing and estimating causal relationships using a combination of statistical data and qualitative causal assumptions.\citep{carrasco2004} describes the structural equation model is a regression approach that allows to estimate a linear 
 regression when independent variables are measured with error .
@@ -601,9 +626,7 @@ about the absence of bias but nothing about the variability about Y = X (the dif
 %-------------------------------------------------------------%
 
 
-\bibliographystyle{chicago}
-\bibliography{DB-txfrbib}
-\end{document}
+
 \chapter{Error In Variable Models}
 
 

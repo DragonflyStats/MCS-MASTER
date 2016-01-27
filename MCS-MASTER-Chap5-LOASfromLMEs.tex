@@ -90,12 +90,12 @@ rulesepcolor=\color{black},
 Limits of agreement are used extensively for assessing agreement, because they are intuitive and easy to use.
 Necessarily their prevalence in literature has meant that they are now the best known measurement for agreement, and therefore any newer methodology would benefit by making reference to them.
 
-Further to \citet{BA86}, the computation of the limits of agreement follows from the intermethod bias, and the variance of the difference of measurements. However, the original Bland-Altman method was developed for two sets of measurements done on one occasion (i.e. independent data), and so this approach is not suitable for replicate measures data. Having said that, it may be used to explore the data because of the simplicity of the method , as a naive analysis.
+Further to \citet{BA86}, the computation of the limits of agreement follows from the intermethod bias, and the variance of the difference of measurements. However, the classical Bland-Altman method was developed for two sets of measurements done on one occasion (i.e. independent data), and so this approach is not suitable for replicate measures data. Having said that, it may be used to explore the data because of the simplicity of the method , as a naive analysis.
 
 \citet{BA99} addresses the issue of computing LoAs in the presence of replicate measurements, suggesting several computationally simple approaches. When repeated measures data are available, it is desirable to use all the data to compare the two methods. In cases where there are repeated measurements by each of the two methods on the same subjects, \citet{BA99} suggest calculating
-the mean for each method on each subject and use these pairs of means to compare the two methods.
+the mean for each method on each subject and use these pairs of means to compare the two methods. 
 
-The estimate of bias will be unaffected using this approach, but the estimate of the standard deviation of the differences will be too small, because of the reduction of the effect of repeated measurement error. \citet{BA99} propose a correction for this.
+The estimate of bias will be unaffected using this approach, but the estimate of the standard deviation of the differences will be too small, because of the reduction of the effect of repeated measurement error. \citet{BA99} propose a correction for this. Carstensen attends to this issue also, adding that nother approach would be to treat each repeated measurement separately.
 
 
 \citet{BXC2008} demonstrate statistical flaws with two approaches proposed by \citet{BA99} for the purpose of calculating the variance of the inter-method bias when replicate measurements are available. Carstensen attends to this issue also, adding that another approach would be to treat each repeated measurement separately. Instead, a linear mixed effects model is recommended for appropriate estimates for the variance of the inter-method bias. 
@@ -119,8 +119,7 @@ agreement is based upon variance component estimates derived using linear mixed 
 
 
 
-\citet{BXC2008}'s approach is similar to that of \citet{ARoy2009}, but for absence of estimates for covariance terms. In short, the covariance is set to zero for \citet{BXC2008}, whereas these estimates can have any value under Roy's Model. In cases where there is negligible covariance between methods, the limits of agreement computed using Roy's model accord with those computed using model described by (\ref{BXC-model}). In cases where some degree of covariance is present between the two methods, the limits of agreement computed using models will differ. In the presented
-example, it is shown that Roy's LoAs are lower than those of Carstensen, when covariance is present.
+
 
 %-----------------------------------------------------------------------------------------------------%
 
@@ -209,16 +208,6 @@ The variance for method $m$ is $d^2_{m}+\lambda^2_{m}$.
 Importantly the covariance terms in both variability matrices are zero, and no covariance component is present.
 
 
-\subsection{Linked replicates}
-
-\citet{BXC2008} proposes the addition of an random effects term to their model when the replicates are linked. This term is used to describe the `item by replicate' interaction, which is independent of the methods. This interaction is a source of variability independent of the methods. Therefore failure to account for it will result in variability being wrongly attributed to the methods.
-
-
-
-
-
-
-
 
 \section{Carstensen's Mixed Models}
 
@@ -241,7 +230,6 @@ Since variances are specific to each method, this model can be
 fitted separately for each method.
 
 
-
 The above formulation doesn't require the data set to be balanced.
 However, it does require a sufficient large number of replicates
 and measurements to overcome the problem of identifiability. The
@@ -262,7 +250,7 @@ samples).
 a specific individual $i$ by method $m$;
 
 \begin{equation}BLUP_{mir} = \hat{\alpha_{m}} + \hat{\beta_{m}}\mu_{i} +
-c_{mi} \end{equation}. Under the assumption that the $\mu$s are
+c_{mi}. \end{equation} Under the assumption that the $\mu$s are
 the true item values, this would be sufficient to estimate
 parameters. When that assumption doesn't hold, regression
 techniques (known as updating techniques) can be used additionally
@@ -273,40 +261,11 @@ be unrealistic in certain situations. \citet{BXC2004} provides an
 amended formulation which includes an extra interaction term ($
 d_{mr} \sim N(0,\omega^{2}_{m}$)to account for this.
 
-\citet{BXC2004} also advocates the use of linear mixed models in
-the study of method comparisons. The model is constructed to
-describe the relationship between a value of measurement and its
-real value. The non-replicate case is considered first, as it is
-the context of the Bland-Altman plots. This model assumes that
-inter-method bias is the only difference between the two methods.
-A measurement $y_{mi}$ by method $m$ on individual $i$ is
-formulated as follows;
-\begin{equation}
-y_{mi}  = \alpha_{m} + \mu_{i} + e_{mi} \qquad ( e_{mi} \sim
-N(0,\sigma^{2}_{m}))
-\end{equation}
-The differences are expressed as $d_{i} = y_{1i} - y_{2i}$ For the
-replicate case, an interaction term $c$ is added to the model,
-with an associated variance component. All the random effects are
-assumed independent, and that all replicate measurements are
-assumed to be exchangeable within each method.
+\citet{BXC2004} uses the above formula to predict observations for
+a specific individual $i$ by method $m$;
 
-\begin{equation}
-y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + e_{mir} \qquad ( e_{mi}
-\sim N(0,\sigma^{2}_{m}), c_{mi} \sim N(0,\tau^{2}_{m}))
-\end{equation}
 
-\citet{BXC2008} proposes a methodology to calculate prediction
-intervals in the presence of replicate measurements, overcoming
-problems associated with Bland-Altman methodology in this regard.
-It is not possible to estimate the interaction variance components
-$\tau^{2}_{1}$ and $\tau^{2}_{2}$ separately. Therefore it must be
-assumed that they are equal. The variance of the difference can be
-estimated as follows:
-\begin{equation}
-var(y_{1j}-y_{2j})
-\end{equation}
-\subsection{BXC: extra interaction	term}
+\subsection{BXC: extra interaction term}
 
 
 \citet{BXC2004} provides an amended formulation which includes an extra interaction
@@ -330,7 +289,7 @@ derived using this method.
 %regression based approach that models the mean and the variance of
 %differences as functions of observed values of the average of the
 %paired measurements.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+
 
 Maximum likelihood estimation is used to estimate the parameters.
 The REML estimation is not considered since it does not lead to a
@@ -399,11 +358,6 @@ The $c_{mi}$ term represent random effect parameters corresponding to the two me
 
 Carstensen specifies the variance of the interaction terms as being univariate normally distributed. As such, $\mathrm{Cov}(c_{mi}, c_{m^\prime i})= 0.$ All the random effects are assumed independent, and that all replicate measurements are assumed to be exchangeable within each method.
 
-The intercept term $\alpha$ and the $\beta_{m}\mu_{i}$ term follow from \cite{DunnSEME}, expressing constant and proportional bias respectively , in the presence of a real value $\mu_{i}.$ $c_{mi}$ is a interaction term to account for replicate, and $e_{mir}$ is the residual associated with each observation. Since variances are specific to each method, this model can be
-fitted separately for each method.
-
-The above formulation doesn't require the data set to be balanced. However, it does require a sufficient large number of replicates and measurements to overcome the problem of identifiability. The import of which is that more than two methods of measurement may be required to carry out the analysis. There is also the assumptions that observations of measurements by particular methods are exchangeable within subjects. (Exchangeability means
-that future samples from a population behaves like earlier samples).
 
 Of particular importance is terms of the model, a true value for item $i$ ($\mu_{i}$).  The fixed effect of Roy's model comprise of an intercept term and fixed effect terms for both methods, with no reference to the true value of any individual item. A distinction can be made between the two models: Roy's model is a standard LME model, whereas Carstensen's model is a more complex additive model.
 
@@ -416,36 +370,11 @@ Carstensen specifies the variance of the interaction terms as being univariate n
 
 %======================================================================================= %
 
-	\section{Using LME models to create Prediction Intervals}
-	\citet{BXC2004} also advocates the use of linear mixed models in
-	the study of method comparisons. The model is constructed to
-	describe the relationship between a value of measurement and its
-	real value. The non-replicate case is considered first, as it is
-	the context of the Bland Altman plots. This model assumes that
-	inter-method bias is the only difference between the two methods.
-	A measurement $y_{mi}$ by method $m$ on individual $i$ is
-	formulated as follows;
-	\begin{equation}
-	y_{mi}  = \alpha_{m} + \mu_{i} + e_{mi} \qquad ( e_{mi} \sim
-	N(0,\sigma^{2}_{m}))
-	\end{equation}
-	The differences are expressed as $d_{i} = y_{1i} - y_{2i}$ For the
-	replicate case, an interaction term $c$ is added to the model,
-	with an associated variance component. All the random effects are
-	assumed independent, and that all replicate measurements are
-	assumed to be exchangeable within each method.
-	
-	\begin{equation}
-	y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + e_{mir} \qquad ( e_{mi}
-	\sim N(0,\sigma^{2}_{m}), c_{mi} \sim N(0,\tau^{2}_{m}))
-	\end{equation}
-	
+
 
 	\section{Prediction Intervals}
 
-
-
-\cite{BXC2008} proposes a methodology to calculate prediction
+\citet{BXC2008} proposes a methodology to calculate prediction
 intervals in the presence of replicate measurements, overcoming
 problems associated with Bland-Altman methodology in this regard.
 It is not possible to estimate the interaction variance components
@@ -455,6 +384,7 @@ estimated as follows:
 \begin{equation}
 var(y_{1j}-y_{2j})
 \end{equation}
+
 
 
 
@@ -558,13 +488,6 @@ We assume that that the variance of the measurements is different for both metho
 %assumptions on variance ratios. A functional model is . An
 %alternative to functional models is structural modelling
 
-\citet{BXC2004} uses the above formula to predict observations for
-a specific individual $i$ by method $m$;
-
-\begin{equation}BLUP_{mir} = \hat{\alpha_{m}} + \hat{\beta_{m}}\mu_{i} +
-c_{mi} \end{equation}. Under the assumption that the $\mu$s are
-the true item values, this would be sufficient to estimate parameters. When that assumption doesn't hold, regression techniques (known as updating techniques) can be used additionally to determine the estimates. The assumption of exchangeability can
-be unrealistic in certain situations. \citet{BXC2004} provides an amended formulation which includes an extra interaction term ($d_{mr} \sim N(0,\omega^{2}_{m}$)to account for this.
 
 
 
@@ -578,15 +501,28 @@ be unrealistic in certain situations. \citet{BXC2004} provides an amended formul
 %\citet{ARoy2009} remarks that PROC MIXED only gives overall correlation coefficients, but not their variances. Consequently it is not possible to carry out inferences based on all overall correlation coefficients.
 
 %=============================================================================== %
+\subsection{Covariance}
+\citet{BXC2008}'s approach is similar to that of \citet{ARoy2009}, but for absence of estimates for covariance terms. In short, the covariance is set to zero for \citet{BXC2008}, whereas these estimates can have any value under Roy's Model. 
 
-\citet{BXC2008} also presents a methodology to compute the limits of agreement based on LME models. In many cases the limits of agreement derived from this method accord with those to Roy's model. However, in other cases dissimilarities emerge. An explanation for this differences can be found by considering how the respective models account for covariance in the observations. Importantly, Carstensen's underlying model differs from Roy's model in some key respects, and therefore a prior discussion of Carstensen's model is required.
+In cases where there is negligible covariance between methods, the limits of agreement computed using Roy's model accord with those computed using model described by (\ref{BXC-model}). 
+
+In cases where some degree of covariance is present between the two methods, the limits of agreement computed using models will differ. In the presented
+example, it is shown that Roy's LoAs are lower than those of Carstensen, when covariance is present.
+
+\citet{BXC2008} also presents a methodology to compute the limits of agreement based on LME models. In many cases the limits of agreement derived from this method accord with those to Roy's model. However, in other cases dissimilarities emerge. An explanation for this differences can be found by considering how the respective models account for covariance in the observations. 
+
+Importantly, Carstensen's underlying model differs from Roy's model in some key respects, and therefore a prior discussion of Carstensen's model is required.
 The method of computation is the same as Roy's model, but with the covariance estimates set to zero.
 
 Specifying the relevant terms using a bivariate normal distribution, Roy's model allows for both between-method and within-method covariance. \citet{BXC2008} formulate a model whereby random effects have univariate normal distribution, and no allowance is made for correlation between observations.
 
-A consequence of this is that the between-method and within-method covariance are zero. In cases where there is negligible covariance between methods, both sets of limits of agreement are very similar to each other. In cases where there is a substantial level of covariance present between the two methods, the limits of agreement computed using models will differ.
+A consequence of this is that the between-method and within-method covariance are zero. 
 
-In cases where there is negligible covariance between methods, the limits of agreement computed using Roy's model accord with those computed using Carstensen's model. In cases where some degree of covariance is present between the two methods, the limits of agreement computed using models will differ. In the presented example, it is shown that Roy's LoAs are lower than those of Carstensen, when covariance is present. Importantly, estimates required to calculate the limits of agreement are not extractable, and therefore the calculation must be done by hand. Carstensen presents a model where the variation between items for
+In cases where there is negligible covariance between methods, both sets of limits of agreement are very similar to each other. In cases where there is a substantial level of covariance present between the two methods, the limits of agreement computed using models will differ.
+
+In cases where there is negligible covariance between methods, the limits of agreement computed using Roy's model accord with those computed using Carstensen's model. In cases where some degree of covariance is present between the two methods, the limits of agreement computed using models will differ. In the presented example, it is shown that Roy's LoAs are lower than those of Carstensen, when covariance is present. 
+
+Importantly, estimates required to calculate the limits of agreement are not extractable, and therefore the calculation must be done by hand. Carstensen presents a model where the variation between items for
 method $m$ is captured by $\sigma_m$ and the within item variation
 by $\tau_m$. 	Further to his model, Carstensen computes the limits of agreement
 as
@@ -598,7 +534,7 @@ as
 
 
 
-
+\section{Computing LoAs from LME models}
 
 \citet{ARoy2009} has demonstrated a methodology whereby $d^2_{A}$ and $d^2_{B}$ can be estimated separately. Also covariance terms are present in both $\boldsymbol{D}$ and $\boldsymbol{\Lambda}$. Using Roy's methodology, the variance of the differences is
 \begin{equation}
@@ -616,7 +552,7 @@ All of the necessary terms are presented in the computer output. The limits of a
 0.0449  \pm 1.96 \times  \sqrt{2 \times 0.0596^2 + 0.0772^2 + 0.0724^2} = (-0.220,  0.309).
 \end{equation}
 
-\section{Computing LoAs from LME models}
+
 
 Carstensen presents a model where the variation between items for method $m$ is captured by $\sigma_m$ and the within item variation by $\tau_m$.
 
@@ -649,7 +585,6 @@ method $m$ has the form $BLUP_{mir} = \hat{\alpha_{m}} +
 $\mu$s are the true item values.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 
 Maximum likelihood estimation is used to estimate the parameters.
 The REML estimation is not considered since it does not lead to a
@@ -725,7 +660,6 @@ For the replicate case, an interaction term $c$ is added to the model, with an a
 
 %If the exact cause of disagreement between the two methods is not of interest, then the overall variability test $H_4$ %is an alternative to testing $H_2$ and $H_3$ separately.
 
-\bigskip
 
 \citet{BXC2008} develop their model from a standard two-way analysis of variance model, reformulated for the case of replicate measurements, with random effects terms specified as appropriate.
 Their model can be written as
