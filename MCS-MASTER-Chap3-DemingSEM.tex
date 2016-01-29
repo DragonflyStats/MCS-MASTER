@@ -77,38 +77,27 @@
 \section{Formal Testing}
 The Bland-Altman plot is a simple tool for inspection of the data,
 but in itself offers little in the way of formal testing. It is upon the practitioner opinion to judge the outcome of the methodology.
-To this end, the approach proposed by \citet{BA83} is a
-formal test on the Pearson correlation coefficient  of casewise
-differences and means ($\rho_{AD}$). According to the authors,
-this test is equivalent to a well established tests for equality
-of variances, known as the `Pitman Morgan Test' \citep{Pitman,
-	Morgan}.
+
+The approach proposed by \citet{BA83} is a formal test on the
+Pearson correlation coefficient of case-wise differences and means
+($\rho_{AD}$). According to the authors, this test is equivalent
+to the `Pitman Morgan Test'. 
 
 For the Grubbs data, the correlation coefficient estimate
 ($r_{AD}$) is 0.2625, with a 95\% confidence interval of (-0.366,
-0.726) estimated by Fishers 'r to z' transformation \citep{Cohen}.
+0.726) estimated by Fishers `r to z' transformation \citep{Cohen}.
 The null hypothesis ($\rho_{AD}$ =0) would fail to be rejected.
 Consequently the null hypothesis of equal variances of each method
 would also fail to be rejected.
+There has
+no been no further mention of this particular test in
+\citet{BA86}, although \citet{BA99} refers to Spearman's rank
+correlation coefficient. \citet{BA99} comments `we do not see a
+place for methods of analysis based on hypothesis testing'.
+\citet{BA99} also states that consider structural equation models
+to be inappropriate.
 
-There has no been no further mention of this particular test in
-the subsequent article published by Bland and Altman, although
-\citet{BA99} refers to Spearmans' rank correlation coefficient.
 
-The case-wise differences and means are calculated as $d_{i} =
-x_{i}-y_{i}$ and $a_{i} = (x_{i}+y_{i})/2$  respectively. Both
-$d_{i}$ and $a_{i}$ are assumed to follow a bivariate normal
-distribution with $E(d_{i})= \mu_{d} = \mu_{1} - \mu_{2}$ and
-$E(a_{i})= \mu_{a} = (\mu_{1} + \mu_{2})/2$. The variance matrix
-$\Sigma_{(a,d)}$ is
-
-\begin{eqnarray}
-\Sigma_{(a,d)}= \left[\begin{matrix}
-\sigma^{2}_{1}+\sigma^{2}_{2}&\frac{1}{2}(\sigma^{2}_{1}-\sigma^{2}_{2})\\
-\frac{1}{2}(\sigma^{2}_{1}-\sigma^{2}_{2})&\sigma^{2}+
-\frac{1}{4}(\sigma^{2}_{1}+\sigma^{2}_{2})
-\end{matrix} \right].
-\end{eqnarray}
 	\section{Classical model for single measurements}
 	
 	
@@ -125,15 +114,28 @@ $\Sigma_{(a,d)}$ is
 	Here $\alpha_m$ is the fixed effect associated with method $m$,
 	$\mu_i$ is the true value for subject $i$ (fixed effect) and $e_{mi}$ is a random effect term for errors.
 	
-	The case-wise differences are expressed as $d_{i} = y_{1i} - y_{2i}$. Even though the separate variances can not be identified, their sum can be estimated by the empirical variance of the differences, using standard statistical theory. The covariance matrix for case-wise differences can be specified as
-	\[
-	\Sigma = \left( \begin{array}{cc}
-	\sigma^2_1 + \sigma^2_2 &  \frac{1}{2}(\sigma^2_1 - \sigma^2_2) \\
-	\frac{1}{2}(\sigma^2_1 - \sigma^2_2) &   \sigma^2_b + \frac{1}{4}(\sigma^2_1 + \sigma^2_2)
-	\end{array}\right).
-	\]
+%	The case-wise differences are expressed as $d_{i} = y_{1i} - y_{2i}$. Even though the separate variances can not be identified, their sum can be estimated by the empirical variance of the differences, using standard statistical theory. The covariance matrix for case-wise differences can be specified as
+%	\[
+%	\Sigma = \left( \begin{array}{cc}
+%	\sigma^2_1 + \sigma^2_2 &  \frac{1}{2}(\sigma^2_1 - \sigma^2_2) \\
+%	\frac{1}{2}(\sigma^2_1 - \sigma^2_2) &   \sigma^2_b + \frac{1}{4}(\sigma^2_1 + \sigma^2_2)
+%	\end{array}\right).
+%	\]
+	The case-wise differences and means are calculated as $d_{i} =
+	x_{i}-y_{i}$ and $a_{i} = (x_{i}+y_{i})/2$  respectively. Both
+	$d_{i}$ and $a_{i}$ are assumed to follow a bivariate normal
+	distribution with $E(d_{i})= \mu_{d} = \mu_{1} - \mu_{2}$ and
+	$E(a_{i})= \mu_{a} = (\mu_{1} + \mu_{2})/2$. The variance matrix
+	$\Sigma_{(a,d)}$ is
 	
-	
+	\begin{eqnarray}
+	\Sigma_{(a,d)}= \left[\begin{matrix}
+	\sigma^{2}_{1}+\sigma^{2}_{2}&\frac{1}{2}(\sigma^{2}_{1}-\sigma^{2}_{2})\\
+	\frac{1}{2}(\sigma^{2}_{1}-\sigma^{2}_{2})&\sigma^{2}+
+	\frac{1}{4}(\sigma^{2}_{1}+\sigma^{2}_{2})
+	\end{matrix} \right].
+	\end{eqnarray}
+		
 	Likewise the separate $\alpha$ can not be estimated, only their difference can be estimated as $\bar{d}$ (i.e. the inter-method bias). This model implies that the difference between the paired measurements can be expressed as
 	\[ d_{i} = y_{1i} - y_{2i} \sim \mathcal{N} (\alpha_{1} - \alpha_{2}, \sigma^2_{1} + \sigma^2_{2}). \]
 	Importantly, this is independent of the item levels $\mu_i$. As the case-wise differences are of interest, the parameters of interest are the fixed effects for methods $\alpha_{m}$.
@@ -148,31 +150,7 @@ $\Sigma_{(a,d)}$ is
 	%	\]
 	
 	
-	\section{Move to Chapter 3}
-	\citet{BXC2004} also advocates the use of linear mixed models in
-	the study of method comparisons. The model is constructed to
-	describe the relationship between a value of measurement and its
-	real value. The non-replicate case is considered first, as it is
-	the context of the Bland-Altman plots. This model assumes that
-	inter-method bias is the only difference between the two methods.
-	A measurement $y_{mi}$ by method $m$ on individual $i$ is
-	formulated as follows;
-	\begin{equation}
-	y_{mi}  = \alpha_{m} + \mu_{i} + e_{mi} \qquad ( e_{mi} \sim
-	N(0,\sigma^{2}_{m}))
-	\end{equation}
-	The differences are expressed as $d_{i} = y_{1i} - y_{2i}$ For the
-	replicate case, an interaction term $c$ is added to the model,
-	with an associated variance component. All the random effects are
-	assumed independent, and that all replicate measurements are
-	assumed to be exchangeable within each method.
-	
-	\begin{equation}
-	y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + e_{mir} \qquad ( e_{mi}
-	\sim N(0,\sigma^{2}_{m}), c_{mi} \sim N(0,\tau^{2}_{m}))
-	\end{equation}
-	
-	
+
 \section{Model for single measurement observations}
 \citet{Kinsella} formulates a model for
 single measurement observations for a method comparison study as a
@@ -298,18 +276,15 @@ found by changing $C_{y}$ for $C_{x}$. A lower confidence limit
 can be found by calculating the square root. This inequality may
 also be used for hypothesis testing.
 
-For the interval estimates for the variance components,
 \citet{Thompson} presents three relations that hold simultaneously
-with probability $1-2\alpha$ where $2\alpha=0.01$ or $0.05$.
+with probability $1-2\alpha$ where $2\alpha=0.01$ or $0.05$. \citet{Thompson} contains tables for $K$ and $M$.
 
 \begin{eqnarray}
 |\sigma^2-C_{xy}K|\leqslant M(C_{x}C_{y})^{\frac{1}{2}}\\
 |\sigma^2_{1}-(C_{x}-C_{xy})K|\leqslant M(C_{x}(C_{x}+C_{y}-2C_{xy}))^{\frac{1}{2}}\nonumber\\
 |\sigma^2_{2}-(C_{y}-C_{xy})K|\leqslant
 M(C_{y}(C_{x}+C_{y}-2C_{xy}))^{\frac{1}{2}}\nonumber
-\end{eqnarray}
-
-
+\end{eqnarray}	
 
 
 
@@ -350,15 +325,7 @@ confidence limit can be found by calculating the square root. The
 inequality in equation $1.10$ may also be used for hypothesis
 testing.
 
-\citet{Thompson} presents three relations that hold simultaneously
-with probability $1-2\alpha$ where $2\alpha=0.01$ or $0.05$. \citet{Thompson} contains tables for $K$ and $M$.
 
-\begin{eqnarray}
-|\sigma^2-C_{xy}K|\leqslant M(C_{x}C_{y})^{\frac{1}{2}}\\
-|\sigma^2_{1}-(C_{x}-C_{xy})K|\leqslant M(C_{x}(C_{x}+C_{y}-2C_{xy}))^{\frac{1}{2}}\nonumber\\
-|\sigma^2_{2}-(C_{y}-C_{xy})K|\leqslant
-M(C_{y}(C_{x}+C_{y}-2C_{xy}))^{\frac{1}{2}}\nonumber
-\end{eqnarray}	
 %For the interval estimates for the variance components,
 %\citet{Thompson} presents three relations that hold simultaneously
 %with probability $1-2\alpha$ where $2\alpha=0.01$ or $0.05$.
@@ -372,19 +339,15 @@ M(C_{y}(C_{x}+C_{y}-2C_{xy}))^{\frac{1}{2}}\nonumber
 
 %\citet{Thompson} contains tables for $K$ and $M$.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Morgan Pitman}
 
-An early contribution to formal testing in method comparison was made by both \citet{morgan} and \citet{pitman}, in separate
-contributions. This test assess the equality
-of population variances. Pitman's test tests for zero correlation
-between the sums and products.
 
 An early contribution to formal testing in method comparison was
 made by both \citet{Morgan} and \citet{Pitman}, in separate
-contributions. The basis of this approach is that the
+contributions. This test assess the equality
+of population variances. Pitman's test tests for zero correlation
+between the sums and products. The basis of this approach is that the
 distribution of the original measurements is bivariate normal.
 Correlation between differences and means is a test statistics for
 the null hypothesis of equal variances given bivariate normality.
@@ -404,6 +367,21 @@ Morgan and Pitman noted that the correlation coefficient depends
 upon the difference $\sigma^{2}_{1}- \sigma^{2}_{2}$, being zero
 if and only if $\sigma^{2}_{1}=\sigma^{2}_{2}$.
 
+The test of the hypothesis that the variance of both methods are
+equal is based on the correlation value $\rho_{D,A}$ which is
+evaluated as follows;
+
+\begin{equation}
+\rho(D,A)=\quad\frac{\sigma^{2}_{1}-\sigma^{2}_{2}}{\sqrt{(\sigma^{2}_{1}+\sigma^{2}_{2})(4\sigma^{2}_{S}+\sigma^{2}_{1}+\sigma^{2}_{2})}}
+\end{equation}
+
+The correlation constant takes the value zero if, and only if, the
+two variances are equal. Therefore a test of the hypothesis $H:
+\sigma^{2}_{1}=\sigma^{2}_{2}$ is equivalent to a test of the
+hypothesis $H: \rho(D,A) = 0$. The corresponds to the well-known
+$t$ test for a correlation coefficient with $n-2$ degrees of
+freedom.
+
 The classical Pitman-Morgan test is a hypothesis test for equality of the variance of two data sets; $\sigma^{2}_{1} =
 \sigma^{2}_{2}$, based on the correlation value $\rho_{a,d}$ ,and is evaluated as follows;
 
@@ -420,42 +398,19 @@ if and only if $\sigma^{2}_{1}=\sigma^{2}_{2}$.
 Therefore a test of the hypothesis $H: \sigma^{2}_{1}=\sigma^{2}_{2}$ is equivalent to a test of the hypothesis $H: \rho(D,A) = 0$. This corresponds to the well-known $t$ test for a correlation coefficient with $n-2$ degrees of freedom. 
 
 
-\citet{Bartko} describes the Morgan-Pitman test as identical to the test of the slope equal to zero in the regression of $Y_{i1}$ on $Y_{12}$, a result that can be derived using straightforward algebra.
+\citet{Bartko} describes the Morgan-Pitman test as identical to the test of the slope equal to zero in the regression of $Y_{i1}$ on $Y_{12}$, a result that can be derived using straightforward algebra. The Pitman-Morgan test is equivalent to the marginal test of the slope estimate in Bradley-Blackwood’s model.
 
 
 
 
 
 
-
-
-\section{Morgan Pitman}
-
-The test of the hypothesis that the variance of both methods are
-equal is based on the correlation value $\rho_{D,A}$ which is
-evaluated as follows;
-
-\begin{equation}
-\rho(D,A)=\quad\frac{\sigma^{2}_{1}-\sigma^{2}_{2}}{\sqrt{(\sigma^{2}_{1}+\sigma^{2}_{2})(4\sigma^{2}_{S}+\sigma^{2}_{1}+\sigma^{2}_{2})}}
-\end{equation}
-
-The correlation constant takes the value zero if, and only if, the
-two variances are equal. Therefore a test of the hypothesis $H:
-\sigma^{2}_{1}=\sigma^{2}_{2}$ is equivalent to a test of the
-hypothesis $H: \rho(D,A) = 0$. The corresponds to the well-known
-$t$ test for a correlation coefficient with $n-2$ degrees of
-freedom.
-
-\citet{Bartko} describes the Morgan-Pitman test as identical to
-the test of the slope equal to zero in the regression of $Y_{i1}$
-on $Y_{12}$, adding that this result can be shown using
-straightforward algebra.
-
-%\subsection{Bradley & Blackwood / Pitman-Morgan Testing}
 The Pitman-Morgan test for equal variances is based on the correlation of D with S. The correlation coefficient is zero if, and only if, the variances are equal. The test statistic is the familiar t-test with n-2 degree of freedom.
+
 Bradley and Blackwood (1989) construct the conditional expectation of D given S as linear model.  They used this result to propose a test of the joint hypothesis of the mean difference and equal variances. 
 If the intercept and slope estimates are zero, the two methods have the same mean and variance.
-The Pitman-Morgan test is equivalent to the marginal test of the slope estimate in Bradley-Blackwood’s model.
+
+
 
 
 
@@ -526,6 +481,31 @@ z_{n+1} &=& z_n^2+c
 
 
 
+	\section{Move to Chapter 3}
+	\citet{BXC2004} also advocates the use of linear mixed models in
+	the study of method comparisons. The model is constructed to
+	describe the relationship between a value of measurement and its
+	real value. The non-replicate case is considered first, as it is
+	the context of the Bland-Altman plots. This model assumes that
+	inter-method bias is the only difference between the two methods.
+	A measurement $y_{mi}$ by method $m$ on individual $i$ is
+	formulated as follows;
+	\begin{equation}
+	y_{mi}  = \alpha_{m} + \mu_{i} + e_{mi} \qquad ( e_{mi} \sim
+	N(0,\sigma^{2}_{m}))
+	\end{equation}
+	The differences are expressed as $d_{i} = y_{1i} - y_{2i}$ For the
+	replicate case, an interaction term $c$ is added to the model,
+	with an associated variance component. All the random effects are
+	assumed independent, and that all replicate measurements are
+	assumed to be exchangeable within each method.
+	
+	\begin{equation}
+	y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + e_{mir} \qquad ( e_{mi}
+	\sim N(0,\sigma^{2}_{m}), c_{mi} \sim N(0,\tau^{2}_{m}))
+	\end{equation}
+	
+
 \section{Carstensen Model for Replicate Measurements}
 
 
@@ -552,23 +532,7 @@ y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + e_{mir}, \qquad  e_{mi}
 
 
 
-\section{Bland-Altman correlation test}
 
-The approach proposed by \citet{BA83} is a formal test on the
-Pearson correlation coefficient of case-wise differences and means
-($\rho_{AD}$). According to the authors, this test is equivalent
-to the `Pitman Morgan Test'. For the Grubbs data, the correlation
-coefficient estimate ($r_{AD}$) is 0.2625, with a 95\% confidence
-interval of (-0.366, 0.726) estimated by Fishers `$r$ to $z$'
-transformation \citep*{Cohen}. The null hypothesis ($\rho_{AD}$ =0)
-fail to be rejected. Consequently the null hypothesis of equal
-variances of each method would also fail to be rejected. There has
-no been no further mention of this particular test in
-\citet{BA86}, although \citet{BA99} refers to Spearman's rank
-correlation coefficient. \citet{BA99} comments `we do not see a
-place for methods of analysis based on hypothesis testing'.
-\citet{BA99} also states that consider structural equation models
-to be inappropriate.
 
 
 \section{Paired sample \emph{t} test}
@@ -720,14 +684,17 @@ different from $1$ and that a proportional bias exists.
 	
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\section{Blackwood-Bradley Model} 
-	
-	\citet{BB89} offers a formal simultaneous hypothesis test for the
-	mean and variance of two paired data sets. Using simple linear
-	regression of the differences of each pair against the sums, a line is fitted to the model, with estimates for intercept and slope ($\hat{\beta}_{0}$ and $\hat{\beta}_{1}$). The null hypothesis of this test is that the mean ($\mu$) and variance ($\sigma^{2}$) of both data sets are equal if the slope and
-	intercept estimates are equal to zero(i.e $\sigma^{2}_{1} =
-	\sigma^{2}_{2}$ and $\mu_{1}=\mu_{2}$ if and only if $\beta_{0}=
-	\beta_{1}=0$ ).
-	
+\citet{BB89} offers a formal simultaneous hypothesis test for the
+mean and variance of two paired data sets. Using simple linear
+regression of the differences of each pair against the sums, a
+line is fitted to the model, with estimates for intercept and
+slope ($\hat{\beta}_{0}$ and $\hat{\beta}_{1}$). The null
+hypothesis of this test is that the mean ($\mu$) and variance
+($\sigma^{2}$) of both data sets are equal if the slope and
+intercept estimates are equal to zero(i.e $\sigma^{2}_{1} =
+\sigma^{2}_{2}$ and $\mu_{1}=\mu_{2}$ if and only if $\beta_{0}=
+\beta_{1}=0$ )	
+
 	
 	\citet{BB89} have developed a regression based procedure for
 	assessing the agreement. This approach performs a simultaneous test for the equivalence of
@@ -776,6 +743,7 @@ different from $1$ and that a proportional bias exists.
 	be used as a foundation for a test perform a test on means and variances individually.
 	
 	
+	\section{Bradley-Blackwood Method}
 	
 	
 	A test statistic is then calculated from the regression analysis
@@ -783,14 +751,14 @@ different from $1$ and that a proportional bias exists.
 	variable. The degrees of freedom are $\nu_{1}=2$ and $\nu_{1}=n-2$
 	(where $n$ is the number of pairs). The critical value is chosen
 	for $\alpha\%$ significance with those same degrees of freedom.
-	
-	\citet{Bartko} amends this approach for use in method
-	comparison studies, using the averages of the pairs, rather than
-	the sums, and the corresponding case-wise differences. This approach can facilitate
-	simultaneous usage of test with the Bland-Altman approach.
+	\citet{Bartko} amends this methodology for use in method
+	comparison studies, using the averages of the pairs, as opposed to
+	the sums, and their differences. This approach can facilitate
+	simultaneous usage of test with the Bland-Altman methodology.
 	Bartko's test statistic take the form:
 	\[ F.test = \frac{(\Sigma d^{2})-SSReg}{2MSReg}
 	\]
+
 	
 	\subsection{Application to the Grubbs' Data}
 	For the Grubbs data, $\Sigma d^{2}=5.09 $, $SSReg = 0.60$ and
@@ -826,30 +794,7 @@ different from $1$ and that a proportional bias exists.
 	\end{table}
 	
 	
-\section{Bradley-Blackwood Method}
-\citet{BB89} offers a formal simultaneous hypothesis test for the
-mean and variance of two paired data sets. Using simple linear
-regression of the differences of each pair against the sums, a
-line is fitted to the model, with estimates for intercept and
-slope ($\hat{\beta}_{0}$ and $\hat{\beta}_{1}$). The null
-hypothesis of this test is that the mean ($\mu$) and variance
-($\sigma^{2}$) of both data sets are equal if the slope and
-intercept estimates are equal to zero(i.e $\sigma^{2}_{1} =
-\sigma^{2}_{2}$ and $\mu_{1}=\mu_{2}$ if and only if $\beta_{0}=
-\beta_{1}=0$ )
 
-A test statistic is then calculated from the regression analysis
-of variance values \citep{BB89} and is distributed as `$F$' random
-variable. The degrees of freedom are $\nu_{1}=2$ and $\nu_{1}=n-2$
-(where $n$ is the number of pairs). The critical value is chosen
-for $\alpha\%$ significance with those same degrees of freedom.
-\citet{Bartko} amends this methodology for use in method
-comparison studies, using the averages of the pairs, as opposed to
-the sums, and their differences. This approach can facilitate
-simultaneous usage of test with the Bland-Altman methodology.
-Bartko's test statistic take the form:
-\[ F.test = \frac{(\Sigma d^{2})-SSReg}{2MSReg}
-\]
 	\section{Bradley-Blackwood Test (Kevin Hayes Talk)}
 	%--------------------------------------------------------------------%
 	% KH - UW
@@ -894,8 +839,6 @@ estimate the parameters of the regression.
 
 Errors-in-variables models or measurement errors models are regression models that account for measurement errors in the independent variables, as well as the dependent variable.
 
-The Bland Altman Plot is uninformative about the comparative influence of proportional bias and fixed bias. Model II approaches can provide independent tests for
-both types of bias.
 
 Regression estimates depend on formulation of the model. A
 formulation with one method considered as the $X$ variable will
@@ -925,16 +868,41 @@ However the author point out that \emph{ clinical laboratory measurements usuall
 	
 	The Bland Altman Plot is uninformative about the comparative influence of proportional bias and fixed bias. Model II approaches, such as Deming regression,  can provide independent tests for
 	both types of bias.
-	
-	For a given $\lambda$, \citet{Kummel} derived the following estimate that would later be used for the Deming regression slope
-	parameter. The intercept estimate $\alpha$ is simply estimated in the same way as in conventional linear
-	regression, by using the identity $\bar{Y}-\hat{\beta}\bar{X}$;
-	\begin{equation}
-	\hat{\beta} =\quad \frac{S_{yy} - \lambda S_{xx}+[(S_{yy} -
-		\lambda S_{xx})^{2}+ 4\lambda S^{2}_{xy}]^{1/2}}{2S_{xy}}
-	\end{equation}
-	with $\lambda$ as the variance ratio. As stated previously $\lambda$ is often unknown, and therefore must be assumed to equal one. \citet{CarollRupert} states that Deming
-	regression is acceptable only when the precision ratio ($\lambda$,in their paper as $\eta$) is correctly specified, but in practice this is often not the case, with the $\lambda$ being underestimated. Several candidate models, with varying variance ratios may be fitted, and estimates of the slope and intercept are produced. However no model selection information is available to determine the best fitting model.
+
+As with conventional regression methodologies, Deming regression calculates an estimate for both the slope and intercept for the
+fitted line, and standard errors thereof. Therefore there is sufficient information to carry out hypothesis tests on both
+estimates, that are informative about presence of fixed and proportional bias.
+
+Deming regression method also calculates a line of best fit for two sets of data. It differs from simple linear regression in that it is derived in a way that factors in for error in the x-axis, as well as the y-axis. The sum of the square of the residuals of both variables are simultaneously minimized. This derivation results in the best fit to minimize the sum of the squares of the perpendicular distances from the data points. Normally distributed error of both variables is assumed, as well as a constant level of imprecision throughout the range of measurements.
+
+
+\subsection{Kummel's Estimates}
+
+
+For a given $\lambda$, \citet{Kummel} derived the following estimate that would later be used for the Deming regression slope
+parameter. The intercept estimate $\alpha$ is simply estimated in the same way as in conventional linear
+regression, by using the identity $\bar{Y}-\hat{\beta}\bar{X}$;
+\begin{equation}
+\hat{\beta} =\quad \frac{S_{yy} - \lambda S_{xx}+[(S_{yy} -
+	\lambda S_{xx})^{2}+ 4\lambda S^{2}_{xy}]^{1/2}}{2S_{xy}}
+\end{equation},
+with $\lambda$ as the variance ratio. As stated previously $\lambda$ is often unknown, and therefore must be assumed to equal one. 
+
+The sum of squared distances from measured sets of values to the regression line is minimized at an angles specified by the ratio $\lambda$ of the residual variance of both variables. The measurement error is specified with measurement error variance related as 
+\[\lambda = \sigma^2_y/\sigma^2_x\]
+
+where $\sigma^2_x$ and $\sigma^2_y$ is the measurement error variance of the $x$ and $y$ variables, respectively.
+The variance of the ratio,$\lambda$, specifies the angle.  When $\lambda$ is one, the angle is 45 degrees. 
+%In ordinary linear regression, the distances are minimized in the vertical directions \citep{linnet99}. 
+This approach would be appropriate when errors in $y$ and $x$ are both caused by measurements, and the accuracy of measuring devices or procedures are known. In cases involving only single measurements by each method, $\lambda$ may be unknown and is therefore assumes a value of one. While this will bias the estimates, it is less biased than ordinary linear regression.
+
+Deming regression assumes that the ratio $\lambda = \sigma^2_{\epsilon}/\sigma^2_{\eta}$ is known. In the case where $\lambda$ is equal to one, (i.e. equal error variances), the methodology is equivalent to \textit{\textbf{orthogonal regression}}.
+
+
+%===========================================================%
+\citet{CarollRupert} states that Deming
+regression is acceptable only when the precision ratio ($\lambda$, in their paper as $\eta$) is correctly specified, but in practice this is often not the case, with the $\lambda$ being underestimated. Several candidate models, with varying variance ratios may be fitted, and estimates of the slope and intercept are produced. However no model selection information is available to determine the best fitting model.
+
 	
 	As with conventional regression methodologies, Deming regression calculates an estimate for both the slope and intercept for the
 	fitted line, and standard errors thereof. Therefore there is sufficient information to carry out hypothesis tests on both
@@ -1012,35 +980,7 @@ As with conventional regression methodologies, Deming regression calculates an e
 fitted line, and standard errors thereof. Therefore there is sufficient information to carry out hypothesis tests on both
 estimates, that are informative about presence of fixed and proportional bias.
 
-Deming regression method also calculates a line of best fit for two sets of data. It differs from simple linear regression in that it is derived in a way that factors in for error in the x-axis, as well as the y-axis. The sum of the square of the residuals of both variables are simultaneously minimized. This derivation results in the best fit to minimize the sum of the squares of the perpendicular distances from the data points. Normally distributed error of both variables is assumed, as well as a constant level of imprecision throughout the range of measurements.
 
-The sum of squared distances from measured sets of values to the regression line is minimized at an angles specified by the ratio $\lambda$ of the residual variance of both variables. The measurement error is specified with measurement error variance related as 
-	\[\lambda = \sigma^2_y/\sigma^2_x\]
-	
-where $\sigma^2_x$ and $\sigma^2_y$ is the measurement error variance of the $x$ and $y$ variables, respectively.
-The variance of the ratio,$\lambda$, specifies the angle.  When $\lambda$ is one, the angle is 45 degrees. 
-%In ordinary linear regression, the distances are minimized in the vertical directions \citep{linnet99}. 
-This approach would be appropriate when errors in $y$ and $x$ are both caused by measurements, and the accuracy of measuring devices or procedures are known. In cases involving only single measurements by each method, $\lambda$ may be unknown and is therefore assumes a value of one. While this will bias the estimates, it is less biased than ordinary linear regression.
-
-Deming regression assumes that the ratio $\lambda = \sigma^2_{\epsilon}/\sigma^2_{\eta}$ is known. In the case where $\lambda$ is equal to one, (i.e. equal error variances), the methodology is equivalent to \textit{\textbf{orthogonal regression}}.
-\subsection{Kummel's Estimates}
-
-
-For a given $\lambda$, \citet{Kummel} derived the following estimate that would later be used for the Deming regression slope
-parameter. The intercept estimate $\alpha$ is simply estimated in the same way as in conventional linear
-regression, by using the identity $\bar{Y}-\hat{\beta}\bar{X}$;
-\begin{equation}
-\hat{\beta} =\quad \frac{S_{yy} - \lambda S_{xx}+[(S_{yy} -
-	\lambda S_{xx})^{2}+ 4\lambda S^{2}_{xy}]^{1/2}}{2S_{xy}}
-\end{equation},
-with $\lambda$ as the variance ratio. As stated previously $\lambda$ is often unknown, and therefore must be assumed to equal one. 
-
-\citet{CarollRupert} states that Deming
-regression is acceptable only when the precision ratio ($\lambda$, in their paper as $\eta$) is correctly specified, but in practice this is often not the case, with the $\lambda$ being underestimated. Several candidate models, with varying variance ratios may be fitted, and estimates of the slope and intercept are produced. However no model selection information is available to determine the best fitting model.
-
-As with conventional regression methodologies, Deming regression calculates an estimate for both the slope and intercept for the
-fitted line, and standard errors thereof. Therefore there is sufficient information to carry out hypothesis tests on both
-estimates, that are informative about presence of fixed and proportional bias.
 
 
 
