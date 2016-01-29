@@ -398,7 +398,35 @@ The population correlation coefficient may be close to 1, but is never 1 in prac
  There is a line whose slope will be 1 if the measurements are comparable. It is known as a structural equation and is the method advanced by Kelly (1985). Altman and Bland (1987) criticize it for a reason that should come as no surprise: Knowing the data are consistent with a structural equation with a slope of 1 says something about the absence of bias but *nothing* about the variability about Y = X (the difference between the measurements), which, as has already been stated, is all that really matters.
 
 	%----------------------------------------------------------------------------%
-	
+\section{Regression Methods}
+
+Scatterplots are recommended by \citet{BA83} for an initial
+examination of the data, facilitating an initial judgement and
+helping to identify potential outliers. They are not useful for a
+thorough examination of the data. \citet{BritHypSoc} notes that
+data points will tend to cluster around the line of equality,
+obscuring interpretation.
+
+
+The Bland-Altman methodology is well noted for its ease of use,
+and can be easily implemented with most software packages. Also it
+does not require the practitioner to have more than basic
+statistical training. The plot is quite informative about the
+variability of the differences over the range of measurements. For
+example, an inspection of the plot will indicate the 'fan effect'.
+They also can be used to detect the presence of an outlier.
+
+\citet{ludbrook97,ludbrook02} criticizes Bland-Altman plots on the
+basis that they presents no information on effect of constant bias
+or proportional bias. These plots are only practicable when both
+methods measure in the same units. Hence they are totally
+unsuitable for conversion problems. The limits of agreement are
+somewhat arbitrarily constructed. They may or may not be suitable
+for the data in question. It has been found that the limits given
+are too wide to be acceptable. There is no guidance on how to deal
+with outliers. Bland and Altman recognize effect they would have
+on the limits of agreeement, but offer no guidance on how to
+correct for those effects.	
 	
 	
 	\section*{Intra-class correlation coefficient}
@@ -476,7 +504,14 @@ The population correlation coefficient may be close to 1, but is never 1 in prac
 	Roy accords with Bland and Altman's definition of a replicate, as being two or more measurements on the same individual under identical conditions. Roy allows the assumption that replicated measurements are equi-correlated. Roy allows unequal numbers of replicates.
 	
 	Replicate measurements are linked over time. However the method can be easily extended to cover situations where they are not linked over time.
-	\section{What is Repeatability}
+
+	\section{Importance of Repeatability in MCS}
+	
+	Repeatability is important in the context of method comparison because the repeatability of two methods influence the amount of agreement which is possible between those methods. If one method has poor repeatability, the agreement is bound to be poor. If both methods have poor repeatability, agreement is even worse. If one method has poor repeatability in the sense of considerable variability, then agreement between two methods is bound to be poor \citep{ARoy2009}.
+	
+	\citet{Barnhart} and \citet{ARoy2009} highlight the importance of reporting repeatability in method comparison, because it measures the purest random error not influenced by any external factors. Statistical procedures on within-subject variances of two methods are equivalent to tests on their respective repeatability coefficients. A formal test is introduced by \citet{ARoy2009}, which will discussed in due course.
+	
+
 	The quality of repeatability is the ability of a measurement method to give consistent results for a particular subject. That is to say that a measurement will agree with prior and subsequent measurements of the same subject.
 	
 	
@@ -560,6 +595,28 @@ The population correlation coefficient may be close to 1, but is never 1 in prac
 	
 	
 	
+	\section{Sampling Scheme : Linked and Unlinked Replicates}
+	Measurements taken in quick succession by the same observer using the same instrument on the same subject can be considered true replicates. \citet{ARoy2009} notes that some measurements may not be `true' replicates.
+	
+	Roy's methodology assumes the use of `true replicates'. However data may not be collected in this way. In such cases, the correlation matrix on the replicates may require a different structure, such as the autoregressive order one $AR(1)$ structure. However determining MLEs with such a structure would be computational intense, if possible at all.
+	
+	
+	
+	\emph{
+		One important feature of replicate observations is that they should be independent
+		of each other. In essence, this is achieved by ensuring that the observer makes each
+		measurement independent of knowledge of the previous value(s). This may be difficult
+		to achieve in practice.} (Check who said this
+	)
+	%----------------------------------------------------------------------------%
+	
+	
+	%-----------------------------------------------------------------------------------------------------%
+	
+	
+	
+	\bibliographystyle{chicago}
+	\bibliography{DB-txfrbib}
 	\section{Linked replicates}
 	
 	\citet{BXC2008} proposes the addition of an random effects term to their model when the replicates are linked. This term is used to describe the `item by replicate' interaction, which is independent of the methods. This interaction is a source of variability independent of the methods. Therefore failure to account for it will result in variability being wrongly attributed to the methods.
@@ -597,72 +654,48 @@ The population correlation coefficient may be close to 1, but is never 1 in prac
 	\newpage
 	
 	
-	\section{Repeated Measurements in LME models}
+	\section{Repeatability}
+	As mentioned previously, \citet{Barnhart} emphasizes the importance of repeatability as part of an overall method comparison study. The coefficient of repeatability was proposed by \citet{BA99}, and is referenced in subsequent papers, such as \citet{BXC2008}. The coefficient of repeatability is a measure of how well a
+	measurement method agrees with itself over replicate measurements
+	\citep{BA99}. 
 	
-	In many statistical analyzes, the need to determine parameter estimates where multiple measurements are available on each of a set of variables often arises. Further to \citet{lam}, \citet{hamlett} performs an analysis of the correlation of replicate measurements, for two variables of interest, using LME models.
+	Repeatability is the ability of a measurement method to give consistent results for a particular subject, i.e. a measurement will agree with prior and subsequent measurements of the same subject. \citet{Barnhart} emphasizes the importance of repeatability as part of an overall method comparison study, a view endorsed by \citet{BXC2008}. Before there can be good agreement between two methods, a method must have good agreement with itself. If one method has poor repeatability in the sense of considerable
+	variability, then agreement between two methods is bound to be
+	poor \citep{ARoy2009}. 
 	
-	Let $y_{Aij}$ and $y_{Bij}$ be the $j$th repeated observations of the variables of interest $A$ and $B$ taken on the $i$th subject. The number of repeated measurements for each variable may differ for each individual.
-	Both variables are measured on each time points. Let $n_{i}$ be the number of observations for each variable, hence $2\times n_{i}$ observations in total.
+	The coefficient of repeatability is a measure of how well a
+	measurement method agrees with itself over replicate measurements
+	\citep{BA99}. Once the the standard deviations of the differences between the two measurements (in some texts called the residual standard deviation or within-item variability) $sigma_m$ is determined, the
+	computation of the coefficients of repeatability for both methods
+	is straightforward. The coefficient is calculated from the (in some texts called the residual standard deviation) as  $1.96 \times \sqrt{2} \times \sigma_m$ = $2.83 \sigma_m$).
 	
-	It is assumed that the pair $y_{Aij}$ and $y_{Bij}$ follow a bivariate normal distribution.
-	\begin{eqnarray*}
-		\left(
-		\begin{array}{c}
-			y_{Aij} \\
-			y_{Bij} \\
-		\end{array}
-		\right) \sim \mathcal{N}(
-		\boldsymbol{\mu}, \boldsymbol{\Sigma})\mbox{   where } \boldsymbol{\mu} = \left(
-		\begin{array}{c}
-			\mu_{A} \\
-			\mu_{B} \\
-		\end{array}
-		\right)
-	\end{eqnarray*}
+	\citet{Barnhart} remarks that it is important to report repeatability when assessing
+	measurement, because it measures the purest form of random error
+	not influenced by other factors, while further remarking `\textit{curiously replicate measurements are rarely made in method comparison studies, so that an important aspect of comparability is often overlooked}. \citet{BA99} strongly recommends the simultaneous estimation of repeatability and agreement be collecting replicated data.
+	However \citet{ARoy2009} notes the lack of convenience in such calculations. 	Repeatability is defined by the \citet{IUPAC} as `\textit{the closeness of agreement between independent results obtained with the same method on identical test material, under the same conditions (same
+		operator, same apparatus, same laboratory and after short intervals of time)}'  and is determined by taking multiple measurements on a series of subjects.
 	
-	The matrix $\Sigma$ represents the variance component matrix between response variables at a given time point $j$.
-	
-	\[
-	\boldsymbol{\Sigma} = \left( \begin{array}{cc}
-	\sigma^2_{A} & \sigma_{AB} \\
-	\sigma_{AB} & \sigma^2_{B}\\
-	\end{array}   \right)
-	\]
-	
-	$\sigma^2_{A}$ is the variance of variable $A$, $\sigma^2_{B}$ is the variance of variable $B$ and $\sigma_{AB}$ is the covariance of the two variable. It is assumed that $\boldsymbol{\Sigma}$ does not depend on a particular time point, and is the same over all time points.
-	
-	%------------------------------------------------------------------------------%
-	
-	
-	
-
-
-	\section{Model for replicate measurements}
-	
-	We generalize the single measurement model for the replicate measurement case, by additionally specifying replicate values. Let $y_{mir}$ be the $r-$th replicate measurement for subject ``i" made by method ``m". Further to \citet{barnhart} fixed effect can be expressed with a single term $\alpha_{mi}$, which incorporate the true value $\mu_i$.
-	
-	\[ y_{mir} = \mu_{i} + \alpha_{m} + e_{mir}  \]
-	
-	Combining fixed effects \citep{barnhart}, we write,
-	
-	\[ y_{mir} = \alpha_{mi} + e_{mir}.\]
-	
-	The following assumptions are required
-	
+	According to the \textit{Guidelines for Evaluating and Expressing the Uncertainty of NIST Measurement Results}, the following conditions need to be fulfilled in the establishment of repeatability:
 	\begin{itemize}
-		\item $e_{mir}$ is independent of the fixed effects with mean $\mbox{E}(e_{mir}) = 0$.
-		\item Further to \citet{barnhart} between-item and within-item variances $\mbox{Var}(\alpha_{mi}) = \sigma^2_{Bm}$ and $\mbox{Var}(e_{mir}) = \sigma^2_{Wm}$
-		%	\item In keeping with \citet{Roy}, these variance shall be considered as part of the between-item variance covariance matrix $\boldsymbol{D}$ and the within-item variance covariance matrix  $\boldsymbol{\Sigma}$
-		%	respectively, and will be denoted accordingly ( i.e. $d^2_{m}$ and $\sigma^2_{m}$).
-		%	\item Additionally, the total variability of method "m", denoted $\omega^2_m$ is the sum of the within-item and between-item variabilities.
-		%	
-		%	\[ \omega^2_m = d^2_{m}+ \sigma^2_{m} \]
-		
+		\item	the same measurement procedure
+		\item	the same observer
+		\item	the same measuring instrument, used under the same conditions
+		\item	the same location
+		\item	repetition over a short period of time.
+		\item  same objectives
 	\end{itemize}
 	
+	% %	Test-retest variability is practically used, for example, in medical monitoring of conditions.
+	
+	A measurement is said to be repeatable when this variation is smaller than some pre-specified limit. In these situations, there is often a predetermined ``critical difference", and for differences in monitored values that are smaller than this critical difference, the possibility of pre-test variability as a sole cause of the difference may be considered in addition to, for examples, changes in diseases or treatments. \bigskip
+	A measurement method can be said to have a good level of repeatability if there is consistency in repeated measurements on the same subject using that method. Conversely, a method has poor repeatability if there is considerable variation in repeated measurements.	
+	
+	The British Standards Institute (1979) defines a coefficient of repeatability  as \emph{the value below which the difference between two single test results may be expected to lie within a specified probability.} In the absence of other indications, the probability is 95\%.
 	
 	
 	
+
+
 		\section{Statistical Model For Replicate Measurements}
 	Let $y_{Aij}$ and $y_{Bij}$ be the $j$th repeated observations of the variables of interest $A$ and $B$ taken on the $i$th subject. The number of repeated measurements for each variable may differ for each individual.
 	Both variables are measured on each time points. Let $n_{i}$ be the number of observations for each variable, hence $2\times n_{i}$ observations in total.
@@ -696,49 +729,7 @@ The population correlation coefficient may be close to 1, but is never 1 in prac
 
 
 
-	\section{Repeatability}
-	As mentioned previously, \citet{Barnhart} emphasizes the importance of repeatability as part of an overall method comparison study. The coefficient of repeatability was proposed by \citet{BA99}, and is referenced in subsequent papers, such as \citet{BXC2008}. The coefficient of repeatability is a measure of how well a
-	measurement method agrees with itself over replicate measurements
-	\citep{BA99}. 
 
-		Repeatability is the ability of a measurement method to give consistent results for a particular subject, i.e. a measurement will agree with prior and subsequent measurements of the same subject. \citet{Barnhart} emphasizes the importance of repeatability as part of an overall method comparison study, a view endorsed by \citet{BXC2008}. Before there can be good agreement between two methods, a method must have good agreement with itself. If one method has poor repeatability in the sense of considerable
-		variability, then agreement between two methods is bound to be
-		poor \citep{ARoy2009}. 
-		
-		The coefficient of repeatability is a measure of how well a
-		measurement method agrees with itself over replicate measurements
-		\citep{BA99}. Once the the standard deviations of the differences between the two measurements (in some texts called the residual standard deviation or within-item variability) $sigma_m$ is determined, the
-		computation of the coefficients of repeatability for both methods
-		is straightforward. The coefficient is calculated from the (in some texts called the residual standard deviation) as  $1.96 \times \sqrt{2} \times \sigma_m$ = $2.83 \sigma_m$).
-		
-		\citet{Barnhart} remarks that it is important to report repeatability when assessing
-		measurement, because it measures the purest form of random error
-		not influenced by other factors, while further remarking `\textit{curiously replicate measurements are rarely made in method comparison studies, so that an important aspect of comparability is often overlooked}. \citet{BA99} strongly recommends the simultaneous estimation of repeatability and agreement be collecting replicated data.
-		However \citet{ARoy2009} notes the lack of convenience in such calculations. 	Repeatability is defined by the \citet{IUPAC} as `\textit{the closeness of agreement between independent results obtained with the same method on identical test material, under the same conditions (same
-			operator, same apparatus, same laboratory and after short intervals of time)}'  and is determined by taking multiple measurements on a series of subjects.
-		
-			According to the \textit{Guidelines for Evaluating and Expressing the Uncertainty of NIST Measurement Results}, the following conditions need to be fulfilled in the establishment of repeatability:
-			\begin{itemize}
-				\item	the same measurement procedure
-				\item	the same observer
-				\item	the same measuring instrument, used under the same conditions
-				\item	the same location
-				\item	repetition over a short period of time.
-				\item  same objectives
-			\end{itemize}
-		
-		% %	Test-retest variability is practically used, for example, in medical monitoring of conditions.
-		
-		A measurement is said to be repeatable when this variation is smaller than some pre-specified limit. In these situations, there is often a predetermined ``critical difference", and for differences in monitored values that are smaller than this critical difference, the possibility of pre-test variability as a sole cause of the difference may be considered in addition to, for examples, changes in diseases or treatments. \bigskip
-		A measurement method can be said to have a good level of repeatability if there is consistency in repeated measurements on the same subject using that method. Conversely, a method has poor repeatability if there is considerable variation in repeated measurements.	
-		
-		The British Standards Institute (1979) defines a coefficient of repeatability  as \emph{the value below which the difference between two single test results may be expected to lie within a specified probability.} In the absence of other indications, the probability is 95\%.
-		
-
-
-
-	\section{Gold Standard} This is considered to be the most
-	accurate measurement of a particular parameter.
 		\section{Repeatability and Gold Standards}
 		Currently the phrase `gold standard' describes the most accurate method of measurement available. No other criteria are set out. Further to \citet{dunnSEME}, various gold standards have a varying levels of repeatability. Dunn cites the example of the sphygmomanometer, which is prone to measurement error. Consequently it can be said that a measurement method can be the `gold standard', yet have poor repeatability. 
 		
@@ -748,11 +739,9 @@ The population correlation coefficient may be close to 1, but is never 1 in prac
 		The coefficient of repeatability may provide the basis of formulation a formal definition of a `gold standard'. For example, by determining the ratio of $CR$ to the sample mean $\bar{X}$. Advisably the sample size should specified in advance. A gold standard may be defined as the method with the lowest value of $\lambda = CR /\bar{X}$ with $\lambda < 0.1\%$. Similarly, a silver standard may be defined as the method with the lowest value of $\lambda $ with $0.1\% \leq \lambda < 1\%$. Such thresholds are solely for expository purposes.
 		
 
-	\section{Importance of Repeatability in MCS}
-	
-		Repeatability is important in the context of method comparison because the repeatability of two methods influence the amount of agreement which is possible between those methods. If one method has poor repeatability, the agreement is bound to be poor. If both methods have poor repeatability, agreement is even worse. If one method has poor repeatability in the sense of considerable variability, then agreement between two methods is bound to be poor \citep{ARoy2009}.
-		
-		\citet{Barnhart} and \citet{roy} highlight the importance of reporting repeatability in method comparison, because it measures the purest random error not influenced by any external factors. Statistical procedures on within-subject variances of two methods are equivalent to tests on their respective repeatability coefficients. A formal test is introduced by \citet{roy}, which will discussed in due course.
+\citet{ARoy2015} discusses the relevance of gold Standards in the context of MCS.
+
+
 		
 	
 	Barnhart emphasizes the importance of repeatability as part of an overall method comparison study. Before there can be good agreement between two methods, a method must have good agreement with itself. The coefficient of repeatability , as proposed by Bland \& Altman (1999) is an important feature of both Carstensen's and Roy's methodologies. The coefficient is calculated from the residual standard deviation (i.e. $1.96 \times \sqrt{2} \times \sigma_m$ = $2.83 \sigma_m$).
@@ -781,66 +770,42 @@ The population correlation coefficient may be close to 1, but is never 1 in prac
 		
 		%------------------------------------------------------------------------------------------%
 	\section{Carstensen Move to Chapter 2}
-	\begin{itemize}
-		\item The limits of agreement are not always the only issue of
-		interest � the assessment of method specific repeatability and
+, The limits of agreement are not always the only issue of
+		interest , the assessment of method specific repeatability and
 		reproducibility are of interest in their own right.
 		
-		\item Repeatability can only be assessed when replicate
+ Repeatability can only be assessed when replicate
 		measurements by each method are available.
 		
-		\item The repeatability coefficient for a method is defined as the
+ The repeatability coefficient for a method is defined as the
 		upper limits of a prediction interval for the absolute difference
 		between two measurements by the same method on the same item under
 		identical circumstances.
 		
-		\item If the standard deviation of a measurement is $\sigma$ the
+ If the standard deviation of a measurement is $\sigma$ the
 		repeatability coefficient is $2\times\sqrt{2} \sigma = 2.83\times
 		\sigma \approx 2.8 \sigma$.
 		
 		
-		\item The repeatability of measurement methods is calculated
-		differently under the two models \item Under the model assuming
+The repeatability of measurement methods is calculated
+		differently under the two models  Under the model assuming
 		exchangeable replicates (1), the repeatability is based only on
 		the residual standard deviation, i.e. $2.8\sigma_m$
 		
 		
-		\item Under the model for linked replicates (2) there are two
+ Under the model for linked replicates (2) there are two
 		possibilities depending on the circumstances.
-		
-		\item If the variation between replicates within item can be
+If the variation between replicates within item can be
 		considered a part of the repeatability it will be $2.8 \sqrt{
 			\omega^2 + \sigma^2_m}$.
-		
-		\item However, if replicates are taken under substantially
+
+ However, if replicates are taken under substantially
 		different circumstances, the variance component $\omega^2$ may be
 		considered irrelevant in the repeatability and one would therefore
 		base the repeatability on the measurement errors alone, i.e. use
 		$2.8 \sigma_m$.
-	\end{itemize}
-	
-	
-	
-	%\section{Reproducibility}
-	% 
-	%It is advisable to be able to distinguish between Repeatability and a similar concept ?Reproducibility?. Reproducibility is
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	%%========================================================================%
-	%% Phase Next Section Out
-	%% Where did this come from
-	
-	\newpage
-	
-	%--------------------------------------------------------------------%
-	
+
+
 	%--------------------------------------------------------------------%
 	\subsection{Notes from BXC Book (chapter 9)}
 	The assessment of method-specific repeatability and reproducibility is of interest in its own right.
@@ -862,28 +827,7 @@ The population correlation coefficient may be close to 1, but is never 1 in prac
 
 
 	%-----------------------------------------------------------------------------------------------------%
-	\section{Sampling Scheme : Linked and Unlinked Replicates}
-	Measurements taken in quick succession by the same observer using the same instrument on the same subject can be considered true replicates. \citet{ARoy2009} notes that some measurements may not be `true' replicates.
-	
-	Roy's methodology assumes the use of `true replicates'. However data may not be collected in this way. In such cases, the correlation matrix on the replicates may require a different structure, such as the autoregressive order one $AR(1)$ structure. However determining MLEs with such a structure would be computational intense, if possible at all.
-	
-	
-	
-	\emph{
-		One important feature of replicate observations is that they should be independent
-		of each other. In essence, this is achieved by ensuring that the observer makes each
-		measurement independent of knowledge of the previous value(s). This may be difficult
-		to achieve in practice.} (Check who said this
-	)
-	%----------------------------------------------------------------------------%
-	
-	
-	%-----------------------------------------------------------------------------------------------------%
 
-
-	
-\bibliographystyle{chicago}
-\bibliography{DB-txfrbib}
 	\section{Other Types of Studies / Gold Standards}
 	\citet{lewis} categorize method comparison studies into three
 	different types.  The key difference between the first two is
@@ -961,6 +905,73 @@ The population correlation coefficient may be close to 1, but is never 1 in prac
 	
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	%---------------------------------------------%
+	
+	
+
+	\section{Model for replicate measurements}
+	
+	We generalize the single measurement model for the replicate measurement case, by additionally specifying replicate values. Let $y_{mir}$ be the $r-$th replicate measurement for subject ``i" made by method ``m". Further to \citet{barnhart} fixed effect can be expressed with a single term $\alpha_{mi}$, which incorporate the true value $\mu_i$.
+	
+	\[ y_{mir} = \mu_{i} + \alpha_{m} + e_{mir}  \]
+	
+	Combining fixed effects \citep{barnhart}, we write,
+	
+	\[ y_{mir} = \alpha_{mi} + e_{mir}.\]
+	
+	The following assumptions are required
+	
+	\begin{itemize}
+		\item $e_{mir}$ is independent of the fixed effects with mean $\mbox{E}(e_{mir}) = 0$.
+		\item Further to \citet{barnhart} between-item and within-item variances $\mbox{Var}(\alpha_{mi}) = \sigma^2_{Bm}$ and $\mbox{Var}(e_{mir}) = \sigma^2_{Wm}$
+		%	\item In keeping with \citet{Roy}, these variance shall be considered as part of the between-item variance covariance matrix $\boldsymbol{D}$ and the within-item variance covariance matrix  $\boldsymbol{\Sigma}$
+		%	respectively, and will be denoted accordingly ( i.e. $d^2_{m}$ and $\sigma^2_{m}$).
+		%	\item Additionally, the total variability of method "m", denoted $\omega^2_m$ is the sum of the within-item and between-item variabilities.
+		%	
+		%	\[ \omega^2_m = d^2_{m}+ \sigma^2_{m} \]
+		
+	\end{itemize}
+	
+	
+	
+
+	\section{Repeated Measurements in LME models}
+	
+	In many statistical analyzes, the need to determine parameter estimates where multiple measurements are available on each of a set of variables often arises. Further to \citet{lam}, \citet{hamlett} performs an analysis of the correlation of replicate measurements, for two variables of interest, using LME models.
+	
+	Let $y_{Aij}$ and $y_{Bij}$ be the $j$th repeated observations of the variables of interest $A$ and $B$ taken on the $i$th subject. The number of repeated measurements for each variable may differ for each individual.
+	Both variables are measured on each time points. Let $n_{i}$ be the number of observations for each variable, hence $2\times n_{i}$ observations in total.
+	
+	It is assumed that the pair $y_{Aij}$ and $y_{Bij}$ follow a bivariate normal distribution.
+	\begin{eqnarray*}
+		\left(
+		\begin{array}{c}
+			y_{Aij} \\
+			y_{Bij} \\
+		\end{array}
+		\right) \sim \mathcal{N}(
+		\boldsymbol{\mu}, \boldsymbol{\Sigma})\mbox{   where } \boldsymbol{\mu} = \left(
+		\begin{array}{c}
+			\mu_{A} \\
+			\mu_{B} \\
+		\end{array}
+		\right)
+	\end{eqnarray*}
+	
+	The matrix $\Sigma$ represents the variance component matrix between response variables at a given time point $j$.
+	
+	\[
+	\boldsymbol{\Sigma} = \left( \begin{array}{cc}
+	\sigma^2_{A} & \sigma_{AB} \\
+	\sigma_{AB} & \sigma^2_{B}\\
+	\end{array}   \right)
+	\]
+	
+	$\sigma^2_{A}$ is the variance of variable $A$, $\sigma^2_{B}$ is the variance of variable $B$ and $\sigma_{AB}$ is the covariance of the two variable. It is assumed that $\boldsymbol{\Sigma}$ does not depend on a particular time point, and is the same over all time points.
+	
+	%------------------------------------------------------------------------------%
+	
+	
+	
 	
 	
 
