@@ -237,7 +237,7 @@
 	
 	%Note that we will use the term rater and measuring device interchangeably throughout this article.
 	
-	Agreement is the extent to which the measure of the variable of interest, under a constant set of experimental conditions, yields the same result on repeated trials (\textbf{Sanchez et al}). The more consistent the results, the more reliable the measuring procedure.
+	Agreement is the extent to which the measure of the variable of interest, under a constant set of experimental conditions, yields the same result on repeated trials \citep{sanchez1999}. The more consistent the results, the more reliable the measuring procedure.
 	
 
 
@@ -285,24 +285,6 @@
 	
 	
 	
-	
-	\section{Statement of a Model}
-	\citet{BXC2010} presents a useful formulation for comparing two methods $X$ and $Y$, in their measurement of item $i$, where the unknown `true value' is $\tau_i$. Other authors, such as \citet{kinsella}, present similar formulations of the same model, as well as modified models to account for multiple measurements by each methods on each item, known as replicate measurements.
-	
-%	\begin{eqnarray} X_i = \tau_i + \delta_i , \phantom{spacin} \delta_i \sim \mathcal{N}(0,\sigma^2_\delta)\\ Y_i = \alpha + \beta \tau_i + \epsilon_i, \phantom{spaci}  \epsilon_i \sim \mathcal{N}(0,\sigma^2_\epsilon)\end{eqnarray}
-%	
-	In some types of analysis, such as the conversion problems described by \citet{lewis}, an estimate for 
-	the scaling factor $\beta$ may also be sought. For the time being, we will restrict ourselves to problems where $\beta$ is assumed to be 1. 
-	
-	\begin{eqnarray}
-		X_i = \tau_i + \delta_i , \phantom{spacin} \delta_i \sim \mathcal{N}(0,\sigma^2_\delta)\\
-		Y_i = \alpha + \beta \tau_i + \epsilon_i, \phantom{spaci}  \epsilon_i \sim \mathcal{N}(0,\sigma^2_\epsilon)
-	\end{eqnarray}
-	
-	In this formulation, $\alpha$ represents the inter-method bias, and can be estimated as $E(X-Y)$. That is to say, a simple estimate of the inter-method bias is given by the differences between pairs of measurements.  
-	
-	Table~\ref{FCTdata} is a good example of possible inter-method bias; the `Fotobalk' consistently recording
-	smaller velocities than the `Counter' method. A cursory inspection of the table will indicate a systematic tendency for the Counter method to result in higher measurements than the Fotobalk method. % Consequently one would conclude that there is lack of agreement % between the two methods.
 	
 
 	\chapter{Improper MCS Techniques}
@@ -390,14 +372,8 @@ The usual significance test involving a correlation coefficient-- whether the po
 
 
 
-	\section*{Regression Methods}
- Regression analysis is typically misused by regressing one measurement on the other and declare them equivalent if and only if the confidence interval for the regression coefficient includes 1. Some simple mathematics shows that if the measurements are comparable, the population value of the regression coefficient will be equal to the correlation coefficient between the two methods. 
- 
-The population correlation coefficient may be close to 1, but is never 1 in practice. Thus, the only things that can be indicated by the presence of 1 in the confidence interval for the regression coefficient is (1) that the measurements are comparable but there weren't enough observations to distinguish between 1 and the population regression coefficient, or (2) the population regression coefficient is 1 and therefore, the measurements aren't comparable.
-		
- There is a line whose slope will be 1 if the measurements are comparable. It is known as a structural equation and is the method advanced by Kelly (1985). Altman and Bland (1987) criticize it for a reason that should come as no surprise: Knowing the data are consistent with a structural equation with a slope of 1 says something about the absence of bias but *nothing* about the variability about Y = X (the difference between the measurements), which, as has already been stated, is all that really matters.
 
-	%----------------------------------------------------------------------------%
+%----------------------------------------------------------------------------%
 \section{Regression Methods}
 
 Scatterplots are recommended by \citet{BA83} for an initial
@@ -427,8 +403,58 @@ are too wide to be acceptable. There is no guidance on how to deal
 with outliers. Bland and Altman recognize effect they would have
 on the limits of agreeement, but offer no guidance on how to
 correct for those effects.	
+
+	\section{Incorrect Techniques: Simple Linear Regression}
 	
 	
+
+	Another inappropriate approach is the regressing one set of measurements against the other. According to this methodology the measurement methods could considered equivalent if the confidence interval for
+	the regression coefficient included $1$. Analysts sometimes use least squares (referred to by Ludbrook as Model I) regression analysis to calibrate one method of measurement against another. In this technique, the sum of the squares of the vertical deviations of y values from the line is minimized. This approach is invalid, because both y and x values are attended by random error.
+	
+The Identity Plot is a simple graphical approach, advocated by \citet{BA86}, that yields a cursory examination of how well the measurement methods agree. In the case of good agreement, the co-variates of the plot accord closely with the $X=Y$ line.
+	
+	
+	\subsection{Advantages of Regression Approaches for MCS}
+	\begin{itemize}
+		\item These methods can be employed in conversion problems.
+		\item Bland and Altman have stated that regression analysis offers insights into MCS problems.
+	\end{itemize}
+	\subsection{Disadvantages}
+	\begin{itemize}
+		\item Regression methods are uninformative about the variability of the differences.
+	\end{itemize}
+	
+	\begin{itemize}\item
+		Regression methods can determine the presence of bias, and the levels of constant bias and proportional bias thereof \cite{ludbrook97,ludbrook02}.
+	\end{itemize}
+
+Constant Bias is a form of systematic deviations estimated as the average difference between the test and the reference method. Proportional Bias exists when Two methods agree on average, but exhibit differences over a range of measurements. Proportional Bias is a difference in the two measures which is proportional to the scale of the measurement. 
+	
+	Using a naive estimation of bias, such as the mean of differences, it may incorrectly indicate absence of bias, by yielding a mean difference close to zero. This would be caused by positive differences in the measurements at one end of the range of measurements being canceled out by negative differences at the other end of the scale.
+	
+	%------------------------------------------------------------------------%
+	
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\newpage
+	
+	 Regression analysis is typically misused by regressing one measurement on the other and declare them equivalent if and only if the confidence interval for the regression coefficient includes 1. Some simple mathematics shows that if the measurements are comparable, the population value of the regression coefficient will be equal to the correlation coefficient between the two methods. 
+ 
+The population correlation coefficient may be close to 1, but is never 1 in practice. Thus, the only things that can be indicated by the presence of 1 in the confidence interval for the regression coefficient is (1) that the measurements are comparable but there weren't enough observations to distinguish between 1 and the population regression coefficient, or (2) the population regression coefficient is 1 and therefore, the measurements aren't comparable. There is a line whose slope will be 1 if the measurements are comparable. 
+	
+\subsection{Decomposition of Inter-Method Bias}
+Regression approaches are useful for a making a detailed examination of the biases across the range of measurements, allowing inter-method bias to be decomposed into fixed bias and proportional bias. Fixed bias describes the case where one method gives values that are consistently different to the other across the whole range. 
+
+%The Intercept and Slope can provide estimates for the constant bias and proportional bias occurring between both methods.
+
+Constant or proportional bias in method comparison studies using linear regression can be detected by an individual test on the intercept or the slope of the line regressed from the results of the two methods to be compared.
+
+
+Proportional bias describes the difference in measurements getting progressively greater, or smaller, across the range of measurements. A measurement method may have either an attendant fixed bias or proportional bias, or both \citep{ludbrook02}.
+
+If the basic assumptions underlying linear regression are not met, the regression equation, and consequently the estimations of bias are undermined. Outliers are a source of error in regression estimates.
+% Determination of these biases shall be discussed in due course.
+
 	\section*{Intra-class correlation coefficient}
  
 	The ICC, which takes on values between 0 and 1, is based on analysis of variance techniques. It is close to 1 when the differences between paired measurements is very small compared to the differences between subjects. Of these three procedures--t test, correlation coefficient, intra-class correlation coefficient--the ICC is best because it can be large only if there is no bias and the paired measurements are in good agreement, but it suffers from the same faults ii and iii as ordinary correlation coefficients. The magnitude of the ICC can be manipulated by the choice of samples to split and says nothing about the magnitude of the paired differences.
@@ -494,6 +520,28 @@ correct for those effects.
 	
 	%----------------------------------------------------------------------------%
 
+	\section{Sampling Scheme : Linked and Unlinked Replicates}
+	Measurements taken in quick succession by the same observer using the same instrument on the same subject can be considered true replicates. \citet{ARoy2009} notes that some measurements may not be `true' replicates.
+	
+	Roy's methodology assumes the use of `true replicates'. However data may not be collected in this way. In such cases, the correlation matrix on the replicates may require a different structure, such as the autoregressive order one $AR(1)$ structure. However determining MLEs with such a structure would be computational intense, if possible at all.
+	
+	
+	
+	\emph{
+		One important feature of replicate observations is that they should be independent
+		of each other. In essence, this is achieved by ensuring that the observer makes each
+		measurement independent of knowledge of the previous value(s). This may be difficult
+		to achieve in practice.} (Check who said this
+	)
+	%----------------------------------------------------------------------------%
+	
+	\section{Linked replicates}
+	
+	\citet{BXC2008} proposes the addition of an random effects term to their model when the replicates are linked. This term is used to describe the `item by replicate' interaction, which is independent of the methods. This interaction is a source of variability independent of the methods. Therefore failure to account for it will result in variability being wrongly attributed to the methods.
+	
+
+	
+	
 	\section{Definition of Replicate measurements}
 	Further to \citet{BA99}, a formal definition is required of what exactly replicate measurements are
 	
@@ -595,65 +643,8 @@ correct for those effects.
 	
 	
 	
-	\section{Sampling Scheme : Linked and Unlinked Replicates}
-	Measurements taken in quick succession by the same observer using the same instrument on the same subject can be considered true replicates. \citet{ARoy2009} notes that some measurements may not be `true' replicates.
-	
-	Roy's methodology assumes the use of `true replicates'. However data may not be collected in this way. In such cases, the correlation matrix on the replicates may require a different structure, such as the autoregressive order one $AR(1)$ structure. However determining MLEs with such a structure would be computational intense, if possible at all.
-	
-	
-	
-	\emph{
-		One important feature of replicate observations is that they should be independent
-		of each other. In essence, this is achieved by ensuring that the observer makes each
-		measurement independent of knowledge of the previous value(s). This may be difficult
-		to achieve in practice.} (Check who said this
-	)
-	%----------------------------------------------------------------------------%
-	
-	
-	%-----------------------------------------------------------------------------------------------------%
-	
-	
-	
-	\bibliographystyle{chicago}
-	\bibliography{DB-txfrbib}
-	\section{Linked replicates}
-	
-	\citet{BXC2008} proposes the addition of an random effects term to their model when the replicates are linked. This term is used to describe the `item by replicate' interaction, which is independent of the methods. This interaction is a source of variability independent of the methods. Therefore failure to account for it will result in variability being wrongly attributed to the methods.
-	
-	\citet{BXC2008} introduces a second data set; the oximetry study. This study done at the Royal Children�s Hospital in
-	Melbourne to assess the agreement between co-oximetry and pulse oximetry in small babies.
-	
-	In most cases, measurements were taken by both method at three different times. In some cases there are either one or two pairs of measurements, hence the data is unbalanced. \citet{BXC2008} describes many of the children as being very sick, and with very low oxygen saturations levels. Therefore it must be assumed that a biological change can occur in interim periods, and measurements are not true replicates.
-	
-	\citet{BXC2008} demonstrate the necessity of accounting for linked replicated by comparing the limits of agreement from the `oximetry' data set using a model with the additional term, and one without. When the interaction is accounted for the limits of agreement are (-9.62,14.56). When the interaction is not accounted for, the limits of agreement are (-11.88,16.83). It is shown that the failure to include this additional term results in an over-estimation of the standard deviations of differences.
-	
-	Limits of agreement are determined using Roy's methodology, without adding any additional terms, are found to be consistent with the `interaction' model; $(-9.562, 14.504 )$. Roy's methodology assumes that replicates are linked. However, following Carstensen's example, an addition interaction term is added to the implementation of Roy's model to assess the effect, the limits of agreement estimates do not change. However there is a conspicuous difference in within-subject matrices of Roy's model and the modified model (denoted $1$ and $2$ respectively);
-	\begin{equation}
-	\hat{\boldsymbol{\Lambda}}_{1}= \left(\begin{array}{cc}
-	16.61 &	11.67\\
-	11.67 & 27.65 \end{array}\right) \qquad
-	\boldsymbol{\hat{\Lambda}}_{2}= \left( \begin{array}{cc}
-	7.55 & 2.60 \\
-	2.60 & 18.59 \end{array} \right). 
-	\end{equation}
-	
-	\noindent (The variance of the additional random effect in model $2$ is $3.01$.)
-	
-	\citet{akaike} introduces the Akaike information criterion ($AIC$), a model 
-	selection tool based on the likelihood function. Given a data set, candidate models
-	are ranked according to their AIC values, with the model having the lowest AIC being considered the best fit.Two candidate models can said to be equally good if there is a difference of less than $2$ in their AIC values.
-	
-	The Akaike information criterion (AIC) for both models are $AIC_{1} = 2304.226$ and $AIC_{2} = 2306.226$ , indicating little difference in models. The AIC values for the Carstensen `unlinked' and `linked' models are $1994.66$ and $1955.48$ respectively, indicating an improvement by adding the interaction term.
-	
-	The $\boldsymbol{\hat{\Lambda}}$ matrices are informative as to the difference between Carstensen's unlinked and linked models. For the oximetry data, the covariance terms (given above as 11.67 and 2.6 respectively ) are of similar magnitudes to the variance terms. Conversely for the `fat' data the covariance term ($-0.00032$) is negligible. When the interaction term is added to the model, the covariance term remains negligible. (For the `fat' data, the difference in AIC values is also approximately $2$).
-	
-	To conclude, Carstensen's models provided a rigorous way to determine limits of agreement, but don't provide for the computation of $\boldsymbol{\hat{D}}$ and $\boldsymbol{\hat{\Lambda}}$. Therefore the test's proposed by \citet{roy} can not be implemented. Conversely, accurate limits of agreement as determined by Carstensen's model may also be found using Roy's method. Addition of the interaction term erodes the capability of Roy's methodology to compare candidate models, and therefore shall not be adopted.
-	
-	Finally, to complement the blood pressure (i.e.`J vs S') method comparison from the previous section (i.e.`J vs S'), the limits of agreement are $15.62 \pm 1.96 \times 20.33 = (-24.22, 55.46)$.)
-	\newpage
-	
-	
+
+
 	\section{Repeatability}
 	As mentioned previously, \citet{Barnhart} emphasizes the importance of repeatability as part of an overall method comparison study. The coefficient of repeatability was proposed by \citet{BA99}, and is referenced in subsequent papers, such as \citet{BXC2008}. The coefficient of repeatability is a measure of how well a
 	measurement method agrees with itself over replicate measurements
@@ -968,11 +959,13 @@ If the variation between replicates within item can be
 	
 	$\sigma^2_{A}$ is the variance of variable $A$, $\sigma^2_{B}$ is the variance of variable $B$ and $\sigma_{AB}$ is the covariance of the two variable. It is assumed that $\boldsymbol{\Sigma}$ does not depend on a particular time point, and is the same over all time points.
 	
-	%------------------------------------------------------------------------------%
+	
+	%-----------------------------------------------------%
 	
 	
 	
-	
+	\bibliographystyle{chicago}
+	\bibliography{DB-txfrbib}
 	
 
 \end{document}
