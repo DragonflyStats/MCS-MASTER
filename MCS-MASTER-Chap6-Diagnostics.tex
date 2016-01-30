@@ -61,18 +61,18 @@ rulesepcolor=\color{black},
 \author{Kevin O'Brien}
 \title{Mixed Models for Method Comparison Studies}
 \tableofcontents
-\begin{abstract}
-	Model diagnostic techniques, well established for classical models, have since been adapted for use with linear mixed effects models. However, diagnostic techniques for LME models are inevitably more difficult to implement, due to the increased complexity. \\ \bigskip
-	
-	
-	\citet{schabenberger} describes the examination of model-data agreement as comprising several elements; \begin{itemize}
-		\item residual analysis, 
-		\item goodness of fit, 
-		\item collinearity diagnostics
-		\item influence analysis.
-	\end{itemize} 
-	
-\end{abstract}
+%\begin{abstract}
+%	Model diagnostic techniques, well established for classical models, have since been adapted for use with linear mixed effects models. However, diagnostic techniques for LME models are inevitably more difficult to implement, due to the increased complexity. \\ \bigskip
+%	
+%	
+%	\citet{schabenberger} describes the examination of model-data agreement as comprising several elements; \begin{itemize}
+%		\item residual analysis, 
+%		\item goodness of fit, 
+%		\item collinearity diagnostics
+%		\item influence analysis.
+%	\end{itemize} 
+%	
+%\end{abstract}
 \chapter{Influence Diagnostics}
 
 
@@ -81,17 +81,7 @@ rulesepcolor=\color{black},
 \section{Framework for Model Validation using Residual Diagnostics}
 In statistical modelling, the process of model validation is a critical step, but also a step that is too often overlooked. A very simple procedure is to examine commonly encountered
 metrics, such as the $R^2$ value. However, using a small handful of simple measures and methods is insufficient to properly assess the quality of a fitted model. To do so properly, a full and comprehensive
-analysis that tests of all of the assumptions, as far as possible, must be carried out. A statistical model, whether of the fixed-effects or mixed-effects variety, represents how you think your data
-were generated. Following model specification and estimation, it is of interest to explore the model-data
-agreement by raising questions such as
-\begin{itemize}
-	\item Does the model-data agreement support the model assumptions?
-	\item Should model components be refined, and if so, which components? For example, should regressors
-	be added or removed, and is the covariation of the observations modeled properly?
-	\item Are the results sensitive to model and/or data? Are individual data points or groups of cases particularly
-	influential on the analysis?
-\end{itemize}
-
+analysis that tests of all of the assumptions, as far as possible, must be carried out.
 
 
 \section{Introduction}
@@ -100,7 +90,7 @@ metrics, such as the AIC and $R^2$ measures. However, using a small handful of s
 analysis that tests of all of the assumptions, as far as possible, must be carried out. 
 
 A statistical model, whether of the fixed-effects or mixed-effects variety, represents how you think your data were generated. Following model specification and estimation, it is of interest to explore the model-data
-agreement by raising pertinent questions. Further to the analysis of residuals, \citet{schab} recommends the examination of the following questions.
+agreement by raising pertinent questions. Further to the analysis of residuals, \citet{schabenberger} recommends the examination of the following questions.
 \begin{itemize}
 	\item Does the model-data agreement support the model assumptions?
 	\item Should model components be refined, and if so, which components? For example, should certain explanatory variables
@@ -112,13 +102,17 @@ agreement by raising pertinent questions. Further to the analysis of residuals, 
 %\subsection{Deviance}
 %In statistics, deviance is a quality of fit statistic for a model that is often used for statistical hypothesis testing. It is a generalization of the idea of using the sum of squares of residuals in ordinary least squares to cases where model-fitting is achieved by maximum likelihood.
 %
-%%-----------------------------------%
-
-
-%================================================================================ %
-
-
-%========================================================================================================= %
+\citet{schabenberger} describes a simple procedure for quantifying influence.
+\begin{itemize}
+	\item Firstly a model should be fitted to the data, and
+	estimates of the parameters should be obtained.
+	\item The second step is that either single or multiple data points, specifically outliers,
+	should be omitted from the analysis, with the original parameter
+	estimates being updated.
+	\item  The final step of the procedure is comparing the 	sets of estimates computed from the entire and reduced data sets
+	to determine whether the absence of observations changed the
+	analysis.
+\end{itemize}
 \section{Outliers and Leverage}
 
 
@@ -249,31 +243,6 @@ For classical OLS \citet{cook86} introduces powerful tools for local-influence a
 
 
 
-
-% \subsection{Cook's 1986 paper on Local Influence}%1.7.1
-	
-
-%---------------------------------------------------------------%
-% We have developed a function in R, which allows performing influence diagnostics for linear mixed effects models 
-% fitted using the lme() function from the nlme package. 
-% The use of the new function is illustrated using data from a randomized clinical trial.
-
-% http://www.jstor.org/discover/10.2307/1269550?uid=3738232&uid=2&uid=4&sid=21103552726783
-
-% Abstract for CPJ paper
-% Mixed linear models arise in many areas of application. 
-% Standard estimation methods for mixed models are sensitive to bizarre observations. 
-% Such influential observations can completely distort an analysis and lead to inappropriate actions and conclusions. 
-% We develop case-deletion diagnostics for detecting influential observations in mixed linear models. 
-% Diagnostics for both fixed effects and variance components are proposed. 
-% Computational formulas are given that make the procedures feasible. 
-% The methods are illustrated using examples.
-
-
-
-
-
-
 \subsection{Influence analysis for LME Models} %1.7
 
 
@@ -389,19 +358,7 @@ We use the subscript $(U)$ to denote quantities obtained without the observation
 %===========================================================================%
 
 
-%==========================================================================%
-%This paper presents the extension of traditional tools and statistical measures for influence and residual
-%analysis to the linear mixed model and demonstrates their implementation in the MIXED procedure (experimental
-%features in SAS 9.1). The remainder of this paper is organized as follows. The “Background” section
-%briefly discusses some mixed model estimation theory and the challenges to model diagnosis that result
-%from it.
 
-%	 The diagnostics implemented in the MIXED procedure are discussed in the “Residual Diagnostics
-%	in the MIXED Procedure” section (page 3) and the “Influence Diagnostics in the MIXED Procedure” section
-%	(page 5). The syntax options and suboptions you use to request the various diagnostics are briefly sketched
-%	in the “Syntax” section (page 9). The presentation concludes with an example.
-%	
-%	
 %====================================================================================================================%
 
 \section{Leverage}
@@ -743,10 +700,6 @@ The new measures that are proposed by \citet{Demi} are explicitly defined functi
 \citet{Demi} proposes two likelihood-based diagnostics for identifying individuals that can influence the choice between two competing models.
 
 
-\newpage
-
-
-
 
 \section{Iterative Influence Analysis}
 
@@ -881,6 +834,7 @@ For overall influence, the most common approaches are the \textit{likelihood dis
 %==================================================================== %
 
 \chapter{Deletion Diagnostics}
+Case-deletion diagnostics provide a useful tool for identifying influential observations and outliers.
 
 \section{Christensen et al}         %-Case Deletion section 6.3
 Christensen, Pearson and Johnson (1992) (hereafter CPJ) studied case deletion diagnostics, in particular the analog of Cooks
@@ -888,21 +842,19 @@ distance, for diagnosing influential observations when estimating
 the fixed effect parameters and variance
 components.
 
-\citet{Christensen} develops \index{case deletion diagnostics} case deletion diagnostics, in particular the equivalent of \index{Cook's distance} Cook's distance, for diagnosing influential observations when estimating the fixed effect parameters and variance components.
+\citet{cook86} introduces powerful tools for local-influence
+assessment and examining perturbations in the assumptions of a
+model. In particular the effect of local perturbations of
+parameters or observations are examined. \citet{Christensen} develops \index{case deletion diagnostics} case deletion diagnostics, in particular the equivalent of \index{Cook's distance} Cook's distance, for diagnosing influential observations when estimating the fixed effect parameters and variance components.
 
 \citet{Christensen} provides an overview of case deletion
 diagnostics for fixed effect models.
 
-\citet{cook86} introduces powerful tools for local-influence
-assessment and examining perturbations in the assumptions of a
-model. In particular the effect of local perturbations of
-parameters or observations are examined.
+
 
 \citet{Christensen} notes the case deletion diagnostics
 techniques have not been applied to linear mixed effects models
-and seeks to develop methodologies in that respect.
-
-\citet{Christensen} develops these techniques in the context of REML.
+and seeks to develop methodologies in that respect. \citet{Christensen} develops these techniques in the context of REML.
 
 
 The second of christensen's propostions is the following set of
@@ -945,7 +897,7 @@ Since the pioneering work of Cook in 1977, deletion measures have been applied t
 
 Deletion diagnostics provide a means of assessing the influence of an observation (or groups of observations) on inference on the estimated parameters of LME models.
 
-Case-deletion diagnostics provide a useful tool for identifying influential observations and outliers.
+
 
 
 The key to making deletion diagnostics useable is the development of efficient computational formulas, allowing one to obtain the \index{case deletion diagnostics} case deletion diagnostics by making use of basic building blocks, computed only once for the full model.
@@ -957,9 +909,9 @@ Data from single individuals, or a small group of subjects may influence non-lin
 
 The computation of case deletion diagnostics in the classical model is made simple by the fact that estimates of $\beta$ and $\sigma^2$, which exclude the $i-$th observation, can be computed without re-fitting the model. Such update formulas are available in the mixed model only if you assume that the covariance parameters are not affected by the removal of the observation in question. This is rarely a reasonable assumption.
 
-\citet{Christiansen} notes the case deletion diagnostics techniques have not been applied to linear mixed effects models and seeks to develop methodologies in that respect. \citet{Christiansen} develops these techniques in the context of REML
+\citet{Christensen} notes the case deletion diagnostics techniques have not been applied to linear mixed effects models and seeks to develop methodologies in that respect. \citet{Christensen} develops these techniques in the context of REML
 
-\citet{Christiansen} develops \index{case deletion diagnostics} case deletion diagnostics, in particular the equivalent of \index{Cook's distance} Cook's distance, for diagnosing influential observations when estimating the fixed effect parameters and variance components.
+\citet{Christensen} develops \index{case deletion diagnostics} case deletion diagnostics, in particular the equivalent of \index{Cook's distance} Cook's distance, for diagnosing influential observations when estimating the fixed effect parameters and variance components.
 
 %\subsection*{3. Case Deletion Diagnostics for LME Data: Cooks Distance, DFBetas}
 In this section we introduce influence analysis and case deletion diagnosics. A full overview of the topic will be provided although there are specific tools that are particularly useful in the case of MCS problems: specifically the Cook's Distance and the DFBeta.
@@ -1410,17 +1362,7 @@ Deviations from one indicate the group $U$ is influential. Since $\mbox{var}(\ha
 \citet{schabenberger} examines the use and implementation of influence measures in LME models.
 
 
-\citet{schabenberger} describes a simple procedure for quantifying influence.
-\begin{itemize}
-	\item Firstly a model should be fitted to the data, and
-	estimates of the parameters should be obtained.
-	\item The second step is that either single or multiple data points, specifically outliers,
-	should be omitted from the analysis, with the original parameter
-	estimates being updated.
-	\item  The final step of the procedure is comparing the 	sets of estimates computed from the entire and reduced data sets
-	to determine whether the absence of observations changed the
-	analysis.
-\end{itemize}
+
 This is known as `\textit{leave one out} or \texttt{leave k
 	out' analysis}.
 
