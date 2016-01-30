@@ -408,7 +408,20 @@ Carstensen's approach is that of a standard two-way mixed effects ANOVA with rep
 
 %Carstensen specifies the variance of the interaction terms as being univariate normally distributed. As such, $\mathrm{Cov}(c_{mi}, c_{m^\prime i})= 0.$
 
+	\section{Difference Variance further to Carstensen}
+	
+	\citet{BXC2008} states a model where the variation between items
+	for method $m$ is captured by $\tau_m$ (our notation $d^2_m$) and the within-item
+	variation by $\sigma_m$.
+	
 When only two methods are to be compared, separate estimates of $\tau^2_m$ can not be obtained. Instead the average value $\tau^2$ is obtained and used.
+
+	
+	\emph{The formulation of this model is general and refers to comparison
+		of any number of methods  however, if only two methods are
+		compared, separate values of $\tau^2_1$ and $\tau^2_2$ cannot be
+		estimated, only their average value $\tau$, so in the case of only
+		two methods we are forced to assume that $\tau_1 = \tau_2 = \tau$} \citep{BXC2008}.
 
 %---Key difference 1---The True Value
 %---Carstensen's limits of agreement
@@ -444,26 +457,8 @@ With regards to specifying the variance terms, Carstensen remarks that using his
 
 
 
-Further to his model, Carstensen computes the limits of agreement
-as
 
-\[
-\hat{\alpha}_1 - \hat{\alpha}_2 \pm \sqrt{2 \hat{\tau}^2 +
-	\hat{\sigma}^2_1 + \hat{\sigma}^2_2}
-\]
-
-
-
-As the difference between methods is of interest, the item term can be disregarded.
-
-We assume that that the variance of the measurements is different for both methods, but it does not mean that the separate variances can be estimated with the data available.\\
-% Carstensen also uses a LME model for examining MCS with replicates.\\
-
-
-% Carstensen allocates a fixed, but unknown, mean for each individual. [Grubbs(1948) model.]\\
-
-% His interest lies in calculating the LoA as opposed to formalized testing.
-
+We assume that that the variance of the measurements is different for both methods, but it does not mean that the separate variances can be estimated with the data available.
 
 
 
@@ -485,25 +480,31 @@ We assume that that the variance of the measurements is different for both metho
 
 In cases where there is negligible covariance between methods, the limits of agreement computed using Roy's model accord with those computed using model described by (\ref{BXC-model}). 
 
-In cases where some degree of covariance is present between the two methods, the limits of agreement computed using models will differ. In the presented
-example, it is shown that Roy's LoAs are lower than those of Carstensen, when covariance is present.
-
 \citet{BXC2008} also presents a methodology to compute the limits of agreement based on LME models. In many cases the limits of agreement derived from this method accord with those to Roy's model. However, in other cases dissimilarities emerge. An explanation for this differences can be found by considering how the respective models account for covariance in the observations. 
 
-Importantly, Carstensen's underlying model differs from Roy's model in some key respects, and therefore a prior discussion of Carstensen's model is required.
-The method of computation is the same as Roy's model, but with the covariance estimates set to zero.
+Importantly, Carstensen's underlying model differs from Roy's model in some key respects, and therefore a prior discussion of Carstensen's model is required. The method of computation is the same as Roy's model, but with the covariance estimates set to zero.
 
 Specifying the relevant terms using a bivariate normal distribution, Roy's model allows for both between-method and within-method covariance. \citet{BXC2008} formulate a model whereby random effects have univariate normal distribution, and no allowance is made for correlation between observations.
 
-A consequence of this is that the between-method and within-method covariance are zero. 
+A consequence of this is that the between-method and within-method covariance are zero. In cases where there is negligible covariance between methods, the limits of agreement computed using Roy's model accord with those computed using Carstensen's model. In cases where some degree of covariance is present between the two methods, the limits of agreement computed using models will differ. In the presented example, it is shown that Roy's LoAs are lower than those of Carstensen, when covariance is present. 
 
-In cases where there is negligible covariance between methods, both sets of limits of agreement are very similar to each other. In cases where there is a substantial level of covariance present between the two methods, the limits of agreement computed using models will differ.
+\[\left(\begin{array}{cc}
+\omega^1_2  & 0 \\
+0 & \omega^2_2 \\
+\end{array}  \right)
+=  \left(
+\begin{array}{cc}
+\tau^2  & 0 \\
+0 & \tau^2 \\
+\end{array} \right)+
+\left(
+\begin{array}{cc}
+\sigma^2_1  & 0 \\
+0 & \sigma^2_2 \\
+\end{array}\right)
+\]
 
-In cases where there is negligible covariance between methods, the limits of agreement computed using Roy's model accord with those computed using Carstensen's model. In cases where some degree of covariance is present between the two methods, the limits of agreement computed using models will differ. In the presented example, it is shown that Roy's LoAs are lower than those of Carstensen, when covariance is present. 
-
-Importantly, estimates required to calculate the limits of agreement are not extractable, and therefore the calculation must be done by hand. Carstensen presents a model where the variation between items for
-method $m$ is captured by $\sigma_m$ and the within item variation
-by $\tau_m$. 	Further to his model, Carstensen computes the limits of agreement
+Importantly, estimates required to calculate the limits of agreement are not extractable, and therefore the calculation must be done by hand. Carstensen presents a model where the variation between items for method $m$ is captured by $\sigma_m$ and the within item variation by $\tau_m$. Further to his model, Carstensen computes the limits of agreement
 as
 
 \[
@@ -511,8 +512,8 @@ as
 	\hat{\sigma}^2_1 + \hat{\sigma}^2_2}
 \]
 
-
-
+As the difference between methods is of interest, the item term can be disregarded.
+%================================================================================================== %
 \section{Computing LoAs from LME models}
 
 \citet{ARoy2009} has demonstrated a methodology whereby $d^2_{A}$ and $d^2_{B}$ can be estimated separately. Also covariance terms are present in both $\boldsymbol{D}$ and $\boldsymbol{\Lambda}$. Using Roy's methodology, the variance of the differences is
@@ -533,15 +534,7 @@ All of the necessary terms are presented in the computer output. The limits of a
 
 
 
-Carstensen presents a model where the variation between items for method $m$ is captured by $\sigma_m$ and the within item variation by $\tau_m$.
 
-Further to his model, Carstensen computes the limits of agreement
-as
-
-\[
-\hat{\alpha}_1 - \hat{\alpha}_2 \pm \sqrt{2 \hat{\tau}^2 +
-	\hat{\sigma}^2_1 + \hat{\sigma}^2_2}
-\]
 
 The respective estimates computed by both methods are tabulated as follows. Evidently there is close correspondence between both sets of estimates.
 
@@ -577,20 +570,12 @@ based.
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-
-%-----------------------------------------------------------------------%
-%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 This model includes a method by item interaction term.\\
 
-Carstensen presents two models. One for the case where the replicates, and a second for when they are linked.\\
-Carstensen's model does not take into account either between-item or within-item covariance between methods.\\
-In the presented example, it is shown that Roy's LoAs are lower than those of Carstensen.
-
-
+Carstensen presents two models. One for the case where the replicates, and a second for when they are linked. Carstensen's model does not take into account either between-item or within-item covariance between methods.
 
 
 \[\left(\begin{array}{cc}
@@ -609,22 +594,6 @@ In the presented example, it is shown that Roy's LoAs are lower than those of Ca
 \end{array}\right)
 \]
 
-
-
-
-
-
-%-----------------------------------------------------------------------------------%
-%
-% \frametitle{Carstensen model in the single measurement case}
-
-
-
-
-%-----------------------------------------------------------------------------------%
-%
-% \frametitle{Carstensen model in the single measurement case}
-
 \begin{equation}
 y_{mi}  = \alpha_{m} + \mu_{i} + e_{mi} \qquad  e_{mi} \sim \mathcal{N}(0,\sigma^{2}_{m})
 \end{equation}
@@ -635,28 +604,13 @@ For the replicate case, an interaction term $c$ is added to the model, with an a
 
 
 %-------------------------------------------------------------------------------------%
-\section{Carstensen 2004 Model}
 
-%If the exact cause of disagreement between the two methods is not of interest, then the overall variability test $H_4$ %is an alternative to testing $H_2$ and $H_3$ separately.
-
-
-\citet{BXC2008} develop their model from a standard two-way analysis of variance model, reformulated for the case of replicate measurements, with random effects terms specified as appropriate.
-Their model can be written as
-%describing $y_{mir} $, again the $r$th replicate measurement on the $i$th item by the $m$th method ($m=1,2,$ %$i=1,\ldots,N,$ and $r = 1,\ldots,n$),
-
-\begin{equation}\label{BXC-model}
-y_{mir}  = \alpha_{m} + \mu_{i} + a_{ir} + c_{mi} + \varepsilon_{mir}.
-\end{equation}
-The fixed effects $\alpha_{m}$ and $\mu_{i}$ represent the intercept for method $m$ and the `true value' for item $i$ respectively. The random-effect terms comprise an item-by-replicate interaction term $a_{ir} \sim \mathcal{N}(0,\varsigma^{2})$, a method-by-item interaction term $c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}),$ and model error terms $\varepsilon_{mir} \sim \mathcal{N}(0,\varphi^{2}_{m}).$ All random-effect terms are assumed to be independent. For the case when replicate measurements are assumed to be exchangeable for item $i$, $a_{ir}$ can be removed. The model expressed in (2) describes measurements by $m$ methods, where $m = \{1,2,3\ldots\}$. Based on the model expressed in (2), \citet{BXC2008} compute the limits of agreement as
-\[
-\alpha_1 - \alpha_2 \pm 2 \sqrt{ \tau^2_1 +  \tau^2_2 +  \varphi^2_1 +  \varphi^2_2 }
-\]
-\citet{BXC2008} notes that, for $m=2$,  separate estimates of $\tau^2_m$ can not be obtained. To overcome this, the assumption of equality, i.e. $\tau^2_1 = \tau^2_2$ is required.
-
-%%---Comparative Complexity
+\section{Differences}
 There is a substantial difference in the number of fixed parameters used by the respective models; the model in (\ref{Roy-model}) requires two fixed effect parameters, i.e. the means of the two methods, for any number of items $N$, whereas the model in (\ref{BXC-model}) requires $N+2$ fixed effects.
 
-Allocating fixed effects to each item $i$ by (\ref{BXC-model}) accords with earlier work on comparing methods of measurement, such as \citet{Grubbs48}. However allocation of fixed effects in ANOVA models suggests that the group of items is itself of particular interest, rather than as a representative sample used of the overall population. However this approach seems contrary to the purpose of LOAs as a prediction interval for a population of items. Conversely, \citet{roy}
+Allocating fixed effects to each item $i$ by (\ref{BXC-model}) accords with earlier work on comparing methods of measurement, such as \citet{Grubbs48}. However allocation of fixed effects in ANOVA models suggests that the group of items is itself of particular interest, rather than as a representative sample used of the overall population. 
+
+However this approach seems contrary to the purpose of LOAs as a prediction interval for a population of items. Conversely, \citet{roy}
 uses a more intuitive approach, treating the observations as a random sample population, and allocating random effects accordingly.
 
 
@@ -665,20 +619,8 @@ uses a more intuitive approach, treating the observations as a random sample pop
 
 
 \section{Correlation terms}
-The methodology proposed by \citet{ARoy2009} is largely based on \citet{hamlett}, which in turn follows on from \citet{lam}.
-
-%Lam 99
-%In many cases, repeated observation are collected from each subject in sequence  and/or longitudinally.
-
-%Hamlett
-%Hamlett re-analyses the data of lam et al to generalize their model to cover other settings not covered by the Lam %method.
-
-Hamlett re-analyses the data of \citet{lam} to generalize their model to cover other settings not covered by the Lam method.
-
-In many cases, repeated observation are collected from each subject in sequence  and/or longitudinally.
-
-
-\[ y_i = \alpha + \mu_i + \epsilon \]
+The methodology proposed by \citet{ARoy2009} is largely based on \citet{hamlett}, which in turn follows on from \citet{lam}. Hamlett re-analyses the data of \citet{lam} to generalize their model to cover other settings not covered by the Lam method. In many cases, repeated observation are collected from each subject in sequence  and/or longitudinally.
+% \[ y_i = \alpha + \mu_i + \epsilon \]
 
 
 Bivariate correlation coefficients have been shown to be of
@@ -716,16 +658,12 @@ This extra interaction term provides a source of extra variability, but this var
 \citet{Roy} also assigns a random effect $u_{mi}$ for each response $y_{mir}$. Importantly Roy's model assumes linkage.
 
 
-\citet{BXC2008} formulates an LME model, both in the absence and the presence of an interaction term.\citet{bxc} uses both to demonstrate the importance of using an interaction term. Failure to take the replication structure into
+\citet{BXC2008} formulates an LME model, both in the absence and the presence of an interaction term. \citet{BXC2008} uses both to demonstrate the importance of using an interaction term. Failure to take the replication structure into
 account results in over-estimation of the limits of agreement. For the Carstensen estimates below, an interaction term was included when computed.
 
 
 
-Carstensen presents a model where the variation between items for
-method $m$ is captured by $\sigma_m$ and the within item variation
-by $\tau_m$.
-
-Further to his model, Carstensen computes the limits of agreement
+Carstensen presents a model where the variation between items for method $m$ is captured by $\sigma_m$ and the within item variation by $\tau_m$. Further to his model, Carstensen computes the limits of agreement
 as
 
 \[
@@ -761,25 +699,8 @@ as
 	and within-item variability matrices are zero. By extension the
 	overall variability off diagonal elements are also zero.
 
-Carstensen presents two models. One for the case where the replicates, and a second for when they are linked.
-Carstensen's model does not take into account either between-item or within-item covariance between methods. In the presented example, it is shown that Roy's LoAs are lower than those of Carstensen.
 
 
-\[\left(\begin{array}{cc}
-\omega^1_2  & 0 \\
-0 & \omega^2_2 \\
-\end{array}  \right)
-=  \left(
-\begin{array}{cc}
-\tau^2  & 0 \\
-0 & \tau^2 \\
-\end{array} \right)+
-\left(
-\begin{array}{cc}
-\sigma^2_1  & 0 \\
-0 & \sigma^2_2 \\
-\end{array}\right)
-\]
 
 	Also, implementation requires that the between-item variances are
 	estimated as the same value: $g^2_1 = g^2_2 = g^2$. Necessarily
@@ -809,7 +730,7 @@ matrix are close to zero, the limits of agreement due to \citet{BXC2008} are ver
 \section{Differences Between Models}
 \citet{BXC2008} also presents a methodology to compute the limits of agreement based on LME models. In many cases the limits of agreement derived from this method accord with those to Roy's model. However, in other cases dissimilarities emerge. An explanation for this differences can be found by considering how the respective models account for covariance in the observations. Specifying the relevant terms using a bivariate normal distribution, Roy's model allows for both between-method and within-method covariance. \citet{BXC2008} formulate a model whereby random effects have univariate normal distribution, and no allowance is made for correlation between observations.
 
-A consequence of this is that the between-method and within-method covariance are zero. In cases where there is negligible covariance between methods, both sets of limits of agreement are very similar to each other. In cases where there is a substantial level of covariance present between the two methods, the limits of agreement computed using models will differ.
+
 
 %%---Comparative Complexity
 There is a substantial difference in the number of fixed parameters used by the respective models. For the model in (\ref{Roy-model}) requires two fixed effect parameters, i.e. the means of the two methods, for any number of items $N$. In contrast, the model described by (\ref{BXC-model}) requires $N+2$ fixed effects for $N$ items. The inclusion of fixed effects to account for the `true value' of each item greatly increases the level of model complexity.
@@ -824,9 +745,6 @@ When only two methods are compared, \citet{BXC2008} notes that separate estimate
 \subsection{Covariance}
 
 
-In cases where there is negligible covariance between methods, the limits of agreement computed using Roy's model accord with those computed using Carstensen's model. In cases where some degree of
-covariance is present between the two methods, the limits of agreement computed using models will differ. In the presented
-example, it is shown that Roy's LoAs are lower than those of Carstensen, when covariance is present.
 
 Importantly, estimates required to calculate the limits of agreement are not extractable, and therefore the calculation must
 be done by hand.
@@ -837,6 +755,8 @@ by $\tau_m$.
 
 In contrast to Roy's model, Carstensen's model requires that commonly used assumptions be applied, specifically that the off-diagonal elements of the between-item and within-item variability matrices are zero. By
 extension the overall variability off-diagonal elements are also zero. Also, implementation requires that the between-item variances are estimated as the same value: $\tau^2_1 = \tau^2_2 = \tau^2$.
+
+
 As a consequence, Carstensen's method does not allow for a formal test of the between-item variability.
 
 
@@ -893,17 +813,7 @@ as
 \hat{\alpha}_1 - \hat{\alpha}_2 \pm \sqrt{2 \hat{d}^2 + 	\hat{\sigma}^2_1 + \hat{\sigma}^2_2}
 \]
 
-	\section{Difference Variance further to Carstensen}
-	
-	\citet{BXC2008} states a model where the variation between items
-	for method $m$ is captured by $\tau_m$ (our notation $d^2_m$) and the within-item
-	variation by $\sigma_m$.
-	
-	\emph{The formulation of this model is general and refers to comparison
-		of any number of methods  however, if only two methods are
-		compared, separate values of $\tau^2_1$ and $\tau^2_2$ cannot be
-		estimated, only their average value $\tau$, so in the case of only
-		two methods we are forced to assume that $\tau_1 = \tau_2 = \tau$}\citep{BXC2008}.
+
 
 	\section{Relevance of Roy's Methodology}
 

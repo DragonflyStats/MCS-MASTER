@@ -121,6 +121,25 @@ to be inappropriate.
 	The random error term for each response is denoted $\varepsilon_{mir}$ having $\mathrm{E}(\varepsilon_{mir})=0$, $\mathrm{Var}(\varepsilon_{mir})=\varphi^2_m$. All the random effects are assumed independent, and that all replicate measurements are assumed to be exchangeable within each method.
 	
 
+The case-wise differences and means are calculated as $d_{i} =
+x_{i}-y_{i}$ and $a_{i} = (x_{i}+y_{i})/2$  respectively. Both
+$d_{i}$ and $a_{i}$ are assumed to follow a bivariate normal
+distribution with $E(d_{i})= \mu_{d} = \mu_{1} - \mu_{2}$ and
+$E(a_{i})= \mu_{a} = (\mu_{1} + \mu_{2})/2$. The variance matrix
+$\Sigma_{(a,d)}$ is
+
+\begin{eqnarray}
+\Sigma_{(a,d)}= \left[\begin{matrix}
+\sigma^{2}_{1}+\sigma^{2}_{2}&\frac{1}{2}(\sigma^{2}_{1}-\sigma^{2}_{2})\\
+\frac{1}{2}(\sigma^{2}_{1}-\sigma^{2}_{2})&\sigma^{2}+
+\frac{1}{4}(\sigma^{2}_{1}+\sigma^{2}_{2})
+\end{matrix} \right].
+\end{eqnarray}
+
+
+Likewise the separate $\alpha$ can not be estimated, only their difference can be estimated as $\bar{d}$ (i.e. the inter-method bias). This model implies that the difference between the paired measurements can be expressed as
+\[ d_{i} = y_{1i} - y_{2i} \sim \mathcal{N} (\alpha_{1} - \alpha_{2}, \sigma^2_{1} + \sigma^2_{2}). \]
+Importantly, this is independent of the item levels $\mu_i$. As the case-wise differences are of interest, the parameters of interest are the fixed effects for methods $\alpha_{m}$.
 	
 	
 %	The case-wise differences are expressed as $d_{i} = y_{1i} - y_{2i}$. Even though the separate variances can not be identified, their sum can be estimated by the empirical variance of the differences, using standard statistical theory. The covariance matrix for case-wise differences can be specified as
@@ -130,24 +149,6 @@ to be inappropriate.
 %	\frac{1}{2}(\sigma^2_1 - \sigma^2_2) &   \sigma^2_b + \frac{1}{4}(\sigma^2_1 + \sigma^2_2)
 %	\end{array}\right).
 %	\]
-	The case-wise differences and means are calculated as $d_{i} =
-	x_{i}-y_{i}$ and $a_{i} = (x_{i}+y_{i})/2$  respectively. Both
-	$d_{i}$ and $a_{i}$ are assumed to follow a bivariate normal
-	distribution with $E(d_{i})= \mu_{d} = \mu_{1} - \mu_{2}$ and
-	$E(a_{i})= \mu_{a} = (\mu_{1} + \mu_{2})/2$. The variance matrix
-	$\Sigma_{(a,d)}$ is
-	
-	\begin{eqnarray}
-	\Sigma_{(a,d)}= \left[\begin{matrix}
-	\sigma^{2}_{1}+\sigma^{2}_{2}&\frac{1}{2}(\sigma^{2}_{1}-\sigma^{2}_{2})\\
-	\frac{1}{2}(\sigma^{2}_{1}-\sigma^{2}_{2})&\sigma^{2}+
-	\frac{1}{4}(\sigma^{2}_{1}+\sigma^{2}_{2})
-	\end{matrix} \right].
-	\end{eqnarray}
-		
-	Likewise the separate $\alpha$ can not be estimated, only their difference can be estimated as $\bar{d}$ (i.e. the inter-method bias). This model implies that the difference between the paired measurements can be expressed as
-	\[ d_{i} = y_{1i} - y_{2i} \sim \mathcal{N} (\alpha_{1} - \alpha_{2}, \sigma^2_{1} + \sigma^2_{2}). \]
-	Importantly, this is independent of the item levels $\mu_i$. As the case-wise differences are of interest, the parameters of interest are the fixed effects for methods $\alpha_{m}$.
 	
 	% \[ y_{mi} =  \alpha_{m}  + \mu_{i} + e_{mi}  \]
 	% Importantly these variance covariance structures are central to ARoy2009 methodology.
@@ -179,11 +180,29 @@ to be inappropriate.
 	smaller velocities than the `Counter' method. A cursory inspection of the table will indicate a systematic tendency for the Counter method to result in higher measurements than the Fotobalk method. % Consequently one would conclude that there is lack of agreement % between the two methods.
 	
 	
+\section{Carstensen 2004 Model}
+
+%If the exact cause of disagreement between the two methods is not of interest, then the overall variability test $H_4$ %is an alternative to testing $H_2$ and $H_3$ separately.
+
+
+\citet{BXC2008} develop their model from a standard two-way analysis of variance model, reformulated for the case of replicate measurements, with random effects terms specified as appropriate.
+Their model can be written as
+%describing $y_{mir} $, again the $r$th replicate measurement on the $i$th item by the $m$th method ($m=1,2,$ %$i=1,\ldots,N,$ and $r = 1,\ldots,n$),
+
+\begin{equation}\label{BXC-model}
+y_{mir}  = \alpha_{m} + \mu_{i} + a_{ir} + c_{mi} + \varepsilon_{mir}.
+\end{equation}
+The fixed effects $\alpha_{m}$ and $\mu_{i}$ represent the intercept for method $m$ and the `true value' for item $i$ respectively. The random-effect terms comprise an item-by-replicate interaction term $a_{ir} \sim \mathcal{N}(0,\varsigma^{2})$, a method-by-item interaction term $c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}),$ and model error terms $\varepsilon_{mir} \sim \mathcal{N}(0,\varphi^{2}_{m}).$ All random-effect terms are assumed to be independent. For the case when replicate measurements are assumed to be exchangeable for item $i$, $a_{ir}$ can be removed. The model expressed in (2) describes measurements by $m$ methods, where $m = \{1,2,3\ldots\}$. Based on the model expressed in (2), \citet{BXC2008} compute the limits of agreement as
+\[
+\alpha_1 - \alpha_2 \pm 2 \sqrt{ \tau^2_1 +  \tau^2_2 +  \varphi^2_1 +  \varphi^2_2 }
+\]
+\citet{BXC2008} notes that, for $m=2$,  separate estimates of $\tau^2_m$ can not be obtained. To overcome this, the assumption of equality, i.e. $\tau^2_1 = \tau^2_2$ is required.
+
 \section{Model for single measurement observations}
 \citet{Kinsella} formulates a model for
-single measurement observations for a method comparison study as a
-linear mixed effects model, i.e. model that additively combine
-fixed effects and random effects.
+single measurement observations as a
+linear mixed effects model, i.e. a model that additively combines
+fixed effects and random effects:
 \[
 Y_{ij} =\quad \mu + \beta_{j} + u_{i} + \epsilon_{ij} \qquad i = 1,\dots,n
 \qquad j=1,2\]
@@ -200,6 +219,14 @@ For simplicity these terms can be combined into single terms; $\mu_{1} = \mu+ \b
 \right]
 \] 
 % The inter-method bias is the difference of the two fixed effect terms, $\beta_{1}-\beta_{2}$.
+
+\citet{Kinsella} demonstrates the estimation of the variance terms and relative precisions relevant to a method comparison study, with attendant confidence intervals for both. The measurement model introduced by \citet{Grubbs48,Grubbs73} provides a formal procedure for estimating the variances $\sigma^2$, $\sigma^2_{1}$ and $\sigma^2_{2}$. \citet{Grubbs48} offers estimates, commonly known as Grubbs estimators, for the various variance components. These estimates are maximum likelihood estimates, which shall be revisited in due course.
+\begin{eqnarray*}
+	\hat{\sigma^{2}} = \sum{\frac{(x_{i}-\bar{x})(y_{i}-\bar{y})}{n-1}} = Sxy\\
+	\hat{\sigma^{2}_{1}} = \sum{\frac{(x_{i}-\bar{x})^{2}}{n-1}} =S^{2}x - Sxy  \\
+	\hat{\sigma^{2}_{2}} =
+	\sum{\frac{(y_{i}-\bar{y})^{2}}{n-1}} = S^{2}y - Sxy
+\end{eqnarray*}
 
 
 
@@ -431,16 +458,6 @@ assessing the magnitude of the bias.
 
 
 
-\subsection{Inference Procedures}
-A $95\%$ confidence interval for the intercept estimate can be used to test the intercept, and hence fixed bias, is equal to
-zero. This hypothesis is accepted if the confidence interval for the estimate contains the value $0$ in its range. Should this be,
-it can be concluded that fixed bias is not present. Conversely, if the hypothesis is rejected, then it is concluded that the
-intercept is non zero, and that fixed bias is present.
-
-Testing for proportional bias is a very similar procedure. The $95\%$ confidence interval for the slope estimate can be used to
-test the hypothesis that the slope is equal to $1$. This hypothesis is accepted if the confidence interval for the estimate
-contains the value $1$ in its range. If the hypothesis is rejected, then it is concluded that the slope is significant
-different from $1$ and that a proportional bias exists.
 
 
 
@@ -497,13 +514,6 @@ intercept estimates are equal to zero(i.e $\sigma^{2}_{1} =
 	
 	\textbf{Russell et al} have suggested this method be used in conjunction with a paired t-test , with estimates of slope and intercept.
 	
-	Bradley and Blackwood have developed a regression based approach
-	assessing the agreement.
-	
-	We have identified this approach  to be examined to see if it can
-	be used as a foundation for a test perform a test on means and variances individually.
-	
-	
 	\section{Bradley-Blackwood Method}
 	
 	
@@ -556,31 +566,6 @@ intercept estimates are equal to zero(i.e $\sigma^{2}_{1} =
 	
 	
 
-	\section{Bradley-Blackwood Test (Kevin Hayes Talk)}
-	%--------------------------------------------------------------------%
-	% KH - UW
-	
-	This work considers the problem of testing $\mu_1$ = $\mu_2$ and $\sigma^2_1 = \sigma^2_2$ using a random sample from a bivariate normal distribution with parameters $(\mu_1, \mu_2, \sigma^2_1, \sigma^2_2, \rho)$. 
-	
-	The new contribution is a decomposition of the Bradley-Blackwood test statistic (\textit{Bradley and Blackwood, 1989})for the simultaneous test of {$\mu_1$ = $\mu_2$; $\sigma^2_1 = \sigma^2_2$}  as a sum of two statistics. 
-	
-	One is equivalent to the Pitman-Morgan (\textit{Pitman, 1939; Morgan, 1939}) test statistic 
-	for $\sigma^2_1 = \sigma^2_2$ and the other one is a new alternative to the standard paired-t test of $\mu_D = \mu_1 = \mu_2 = 0$. 
-	
-	Surprisingly, the classic Student paired-t test makes no assumptions about the equality (or otherwise) of the 
-	variance parameters. 
-	
-	The power functions for these tests are quite easy to derive, and show that when $\sigma^2_1 = \sigma^2_2$, 
-	the paired t-test has a slight advantage over the new alternative in terms of power, but when $\sigma^2_1 \neq \sigma^2_2$, the 
-	new test has substantially higher power than the paired-t test.
-	
-	While Bradley and Blackwood provide a test on the joint hypothesis of equal means and equal variances their regression based approach does not separate these two issues.
-	
-	The rejection of the joint hypothesis may be 
-	due to two groups with unequal means and unequal variances; unequal means and equal variances, or equal means and unequal variances. We propose an approach for resolving this (model selection) problem in a manner controlling the magnitudes of the relevant type I error probabilities.
-	
-	
-	
 
 \section{Error-In-Variable Models}
 Conventional regression models are estimated using the ordinary
@@ -767,35 +752,8 @@ about the comparative precision of two methods of measurement. Most importantly 
 
 %===================================================%
 \section{Other Proposals for Formal Testing}
-\citet{Kinsella} notes the lack of formal testing offered by
-this Bland-Altman plot. Furthermore, \citet{Kinsella} formulates a model for
-single measurement observations as a
-linear mixed effects model, i.e. a model that additively combines
-fixed effects and random effects:
-\[
-Y_{ij} =\quad \mu + \beta_{j} + u_{i} + \epsilon_{ij} \qquad i = 1,\dots,n
-\qquad j=1,2\]
 
-The true value of the measurement is represented by $\mu$ while the fixed effect due to method $j$ is $\beta_{j}$.
-For simplicity these terms can be combined into single terms; $\mu_{1} = \mu+ \beta_{1}$ and $\mu_{2} = \mu + \beta_{2}$. The inter-method bias is the difference of the two fixed effect terms, $\beta_{1}-\beta_{2}$. Each individual is assumed to give rise to a random error, represented by $u_{i}$. This random effects term is assumed to have mean zero and be normally distributed with variance $\sigma^2$. There is assumed to be an attendant error for each measurement on each individual, denoted $\epsilon_{ij}$. This is also assumed to have mean zero. The variance of measurement error for both methods are not assumed to be identical for both methods variance,  hence it is denoted $\sigma^2_{j}$. The set of observations ($x_{i},y_{i}$) by methods $X$ and $Y$ are assumed to follow a bivariate normal distribution with expected values $E(x_{i})= \mu_{i}$ and $E(y_{i})= \tau_{i}$ respectively. The variance covariance of the observations $\boldsymbol{\Sigma}$ is given by
 
-\[
-\boldsymbol{\Sigma} = \left[
-\begin{array}{cc}
-\sigma^{2} + \sigma^{2}_{1} & \sigma^{2} \\
-\sigma^{2} & \sigma^{2} + \sigma^{2}_{2} \\
-\end{array}
-\right]
-\] 
-% The inter-method bias is the difference of the two fixed effect terms, $\beta_{1}-\beta_{2}$.
-
-\citet{Kinsella} demonstrates the estimation of the variance terms and relative precisions relevant to a method comparison study, with attendant confidence intervals for both. The measurement model introduced by \citet{Grubbs48,Grubbs73} provides a formal procedure for estimating the variances $\sigma^2$, $\sigma^2_{1}$ and $\sigma^2_{2}$. \citet{Grubbs48} offers estimates, commonly known as Grubbs estimators, for the various variance components. These estimates are maximum likelihood estimates, which shall be revisited in due course.
-\begin{eqnarray*}
-	\hat{\sigma^{2}} = \sum{\frac{(x_{i}-\bar{x})(y_{i}-\bar{y})}{n-1}} = Sxy\\
-	\hat{\sigma^{2}_{1}} = \sum{\frac{(x_{i}-\bar{x})^{2}}{n-1}} =S^{2}x - Sxy  \\
-	\hat{\sigma^{2}_{2}} =
-	\sum{\frac{(y_{i}-\bar{y})^{2}}{n-1}} = S^{2}y - Sxy
-\end{eqnarray*}
 
 % The standard error of these variance estimates are:
 % \begin{eqnarray}
@@ -806,30 +764,6 @@ For simplicity these terms can be combined into single terms; $\mu_{1} = \mu+ \b
 % \frac{\sigma^2_{S}\sigma^2_{1}+\sigma^2_{S}\sigma^2_{2}+\sigma^2_{1}\sigma^2_{2}
 % }{n-1}\nonumber
 % \end{eqnarray}
-
-\citet{Thompson} defines $\Delta_j = \sigma^2 / \sigma^2_j, j=1,2$, to be a measure of the
-relative precision of the measurement methods, and demonstrates how to make statistical inferences about $\Delta_{j}$.
-Based on the following identities,
-\begin{eqnarray*}
-	C_{x}&=&(n-1)S^2_{x},\nonumber\\
-	C_{xy}&=&(n-1)S_{xy},\nonumber\\
-	C_{y}&=&(n-1)S^2_{y},\nonumber\\
-	|A| &=& C_{x}\times C_{y} - (C_{xy})^2,\nonumber
-\end{eqnarray*}
-\noindent the confidence interval limits of $\Delta_{1}$ are
-
-\begin{eqnarray}
-\frac{C_{xy}-
-	t(\frac{|A|}{n-2})^{\frac{1}{2}}}{C_{x}-C_{xy}+
-	t(\frac{|A|}{n-2})^{\frac{1}{2}}} <
-\Delta_{1} < \frac{C_{xy}+
-	t(\frac{|A|}{n-2})^{\frac{1}{2}}}{C_{x}-C_{xy}-
-	t(\frac{|A|}{n-1})^{\frac{1}{2}}} \nonumber
-\end{eqnarray}
-The value $t$ is the $100(1-\alpha/2)\%$ upper quantile of
-Student's $t$ distribution with $n-2$ degrees of freedom
-\citep{Kinsella}. The confidence limits for $\Delta_{2}$ are found by substituting $C_{y}$ for $C_{x}$ in (1.2).
-Negative lower limits are replaced by the value $0$.
 
 %For the interval estimates for the variance components,
 %\citet{Thompson} presents three relations that hold simultaneously
@@ -843,21 +777,6 @@ Negative lower limits are replaced by the value $0$.
 %\end{eqnarray*}
 
 %\citet{Thompson} contains tables for $K$ and $M$.
-
-The case-wise differences and means are calculated as $d_{i} =
-x_{i}-y_{i}$ and $a_{i} = (x_{i}+y_{i})/2$  respectively. Both
-$d_{i}$ and $a_{i}$ are assumed to follow a bivariate normal
-distribution with $E(d_{i})= \mu_{d} = \mu_{1} - \mu_{2}$ and
-$E(a_{i})= \mu_{a} = (\mu_{1} + \mu_{2})/2$, and the variance matrix
-$\Sigma_{(a,d)}$ is
-
-\begin{eqnarray}
-\Sigma_{(a,d)}= \left[\begin{matrix}
-\sigma^{2}_{1}+\sigma^{2}_{2}&\frac{1}{2}(\sigma^{2}_{1}-\sigma^{2}_{2})\\
-\frac{1}{2}(\sigma^{2}_{1}-\sigma^{2}_{2})&\sigma^{2}+
-\frac{1}{4}(\sigma^{2}_{1}+\sigma^{2}_{2})
-\end{matrix} \right].
-\end{eqnarray}
 \section{Formal Models and Tests}
 
 \citet{Thompson} defines $\Delta_j = \sigma^2 / \sigma^2_j, j=1,2$, to be a measure of the
@@ -990,6 +909,32 @@ providing a worked example on a data set.
 \hat{\sigma^{2}_{2}} \quad=
 \sum{(y_{i2}-\bar{y_{2}})(D_{i}-\bar{D})} \nonumber
 \end{eqnarray}
+
+
+\citet{Thompson} defines $\Delta_j = \sigma^2 / \sigma^2_j, j=1,2$, to be a measure of the
+relative precision of the measurement methods, and demonstrates how to make statistical inferences about $\Delta_{j}$.
+Based on the following identities,
+\begin{eqnarray*}
+	C_{x}&=&(n-1)S^2_{x},\nonumber\\
+	C_{xy}&=&(n-1)S_{xy},\nonumber\\
+	C_{y}&=&(n-1)S^2_{y},\nonumber\\
+	|A| &=& C_{x}\times C_{y} - (C_{xy})^2,\nonumber
+\end{eqnarray*}
+\noindent the confidence interval limits of $\Delta_{1}$ are
+
+\begin{eqnarray}
+\frac{C_{xy}-
+	t(\frac{|A|}{n-2})^{\frac{1}{2}}}{C_{x}-C_{xy}+
+	t(\frac{|A|}{n-2})^{\frac{1}{2}}} <
+\Delta_{1} < \frac{C_{xy}+
+	t(\frac{|A|}{n-2})^{\frac{1}{2}}}{C_{x}-C_{xy}-
+	t(\frac{|A|}{n-1})^{\frac{1}{2}}} \nonumber
+\end{eqnarray}
+The value $t$ is the $100(1-\alpha/2)\%$ upper quantile of
+Student's $t$ distribution with $n-2$ degrees of freedom
+\citep{Kinsella}. The confidence limits for $\Delta_{2}$ are found by substituting $C_{y}$ for $C_{x}$ in (1.2).
+Negative lower limits are replaced by the value $0$.
+
 
 \citet{Thompson} presents confidence intervals for the relative
 precisions of the measurement methods, $\Delta_{j}=
