@@ -308,33 +308,6 @@ If the intercept and slope estimates are zero, the two methods have the same mea
 
 
 
-\section{Identifiability}
-\citet{DunnSEME} highlights an important issue regarding using models such as structural equation modelling, which is the identifiability problem. This comes as a
-result of there being too many parameters to be estimated. Therefore assumptions about some parameters, or estimators used, must be made so that others can be estimated. For example, in the literature, the variance ratio $\lambda=\frac{\sigma^{2}_{1}}{\sigma^{2}_{2}}$
-must often be assumed to be equal to $1$ \citep{linnet98}. \citet{DunnSEME} considers approaches based on two methods with single measurements on each subject as inadequate for a serious
-study on the measurement characteristics of the methods. This is because there would not be enough data to allow for a meaningful
-analysis. There is, however, a counter-argument that in many practical settings it is very difficult to get replicate observations when, for example, the measurement method requires invasive medical
-procedure.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-%This application of the
-%Grubbs method presumes the existence of this condition, and necessitates
-%replication of observations by means external to and independent of the first
-%means. The Grubbs estimators method is based on the laws of propagation of
-%error. By making three independent simultaneous measurements on the same
-%physical material, it is possible by appropriate mathematical manipulation of
-%the sums and differences of the associated variances to obtain a valid
-%estimate of the precision of the primary means. Application of the Grubbs
-%estimators procedure to estimation of the precision of an apparatus uses
-%the results of a physical test conducted in such a way as to obtain a series
-%of sets of three independent observations.
-
-
-
-
 
 \section{Measurement Error Models}
 \citet{DunnSEME} proposes a measurement error model for use in
@@ -398,29 +371,69 @@ y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + e_{mir}, \qquad  e_{mi}
 %A distinction can be made between the two models: Roy's model is a standard LME model, whereas Carstensen's model is a more complex additive model.
 
 
+	\section{Model for replicate measurements}
+	
+	We generalize the single measurement model for the replicate measurement case, by additionally specifying replicate values. Let $y_{mir}$ be the $r-$th replicate measurement for subject ``i" made by method ``m". Further to \citet{barnhart} fixed effect can be expressed with a single term $\alpha_{mi}$, which incorporate the true value $\mu_i$.
+	
+	\[ y_{mir} = \mu_{i} + \alpha_{m} + e_{mir}  \]
+	
+	Combining fixed effects \citep{barnhart}, we write,
+	
+	\[ y_{mir} = \alpha_{mi} + e_{mir}.\]
+	
+	The following assumptions are required
+	
+	\begin{itemize}
+		\item $e_{mir}$ is independent of the fixed effects with mean $\mbox{E}(e_{mir}) = 0$.
+		\item Further to \citet{barnhart} between-item and within-item variances $\mbox{Var}(\alpha_{mi}) = \sigma^2_{Bm}$ and $\mbox{Var}(e_{mir}) = \sigma^2_{Wm}$
+		%	\item In keeping with \citet{Roy}, these variance shall be considered as part of the between-item variance covariance matrix $\boldsymbol{D}$ and the within-item variance covariance matrix  $\boldsymbol{\Sigma}$
+		%	respectively, and will be denoted accordingly ( i.e. $d^2_{m}$ and $\sigma^2_{m}$).
+		%	\item Additionally, the total variability of method "m", denoted $\omega^2_m$ is the sum of the within-item and between-item variabilities.
+		%	
+		%	\[ \omega^2_m = d^2_{m}+ \sigma^2_{m} \]
+		
+	\end{itemize}
+	
+	
+	
 
 
 
 
-
-\section{Paired sample \emph{t} test}
-
-\citet{Bartko} discusses the use of the well known paired sample
-$t$ test to test for inter-method bias; $H: \mu_{d}=0$. The test
-statistic is distributed a $t$ random variable with $n-1$ degrees
-of freedom and is calculated as follows,
-
-\begin{equation}
-t^{*} = \frac{\bar{d}}{ \frac{s_{d}}{\sqrt{n}}}
-\end{equation}
-
-where $\bar{d}$ and $s_{d}$ is the average of the differences of
-the $n$ observations. Only if the two methods show comparable
-precision then the paired sample student $t$-test is appropriate for
-assessing the magnitude of the bias.
-
-
-
+		\section{Statistical Model For Replicate Measurements}
+		Let $y_{Aij}$ and $y_{Bij}$ be the $j$th repeated observations of the variables of interest $A$ and $B$ taken on the $i$th subject. The number of repeated measurements for each variable may differ for each individual.
+		Both variables are measured on each time points. Let $n_{i}$ be the number of observations for each variable, hence $2\times n_{i}$ observations in total.
+		
+		It is assumed that the pair $y_{Aij}$ and $y_{Bij}$ follow a bivariate normal distribution.
+		\begin{eqnarray}
+		\left(
+		\begin{array}{c}
+		y_{Aij} \\
+		y_{Bij} \\
+		\end{array}
+		\right) \sim \mathcal{N}(
+		\boldsymbol{\mu}, \boldsymbol{\Sigma})\mbox{   where } \boldsymbol{\mu} = \left(
+		\begin{array}{c}
+		\mu_{A} \\
+		\mu_{B} \\
+		\end{array}
+		\right)
+		\end{eqnarray}
+		The matrix $\boldsymbol{\Sigma}$ represents the variance component matrix between response variables at a given time point $j$.
+		\begin{equation}
+		\boldsymbol{\Sigma} = \left( \begin{array}{cc}
+		\sigma^2_{A} & \sigma_{AB} \\
+		\sigma_{AB} & \sigma^2_{B}\\
+		\end{array}\right)
+		\end{equation}
+		$\sigma^2_{A}$ is the variance of variable $A$, $\sigma^2_{B}$ is the variance of variable $B$ and $\sigma_{AB}$ is the covariance of the two variable. It is assumed that $\boldsymbol{\Sigma}$ does not depend on a particular time point, and is the same over all time points.
+		
+		
+		
+		
+		
+		
+		
 
 	\chapter{Regression Procedures}
 	
@@ -448,20 +461,7 @@ assessing the magnitude of the bias.
 	will entirely different and inconsistent. However with Model II
 	regression, they will be consistent and complementary.
 	
-	Regression approaches are useful for a making a detailed examination of the biases across the range of measurements, allowing bias to be decomposed into fixed bias and proportional bias.
-	Fixed bias describes the case where one method gives values that are consistently different
-	to the other across the whole range. Proportional
-	bias describes the difference in measurements getting progressively greater, or smaller, across the range of measurements. A measurement method may have either an attendant fixed bias or proportional bias, or both. \citep{ludbrook}. Determination of these biases shall be discussed in due course.
-	
-	
-	
-
-
-
-
-
-
-	\section{Blackwood-Bradley Model} 
+\section{Blackwood-Bradley Model} 
 \citet{BB89} offers a formal simultaneous hypothesis test for the
 mean and variance of two paired data sets. Using simple linear
 regression of the differences of each pair against the sums, a
@@ -477,8 +477,8 @@ intercept estimates are equal to zero(i.e $\sigma^{2}_{1} =
 	\citet{BB89} have developed a regression based procedure for
 	assessing the agreement. This approach performs a simultaneous test for the equivalence of
 	means and variances of the respective methods. The Bradley Blackwood test is a simultaneous test for bias and
-	precision. They propose a regression approach which fits D on M,
-	where D is the difference and average of a pair of results. Using simple linear
+	precision. They propose a regression approach which fits $D$ on $M$,
+	where $D$ is the difference and average of a pair of results. Using simple linear
 	regression of the differences of each pair against the sums, a
 	line is fitted to the model, with estimates for intercept and
 	slope ($\hat{\beta}_{0}$ and $\hat{\beta}_{1}$).
@@ -1291,6 +1291,34 @@ without this outlier, to assess its influence.
 %\[\lambda = \frac{S^2_{ex}}{S^2_{ey}}\]
 %%=========================================================================================================== %
 
+
+
+
+
+
+\section{Identifiability}
+\citet{DunnSEME} highlights an important issue regarding using models such as structural equation modelling, which is the identifiability problem. This comes as a
+result of there being too many parameters to be estimated. Therefore assumptions about some parameters, or estimators used, must be made so that others can be estimated. For example, in the literature, the variance ratio $\lambda=\frac{\sigma^{2}_{1}}{\sigma^{2}_{2}}$
+must often be assumed to be equal to $1$ \citep{linnet98}. \citet{DunnSEME} considers approaches based on two methods with single measurements on each subject as inadequate for a serious
+study on the measurement characteristics of the methods. This is because there would not be enough data to allow for a meaningful
+analysis. There is, however, a counter-argument that in many practical settings it is very difficult to get replicate observations when, for example, the measurement method requires invasive medical
+procedure.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%This application of the
+%Grubbs method presumes the existence of this condition, and necessitates
+%replication of observations by means external to and independent of the first
+%means. The Grubbs estimators method is based on the laws of propagation of
+%error. By making three independent simultaneous measurements on the same
+%physical material, it is possible by appropriate mathematical manipulation of
+%the sums and differences of the associated variances to obtain a valid
+%estimate of the precision of the primary means. Application of the Grubbs
+%estimators procedure to estimation of the precision of an apparatus uses
+%the results of a physical test conducted in such a way as to obtain a series
+%of sets of three independent observations.
 
 
 

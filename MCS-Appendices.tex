@@ -1928,6 +1928,72 @@ follows:
 \textbf{Xb}$)
 
 
+\section{Model Terms (Roy 2009)}
+It is important to note the following characteristics of this model.
+
+Let the number of replicate measurements on each item $i$ for both methods be $n_i$, hence $2 \times n_i$ responses. However, it is assumed that there may be a different number of replicates made for different items. Let the maximum number of replicates be $p$. An item will have up to $2p$ measurements, i.e. $\max(n_{i}) = 2p$.
+
+% \item $\boldsymbol{y}_i$ is the $2n_i \times 1$ response vector for measurements on the $i-$th item.
+% \item $\boldsymbol{X}_i$ is the $2n_i \times  3$ model matrix for the fixed effects for observations on item $i$.
+% \item $\boldsymbol{\beta}$ is the $3 \times  1$ vector of fixed-effect coefficients, one for the true value for item $i$, and one effect each for both methods.
+
+Later on $\boldsymbol{X}_i$ will be reduced to a $2 \times 1$ matrix, to allow estimation of terms. This is due to a shortage of rank. The fixed effects vector can be modified accordingly.
+
+$\boldsymbol{Z}_i$ is the $2n_i \times  2$ model matrix for the random effects for measurement methods on item $i$.\\
+\bigskip
+
+$\boldsymbol{b}_i$ is the $2 \times  1$ vector of random-effect coefficients on item $i$, one for each method.
+
+$\boldsymbol{\epsilon}$  is the $2n_i \times  1$ vector of residuals for measurements on item $i$.\\
+\bigskip
+
+$\boldsymbol{G}$ is the $2 \times  2$ covariance matrix for the random effects.
+
+$\boldsymbol{R}_i$ is the $2n_i \times  2n_i$ covariance matrix for the residuals on item $i$.
+
+The expected value is given as $\mbox{E}(\boldsymbol{y}_i) = \boldsymbol{X}_i\boldsymbol{\beta}.$ \citep{hamlett}\\
+\bigskip
+
+The variance of the response vector is given by $\mbox{Var}(\boldsymbol{y}_i)  = \boldsymbol{Z}_i \boldsymbol{G} \boldsymbol{Z}_i^{\prime} + \boldsymbol{R}_i$ \citep{hamlett}.
+
+
+
+$\boldsymbol{b}_{i}$ is a $m-$dimensional vector comprised of
+the random effects.
+\begin{equation}
+\boldsymbol{b}_{i} = \left( \begin{array}{c}
+b_{1i} \\
+b_{21}  \\
+\end{array}\right)
+\end{equation}
+
+
+$\boldsymbol{V}$ represents the correlation matrix of the replicated measurements on a given method.
+$\boldsymbol{\Sigma}$ is the within-subject VC matrix.\\
+\bigskip
+
+
+$\boldsymbol{V}$ and $\boldsymbol{\Sigma}$ are positive
+definite matrices. The dimensions of $\boldsymbol{V}$ and
+$\boldsymbol{\Sigma}$ are $3 \times 3 ( = p \times p )$ and $ 2 \times
+2 (= k \times k)$.\\
+\bigskip
+
+
+It is assumed that $\boldsymbol{V}$ is the same for both methods and $\boldsymbol{\Sigma}$ is
+the same for all replications.\\
+\bigskip
+
+$\boldsymbol{V} \bigotimes \boldsymbol{\Sigma}$ creates a $ 6 \times 6 ( = kp \times
+kp)$ matrix.
+$\boldsymbol{R}_{i}$ is a sub-matrix of this.\\
+\bigskip
+
+% Complete paragraph by specifying variances and covariances for epsilons.
+% I thing that these are your sigmas?
+% Also, state equality of the parameters in this model when each of the three hypotheses above are true.
+
+
 \section{BXC - Model Terms}
 
 \begin{itemize}
@@ -1968,10 +2034,6 @@ interences about the mean response are of specific interest.
 
 
 \bigskip
-\addcontentsline{toc}{section}{Bibliography}
-
-\bibliographystyle{chicago}
-\bibliography{DB-txfrbib}
 \section{LME}
 Consistent with the conventions of mixed models, \citet{pkc}
 formulates the measurement $y_{ij} $from method $i$ on individual
@@ -2014,6 +2076,50 @@ methodology assesses agreement.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 
 
+\section{LME}
+Consistent with the conventions of mixed models, \citet{pkc}
+formulates the measurement $y_{ij} $from method $i$ on individual
+$j$ as follows;
+\begin{equation}
+y_{ij} =P_{ij}\theta + W_{ij}v_{i} + X_{ij}b_{j} + Z_{ij}u_{j} +
+\epsilon_{ij},     (j=1,2, i=1,2....n)
+\end{equation}
+The design matrix $P_{ij}$ , with its associated column vector
+$\theta$, specifies the fixed effects common to both methods. The
+fixed effect specific to the $j$th method is articulated by the
+design matrix $W_{ij}$ and its column vector $v_{i}$. The random
+effects common to both methods is specified in the design matrix
+$X_{ij}$, with vector $b_{j}$ whereas the random effects specific
+to the $i$th subject by the $j$th method is expressed by $Z_{ij}$,
+and vector $u_{j}$. Noticeably this notation is not consistent
+with that described previously.  The design matrices are specified
+so as to includes a fixed intercept for each method, and a random
+intercept for each individual. Additional assumptions must also be
+specified;
+\begin{equation}
+v_{ij} \sim N(0,\Sigma),
+\end{equation}
+These vectors are assumed to be independent for different $i$s,
+and are also mutually independent. All Covariance matrices are
+positive definite.  In the above model effects can be classed as
+those common to both methods, and those that vary with method.
+When considering differences, the effects common to both
+effectively cancel each other out. The differences of each pair of
+measurements can be specified as following;
+\begin{equation}
+d_{ij} = X_{ij}b_{j} + Z_{ij}u_{j} + \epsilon_{ij},     (j=1,2,
+i=1,2....n)
+\end{equation}
+This formulation has seperate distributional assumption from the
+model stated previously.
+
+This agreement covariate $x$ is the key step in how this
+methodology assesses agreement.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+
+
+
+
 \section{Other Approaches}
 
 
@@ -2042,6 +2148,7 @@ A naive  approach would be to compute the variance ratios by relevant F distribu
 Limits of agreement are easily computable using the LME framework. While we will not be considering this analysis, a demonstration will be provided in the example.
 
 %============================================================== %
+
 
 	\chapter{LME Likelihood}
 	\section{One Way ANOVA}
@@ -3326,6 +3433,42 @@ data.\\Faraway comments that the random effects approach is
 	
 	
 	
+The \texttt{R} programming language has a variety of methods used to study each of the aspects for a linear model. While linear models and GLMS can be studied with a wide range of well-established diagnostic technqiues, the choice of methodology is much more restricted for the case of LMEs.
+
+For an \texttt{lme} object, such as our fitted model \texttt{JS.roy1}, the predicted values for each subject can be determined using the \texttt{coef.lme} function.
+\begin{framed}
+	\begin{verbatim}
+	> JS.roy1 %>% coef %>% head(5)
+	methodJ   methodS
+	74     84.31724  91.08404
+	36     91.54994  97.05548
+	3      81.16581  96.48653
+	62     92.09493  90.89073
+	31     88.41411 103.38802
+	\end{verbatim}
+\end{framed}
+
+
+
+
+%=========================================== %
+
+
+
+The \texttt{CookD} fucntion , from the predictmeans R package, produces Cook’s distance plots for an LME model 
+(\textbf{\textit{predictmeans}})
+
+
+
+\begin{framed}
+	\begin{verbatim}
+	library(predictMeans)
+	CookD(model, group=method, plot=TRUE, idn=5, newwd=FALSE)
+	\end{verbatim}
+\end{framed}
+
+%======================================== %
+
 	\section{DFbetas for Blood Data}
 	\begin{framed}
 		\begin{verbatim}
@@ -6130,9 +6273,10 @@ interences about the mean response are of specific interest.
 
 
 
+\addcontentsline{toc}{section}{Bibliography}
 
+\bibliographystyle{chicago}
 \bibliography{DB-txfrbib}
-
 \end{document}
 
 
