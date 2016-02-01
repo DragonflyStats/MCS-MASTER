@@ -3605,7 +3605,467 @@ The matter of missing data has not been commonly encountered in either Method Co
 	Hilden-Minton (1995, PhD thesis, UCLA): residual is pure for a specific type of error if it depends only on the fixed components and
 	on the error that it is supposed to predict	Residuals that depend on other types of errors are called \textit{\textbf{confounded
 			residuals}}
+	This code will allow you to make QQ plots for each level of the random effects.  LME models assume that not only the within-cluster residuals are normally distributed, but that each level of the random effects are as well. Depending on the model, you can vary the level from 0, 1, 2 and so on
+	\begin{framed}
+		\begin{verbatim}
+		qqnorm(JS.roy1, ~ranef(.))
+		
+		# 	qqnorm(JS.roy1, ~ranef(.,levels=1)
+		\end{verbatim}
+	\end{framed}
+	%====================================================================%
+	This code will allow you to make QQ plots for each level of the random effects.  LME models assume that not only the within-cluster residuals are normally distributed, but that each level of the random effects are as well. Depending on the model, you can vary the level from 0, 1, 2 and so on
+	\begin{framed}
+		\begin{verbatim}
+		qqnorm(JS.roy1, ~ranef(.))
+		
+		# 	qqnorm(JS.roy1, ~ranef(.,levels=1)
+		\end{verbatim}
+	\end{framed}
+	%====================================================================%
+	\subsubsection{Residuals plots}
 	
+	lme allows to plot the residuals in the following ways:
+	
+	\begin{framed}
+		\begin{verbatim}
+		res_lme=residuals(model_lme)
+		plot(res_lme)
+		qqnorm(res_lme)
+		qqline(res_lme)
+		plot(model_lme)
+		\end{verbatim}
+	\end{framed}
+	
+	When the \texttt{plot} function calls the model object, the residual plot is produced.
+	
+	
+	%====================================================================%
+	
+	
+	\begin{framed}
+		\begin{verbatim}
+		plot(JS.roy1, which=c(1) )
+		\end{verbatim}
+	\end{framed}
+	
+	LME models assume that the residuals of the model are normally distributed. A Normal probability plot can be constructed to check this assumption. Commonly used \texttt{R} commands can be used to construct the plot.
+	
+	
+	\begin{framed}
+		\begin{verbatim}
+		qqnorm(resid(JS.roy1),pch="*",col="red")
+		qqline(resid(JS.roy1),col="blue")
+		\end{verbatim}
+	\end{framed}
+	
+	\begin{framed}
+		\begin{verbatim}
+		table(dat$method[1:255])
+		## 
+		##   J   S 
+		## 255   0
+		table(dat$method[256:510])
+		## 
+		##   J   S 
+		##   0 255
+		\end{verbatim}	
+	\end{framed}
+	%==================================================================================%
+	\newpage
+	\begin{framed}
+		\begin{verbatim}
+		plot(roy.NLME, resid(., type = "p") ~ fitted(.) | method, 
+		abline = 0, id=.05)
+		\end{verbatim}
+	\end{framed}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.9\linewidth]{images/bloodnlmeResidPlot2}
+		\caption{}
+		\label{fig:blood}
+	\end{figure}
+	
+	\begin{framed}
+		\begin{verbatim}
+		library(predictMeans)
+		CookD(model, group=method, plot=TRUE, idn=5, newwd=FALSE)
+		\end{verbatim}
+	\end{framed}
+	
+	
+	\begin{verbatim}
+	## Cook's Distance
+	
+	\end{verbatim}
+	
+	
+	
+	\begin{framed}
+		\begin{verbatim}
+		
+		blood.red <- blood[!(blood$subject %in% c(68,78,80)),]
+		dim(blood.red)
+		# 27 observations should be removed.
+		
+		blood.NLME.red <-lme(BP ~ method-1 , random=~1|subject,data = blood.red)
+		plot(blood.NLME.red, resid(., type = "p") ~ fitted(.) | method, abline = 0, id=.05)
+		\end{verbatim}
+	\end{framed}
+	
+	
+	\begin{framed}
+		\begin{verbatim}
+		> shapiro.test(resid(JS.roy1)[1:255])
+		
+		Shapiro-Wilk normality test
+		
+		data:  resid(JS.roy1)[1:255]
+		W = 0.9931, p-value = 0.2852
+		\end{verbatim}
+	\end{framed}
+	
+	\begin{framed}
+		\begin{verbatim}
+		> shapiro.test(resid(JS.roy1)[256:510])
+		
+		Shapiro-Wilk normality test
+		
+		data:  resid(JS.roy1)[256:510]
+		W = 0.9395, p-value = 9.503e-09
+		\end{verbatim}
+	\end{framed}
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.9\linewidth]{images/Resid-newplot2}
+		
+	\end{figure}
+	
+	
+	
+	\begin{framed}
+		\begin{verbatim}
+		data.frame( response = resid(JS.ARoy20091, type = "response"), 
+		pearson  = resid(JS.ARoy20091, type = "pearson"), 
+		normalized = resid(JS.ARoy20091, type = "normalized") )
+		\end{verbatim}
+	\end{framed}
+	
+	\begin{verbatim}
+	response      pearson    normalized
+	1    -4.65805902 -0.761587227 -0.7615872269
+	2    -0.88701342 -0.145025661  0.0776238081
+	3    -5.16580898 -0.844603753 -0.8446037530
+	4     2.29041830  0.374480726  0.6450898404
+	5     7.87508366  1.287567009  1.2875670086
+	6    -6.57048659 -1.074266908 -1.5090772378
+	...........................................
+	\end{verbatim}
+	For the $J$ observations, the variance is 6.116252 whereas for the $S$ observations, the denominator is 9.118144. (with the expected ratio of  1.490806)
+	
+	
+	\begin{framed}
+		\begin{verbatim}
+		> pearson %>%
+		+   as.numeric %>% 
+		+   matrix(nrow=85) %>%
+		+   round(4) 
+		[,1]    [,2]    [,3]    [,4]    [,5]    [,6]
+		[1,] -0.7616  0.2194  0.3829 -0.2983  0.3597 -0.0790
+		[2,] -0.1450  0.1820 -0.1450 -0.5014  0.1567  0.2663
+		[3,] -0.8446  0.4634  0.1364 -0.1630 -0.2727  0.1660
+		[4,]  0.3745 -0.2795 -0.2795 -0.2658 -0.2658  0.6115
+		[5,]  1.2876 -0.6744 -0.6744  0.8935 -0.0935 -0.8612
+		[6,] -1.0743  1.8687 -0.7473 -0.0383  0.2908 -0.3673
+		...........................................
+		
+		\end{verbatim}
+	\end{framed}
+	
+	We can plot the residuals against the fitted values, to assess the assumption of constant variance. 
+	\begin{framed}
+		\begin{verbatim}
+		# standardized residuals versus fitted values 
+		plot(JS.ARoy20091, resid(., type = "pearson") ~ fitted(.) , 
+		abline = 0, id = 0.05)
+		\end{verbatim}
+	\end{framed}
+	
+	
+	\begin{framed}
+		\begin{verbatim}
+		par(mfrow=c(1,2))
+		qqnorm((resid(JS.ARoy20091)[1:255]),
+		pch="*",col="red",
+		ylim=c(-40,40),
+		main="Method J")
+		qqline(resid(JS.ARoy20091)[1:255],col="blue")
+		qqnorm((resid(JS.ARoy20091)[256:510]),
+		pch="*",col="red",
+		ylim=c(-40,40),
+		main="Method S")
+		qqline(resid(JS.ARoy20091)[256:510],col="blue")
+		par(mfrow=c(1,1))
+		\end{verbatim}	
+	\end{framed}
+	
+		\subsubsection{Residuals plots}
+	
+	lme allows to plot the residuals in the following ways:
+	
+	\begin{framed}
+		\begin{verbatim}
+		res_lme=residuals(model_lme)
+		plot(res_lme)
+		qqnorm(res_lme)
+		qqline(res_lme)
+		plot(model_lme)
+		\end{verbatim}
+	\end{framed}
+	
+	When the \texttt{plot} function calls the model object, the residual plot is produced.
+	
+	
+	%====================================================================%
+	
+	
+	\begin{framed}
+		\begin{verbatim}
+		plot(JS.roy1, which=c(1) )
+		\end{verbatim}
+	\end{framed}
+	
+	LME models assume that the residuals of the model are normally distributed. A Normal probability plot can be constructed to check this assumption. Commonly used \texttt{R} commands can be used to construct the plot.
+	
+	
+	\begin{framed}
+		\begin{verbatim}
+		qqnorm(resid(JS.roy1),pch="*",col="red")
+		qqline(resid(JS.roy1),col="blue")
+		\end{verbatim}
+	\end{framed}
+	
+	\begin{framed}
+		\begin{verbatim}
+		table(dat$method[1:255])
+		## 
+		##   J   S 
+		## 255   0
+		table(dat$method[256:510])
+		## 
+		##   J   S 
+		##   0 255
+		\end{verbatim}	
+	\end{framed}
+	%==================================================================================%
+	\newpage
+	\begin{framed}
+		\begin{verbatim}
+		plot(roy.NLME, resid(., type = "p") ~ fitted(.) | method, 
+		abline = 0, id=.05)
+		\end{verbatim}
+	\end{framed}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.9\linewidth]{images/bloodnlmeResidPlot2}
+		\caption{}
+		\label{fig:blood}
+	\end{figure}
+	
+	\begin{framed}
+		\begin{verbatim}
+		library(predictMeans)
+		CookD(model, group=method, plot=TRUE, idn=5, newwd=FALSE)
+		\end{verbatim}
+	\end{framed}
+	
+	
+	\begin{verbatim}
+	## Cook's Distance
+	
+	\end{verbatim}
+	
+	
+	
+	\begin{framed}
+		\begin{verbatim}
+		
+		blood.red <- blood[!(blood$subject %in% c(68,78,80)),]
+		dim(blood.red)
+		# 27 observations should be removed.
+		
+		blood.NLME.red <-lme(BP ~ method-1 , random=~1|subject,data = blood.red)
+		plot(blood.NLME.red, resid(., type = "p") ~ fitted(.) | method, abline = 0, id=.05)
+		\end{verbatim}
+	\end{framed}
+	
+	
+	\begin{framed}
+		\begin{verbatim}
+		> shapiro.test(resid(JS.roy1)[1:255])
+		
+		Shapiro-Wilk normality test
+		
+		data:  resid(JS.roy1)[1:255]
+		W = 0.9931, p-value = 0.2852
+		\end{verbatim}
+	\end{framed}
+	
+	\begin{framed}
+		\begin{verbatim}
+		> shapiro.test(resid(JS.roy1)[256:510])
+		
+		Shapiro-Wilk normality test
+		
+		data:  resid(JS.roy1)[256:510]
+		W = 0.9395, p-value = 9.503e-09
+		\end{verbatim}
+	\end{framed}
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.9\linewidth]{images/Resid-newplot2}
+		
+	\end{figure}
+	
+	
+	
+	\begin{framed}
+		\begin{verbatim}
+		data.frame( response = resid(JS.ARoy20091, type = "response"), 
+		pearson  = resid(JS.ARoy20091, type = "pearson"), 
+		normalized = resid(JS.ARoy20091, type = "normalized") )
+		\end{verbatim}
+	\end{framed}
+	
+	\begin{verbatim}
+	response      pearson    normalized
+	1    -4.65805902 -0.761587227 -0.7615872269
+	2    -0.88701342 -0.145025661  0.0776238081
+	3    -5.16580898 -0.844603753 -0.8446037530
+	4     2.29041830  0.374480726  0.6450898404
+	5     7.87508366  1.287567009  1.2875670086
+	6    -6.57048659 -1.074266908 -1.5090772378
+	...........................................
+	\end{verbatim}
+	For the $J$ observations, the variance is 6.116252 whereas for the $S$ observations, the denominator is 9.118144. (with the expected ratio of  1.490806)
+	
+	
+	\begin{framed}
+		\begin{verbatim}
+		> pearson %>%
+		+   as.numeric %>% 
+		+   matrix(nrow=85) %>%
+		+   round(4) 
+		[,1]    [,2]    [,3]    [,4]    [,5]    [,6]
+		[1,] -0.7616  0.2194  0.3829 -0.2983  0.3597 -0.0790
+		[2,] -0.1450  0.1820 -0.1450 -0.5014  0.1567  0.2663
+		[3,] -0.8446  0.4634  0.1364 -0.1630 -0.2727  0.1660
+		[4,]  0.3745 -0.2795 -0.2795 -0.2658 -0.2658  0.6115
+		[5,]  1.2876 -0.6744 -0.6744  0.8935 -0.0935 -0.8612
+		[6,] -1.0743  1.8687 -0.7473 -0.0383  0.2908 -0.3673
+		...........................................
+		
+		\end{verbatim}
+	\end{framed}
+	
+	We can plot the residuals against the fitted values, to assess the assumption of constant variance. 
+	\begin{framed}
+		\begin{verbatim}
+		# standardized residuals versus fitted values 
+		plot(JS.ARoy20091, resid(., type = "pearson") ~ fitted(.) , 
+		abline = 0, id = 0.05)
+		\end{verbatim}
+	\end{framed}
+	
+	
+	\begin{framed}
+		\begin{verbatim}
+		par(mfrow=c(1,2))
+		qqnorm((resid(JS.ARoy20091)[1:255]),
+		pch="*",col="red",
+		ylim=c(-40,40),
+		main="Method J")
+		qqline(resid(JS.ARoy20091)[1:255],col="blue")
+		qqnorm((resid(JS.ARoy20091)[256:510]),
+		pch="*",col="red",
+		ylim=c(-40,40),
+		main="Method S")
+		qqline(resid(JS.ARoy20091)[256:510],col="blue")
+		par(mfrow=c(1,1))
+		\end{verbatim}	
+	\end{framed}
+	
+	This code will allow you to make QQ plots for each level of the random effects.  LME models assume that not only the within-cluster residuals are normally distributed, but that each level of the random effects are as well. Depending on the model, you can vary the level from 0, 1, 2 and so on
+	\begin{framed}
+		\begin{verbatim}
+		qqnorm(JS.ARoy20091, ~ranef(.))
+		
+		# 	qqnorm(JS.ARoy20091, ~ranef(.,levels=1)
+		\end{verbatim}
+	\end{framed}
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.9\linewidth]{images/ResidPlot2}
+		\caption{}
+		\label{fig:ResidPlot2}
+	\end{figure}	
+	
+		
+		\begin{framed}
+			\begin{verbatim}
+			data.frame( response = resid(JS.roy1, type = "response"), 
+			pearson  = resid(JS.roy1, type = "pearson"), 
+			normalized = resid(JS.roy1, type = "normalized") )
+			\end{verbatim}
+		\end{framed}
+		
+		\begin{verbatim}
+		response      pearson    normalized
+		1    -4.65805902 -0.761587227 -0.7615872269
+		2    -0.88701342 -0.145025661  0.0776238081
+		3    -5.16580898 -0.844603753 -0.8446037530
+		4     2.29041830  0.374480726  0.6450898404
+		5     7.87508366  1.287567009  1.2875670086
+		6    -6.57048659 -1.074266908 -1.5090772378
+		...........................................
+		\end{verbatim}
+		For the $J$ observations, the variance is 6.116252 whereas for the $S$ observations, the denominator is 9.118144. (with the expected ratio of  1.490806)
+		
+		
+		\begin{framed}
+			\begin{verbatim}
+			> pearson %>%
+			+   as.numeric %>% 
+			+   matrix(nrow=85) %>%
+			+   round(4) 
+			[,1]    [,2]    [,3]    [,4]    [,5]    [,6]
+			[1,] -0.7616  0.2194  0.3829 -0.2983  0.3597 -0.0790
+			[2,] -0.1450  0.1820 -0.1450 -0.5014  0.1567  0.2663
+			[3,] -0.8446  0.4634  0.1364 -0.1630 -0.2727  0.1660
+			[4,]  0.3745 -0.2795 -0.2795 -0.2658 -0.2658  0.6115
+			[5,]  1.2876 -0.6744 -0.6744  0.8935 -0.0935 -0.8612
+			[6,] -1.0743  1.8687 -0.7473 -0.0383  0.2908 -0.3673
+			...........................................
+			
+			\end{verbatim}
+		\end{framed}
+		
+			We can plot the residuals against the fitted values, to assess the assumption of constant variance. 
+			\begin{framed}
+				\begin{verbatim}
+				# standardized residuals versus fitted values 
+				plot(JS.roy1, resid(., type = "pearson") ~ fitted(.) , 
+				abline = 0, id = 0.05)
+				\end{verbatim}
+			\end{framed}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[width=0.9\linewidth]{images/Residuals-JS-Roy}
+				\caption{}
+				\label{fig:Residuals-JS-Roy}
+			\end{figure}
+			
+					
 	
 	\chapter{Fitting LME Models}
 	%\subsection{Overview of R implementations}
