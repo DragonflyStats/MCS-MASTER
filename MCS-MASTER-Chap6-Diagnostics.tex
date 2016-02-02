@@ -428,159 +428,6 @@ tests or confidence intervals about $\beta$.
 \end{itemize}
 
 
-\section{DFBETA, DFFITS and PRESS}
-
-The impact of an observation on a regression fitting can be determined by the difference between the estimated regression coefficient of a model with all observations and the estimated coefficient when the particular observation is deleted. DFBETA and DFFITS are well known measures of influence. The measure DFBETA is the studentized value of this difference. DFFITS is a statistical measured designed to a show how influential an observation is in a statistical model. DFFITS is closely related to the studentized residual.
-%	
-%	\begin{itemize}
-%		\item $e_{-Q} = y_{Q} - x_{Q}\hat{\beta}^{-Q}$
-%		\item $PRESS_{(U)} = y_{i} - x\hat{\beta}_{(U)}$
-%	\end{itemize}
-%	
-
-% http://stats.stackexchange.com/questions/22161/how-to-read-cooks-distance-plots
-% Cook's distance refers to how far, on average, predicted y-values will move if the observation in question is dropped from the data set. 
-%======================================================================================================%
-
-\subsection{DFBETAs}
-The measure that measures how much impact each observation has on a particular predictor is DFBETAs. 
-
-
-DFBETAS (standardized difference of the beta) is a measure that standardizes the absolute difference in parameter estimates between a (mixed effects) regression model based on a full set of data, and a model from which a (potentially influential) subset of data is removed. 
-
-
-The dfbeta refers to how much a parameter estimate changes if the observation or case in question is dropped from the data set.
-Cook's distance is presumably more important to you if you are doing predictive modeling, whereas dfbeta is more important in explanatory modeling.
-
-In general, large values of DFBETAS indicate observations that are influential in estimating a given parameter. \textbf{Belsley, Kuh, and Welsch (1980)} recommend 2 as a general cutoff value to indicate influential observations and  as a size-adjusted cutoff.
-
-The DFBETA for a predictor and for a particular observation is the difference between the regression coefficient calculated for all of the data and the regression coefficient calculated with the observation deleted, scaled by the standard error calculated with the observation deleted. 
-A value for DFBETAS is calculated for each covariate, and for each case, in the model separately.
-
-% DFBETA is a measure found for each observation in a dataset. 
-
-
-\begin{eqnarray}
-	DFBETA_{a} &=& \hat{\beta} - \hat{\beta}_{(a)} \\
-	&=& B(Y-Y_{\bar{a}}
-\end{eqnarray}
-In the case of method comparison studies, there are two covariates, and one can construct scatterplots of the pairs of dfbeta values accordingly, both for LOO and LSO calculations. Furthermore 95\% confidence ellipse can be constructed around these scatterplots.
-Note that with k covariates, there will be $k+1$ dfbetas (the intercept,$\beta_0$, and one $\beta$ for each covariate). When the model is specified without an intercept term, as in the last chapter, there is a set of DFBETAs corresponding to each measurement method.
-
-% For example there would be 2 sets of of dfbeta, 510 values for each in the case of LOO, and 85 for LSO diagnostics.
-
-
-
-% The DFBETA for a particular observation is the difference between the regression coefficient for an included variable calculated for all of the data and the regression coefficient calculated with the observation deleted, scaled by the standard error calculated with the observation deleted. 
-
-There is no agreement as to the critical threshold for DFBETAs. The cut-off value for DFBETAs is $\frac{2}{\sqrt{n}}$, where n is the number of observations. 
-However, another cut-off is to look for observations with a value greater than 1.00. Here cutoff means, 
-"this observation could be overly influential on the estimated coefficient".
-
-%===================================%
-\section{DFBETA for MCS}
-The LME approach proposed by \citet{ARoy2009} is constrained by computational tractability. 
-Consequently a simpler LME formulation is required, one similar to that of \citet{BXC2008}. However one constraint that can be dispensed with is that restriction to 
-two methods of measurement: we can use any number of methods.
-The benefit of using this model is that diagnostics measures such as Cook's Distance and DFBETAs can be computed also. Furthermore, these measures
-form the basis of the analysis, rather than the estimates derived from the model.
-
-Recalling the definition of DFBETAs ( in the context of LME models) (DEFINITION)
-
-In the context of method comparison, these variables are the methods of measurement. If the methods are in agreement, the DFBETA values will be almost identical for each subject in
-the data set. 
-
-Here cases are ranked by the Cook's Distance, such that the most divergent DFBETA are highlighted.
-
-
-
-Following the idea proposed by \citet{BA86}, an identity to visually inspect this relationship. Modern statistical software usually allows for the creation of co-plots, and as such as
-a grid of identity plots may be created for each pair of methods in the data set.
-
-%==========================================================================%
-
-
-
-\subsection{DFFITS} %1.16.1
-DFFITS is a statistical measured designed to a show how influential an observation is in a statistical model. DFFITS is a diagnostic meant to show how influential a point is in a statistical regression. It is defined as the change ("DFFIT"), in the predicted value for a point, obtained when that point is left out of the regression, "Studentized" by dividing by the estimated standard deviation of the fit at that point:
-\[ \mbox{DFFITS} = {\widehat{y_i} - \widehat{y_{i(i)}} \over s_{(i)} \sqrt{h_{ii}}}\]
-\begin{displaymath} DFFITS = {\widehat{y_i} -
-	\widehat{y_{i(k)}} \over s_{(k)} \sqrt{h_{ii}}} \end{displaymath}
-It is closely related to the studentized residual. For the sake of brevity, we will concentrate on the Studentized Residuals.
-
-\subsubsection{Mean Square Prediction Error}
-\begin{equation}
-MSPR = \frac{\sum (y_{i}-\hat{y}_{i})^2}{n^*}
-\end{equation}
-
-\subsection{Effects on the fitted and predicted values}
-\citet{schabenberger} descibes the use of the $PRESS$ and $DFFITS$ in determining influence.
-
-The $PRESS$ residual is the difference between the observed value and the predicted (marginal)value.
-\begin{equation}
-\hat{e_{i}}_{(U)} = y_{i} - x\hat{\beta}_{(U)}
-\end{equation}
-
-The prediction residual sum of squares (PRESS) is an value associated with this calculation. When fitting linear models, PRESS can be used as a criterion for model selection, with smaller values indicating better model fits.
-\begin{equation}
-	PRESS = \sum(y-y^{(k)})^2
-\end{equation}
-\begin{eqnarray*}
-	e_{-Q} = y_{Q} - x_{Q}\hat{\beta}^{-Q}\\
-	PRESS = \sum(y-y^{-Q})^2\\
-	PRESS_{(U)} = y_{i} - x\hat{\beta}_{(U)}\\
-\end{eqnarray*}
-
-%Predicted Values, PRESS Residuals and PRESS statistics
-The PRESS statistic is the sum of the squared PRESS residuals
-$\mbox{PRESS} = \sum \hat{\varepsilon}^2_{i(U)}$
-\[ PRESS = \sum \varepsilon^2_{i(U)} \]
-where the sum is over the observations in $\boldsymbol{U}$.
-
-
-When fitting linear models, PRESS can be used as a criterion for model selection, with smaller values indicating better model fits.
-\begin{equation}
-PRESS = \sum(y-y^{(k)})^2
-\end{equation}
-%-----------------------------------------------------------------------------------------%
-
-
-
-%============================================================================= %
-\subsection{PRESS Residuals and PRESS Statistic}
-% % - Wikipedia
-The predicted residual sum of squares (PRESS) statistic is a form of cross-validation used in regression analysis to provide a summary measure of the fit of a model to a sample of observations that were not themselves used to estimate the model. It is calculated as the sums of squares of the prediction residuals for those observations.
-
-A fitted model having been produced, each observation in turn is removed and the model is refitted using the remaining observations. The out-of-sample predicted value is calculated for the omitted observation in each case, and the PRESS statistic is calculated as the sum of the squares of all the resulting prediction errors:[4]
-\[\mbox{PRESS} =\sum_{i=1}^n (y_i - \hat{y}_{i, -i})^2 \]
-Given this procedure, the PRESS statistic can be calculated for a number of candidate model structures for the same dataset, with the lowest values of PRESS indicating the best structures. Models that are over-parameterised (over-fitted) would tend to give small residuals for observations included in the model-fitting but large residuals for observations that are excluded.
-
-% % - http://support.sas.com/documentation/cdl/en/statug/63347/HTML/default/viewer.htm#statug_mixed_sect027.htm
-An (unconditional) predicted value is $\hat{y}_i = x^{\prime}_i \boldsymbol{\hat{\beta}}$, where 
-the vector $x_i$ is the $i$th row of $\boldsymbol{X}$. For an \texttt{lme} object, such as our fitted model \texttt{JS.roy1}, the predicted values for each subject can be determined using the \texttt{coef.lme} function.
-\begin{framed}
-	\begin{verbatim}
-	> JS.roy1 %>% coef %>% head(5)
-	methodJ   methodS
-	74     84.31724  91.08404
-	36     91.54994  97.05548
-	3      81.16581  96.48653
-	62     92.09493  90.89073
-	31     88.41411 103.38802
-	\end{verbatim}
-\end{framed}
-
-
-
-The (raw) residual is given as $\varepsilon_i = y_i - \hat{y}_i$. The PRESS residual is
-similarly constructed, using the predicted value for observation $i$ with a model fitted from reduced data.
-\[ \varepsilon_{i(U)} = y_i - x^{\prime}_i \boldsymbol{\hat{\beta}}_{(U)} \]
-
-
-%---------------------------------------------------------------------------%
-
-
-Pinheiro and Bates provide some insight into how to compute and interpret model diagnostic plots for LME models. Unfortunately this aspect of LME theory is not as expansive as the corresponding body of work for Linear Models.
 
 
 \section{Overall Influence}
@@ -708,75 +555,12 @@ $\sigma^2$ is profiled.
 
 
 
-\section{Likelihood Distances}
-
-The \index{likelihood distance} likelihood distance is a global summary measure that expresses the joint influence of the subsets of observations, $U$, on all parameters in $\phi$ that were subject to updating. For classical linear models, the implementation of influence analysis is straightforward. \citet{schabenberger} points out the likelihood distance gives the amount by which the log-likelihood of the model fitted from the full data changes if one were
-to estimate the model from a reduced-data estimates. 
-
-The likelihood distance gives the amount by which the log-likelihood of the full data changes if one were to evaluate it at the reduced-data estimates. The important point is that $l(\psi_{(U)})$ is not the log-likelihood obtained by fitting the model to the reduced data set.
-
-It is obtained by evaluating the likelihood function based on the full data set (containing all n observations) at the reduced-data estimates.
-
-%------------%
-
-
-For classical linear models, the implementation of influence analysis is straightforward. \citet{schab} points out the likelihood distance gives the amount by which the log-likelihood of the model fitted from the full data changes if one were to estimate the model from a reduced-data estimates. 
-
-Importantly $LD(\psi_{(U)})$ is not the log-likelihood obtained by fitting the model to the reduced data set. It is obtained by evaluating the likelihood function based on the full data set (containing all $n$ observations) at the reduced-data estimates.
-
-
-However, for LME models, the problem is more complex. Update formulas for the fixed effects are available only when the covariance parameters are assumed to be known. A measure of total influence requires updates of all model parameters. This can only be achieved in general is by omitting observations or cases, then refitting the model. This is a very simplistic approach, and computationally expensive.
-
-
-
-An overall influence statistic measures the change in the objective function being minimized. For example, in
-OLS regression, the residual sums of squares serves that purpose. In linear mixed models fit by
-\index{maximum likelihood} maximum likelihood (ML) or \index{restricted maximum likelihood} restricted maximum likelihood (REML), an overall influence measure is the \index{likelihood distance} likelihood distance \citep{cook}. 
-
-In LME models, fitted by either ML or REML, an important overall
-influence measure is the likelihood distance \citep{cook82}. The  procedure requires the calculation of the full data estimates
-$\hat{\psi}$ and estimates based on the reduced data set  $\hat{\psi}_{(U)}$. The likelihood distance is given by
-determining
-
-
-\begin{eqnarray}
-LD_{(U)} &=& 2\{l(\hat{\psi}) - l( \hat{\psi}_{(U)}) \}\\
-RLD_{(U)} &=& 2\{l_{R}(\hat{\psi}) - l_{R}(\hat{\psi}_{(U)})\}
-\end{eqnarray}
-%---------------------------------------------------------- %
-%Likelihood Displacement.
-\[  LD(\boldsymbol{(U)})= 2[l\boldsymbol{\hat{(\phi)}} - l\boldsymbol{\hat{\phi}_\omega} ] \]
-\[  RLD(\boldsymbol{(U)})= 2[ l_R\boldsymbol{\hat{(\phi)}} - l_R\boldsymbol{\hat{(\phi)}_\omega} ] \]
-%	Large values indicate that $\boldsymbol{\hat{\theta}}$ and $\boldsymbol{\hat{\theta}_\omega}$ differ considerably.
-
-\citet{west} examines a group of methods that examine various aspects of influence diagnostics for LME models.
-For overall influence, the most common approaches are the \textit{likelihood distance} and the \textit{restricted likelihood distance}.
-
-
-In LME models, fitted by either ML or REML, an important overall
-influence measure is the likelihood distance \citep{cook82}. The
-procedure requires the calculation of the full data estimates
-$\hat{\psi}$ and estimates based on the reduced data set
-$\hat{\psi}_{(U)}$. The likelihood distance is given by
-determining
-
-
-\begin{eqnarray}
-LD_{(U)} &=& 2\{l(\hat{\psi}) - l( \hat{\psi}_{(U)}) \}\\
-RLD_{(U)} &=& 2\{l_{R}(\hat{\psi}) - l_{R}(\hat{\psi}_{(U)})\}
-\end{eqnarray}
-
-
-
-%======================================================================================= %\section{Model Diagnostics for Roy's Models}
-
-%==================================================================== %
 
 \chapter{Deletion Diagnostics}
 Case-deletion diagnostics provide a useful tool for identifying influential observations and outliers.
 
 \section{Christensen et al}         %-Case Deletion section 6.3
-Christensen, Pearson and Johnson (1992) (hereafter CPJ) studied case deletion diagnostics, in particular the analog of Cooks
+\citet{Christensen} studied case deletion diagnostics, in particular the analog of Cooks
 distance, for diagnosing influential observations when estimating
 the fixed effect parameters and variance
 components.
@@ -784,16 +568,15 @@ components.
 \citet{cook86} introduces powerful tools for local-influence
 assessment and examining perturbations in the assumptions of a
 model. In particular the effect of local perturbations of
-parameters or observations are examined. \citet{Christensen} develops \index{case deletion diagnostics} case deletion diagnostics, in particular the equivalent of \index{Cook's distance} Cook's distance, for diagnosing influential observations when estimating the fixed effect parameters and variance components.
+parameters or observations are examined. itet{Christensen} develops \index{case deletion diagnostics} case deletion diagnostics, in particular the equivalent of \index{Cook's distance} Cook's distance, for diagnosing influential observations when estimating the fixed effect parameters and variance components.
 
 \citet{Christensen} provides an overview of case deletion
 diagnostics for fixed effect models.
 
+\citet{Christensen} notes the case deletion diagnostics techniques have not been applied to linear mixed effects models and seeks to develop methodologies in that respect. \citet{Christensen} develops these techniques in the context of REML
 
 
-\citet{Christensen} notes the case deletion diagnostics
-techniques have not been applied to linear mixed effects models
-and seeks to develop methodologies in that respect. \citet{Christensen} develops these techniques in the context of REML.
+
 
 
 The second of christensen's propostions is the following set of
@@ -848,9 +631,7 @@ Data from single individuals, or a small group of subjects may influence non-lin
 
 The computation of case deletion diagnostics in the classical model is made simple by the fact that estimates of $\beta$ and $\sigma^2$, which exclude the $i-$th observation, can be computed without re-fitting the model. Such update formulas are available in the mixed model only if you assume that the covariance parameters are not affected by the removal of the observation in question. This is rarely a reasonable assumption.
 
-\citet{Christensen} notes the case deletion diagnostics techniques have not been applied to linear mixed effects models and seeks to develop methodologies in that respect. \citet{Christensen} develops these techniques in the context of REML
 
-\citet{Christensen} develops \index{case deletion diagnostics} case deletion diagnostics, in particular the equivalent of \index{Cook's distance} Cook's distance, for diagnosing influential observations when estimating the fixed effect parameters and variance components.
 
 %\subsection*{3. Case Deletion Diagnostics for LME Data: Cooks Distance, DFBetas}
 In this section we introduce influence analysis and case deletion diagnosics. A full overview of the topic will be provided although there are specific tools that are particularly useful in the case of MCS problems: specifically the Cook's Distance and the DFBeta.
@@ -1310,6 +1091,161 @@ This is known as `\textit{leave one out} or \texttt{leave k
 
 
 
+\section{DFBETA for MCS}
+The LME approach proposed by \citet{ARoy2009} is constrained by computational tractability. 
+Consequently a simpler LME formulation is required, one similar to that of \citet{BXC2008}. However one constraint that can be dispensed with is that restriction to 
+two methods of measurement: we can use any number of methods.
+The benefit of using this model is that diagnostics measures such as Cook's Distance and DFBETAs can be computed also. Furthermore, these measures
+form the basis of the analysis, rather than the estimates derived from the model.
+
+Recalling the definition of DFBETAs ( in the context of LME models) (DEFINITION)
+
+In the context of method comparison, these variables are the methods of measurement. If the methods are in agreement, the DFBETA values will be almost identical for each subject in
+the data set. 
+
+Here cases are ranked by the Cook's Distance, such that the most divergent DFBETA are highlighted.
+
+
+
+Following the idea proposed by \citet{BA86}, an identity to visually inspect this relationship. Modern statistical software usually allows for the creation of co-plots, and as such as
+a grid of identity plots may be created for each pair of methods in the data set.
+
+%==========================================================================%
+
+
+
+\subsection{DFFITS} %1.16.1
+DFFITS is a statistical measured designed to a show how influential an observation is in a statistical model. DFFITS is a diagnostic meant to show how influential a point is in a statistical regression. It is defined as the change ("DFFIT"), in the predicted value for a point, obtained when that point is left out of the regression, "Studentized" by dividing by the estimated standard deviation of the fit at that point:
+\[ \mbox{DFFITS} = {\widehat{y_i} - \widehat{y_{i(i)}} \over s_{(i)} \sqrt{h_{ii}}}\]
+\begin{displaymath} DFFITS = {\widehat{y_i} -
+	\widehat{y_{i(k)}} \over s_{(k)} \sqrt{h_{ii}}} \end{displaymath}
+It is closely related to the studentized residual. For the sake of brevity, we will concentrate on the Studentized Residuals.
+
+\subsubsection{Mean Square Prediction Error}
+\begin{equation}
+MSPR = \frac{\sum (y_{i}-\hat{y}_{i})^2}{n^*}
+\end{equation}
+
+\subsection{Effects on the fitted and predicted values}
+\citet{schabenberger} descibes the use of the $PRESS$ and $DFFITS$ in determining influence.
+
+The $PRESS$ residual is the difference between the observed value and the predicted (marginal)value.
+\begin{equation}
+\hat{e_{i}}_{(U)} = y_{i} - x\hat{\beta}_{(U)}
+\end{equation}
+
+The prediction residual sum of squares (PRESS) is an value associated with this calculation. When fitting linear models, PRESS can be used as a criterion for model selection, with smaller values indicating better model fits.
+\begin{equation}
+PRESS = \sum(y-y^{(k)})^2
+\end{equation}
+\begin{eqnarray*}
+	e_{-Q} = y_{Q} - x_{Q}\hat{\beta}^{-Q}\\
+	PRESS = \sum(y-y^{-Q})^2\\
+	PRESS_{(U)} = y_{i} - x\hat{\beta}_{(U)}\\
+\end{eqnarray*}
+
+%Predicted Values, PRESS Residuals and PRESS statistics
+The PRESS statistic is the sum of the squared PRESS residuals
+$\mbox{PRESS} = \sum \hat{\varepsilon}^2_{i(U)}$
+\[ PRESS = \sum \varepsilon^2_{i(U)} \]
+where the sum is over the observations in $\boldsymbol{U}$.
+
+
+When fitting linear models, PRESS can be used as a criterion for model selection, with smaller values indicating better model fits.
+\begin{equation}
+PRESS = \sum(y-y^{(k)})^2
+\end{equation}
+%-----------------------------------------------------------------------------------------%
+
+
+
+%============================================================================= %
+\subsection{PRESS Residuals and PRESS Statistic}
+% % - Wikipedia
+The predicted residual sum of squares (PRESS) statistic is a form of cross-validation used in regression analysis to provide a summary measure of the fit of a model to a sample of observations that were not themselves used to estimate the model. It is calculated as the sums of squares of the prediction residuals for those observations.
+
+A fitted model having been produced, each observation in turn is removed and the model is refitted using the remaining observations. The out-of-sample predicted value is calculated for the omitted observation in each case, and the PRESS statistic is calculated as the sum of the squares of all the resulting prediction errors:[4]
+\[\mbox{PRESS} =\sum_{i=1}^n (y_i - \hat{y}_{i, -i})^2 \]
+Given this procedure, the PRESS statistic can be calculated for a number of candidate model structures for the same dataset, with the lowest values of PRESS indicating the best structures. Models that are over-parameterised (over-fitted) would tend to give small residuals for observations included in the model-fitting but large residuals for observations that are excluded.
+
+% % - http://support.sas.com/documentation/cdl/en/statug/63347/HTML/default/viewer.htm#statug_mixed_sect027.htm
+An (unconditional) predicted value is $\hat{y}_i = x^{\prime}_i \boldsymbol{\hat{\beta}}$, where 
+the vector $x_i$ is the $i$th row of $\boldsymbol{X}$. For an \texttt{lme} object, such as our fitted model \texttt{JS.roy1}, the predicted values for each subject can be determined using the \texttt{coef.lme} function.
+\begin{framed}
+	\begin{verbatim}
+	> JS.roy1 %>% coef %>% head(5)
+	methodJ   methodS
+	74     84.31724  91.08404
+	36     91.54994  97.05548
+	3      81.16581  96.48653
+	62     92.09493  90.89073
+	31     88.41411 103.38802
+	\end{verbatim}
+\end{framed}
+
+
+
+The (raw) residual is given as $\varepsilon_i = y_i - \hat{y}_i$. The PRESS residual is
+similarly constructed, using the predicted value for observation $i$ with a model fitted from reduced data.
+\[ \varepsilon_{i(U)} = y_i - x^{\prime}_i \boldsymbol{\hat{\beta}}_{(U)} \]
+
+
+%---------------------------------------------------------------------------%
+
+
+Pinheiro and Bates provide some insight into how to compute and interpret model diagnostic plots for LME models. Unfortunately this aspect of LME theory is not as expansive as the corresponding body of work for Linear Models.
+
+
+\section{DFBETA, DFFITS and PRESS}
+
+The impact of an observation on a regression fitting can be determined by the difference between the estimated regression coefficient of a model with all observations and the estimated coefficient when the particular observation is deleted. DFBETA and DFFITS are well known measures of influence. The measure DFBETA is the studentized value of this difference. DFFITS is a statistical measured designed to a show how influential an observation is in a statistical model. DFFITS is closely related to the studentized residual.
+%	
+%	\begin{itemize}
+%		\item $e_{-Q} = y_{Q} - x_{Q}\hat{\beta}^{-Q}$
+%		\item $PRESS_{(U)} = y_{i} - x\hat{\beta}_{(U)}$
+%	\end{itemize}
+%	
+
+% http://stats.stackexchange.com/questions/22161/how-to-read-cooks-distance-plots
+% Cook's distance refers to how far, on average, predicted y-values will move if the observation in question is dropped from the data set. 
+%======================================================================================================%
+
+\subsection{DFBETAs}
+The measure that measures how much impact each observation has on a particular predictor is DFBETAs. 
+
+
+DFBETAS (standardized difference of the beta) is a measure that standardizes the absolute difference in parameter estimates between a (mixed effects) regression model based on a full set of data, and a model from which a (potentially influential) subset of data is removed. 
+
+
+The dfbeta refers to how much a parameter estimate changes if the observation or case in question is dropped from the data set.
+Cook's distance is presumably more important to you if you are doing predictive modeling, whereas dfbeta is more important in explanatory modeling.
+
+In general, large values of DFBETAS indicate observations that are influential in estimating a given parameter. \textbf{Belsley, Kuh, and Welsch (1980)} recommend 2 as a general cutoff value to indicate influential observations and  as a size-adjusted cutoff.
+
+The DFBETA for a predictor and for a particular observation is the difference between the regression coefficient calculated for all of the data and the regression coefficient calculated with the observation deleted, scaled by the standard error calculated with the observation deleted. 
+A value for DFBETAS is calculated for each covariate, and for each case, in the model separately.
+
+% DFBETA is a measure found for each observation in a dataset. 
+
+
+\begin{eqnarray}
+DFBETA_{a} &=& \hat{\beta} - \hat{\beta}_{(a)} \\
+&=& B(Y-Y_{\bar{a}}
+\end{eqnarray}
+In the case of method comparison studies, there are two covariates, and one can construct scatterplots of the pairs of dfbeta values accordingly, both for LOO and LSO calculations. Furthermore 95\% confidence ellipse can be constructed around these scatterplots.
+Note that with k covariates, there will be $k+1$ dfbetas (the intercept,$\beta_0$, and one $\beta$ for each covariate). When the model is specified without an intercept term, as in the last chapter, there is a set of DFBETAs corresponding to each measurement method.
+
+% For example there would be 2 sets of of dfbeta, 510 values for each in the case of LOO, and 85 for LSO diagnostics.
+
+
+
+% The DFBETA for a particular observation is the difference between the regression coefficient for an included variable calculated for all of the data and the regression coefficient calculated with the observation deleted, scaled by the standard error calculated with the observation deleted. 
+
+There is no agreement as to the critical threshold for DFBETAs. The cut-off value for DFBETAs is $\frac{2}{\sqrt{n}}$, where n is the number of observations. 
+However, another cut-off is to look for observations with a value greater than 1.00. Here cutoff means, 
+"this observation could be overly influential on the estimated coefficient".
+
+%===================================%
 \section*{Case Deletion Diagnostics for LME Data: Cooks Distance, DFBetas}
 In this section we introduce influence analysis and case deletion diagnosics. A full overview of the topic will be provided although there are specific tools that are particularly useful in the case of MCS problems: specifically the Cook's Distance and the DFBeta.
 
@@ -1517,5 +1453,6 @@ Limits of agreement are easily computable using the LME framework. While we will
 
 \bibliographystyle{chicago}
 \bibliography{DB-txfrbib}
+
 
 \end{document}
