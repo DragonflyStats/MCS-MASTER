@@ -78,10 +78,6 @@ rulesepcolor=\color{black},
 
 
 
-\section{Framework for Model Validation using Residual Diagnostics}
-In statistical modelling, the process of model validation is a critical step, but also a step that is too often overlooked. A very simple procedure is to examine commonly encountered
-metrics, such as the $R^2$ value. However, using a small handful of simple measures and methods is insufficient to properly assess the quality of a fitted model. To do so properly, a full and comprehensive
-analysis that tests of all of the assumptions, as far as possible, must be carried out.
 
 
 \section{Introduction}
@@ -102,17 +98,7 @@ agreement by raising pertinent questions. Further to the analysis of residuals, 
 %\subsection{Deviance}
 %In statistics, deviance is a quality of fit statistic for a model that is often used for statistical hypothesis testing. It is a generalization of the idea of using the sum of squares of residuals in ordinary least squares to cases where model-fitting is achieved by maximum likelihood.
 %
-\citet{schabenberger} describes a simple procedure for quantifying influence.
-\begin{itemize}
-	\item Firstly a model should be fitted to the data, and
-	estimates of the parameters should be obtained.
-	\item The second step is that either single or multiple data points, specifically outliers,
-	should be omitted from the analysis, with the original parameter
-	estimates being updated.
-	\item  The final step of the procedure is comparing the 	sets of estimates computed from the entire and reduced data sets
-	to determine whether the absence of observations changed the
-	analysis.
-\end{itemize}
+
 \section{Outliers and Leverage}
 
 
@@ -120,67 +106,39 @@ agreement by raising pertinent questions. Further to the analysis of residuals, 
 The question of whether or not a point should be considered an outlier must also be addressed. An outlier is an observation whose true value is unusual given its value on the predictor variables. The leverage of an observation is a further consideration. Leverage describes an observation with an extreme value on a predictor variable is a point with high leverage. High leverage points can have a great amount of effect on the estimate of regression coefficients.
 % - Leverage is a measure of how far an independent variable deviates from its mean.
 
-Influence can be thought of as the product of leverage and outlierness. An observation is said to be influential if removing the observation substantially changes the estimate of the regression coefficients. The \texttt{R} programming language has a variety of methods used to study each of the aspects for a linear model. While linear models and GLMS can be studied with a wide range of well-established diagnostic technqiues, the choice of methodology is much more restricted for the case of LMEs.
+
 
 %---------------------------------------------------------------------------%
 
 \section{What is Influence} %1.1.5
-Influence is understood to be the ability of a single or multiple
-data points, through their presences or absence in the data, to
-alter important aspects of the analysis, yield qualitatively
-different inferences, or violate assumptions of the statistical
+Influence is understood to be the ability of a single or multiple data points, through their presences or absence in the data, to
+alter important aspects of the analysis, yield qualitatively different inferences, or violate assumptions of the statistical
 model \citep{schabenberger}.
+% Influence is defined by \citet{schabenberger} as ``the ability of a single or multiple data points, through their presence or absence in the data, to alter important aspects of the analysis, yield qualitatively different inferences, or violate assumptions of the statistical model".
 
-Outliers are the most noteworthy data points in an analysis, and
-an objective of influence analysis is how influential they are,
-and the manner in which they are influential.
-
-\citet{schabenberger} describes a simple procedure for quantifying
-influence. Firstly a model should be fitted to the data, and
-estimates of the parameters should be obtained. The second step is
-that either single of multiple data points, specifically outliers,
-should be omitted from the analysis, with the original parameter
-estimates being updated. This is known as `leave one out \ leave k
-out' analysis. The final step of the procedure is comparing the
-sets of estimates computed from the entire and reduced data sets
-to determine whether the absence of observations changed the
-analysis.
-
-Influence is defined by \citet{schabenberger} as ``the ability of a single or multiple data points, through their presence
-or absence in the data, to alter important aspects of the analysis, yield qualitatively different inferences, or
-violate assumptions of the statistical model".
-
-The idea of influence diagnostics for a given observation is to quantify the effect of omission of this observation 
-from the data on the results of the model fit. %To this aim, the concept of likelihood displacement is used. 
-
-% http://www.amstat.org/meetings/jsm/2012/onlineprogram/AbstractDetails.cfm?abstractid=305411
-Influence diagnostics are formal techniques allowing for the identification of observations that exert substantial 
-influence on the estimates of fixed effects and variance covariance parameters. 
-
- 
-
-
-
-The goal of influence analysis is not primarily to mark data
-points for deletion so that a better model fit can be achieved for the reduced data, although this might be a
-result of influence analysis. The goal is rather to determine which cases are influential and the manner in
-which they are important to the analysis. A consequence of this that cases may be to mark data points for deletion so that a better model fit can be achieved for the reduced data \citep{schabenberger}.
-
+Influence can be thought of as the product of leverage and outlierness. An observation is said to be influential if removing the observation substantially changes the estimate of the regression coefficients. The \texttt{R} programming language has a variety of methods used to study each of the aspects for a linear model. While linear models and GLMS can be studied with a wide range of well-established diagnostic technqiues, the choice of methodology is much more restricted for the case of LMEs.
 
 Outliers are the most noteworthy data points in an analysis, and an objective of influence analysis is how influential they are,
 and the manner in which they are influential. Outliers, for example, may be the most noteworthy data points in
 an analysis. They can point to a model breakdown and lead to development of a better model.
 
-% MOVE BACK TO START
-%  Outliers, for example, may be the most noteworthy data points in
-%  an analysis. They can point to a model breakdown and lead to development of a better model.
+\citet{schabenberger} describes a simple procedure for quantifying influence. Firstly a model should be fitted to the data, and
+estimates of the parameters should be obtained. The second step is that either single of multiple data points, specifically outliers,
+should be omitted from the analysis, with the original parameter estimates being updated. This is known as `leave one out \ leave k
+out' analysis. The final step of the procedure is comparing the sets of estimates computed from the entire and reduced data sets
+to determine whether the absence of observations changed the analysis.
 
 
+The idea of influence diagnostics for a given observation is to quantify the effect of omission of this observation 
+from the data on the results of the model fit. %To this aim, the concept of likelihood displacement is used. 
 
+% http://www.amstat.org/meetings/jsm/2012/onlineprogram/AbstractDetails.cfm?abstractid=305411
+Influence diagnostics are formal techniques allowing for the identification of observations that exert substantial  influence on the estimates of fixed effects and variance covariance parameters. 
 
-
-
- 
+The goal of influence analysis is not primarily to mark data
+points for deletion so that a better model fit can be achieved for the reduced data, although this might be a
+result of influence analysis. The goal is rather to determine which cases are influential and the manner in
+which they are important to the analysis. A consequence of this that cases may be to mark data points for deletion so that a better model fit can be achieved for the reduced data \citep{schabenberger}.
 
 Model diagnostic techniques determine whether or not the distributional assumptions are satisfied, and to assess the influence of unusual observations. In classical linear models model diagnostics have been become a required part of any statistical analysis, and the methods are commonly available in statistical packages and standard textbooks on applied regression. However it has been noted by several papers that model diagnostics do not often accompany LME model analyses.
 The process of quantifying the influence of one or more observations relies on computing parameter estimates based on all data points, removing the cases in question from the data, refitting the model, and computing statistics based on the change between full-data and reduced-data estimation.
@@ -189,25 +147,19 @@ The process of quantifying the influence of one or more observations relies on c
 
 
 
-
-
-
-
-
-
-Diagnostic methods for fixed effects are generally analogues of methods used in classical linear models.
-Diagnostic methods for variance components are based on `one-step' methods. \citet{cook86} gives a completely general method for assessing the influence of local departures from assumptions in statistical models. 
 %---------------------------------------------------------------------------%
 
 
 
 \subsection{Cook's 1986 paper on Local Influence}%1.7.1
 
-Cook (1986) gave a completely general method for assessing influence of local departures from
-assumptions in statistical models.
 
 
-Diagnostic methods for fixed effects are generally analogues of methods used in classical linear models. Diagnostic methods for variance components are based on `one-step' methods.
+Diagnostic methods for fixed effects are generally analogues of methods used in classical linear models.
+Diagnostic methods for variance components are based on `one-step' methods. \citet{cook86} gives a completely general method for assessing the influence of local departures from assumptions in statistical models. 
+
+For classical OLS \citet{cook86} introduces powerful tools for local-influence assessment and examining perturbations in the assumptions of a model. In particular the effect of local perturbations of parameters or observations are examined.
+\citet{cook86} introduced methods for local influence assessment. These methods provide a powerful tool for examining perturbations in the assumption of a model, particularly the effects of local perturbations of parameters of observations.
 
 For linear models for uncorrelated data, it is not necessary to refit the model after removing a data point in order to measure the impact of an observation on the model. The change in fixed effect estimates, residuals, residual sums of squares, and the variance-covariance matrix of the fixed effects can be computed based on the fit to the full data alone. By contrast, in mixed models several important complications arise. Data points can affect not only the fixed effects but also the covariance parameter estimates on which the fixed-effects estimates depend. 
 
@@ -231,18 +183,6 @@ As well as individual observations, Cook's distance can be used to analyse the i
 \end{eqnarray}
 %It uses the same structure for measuring the combined impact of the differences in the estimated regression coefficients when the $k$th case is deleted. 
 
-
-
-
-
-% \citet{cook86} 
-\citet{cook86} gives a completely general method for assessing the influence of local departures from assumptions in statistical models.
-For classical OLS \citet{cook86} introduces powerful tools for local-influence assessment and examining perturbations in the assumptions of a model. In particular the effect of local perturbations of parameters or observations are examined.
-\citet{cook86} introduced methods for local influence assessment. These methods provide a powerful tool for examining perturbations in the assumption of a model, particularly the effects of local perturbations of parameters of observations.
-
-
-
-
 \subsection{Influence analysis for LME Models} %1.7
 
 
@@ -255,14 +195,10 @@ Likelihood based estimation methods, such as ML and REML, are sensitive to unusu
 %================================================================ %
 
 \subsection{Computation Matters}
-While the concept of influence analysis is straightforward,
-implementation in mixed models is more complex. Update formulae
-for fixed effects models are available only when the covariance
-parameters are assumed to be known.
+While the concept of influence analysis is straightforward, implementation in mixed models is more complex. Update formulae for fixed effects models are available only when the covariance parameters are assumed to be known.
 
 
-An iterative analysis may seem computationally expensive.
-computing iterative influence diagnostics for $n$ observations
+An iterative analysis may seem computationally expensive. computing iterative influence diagnostics for $n$ observations
 requires $n+1$ mixed models to be fitted iteratively.
 
 
@@ -297,8 +233,7 @@ Model diagnostic techniques, well established for classical models, have since b
 
 \citet{schabenberger} examines the use and implementation of influence measures in LME models.
 
-Outliers are the most noteworthy data points in an analysis, and an objective of influence analysis is how influential they are,
-and the manner in which they are influential.
+
 
 
 \citet{schabenberger} considers several important aspects of the use and implementation of influence measures in LME models, noting that it is not always possible to
@@ -381,7 +316,7 @@ If $V_{ij}$ denotes the element in row $i$, column $j$ of $\boldsymbol{V}^{-1}$,
 %-----------------------------------------------------------------------------------------%
 
 
-section{Case Deletion Diagnostics for LME models}
+\section{Case Deletion Diagnostics for LME models}
 
 \citet{HaslettDillane} remark that linear mixed effects models
 didn't experience a corresponding growth in the use of deletion
@@ -426,19 +361,6 @@ influence measures in LME models.
 
 
 
-
-In LME models, fitted by either ML or REML, an important overall
-influence measure is the likelihood distance \citep{cook82}. The
-procedure requires the calculation of the full data estimates
-$\hat{\psi}$ and estimates based on the reduced data set
-$\hat{\psi}_{(U)}$. The likelihood distance is given by
-determining
-
-
-\begin{eqnarray}
-	LD_{(U)} &=& 2\{l(\hat{\psi}) - l( \hat{\psi}_{(U)}) \}\\
-	RLD_{(U)} &=& 2\{l_{R}(\hat{\psi}) - l_{R}(\hat{\psi}_{(U)})\}
-\end{eqnarray}
 
 
 
@@ -830,6 +752,19 @@ RLD_{(U)} &=& 2\{l_{R}(\hat{\psi}) - l_{R}(\hat{\psi}_{(U)})\}
 \citet{west} examines a group of methods that examine various aspects of influence diagnostics for LME models.
 For overall influence, the most common approaches are the \textit{likelihood distance} and the \textit{restricted likelihood distance}.
 
+
+In LME models, fitted by either ML or REML, an important overall
+influence measure is the likelihood distance \citep{cook82}. The
+procedure requires the calculation of the full data estimates
+$\hat{\psi}$ and estimates based on the reduced data set
+$\hat{\psi}_{(U)}$. The likelihood distance is given by
+determining
+
+
+\begin{eqnarray}
+LD_{(U)} &=& 2\{l(\hat{\psi}) - l( \hat{\psi}_{(U)}) \}\\
+RLD_{(U)} &=& 2\{l_{R}(\hat{\psi}) - l_{R}(\hat{\psi}_{(U)})\}
+\end{eqnarray}
 
 
 
