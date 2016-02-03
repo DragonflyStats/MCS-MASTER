@@ -1373,52 +1373,6 @@ We will simulate a data set based in lewis conversion problems, provide three re
 	
 	
 	\chapter{Linear Mixed effects Models}
-\section{Statement of the LME model}
-A linear mixed effects model is a linear mdoel that combined fixed and random effect terms formulated by \citet{LW82} as follows;
-
-\begin{displaymath}
-Y_{i} =X_{i}\beta + Z_{i}b_{i} + \epsilon_{i}
-\end{displaymath}
-\begin{itemize}
-	
-	\item $Y_{i}$ is the $n \times 1$ response vector \item $X_{i}$ is
-	the $n \times p$ Model matrix for fixed effects \item $\beta$ is
-	the $p \times 1$ vector of fixed effects coefficients \item
-	$Z_{i}$ is the $n \times q$ Model matrix for random effects \item
-	$b_{i}$ is the $q \times 1$ vector of random effects coefficients,
-	sometimes denoted as $u_{i}$ \item $\epsilon$ is the $n \times 1$
-	vector of observation errors
-\end{itemize}
-
-
-The linear mixed effects model is given by
-\begin{equation}
-Y = X\beta + Zu + \epsilon
-\end{equation}
-\section{Extended LME model}
-% Pinheiro Bates Page 202
-The extended single level LME model relaxes the independence assumption, allowing heteroscedastic and correlated within group errors.
-
-
-\begin{equation}
-\epsilon_{i} = \mathcal{N}(0, \sigma^2 \Lambda_{i})
-\end{equation}
-
-$\Lambda_{i}$ are positive definite matrices. $\sigma^2$ is factored out of the matrix for computational reasons.
-
-
-\section{Variance functions}
-
-Variance functions are applied to LME models through the `weights' argument. $R$ supports several variance functions.
-
-`varIdent' cosntructs a model with different variances per stratum.
-
-\subsection{Diagnostic plots}
-% Pinheiro Bates Page 391
-Diagnostic plots for identifying within-group heteroscedascity and assessing the adequacy of a variance function can also be used with `nlme' objects.
-
-
-
 \section{Introduction to Mixed Models}
 
 %\citet{BrownPrescott} defines random effects as realizations of
@@ -1471,6 +1425,96 @@ y_{ij} = \mu + \alpha_{i} + \beta_{j}  + \epsilon_{ij}
 In this formulation $\alpha_{i}$ is the random effect of round
 $i$, and the fixed effect component $\beta_{j}$ is the bias in
 chronometer $j$. (Also, no interaction term is used).
+
+
+
+
+\section{Matrix Formulation} There are matrix (i.e multivariate)
+formulations of both fixed effects models and random effects
+models. \citet{BrownPrescott} remarks that the matrix notation
+makes the underlying theory of mixed effects models much easier to
+work with. The fixed effects models can be specified as follows;
+
+\begin{equation}
+\textbf{Y} = \textbf{Xb} + \textbf{e}
+\end{equation}
+
+\textbf{Y} is the vector of $n$ observations, with dimension $n
+\times 1$. \textbf{b} is a vector of fixed $p$ effects, and has
+dimension $p \times 1$. It is composed of coefficients, with the
+first element being the population mean. For the skin tumour
+example, with the three specified fixed effects, $p=4$. \textbf{X}
+is known as the design `matrix', model matrix for fixed effects,
+and comprises $0$s or $1$s, depending on whether the relevant
+fixed effects have any effect on the observation is question.
+\textbf{X} has dimension $n \times p$. \textbf{e} is the vector of
+residuals with dimension $n \times 1$.
+
+The random effects models can be specified similarly. \textbf{Z}
+is known as the `model matrix for random effects', and also
+comprises $0$s or $1$s. It has dimension $n \times q$. \textbf{u}
+is a vector of random $q$ effects, and has dimension $q \times 1$.
+
+\begin{equation}
+\textbf{Y} = \textbf{Zu} + \textbf{e}
+\end{equation}
+
+Again, once the component fixed effects and random effects
+components are considered, progression to a mixed model
+formulation is a simple step. Further to \citet{LW82}, it is
+conventional to formulate a mixed effects model in matrix form as
+follows:
+
+\begin{equation}
+\textbf{Y} = \textbf{Xb} + \textbf{Zu} + \textbf{e}
+\end{equation}
+
+($E(\textbf{u})=0$, $E(\textbf{e})=0 $ and $E(\textbf{y}) =
+\textbf{Xb}$)
+
+
+\section{Statement of the LME model}
+A linear mixed effects model is a linear mdoel that combined fixed and random effect terms formulated by \citet{LW82} as follows;
+
+\begin{displaymath}
+Y_{i} =X_{i}\beta + Z_{i}b_{i} + \epsilon_{i}
+\end{displaymath}
+\begin{itemize}
+	
+	\item $Y_{i}$ is the $n \times 1$ response vector \item $X_{i}$ is
+	the $n \times p$ Model matrix for fixed effects \item $\beta$ is
+	the $p \times 1$ vector of fixed effects coefficients \item
+	$Z_{i}$ is the $n \times q$ Model matrix for random effects \item
+	$b_{i}$ is the $q \times 1$ vector of random effects coefficients,
+	sometimes denoted as $u_{i}$ \item $\epsilon$ is the $n \times 1$
+	vector of observation errors
+\end{itemize}
+
+
+The linear mixed effects model is given by
+\begin{equation}
+Y = X\beta + Zu + \epsilon
+\end{equation}
+\section{Extended LME model}
+% Pinheiro Bates Page 202
+The extended single level LME model relaxes the independence assumption, allowing heteroscedastic and correlated within group errors.
+
+
+\begin{equation}
+\epsilon_{i} = \mathcal{N}(0, \sigma^2 \Lambda_{i})
+\end{equation}
+
+$\Lambda_{i}$ are positive definite matrices. $\sigma^2$ is factored out of the matrix for computational reasons.
+
+
+\section{nlme - Variance functions}
+
+Variance functions are applied to LME models through the \texttt{`weights'} argument. $R$ supports several variance functions.
+
+`\texttt{varIdent}' cosntructs a model with different variances per stratum.
+
+\subsection{Diagnostic plots}
+[Pinheiro Bates Page 391] Diagnostic plots for identifying within-group heteroscedascity and assessing the adequacy of a variance function can also be used with `nlme' objects.
 
 
 
@@ -1682,49 +1726,6 @@ chronometer $j$. (Also, no interaction term is used).
 
 
 
-\section{Matrix Formulation} There are matrix (i.e multivariate)
-formulations of both fixed effects models and random effects
-models. \citet{BrownPrescott} remarks that the matrix notation
-makes the underlying theory of mixed effects models much easier to
-work with. The fixed effects models can be specified as follows;
-
-\begin{equation}
-\textbf{Y} = \textbf{Xb} + \textbf{e}
-\end{equation}
-
-\textbf{Y} is the vector of $n$ observations, with dimension $n
-\times 1$. \textbf{b} is a vector of fixed $p$ effects, and has
-dimension $p \times 1$. It is composed of coefficients, with the
-first element being the population mean. For the skin tumour
-example, with the three specified fixed effects, $p=4$. \textbf{X}
-is known as the design `matrix', model matrix for fixed effects,
-and comprises $0$s or $1$s, depending on whether the relevant
-fixed effects have any effect on the observation is question.
-\textbf{X} has dimension $n \times p$. \textbf{e} is the vector of
-residuals with dimension $n \times 1$.
-
-The random effects models can be specified similarly. \textbf{Z}
-is known as the `model matrix for random effects', and also
-comprises $0$s or $1$s. It has dimension $n \times q$. \textbf{u}
-is a vector of random $q$ effects, and has dimension $q \times 1$.
-
-\begin{equation}
-\textbf{Y} = \textbf{Zu} + \textbf{e}
-\end{equation}
-
-Again, once the component fixed effects and random effects
-components are considered, progression to a mixed model
-formulation is a simple step. Further to \citet{LW82}, it is
-conventional to formulate a mixed effects model in matrix form as
-follows:
-
-\begin{equation}
-\textbf{Y} = \textbf{Xb} + \textbf{Zu} + \textbf{e}
-\end{equation}
-
-($E(\textbf{u})=0$, $E(\textbf{e})=0 $ and $E(\textbf{y}) =
-\textbf{Xb}$)
-
 
 \section{Model Terms (Roy 2009)}
 It is important to note the following characteristics of this model.
@@ -1812,26 +1813,6 @@ $\boldsymbol{R}_{i}$ is a sub-matrix of this.\\
 	t-value and p-values are presented. This is relevant to Roy's first test.\end{itemize}
 %-----------------------------------------------------------------------------------%
 
-\section{Other Approaches}
-
-\subsection{Random coefficient growth curve model} (Chincilli
-1996) Random coefficient growth curve model, a special type of
-mixed model have been proposed a single measure of agreement for
-repeated measurements.
-\begin{equation}
-\textbf{d}= \textbf{Xb} + \textbf{Zu} + \textbf{e}
-\end{equation}
-The distributional asummptions also require \textbf{d} to
-\textbf{N}
-
-\subsection{Marginal Modelling}
-(Diggle 2002) proposes the use of marginal models as an
-alternative to mixed models.m Marginal models are appropriate when
-interences about the mean response are of specific interest.
-
-
-
-\newpage
 
 \section{LME}
 Consistent with the conventions of mixed models, \citet{pkc}
@@ -1877,18 +1858,7 @@ methodology assesses agreement.
 
 
 
-\section{Other Approaches}
 
-
-\citet{pkcng} generalize this approach to account for situations
-where the distributions are not identical, which is commonly the
-case. The TDI is not consistent and may not preserve its
-asymptotic nominal level, and that the coverage probability
-approach of \citet{lin2002} is overly conservative for moderate
-sample sizes. This methodology proposed by \citet{pkcng} is a
-regression based approach that models the mean and the variance of
-differences as functions of observed values of the average of the
-paired measurements.
 
 \section{Remarks}
 The relationship between precision and the within-item and between-item variability must be established. Roy establishes the equivalence of repeatability and within-item variability, and hence precision.  The method with the smaller within-item variability can be deemed to be the more precise.
@@ -1980,13 +1950,7 @@ Limits of agreement are easily computable using the LME framework. While we will
 		\hat{\sigma}^2_{e} = 0.3254\\
 	\end{eqnarray*}
 	
-	
-	\subsection{Extention to several random effects}
-	[pawitan section 17.7]
-	
-	
-	
-	
+
 	
 	
 
@@ -2005,16 +1969,19 @@ Limits of agreement are easily computable using the LME framework. While we will
 	
 	
 	\section{Conclusion}
-	\citet{BXC2008} and \citet{AARoy20092009} highlight the need for method comparison methodologies suitable for use in the presence of replicate measurements. \citet{AARoy20092009} presents a comprehensive methodology for assessing the agreement of two methods, for replicate measurements. This methodology has the added benefit of overcoming the problems of unbalanced data and unequal numbers of replicates. Implementation of the methodology, and interpretation of the results, is relatively easy for practitioners who have only basic statistical training. Furthermore, it can be shown that widely used existing methodologies, such as the limits of agreement, can be incorporated into ARoy2009's methodology.
+	\citet{BXC2008} and \citet{ARoy2009} highlight the need for method comparison methodologies suitable for use in the presence of replicate measurements. \citet{ARoy2009} presents a comprehensive methodology for assessing the agreement of two methods, for replicate measurements. This methodology has the added benefit of overcoming the problems of unbalanced data and unequal numbers of replicates. Implementation of the methodology, and interpretation of the results, is relatively easy for practitioners who have only basic statistical training. Furthermore, it can be shown that widely used existing methodologies, such as the limits of agreement, can be incorporated into ARoy2009's methodology.
 	%=========================================================================================================================================== %
 	%=========================================================================================================================================== %
 	
 	\section*{Permutation Test, Power Tests and Missing Data }
 	
 	This section explores topics such as dependent variable simulation and power analysis, introduced by Galecki \& Burzykowski (2013), and implementable with their \textbf{\textit{nlmeU}} \texttt{R} package.
+	
 	Using the \textbf{\textit{predictmeans}} \texttt{R} package, it is possible to perform permutation t-tests for coefficients of (fixed) effects and permutation F-tests.
 	
-	The matter of missing data has not been commonly encountered in either Method Comparison Studies or Linear Mixed Effects Modelling. However ARoy2009 (2009) deals with the relevant assumptions regrading missing data. Galecki \& Burzykowski (2013) approaches the subject of missing data in LME Modelling. The \textbf{\textit{nlmeU}} package includes the \texttt{patMiss} function, which ``\textit{allows to compactly present pattern of missing data in a given vector/matrix/data
+	The matter of missing data has not been commonly encountered in either Method Comparison Studies or Linear Mixed Effects Modelling. However ARoy2009 (2009) deals with the relevant assumptions regrading missing data. 
+	
+	Galecki \& Burzykowski (2013) approaches the subject of missing data in LME Modelling. The \textbf{\textit{nlmeU}} package includes the \texttt{patMiss} function, which ``\textit{allows to compactly present pattern of missing data in a given vector/matrix/data
 		frame or combination of thereof}".
 	
 	
@@ -2041,7 +2008,7 @@ Limits of agreement are easily computable using the LME framework. While we will
 	\end{itemize}
 	
 	
-	Identifying and fixing the problem so that the predictors now explain the information that they missed before should produce a good-looking set of residuals!
+	Identifying and fixing the problem so that the predictors now explain the information that they missed before should produce a good-looking set of residuals.
 	
 	In addition to the above, here are two more specific ways that predictive information can sneak into the residuals:
 	
@@ -2073,7 +2040,7 @@ Limits of agreement are easily computable using the LME framework. While we will
 	
 	
 	
-	\subsection{Passing and Bablok ( 1983) }
+	\subsection{Passing and Bablok (1983) }
 	Passing \& Bablok have described a linear regression model that
 	are without the usual assumptions regarding the distribution of
 	the samples and the measurement errors. The result does not depend
@@ -2121,41 +2088,7 @@ Limits of agreement are easily computable using the LME framework. While we will
 	comparative variances.
 	%----------------------------------------------------------------------------%
 
-	\section{Overview}
-	\begin{enumerate}
-		\item Extending deletion diagnostics to LMEs
-		\item Christensen et al
-		\item Haslett hayes
-		\item Schabenberger
-		\item Tewomir
-	\end{enumerate}
-	
-	\begin{enumerate}
-		\item Residual Diagnostics
-		\begin{enumerate}
-			\item Marginal and Conditional Diagnostics
-			\item Scaled Residuals
-		\end{enumerate}
-		
-		\item Influence Diagnostics
-		\begin{enumerate}
-			\item Underlying Concepts
-			\item Managing the Covariance Parameters
-			\item Predicted Values, PRESS Residual and the PRESS Statistic
-			\item Leverage
-			\item Internally and Externally Studentized Residuals
-			\item DFFITs and MDFFITs
-			\item Covariance Ratio and Trace
-			\item Likelihood Distance
-			\item Non-iterative Update Procedures
-		\end{enumerate}
-	\end{enumerate}
-	
-%------------------------------------------------------------------------------------%
 
-%-------------------------------------------------------------%
-
-	
 	\section{Linnet - References}
 	The statistical procedures are described in:
 	Linnet K. Necessary sample size for method comparison studies based on regression analysis. Clin Chem 1999; 45: 882-94.
@@ -2202,8 +2135,6 @@ The model with more parameters will always fit at least as well (have a greater 
 The test requires nested models, that is, models in which the more complex one can be transformed into the simpler model by imposing a set of linear constraints on the parameters.
 
 In a concrete case, if model 1 has 1 free parameter and a log-likelihood of 8012 and the alternative model has 3 degrees of freedom and a LL of 8024, then the probability of this difference is that of chi-square of 24 = 2·(8024 − 8012) under 2 = 3 − 1 degrees of freedom. Certain assumptions must be met for the statistic to follow a chi-squared distribution and often empirical p-values are computed.
-	
-\newpage	
 	
 	
 	\section{RSquared for LME models}
@@ -2579,12 +2510,7 @@ the practitioner opinion to judge the outcome of the methodology.
 %was indicated by the other.
 
 
-\section*{Introduction Quotes from Bartko's Paper}
-%Bartko Page 737
-"Can two methods of measurement be used interchangeably?"
 
-
-%------------------------------------------------%
 \section*{Bartko's Ellipse}
 
 \[ \frac{x - \bar{x}}{\sigma^2_x} - \frac{2\rho(x - \bar{x})(y - \bar{y})}{\sigma_x \sigma_y} + \frac{y - \bar{y}}{\sigma^2_y} = \chi^2(2df_(1-\rho^2) \]
@@ -2671,13 +2597,6 @@ covariance structure using Kronecker product of the underlying
 within-subject factor specific covariances structure.
 
 
-\section{Linnet - References}
-The statistical procedures are described in:
-Linnet K. Necessary sample size for method comparison studies based on regression analysis. Clin Chem 1999; 45: 882-94.
-Linnet K. Performance of Deming regression analysis in case of misspecified analytical error ratio in method comparison studies. Clin Chem 1998; 44: 1024-1031.
-Linnet K. Evaluation of regression procedures for methods comparison studies. Clin Chem 1993; 39. 424-432.
-Linnet K. Estimation of the linear relationship between measurements of two methods with proportional errors. Stat Med 1990; 9: 1463-1473.
-
 
 	\chapter{Residual Diagnostics}
 
@@ -2716,93 +2635,8 @@ into account these measurement errors. \emph{Random effects models
 measurement over the observation period can be taken as a random
 effect.
 
-	\section{Residual}
-	
-	A residual (or fitting error), on the other hand, is an observable estimate of the unobservable statistical error.
-	Residual (or error) represents unexplained (or residual) variation after fitting a regression model. It is the difference (or left over) between the observed value of the variable and the value suggested by the regression model.
-	Consider the previous example with men's heights and suppose we have a random sample of n people. The sample mean could serve as a good estimator of the population mean. Then we have:
-	
-	
-	The difference between the observed value of the dependent variable (y) and the predicted value (ŷ) is called the residual (e). Each data point has one residual.
-	
-	\[ \mbox{Residual} = \mbox{Observed value} - \mbox{Predicted value}\]
-	\[e = y - \hat{y} \]
-	
-	Both the sum and the mean of the residuals are equal to zero. .
-	
-	%--------------------------------- %
-	
-	
-	The difference between the height of each man in the sample and the unobservable population mean is a statistical error, whereas
-	The difference between the height of each man in the sample and the observable sample mean is a residual.
-	Note that the sum of the residuals within a random sample is necessarily zero, and thus the residuals are necessarily not independent. The statistical errors on the other hand are independent, and their sum within the random sample is almost surely not zero.
-	
-	%------------------------------- %
-	
-	Other uses of the word "error" in statistics: 
-	
-	The use of the term "error" as discussed in the sections above is in the sense of a deviation of a value from a hypothetical unobserved value. At least two other uses also occur in statistics, both referring to observable prediction errors:
-	
-	\begin{itemize}
-		\item Mean square error or mean squared error (abbreviated MSE) and root mean square error (RMSE) refer to the amount by which the values predicted by an estimator differ from the quantities being estimated (typically outside the sample from which the model was estimated).
-		
-		\item 
-		Sum of squared errors, typically abbreviated SSE or SSe, refers to the residual sum of squares (the sum of squared residuals) of a regression; this is the sum of the squares of the deviations of the actual values from the predicted values, within the sample used for estimation. Likewise, the sum of absolute errors (SAE) refers to the sum of the absolute values of the residuals, which is minimized in the least absolute deviations approach to regression.
-		
-	\end{itemize}
-	
-	%=================================================== %
-	% http://www.ime.usp.br/~jmsinger/MAE0610/Mixedmodelresiduals.pdf
-	
-	Cox and Snell (1968, JRSS-B): general definition of residuals for
-	models with single source of variability
-	Hilden-Minton (1995, PhD thesis UCLA), Verbeke and Lesaffre
-	(1997, CSDA) or Pinheiro and Bates (2000, Springer): extension to
-	define three types of residuals that accommodate the extra source of
-	variability present in linear mixed models, namely:
-	
-	i) Marginal residuals, 
-	%bξ = y − X\hat{\beta} = \hat{M}^{-1}\hat{Q}y ,
-	
-	predictors of marginal errors, 
-	
-	%ξ = y − E[y] = y − X\beta = Zb + e
-	
-	ii) Conditional residuals, 
-	\[be = y − X\hat{\beta} − Zbb = \hat{\sigma}Q\hat{y}\] , predictors of
-	conditional errors 
-	\[e = y − E[y|b] = y − X\beta − Zb\]
-	
-	iii) BLUP, Zbb, predictors of random effects,
-	\[ Zb = E[y|b] − E[y]\]
-	
-	\subsection{Residual Plots}
-	A residual plot is a graph that shows the residuals on the vertical axis and the independent variable on the horizontal axis. If the points in a residual plot are randomly dispersed around the horizontal axis, a linear regression model is appropriate for the data; otherwise, a non-linear model is more appropriate.
-	
-	Below the table on the left shows inputs and outputs from a simple linear regression analysis, and the chart on the right displays the residual (e) and independent variable (X) as a residual plot.
-	
-	%x	60	70	80	85	95
-	%y	70	65	70	95	85
-	%ŷ	65.411	71.849	78.288	81.507	87.945
-	%e	4.589	-6.849	-8.288	13.493	-2.945
-	% Image of residual plot
-	\newpage
-	The residual plot shows a fairly random pattern - the first residual is positive, the next two are negative, the fourth is positive, and the last residual is negative. This random pattern indicates that a linear model provides a decent fit to the data.
-	
-	Below, the residual plots show three typical patterns. The first plot shows a random pattern, indicating a good fit for a linear model. The other plot patterns are non-random (U-shaped and inverted U), suggesting a better fit for a non-linear model.
-	
-	
-	%Random pattern	Non-random: U-shaped	Non-random: Inverted U
-	In the next lesson, we will work on a problem, where the residual plot shows a non-random pattern. And we will show how to "transform" the data to use a linear model with nonlinear data.
-	%----------------------------- %
-	
-	\section{Studentization}
-	In statistics, a studentized residual is the quotient resulting from the division of a residual by an estimate of its standard deviation. Typically the standard deviations of residuals in a sample vary greatly from one data point to another even when the errors all have the same standard deviation, particularly in regression analysis; thus it does not make sense to compare residuals at different data points without first studentizing. It is a form of a Student's t-statistic, with the estimate of error varying between points.
-	
-	This is an important technique in the detection of outliers. It is named in honor of William Sealey Gosset, who wrote under the pseudonym Student, and dividing by an estimate of scale is called studentizing, in analogy with standardizing and normalizing: see Studentization.
-	
-	
-	
+
+
 	\section{Cooks's Distance - Implementation with \texttt{R}}
 	Cook's Distance is a measure indicating to what extent model parameters are influenced by (a set of) influential data on which the model is based. This function computes the Cook's distance based on the information returned by the \texttt{estex()} function.
 	
@@ -2890,16 +2724,6 @@ effect.
 	
 	
 	
-	\section{Residual Diagnostics}
-	
-	Consider a residual vector of the form $\hat{e} = \boldsymbol{PY} $, where $\boldsymbol{P}$ is a projection matrix, possibly an oblique projector.
-	External studentization uses an estimate of $Var$ that does not involve the $i$th observation.
-	Externally studentized residuals are often preferred over studentized residuals because they have well known distributional
-	properties in the standard linear models for independent data.
-	Residuals that are scaled by the estimated variances of the responses are referred to as Pearson-type residuals.
-	Standardization: \[ \frac{\hat{e}_i}{\sqrt{v_i}}\]
-	Studentization \[ \frac{\hat{e}_i}{\sqrt{\hat{v}_i}}\]
-	
 
 	\section{Two-tailed testing} A test for equality of variances, based on the likelihood Ratio test, is very simple to implement using existing methodologies. All that is required it to specify the reference model and the relevant nested mode as arguments to the command \texttt{anova()}. The output can be interpreted in the usual way.
 	
@@ -2953,29 +2777,7 @@ effect.
 	
 	
 	
-	\section{residuals.lme {nlme}- Extract lme Residuals}
-	
-	The residuals at level $i$ are obtained by subtracting the fitted levels at that level from the response vector (and dividing by the estimated within-group standard error, if \texttt{type="pearson"}). 
-	
-	The fitted values at level i are obtained by adding together the population fitted values (based only on the fixed effects estimates) and the estimated contributions of the random effects to the fitted values at grouping levels less or equal to i.
-	
-	%------------------------------------------------------------------------%
-	
-	\begin{framed}
-		\begin{verbatim}
-		
-		fm1 <- lme(distance ~ age + Sex, 
-		data = Orthodont, random = ~ 1)
-		head(residuals(fm1, level = 0:1))
-		summary(residuals(fm1) /
-		residuals(fm1, type = "p")) 
-		
-		# constant scaling factor 1.432
-		
-		\end{verbatim}
-	\end{framed}
-	
-	%-------------------------------------------------------------------------------------------------------------------------------------%
+
 	\section{influence.ME}
 	
 	\textit{influence.ME} allows you to compute measures of influential data for mixed effects models generated by lme4.
@@ -2985,7 +2787,6 @@ effect.
 	To standardize the assessment of how influential a (single group of) observation(s) is, several measures of influence are common practice, such as DFBETAS and Cook's Distance. In addition, we provide a measure of percentage change of the fixed point estimates and a simple procedure to detect changing levels of significance.
 	
 	\texttt{influence()} is the workhorse function of the influence.ME package. Based on a priorly estimated mixed effects regression model (estimated using lme4), the \texttt{influence()} function iteratively modifies the mixed effects model to neutralize the effect a grouped set of data has on the parameters, and which returns returns the fixed parameters of these iteratively modified models. These are used to compute measures of influential data.
-	
 	
 	
 	
@@ -3003,10 +2804,7 @@ effect.
 		In general, large values of DFBETAS indicate observations that are influential in estimating a given parameter. \item \textbf{Belsley, Kuh, and Welsch (1980)} recommend 2 as a general cutoff value to indicate influential observations and  as a size-adjusted cutoff.
 	\end{itemize}
 	
-	
-	
-	\newpage
-	
+
 	
 	
 	
@@ -3063,17 +2861,6 @@ The \texttt{CookD} fucntion , from the predictmeans R package, produces Cook’s
 	\end{figure}
 	
 
-\section{Diagnostic Tools for the nlme package}
-
-
-With the nlme package, the generic function \texttt{lme()} fits a linear mixed-effects model in the formulation described in Laird and Ware (1982) but allowing for nested random effects. 
-
-The within-group errors are allowed to be correlated and/or have unequal variances, which is very important in fitting the models for Roy's Tests
-
-The nlme package has a limited set of diagnostic tools that can be used to assess the model fit. A review of the package manual is sufficient to get a sense of the package's capability in that regard.
-
-
-
 
 \section{The \texttt{logLik} Function}
 \texttt{logLik.lme} returns the log-likelihood value of the linear mixed-effects model represented by object evaluated at the estimated coefficients. It is also possible to determine the restricted log-likelihood, if relevant, using this function. For the Blood Data Example,  the loglikelihood of the JS.roy1 model can be computed as follows.
@@ -3085,7 +2872,7 @@ The nlme package has a limited set of diagnostic tools that can be used to asses
 \end{framed}
 
 
-\section{Influence() - Description}
+\section{\texttt{Influence()} - Description}
 \texttt{influence()} is the workhorse function of the \texttt{influence.ME} package. 
 
 
@@ -3100,18 +2887,16 @@ These are used to compute measures of influential data.
 
 
 
-%\subsection*{Usage}
-%\begin{framed}
-%	\begin{verbatim}
-%	
-%	influence(model, group=NULL, select=NULL, obs=FALSE, 
-%	gf="single", count = FALSE, delete=TRUE, ...)
-%	\
-%	\end{verbatim}
-%\end{framed}
-%
-%
-%The \texttt{influence()} function was known as the \texttt{estex()} command in previous versions of the influence.ME pacakge
+\subsection*{Usage}
+\begin{framed}
+	\begin{verbatim}
+	
+	influence(model, group=NULL, select=NULL, obs=FALSE, 
+	gf="single", count = FALSE, delete=TRUE, ...)
+	
+	\end{verbatim}
+\end{framed}
+The \texttt{influence()} function was known as the \texttt{estex()} command in previous versions of the influence.ME pacakge
 %===========================================================================%
 %- http://support.sas.com/documentation/cdl/en/statug/63347/HTML/default/statug_reg_sect040.htm
 
@@ -3199,450 +2984,7 @@ The matter of missing data has not been commonly encountered in either Method Co
 		# 	qqnorm(JS.roy1, ~ranef(.,levels=1)
 		\end{verbatim}
 	\end{framed}
-	%====================================================================%
-	\subsubsection{Residuals plots}
-	
-	lme allows to plot the residuals in the following ways:
-	
-	\begin{framed}
-		\begin{verbatim}
-		res_lme=residuals(model_lme)
-		plot(res_lme)
-		qqnorm(res_lme)
-		qqline(res_lme)
-		plot(model_lme)
-		\end{verbatim}
-	\end{framed}
-	
-	When the \texttt{plot} function calls the model object, the residual plot is produced.
-	
-	
-	%====================================================================%
-	
-	
-	\begin{framed}
-		\begin{verbatim}
-		plot(JS.roy1, which=c(1) )
-		\end{verbatim}
-	\end{framed}
-	
-	LME models assume that the residuals of the model are normally distributed. A Normal probability plot can be constructed to check this assumption. Commonly used \texttt{R} commands can be used to construct the plot.
-	
-	
-	\begin{framed}
-		\begin{verbatim}
-		qqnorm(resid(JS.roy1),pch="*",col="red")
-		qqline(resid(JS.roy1),col="blue")
-		\end{verbatim}
-	\end{framed}
-	
-	\begin{framed}
-		\begin{verbatim}
-		table(dat$method[1:255])
-		## 
-		##   J   S 
-		## 255   0
-		table(dat$method[256:510])
-		## 
-		##   J   S 
-		##   0 255
-		\end{verbatim}	
-	\end{framed}
-	%==================================================================================%
-	\newpage
-	\begin{framed}
-		\begin{verbatim}
-		plot(roy.NLME, resid(., type = "p") ~ fitted(.) | method, 
-		abline = 0, id=.05)
-		\end{verbatim}
-	\end{framed}
-	\begin{figure}
-		\centering
-		\includegraphics[width=0.9\linewidth]{images/bloodnlmeResidPlot2}
-		\caption{}
-		\label{fig:blood}
-	\end{figure}
-	
-	\begin{framed}
-		\begin{verbatim}
-		library(predictMeans)
-		CookD(model, group=method, plot=TRUE, idn=5, newwd=FALSE)
-		\end{verbatim}
-	\end{framed}
-	
-	
-	\begin{verbatim}
-	## Cook's Distance
-	
-	\end{verbatim}
-	
-	
-	
-	\begin{framed}
-		\begin{verbatim}
-		
-		blood.red <- blood[!(blood$subject %in% c(68,78,80)),]
-		dim(blood.red)
-		# 27 observations should be removed.
-		
-		blood.NLME.red <-lme(BP ~ method-1 , random=~1|subject,data = blood.red)
-		plot(blood.NLME.red, resid(., type = "p") ~ fitted(.) | method, abline = 0, id=.05)
-		\end{verbatim}
-	\end{framed}
-	
-	
-	\begin{framed}
-		\begin{verbatim}
-		> shapiro.test(resid(JS.roy1)[1:255])
-		
-		Shapiro-Wilk normality test
-		
-		data:  resid(JS.roy1)[1:255]
-		W = 0.9931, p-value = 0.2852
-		\end{verbatim}
-	\end{framed}
-	
-	\begin{framed}
-		\begin{verbatim}
-		> shapiro.test(resid(JS.roy1)[256:510])
-		
-		Shapiro-Wilk normality test
-		
-		data:  resid(JS.roy1)[256:510]
-		W = 0.9395, p-value = 9.503e-09
-		\end{verbatim}
-	\end{framed}
-	\begin{figure}[h!]
-		\centering
-		\includegraphics[width=0.9\linewidth]{images/Resid-newplot2}
-		
-	\end{figure}
-	
-	
-	
-	\begin{framed}
-		\begin{verbatim}
-		data.frame( response = resid(JS.ARoy20091, type = "response"), 
-		pearson  = resid(JS.ARoy20091, type = "pearson"), 
-		normalized = resid(JS.ARoy20091, type = "normalized") )
-		\end{verbatim}
-	\end{framed}
-	
-	\begin{verbatim}
-	response      pearson    normalized
-	1    -4.65805902 -0.761587227 -0.7615872269
-	2    -0.88701342 -0.145025661  0.0776238081
-	3    -5.16580898 -0.844603753 -0.8446037530
-	4     2.29041830  0.374480726  0.6450898404
-	5     7.87508366  1.287567009  1.2875670086
-	6    -6.57048659 -1.074266908 -1.5090772378
-	...........................................
-	\end{verbatim}
-	For the $J$ observations, the variance is 6.116252 whereas for the $S$ observations, the denominator is 9.118144. (with the expected ratio of  1.490806)
-	
-	
-	\begin{framed}
-		\begin{verbatim}
-		> pearson %>%
-		+   as.numeric %>% 
-		+   matrix(nrow=85) %>%
-		+   round(4) 
-		[,1]    [,2]    [,3]    [,4]    [,5]    [,6]
-		[1,] -0.7616  0.2194  0.3829 -0.2983  0.3597 -0.0790
-		[2,] -0.1450  0.1820 -0.1450 -0.5014  0.1567  0.2663
-		[3,] -0.8446  0.4634  0.1364 -0.1630 -0.2727  0.1660
-		[4,]  0.3745 -0.2795 -0.2795 -0.2658 -0.2658  0.6115
-		[5,]  1.2876 -0.6744 -0.6744  0.8935 -0.0935 -0.8612
-		[6,] -1.0743  1.8687 -0.7473 -0.0383  0.2908 -0.3673
-		...........................................
-		
-		\end{verbatim}
-	\end{framed}
-	
-	We can plot the residuals against the fitted values, to assess the assumption of constant variance. 
-	\begin{framed}
-		\begin{verbatim}
-		# standardized residuals versus fitted values 
-		plot(JS.ARoy20091, resid(., type = "pearson") ~ fitted(.) , 
-		abline = 0, id = 0.05)
-		\end{verbatim}
-	\end{framed}
-	
-	
-	\begin{framed}
-		\begin{verbatim}
-		par(mfrow=c(1,2))
-		qqnorm((resid(JS.ARoy20091)[1:255]),
-		pch="*",col="red",
-		ylim=c(-40,40),
-		main="Method J")
-		qqline(resid(JS.ARoy20091)[1:255],col="blue")
-		qqnorm((resid(JS.ARoy20091)[256:510]),
-		pch="*",col="red",
-		ylim=c(-40,40),
-		main="Method S")
-		qqline(resid(JS.ARoy20091)[256:510],col="blue")
-		par(mfrow=c(1,1))
-		\end{verbatim}	
-	\end{framed}
-	
-		\subsubsection{Residuals plots}
-	
-	lme allows to plot the residuals in the following ways:
-	
-	\begin{framed}
-		\begin{verbatim}
-		res_lme=residuals(model_lme)
-		plot(res_lme)
-		qqnorm(res_lme)
-		qqline(res_lme)
-		plot(model_lme)
-		\end{verbatim}
-	\end{framed}
-	
-	When the \texttt{plot} function calls the model object, the residual plot is produced.
-	
-	
-	%====================================================================%
-	
-	
-	\begin{framed}
-		\begin{verbatim}
-		plot(JS.roy1, which=c(1) )
-		\end{verbatim}
-	\end{framed}
-	
-	LME models assume that the residuals of the model are normally distributed. A Normal probability plot can be constructed to check this assumption. Commonly used \texttt{R} commands can be used to construct the plot.
-	
-	
-	\begin{framed}
-		\begin{verbatim}
-		qqnorm(resid(JS.roy1),pch="*",col="red")
-		qqline(resid(JS.roy1),col="blue")
-		\end{verbatim}
-	\end{framed}
-	
-	\begin{framed}
-		\begin{verbatim}
-		table(dat$method[1:255])
-		## 
-		##   J   S 
-		## 255   0
-		table(dat$method[256:510])
-		## 
-		##   J   S 
-		##   0 255
-		\end{verbatim}	
-	\end{framed}
-	%==================================================================================%
-	\newpage
-	\begin{framed}
-		\begin{verbatim}
-		plot(roy.NLME, resid(., type = "p") ~ fitted(.) | method, 
-		abline = 0, id=.05)
-		\end{verbatim}
-	\end{framed}
-	\begin{figure}
-		\centering
-		\includegraphics[width=0.9\linewidth]{images/bloodnlmeResidPlot2}
-		\caption{}
-		\label{fig:blood}
-	\end{figure}
-	
-	\begin{framed}
-		\begin{verbatim}
-		library(predictMeans)
-		CookD(model, group=method, plot=TRUE, idn=5, newwd=FALSE)
-		\end{verbatim}
-	\end{framed}
-	
-	
-	\begin{verbatim}
-	## Cook's Distance
-	
-	\end{verbatim}
-	
-	
-	
-	\begin{framed}
-		\begin{verbatim}
-		
-		blood.red <- blood[!(blood$subject %in% c(68,78,80)),]
-		dim(blood.red)
-		# 27 observations should be removed.
-		
-		blood.NLME.red <-lme(BP ~ method-1 , random=~1|subject,data = blood.red)
-		plot(blood.NLME.red, resid(., type = "p") ~ fitted(.) | method, abline = 0, id=.05)
-		\end{verbatim}
-	\end{framed}
-	
-	
-	\begin{framed}
-		\begin{verbatim}
-		> shapiro.test(resid(JS.roy1)[1:255])
-		
-		Shapiro-Wilk normality test
-		
-		data:  resid(JS.roy1)[1:255]
-		W = 0.9931, p-value = 0.2852
-		\end{verbatim}
-	\end{framed}
-	
-	\begin{framed}
-		\begin{verbatim}
-		> shapiro.test(resid(JS.roy1)[256:510])
-		
-		Shapiro-Wilk normality test
-		
-		data:  resid(JS.roy1)[256:510]
-		W = 0.9395, p-value = 9.503e-09
-		\end{verbatim}
-	\end{framed}
-	\begin{figure}[h!]
-		\centering
-		\includegraphics[width=0.9\linewidth]{images/Resid-newplot2}
-		
-	\end{figure}
-	
-	
-	
-	\begin{framed}
-		\begin{verbatim}
-		data.frame( response = resid(JS.ARoy20091, type = "response"), 
-		pearson  = resid(JS.ARoy20091, type = "pearson"), 
-		normalized = resid(JS.ARoy20091, type = "normalized") )
-		\end{verbatim}
-	\end{framed}
-	
-	\begin{verbatim}
-	response      pearson    normalized
-	1    -4.65805902 -0.761587227 -0.7615872269
-	2    -0.88701342 -0.145025661  0.0776238081
-	3    -5.16580898 -0.844603753 -0.8446037530
-	4     2.29041830  0.374480726  0.6450898404
-	5     7.87508366  1.287567009  1.2875670086
-	6    -6.57048659 -1.074266908 -1.5090772378
-	...........................................
-	\end{verbatim}
-	For the $J$ observations, the variance is 6.116252 whereas for the $S$ observations, the denominator is 9.118144. (with the expected ratio of  1.490806)
-	
-	
-	\begin{framed}
-		\begin{verbatim}
-		> pearson %>%
-		+   as.numeric %>% 
-		+   matrix(nrow=85) %>%
-		+   round(4) 
-		[,1]    [,2]    [,3]    [,4]    [,5]    [,6]
-		[1,] -0.7616  0.2194  0.3829 -0.2983  0.3597 -0.0790
-		[2,] -0.1450  0.1820 -0.1450 -0.5014  0.1567  0.2663
-		[3,] -0.8446  0.4634  0.1364 -0.1630 -0.2727  0.1660
-		[4,]  0.3745 -0.2795 -0.2795 -0.2658 -0.2658  0.6115
-		[5,]  1.2876 -0.6744 -0.6744  0.8935 -0.0935 -0.8612
-		[6,] -1.0743  1.8687 -0.7473 -0.0383  0.2908 -0.3673
-		...........................................
-		
-		\end{verbatim}
-	\end{framed}
-	
-	We can plot the residuals against the fitted values, to assess the assumption of constant variance. 
-	\begin{framed}
-		\begin{verbatim}
-		# standardized residuals versus fitted values 
-		plot(JS.ARoy20091, resid(., type = "pearson") ~ fitted(.) , 
-		abline = 0, id = 0.05)
-		\end{verbatim}
-	\end{framed}
-	
-	
-	\begin{framed}
-		\begin{verbatim}
-		par(mfrow=c(1,2))
-		qqnorm((resid(JS.ARoy20091)[1:255]),
-		pch="*",col="red",
-		ylim=c(-40,40),
-		main="Method J")
-		qqline(resid(JS.ARoy20091)[1:255],col="blue")
-		qqnorm((resid(JS.ARoy20091)[256:510]),
-		pch="*",col="red",
-		ylim=c(-40,40),
-		main="Method S")
-		qqline(resid(JS.ARoy20091)[256:510],col="blue")
-		par(mfrow=c(1,1))
-		\end{verbatim}	
-	\end{framed}
-	
-	This code will allow you to make QQ plots for each level of the random effects.  LME models assume that not only the within-cluster residuals are normally distributed, but that each level of the random effects are as well. Depending on the model, you can vary the level from 0, 1, 2 and so on
-	\begin{framed}
-		\begin{verbatim}
-		qqnorm(JS.ARoy20091, ~ranef(.))
-		
-		# 	qqnorm(JS.ARoy20091, ~ranef(.,levels=1)
-		\end{verbatim}
-	\end{framed}
-	\begin{figure}[h!]
-		\centering
-		\includegraphics[width=0.9\linewidth]{images/ResidPlot2}
-		\caption{}
-		\label{fig:ResidPlot2}
-	\end{figure}	
-	
-		
-		\begin{framed}
-			\begin{verbatim}
-			data.frame( response = resid(JS.roy1, type = "response"), 
-			pearson  = resid(JS.roy1, type = "pearson"), 
-			normalized = resid(JS.roy1, type = "normalized") )
-			\end{verbatim}
-		\end{framed}
-		
-		\begin{verbatim}
-		response      pearson    normalized
-		1    -4.65805902 -0.761587227 -0.7615872269
-		2    -0.88701342 -0.145025661  0.0776238081
-		3    -5.16580898 -0.844603753 -0.8446037530
-		4     2.29041830  0.374480726  0.6450898404
-		5     7.87508366  1.287567009  1.2875670086
-		6    -6.57048659 -1.074266908 -1.5090772378
-		...........................................
-		\end{verbatim}
-		For the $J$ observations, the variance is 6.116252 whereas for the $S$ observations, the denominator is 9.118144. (with the expected ratio of  1.490806)
-		
-		
-		\begin{framed}
-			\begin{verbatim}
-			> pearson %>%
-			+   as.numeric %>% 
-			+   matrix(nrow=85) %>%
-			+   round(4) 
-			[,1]    [,2]    [,3]    [,4]    [,5]    [,6]
-			[1,] -0.7616  0.2194  0.3829 -0.2983  0.3597 -0.0790
-			[2,] -0.1450  0.1820 -0.1450 -0.5014  0.1567  0.2663
-			[3,] -0.8446  0.4634  0.1364 -0.1630 -0.2727  0.1660
-			[4,]  0.3745 -0.2795 -0.2795 -0.2658 -0.2658  0.6115
-			[5,]  1.2876 -0.6744 -0.6744  0.8935 -0.0935 -0.8612
-			[6,] -1.0743  1.8687 -0.7473 -0.0383  0.2908 -0.3673
-			...........................................
-			
-			\end{verbatim}
-		\end{framed}
-		
-			We can plot the residuals against the fitted values, to assess the assumption of constant variance. 
-			\begin{framed}
-				\begin{verbatim}
-				# standardized residuals versus fitted values 
-				plot(JS.roy1, resid(., type = "pearson") ~ fitted(.) , 
-				abline = 0, id = 0.05)
-				\end{verbatim}
-			\end{framed}
-			\begin{figure}[h!]
-				\centering
-				\includegraphics[width=0.9\linewidth]{images/Residuals-JS-Roy}
-				\caption{}
-				\label{fig:Residuals-JS-Roy}
-			\end{figure}
-			
-					
+
 	
 	\chapter{Fitting LME Models}
 	%\subsection{Overview of R implementations}
@@ -6321,15 +5663,6 @@ repeated measurements.
 The distributional asummptions also require \textbf{d} to
 \textbf{N}
 
-%------------------------------------------------------------------
-\newpage
-\subsection{Random Effects and MCS}
-The methodology comprises two calculations. The second calculation
-is for the standard deviation of means before the modified Bland
-and Altman method can be applied for repeated measurement data, a check of the assumption that the variance of the repeated
-measurements for each subject by each method is independent of the mean of the repeated measures. This can be done by plotting the
-within-subject standard deviation against the mean of each subject by each method. Mean Square deviation measures the total deviation
-of a
 
 \section{Random effects Model} \citet{Myles} proposes the use of
 Random effects models to address the issue of repeated
@@ -6346,6 +5679,7 @@ effect. He states that \emph{random effects models account for the
 Agreement between methods is reflected by the between-subject
 variation.The Random Effects Model takes this into account before
 calculating the within-subject standard deviation.
+
 \subsection{Myers Random Effects Model} The presentation of the
 95\% limits of agreement is for visual judgement of how well two
 methods of measurement agree. The smaller the range between the
@@ -6356,7 +5690,6 @@ a question of clinical judgement
 Repeated measurements for each subjects are often used in clinical
 research.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% COMPUTATION WITH R
 
 
 \subsection{Random Effects Modelling}
@@ -6389,12 +5722,27 @@ data.\\Faraway comments that the random effects approach is
 	something about the wider population beyond the particular
 	sample}.
 
+\section{Other Approaches : Marginal Modelling}
+(Diggle 2002) proposes the use of marginal models as an
+alternative to mixed models.m Marginal models are appropriate when
+interences about the mean response are of specific interest.
+
 \section{Other Approaches}
 
-\subsection{Random coefficient growth curve model} (Chincilli
-1996) Random coefficient growth curve model, a special type of
-mixed model have been proposed  a single measure of agreement for
-repeated measurements.
+
+\citet{pkcng} generalize this approach to account for situations
+where the distributions are not identical, which is commonly the
+case. The TDI is not consistent and may not preserve its
+asymptotic nominal level, and that the coverage probability
+approach of \citet{lin2002} is overly conservative for moderate
+sample sizes. This methodology proposed by \citet{pkcng} is a
+regression based approach that models the mean and the variance of
+differences as functions of observed values of the average of the
+paired measurements.
+
+\section{Other Approaches}
+
+
 \subsection{Marginal Modelling}
 (Diggle 2002) proposes the use of marginal models as an
 alternative to mixed models.m Marginal models are appropriate when
