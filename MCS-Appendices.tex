@@ -1507,6 +1507,62 @@ The extended single level LME model relaxes the independence assumption, allowin
 $\Lambda_{i}$ are positive definite matrices. $\sigma^2$ is factored out of the matrix for computational reasons.
 
 
+	\section{Restricted Likelihood Estimation}
+	
+	Restricted maximum likelihood (REML) is an alternative methods of
+	computing parameter estimated, developed by \citet*{PT71} and
+	\citet{Harville} to provide unbiased estimates of variance and
+	covariance parameters. The REML approach does not base estimates on a maximum likelihood fit of all the information, but instead uses a likelihood function derived from a data set, transformed to remove the irrelevant influences \citep{REMLDefine}.
+	%		This particular form of maximum likelihood estimation which does not base estimates on a maximum likelihood fit of all the information, but instead uses a likelihood function calculated from a transformed set of data, so that nuisance parameters have no effect.
+	%		
+	
+	REML obtains estimates of the fixed effects using non-likelihoodlike methods, such as ordinary least squares or generalized least squares, and then using these estimates it
+	maximizes the likelihood of the residuals (subtracting off the
+	fixed effects) to obtain estimates of the variance parameters. In
+	most software packages REML is the default algorithm used to
+	compute coefficients for the predictor variables. REML estimation
+	reduces the bias in the variance component, and also handles high
+	correlations more effectively, and is less sensitive to outliers
+	than ML.
+	
+	The variance components in the LME model may be estimated by ML or REML. Maximum Likelihood estimates do not take into account the estimation of fixed effects and so
+	are biased downwards. REML estimates accounts for the presence of these nuisance parameters by maximising the linearly independent error contrasts to obtain more unbiased estimates.
+	
+	
+	
+	
+	%The log likelihood $\emph{l}(\theta)$
+	
+	
+	
+	\citet{McCullSearle} describes two important outcomes of using
+	REML. Firstly variance components can be estimated without being
+	affected by fixed effects. Secondly in estimating variance
+	components with REML, degrees of freedom for the fixed effects can
+	be taken into account implicitly, whereas with ML they are not.
+	%	When estimating variance from normally distributed data, the ML
+	%	estimator for $\sigma^{2}$ is $\frac{S_{yy}}{n}$ whereas the REML
+	%	estimator is $\frac{S_{yy}}{n-1}$. $S_{yy}$ is the sum of square
+	%	identity;
+	%	\begin{equation}
+	%	S_{yy} = \Sigma_{i=i}^{N} (y-\bar{y})^{2}
+	%	\end{equation}
+	
+	Restricted maximum likelihood is often preferred to maximum likelihood because REML estimation reduces the bias in the variance component by taking into account the loss of degrees of freedom that results
+	from estimating the fixed effects in $\boldsymbol{\beta}$. Restricted maximum likelihood also handles high correlations more effectively, and is less sensitive to outliers than maximum likelihood.  The problem with REML for model building is that the likelihoods obtained for different fixed effects are not comparable. Hence it is not valid to compare models with different fixed effects using a likelihood ratio test or AIC when REML is used to
+	estimate the model. Therefore models derived using ML must be used instead.
+	
+	
+	%\subsection{Model Selection} The previous section on estimation assumes the specification of a mixed model in terms of X, Z, D, and R. Even though $X$ and $Z$ have known elements, there is some
+	%flexibility is specifying the form and construction is flexible, and for a particular data set, there are numerous possibilities	that can be considered. Similarly, various potential covariance 	structures for \textbf{D} and \textbf{R} may be considered.
+	
+	
+	%------------------------------------------------------------------------------%
+	
+	
+	
+	
+
 \section{nlme - Variance functions}
 
 Variance functions are applied to LME models through the \texttt{`weights'} argument. $R$ supports several variance functions.
