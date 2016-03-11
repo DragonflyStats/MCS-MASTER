@@ -73,24 +73,15 @@ rulesepcolor=\color{black},
 %---When there is negligible covariance between the two methods, Roys LoA and Carstensen's LoA are roughly the same.
 %---When there is covariance between the two methods, Roy's LoA and Carstensen's LoA differ, Roys usually narrower.
 
-%---Carstensen's limits of agreement
-%---The between item variances are not individually computed. An estimate for their sum is used.
-%---The within item variances are indivdually specified.
-%---Carstensen remarks upon this in his book (page 61), saying that it is "not often used".
-%---The Carstensen model does not include covariance terms for either VC matrices.
-%---Some of Carstensens estimates are presented, but not extractable, from R code, so calculations have to be done by %---hand.
-%--Importantly, estimates required to calculate the limits of agreement are not extractable, and therefore the calculation must be done by hand.
-%---All of Roys stimates are  extractable from R code, so automatic compuation can be implemented
-%---When there is negligible covariance between the two methods, Roys LoA and Carstensen's LoA are roughly the same.
-%---When there is covariance between the two methods, Roy's LoA and Carstensen's LoA differ, Roys usually narrower.
+
 
 \section{Introduction to LME Methods for Computing LoAs}
 
 
 Limits of agreement are used extensively for assessing agreement, because they are intuitive and easy to use.
-Necessarily their prevalence in literature has meant that they are now the best known measurement for agreement, and therefore any newer methodology would benefit by making reference to them.
+Necessarily their prevalence in literature has meant that they are now the best known measurement for agreement, and therefore any newer methodology should  reference them.
 
-Further to \citet{BA86}, the computation of the limits of agreement follows from the intermethod bias, and the variance of the difference of measurements. However, the classical Bland-Altman method was developed for two sets of measurements done on one occasion (i.e. independent data), and so this approach is not suitable for replicate measures data. Having said that, it may be used to explore the data because of the simplicity of the method , as a naive analysis.
+Further to \citet{BA86}, the computation of the limits of agreement follows from the intermethod bias, and the variance of the difference of measurements. However, the classical Bland-Altman method was developed for two sets of measurements done on one occasion (i.e. independent data), and so this approach is not suitable for replicate measures data. Having said that, it may be used to explore the data because of the simplicity of the method, as a naive analysis.
 
 \citet{BA99} addresses the issue of computing LoAs in the presence of replicate measurements, suggesting several computationally simple approaches. When repeated measures data are available, it is desirable to use all the data to compare the two methods. In cases where there are repeated measurements by each of the two methods on the same subjects, \citet{BA99} suggest calculating
 the mean for each method on each subject and use these pairs of means to compare the two methods. 
@@ -98,8 +89,12 @@ the mean for each method on each subject and use these pairs of means to compare
 The estimate of bias will be unaffected using this approach, but the estimate of the standard deviation of the differences will be too small, because of the reduction of the effect of repeated measurement error. \citet{BA99} propose a correction for this. Carstensen attends to this issue also, adding that nother approach would be to treat each repeated measurement separately.
 
 
-\citet{BXC2008} demonstrate statistical flaws with two approaches proposed by \citet{BA99} for the purpose of calculating the variance of the inter-method bias when replicate measurements are available. Carstensen attends to this issue also, adding that another approach would be to treat each repeated measurement separately. Instead, a linear mixed effects model is recommended for appropriate estimates for the variance of the inter-method bias. 
+\citet{BXC2008} demonstrate statistical flaws with two approaches proposed by \citet{BA99} for the purpose of calculating the variance of the inter-method bias when replicate measurements are available. Instead, a linear mixed effects model is recommended for appropriate estimates for the variance of the inter-method bias. 
 \citet{ARoy2009} formulates a very powerful method of assessing the agreement of two methods of measurement, with replicate measurements, also using LME models. Importantly, Roy's approach does not address the issue of limits of agreement (though another related analysis, the coefficient of repeatability, is mentioned).
+
+\citet{BXC2004} and \citet{BXC2008} uses an LME model for the purpose of comparing two methods of measurement where replicate measurements are available on each item. 
+
+\citet{BXC2008} proposes an approach for comparing two or more methods of measurement based on linear mixed effects models. This approach extends the well established Bland-Altman methodology for the case of replicate measurements on each item. 
 
 Conversely, \citet{BXC2008} proposes the use of LME models to allow for a more statistically rigourous approach to computing Limits of Agreement.  The respective papers also discuss several shortcoming for techniques for dealing with replicate measurements, as proposed by \citet{BA99}. \citet{BXC2008} computes the limits of agreement to the case with repeated measurements by using LME models. As their interest mainly lies in extending the Bland-Altman methodology, other formal tests are not considered.
 
@@ -108,9 +103,7 @@ Conversely, \citet{BXC2008} proposes the use of LME models to allow for a more s
 \subsection{Carstensen's Mixed Models}
 
 
-\citet{BXC2004} and \citet{BXC2008} uses an LME model for the purpose of comparing two methods of measurement where replicate measurements are available on each item. 
 
-\citet{BXC2008} proposes an approach for comparing two or more methods of measurement based on linear mixed effects models. This approach extends the well established Bland-Altman methodology for the case of replicate measurements on each item. 
 
 Their interest lies in generalizing the popular limits-of-agreement (LOA) methodology advocated by \citet{BA86} to take proper cognizance of the replicate measurements, by computing an appropriate estimate for the standard deviation of case-wise differences, so as to determine the limits of agreement.  This approach is similar to Deming's regression, and for estimating variance components for measurements by different methods. 
 
@@ -530,21 +523,8 @@ Carstensen's approach is that of a standard two-way mixed effects ANOVA with rep
 Even though the separate variances can not be identified, their sum can be estimated by the empirical variance of the differences.
 
 Like wise the separate $\alpha$ can not be
-estimated, only theiir difference can be estimated as
+estimated, only their difference can be estimated as
 $\bar{D}$
-
-
-%---Key difference 1---The True Value
-%---Colollary -- Difference in model types
-
-
-
-
-With regards to specifying the variance terms, Carstensen remarks that using his approach is common, remarking that \emph{
-	The only slightly non-standard (meaning "not often used") feature is the differing residual variances between methods }\citep{BXC2010}.
-%---Key Difference 2 --- Univariate normal distribution
-
-
 
 
 We assume that that the variance of the measurements is different for both methods, but it does not mean that the separate variances can be estimated with the data available.
@@ -721,23 +701,7 @@ uses a more intuitive approach, treating the observations as a random sample pop
 
 
 
-\section{Correlation terms}
-The methodology proposed by \citet{ARoy2009} is largely based on \citet{hamlett}, which in turn follows on from \citet{lam}. Hamlett re-analyses the data of \citet{lam} to generalize their model to cover other settings not covered by the Lam method. In many cases, repeated observation are collected from each subject in sequence  and/or longitudinally.
-% \[ y_i = \alpha + \mu_i + \epsilon \]
 
-
-Bivariate correlation coefficients have been shown to be of
-limited use in method comparison studies \citep{BA86}. However,
-recently correlation analysis has been developed to cope with
-repeated measurements, enhancing their potential usefulness. Roy
-incorporates the use of correlation into his methodology.
-
-
-In addition to the variability tests, Roy advises that it is preferable that a correlation of greater than $0.82$ exist for two methods to be considered interchangeable. However if two methods fulfil all the other conditions for agreement, failure to comply with this one can be overlooked. Indeed Roy demonstrates that placing undue importance to it can lead to incorrect conclusions. \citet{ARoy2009} remarks that current computer implementations only gives overall correlation coefficients, but not their variances. Consequently it is not possible to carry out inferences based on all overall correlation coefficients.
-
-%------------------------------------------------------------------------------------%
-
-	
 	\section{Linked replicates}
 	
 	\citet{BXC2008} proposes the addition of an random effects term to their model when the replicates are linked. This term is used to describe the `item by replicate' interaction, which is independent of the methods. This interaction is a source of variability independent of the methods. Therefore failure to account for it will result in variability being wrongly attributed to the methods.
@@ -788,6 +752,14 @@ account results in over-estimation of the limits of agreement. For the Carstense
 
 	
 \section{Assumptions on Variability}
+\section{Correlation terms}
+The methodology proposed by \citet{ARoy2009} is largely based on \citet{hamlett}, which in turn follows on from \citet{lam}. Hamlett re-analyses the data of \citet{lam} to generalize their model to cover other settings not covered by the Lam method. In many cases, repeated observation are collected from each subject in sequence  and/or longitudinally.
+% \[ y_i = \alpha + \mu_i + \epsilon \]
+
+
+
+%------------------------------------------------------------------------------------%
+
 	
 	Aside from the fixed effects, another important difference is that Carstensen's model requires that particular assumptions be applied, specifically that the off-diagonal elements of the between-item
 	and within-item variability matrices are zero. By extension the
@@ -977,7 +949,15 @@ $\Omega_{i}$' is the addition of $\hat{D}$ and $\hat{\Sigma}$.
 	considered irrelevant in the repeatability and one would therefore
 	base the repeatability on the measurement errors alone, i.e. use
 	$2.8 \sigma_m$.
-	
+\section{Correlation}	
+Bivariate correlation coefficients have been shown to be of
+limited use in method comparison studies \citep{BA86}. However,
+recently correlation analysis has been developed to cope with
+repeated measurements, enhancing their potential usefulness. Roy
+incorporates the use of correlation into his methodology.
+
+
+In addition to the variability tests, Roy advises that it is preferable that a correlation of greater than $0.82$ exist for two methods to be considered interchangeable. However if two methods fulfil all the other conditions for agreement, failure to comply with this one can be overlooked. Indeed Roy demonstrates that placing undue importance to it can lead to incorrect conclusions. \citet{ARoy2009} remarks that current computer implementations only gives overall correlation coefficients, but not their variances. Consequently it is not possible to carry out inferences based on all overall correlation coefficients.
 	
 
 \bibliographystyle{chicago}
