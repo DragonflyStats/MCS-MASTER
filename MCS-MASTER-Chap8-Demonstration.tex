@@ -68,6 +68,15 @@
 	\tableofcontents
 	
 	\chapter{Fitting MCS Models with R}
+
+\section*{Using Roy's Model to Compute LoAs and CR }
+
+In this short section, a demonstration of how ARoy2009's technique can be used to compute two common MCS metrics: Limits of Agreement and the Coefficient of Repeatabilty. While Limits of Agreement are not used in the analysis proposed here, they are ubiquituous in literature, and a demonstration on how to compute them with the ARoy2009 Model would assist the adoption of this proposed method.
+
+The coefficient of repeatability is encountered in Gage R \& R analysis. \textit{(A future exploration of how LME models can be used in that field would be of interest. This is something to include in the Conclusions Section).}
+%======================
+
+
 	%========================================================= %
 	\section{LME models in method comparison studies}
 	%With the greater computing power available for scientific
@@ -89,128 +98,194 @@
 	
 	The first case study is the Systolic blood pressure data, taken from \citet{BA99}.
 
+\chapter{Implementation}
 			\section{ (good)Implementation in R}
 			To implement an LME model in \texttt{R}, the \texttt{nlme} package is used. This package is loaded into the \texttt{R} environment using the library command, (i.e.\ \texttt{library(nlme)}). The \texttt{lme} command is used to fit LME models. The first two arguments to the \texttt{lme} function specify the fixed effect component of the model, and the data set to which the model is to be fitted. The first candidate model (`MCS1') fits an LME model on the data set `dat'. The variable `method' is assigned as the fixed effect, with the response variable `BP' (i.e.\ blood pressure).
 			
 			The third argument contain the random effects component of the formulation, describing the random effects, and their grouping structure. The \texttt{nlme} package provides a set of positive-definite matrices , the \texttt{pdMat} class, that can be used to specify a structure for the between-subject variance-covariance matrix for the random effects. For Roy's methodology, we will use the \texttt{pdSymm} and \texttt{pdCompSymm} to specify a symmetric structure and a compound symmetry structure respectively. A full discussion of these structures can be found in \citet[pg. 158]{PB}.
 			
 			Similarly a variety of structures for the with-subject variance-covariance matrix can be implemented using \texttt{nlme}. To implement a particular matrix structure, one must specify both a variance function and correlation structure accordingly. Variance functions are used to model the variance structure of the within-subject errors. \texttt{varIdent} is a variance function object used to allow different variances according to the levels of a classification factor in the data. A compound symmetry structure is implemented using the \texttt{corCompSymm} class, while the symmetric form is specified by \texttt{corSymm} class. Finally, the estimation methods is specified as ``ML" or ``REML".
-			\newpage
-			The first of Roy's candidate model can be implemented using the following code;\\
-			\hrule
-			\begin{verbatim}
-			MCS1 = lme(BP ~ method-1, data = dat,
-			random =  list(subject=pdSymm(~ method-1)),
-			weights=varIdent(form=~1|method),
-			correlation = corSymm(form=~1 | subject/obs), method="ML")
-			\end{verbatim}
-			\hrule
-			\vspace{1cm}
-			For the blood pressure data used in \citet{roy}, all four candidate models are implemented by slight variations of this piece of code, specifying either \texttt{pdSymm} or \texttt{pdCompSymm} in the second line, and either \texttt{corSymm} or \texttt{corCompSymm} in the fourth line.
-			For example, the second candidate model `MCS2' is implemented with the same code as MCS1, except for the term \texttt{pdCompSymm} in the second line, rather than \texttt{pdSymm}.
-			\\
-			\hrule
-			\begin{verbatim}
-			MCS2 = lme(BP ~ method-1, data = dat,
-			random = list(subject=pdCompSymm(~ method-1)),
-			weights = varIdent(form=~1|method),
-			correlation = corSymm(form=~1 | subject/obs), method="ML")
-			\end{verbatim}
-			\hrule
-			\vspace{1cm}
-			Using this \texttt{R} implementation for other data sets requires that the data set is structured appropriately (i.e.\ each case of observation records the index, response, method and replicate). Once formatted properly, implementation is simply a case of re-writing the first line of code, and computing the four candidate models accordingly.
-			\newpage
-			To perform a likelihood ratio test for two candidate models, simply use the \texttt{anova} command with the names of the candidate models as arguments. The following piece of code implement the first of Roy's variability tests.
-			\\
-			\hrule
-			\begin{verbatim}
-			> anova(MCS1,MCS2)
-			Model df    AIC    BIC  logLik   Test L.Ratio p-value
-			MCS1     1  8 4077.5 4111.3 -2030.7
-			MCS2     2  7 4075.6 4105.3 -2030.8 1 vs 2 0.15291  0.6958
-			>
-			\end{verbatim}
-			\hrule
-			\vspace{1cm}
-			The fixed effects estimates are the same for all four candidate models. The inter-method bias can be easily determined by inspecting a summary of any model. The summary presents estimates for all of the important parameters, but not the complete variance-covariance matrices (although some simple \texttt{R} functions can be written to overcome this). The variance estimates for the random effects for MCS2 is presented below.
-			\\
-			\hrule
-			\begin{verbatim}
-			Random effects:
-			Formula: ~method - 1 | subject
-			Structure: Compound Symmetry
-			StdDev Corr
-			methodJ  30.765
-			methodS  30.765 0.829
-			Residual  6.115
-			\end{verbatim}
-			\hrule
-			\vspace{1cm}
-			Similarly, for computing the limits of agreement the standard deviation of the differences is not explicitly given. Again, A simple \texttt{R} function can be written to calculate the limits of agreement directly.
-			
-			%------------------------------------------------------------------------------------%
 
-	
+\section{Computation of LMEs using R} 
+
+\cite{PB} advises how to
+implement LME models in statistical software (ostensibly for S and
+S PLUS, but R is very similar). When tackling linear mixed effects
+models using the R language, a statistician can call upon the
+\emph{lme} command found in the \emph{nlme} package.This command
+fits a LME model to the data set using either Maximum Likelihood
+(ML) or Restricted Maximum Likelihood (REML). ML may be referred
+to as 'full maximum likelihood' estimation.
+
+The first two arguments for \emph{lme} are \emph{fixed} and
+\emph{data}, which give the model for the expected responses (i.e.
+the fixed part of the model), and the data that themodel should be
+fitted from. The next argument is  \emph{random}, a one-sided
+formula which describes the random effects, and the grouping
+structure for the model. The  \emph{method} argument can specify
+whether to use 'REML', the default setting, or 'ML'.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MODEL SELECTION
+
+
+
 	\section{Important Consideration for MCS}
 	
-	The key issue is that \texttt{nlme} allows for the particular specification of ARoy2009's Model, specifically direct specification of the VC matrices for within subject and between subject residuals.
+	The key issue is that \texttt{nlme} allows for the particular specification of Roy's Model, specifically direct specification of the VC matrices for within subject and between subject residuals.
 	
-	The \texttt{lme4} package does not allow for ARoy2009's Model, for reasons that will identified shortly.
-	To advance the ideas that eminate from ARoy2009s' paper, one is required to use the \texttt{nlme} context. However, to take advantage of the infrastructure already provided for \texttt{lme4} models, one may change the research question away from that of ARoy2009's paper. 
+	The \texttt{lme4} package does not allow for Roy's Model, for reasons that will identified shortly.
+	To advance the ideas that eminate from Roy's paper, one is required to use the \texttt{nlme} context. However, to take advantage of the infrastructure already provided for \texttt{lme4} models, one may change the research question away from that of Roy's paper. 
 	To this end, an exploration of what textbf{influence.ME} can accomplished is merited.
 	%===================================================================================================%
 	%-----------------------------------------------------------------------------------------%
 
-\section{Demonstration of Roy's testing (Good)}
-\citet{ARoy2009} provides three case studies, using data sets well known in method comparison studies, to demonstrate how the methodology should be used. The first two examples used are from the `blood pressure' data set introduced by \citet{BA99}. The data set is a tabulation of simultaneous measurements of systolic blood pressure were made by each of two experienced observers (denoted `J' and `R') using a sphygmomanometer and by a semi-automatic blood pressure monitor (denoted `S'). Three sets of readings were made in quick succession. Roy compares the `J' and `S' methods in the first of her examples.
+	\section{Implementation in R}
+	To implement an LME model in \texttt{R}, the \texttt{nlme} package is used. This package is loaded into the \texttt{R} environment using the library command, (i.e.\ \texttt{library(nlme)}). The \texttt{lme} command is used to fit LME models. The first two arguments to the \texttt{lme} function specify the fixed effect component of the model, and the data set to which the model is to be fitted. The first candidate model (`MCS1') fits an LME model on the data set `dat'. The variable `method' is assigned as the fixed effect, with the response variable `BP' (i.e.\ blood pressure).
+	
+	The third argument contain the random effects component of the formulation, describing the random effects, and their grouping structure. The \texttt{nlme} package provides a set of positive-definite matrices , the \texttt{pdMat} class, that can be used to specify a structure for the between-subject variance-covariance matrix for the random effects. For ARoy2009's methodology, we will use the \texttt{pdSymm} and \texttt{pdCompSymm} to specify a symmetric structure and a compound symmetry structure respectively. A full discussion of these structures can be found in \citet[pg. 158]{PB}.
+	
+	Similarly a variety of structures for the with-subject variance-covariance matrix can be implemented using \texttt{nlme}. To implement a particular matrix structure, one must specify both a variance function and correlation structure accordingly. Variance functions are used to model the variance structure of the within-subject errors. \texttt{varIdent} is a variance function object used to allow different variances according to the levels of a classification factor in the data. A compound symmetry structure is implemented using the \texttt{corCompSymm} class, while the symmetric form is specified by \texttt{corSymm} class. Finally, the estimation methods is specified as ``ML" or ``REML".
+	\bigskip
+	The first of ARoy2009's candidate model can be implemented using the following code;\\
+	
+	\begin{framed}
+		\begin{verbatim}
+		MCS1 = lme(BP ~ method-1, data = dat,
+		random =  list(subject=pdSymm(~ method-1)),
+		weights=varIdent(form=~1|method),
+		correlation = corSymm(form=~1 | subject/obs), method="ML")
+		\end{verbatim}
+	\end{framed}
+	
+	For the blood pressure data used in \citet{ARoy2009}, all four candidate models are implemented by slight variations of this piece of code, specifying either \texttt{pdSymm} or \texttt{pdCompSymm} in the second line, and either \texttt{corSymm} or \texttt{corCompSymm} in the fourth line.
+	For example, the second candidate model `MCS2' is implemented with the same code as MCS1, except for the term \texttt{pdCompSymm} in the second line, rather than \texttt{pdSymm}.
+	
+	\begin{framed}
+		\begin{verbatim}
+		MCS2 = lme(BP ~ method-1, data = dat,
+		random = list(subject=pdCompSymm(~ method-1)),
+		weights = varIdent(form=~1|method),
+		correlation = corSymm(form=~1 | subject/obs), method="ML")
+		\end{verbatim}
+	\end{framed}
+	
+	Using this \texttt{R} implementation for other data sets requires that the data set is structured appropriately (i.e.\ each case of observation records the index, response, method and replicate). Once formatted properly, implementation is simply a case of re-writing the first line of code, and computing the four candidate models accordingly.
+	
+	
 
-The inter-method bias between the two method is found to be $15.62$ , with a $t-$value of $-7.64$, with a $p-$value of less than $0.0001$. Consequently there is a significant inter-method bias present between methods $J$ and $S$, and the first of the Roy's three agreement criteria is unfulfilled.
+	The fixed effects estimates are the same for all four candidate models. The inter-method bias can be easily determined by inspecting a summary of any model. The summary presents estimates for all of the important parameters, but not the complete variance-covariance matrices (although some simple \texttt{R} functions can be written to overcome this). The variance estimates for the random effects for MCS2 is presented below.
+	
+	\begin{framed}
+		\begin{verbatim}
+		Random effects:
+		Formula: ~method - 1 | subject
+		Structure: Compound Symmetry
+		StdDev Corr
+		methodJ  30.765
+		methodS  30.765 0.829
+		Residual  6.115
+		\end{verbatim}
+	\end{framed}
+	\vspace{1cm}
+	Similarly, for computing the limits of agreement the standard deviation of the differences is not explicitly given. Again, A simple \texttt{R} function can be written to calculate the limits of agreement directly.
+	
+	%------------------------------------------------------------------------------------%
+	
+	\subsection{Implementing the Mixed Models Fits}
+	They are implemented using the following {\tt{R}} code, utilising the
+	`nlme' package. An analysis of variance is used to compare the model fits.
+	
+	The {\tt{R}} script:
+	\begin{verbatim}
+	fit1 = lme( BP ~ method, data = dat, random = ~1 | subject )
+	fit2 = update(fit1, random = ~1 | subject/method )
+	fit3 = update(fit1, random = ~method - 1 | subject )
+	#analysis of variance
+	anova(fit1,fit2,fit3)
+	\end{verbatim}
+	
+	
+	
+	\subsection{Computation} Modern software
+	packages can be used to fit models accordingly. The best linear
+	unbiased predictor (BLUP) for a specific subject $i$ measured with
+	method $m$ has the form $BLUP_{mir} = \hat{\alpha_{m}} +
+	\hat{\beta_{m}}\mu_{i} + c_{mi}$, under the assumption that the
+	$\mu$s are the true item values.
+	
+	
+	
+	
+	
+	
+	
 
-Next, the first variability test is carried out, yielding maximum likelihood estimates of the between-subject variance covariance matrix, for both the null model, in compound symmetry (CS) form, and the alternative model in symmetric (symm) form. These matrices are determined to be as follows;
-
-\[
-\boldsymbol{\hat{D}}_{CS} = \left( \begin{array}{cc}
-946.50 & 784.32  \\
-784.32 & 946.50  \\
-\end{array}\right),
-\hspace{1.5cm}
-\boldsymbol{\hat{D}}_{Symm} = \left( \begin{array}{cc}
-923.98 & 785.24  \\
-785.24 & 971.30  \\
-\end{array}\right).
-\]
-
-
-
-A likelihood ratio test is perform to compare both candidate models. The log-likelihood of the null model is $-2030.7$, and for the alternative model $-2030.8$. The test statistic, presented with greater precision than the log-likelihoods, is $0.1592$. The $p-$value is $0.6958$. Consequently we fail to reject the null model, and by extension, conclude that the hypothesis that methods $J$ and $S$ have the same between-subject variability. Thus the second of the criteria is fulfilled.
-
-The second variability test determines maximum likelihood estimates of the within-subject variance covariance matrix, for both the null model, in CS form, and the alternative model in symmetric form.
-
-
-The second variability test determines maximum likelihood estimates of the within-subject variance covariance matrix, for both the null model, in CS form, and the alternative model in symmetric form.
-\[
-\boldsymbol{\hat{\Lambda}_{CS}} = \left( \begin{array}{cc}
-60.27  & 16.06  \\
-16.06  & 60.27  \\
-\end{array}\right),
-\hspace{1.5cm}
-\boldsymbol{\hat{\Lambda}}_{Symm} = \left( \begin{array}{cc}
-37.40 & 16.06  \\
-16.06 & 83.14  \\
-\end{array}\right).
-\]
-\[
-\boldsymbol{\hat{\Lambda}_{CS}} = \left( \begin{array}{cc}
-60.27  & 16.06  \\
-16.06  & 60.27  \\
-\end{array}\right),
-\hspace{1.5cm}
-\boldsymbol{\hat{\Lambda}}_{Symm} = \left( \begin{array}{cc}
-37.40 & 16.06  \\
-16.06 & 83.14  \\
-\end{array}\right).
-\]
-
+	\section{Fitting Models with the LME4 R package}
+	Two LME models are fitted to the data, one using the nlme package, one with the lme4 package. These models shall be called ``blood.nlme" and ``blood.lme4" respectively.
+	In both cases the method is characterized by a fixed effect, while there is a random effect for each subject.
+	This random effect accounts for the replicate measurements associated with each subject.
+	The differences between the estimate provided by the respective models are negligible, due to the simplicity of the model specification.
+	
+	
+	Maximum likelihood or restricted maximum likelihood (REML) estimates of the parameters in linear mixed-effects models can be determined using the \texttt{lmer} function in the lme4 package for R. As for most model-fitting functions in R, the model is described in an \texttt{lmer} call by a formula, in this case including both fixed- and random-effects terms. 
+	
+	The formula and data together determine a numerical representation of the model from which the profiled deviance or the profiled REML criterion can be evaluated as a function of some of the model parameters. The appropriate criterion is optimized, using one of the constrained optimization functions in \texttt{R}, to provide the parameter estimates. We describe the structure of the model, the steps in evaluating the profiled deviance or REML criterion, and the structure of classes or types that represents such a model. 
+	
+	Sufficient detail is included to allow specialization of these structures by users who wish to write functions to fit specialized linear mixed models, such as models incorporating pedigrees or smoothing splines, that are not easily expressible in the formula language used by lmer.
+	
+	
+	\begin{description}
+		\item[\texttt{y}] : Response variable
+		\item[\texttt{method}] : Method of Measurement
+		\item[\texttt{subject}] : Subject
+		\item[\texttt{MCSdata}] 
+	\end{description}
+	\begin{framed}
+		\begin{verbatim}
+		library(lme4)
+		
+		MCS.lme4 <- lmer(y ~ method-1 + (1|subject) , data=MCSdata)
+		\end{verbatim}
+	\end{framed}
+	\newpage
+	
+	%=====================%
+	
+	\subsection{Demonstration of Roy's testing}
+	Roy provides three case studies, using data sets well known in method comparison studies, to demonstrate how the methodology should be used. The first two examples used are from the `blood pressure' data set introduced by \citet{BA99}. The data set is a tabulation of simultaneous measurements of systolic blood pressure were made by each of two experienced observers (denoted `J' and `R') using a sphygmomanometer and by a semi-automatic blood pressure monitor (denoted `S'). Three sets of readings were made in quick succession. Roy compares the `J' and `S' methods in the first of her examples.
+	
+	The inter-method bias between the two method is found to be $15.62$ , with a $t-$value of $-7.64$, with a $p-$value of less than $0.0001$. Consequently there is a significant inter-method bias present between methods $J$ and $S$, and the first of the Roy's three agreement criteria is unfulfilled.
+	
+	Next, the first variability test is carried out, yielding maximum likelihood estimates of the between-subject variance covariance matrix, for both the null model, in compound symmetry (CS) form, and the alternative model in symmetric (symm) form. These matrices are determined to be as follows;
+	\[
+	\boldsymbol{\hat{D}}_{CS} = \left( \begin{array}{cc}
+	946.50 & 784.32  \\
+	784.32 & 946.50  \\
+	\end{array}\right),
+	\hspace{1.5cm}
+	\boldsymbol{\hat{D}}_{Symm} = \left( \begin{array}{cc}
+	923.98 & 785.24  \\
+	785.24 & 971.30  \\
+	\end{array}\right).
+	\]
+	
+	A likelihood ratio test is perform to compare both candidate models. The log-likelihood of the null model is $-2030.7$, and for the alternative model $-2030.8$. The test statistic, presented with greater precision than the log-likelihoods, is $0.1592$. The $p-$value is $0.6958$. Consequently we fail to reject the null model, and by extension, conclude that the hypothesis that methods $J$ and $S$ have the same between-subject variability. Thus the second of the criteria is fulfilled.
+	
+	The second variability test determines maximum likelihood estimates of the within-subject variance covariance matrix, for both the null model, in CS form, and the alternative model in symmetric form.
+	
+	\[
+	\boldsymbol{\hat{\Lambda}_{CS}} = \left( \begin{array}{cc}
+	60.27  & 16.06  \\
+	16.06  & 60.27  \\
+	\end{array}\right),
+	\hspace{1.5cm}
+	\boldsymbol{\hat{\Lambda}}_{Symm} = \left( \begin{array}{cc}
+	37.40 & 16.06  \\
+	16.06 & 83.14  \\
+	\end{array}\right).
+	\]
+	
 Again, A likelihood ratio test is perform to compare both candidate models. The log-likelihood of the alternative model model is $-2045.0$. As before, the null model has a log-likelihood of $-2030.7$. The test statistic is computed as $28.617$, again presented with greater precision. The $p-$value is less than $0.0001$. In this case we reject the null hypothesis of equal within-subject variability. Consequently the third of Roy's criteria is unfulfilled.
 The coefficient of repeatability for methods $J$ and $S$ are found to be 16.95 mmHg and 25.28 mmHg respectively.
 
@@ -227,49 +302,54 @@ With the null model the MLE of the within-subject variance covariance matrix is 
 801.40 & 1054.43  \\
 \end{array}\right),
 \]
-
-
+	
+	
+	The log-likelihood of the alternative model model is $-2045.2$, and again, the null model has a log-likelihood of $-2030.7$. The test statistic is $28.884$, and the $p-$value is less than $0.0001$. The null hypothesis, that both methods have equal overall variability, is rejected. Further to the second variability test, it is known that this difference is specifically due to the difference of within-subject variabilities.
+	
 The log-likelihood of the alternative model model is $-2045.2$, and again, the null model has a log-likelihood of $-2030.7$. The test statistic is $28.884$, and the $p-$value is less than $0.0001$. The null hypothesis, that both methods have equal overall variability, is rejected. Further to the second variability test, it is known that this difference is specifically due to the difference of within-subject variabilities.
 
 Lastly, Roy considers the overall correlation coefficient. The diagonal blocks $\boldsymbol{\hat{r}_{\Omega}}_{ii}$ of the correlation matrix indicate an overall coefficient of $0.7959$. This is less than the threshold of 0.82 that Roy recommends.
 
-\[
-\boldsymbol{\hat{r}_{\Omega}}_{ii} = \left( \begin{array}{cc}
-1  & 0.7959  \\
-0.7959  & 1  \\
-\end{array}\right)
-\]
+
 \begin{equation}
 \boldsymbol{\hat{r}_{\Omega}}_{ii} = \left( \begin{array}{cc}
 1  & 0.7959  \\
 0.7959  & 1  \\
 \end{array}\right)
 \end{equation}
-The off-diagonal blocks of the overall correlation matrix $\boldsymbol{\hat{r}_{\Omega}}_{ii'}$ present the correlation coefficients further to \citet{hamlett}.
-\[
-\boldsymbol{\hat{r}_{\Omega}}_{ii'} = \left( \begin{array}{cc}
-0.9611  & 0.7799  \\
-0.7799  & 0.9212  \\
-\end{array}\right).
-\]
-
-
-The overall conclusion of the procedure is that method $J$ and $S$ are not in agreement, specifically due to the within-subject variability, and the inter-method bias. The repeatability coefficients are substantially different, with the coefficient for method $S$ being 49\% larger than for method $J$. Additionally the overall correlation coefficient did not exceed the recommended threshold of $0.82$.
-
-
-
+	
+	The off-diagonal blocks of the overall correlation matrix $\boldsymbol{\hat{r}_{\Omega}}_{ii'}$ present the correlation coefficients further to \citet{hamlett}.
+	\[
+	\boldsymbol{\hat{r}_{\Omega}}_{ii'} = \left( \begin{array}{cc}
+	0.9611  & 0.7799  \\
+	0.7799  & 0.9212  \\
+	\end{array}\right).
+	\]
+	
+	The overall conclusion of the procedure is that method $J$ and $S$ are not in agreement, specifically due to the within-subject variability, and the inter-method bias. The repeatability coefficients are substantially different, with the coefficient for method $S$ being 49\% larger than for method $J$. Additionally the overall correlation coefficient did not exceed the recommended threshold of $0.82$.
+	
 %--------------------------------------------------%
-
+\chapter{Roy's Model}
 	\section*{Using Roy's Test to Identify cause of Lack of agreement}
-	
-	Barnhart specifies three conditions for method of measurement that are required for two methods of measurement to be considered in agreement.
-	
-	\begin{itemize}
-		\item[(i)] No Significant Inter-method bias
-		\item[(ii)] No significant Difference in Within-Subject Variance
-		\item[(iii)] No significant Difference in Within-Subject Variance 
-	\end{itemize}
-	
+		\citet{Barnhart}  describes the sources of disagreement as
+		differing population means, different between-subject variances,
+		different within-subject variances between two methods and poor
+		correlation between measurements of two methods.
+		
+
+		Roy's method considers two methods to be in agreement if three
+		conditions are met.
+		
+		\begin{itemize}
+			\item no significant bias, i.e. the difference between the two
+			mean readings is not "statistically significant",
+			
+			\item high overall correlation coefficient,
+			
+			\item the agreement between the two methods by testing their
+			repeatability coefficients.
+			
+		\end{itemize}
 	
 	\citet{ARoy2009} demonstrates a LME model specification, and a series of tests that look at each of these agreement criteria individually. If two methods of measuement lack agreement, the specific reason or reasons for this lack of agreement can be identified.
 	
@@ -304,35 +384,35 @@ The overall conclusion of the procedure is that method $J$ and $S$ are not in ag
 	The compound symmetry structure requires that both of these terms be equal, i.e $a_{11} = a_{22}$.
 	
 	%--------------------------------------------------%
-\section{Computation of LMEs using R} 
 
-\cite{PB} advises how to
-implement LME models in statistical software (ostensibly for S and
-S PLUS, but R is very similar). When tackling linear mixed effects
-models using the R language, a statistician can call upon the
-\emph{lme} command found in the \emph{nlme} package.This command
-fits a LME model to the data set using either Maximum Likelihood
-(ML) or Restricted Maximum Likelihood (REML). ML may be referred
-to as 'full maximum likelihood' estimation.
-
-The first two arguments for \emph{lme} are \emph{fixed} and
-\emph{data}, which give the model for the expected responses (i.e.
-the fixed part of the model), and the data that themodel should be
-fitted from. The next argument is  \emph{random}, a one-sided
-formula which describes the random effects, and the grouping
-structure for the model. The  \emph{method} argument can specify
-whether to use 'REML', the default setting, or 'ML'.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MODEL SELECTION
-
-
-
-	\section{Introduction}
+	\section{Model Terms for Roy's Techniques}
+	\begin{enumerate}
+		\item $\boldsymbol{b}_{i}$ is a $m-$dimensional vector comprised of
+		the random effects.
+		\begin{equation}
+		\boldsymbol{b}_{i} = \left( \begin{array}{c}
+		b_{1i} \\
+		b_{21}  \\
+		\end{array}\right)
+		\end{equation}
+		
+		\item $\boldsymbol{V}$ represents the correlation matrix of the replicated measurements on a given method.
+		$\boldsymbol{\Sigma}$ is the within-subject VC matrix.
+		
+		\item $\boldsymbol{V}$ and $\boldsymbol{\Sigma}$ are positive
+		definite matrices. The dimensions of $\boldsymbol{V}$ and
+		$\boldsymbol{\Sigma}$ are $3 \times 3 ( = p \times p )$ and $ 2 \times
+		2 (= k \times k)$.
+		
+		\item It is assumed that $\boldsymbol{V}$ is the same for both methods and $\boldsymbol{\Sigma}$ is
+		the same for all replications.
+		
+		\item $\boldsymbol{V} \bigotimes \boldsymbol{\Sigma}$ creates a $ 6 \times 6 ( = kp \times
+		kp)$ matrix.
+		$\boldsymbol{R}_{i}$ is a sub-matrix of this.
+	\end{enumerate}
 	
-	\citet{ARoy2009} uses an approach based on linear mixed effects (LME) models for the purpose of comparing the agreement between two methods of measurement, where replicate measurements on items, typically individuals, by both methods are available. She provides three tests of hypothesis appropriate for evaluating the agreement between the two methods of measurement under this sampling scheme. These tests consider null hypotheses that assume: absence of inter-method bias; equality of between-subject variabilities of the two methods; equality of within-subject variabilities of the two methods. By inter-method bias we mean that a systematic difference exists between observations recorded by the two methods. Differences in between-subject variabilities of the two methods arise when one method is yielding average response levels for individuals than are more variable than the average response levels for the same sample of individuals taken by the other method.  Differences in within-subject variabilities of the two methods arise when one method is yielding responses for an individual than are more variable than the responses for this same individual taken by the other method. The two methods of measurement can be considered to agree, and subsequently can be used interchangeably, if all three null hypotheses are true.
-	
-	
+
 	\section{Model terms}
 	It is important to note the following characteristics of this model.
 	\begin{itemize}
@@ -353,189 +433,10 @@ whether to use 'REML', the default setting, or 'ML'.
 	\end{itemize}
 	
 	
-	\section{Fitting Models with the LME4 R package}
-	Two LME models are fitted to the data, one using the nlme package, one with the lme4 package. These models shall be called ``blood.nlme" and ``blood.lme4" respectively.
-	In both cases the method is characterized by a fixed effect, while there is a random effect for each subject.
-	This random effect accounts for the replicate measurements associated with each subject.
-	The differences between the estimate provided by the respective models are negligible, due to the simplicity of the model specification.
-	
-	
-	Maximum likelihood or restricted maximum likelihood (REML) estimates of the parameters in linear mixed-effects models can be determined using the \texttt{lmer} function in the lme4 package for R. As for most model-fitting functions in R, the model is described in an \texttt{lmer} call by a formula, in this case including both fixed- and random-effects terms. 
-	
-	The formula and data together determine a numerical representation of the model from which the profiled deviance or the profiled REML criterion can be evaluated as a function of some of the model parameters. The appropriate criterion is optimized, using one of the constrained optimization functions in \texttt{R}, to provide the parameter estimates. We describe the structure of the model, the steps in evaluating the profiled deviance or REML criterion, and the structure of classes or types that represents such a model. 
-	
-	Sufficient detail is included to allow specialization of these structures by users who wish to write functions to fit specialized linear mixed models, such as models incorporating pedigrees or smoothing splines, that are not easily expressible in the formula language used by lmer.
-	
-	
-	\begin{description}
-		\item[\texttt{y}] : Response variable
-		\item[\texttt{method}] : Method of Measurement
-		\item[\texttt{subject}] : Subject
-		\item[\texttt{MCSdata}] 
-	\end{description}
-	\begin{framed}
-		\begin{verbatim}
-		library(lme4)
-		
-		MCS.lme4 <- lmer(y ~ method-1 + (1|subject) , data=MCSdata)
-		\end{verbatim}
-	\end{framed}
-	\newpage
-	
-	%=====================%
 
-		\subsection{Demonstration of Roy's testing}
-		Roy provides three case studies, using data sets well known in method comparison studies, to demonstrate how the methodology should be used. The first two examples used are from the `blood pressure' data set introduced by \citet{BA99}. The data set is a tabulation of simultaneous measurements of systolic blood pressure were made by each of two experienced observers (denoted `J' and `R') using a sphygmomanometer and by a semi-automatic blood pressure monitor (denoted `S'). Three sets of readings were made in quick succession. Roy compares the `J' and `S' methods in the first of her examples.
-		
-		The inter-method bias between the two method is found to be $15.62$ , with a $t-$value of $-7.64$, with a $p-$value of less than $0.0001$. Consequently there is a significant inter-method bias present between methods $J$ and $S$, and the first of the Roy's three agreement criteria is unfulfilled.
-		
-		Next, the first variability test is carried out, yielding maximum likelihood estimates of the between-subject variance covariance matrix, for both the null model, in compound symmetry (CS) form, and the alternative model in symmetric (symm) form. These matrices are determined to be as follows;
-		\[
-		\boldsymbol{\hat{D}}_{CS} = \left( \begin{array}{cc}
-		946.50 & 784.32  \\
-		784.32 & 946.50  \\
-		\end{array}\right),
-		\hspace{1.5cm}
-		\boldsymbol{\hat{D}}_{Symm} = \left( \begin{array}{cc}
-		923.98 & 785.24  \\
-		785.24 & 971.30  \\
-		\end{array}\right).
-		\]
-		
-		A likelihood ratio test is perform to compare both candidate models. The log-likelihood of the null model is $-2030.7$, and for the alternative model $-2030.8$. The test statistic, presented with greater precision than the log-likelihoods, is $0.1592$. The $p-$value is $0.6958$. Consequently we fail to reject the null model, and by extension, conclude that the hypothesis that methods $J$ and $S$ have the same between-subject variability. Thus the second of the criteria is fulfilled.
-		
-		The second variability test determines maximum likelihood estimates of the within-subject variance covariance matrix, for both the null model, in CS form, and the alternative model in symmetric form.
-		
-		\[
-		\boldsymbol{\hat{\Lambda}_{CS}} = \left( \begin{array}{cc}
-		60.27  & 16.06  \\
-		16.06  & 60.27  \\
-		\end{array}\right),
-		\hspace{1.5cm}
-		\boldsymbol{\hat{\Lambda}}_{Symm} = \left( \begin{array}{cc}
-		37.40 & 16.06  \\
-		16.06 & 83.14  \\
-		\end{array}\right).
-		\]
-		
-		Again, A likelihood ratio test is perform to compare both candidate models. The log-likelihood of the alternative model model is $-2045.0$. As before, the null model has a log-likelihood of $-2030.7$. The test statistic is computed as $28.617$, again presented with greater precision. The $p-$value is less than $0.0001$. In this case we reject the null hypothesis of equal within-subject variability. Consequently the third of Roy's criteria is unfulfilled.
-		The coefficient of repeatability for methods $J$ and $S$ are found to be 16.95 mmHg and 25.28 mmHg respectively.
-		
-		The last of the three variability tests is carried out to compare the overall variabilities of both methods.
-		With the null model the MLE of the within-subject variance covariance matrix is given below. The overall variabilities for the null and alternative models, respectively, are determined to be as follows;
-		\[
-		\boldsymbol{\hat{\Sigma}}_{CS} = \left( \begin{array}{cc}
-		1007.92  & 801.65  \\
-		801.65  & 1007.92  \\
-		\end{array}\right),
-		\hspace{1.5cm}
-		\boldsymbol{\hat{\Sigma}}_{Symm} = \left( \begin{array}{cc}
-		961.38 & 801.40  \\
-		801.40 & 1054.43  \\
-		\end{array}\right),
-		\]
-		
-		The log-likelihood of the alternative model model is $-2045.2$, and again, the null model has a log-likelihood of $-2030.7$. The test statistic is $28.884$, and the $p-$value is less than $0.0001$. The null hypothesis, that both methods have equal overall variability, is rejected. Further to the second variability test, it is known that this difference is specifically due to the difference of within-subject variabilities.
-		
-		Lastly, Roy considers the overall correlation coefficient. The diagonal blocks $\boldsymbol{\hat{r}_{\Omega}}_{ii}$ of the correlation matrix indicate an overall coefficient of $0.7959$. This is less than the threshold of 0.82 that Roy recommends.
-		
-		\[
-		\boldsymbol{\hat{r}_{\Omega}}_{ii} = \left( \begin{array}{cc}
-		1  & 0.7959  \\
-		0.7959  & 1  \\
-		\end{array}\right)
-		\]
-		
-		The off-diagonal blocks of the overall correlation matrix $\boldsymbol{\hat{r}_{\Omega}}_{ii'}$ present the correlation coefficients further to \citet{hamlett}.
-		\[
-		\boldsymbol{\hat{r}_{\Omega}}_{ii'} = \left( \begin{array}{cc}
-		0.9611  & 0.7799  \\
-		0.7799  & 0.9212  \\
-		\end{array}\right).
-		\]
-		
-		The overall conclusion of the procedure is that method $J$ and $S$ are not in agreement, specifically due to the within-subject variability, and the inter-method bias. The repeatability coefficients are substantially different, with the coefficient for method $S$ being 49\% larger than for method $J$. Additionally the overall correlation coefficient did not exceed the recommended threshold of $0.82$.
-		
-		
-
-	\section{Implementation in R}
-	To implement an LME model in \texttt{R}, the \texttt{nlme} package is used. This package is loaded into the \texttt{R} environment using the library command, (i.e.\ \texttt{library(nlme)}). The \texttt{lme} command is used to fit LME models. The first two arguments to the \texttt{lme} function specify the fixed effect component of the model, and the data set to which the model is to be fitted. The first candidate model (`MCS1') fits an LME model on the data set `dat'. The variable `method' is assigned as the fixed effect, with the response variable `BP' (i.e.\ blood pressure).
+	\section{Introduction}
 	
-	The third argument contain the random effects component of the formulation, describing the random effects, and their grouping structure. The \texttt{nlme} package provides a set of positive-definite matrices , the \texttt{pdMat} class, that can be used to specify a structure for the between-subject variance-covariance matrix for the random effects. For ARoy2009's methodology, we will use the \texttt{pdSymm} and \texttt{pdCompSymm} to specify a symmetric structure and a compound symmetry structure respectively. A full discussion of these structures can be found in \citet[pg. 158]{PB}.
-	
-	Similarly a variety of structures for the with-subject variance-covariance matrix can be implemented using \texttt{nlme}. To implement a particular matrix structure, one must specify both a variance function and correlation structure accordingly. Variance functions are used to model the variance structure of the within-subject errors. \texttt{varIdent} is a variance function object used to allow different variances according to the levels of a classification factor in the data. A compound symmetry structure is implemented using the \texttt{corCompSymm} class, while the symmetric form is specified by \texttt{corSymm} class. Finally, the estimation methods is specified as ``ML" or ``REML".
-	\bigskip
-	The first of ARoy2009's candidate model can be implemented using the following code;\\
-	
-	\begin{framed}
-		\begin{verbatim}
-		MCS1 = lme(BP ~ method-1, data = dat,
-		random =  list(subject=pdSymm(~ method-1)),
-		weights=varIdent(form=~1|method),
-		correlation = corSymm(form=~1 | subject/obs), method="ML")
-		\end{verbatim}
-	\end{framed}
-	
-	For the blood pressure data used in \citet{AARoy20092009}, all four candidate models are implemented by slight variations of this piece of code, specifying either \texttt{pdSymm} or \texttt{pdCompSymm} in the second line, and either \texttt{corSymm} or \texttt{corCompSymm} in the fourth line.
-	For example, the second candidate model `MCS2' is implemented with the same code as MCS1, except for the term \texttt{pdCompSymm} in the second line, rather than \texttt{pdSymm}.
-	
-	\begin{framed}
-		\begin{verbatim}
-		MCS2 = lme(BP ~ method-1, data = dat,
-		random = list(subject=pdCompSymm(~ method-1)),
-		weights = varIdent(form=~1|method),
-		correlation = corSymm(form=~1 | subject/obs), method="ML")
-		\end{verbatim}
-	\end{framed}
-	
-	Using this \texttt{R} implementation for other data sets requires that the data set is structured appropriately (i.e.\ each case of observation records the index, response, method and replicate). Once formatted properly, implementation is simply a case of re-writing the first line of code, and computing the four candidate models accordingly.
-	
-	
-	To perform a likelihood ratio test for two candidate models, simply use the \texttt{anova} command with the names of the candidate models as arguments. The following piece of code implement the first of ARoy2009's variability tests.
-	
-	\begin{framed}
-		\begin{verbatim}
-		> anova(MCS1,MCS2)
-		Model df    AIC    BIC  logLik   Test L.Ratio p-value
-		MCS1     1  8 4077.5 4111.3 -2030.7
-		MCS2     2  7 4075.6 4105.3 -2030.8 1 vs 2 0.15291  0.6958
-		>
-		\end{verbatim}
-	\end{framed}
-	
-	The fixed effects estimates are the same for all four candidate models. The inter-method bias can be easily determined by inspecting a summary of any model. The summary presents estimates for all of the important parameters, but not the complete variance-covariance matrices (although some simple \texttt{R} functions can be written to overcome this). The variance estimates for the random effects for MCS2 is presented below.
-	
-	\begin{framed}
-		\begin{verbatim}
-		Random effects:
-		Formula: ~method - 1 | subject
-		Structure: Compound Symmetry
-		StdDev Corr
-		methodJ  30.765
-		methodS  30.765 0.829
-		Residual  6.115
-		\end{verbatim}
-	\end{framed}
-	\vspace{1cm}
-	Similarly, for computing the limits of agreement the standard deviation of the differences is not explicitly given. Again, A simple \texttt{R} function can be written to calculate the limits of agreement directly.
-	
-	%------------------------------------------------------------------------------------%
-	
-	
-	
-
-	
-	\subsection{Computation} Modern software
-	packages can be used to fit models accordingly. The best linear
-	unbiased predictor (BLUP) for a specific subject $i$ measured with
-	method $m$ has the form $BLUP_{mir} = \hat{\alpha_{m}} +
-	\hat{\beta_{m}}\mu_{i} + c_{mi}$, under the assumption that the
-	$\mu$s are the true item values.
-	
-	
-	
-	
-	
+	\citet{ARoy2009} uses an approach based on linear mixed effects (LME) models for the purpose of comparing the agreement between two methods of measurement, where replicate measurements on items, typically individuals, by both methods are available. She provides three tests of hypothesis appropriate for evaluating the agreement between the two methods of measurement under this sampling scheme. These tests consider null hypotheses that assume: absence of inter-method bias; equality of between-subject variabilities of the two methods; equality of within-subject variabilities of the two methods. By inter-method bias we mean that a systematic difference exists between observations recorded by the two methods. Differences in between-subject variabilities of the two methods arise when one method is yielding average response levels for individuals than are more variable than the average response levels for the same sample of individuals taken by the other method.  Differences in within-subject variabilities of the two methods arise when one method is yielding responses for an individual than are more variable than the responses for this same individual taken by the other method. The two methods of measurement can be considered to agree, and subsequently can be used interchangeably, if all three null hypotheses are true.
 	
 	
 
@@ -568,32 +469,12 @@ whether to use 'REML', the default setting, or 'ML'.
 	
 	\section{Roy's LME methodology for assessing agreement}
 	
-	\citet{Barnhart}  describes the sources of disagreement as
-	differing population means, different between-subject variances,
-	different within-subject variances between two methods and poor
-	correlation between measurements of two methods.
-	
-	
-	\citet{ARoy2009} proposes a novel method using the LME model with Kronecker product covariance structure in a doubly multivariate set-up to assess the agreement between a new method and an established
-	method with unbalanced data and with unequal replications for different subjects,proposes the use of LME models to perform a test
-	on two methods of agreement to determine whether they can be used
-	interchangeably.
+
+
 
 
 	
-	Roy's method considers two methods to be in agreement if three
-	conditions are met.
-	
-	\begin{itemize}
-		\item no significant bias, i.e. the difference between the two
-		mean readings is not "statistically significant",
-		
-		\item high overall correlation coefficient,
-		
-		\item the agreement between the two methods by testing their
-		repeatability coefficients.
-		
-	\end{itemize}
+
 	
 	The methodology uses a linear mixed effects regression fit using
 	compound symmetry (CS) correlation structure on \textbf{V}.
@@ -661,7 +542,7 @@ whether to use 'REML', the default setting, or 'ML'.
 		
 	\section{Roy's Hypotheses Tests}
 	
-	In order to express ARoy2009's LME model in matrix notation we gather all $2n_i$ observations specific to item $i$ into a single vector  $\boldsymbol{y}_{i} = (y_{1i1},y_{2i1},y_{1i2},\ldots,y_{mir},\ldots,y_{1in_{i}},y_{2in_{i}})^\prime.$ The LME model can be written
+	In order to express Roy's LME model in matrix notation we gather all $2n_i$ observations specific to item $i$ into a single vector  $\boldsymbol{y}_{i} = (y_{1i1},y_{2i1},y_{1i2},\ldots,y_{mir},\ldots,y_{1in_{i}},y_{2in_{i}})^\prime.$ The LME model can be written
 	\[
 	\boldsymbol{y_{i}} = \boldsymbol{X_{i}\beta} + \boldsymbol{Z_{i}b_{i}} + \boldsymbol{\epsilon_{i}},
 	\]
@@ -690,75 +571,7 @@ whether to use 'REML', the default setting, or 'ML'.
 	
 	$\boldsymbol{R}_{i}$ is the variance covariance matrix for the residuals, i.e. the within-item sources of variation between both methods. Computational analysis of linear mixed effects models allow for the explicit analysis of both $\boldsymbol{G}$ and $\boldsymbol{R_i}$.
 	
-	\citet{hamlett} shows that $\boldsymbol{R}_{i}$  can be expressed as $\boldsymbol{R}_{i} = \boldsymbol{I}_{n_{i}} \otimes \boldsymbol{\Sigma}$. The partial within-item variance?covariance matrix of two methods at any replicate is denoted $\boldsymbol{\Sigma}$, where $\sigma^2_{1}$ and $\sigma^2_{2}$ are the within-subject variances of the respective methods, and $\sigma_{12}$ is the within-item covariance between the two methods. It is assumed that the within-item variance?covariance matrix $\boldsymbol{\Sigma}$ is the same for all replications. Again it is important to note that no special assumptions are made about the structure of the matrix.
-	
-	\begin{equation}
-	\boldsymbol{\Sigma} = \left( \begin{array}{cc}
-	\sigma^2_{1} & \sigma_{12} \\
-	\sigma_{12} & \sigma^2_{2} \\
-	\end{array}\right)
-	\end{equation}
-	
-	\vspace{1in}
-	
-	For expository purposes consider the case where each item provides three replicates by each method. Then in matrix notation the model has the structure
-	\begin{equation}
-	\boldsymbol{y}_{i} =
-	\left(
-	\begin{array}{ccc}
-	1 & 1 & 0 \\
-	1 & 0 & 1 \\
-	1 & 1 & 0 \\
-	1 & 0 & 1 \\
-	1 & 1 & 0 \\
-	1 & 0 & 1 \\
-	\end{array}
-	\right)
-	\left(
-	\begin{array}{c}         \beta_0 \\ \beta_1 \\ \beta_2 \\
-	\end{array}
-	\right)
-	+  \left(
-	\begin{array}{cc}
-	1 & 0 \\
-	0 & 1 \\
-	1 & 0 \\
-	0 & 1 \\
-	1 & 0 \\
-	0 & 1 \\
-	\end{array}
-	\right)\left(
-	\begin{array}{c}
-	b_{1i} \\   b_{2i} \\
-	\end{array}
-	\right)
-	+
-	\left(
-	\begin{array}{c}
-	\epsilon_{1i1} \\
-	\epsilon_{2i1} \\
-	\epsilon_{1i2} \\
-	\epsilon_{2i2} \\
-	\epsilon_{1i3} \\
-	\epsilon_{2i3} \\
-	\end{array}
-	\right) ,
-	\end{equation}
-	where
-	\[
-	\boldsymbol{G} =
-	\]
-	and
-	\[
-	\boldsymbol{R}_i =
-	\]
-	
-	It is assumed that $\boldsymbol{b}_i \sim N(0,\boldsymbol{G})$,
-	$\boldsymbol{\epsilon}_i$ is a matrix of random errors distributed as $N(0,\boldsymbol{R}_i)$ and
-	that the random effects and residuals are independent of each other. Assumptions made on the structures of $\boldsymbol{G}$ and $\boldsymbol{R}_i$ will be discussed in due course.
-	
-	
-	
+
 	
 	
 	
@@ -789,54 +602,73 @@ whether to use 'REML', the default setting, or 'ML'.
 	The computation of the limits of agreement require that the variance of the difference of measurements. This variance is easily computable from the estimate of the ${\mbox{Block - }\boldsymbol \Omega_{i}}$ matrix. Lack of agreement can arise if there is a disagreement in overall variabilities. This may be due to due to the disagreement in either between-item
 	variabilities or within-item variabilities, or both. \citet{ARoy2009} allows for a formal test of each.
 	
+%========================================================%
+
+The first of Roy's candidate model can be implemented using the following code;\\
+\hrule
+\begin{verbatim}
+MCS1 = lme(BP ~ method-1, data = dat,
+random =  list(subject=pdSymm(~ method-1)),
+weights=varIdent(form=~1|method),
+correlation = corSymm(form=~1 | subject/obs), method="ML")
+\end{verbatim}
+\hrule
+\vspace{1cm}
+For the blood pressure data used in \citet{ARoy2009}, all four candidate models are implemented by slight variations of this piece of code, specifying either \texttt{pdSymm} or \texttt{pdCompSymm} in the second line, and either \texttt{corSymm} or \texttt{corCompSymm} in the fourth line.
+For example, the second candidate model `MCS2' is implemented with the same code as MCS1, except for the term \texttt{pdCompSymm} in the second line, rather than \texttt{pdSymm}.
+\\
+\hrule
+\begin{verbatim}
+MCS2 = lme(BP ~ method-1, data = dat,
+random = list(subject=pdCompSymm(~ method-1)),
+weights = varIdent(form=~1|method),
+correlation = corSymm(form=~1 | subject/obs), method="ML")
+\end{verbatim}
+\hrule
+\vspace{1cm}
+Using this \texttt{R} implementation for other data sets requires that the data set is structured appropriately (i.e.\ each case of observation records the index, response, method and replicate). Once formatted properly, implementation is simply a case of re-writing the first line of code, and computing the four candidate models accordingly.
+
+To perform a likelihood ratio test for two candidate models, simply use the \texttt{anova} command with the names of the candidate models as arguments. The following piece of code implement the first of Roy's variability tests.
+\\
+\hrule
+\begin{verbatim}
+> anova(MCS1,MCS2)
+Model df    AIC    BIC  logLik   Test L.Ratio p-value
+MCS1     1  8 4077.5 4111.3 -2030.7
+MCS2     2  7 4075.6 4105.3 -2030.8 1 vs 2 0.15291  0.6958
+>
+\end{verbatim}
+\hrule
+\vspace{1cm}
+The fixed effects estimates are the same for all four candidate models. The inter-method bias can be easily determined by inspecting a summary of any model. The summary presents estimates for all of the important parameters, but not the complete variance-covariance matrices (although some simple \texttt{R} functions can be written to overcome this). The variance estimates for the random effects for MCS2 is presented below.
+\\
+\hrule
+\begin{verbatim}
+Random effects:
+Formula: ~method - 1 | subject
+Structure: Compound Symmetry
+StdDev Corr
+methodJ  30.765
+methodS  30.765 0.829
+Residual  6.115
+\end{verbatim}
+\hrule
+\vspace{1cm}
+Similarly, for computing the limits of agreement the standard deviation of the differences is not explicitly given. Again, A simple \texttt{R} function can be written to calculate the limits of agreement directly.
+
+%------------------------------------------------------------------------------------%
+
+
 	
 	
 
-	\section{Model Terms for Roy's Techniques}
-	\begin{enumerate}
-		\item $\boldsymbol{b}_{i}$ is a $m-$dimensional vector comprised of
-		the random effects.
-		\begin{equation}
-		\boldsymbol{b}_{i} = \left( \begin{array}{c}
-		b_{1i} \\
-		b_{21}  \\
-		\end{array}\right)
-		\end{equation}
-		
-		\item $\boldsymbol{V}$ represents the correlation matrix of the replicated measurements on a given method.
-		$\boldsymbol{\Sigma}$ is the within-subject VC matrix.
-		
-		\item $\boldsymbol{V}$ and $\boldsymbol{\Sigma}$ are positive
-		definite matrices. The dimensions of $\boldsymbol{V}$ and
-		$\boldsymbol{\Sigma}$ are $3 \times 3 ( = p \times p )$ and $ 2 \times
-		2 (= k \times k)$.
-		
-		\item It is assumed that $\boldsymbol{V}$ is the same for both methods and $\boldsymbol{\Sigma}$ is
-		the same for all replications.
-		
-		\item $\boldsymbol{V} \bigotimes \boldsymbol{\Sigma}$ creates a $ 6 \times 6 ( = kp \times
-		kp)$ matrix.
-		$\boldsymbol{R}_{i}$ is a sub-matrix of this.
-	\end{enumerate}
-	
 
 	\section{Basic Models Fits}
 	Further to \citet{PB}, several simple LME models are constructed
 	for the blood pressure data. This data set is the subject of a
 	method comparison study in \citet{BA99}.
 	
-	\subsection{Implementing the Mixed Models Fits}
-	They are implemented using the following {\tt{R}} code, utilising the
-	`nlme' package. An analysis of variance is used to compare the model fits.
-	
-	The {\tt{R}} script:
-	\begin{verbatim}
-	fit1 = lme( BP ~ method, data = dat, random = ~1 | subject )
-	fit2 = update(fit1, random = ~1 | subject/method )
-	fit3 = update(fit1, random = ~method - 1 | subject )
-	#analysis of variance
-	anova(fit1,fit2,fit3)
-	\end{verbatim}
+
 	
 	
 	\begin{enumerate}
@@ -955,26 +787,7 @@ whether to use 'REML', the default setting, or 'ML'.
 	\end{verbatim}
 	
 	The following output was obtained.
-	\begin{verbatim}
-	Linear mixed-effects model fit by REML
-	Data: dat
-	Log-restricted-likelihood: -2047.582
-	Fixed: BP ~ method
-	(Intercept)     methodS
-	127.40784    15.61961
-	
-	Random effects:
-	Formula: ~method - 1 | subject
-	Structure: General positive-definite, Log-Cholesky parametrization
-	StdDev    Corr
-	methodJ  30.455093 methdJ
-	methodS  31.477237 0.835
-	Residual  7.763666
-	
-	Number of Observations: 510
-	Number of Groups: 85
-	
-	\end{verbatim}
+
 	\begin{verbatim}
 	Linear mixed-effects model fit by REML
 	Data: dat
@@ -1057,29 +870,6 @@ Nested Model (Between-Item Variability)
 	\end{verbatim}
 \end{framed}
 
-Nested Model (Within –item Variability)
-\begin{framed}
-	\begin{verbatim}
-	> NMW.fit = lme(y ~ meth-1, data = dat,   #Symm , CS# 
-	+     random = list(item=pdSymm(~ meth-1)),
-	+     weights=varIdent(form=~1|meth), 
-	+     correlation = corCompSymm(form=~1 | item/repl), 
-	+     method="ML")
-	\end{verbatim}
-\end{framed}
-	
-
-
-\begin{framed}
-	\begin{verbatim}
-	Nested Model (Within ?item Variability)
-	> NMW.fit = lme(y ~ meth-1, data = dat,   #Symm , CS# 
-	+     random = list(item=pdSymm(~ meth-1)),
-	+     weights=varIdent(form=~1|meth), 
-	+     correlation = corCompSymm(form=~1 | item/repl), 
-	+     method="ML")
-	\end{verbatim}
-\end{framed}
 	
 
 	This is a simple model, this time with an interaction effect.
@@ -1247,80 +1037,6 @@ within the same subject.
 	
 
 
-\subsection{Model Fit 3}
-
-This model is a more general model, compared to 'model fit 2'. This model treats the random interactions for each subject as a vector and
-allows the variance-covariance matrix for that vector to be estimated from the set of all positive-definite matrices.
-$\boldsymbol{y_{i}}$ is the entire response vector for the $i$th subject.
-$\boldsymbol{X_{i}}$ and $\boldsymbol{Z_{i}}$  are the fixed- and random-effects design matrices respectively.
-\begin{equation*}
-\boldsymbol{y_{i}} = \boldsymbol{X_{i}\beta}  + \boldsymbol{Z_{i}b_{i}} + \boldsymbol{\epsilon_{i}}, \qquad i=1,\dots,85
-\end{equation*}
-\begin{eqnarray*}
-	\boldsymbol{Z_{i}} \sim \mathcal{N}(\boldsymbol{0,\Psi}),\qquad
-	\boldsymbol{\epsilon_{i}} \sim \mathcal{N}(\boldsymbol{0,\sigma^2\Lambda})
-\end{eqnarray*}
-
-For the first subject the response vector, $\boldsymbol{y_{1}}$, is:
-\begin{table}[ht]
-	\begin{center}
-		\begin{tabular}{rrllr}
-			\hline
-			observation & BP & subject & method & replicate \\
-			\hline
-			1 & 100.00 & 1 & J &   1 \\
-			86 & 106.00 & 1 & J &   2 \\
-			171 & 107.00 & 1 & J &   3 \\
-			511 & 122.00 & 1 & S &   1 \\
-			596 & 128.00 & 1 & S &   2 \\
-			681 & 124.00 & 1 & S &   3 \\
-			\hline
-		\end{tabular}
-	\end{center}
-\end{table}
-\newpage
-The fixed effects design matrix $\boldsymbol{X_{i}}$ is given by:
-\begin{table}[ht]
-	\begin{center}
-		\begin{tabular}{r|r}
-			\hline
-			(Intercept) & method S \\
-			\hline
-			1 & 0 \\
-			1 & 0 \\
-			1 & 0 \\
-			1 & 1 \\
-			1 & 1 \\
-			1 & 1 \\
-			\hline
-		\end{tabular}
-	\end{center}
-\end{table}
-
-\newpage
-
-
-
-
-The random effects design matrix $\boldsymbol{Z_{i}}$ is given by:
-\begin{table}[ht]
-	\begin{center}
-		\begin{tabular}{r|r}
-			\hline
-			method J & method S \\
-			\hline
-			1 & 0 \\
-			1 & 0 \\
-			1 & 0 \\
-			0 & 1 \\
-			0 & 1 \\
-			0 & 1 \\
-			\hline
-		\end{tabular}
-	\end{center}
-\end{table}
-\newpage
-
 
 	\subsection{Variability test 3}
 	This is a test on whether both methods $A$ and $B$ have the same overall variability or not.
@@ -1354,6 +1070,18 @@ The random effects design matrix $\boldsymbol{Z_{i}}$ is given by:
 	
 	
 	
+	\subsection{Nested Model (Overall Variability)}
+	Additionally there is a third nested model, that can be used to test overall variability, substantively a a joint test for between-item and within-item variability. The motivation for including such a test in the suite is not clear, although it does circumvent the need for multiple comparison procedures in certain circumstances, hence providing a simplified procedure for non-statisticians.
+	
+	\begin{framed}
+		\begin{verbatim}
+		> NMO.fit = lme(y ~ meth-1, data = dat,   #CS , CS# 
+		+     random = list(item=pdCompSymm(~ meth-1)), 
+		+     correlation = corCompSymm(form=~1 | item/repl), 
+		+     method="ML")
+		\end{verbatim}
+	\end{framed}
+
 	\subsection{Test for inter-method bias}
 	The inter-method bias between the two method is found to be $15.62$ , with a $p-$value of
 	
@@ -1438,10 +1166,19 @@ computed as the difference of the LRT degrees of freedom.
 	\end{verbatim}
 \end{framed}
 
-%\newpage
-%2012 June 14th ( Barnhart et Al)
-%Replicate Measurements (Barnhart Pg 6)
-%
+	To perform a likelihood ratio test for two candidate models, simply use the \texttt{anova()} command with the names of the candidate models as arguments. The following piece of code implement the first of ARoy2009's variability tests.
+	
+	\begin{framed}
+		\begin{verbatim}
+		> anova(MCS1,MCS2)
+		Model df    AIC    BIC  logLik   Test L.Ratio p-value
+		MCS1     1  8 4077.5 4111.3 -2030.7
+		MCS2     2  7 4075.6 4105.3 -2030.8 1 vs 2 0.15291  0.6958
+		>
+		\end{verbatim}
+	\end{framed}
+
+
 %Repeatability (Barnhart pg 7)
 %ISOs definition: Closeness of agreement netween measures under the same conditions. (i.e. True Replicates)
 
@@ -1465,18 +1202,7 @@ A review of recent literature demonstrates how useful and effective the use of L
 	\section{Worked Eamples : LikelihoodRatio Tests}
 
 	
-	\subsection{Nested Model (Overall Variability)}
-	Additionally there is a third nested model, that can be used to test overall variability, substantively a a joint test for between-item and within-item variability. The motivation for including such a test in the suite is not clear, although it does circumvent the need for multiple comparison procedures in certain circumstances, hence providing a simplified procedure for non-statisticians.
-	
-	\begin{framed}
-		\begin{verbatim}
-		> NMO.fit = lme(y ~ meth-1, data = dat,   #CS , CS# 
-		+     random = list(item=pdCompSymm(~ meth-1)), 
-		+     correlation = corCompSymm(form=~1 | item/repl), 
-		+     method="ML")
-		\end{verbatim}
-	\end{framed}
-	
+
 	\subsection{ANOVAs  for  Original Fits}
 The likelihood Ratio test is very simple to implement in \texttt{R}. All that is required it to specify the reference model and the relevant nested mode as arguments to the command \texttt{anova()}.
 	
@@ -1544,13 +1270,13 @@ The figure below displays the three tests described by Roy (2009).
 	\section{results}
 	
 	Using Carstensen's method, the standard deviations of the casewise
-	differences were computed as 20.43139089,20.26824078,2.260886283
-	respectively. Using ARoy2009's model, these deviations are estimated to
-	be 20.32756749, 20.16326412, 2.252869282 respectively.
+	differences were computed as 20.4314,20.2682,2.2608
+	respectively. Using Roy's model, these deviations are estimated to
+	be 20.3275, 20.1632, 2.2528 respectively.
 	
-	Similarly for the fat and ox data Carstensen computes the
-	difference deviations as and 6.16867323 , whereas under
-	ARoy2009's model they are estimated to be 6.139275202 and
+	Similarly for the \texttt{fat} and \texttt{ox} data Carstensen computes the
+	difference deviations as and 6.1686 , whereas under
+	Roy's model they are estimated to be 6.139275202 and
 	respectively.
 	
 	However, using the PEFR and cardiac data, differences emerge.
@@ -1558,7 +1284,7 @@ The figure below displays the three tests described by Roy (2009).
 	\begin{tabular}{|c|c|c|}
 		\hline
 		% after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
-		Data & Carstensen & ARoy2009 \\
+		Data & Carstensen & Roy \\
 		\hline
 		Fat &  0.1352 & 0.1373\\
 		Ox & 6.1686 & 6.1392 \\
@@ -1579,17 +1305,10 @@ The figure below displays the three tests described by Roy (2009).
 
 
 
-	\section*{Using Roy's Model to Compute LoAs and CR }
-	
-	In this short section, a demonstration of how ARoy2009's technique can be used to compute two common MCS metrics: Limits of Agreement and the Coefficient of Repeatabilty. While Limits of Agreement are not used in the analysis proposed here, they are ubiquituous in literature, and a demonstration on how to compute them with the ARoy2009 Model would assist the adoption of this proposed method.
-	
-	The coefficient of repeatability is encountered in Gage R \& R analysis. \textit{(A future exploration of how LME models can be used in that field would be of interest. This is something to include in the Conclusions Section).}
-	%======================
-	
 
 \section{Using REML Fitting}
 
-Noticeably Roy (2009) uses ML estimation when specifying the LME models. No explanation is given, although plausibly it is due to the constraints of the computational environment being used.
+Noticeably \citet{ARoy2009} uses ML estimation when specifying the LME models. No explanation is given, although plausibly it is due to the constraints of the computational environment being used.
 Both West et al (2010) and Pinheiro and Bates (2000) compare ML and REML estimation, describing what types of tests are appropriate for each.  When variance components are being tested, REML estimation is in fact the correct approach.
 
 
@@ -1600,14 +1319,10 @@ Both West et al (2010) and Pinheiro and Bates (2000) compare ML and REML estimat
 +     correlation = corSymm(form=~1 | item/repl), 
 +     method="REML")
 
-
 > fit2r = lme(y ~ meth-1, data = dat,   #CS , Symm#
 +     random = list(item=pdCompSymm(~ meth-1)),
 +     correlation = corSymm(form=~1 | item/repl), 
 +     method="REML")
-
-
-
   
 > fit3r = lme(y ~ meth-1, data = dat,   #Symm , CS# 
 +     random = list(item=pdSymm(~ meth-1)),
@@ -1615,14 +1330,10 @@ Both West et al (2010) and Pinheiro and Bates (2000) compare ML and REML estimat
 +     correlation = corCompSymm(form=~1 | item/repl), 
 +     method="REML")
 
-
-
 > fit4r = lme(y ~ meth-1, data = dat,   #CS , CS# 
 +     random = list(item=pdCompSymm(~ meth-1)), 
 +     correlation = corCompSymm(form=~1 | item/repl), 
 +     method="REML")
-
-
 
 > test1r = anova(fit1r,fit2r)                     # Between-Subject Variabilities
 > test2r = anova(fit1r,fit3r)                    # Within-Subject Variabilities
@@ -1746,68 +1457,11 @@ Firstly, a practitioner would investigate whether a significant inter-method bia
 
 	
 
-	\begin{framed}	
-	\begin{verbatim}
-		
-
-		#Roy's Candidate Models
-		
-		
-		fit1 = lme(y ~ meth-1, data = dat,   #Symm , Symm#
-		random = list(item=pdSymm(~ meth-1)), 
-		weights=varIdent(form=~1|meth),
-		correlation = corSymm(form=~1 | item/repl), 
-		method="ML")
-		
-		fit2 = lme(y ~ meth-1, data = dat,   #CS , Symm#
-		random = list(item=pdCompSymm(~ meth-1)),
-		correlation = corSymm(form=~1 | item/repl), 
-		method="ML")
-				
-		fit3 = lme(y ~ meth-1, data = dat,   #Symm , CS# 
-		random = list(item=pdSymm(~ meth-1)),
-		weights=varIdent(form=~1|meth), 
-		correlation = corCompSymm(form=~1 | item/repl), 
-		method="ML")
-		
-		fit4 = lme(y ~ meth-1, data = dat,   #CS , CS# 
-		random = list(item=pdCompSymm(~ meth-1)), 
-		correlation = corCompSymm(form=~1 | item/repl), 
-		method="ML")
-
-		\end{verbatim}
-	\end{framed}
 
 	
 	
 
 	\section{Replicates}
-
-
-
-
-\begin{verbatim}
-Linear mixed-effects model fit by REML
-Data: dat
-Log-restricted-likelihood: -2047.714
-Fixed: BP ~ method
-(Intercept)     methodS
-127.40784    15.61961
-
-Random effects:
-Formula: ~1 | subject
-(Intercept)
-StdDev:    28.28452
-
-Formula: ~1 | method %in% subject
-(Intercept) Residual
-StdDev:    12.61562 7.763666
-
-Number of Observations: 510
-Number of Groups:
-subject method %in% subject
-85                 170
-\end{verbatim}
 
 
 
@@ -1847,7 +1501,7 @@ subject method %in% subject
 	\right).
 	\end{equation}
 	
-	\citet{roy} notes that these are the same estimate for variance as given by \citet{BA99}.
+	\citet{ARoy2009} notes that these are the same estimate for variance as given by \citet{BA99}.
 	
 	
 	The repeatability coefficients are determined to be $0.9080$ for the RV method and $1.0293$ for the IC method.
@@ -1855,13 +1509,11 @@ subject method %in% subject
 	From the estimated $\boldsymbol{\Omega_{i}}$ correlation matrix, the overall correlation coefficient is $0.7100$.
 	The overall correllation coefficients between two methods RV and IC are $0.9384$ and $0.9131$ respectively.
 	
-	\citet{roy} concludes that is appropriate to switch between the two methods if needed.
+\citet{ARoy2009} concludes that is appropriate to switch between the two methods if needed.
 	
-	%--------------------------------------------------------------------------Example 4 Coronary Artery Calcium data%
+
 	
-	\citet{haber}
-	
-	\citet{roy} recommends to not switch between the two method.
+\citet{ARoy2009} recommends to not switch between the two method.
 	
 	
 	\section{LME}
@@ -1869,47 +1521,14 @@ subject method %in% subject
 	Fitting model according to Roy
 	
 	
-	\begin{verbatim}
-	Linear mixed-effects model fit by REML
-	Data: BA99
-	AIC      BIC    logLik
-	4319.707 4336.629 -2155.853
-	
-	Random effects:
-	Formula: ~1 | subj
-	(Intercept) Residual
-	StdDev:    29.39085 12.44454
-	
-	Fixed effects: ob.js ~ method
-	Value Std.Error  DF  t-value p-value
-	(Intercept) 127.40784  3.281757 424 38.82306       0
-	
-	methodS     15.61961   1.102107 424 14.17250       0
-	
-	Correlation:
-	(Intr)
-	methodS -0.168
-	
-	Standardized Within-Group Residuals:
-	Min          Q1         Med          Q3         Max
-	-3.61292639 -0.42538402 -0.02467651  0.40166235  4.84280044
-	
-	Number of Observations: 510 Number of Groups: 85
-	
-	\end{verbatim}
-	%----------------------------------------------------------------------------------------%
-	
 
 	
 		
 
 
 	
-
-	
-
-
-	\section{IC/RV comparison}
+\chapter{Other Data Sets}
+\section{IC/RV comparison}
 		
 For the the RV-IC comparison, $\hat{D}$ is given by
 
