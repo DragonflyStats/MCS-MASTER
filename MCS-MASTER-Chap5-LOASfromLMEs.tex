@@ -101,12 +101,18 @@ on the limits of agreement calculation, this method is preferable to the `mean o
 \citet{BXC2004} and \citet{BXC2008} uses an LME model to compute limits of agreement where replicate measurements are available on each item. 
 %\citet{BXC2008} proposes an approach for comparing two or more methods of measurement based on linear mixed effects models. 
 
+\citet{BXC2008} sets out a methodology of computing the limits of
+agreement based upon variance component estimates derived using
+linear mixed effects models. Measures of repeatability, a
+characteristic of individual methods of measurements, are also
+derived using this method.
+
 Conversely, \citet{BXC2008} proposes the use of LME models to allow for a more statistically rigourous approach to computing Limits of Agreement. This approach extends the well established Bland-Altman methodology for the case of replicate measurements on each item. As their interest mainly lies in extending the Bland-Altman methodology, other formal tests are not considered.
 
 Their interest lies in generalizing the popular limits-of-agreement (LOA) methodology advocated by \citet{BA86} to take proper cognizance of the replicate measurements, by computing an appropriate estimate for the standard deviation of case-wise differences, so as to determine the limits of agreement.  This approach is similar to Deming's regression, and for estimating variance components for measurements by different methods. 
 
 This methodology of computing the limits of
-agreement is based upon variance component estimates derived using linear mixed effects models. Measures of repeatability, a characteristic of individual methods of measurements, can also be derived using this method
+agreement is based upon variance component estimates derived using linear mixed effects models. Measures of repeatability, a characteristic of individual methods of measurements, can also be derived using this method.
 
 \citet{ARoy2009} formulates a very powerful method of assessing the agreement of two methods of measurement, with replicate measurements, also using LME models. This approach does not directly address the issue of limits of agreement.
 
@@ -247,34 +253,6 @@ as
 %%---Estimability of Tau
 When only two methods are compared, \citet{BXC2008} notes that separate estimates of $\tau^2_m$ can not be obtained due to the model over-specification. To overcome this, the assumption of equality, i.e. $\tau^2_1 = \tau^2_2$, is required.
 
-%========================================================================================== %
-
-
-
-\citet{BXC2008} uses LME models to determine the limits of agreement. Between-subject variation for method $m$ is given by $d^2_{m}$ and within-subject variation is given by $\sigma^2_{m}$.  \citet{BXC2008} remarks that for two methods $A$ and $B$, separate values of $d^2_{A}$ and $d^2_{B}$ cannot be estimated, only their average. Hence the assumption that $d_{x}= d_{y}= d$ is necessary. The between-subject variability $\boldsymbol{D}$ and within-subject variability $\boldsymbol{\Lambda}$ can be presented in matrix form,\[
-\boldsymbol{D} = \left(%
-\begin{array}{cc}
-d^2_{A}& 0 \\
-0 & d^2_{B} \\
-\end{array}%
-\right)=\left(%
-\begin{array}{cc}
-d^2& 0 \\
-0 & d^2\\
-\end{array}%
-\right),
-\hspace{1.5cm}
-\boldsymbol{\Lambda} = \left(%
-\begin{array}{cc}
-\lambda^2_{A}& 0 \\
-0 & \lambda^2_{B} \\
-\end{array}%
-\right).
-\]
-
-The variance for method $m$ is $d^2_{m}+\lambda^2_{m}$.
-
-Importantly the covariance terms in both variability matrices are zero, and no covariance component is present.
 
 \subsection{The Fat Data Set}
 \citet{BXC2008} presents a data set `fat', which is a comparison of measurements of subcutaneous fat
@@ -343,8 +321,12 @@ The limits of agreement can therefore be evaluated using
 	\bar{y_{A}}-\bar{y_{B}} \pm 1.96 \times \sqrt{ \sigma^2_{A} + \sigma^2_{B}  - 2(\sigma_{AB})}.
 \end{equation}
 
-The variance of case-wise difference in measurements can be determined from Block-$\boldsymbol{\Omega}_{i}$. Hence limits of agreement can be computed. The computation of the limits of agreement require that the variance of the difference of measurements. This variance is easily computable from the estimate of the ${\mbox{Block - }\boldsymbol \Omega_{i}}$ matrix. Lack of agreement can arise if there is a disagreement in overall variabilities. 
-
+The variance of case-wise difference in measurements can be determined from Block-$\boldsymbol{\Omega}_{i}$. Hence limits of agreement can be computed. The computation of the limits of agreement require that the variance of the difference of measurements. This variance is easily computable from the estimate of the ${\mbox{Block - }\boldsymbol \Omega_{i}}$ matrix.
+The variance of differences is easily computable from the variance estimates in the ${\mbox{Block - }\boldsymbol \Omega_{i}}$ matrix, i.e.
+\[
+\mathrm{Var}(y_1 - y_2) = \sqrt{ \omega^2_1 + \omega^2_2 - 2\omega_{12}}.
+\]	
+ Lack of agreement can arise if there is a disagreement in overall variabilities. 
 %-------------------------------------------------------------------------------------%
 
 The limits of agreement computed by Roy's method are derived from the variance covariance matrix for overall variability.
@@ -368,22 +350,13 @@ The respective estimates computed by both methods are tabulated as follows. Evid
 %========================================================================================= %
 \subsection{Computation} 
 
-
-Maximum likelihood estimation is used to estimate the parameters.
-The REML estimation is not considered since it does not lead to a
-joint distribution of the estimates of fixed effects and random
-effects parameters, upon which the assessment of agreement is
-based.
-
-
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
+%
+%Maximum likelihood estimation is used to estimate the parameters.
+%The REML estimation is not considered since it does not lead to a
+%joint distribution of the estimates of fixed effects and random
+%effects parameters, upon which the assessment of agreement is
+%based.
+%
 
 \[\left(\begin{array}{cc}
 \omega^2_1  & 0 \\
@@ -464,13 +437,8 @@ account results in over-estimation of the limits of agreement. For the Carstense
 
 
 \citet{BXC2004} provides an amended formulation which includes an extra interaction
-term ($d_{mr} d_{mr} \sim N(0,\omega^{2}_{m}$)to account for this.
+term ($ d_{mr} \sim N(0,\omega^{2}_{m}$) to account for this.
 
-\citet{BXC2008} sets out a methodology of computing the limits of
-agreement based upon variance component estimates derived using
-linear mixed effects models. Measures of repeatability, a
-characteristic of individual methods of measurements, are also
-derived using this method.
 
 
 
@@ -832,10 +800,9 @@ $\Omega_{i}$' is the addition of $\hat{D}$ and $\hat{\Sigma}$.
 		\omega^2 + \sigma^2_m}$.
 	
 	However, if replicates are taken under substantially
-	different circumstances, the variance component $\omega^2$ may be
-	considered irrelevant in the repeatability and one would therefore
-	base the repeatability on the measurement errors alone, i.e. use
-	$2.8 \sigma_m$.
+	different circumstances, the variance component $\omega^2$ may be considered irrelevant in the repeatability and one would therefore
+	base the repeatability on the measurement errors alone, i.e. use $2.8 \sigma_m$.
+	
 \section{Correlation}	
 Bivariate correlation coefficients have been shown to be of
 limited use in method comparison studies \citep{BA86}. However,
@@ -844,7 +811,10 @@ repeated measurements, enhancing their potential usefulness. Roy
 incorporates the use of correlation into his methodology.
 
 
-In addition to the variability tests, Roy advises that it is preferable that a correlation of greater than $0.82$ exist for two methods to be considered interchangeable. However if two methods fulfil all the other conditions for agreement, failure to comply with this one can be overlooked. Indeed Roy demonstrates that placing undue importance to it can lead to incorrect conclusions. \citet{ARoy2009} remarks that current computer implementations only gives overall correlation coefficients, but not their variances. Consequently it is not possible to carry out inferences based on all overall correlation coefficients.
+In addition to the variability tests, Roy advises that it is preferable that a correlation of greater than $0.82$ exist for two methods to be considered interchangeable. However if two methods fulfil all the other conditions for agreement, failure to comply with this one can be overlooked. Indeed Roy demonstrates that placing undue importance to it can lead to incorrect conclusions. 
+
+\citet{ARoy2009} remarks that current computer implementations only gives overall correlation coefficients, but not their variances. Consequently it is not possible to carry out inferences based on all overall correlation coefficients.
+
 \section{Standard Deviation of Differences}
 In computing limits of agreement, it is first necessary to have an estimate for the standard deviations of the differences. When the agreement of two methods is analyzed using LME models, a clear method of how to compute the standard deviation is required. As the estimate for inter-method bias and the quantile would be the same for both methodologies, the focus hereon is solely on the variance of differences.
 
@@ -853,15 +823,9 @@ The standard deviation of the differences of methods $x$ and $y$ is computed usi
 \mbox{Var}(x - y ) = \mbox{Var} ( x )  + \mbox{Var} ( y ) - 2\mbox{Cov} ( x ,y )
 \]
 
-The computation of the inter-method bias is a straightforward subtraction calculation. Limits of agreement are determined using the standard deviation of the case-wise differences between the sets of measurements by two methods $A$ and $B$, given by
-\begin{equation}
-	\mbox{var} (y_{A}-y_{B}) = 2d^2 + \sigma^2_{A}+ \sigma^2_{B}.
-\end{equation}
 
-The variance of differences is easily computable from the variance estimates in the ${\mbox{Block - }\boldsymbol \Omega_{i}}$ matrix, i.e.
-\[
-\mathrm{Var}(y_1 - y_2) = \sqrt{ \omega^2_1 + \omega^2_2 - 2\omega_{12}}.
-\]	
+
+
 
 \bibliographystyle{chicago}
 \bibliography{DB-txfrbib}	
