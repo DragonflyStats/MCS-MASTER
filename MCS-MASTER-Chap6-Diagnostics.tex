@@ -47,10 +47,6 @@
 
 
 
-	\tableofcontents
-	%\begin{abstract}
-	%	Model diagnostic techniques, well established for classical models, have since been adapted for use with linear mixed effects models. However, diagnostic techniques for LME models are inevitably more difficult to implement, due to the increased complexity. \\ \bigskip
-	%	
 	%	
 	%	\citet{schabenberger} describes the examination of model-data agreement as comprising several elements; \begin{itemize}
 	%		\item residual analysis,
@@ -95,8 +91,7 @@
 	Influence can be thought of as the product of leverage and outlierness. An observation is said to be influential if removing the observation substantially changes the estimate of the regression coefficients.  While linear models and GLMS can be studied with a wide range of well-established diagnostic technqiues, the choice of methodology is much more restricted for the case of LMEs.
 	
 	Outliers are the most noteworthy data points in an analysis, and an objective of influence analysis is how influential they are,
-	and the manner in which they are influential. Outliers, for example, may be the most noteworthy data points in
-	an analysis. They can point to a model breakdown and lead to development of a better model.
+	and the manner in which they are influential. They can point to a model breakdown and lead to development of a better model.
 	
 	
 
@@ -211,7 +206,6 @@ the analysis.
 	\subsubsection{A Procedure for Quantifying Influence}  %1.1.6
 \citet{schabenberger} examines the use and implementation of influence measures in LME models.
 
-This is known as `\textit{leave one out} or \textit{leave k out' analysis}.
 	\citet{schabenberger} describes a simple procedure for quantifying influence. Firstly a model should be fitted to the data, and
 	estimates of the parameters should be obtained. The second step is that either single or multiple data points, specifically outliers,
 	should be omitted from the analysis, with the original parameter estimates being updated. This is known as `\textit{leave one out \ leave k out}' analysis. The final step of the procedure is comparing the sets of estimates computed from the entire and reduced data sets to determine whether the absence of observations changed the
@@ -769,13 +763,9 @@ $CD(\psi)_i$ does not have to be calculated unless $CD(\beta)_i$ is large.
 	For classical linear models, the implementation of influence analysis is straightforward. \citet{schabenberger} points out the likelihood distance gives the amount by which the log-likelihood of the model fitted from the full data changes if one were
 	to estimate the model from a reduced-data estimates.
 	
-	The likelihood distance gives the amount by which the log-likelihood of the full data changes if one were to evaluate it at the reduced-data estimates. The important point is that $l(\psi_{(U)})$ is not the log-likelihood obtained by fitting the model to the reduced data set.
+	The likelihood distance gives the amount by which the log-likelihood of the full data changes if one were to evaluate it at the reduced-data estimates. 
 	
-	It is obtained by evaluating the likelihood function based on the full data set (containing all n observations) at the reduced-data estimates.
-	
-	%------------%
-	
-	
+
 	
 	Importantly $LD(\psi_{(U)})$ is not the log-likelihood obtained by fitting the model to the reduced data set. It is obtained by evaluating the likelihood function based on the full data set (containing all $n$ observations) at the reduced-data estimates.
 	
@@ -787,9 +777,6 @@ $CD(\psi)_i$ does not have to be calculated unless $CD(\beta)_i$ is large.
 	An overall influence statistic measures the change in the objective function being minimized. For example, in
 	OLS regression, the residual sums of squares serves that purpose. In linear mixed models fit by
 	\index{maximum likelihood} maximum likelihood (ML) or \index{restricted maximum likelihood} restricted maximum likelihood (REML), an overall influence measure is the \index{likelihood distance} likelihood distance \citep{cook}.
-	
-	
-	%---------------------------------------------------------- %
 	%Likelihood Displacement.
 	\[  LD(\boldsymbol{(U)})= 2[l\boldsymbol{\hat{(\phi)}} - l\boldsymbol{\hat{\phi}_\omega} ] \]
 	\[  RLD(\boldsymbol{(U)})= 2[ l_R\boldsymbol{\hat{(\phi)}} - l_R\boldsymbol{\hat{(\phi)}_\omega} ] \]
@@ -839,24 +826,12 @@ $CD(\psi)_i$ does not have to be calculated unless $CD(\beta)_i$ is large.
 \subsection*{Case Deletion Diagnostics for LME Data: Cooks Distance, DFBetas}
 
 	In this section we introduce influence analysis and case deletion diagnosics. A full overview of the topic will be provided although there are specific tools that are particularly useful in the case of MCS problems: specifically the Cook's Distance and the DFBeta.
-	
-	\subsubsection*{Case Deletion Diagnostics for LME Data: Cooks Distance, DFBetas}
-	In this section we introduce influence analysis and case deletion diagnosics. A full overview of the topic will be provided although there are specific tools that are particularly useful in the case of MCS problems: specifically the Cook's Distance and the DFBeta.
+
 	
 
 	\subsubsection{DFBETA, DFFITS and PRESS}
 	The impact of an observation on a regression fitting can be determined by the difference between the estimated regression coefficient of a model with all observations and the estimated coefficient when the particular observation is deleted. The measure DFBETA is the studentized value of this difference.
-	DFBETA and DFFITS are well known measures of influence. The measure DFBETA is the studentized value of this difference. DFFITS is a statistical measured designed to a show how influential an observation is in a statistical model. DFFITS is closely related to the studentized residual.
-	%	
-	%	\begin{itemize}
-	%		\item $e_{-Q} = y_{Q} - x_{Q}\hat{\beta}^{-Q}$
-	%		\item $PRESS_{(U)} = y_{i} - x\hat{\beta}_{(U)}$
-	%	\end{itemize}
-	%	
-	
-	% http://stats.stackexchange.com/questions/22161/how-to-read-cooks-distance-plots
-	% Cook's distance refers to how far, on average, predicted y-values will move if the observation in question is dropped from the data set.
-	%======================================================================================================%
+	DFBETA and DFFITS are well known measures of influence. 
 	
 
 \subsubsection{DFFITS} %1.16.1
@@ -874,8 +849,7 @@ $CD(\psi)_i$ does not have to be calculated unless $CD(\beta)_i$ is large.
 	
 	
 	The DFBETAs refers to how much a parameter estimate changes if the observation or case in question is dropped from the data set.
-	Cook's distance is presumably more important to you if you are doing predictive modeling, whereas dfbeta is more important in explanatory modeling.
-	
+
 	In general, large values of DFBETAS indicate observations that are influential in estimating a given parameter. \citet{belsley2005} recommend 2 as a general cutoff value to indicate influential observations and  as a size-adjusted cutoff.
 	
 	
@@ -1183,12 +1157,12 @@ $CD(\psi)_i$ does not have to be calculated unless $CD(\beta)_i$ is large.
 	%===========================================================================%
 
 	\subsubsection{Variance Ratios}
-NA
+
 	The relationship between precision and the within-item and between-item variability must be established. Roy establishes the equivalence of repeatability and within-item variability, and hence precision.  The method with the smaller within-item variability can be deemed to be the more precise.
 	
 	A useful approach is to compute the confidence intervals for the ratio of within-item standard deviations (equivalent to the ratio of repeatability coefficients), which can be interpreted in the usual manner.
-	
-	In fact, the ratio of within-item standard deviations, with the attendant confidence interval,  can be determined using a single R command: \texttt{intervals()}.
+%	
+%	In fact, the ratio of within-item standard deviations, with the attendant confidence interval,  can be determined using a single R command: \texttt{intervals()}.
 	
 	Pinheiro and Bates (pg 93-95) give a description of how confidence intervals for the variance components are computed. Furthermore a complete set of confidence intervals can be computed to complement the variance component estimates.
 	
