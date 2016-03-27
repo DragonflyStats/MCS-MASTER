@@ -64,6 +64,9 @@ analysis that tests of all of the assumptions, as far as possible, should be car
 
 Model diagnostic techniques determine whether or not the distributional assumptions are satisfied, and to assess the influence of unusual observations. In classical linear models model diagnostics have been become a required part of any statistical analysis, and the methods are commonly available in statistical packages and standard textbooks on applied regression. However it has been noted by several papers that model diagnostics do not often accompany LME model analyses.
 
+	
+	Pinheiro and Bates provide some insight into how to compute and interpret model diagnostic plots for LME models. Unfortunately this aspect of LME theory is not as expansive as the corresponding body of work for Linear Models.
+
 
 Following model specification and estimation, it is of interest to explore the model-data
 agreement by raising pertinent questions. Further to the analysis of residuals, \citet{schabenberger} recommends the examination of the following questions:
@@ -708,44 +711,33 @@ If  is symmetric, then notation  implies removal of rows and columns. The vector
 
 
 %------------------------------------------------------------%
-
-\subsection{Assumptions for Update Formulas}
-While influence analysis concepts are statistically straightforward, implementation for LME models is more complex.
-For linear models for uncorrelated data, it is not necessary to refit the model after removing a data point in order to measure the impact of an observation on the model. The change in fixed effect estimates, residuals, residual sums of squares, and the variance-covariance matrix of the fixed effects can be computed based on the fit to the full data alone. However, in LME models several important complications arise. Data points can affect not only the fixed effects but also the covariance parameter estimates on which the fixed-effects estimates depend.
-
-
-Update formulas for "leave-one-out" estimates typically fail to account for changes in covariance parameters. Update formulae for fixed effects models are available only when the covariance parameters are assumed to be known. As the influence that each item would have on the variance estimate of a method comparison model is crucial part of the model, this disqualifies them.
-
-
 \subsection{Computation Matters}
 
 An iterative analysis may seem computationally expensive. computing iterative influence diagnostics for $n$ observations
-	requires $n+1$ mixed models to be fitted iteratively.
-	
+requires $n+1$ mixed models to be fitted iteratively.
 
-	\citet{schabenberger} examines the use and implementation of
-	influence measures in LME models.
-	
-	\citet{schabenberger} notes that it is not always possible to
-	derive influence statistics necessary for comparing full- and
-	reduced-data parameter estimates.
-		
+
+\citet{schabenberger} examines the use and implementation of
+influence measures in LME models.
+
+\citet{schabenberger} notes that it is not always possible to
+derive influence statistics necessary for comparing full- and
+reduced-data parameter estimates.
+
 %===================================================================================%
 Key to the implementations of influence diagnostics in the MIXED procedure is the attempt to quantify
 influence, where possible, by drawing on the basic definitions of the various statistics in the classical linear
 model. 
 
 On occasion, quantification is not possible. Assume, for example, that a data point is removed
-and the new estimate of the G matrix is not positive definite. This may occur if a variance component
+and the new estimate of the $D$ matrix is not positive definite. This may occur if a variance component
 estimate now falls on the boundary of the parameter space. 
 
 Thus, it may not be possible to compute certain
 influence statistics comparing the full-data and reduced-data parameter estimates. However, knowing that
 a new singularity was encountered is important qualitative information about the data point’s influence on
 the analysis.
-	%---------------------------------------------------------------------------%
-	
-	
+
 \subsection{Iterative and Non-Iterative Influence Analysis}
 \citet{schabenberger} highlights some of the issue regarding implementing LME model diagnostics, describing  the choice between \index{iterative influence analysis} iterative influence analysis and \index{non-iterative influence analysis} non-iterative influence analysis.
 %%- Paragraph 2
@@ -788,66 +780,69 @@ The execution times for iterative procedures are longer relative to iterative pr
 
 
 
+\subsection{Assumptions for Update Formulas}
+While influence analysis concepts are statistically straightforward, implementation for LME models is more complex.
+For linear models for uncorrelated data, it is not necessary to refit the model after removing a data point in order to measure the impact of an observation on the model. The change in fixed effect estimates, residuals, residual sums of squares, and the variance-covariance matrix of the fixed effects can be computed based on the fit to the full data alone. However, in LME models several important complications arise. Data points can affect not only the fixed effects but also the covariance parameter estimates on which the fixed-effects estimates depend.
+
+
+Update formulas for ``leave-U-out" estimates typically fail to account for changes in covariance parameters. Update formulae for fixed effects models are available only when the covariance parameters are assumed to be known. As the influence that each item would have on the variance estimate of a method comparison model is crucial, this negates their usefulness for Roy's Model.
+
+
+Iterative methods retain the potential for usefulness, if applied at different stage of the modelling process. Diagnostic measures, specifically the DFBETA, have characteristics that would make them very useful at the exploratory stage of the method comparison process. Implicitly various assumptions about variance are used, but simultaneously an approach based on DFBETA can be used to assess if these assumptions are valid.
+
+
+
+
+		
+
+	%---------------------------------------------------------------------------%
+	
+	
+
 \section{Using DFBETAs from LME Models to Assess Agreement}
 	
 
 
 %\textit{	In this section we introduce influence analysis and case deletion diagnosics. A full overview of the topic will be provided although there are specific tools that are particularly useful in the case of MCS problems: specifically the Cook's Distance and the DFBeta.}
 
-	
-DFBETAS is a standardized measure of the absolute difference between the estimate with a particular
-case included and the estimate without that particular case \citep{belsley2005}.
+\subsubsection{DFBETA and DFFITS}
+	The impact of an observation on a regression fitting can be determined by the difference between the estimated regression coefficient of a model with all observations and the estimated coefficient when the particular observation is deleted. 	DFBETA and DFFITS are well known measures of influence.  DFBETAS is a standardized measure of the absolute difference between the estimate with a particular
+	case included and the estimate without that particular case \citep{belsley2005}.
 
-	\subsubsection{DFBETA and DFFITS}
-	The impact of an observation on a regression fitting can be determined by the difference between the estimated regression coefficient of a model with all observations and the estimated coefficient when the particular observation is deleted. The measure DFBETA is the studentized value of this difference.
-	DFBETA and DFFITS are well known measures of influence. 
 	
 
-\subsubsection{DFFITS} %1.16.1
-	DFFITS is a statistical measured designed to a show how influential an observation is in a statistical model. DFFITS is a diagnostic meant to show how influential a point is in a statistical regression. It is defined as the change ("DFFIT"), in the predicted value for a point, obtained when that point is left out of the regression, "Studentized" by dividing by the estimated standard deviation of the fit at that point:
-%	\[ \mbox{DFFITS} = {\widehat{y_i} - \widehat{y_{i(i)}} \over s_{(i)} \sqrt{h_{ii}}}\]
-	\begin{displaymath} DFFITS = {\widehat{y_i} -
-		\widehat{y_{i(k)}} \over s_{(k)} \sqrt{h_{ii}}} \end{displaymath}
-	It is closely related to the studentized residual. For the sake of brevity, we will concentrate on the Studentized Residuals.
-	
 	\subsubsection{DFBETAs}
 	The measure that measures how much impact each observation has on a particular predictor is DFBETAs.
 	
 	
-	DFBETAS (standardized difference of the beta) is a measure that standardizes the absolute difference in parameter estimates between a (mixed effects) regression model based on a full set of data, and a model from which a (potentially influential) subset of data is removed.
-	
-	
-	The DFBETAs refers to how much a parameter estimate changes if the observation or case in question is dropped from the data set.
+The DFBETA (shortened from "standardized difference of the beta") is a measure that standardizes the absolute difference in parameter estimates between an LME model based on a full set of data, and a model from which a subset of data is removed.
 
-	In general, large values of DFBETAS indicate observations that are influential in estimating a given parameter. \citet{belsley2005} recommend 2 as a general cutoff value to indicate influential observations and  as a size-adjusted cutoff.
-	
-	
-	The DFBETA for a predictor and for a particular observation is the difference between the regression coefficient calculated for all of the data and the regression coefficient calculated with the observation deleted, scaled by the standard error calculated with the observation deleted.
-	A value for DFBETAS is calculated for each covariate, and for each case, in the model separately.
-	
-	% DFBETA is a measure found for each observation in a dataset.
-	
+The DFBETA for a predictor and for a particular observation is the difference between the regression coefficient calculated for all of the data and the regression coefficient calculated with the observation deleted, scaled by the standard error calculated with the observation deleted.
+
 	
 	\begin{eqnarray}
 	DFBETA_{a} &=& \hat{\beta} - \hat{\beta}_{(a)} \\
 	&=& B(Y-Y_{\bar{a}}
 	\end{eqnarray}
+ 
 	
-	In the case of method comparison studies, there are two covariates, and one can construct scatterplots of the pairs of dfbeta values accordingly, both for LOO and LSO calculations. Furthermore 95\% confidence ellipse can be constructed around these scatterplots.
-	Note that with k covariates, there will be $k+1$ dfbetas (the intercept,$\beta_0$, and one $\beta$ for each covariate). When the model is specified without an intercept term, as in the last chapter, there is a set of DFBETAs corresponding to each measurement method.
+In general, large values of DFBETAS indicate observations that are influential in estimating a given parameter. \citet{belsley2005} recommend 2 as a general cutoff value to indicate influential observations and as a size-adjusted cutoff. There is no agreement as to the critical threshold for DFBETAs. The cut-off value for DFBETAs is $\frac{2}{\sqrt{n}}$, where $n$ is the number of observations. However, another cut-off is to look for observations with a value greater than 1.00. Here cutoff means,
+``this observation could be overly influential on the estimated coefficient".
+		
+
+The DFBETAs refers to how much fixed effect changes if the observation or item in question is dropped from the data set.	
+For LME Models, a value for DFBETAS is calculated for each of the $k$ fixed effects, and for each of the $n$ item. Correctly there will be $p+1$ DFBETAs (the intercept, $\beta_0$, and one $\beta$ for each covariate). When the LME model is specified without an intercept term, as in Roy's Model, there is a set of DFBETAs corresponding to each measurement method, hence an $n \times p$ matrix.
 	
-	% For example there would be 2 sets of of dfbeta, 510 values for each in the case of LOO, and 85 for LSO diagnostics.
-	
+In the case of method comparison studies, a series of scatterplots can be constructed to compare each pair of measurement methods.
+Furthermore 95\% confidence ellipse can be constructed around these scatterplots.
 	
 	% The DFBETA for a particular observation is the difference between the regression coefficient for an included variable calculated for all of the data and the regression coefficient calculated with the observation deleted, scaled by the standard error calculated with the observation deleted.
 	
-	There is no agreement as to the critical threshold for DFBETAs. The cut-off value for DFBETAs is $\frac{2}{\sqrt{n}}$, where n is the number of observations.
-	However, another cut-off is to look for observations with a value greater than 1.00. Here cutoff means,
-	"this observation could be overly influential on the estimated coefficient".
+
 	
 	%===================================%
-
-
+	
+	
 	% % - http://support.sas.com/documentation/cdl/en/statug/63347/HTML/default/viewer.htm#statug_mixed_sect027.htm
 	An (unconditional) predicted value is $\hat{y}_i = x^{\prime}_i \boldsymbol{\hat{\beta}}$, where
 	the vector $x_i$ is the $i$th row of $\boldsymbol{X}$.
@@ -866,10 +861,7 @@ case included and the estimate without that particular case \citep{belsley2005}.
 	%	\end{framed}
 	
 	
-	%---------------------------------------------------------------------------%
-	
-	
-	Pinheiro and Bates provide some insight into how to compute and interpret model diagnostic plots for LME models. Unfortunately this aspect of LME theory is not as expansive as the corresponding body of work for Linear Models.
+
 	
 	
 	
@@ -885,40 +877,30 @@ case included and the estimate without that particular case \citep{belsley2005}.
 	%---------------------------------------------------------------------------%
 	
 	
-	Pinheiro and Bates provide some insight into how to compute and interpret model diagnostic plots for LME models. Unfortunately this aspect of LME theory is not as expansive as the corresponding body of work for Linear Models.
-	
-	
-	
-	
-	
-	
-	%-----------------------------------------------------------------------------------------%
-	
-	
-	
-	
-	
-	
-	
-	%===================================%
 
-	\subsubsection{Mean Square Prediction Error}
-	\begin{equation}
-	MSPR = \frac{\sum (y_{i}-\hat{y}_{i})^2}{n^*}
-	\end{equation}
+
+
+\subsubsection{DFFITS} %1.16.1
+DFFITS is a statistical measured designed to a show how influential an observation is in a statistical model. DFFITS is a diagnostic meant to show how influential a point is in a statistical regression. It is defined as the change ("DFFIT"), in the predicted value for a point, obtained when that point is left out of the regression, "Studentized" by dividing by the estimated standard deviation of the fit at that point:
+%	\[ \mbox{DFFITS} = {\widehat{y_i} - \widehat{y_{i(i)}} \over s_{(i)} \sqrt{h_{ii}}}\]
+\begin{displaymath} DFFITS = {\widehat{y_i} -
+	\widehat{y_{i(k)}} \over s_{(k)} \sqrt{h_{ii}}} \end{displaymath}
+Emphasis shall be placed on DFBETA, but a discussion of DFFITS is merited as it potentially provides for useful techniques in method comparison.
+	
+
 	
 
 	\subsubsection{DFBETA for MCS}
 	The LME approach proposed by \citet{ARoy2009} is constrained by computational tractability.
 	Consequently a simpler LME formulation is required, one similar to that of \citet{BXC2008}. However one constraint that can be dispensed with is that restriction to
 	two methods of measurement: we can use any number of methods.
-	The benefit of using this model is that diagnostics measures such as Cook's Distance and DFBETAs can be computed also. Furthermore, these measures
-	form the basis of the analysis, rather than the estimates derived from the model.
+	The benefit of using this model is that diagnostics measures such as Cook's Distance and DFBETAs can be computed also.
+
+Furthermore, these measures form the basis of the analysis, rather than the estimates derived from the model.
 	
-	Recalling the definition of DFBETAs ( in the context of LME models) (DEFINITION)
+	Recalling the definition of DFBETAs (in the context of LME models) (DEFINITION).
 	
-	In the context of method comparison, these variables are the methods of measurement. If the methods are in agreement, the DFBETA values will be almost identical for each subject in
-	the data set.
+In the context of method comparison, these variables are the methods of measurement. If the methods are in agreement, the DFBETA values will be almost identical for each subject in the data set.
 	
 	Here cases are ranked by the Cook's Distance, such that the most divergent DFBETA are highlighted.
 	
@@ -990,10 +972,11 @@ case included and the estimate without that particular case \citep{belsley2005}.
 
 
 
+
 	\subsection{Model Diagnostics for Roy's Models}
 	
 	
-	Further to previous work, this section revisits case-deletion and residual diagnostics, and explores how approaches devised by  Galecki \& Burzykowski (2013) can be used to appraise Roy's model. These authors specifically look at Cook's Distances and Likelihood Distances.
+	Further to previous work, this section revisits case-deletion and residual diagnostics, and explores how approaches devised by  \citet{Galecki} can be used to appraise Roy's model. These authors specifically look at Cook's Distances and Likelihood Distances.
 	For the Roy Model, Cook's Distances may also be generated using the \textbf{\textit{predictmeans}}
 	
 	
@@ -1004,29 +987,29 @@ case included and the estimate without that particular case \citep{belsley2005}.
 		\caption{}
 		\label{fig:CooksDistancePlot-JS-Roy}
 	\end{figure}
-
-
+	
+	
 	\begin{figure}[h!]
 		\centering
 		\includegraphics[width=0.7\linewidth]{images/LogLik-JS-Roy}
 		\caption{}
 		\label{fig:LogLik-JS-Roy}
 	\end{figure}
-		As the model is structurally different from the models discussed in the earlier sections, Residual analysis will be briefly revisited.
-		\begin{figure}[h!]
-			\centering
-			\includegraphics[width=0.7\linewidth]{images/Residuals-JS-Roy}
-			\caption{}
-			\label{fig:Residuals-JS-Roy}
-		\end{figure}
-
-	
-
+	As the model is structurally different from the models discussed in the earlier sections, Residual analysis will be briefly revisited.
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.7\linewidth]{images/Residuals-JS-Roy}
+		\caption{}
+		\label{fig:Residuals-JS-Roy}
+	\end{figure}
 	
 	
-
 	
-
+	
+	
+	
+	
+	
 	
 	\subsubsection{Case Deletion Diagnostics for Variance Ratios}
 	%- H Case Deletion Diagnostics
@@ -1040,8 +1023,8 @@ case included and the estimate without that particular case \citep{belsley2005}.
 	
 	These variance ratios are re-computed for each case removed, and may be analysed seperately or jointly for outliers.
 	
-
-
+	
+	
 	
 	\subsubsection{Methods for Identifying Outliers}
 	The Grubbs' Test for Outliers is a commonly used technique for assessing outlier in a univariate data set, of which there are several variants. The first variant of Grubb's test is used to detect if the sample dataset contains one outlier, statistically different than
@@ -1058,8 +1041,8 @@ case included and the estimate without that particular case \citep{belsley2005}.
 	specification for boxplots, ( i.e. greater than $Q_3 1.5 \mbox{IQR}$ or less than $Q_1 - 1.5 \mbox{IQR}$), will suffice.
 	
 	
-
-
+	
+	
 	\subsubsection{Mahalanbis Distance}
 	Bivariate Analyses may be applied jointly to the both sets of data sets, e.g Mahalanobis distances.
 	
@@ -1094,14 +1077,14 @@ case included and the estimate without that particular case \citep{belsley2005}.
 	
 	
 	%===========================================================================%
-
+	
 	\subsubsection{Variance Ratios}
-
+	
 	The relationship between precision and the within-item and between-item variability must be established. Roy establishes the equivalence of repeatability and within-item variability, and hence precision.  The method with the smaller within-item variability can be deemed to be the more precise.
 	
 	A useful approach is to compute the confidence intervals for the ratio of within-item standard deviations (equivalent to the ratio of repeatability coefficients), which can be interpreted in the usual manner.
-%	
-%	In fact, the ratio of within-item standard deviations, with the attendant confidence interval,  can be determined using a single R command: \texttt{intervals()}.
+	%	
+	%	In fact, the ratio of within-item standard deviations, with the attendant confidence interval,  can be determined using a single R command: \texttt{intervals()}.
 	
 	Pinheiro and Bates (pg 93-95) give a description of how confidence intervals for the variance components are computed. Furthermore a complete set of confidence intervals can be computed to complement the variance component estimates.
 	
@@ -1145,10 +1128,10 @@ case included and the estimate without that particular case \citep{belsley2005}.
 	%- F:
 	\bibliographystyle{chicago}
 	\bibliography{DB-txfrbib}
-
+	
 	
 \end{document}
-	
+
 \section{Unknown Material}
 
 
@@ -1228,6 +1211,11 @@ Large values for Cook's distance indicate observations for special attention.
 
 For linear functions, $CD(\psi)_i$ does not have to be calculated unless $CD(\beta)_i$ is large.
 %===================================================== %
+	\subsubsection{Mean Square Prediction Error}
+	\begin{equation}
+	MSPR = \frac{\sum (y_{i}-\hat{y}_{i})^2}{n^*}
+	\end{equation}
+
 %===================================================== %
 \subsection{Leverage}
 Leverage can be defined through the projection matrix that results from a transformation of the model with the inverse of the Cholesky decomposition of $\boldsymbol{V}$, or an oblique projector:	$\boldsymbol{Y} = \boldsymbol{H}\boldsymbol{\hat{Y}}$.
