@@ -1,4 +1,3 @@
-
 \documentclass[12pt, a4paper]{report}
 
 \usepackage{epsfig}
@@ -1669,6 +1668,73 @@ We will simulate a data set based in lewis conversion problems, provide three re
 	
 
 	\chapter{Linear Mixed effects Models}
+		
+		\section{Case Deletion Diagnostics for LME models}
+		
+		
+		
+		\citet{Christensen} describes three propositions that are required
+		for efficient case-deletion in LME models. The first proposition
+		decribes how to efficiently update $V$ when the $i$th element is
+		deleted.
+		\begin{equation}
+		V_{[i]}^{-1} = \Lambda_{[i]} - \frac{\lambda
+			\lambda\prime}{\nu^{}ii}
+		\end{equation}
+		
+		The second of christensen's propostions is the following set of
+		equations, which are variants of the Sherman Wood bury updating
+		formula.
+		\begin{eqnarray}
+		X'_{[i]}V_{[i]}^{-1}X_{[i]} &=& X' V^{-1}X -
+		\frac{\hat{x}_{i}\hat{x}'_{i}}{s_{i}}\\
+		(X'_{[i]}V_{[i]}^{-1}X_{[i]})^{-1} &=& (X' V^{-1}X)^{-1} +
+		\frac{(X' V^{-1}X)^{-1}\hat{x}_{i}\hat{x}' _{i}
+			(X' V^{-1}X)^{-1}}{s_{i}- \bar{h}_{i}}\\
+		X'_{[i]}V_{[i]}^{-1}Y_{[i]} &=& X\prime V^{-1}Y -
+		\frac{\hat{x}_{i}\hat{y}' _{i}}{s_{i}}
+		\end{eqnarray}
+		
+		
+		
+		
+		
+		
+		% In LME models, fitted by either ML or REML, an important overall
+		% influence measure is the likelihood distance \citep{cook82}. The
+		% procedure requires the calculation of the full data estimates
+		% $\hat{\psi}$ and estimates based on the reduced data set
+		% $\hat{\psi}_{(U)}$. The likelihood distance is given by
+		% determining
+		%
+		%
+		% \begin{eqnarray}
+		% 	LD_{(U)} &=& 2\{l(\hat{\psi}) - l( \hat{\psi}_{(U)}) \}\\
+		% 	RLD_{(U)} &=& 2\{l_{R}(\hat{\psi}) - l_{R}(\hat{\psi}_{(U)})\}
+		% \end{eqnarray}
+		
+	\subsubsection{Influence on measure component ratios}               %-Case Deletion section 6.2.2
+	The general diagnostic tools for variance component ratios are the analogues of the Cook's distance and the Information Ratio.
+	
+	
+	\begin{eqnarray*}
+		CD_{U}(\gamma) = (\hat{\gamma}_{(U)} - \hat{\gamma})^{\prime}[\mbox{var}(\hat{\gamma})]^{-1}(\hat{\gamma}_{(U)} - \hat{\gamma})\\
+		&= -\boldsymbol{g^{\prime}}_{(U)} (\boldsymbol{Q}-\boldsymbol{G})^{-1}\boldsymbol{Q}(\boldsymbol{Q}-\boldsymbol{G})\boldsymbol{g}_{(U)} \\
+		&= \boldsymbol{g^{\prime}}_{(U)} (\boldsymbol{I}_{r}  \mbox{var}(\hat{\gamma})\boldsymbol{G})^{-2}\mbox{var}(\hat{\gamma})\boldsymbol{g}_{(U)}
+	\end{eqnarray*}
+	
+	Large values of $CD(\gamma)$ highlight observation groups for closer attentions
+	
+	
+	\begin{eqnarray*}
+		IR{\gamma}  = \frac{\mbox{det}(\boldsymbol{Q} - \boldsymbol{G})}{\mbox{det}(\boldsymbol{Q})}
+	\end{eqnarray*}
+	
+	Ideally when all observations have the same influence on the information matrix $IR{\gamma}$ is approximately one.
+	Deviations from one indicate the group $U$ is influential. Since $\mbox{var}(\hat{\gamma})$ and $\boldsymbol{I}_{r}$ are fixed for all observations, $IR{\gamma}$ is a function of $\boldsymbol{G}$, in turn a function of $\boldsymbol{C}_{i}$ and $c_{ii}$.
+	
+		
+		
 \section{Introduction to Mixed Models}
 
 %\citet{BrownPrescott} defines random effects as realizations of
@@ -2339,6 +2405,46 @@ Limits of agreement are easily computable using the LME framework. While we will
 
 
 	\chapter{LME Likelihood}
+
+\section{PRESS}
+	% The DFBETA for a particular observation is the difference between the regression coefficient for an included variable calculated for all of the data and the regression coefficient calculated with the observation deleted, scaled by the standard error calculated with the observation deleted.
+	
+	
+	
+	%===================================%
+	
+	
+	% % - http://support.sas.com/documentation/cdl/en/statug/63347/HTML/default/viewer.htm#statug_mixed_sect027.htm
+	An (unconditional) predicted value is $\hat{y}_i = x^{\prime}_i \boldsymbol{\hat{\beta}}$, where
+	the vector $x_i$ is the $i$th row of $\boldsymbol{X}$.
+	
+	%	For an \texttt{lme} object, such as our fitted model \texttt{JS.roy1}, the predicted values for each subject can be determined using the \texttt{coef.lme} function.
+	%	\begin{framed}
+	%		\begin{verbatim}
+	%		> JS.roy1 %>% coef %>% head(5)
+	%		methodJ   methodS
+	%		74     84.31724  91.08404
+	%		36     91.54994  97.05548
+	%		3      81.16581  96.48653
+	%		62     92.09493  90.89073
+	%		31     88.41411 103.38802
+	%		\end{verbatim}
+	%	\end{framed}
+	
+ %http://support.sas.com/documentation/cdl/en/statug/63347/HTML/default/viewer.htm#statug_mixed_sect027.htm
+
+	An (unconditional) predicted value is $\hat{y}_i = x^{\prime}_i \boldsymbol{\hat{\beta}}$, where
+	the vector $x_i$ is the $i$th row of $\boldsymbol{X}$.
+	The (raw) residual is given as $\varepsilon_i = y_i - \hat{y}_i$. The PRESS residual is
+	similarly constructed, using the predicted value for observation $i$ with a model fitted from reduced data.
+	\[ \varepsilon_{i(U)} = y_i - x^{\prime}_i \boldsymbol{\hat{\beta}}_{(U)} \]
+	
+	
+	%---------------------------------------------------------------------------%
+	
+	
+
+
 	\section{One Way ANOVA}
 	\subsection{Page 448}
 	Computing the variance of $\hat{\beta}$
@@ -2448,10 +2554,221 @@ Limits of agreement are easily computable using the LME framework. While we will
 	
 	%================================================%
 	
+\subsection{EBLUPS-Diagnostics for Random Effects}
+%% West Page 42 Section 2.8.3
+\citet{west} recommends the empirical Bayes predictor, also known as EBLUPS as a diagnostic tool for Random effects. Checking EBLUPS for normality is of limited value.
+
+
+%--------------------------------------------------------------------------------------------------------%
+%%EBLUP
+
+%-http://chjs.deuv.cl/Vol3N1/ChJS-03-01-05.pdf
+
+The EBLUP is useful to identify outlier subjects given that it represents the distance
+between the population mean value and the value predicted for the ith subject. A way of
+using the EBLUP to search for outliers subjects is to use the Mahalanobis distance (see
+Waternaux et al., 1989), FORMULA
+
+. It is also possible to use the EBLUP
+to verify the random effects normality assumption. For more information; see Nobre and
+Singer (2007). In Table 2 we summarize diagnostic techniques involving residuals discussed
+in Nobre and Singer (2007).
+
+%----------------------------------------------------%
+
+
+
 	\chapter{General Appendices}
 	$\Lambda = \frac{\mbox{max}_{H_{0}}L}{\mbox{max}_{H_{1}}L}$
 	
+	\subsection{Extending deletion diagnostics to LMEs}
 	
+	
+	\citet{Christensen} notes the case deletion diagnostics techniques have not been applied to linear mixed effects models and seeks to develop methodologies in that respect. \citet{Christensen} develops these techniques in the context of REML
+	
+	% www.jds-online.com/file_download/70/JDS-205.pdf
+	
+	\begin{eqnarray*}
+		X= \left[%
+		\begin{array}{c}
+			x^\prime_{i} \\
+			X(i) \\
+		\end{array}%
+		\right],
+		Z= \left[%
+		\begin{array}{c}
+			z^\prime_{ij} \\
+			Z_{j(i)} \\
+		\end{array}%
+		\right] ,
+		Z = \left[%
+		\begin{array}{c}
+			z^\prime_{ij} \\
+			Z_{j(i)} \\
+		\end{array}%
+		\right], \\
+		y = \left[%
+		\begin{array}{c}
+			y^\prime_{ij} \\
+			y_{j(i)} \\
+		\end{array}%
+		\right]
+		\mbox{ and } H = \left[%
+		\begin{array}{cc}
+			h_{ii}& h\\
+			h_{j(i)} & h\\
+		\end{array}%
+		\right]
+	\end{eqnarray*}
+	
+	For notational simplicity, $\boldsymbol{A}_{(i)}$ denotes an $n
+	\times m$ matrix  $\boldsymbol{A}$ with the $i$-th row removed,
+	$\boldsymbol{a}_{i}$ denotes the $i$-th row of $\boldsymbol{A}$,
+	and $a_{ij}$ denotes the $(i, j)$-th element of $\boldsymbol{A}$.
+	
+	$\boldsymbol{a}_{(i)}$ denotes a vector $\boldsymbol{a}$ with the $i$-th element, $a_{i}$, removed.
+	
+	\begin{equation}
+	\breve{a_{i}} =  \boldsymbol{a}_{i} -
+	\boldsymbol{A}_{(i)}\boldsymbol{H}_{[i]}\boldsymbol{h}_{i}
+	\end{equation}
+%=======================================================%
+\section{Unknown Material}
+
+
+To standardize the assessment of how influential data is, several measures of influence are commonly used, such as DFBETAS 
+and Cook’s Distance.
+
+
+
+
+
+Although influential cases thus have extreme values on one or more of the variables, they can be onliers
+rather than outliers. 
+
+To account for this, the (standardized) deleted residual is defined as the difference between
+the observed score of a case on the dependent variable, and the predicted score from the regression
+model fitted from data when that case is omitted.
+
+
+Just as influential cases are not necessarily outliers, outliers are not necessarily influential cases. 
+
+This also holds for deleted residuals. The reason for this is that the amount of influence a case exerts on the regression slope is not only determined by how well its (observed) score is fitted by the specified
+regression model, but also by its score(s) on the independent variable(s). The degree to which the scores of a case on the independent variable(s) are extreme is indicated by the leverage of this case. 
+
+
+%=========================================================%
+
+
+
+
+
+%=========================================================%
+
+
+\newpage
+
+%\subsubsection{Deviance}
+%In statistics, deviance is a quality of fit statistic for a model that is often used for statistical hypothesis testing. It is a generalization of the idea of using the sum of squares of residuals in ordinary least squares to cases where model-fitting is achieved by maximum likelihood.
+%
+\subsection{Estimation}
+
+\begin{eqnarray}
+\hat{\beta} &=& X^{T} \\
+\hat{\gamma} &=& G(\hat{\theta})Z^{T}
+\end{eqnarray}
+
+The difference between perturbation and residual analysis between the linear and LME models.
+The estimates of the fixed effects $\beta$ depend on the estimates of the covariance parameters.
+\subsection{Zewotir-Cook's Distance}
+
+Diagnostic tool for variance components
+\[ C_{\theta i} =(\hat(\theta)_{[i]} - \hat(\theta))^{T}\mbox{cov}( \hat(\theta))^{-1}(\hat(\theta)_{[i]} - \hat(\theta))\]
+
+\begin{description}
+	\item[linear functions]
+	$CD(\psi)_i$ does not have to be calculated unless $CD(\beta)_i$ is large.
+\end{description}
+
+
+It is also desirable to measure the influence of the case deletions on the covariance matrix of $\hat{\beta}$.
+% % - Fixed Effects Parameter		
+
+For fixed effects parameter estimates in LME models, the \index{Cook's distance} Cook's distance can be extended to measure influence on these fixed effects.
+
+\[
+\mbox{CD}_{i}(\beta) = \frac{(c_{ii} - r_{ii}) \times t^2_{i}}{r_{ii} \times p}
+\]
+
+
+For random effect estimates, the \index{Cook's distance} Cook's distance is
+
+\[
+\mbox{CD}_{i}(b) = g{\prime}_{(i)} (I_{r} + \mbox{var}(\hat{b})D)^{-2}\mbox{var}(\hat{b})g_{(i)}.
+\]
+
+Large values for Cook's distance indicate observations for special attention.
+
+
+For linear functions, $CD(\psi)_i$ does not have to be calculated unless $CD(\beta)_i$ is large.
+%===================================================== %
+\subsubsection{Mean Square Prediction Error}
+\begin{equation}
+MSPR = \frac{\sum (y_{i}-\hat{y}_{i})^2}{n^*}
+\end{equation}
+
+%===================================================== %
+\subsection{Leverage}
+Leverage can be defined through the projection matrix that results from a transformation of the model with the inverse of the Cholesky decomposition of $\boldsymbol{V}$, or an oblique projector:	$\boldsymbol{Y} = \boldsymbol{H}\boldsymbol{\hat{Y}}$.
+
+While $H$ is idempotent, it is generally not symmetric and thus not a projection matrix in the narrow sense.
+\[ h_{ii} = x^{\prime}_{i}(X^{\prime}X)^{-1}x_{i} \]
+The trace of $\boldsymbol{H}$ equals the rank of $\boldsymbol{X}$.
+If $V_{ij}$ denotes the element in row $i$, column $j$ of $\boldsymbol{V}^{-1}$, then for a model containing only an intercept the diagonal elements of $\boldsymbol{H}$.
+
+\[ h_{ii} = \frac{\sum v_{ij}}{\sum \sum v_{ij}} \]
+
+%========================================================%
+\subsubsection{PRESS}
+\citet{schabenberger} descibes the use of the $PRESS$ and $DFFITS$ in determining influence.
+
+The $PRESS$ residual is the difference between the observed value and the predicted (marginal)value.
+\begin{equation}
+\hat{e_{i}}_{(U)} = y_{i} - x\hat{\beta}_{(U)}
+\end{equation}
+
+The prediction residual sum of squares (PRESS) is an value associated with this calculation. When fitting linear models, PRESS can be used as a criterion for model selection, with smaller values indicating better model fits.
+\begin{equation}
+PRESS = \sum(y-y^{(k)})^2
+\end{equation}
+\begin{eqnarray*}
+	e_{-Q} = y_{Q} - x_{Q}\hat{\beta}^{-Q}\\
+	PRESS = \sum(y-y^{-Q})^2\\
+	PRESS_{(U)} = y_{i} - x\hat{\beta}_{(U)}\\
+\end{eqnarray*}
+
+\subsubsection{PRESS Residuals and PRESS Statistic}
+% % - Wikipedia
+The predicted residual sum of squares (PRESS) statistic is a form of cross-validation used in regression analysis to provide a summary measure of the fit of a model to a sample of observations that were not themselves used to estimate the model. It is calculated as the sums of squares of the prediction residuals for those observations.
+
+A fitted model having been produced, each observation in turn is removed and the model is refitted using the remaining observations. The out-of-sample predicted value is calculated for the omitted observation in each case, and the PRESS statistic is calculated as the sum of the squares of all the resulting prediction errors:[4]
+\[\mbox{PRESS} =\sum_{i=1}^n (y_i - \hat{y}_{i, -i})^2 \]
+
+Given this procedure, the PRESS statistic can be calculated for a number of candidate model structures for the same dataset, with the lowest values of PRESS indicating the best structures. Models that are over-parameterised (over-fitted) would tend to give small residuals for observations included in the model-fitting but large residuals for observations that are excluded.
+
+
+
+
+
+%============================================== %
+\subsection{Local Influence}
+
+\citet{Christensen} developed their global influences for the deletion of single observations in two steps: a one-step estimate for the REML (or ML) estimate of the variance components, and an ordinary case-deletion diagnostic for a weighted regression problem (conditional on the estimated covariance matrix) for fixed effects.
+
+%============================================== %
+%- F:
+\bibliographystyle{chicago}
+\bibliography{DB-txfrbib}	
 	
 	%----------------------------------------------------------------------------------------------%
 	
@@ -3096,7 +3413,23 @@ into account these measurement errors. \emph{Random effects models
 measurement over the observation period can be taken as a random
 effect.
 
-
+\section{Haslett Dillane Hayes}
+	\citet{HaslettDillane} offers an procedure to assess the influences for the variance components
+	within the linear model, complementing the existing methods for the fixed components. The essential problem is that there is no useful updating procedures for $\hat{V}$, or for $\hat{V}^{-1}$.
+	
+	\citet{HaslettDillane} remark that linear mixed effects models
+	didn't experience a corresponding growth in the use of deletion
+	diagnostics, adding that \citet{McCullSearle} makes no mention of
+	diagnostics whatsoever.	
+	
+	\citet{HaslettDillane} propose an alternative, and
+	computationally inexpensive approach, making use of the
+	`\texttt{delete=replace}' identity.
+	
+	\citet{Haslett99} considers the effect of `leave k out'
+	calculations on the parameters $\beta$ and $\sigma^{2}$, using
+	several key results from \citet{HaslettHayes} on partioned
+	matrices.
 
 	\section{Cooks's Distance - Implementation with \texttt{R}}
 	Cook's Distance is a measure indicating to what extent model parameters are influenced by (a set of) influential data on which the model is based. This function computes the Cook's distance based on the information returned by the \texttt{estex()} function.
