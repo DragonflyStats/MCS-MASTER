@@ -141,6 +141,37 @@ In classical linear models, leverages are the diagonal elements $h_{ii}$ of the 
 	% - Leverage is a measure of how far an independent variable deviates from its mean.
 	
 
+\subsection{Cook's 1986 paper on Local Influence}%1.7.1
+
+
+\citet{cook77} greatly expands the study of residuals and influence measures. Cook proposed a measure that combines the information of leverage and residual of the observation, now known simply as the Cook's Distance.
+Cook's key observation was the effects of deleting each observation in turn could be calculated with little additional computation. That is to say, $D_{(i)}$ can be calculated without fitting a new regression coefficient each time an observation is deleted. Consequently deletion diagnostics have become an integral part of assessing linear models.
+
+The focus of this analysis is related to the estimation of  regression coefficients. It must be pointed out that the effect on the precision of estimates is separate from the effect on the point estimates. Data points that have a small \index{Cook's distance}Cook's distance, for example, can still greatly affect hypothesis tests and confidence intervals, if their 
+influence on the precision of the estimates is large.	
+
+\citet{cook86} gives a completely general method for assessing the influence of local departures from assumptions in statistical models.
+
+\citet{cook86} introduces methods for local influence assessment for classical linear models. These methods provide a powerful tool for examining perturbations in the assumption of a model, particularly the effects of local perturbations of parameters of observations. The local-influence approach to influence assessment is quite different from the case deletion approach, comparisons are of interest.
+
+
+
+
+
+
+
+
+As well as individual observations, Cook's distance can be used to analyse the influence of observations in subset $U$ on a vector of parameter estimates \citep{cook77}.
+%\subsubsection{Effects on fitted and predicted values}
+\begin{eqnarray}
+\hat{e_{i}}_{(U)} = y_{i} - x\hat{\beta}_{(U)}\\
+\delta_{(U)} = \hat{\beta} - \hat{\beta}_{(U)}
+\end{eqnarray}
+%It uses the same structure for measuring the combined impact of the differences in the estimated regression coefficients when the $k$th case is deleted.
+
+
+
+
 \subsection{Comparison with Residual Analysis}
 %In LME models, there are two types of residuals, marginal residuals and conditional residuals. A
 %marginal residual is the difference between the observed data and the estimated marginal mean. A conditional residual is the
@@ -179,6 +210,131 @@ When similar concepts of statistical influence are applied to mixed models, thin
 
 The new measures that are proposed by \citet{Demi} are explicitly defined functions and do not require re-estimation of the model, especially for cluster deletion diagnostics. The basis for both the cluster deletion diagnostics and Cook's distance is a generalization of Miller's simple update formula for case deletion for linear models. Furthermore \citet{Demi} shows how Pregibon's infinitesimal case deletion diagnostics is adapted to the linear mixed-effects model. \citet{schabenberger} notes that removing observations or sets of observations affects fixed effects and covariance parameter estimates.
 %============================================================================================================================ %
+
+	\subsection{A Procedure for Quantifying Influence}  %1.1.6
+%	\citet{schabenberger} examines the use and implementation of influence measures in LME models.
+	
+	\citet{schabenberger} describes a simple procedure for quantifying influence. Firstly a model should be fitted to the data, and
+	estimates of the parameters should be obtained. The second step is that either single or multiple data points, specifically outliers,
+	should be omitted from the analysis, with the original parameter estimates being updated. This is known as \textit{leave one out} or \texttt{leave k out} analysis. The final step of the procedure is comparing the sets of estimates computed from the entire and reduced data sets to determine whether the absence of observations changed the
+	analysis. The basic procedure for quantifying influence is simple:
+	\begin{enumerate}
+		\item Fit the model to the data and obtain estimates of all parameters.
+		\item Remove one or more data points from the analysis and compute updated estimates of model parameters.
+		\item Based on full- and reduced-data estimates, contrast quantities of interest to determine how the absence
+		of the observations changes the analysis.
+	\end{enumerate}	
+	
+	
+%	We use the subscript $(U)$ to denote quantities obtained without the observations in the set $U$. 
+	%---------------------------------------------------------------------------%
+	
+
+\subsection{Influence Diagnostics: Closed Form Expressions} %1.1.2
+%http://support.sas.com/documentation/cdl/en/statug/63033/HTML/default/viewer.htm#statug_mixed_sect024.htm
+
+\citet{schabenberger} considers several important aspects of the use and implementation of influence measures in LME models, noting that it is not always possible to
+derive influence statistics necessary for comparing full- and reduced-data parameter estimates. 
+
+
+
+
+Furthermore, closed-form expressions for computing the change in important model quantities might not be available.
+This section provides background material for the various influence diagnostics available with the MIXED procedure.
+
+The parameter vector $\theta$ denotes all unknown parameters in the  $R$ and $D$  matrix.
+
+The observations whose influence is being ascertained are represented by the set  and referred to simply as "the observations in ." The estimate of a parameter vector, such as , obtained from all observations except those in the set  is denoted . In case of a matrix , the notation  represents the matrix with the rows in  removed; these rows are collected in .
+%%SAS HELP FILE
+If  is symmetric, then notation  implies removal of rows and columns. The vector  comprises the responses of the data points being removed, and  is the variance-covariance matrix of the remaining observations. When , lowercase notation emphasizes that single points are removed, such as .
+
+
+%------------------------------------------------------------%
+
+\subsection{Computation Matters}
+
+An iterative analysis may seem computationally expensive. computing iterative influence diagnostics for $n$ observations
+requires $n+1$ mixed models to be fitted iteratively.
+
+
+\citet{schabenberger} examines the use and implementation of
+influence measures in LME models.
+
+\citet{schabenberger} notes that it is not always possible to
+derive influence statistics necessary for comparing full- and
+reduced-data parameter estimates.
+
+%===================================================================================%
+%Key to the implementations of influence diagnostics in the MIXED procedure is the attempt to quantify
+%influence, where possible, by drawing on the basic definitions of the various statistics in the classical linear
+%model. 
+
+On occasion, quantification is not possible. Assume, for example, that a data point is removed
+and the new estimate of the $D$ matrix is not positive definite. This may occur if a variance component
+estimate now falls on the boundary of the parameter space. 
+
+Thus, it may not be possible to compute certain
+influence statistics comparing the full-data and reduced-data parameter estimates. However, knowing that
+a new singularity was encountered is important qualitative information about the data point’s influence on
+the analysis.
+
+
+\subsection{Iterative and Non-Iterative Influence Analysis}
+\citet{schabenberger} highlights some of the issue regarding implementing LME model diagnostics, describing  the choice between \index{iterative influence analysis} iterative influence analysis and \index{non-iterative influence analysis} non-iterative influence analysis.
+%%- Paragraph 2
+
+
+%--------------------------------------%
+
+%\subsubsection{Non-iterative Update Procedures}
+
+
+The change in the fixed-effects estimates following removal of the observations in $U$ is
+\[ \hat{\beta} - \hat{\beta}_{(U)} = \boldsymbol{\Omega}\boldsymbol{X}\boldsymbol{V}
+\left( \boldsymbol{U} \boldsymbol{P}\boldsymbol{U}\right)   \]
+
+Calculation of Influence diagnostics can be performed using non-iterative or iterative methods.
+
+%----schabenberger page 8
+For linear models, the implementation of influence analysis is straightforward, but for LME models the process is more complex.
+
+
+A measure of total influence requires updates of all model parameters. This can only be achieved in general is by omitting observations, then refitting the model.
+However, this doesnt increase the procedures execution time by the same degree.
+
+
+
+
+
+Schabenberger makes several comments about iterative procedures. Despite the addition execution time of these brute forces 
+approaches, they are less reliant on assumptions.
+
+
+Non-iterative methods are computationally efficient, but require the rather strong assumption that all 
+covariance parameters are known, and thus are not updated, with the exception of the profiled residual variance.
+
+Iterative Influence diagnostics requiring fitting the model without the observations in question. Computation execution time is substantially longer, although this is balanced by algorithmic 
+simplicity, with no assumptions beyond those used for the original model. Additionally iterative approaches facilitate several complementary analyses to be carried out 
+concurrently.
+
+The execution times for iterative procedures are longer relative to iterative procedures, measured in seconds rather than microseconds. 
+
+
+
+\subsubsection{Computational Limitations for Cook's Distance}
+Application of Cooks Distances are limited by computation tractability.
+
+
+Application of case-deletion diagnostics offer some interested for Method Comparison Studies
+
+
+Care must be given when interpreting these plots. For example the position of case 68 on the BSVR indicates that that
+case 68
+
+
+
+Any diagnostic plot may constructed using Overall variability and intermethod bias.
+
 
 \subsection{Analyzing Influence in LME models}
 
@@ -282,26 +438,6 @@ A large value for $CD(u)_i$ indicates that the $i-$th observation is influential
 	
 
 
-\subsection{Influence Diagnostics: Closed Form Expressions} %1.1.2
-%http://support.sas.com/documentation/cdl/en/statug/63033/HTML/default/viewer.htm#statug_mixed_sect024.htm
-
-\citet{schabenberger} considers several important aspects of the use and implementation of influence measures in LME models, noting that it is not always possible to
-derive influence statistics necessary for comparing full- and reduced-data parameter estimates. 
-
-
-
-
-Furthermore, closed-form expressions for computing the change in important model quantities might not be available.
-This section provides background material for the various influence diagnostics available with the MIXED procedure.
-
-The parameter vector $\theta$ denotes all unknown parameters in the  $R$ and $D$  matrix.
-
-The observations whose influence is being ascertained are represented by the set  and referred to simply as "the observations in ." The estimate of a parameter vector, such as , obtained from all observations except those in the set  is denoted . In case of a matrix , the notation  represents the matrix with the rows in  removed; these rows are collected in .
-%%SAS HELP FILE
-If  is symmetric, then notation  implies removal of rows and columns. The vector  comprises the responses of the data points being removed, and  is the variance-covariance matrix of the remaining observations. When , lowercase notation emphasizes that single points are removed, such as .
-
-
-%------------------------------------------------------------%
 
 \subsection{Assumptions for Update Formulas}
 While influence analysis concepts are statistically straightforward, implementation for LME models is more complex.
@@ -322,204 +458,72 @@ Iterative methods retain the potential for usefulness, if applied at different s
 
 
 
-\subsection{Computation Matters}
-
-An iterative analysis may seem computationally expensive. computing iterative influence diagnostics for $n$ observations
-requires $n+1$ mixed models to be fitted iteratively.
 
 
-\citet{schabenberger} examines the use and implementation of
-influence measures in LME models.
-
-\citet{schabenberger} notes that it is not always possible to
-derive influence statistics necessary for comparing full- and
-reduced-data parameter estimates.
-
-%===================================================================================%
-Key to the implementations of influence diagnostics in the MIXED procedure is the attempt to quantify
-influence, where possible, by drawing on the basic definitions of the various statistics in the classical linear
-model. 
-
-On occasion, quantification is not possible. Assume, for example, that a data point is removed
-and the new estimate of the $D$ matrix is not positive definite. This may occur if a variance component
-estimate now falls on the boundary of the parameter space. 
-
-Thus, it may not be possible to compute certain
-influence statistics comparing the full-data and reduced-data parameter estimates. However, knowing that
-a new singularity was encountered is important qualitative information about the data point’s influence on
-the analysis.
-
-
-\subsection{Iterative and Non-Iterative Influence Analysis}
-\citet{schabenberger} highlights some of the issue regarding implementing LME model diagnostics, describing  the choice between \index{iterative influence analysis} iterative influence analysis and \index{non-iterative influence analysis} non-iterative influence analysis.
-%%- Paragraph 2
-
-
-%--------------------------------------%
-
-%\subsubsection{Non-iterative Update Procedures}
-
-
-The change in the fixed-effects estimates following removal of the observations in $U$ is
-\[ \hat{\beta} - \hat{\beta}_{(U)} = \boldsymbol{\Omega}\boldsymbol{X}\boldsymbol{V}
-\left( \boldsymbol{U} \boldsymbol{P}\boldsymbol{U}\right)   \]
-
-Calculation of Influence diagnostics can be performed using non-iterative or iterative methods.
-
-%----schabenberger page 8
-For linear models, the implementation of influence analysis is straightforward, but for LME models the process is more complex.
-
-
-A measure of total influence requires updates of all model parameters. This can only be achieved in general is by omitting observations, then refitting the model.
-However, this doesnt increase the procedures execution time by the same degree.
-
-
-
-
-
-Schabenberger makes several comments about iterative procedures. Despite the addition execution time of these brute forces 
-approaches, they are less reliant on assumptions.
-
-
-Non-iterative methods are computationally efficient, but require the rather strong assumption that all 
-covariance parameters are known, and thus are not updated, with the exception of the profiled residual variance.
-
-Iterative Influence diagnostics requiring fitting the model without the observations in question. Computation execution time is substantially longer, although this is balanced by algorithmic 
-simplicity, with no assumptions beyond those used for the original model. Additionally iterative approaches facilitate several complementary analyses to be carried out 
-concurrently.
-
-The execution times for iterative procedures are longer relative to iterative procedures, measured in seconds rather than microseconds. 
-
-
-
-	\subsubsection{Computational Limitations for Cook's Distance}
-	Application of Cooks Distances are limited by computation tractability.
-	
-	
-	Application of case-deletion diagnostics offer some interested for Method Comparison Studies
-	
-	
-	Care must be given when interpreting these plots. For example the position of case 68 on the BSVR indicates that that
-	case 68
-	
-	
-	
-	Any diagnostic plot may constructed using Overall variability and intermethod bias.
-	
 
 \subsection{Deletion Diagnostics}
 Influence diagnostics are formal techniques that assess the influence of observations on parameter estimates for $\beta$ and $\theta$. A common technique is to refit the model with an observation or group of observations omitted.
 
 Case-deletion diagnostics provide a useful tool for identifying influential observations and outliers. Since the pioneering work of Cook in 1977, deletion measures have been applied to many statistical models for identifying influential observations.
-		
-	% Cook's Distance for OLS models
-	
+
+% Cook's Distance for OLS models
+
 Standard statistical packages concentrate on calculating and testing parameter estimates without considering the diagnostics of the model. 
-	
+
 The assessment of the effects of perturbations in data, on the outcome of the analysis, is known as statistical influence analysis. Influence analysis examines the robustness of the model.
-	
+
 
 
 The key to making deletion diagnostics useable is the development of efficient computational formulas, allowing one to obtain the \index{case deletion diagnostics} case deletion diagnostics by making use of basic building blocks, computed only once for the full model.
-		
+
 Deletion diagnostics provide a means of assessing the influence of an observation (or groups of observations) on inference on the estimated parameters of LME models. Linear models for uncorrelated data have well established measures to gauge the influence of one or more observations on the analysis. For such models, closed-form update expressions allow efficient computations without refitting the model.
-		
-		Data from single individuals, or a small group of subjects may influence non-linear mixed effects model selection. Diagnostics routinely applied in model building may identify such individuals, but these methods are not specifically designed for that purpose and are, therefore, not optimal. We describe two likelihood-based diagnostics for identifying individuals that can influence the choice between two competing models.
-		
-		
-		The computation of case deletion diagnostics in the classical model is made simple by the fact that estimates of $\beta$ and $\sigma^2$, which exclude the $i$th observation, can be computed without re-fitting the model. Such update formulas are available in the mixed model only if you assume that the covariance parameters are not affected by the removal of the observation in question. This is rarely a reasonable assumption.
+
+Data from single individuals, or a small group of subjects may influence non-linear mixed effects model selection. Diagnostics routinely applied in model building may identify such individuals, but these methods are not specifically designed for that purpose and are, therefore, not optimal. We describe two likelihood-based diagnostics for identifying individuals that can influence the choice between two competing models.
+
+
+The computation of case deletion diagnostics in the classical model is made simple by the fact that estimates of $\beta$ and $\sigma^2$, which exclude the $i$th observation, can be computed without re-fitting the model. Such update formulas are available in the mixed model only if you assume that the covariance parameters are not affected by the removal of the observation in question. This is rarely a reasonable assumption.
 %		
 %		
 %		In this section we introduce influence analysis and case deletion diagnostics. A full overview of the topic will be provided although there are specific tools that are particularly useful in the case of Method Comparison problems: specifically the Cook's Distance and the DFBETA.
-		
+
 %	\subsection{Terminology for Case Deletion diagnostics} %1.8
-		
-		\citet{preisser} describes two type of diagnostics. When the set consists of only one observation, the type is called
-		`\textit{observation-diagnostics}'. For multiple observations, Preisser describes the diagnostics as `\textit{cluster-deletion}' diagnostics. When applied to LME models, such update formulas are available only if one assumes that the covariance parameters are not affected by the removal of the observation in question. However, this is rarely a reasonable assumption.
-		
-		
-		%% Schabenberger
-		%%
-		
-		The natural sampling unit is the item or subject, similar to the example provided by \citet{schabenberger}. 
-		Schabenberger notation $U$ to denote quantities conmputed from data with subset of cases U omitted.
-		
-		%\subsubsection{Effects on fitted and predicted values}
-		%\begin{equation}
-		%\hat{e_{i}}_{(U)} = y_{i} - x\hat{\beta}_{(U)}
-		%\end{equation}
-		
-		\subsubsection{Case deletion notation} 
-		
-		For notational simplicity, $\boldsymbol{A}(i)$ denotes an $n \times m$ matrix $\boldsymbol{A}$ with the $i$-th row
-		removed, $a_i$ denotes the $i$-th row of $\boldsymbol{A}$, and $a_{ij}$ denotes the $(i, j)-$th element of $\boldsymbol{A}$.
-		
-		A discussion of how leave-k-out diagnostics would work in the context of MCS problems is required. There are several scenaros. Suppose we have two methods of measurement X and Y, each with three measurements for a specific case: $(x_1,x_2,x_3,y_1,y_2,y_3)$
-		
-		\begin{itemize}
-			\item Leave One Out - one observation is omitted (e.g. $x_1$)
-			\item Leave Pair Out - one pair of observation  is omitted (e.g. $x_1$ and $y_1$)
-			\item Leave Case (or Subject) Out - All observations associated with a particular case or subject are omitted. (e.g. $\{x_1,x_2,x_3,y_1,y_2,y_3\}$)
-		\end{itemize}
-		Other metrics, such as the likelihood distance, will also be introduced, and revisited in a later section.
-		
-		
-		%%---------------------------------------------------------- %
-		%%Likelihood Displacement.
-		%\[  LD(\boldsymbol{(U)})= 2[l\boldsymbol{\hat{(\phi)}} - l\boldsymbol{\hat{\phi}_\omega} ] \]
-		%\[  RLD(\boldsymbol{(U)})= 2[ l_R\boldsymbol{\hat{(\phi)}} - l_R\boldsymbol{\hat{(\phi)}_\omega} ] \]
-		%%	Large values indicate that $\boldsymbol{\hat{\theta}}$ and $\boldsymbol{\hat{\theta}_\omega}$ differ considerably.
-		
 
-\subsection{Cook's 1986 paper on Local Influence}%1.7.1
+\citet{preisser} describes two type of diagnostics. When the set consists of only one observation, the type is called
+`\textit{observation-diagnostics}'. For multiple observations, Preisser describes the diagnostics as `\textit{cluster-deletion}' diagnostics. When applied to LME models, such update formulas are available only if one assumes that the covariance parameters are not affected by the removal of the observation in question. However, this is rarely a reasonable assumption.
 
 
-\citet{cook77} greatly expanded the study of residuals and influence measures. Cook proposed a measure that combines the information of leverage and residual of the observation, now known simply as the Cook's Distance.
-Cook's key observation was the effects of deleting each observation in turn could be calculated with little additional computation. That is to say, $D_{(i)}$ can be calculated without fitting a new regression coefficient each time an observation is deleted. Consequently deletion diagnostics have become an integral part of assessing linear models.
+%% Schabenberger
+%%
 
-The focus of this analysis is related to the estimation of point estimates (i.e. regression coefficients). It must be pointed out that the effect on the precision of estimates is separate from the effect on the point estimates. Data points that have a small \index{Cook's distance}Cook's distance, for example, can still greatly affect hypothesis tests and confidence intervals, if their  influence on the precision of the estimates is large.	
+The natural sampling unit is the item or subject, similar to the example provided by \citet{schabenberger}. 
+Schabenberger notation $U$ to denote quantities conmputed from data with subset of cases U omitted.
 
-\citet{cook86} gives a completely general method for assessing the influence of local departures from assumptions in statistical models.
-
-\citet{cook86} introduces methods for local influence assessment for classical linear models. These methods provide a powerful tool for examining perturbations in the assumption of a model, particularly the effects of local perturbations of parameters of observations. The local-influence approach to influence assessment is quite different from the case deletion approach, comparisons are of interest.
-
-
-
-
-
-
-
-
-As well as individual observations, Cook's distance can be used to analyse the influence of observations in subset $U$ on a vector of parameter estimates \citep{cook77}.
 %\subsubsection{Effects on fitted and predicted values}
-\begin{eqnarray}
-\hat{e_{i}}_{(U)} = y_{i} - x\hat{\beta}_{(U)}\\
-\delta_{(U)} = \hat{\beta} - \hat{\beta}_{(U)}
-\end{eqnarray}
-%It uses the same structure for measuring the combined impact of the differences in the estimated regression coefficients when the $k$th case is deleted.
+%\begin{equation}
+%\hat{e_{i}}_{(U)} = y_{i} - x\hat{\beta}_{(U)}
+%\end{equation}
+
+\subsubsection{Case deletion notation} 
+
+For notational simplicity, $\boldsymbol{A}(i)$ denotes an $n \times m$ matrix $\boldsymbol{A}$ with the $i$-th row
+removed, $a_i$ denotes the $i$-th row of $\boldsymbol{A}$, and $a_{ij}$ denotes the $(i, j)-$th element of $\boldsymbol{A}$.
+
+A discussion of how leave-k-out diagnostics would work in the context of MCS problems is required. There are several scenaros. Suppose we have two methods of measurement X and Y, each with three measurements for a specific case: $(x_1,x_2,x_3,y_1,y_2,y_3)$
+
+\begin{itemize}
+	\item Leave One Out - one observation is omitted (e.g. $x_1$)
+	\item Leave Pair Out - one pair of observation  is omitted (e.g. $x_1$ and $y_1$)
+	\item Leave Case (or Subject) Out - All observations associated with a particular case or subject are omitted. (e.g. $\{x_1,x_2,x_3,y_1,y_2,y_3\}$)
+\end{itemize}
+Other metrics, such as the likelihood distance, will also be introduced, and revisited in a later section.
 
 
+%%---------------------------------------------------------- %
+%%Likelihood Displacement.
+%\[  LD(\boldsymbol{(U)})= 2[l\boldsymbol{\hat{(\phi)}} - l\boldsymbol{\hat{\phi}_\omega} ] \]
+%\[  RLD(\boldsymbol{(U)})= 2[ l_R\boldsymbol{\hat{(\phi)}} - l_R\boldsymbol{\hat{(\phi)}_\omega} ] \]
+%%	Large values indicate that $\boldsymbol{\hat{\theta}}$ and $\boldsymbol{\hat{\theta}_\omega}$ differ considerably.
 
-	\subsection{A Procedure for Quantifying Influence}  %1.1.6
-	\citet{schabenberger} examines the use and implementation of influence measures in LME models.
-	
-	\citet{schabenberger} describes a simple procedure for quantifying influence. Firstly a model should be fitted to the data, and
-	estimates of the parameters should be obtained. The second step is that either single or multiple data points, specifically outliers,
-	should be omitted from the analysis, with the original parameter estimates being updated. This is known as `\textit{leave one out \ leave k out}' analysis. The final step of the procedure is comparing the sets of estimates computed from the entire and reduced data sets to determine whether the absence of observations changed the
-	analysis.
-	
-	
-	The basic procedure for quantifying influence is simple:
-	\begin{enumerate}
-		\item Fit the model to the data and obtain estimates of all parameters.
-		\item Remove one or more data points from the analysis and compute updated estimates of model parameters.
-		\item Based on full- and reduced-data estimates, contrast quantities of interest to determine how the absence
-		of the observations changes the analysis.
-	\end{enumerate}	
-	
-	
-	We use the subscript $(U)$ to denote quantities obtained without the observations in the set $U$. 
-	%---------------------------------------------------------------------------%
 
 
 \subsection{(Zewotir) Methods and Measures}
@@ -593,14 +597,10 @@ RLD_{(U)} &=& 2\{l_{R}(\hat{\psi}) - l_{R}(\hat{\psi}_{(U)})\}
 \end{eqnarray}
 Large values indicate that $\boldsymbol{\hat{\theta}}$ and $\boldsymbol{\hat{\theta}_\omega}$ differ considerably.
 	
-	\citet{west} examines a group of methods that examine various aspects of influence diagnostics for LME models.
-	For overall influence, the most common approaches are the \textit{likelihood distance} and the \textit{restricted likelihood distance}.
+\citet{west} examines a group of methods that examine various aspects of influence diagnostics for LME models. For overall influence, the most common approaches are the \textit{likelihood distance} and the \textit{restricted likelihood distance}.
 
 For noniterative methods the following computational devices are used to compute (restricted) likelihood distances provided that the residual variance
 	$\sigma^2$ is profiled.
-	%-----------------------------------------------------------------------------------------%
-	
-
 
 \section{Using DFBETAs from LME Models to Assess Agreement}
 	
@@ -613,43 +613,28 @@ For noniterative methods the following computational devices are used to compute
 	case included and the estimate without that particular case \citep{belsley2005}.
 
 	
-
-	\subsubsection{DFBETAs}
-	The measure that measures how much impact each observation has on a particular predictor is DFBETAs.
 	
-	
-The DFBETA (shortened from "standardized difference of the beta") is a measure that standardizes the absolute difference in parameter estimates between an LME model based on a full set of data, and a model from which a subset of data is removed.
+The DFBETA is a measure that standardizes the absolute difference in parameter estimates between an LME model based on a full set of data, and a model from which a subset of data is removed, thus measuring the impact each observation has on a particular predictor
 
-The DFBETA for a predictor and for a particular observation is the difference between the regression coefficient calculated for all of the data and the regression coefficient calculated with the observation deleted, scaled by the standard error calculated with the observation deleted.
-
-	
-	\begin{eqnarray}
-	DFBETA_{a} &=& \hat{\beta} - \hat{\beta}_{(a)} \\
-	&=& B(Y-Y_{\bar{a}}
-	\end{eqnarray}
+%The DFBETA for a predictor and for a particular observation is the difference between the regression coefficient calculated for all of the data and the regression coefficient calculated with the observation deleted, scaled by the standard error calculated with the observation deleted.
+%
+%	
+%	\begin{eqnarray}
+%	DFBETA_{a} &=& \hat{\beta} - \hat{\beta}_{(a)} \\
+%	&=& B(Y-Y_{\bar{a}}
+%	\end{eqnarray}
  
 	
 In general, large values of DFBETAS indicate observations that are influential in estimating a given parameter. \citet{belsley2005} recommend 2 as a general cutoff value to indicate influential observations and as a size-adjusted cutoff. There is no agreement as to the critical threshold for DFBETAs. The cut-off value for DFBETAs is $\frac{2}{\sqrt{n}}$, where $n$ is the number of observations. However, another cut-off is to look for observations with a value greater than 1.00. Here cutoff means,
 ``this observation could be overly influential on the estimated coefficient".
 		
 
-The DFBETAs refers to how much fixed effect changes if the observation or item in question is dropped from the data set.	
-For LME Models, a value for DFBETAS is calculated for each of the $k$ fixed effects, and for each of the $n$ item. Correctly there will be $p+1$ DFBETAs (the intercept, $\beta_0$, and one $\beta$ for each covariate). When the LME model is specified without an intercept term, as in Roy's Model, there is a set of DFBETAs corresponding to each measurement method, hence an $n \times p$ matrix.
-	
-In the case of method comparison studies, a series of scatterplots can be constructed to compare each pair of measurement methods.
-Furthermore 95\% confidence ellipse can be constructed around these scatterplots.
-	
-
-
 	
 	
 	
 	
-
-
-
-\subsubsection{DFFITS} %1.16.1
-DFFITS is a statistical measured designed to a show how influential an observation is in a statistical model. DFFITS is a diagnostic meant to show how influential a point is in a statistical regression. It is defined as the change ("DFFIT"), in the predicted value for a point, obtained when that point is left out of the regression, "Studentized" by dividing by the estimated standard deviation of the fit at that point:
+% \subsubsection{DFFITS} %1.16.1
+DFFITS is a statistical measured designed to a show how influential an observation is in a statistical model. DFFITS is a diagnostic meant to show how influential a point is in a statistical regression. It is defined as the change, in the predicted value for a point, obtained when that point is left out of the regression, divided by the estimated standard deviation of the fit at that point:
 %	\[ \mbox{DFFITS} = {\widehat{y_i} - \widehat{y_{i(i)}} \over s_{(i)} \sqrt{h_{ii}}}\]
 \begin{displaymath} DFFITS = {\widehat{y_i} -
 	\widehat{y_{i(k)}} \over s_{(k)} \sqrt{h_{ii}}} \end{displaymath}
@@ -659,6 +644,14 @@ Emphasis shall be placed on DFBETA, but a discussion of DFFITS is merited as it 
 	
 
 	\subsubsection{DFBETAs for Method Comparison}
+	
+	For LME Models, a value for DFBETAS is calculated for each of the $k$ fixed effects, and for each of the $n$ item. Correctly there will be $p+1$ DFBETAs (the intercept, $\beta_0$, and one $\beta$ for each covariate). When the LME model is specified without an intercept term, as in Roy's Model, there is a set of DFBETAs corresponding to each measurement method, hence an $n \times p$ matrix.
+	
+	In the case of method comparison studies, a series of scatterplots can be constructed to compare each pair of measurement methods.
+	Furthermore 95\% confidence ellipse can be constructed around these scatterplots.
+	
+	
+	
 	The LME approach proposed by \citet{ARoy2009} is constrained by computational tractability.
 	Consequently a simpler LME formulation is used, one similar to that of \citet{BXC2008}. However one constraint that can be dispensed with is the restriction to
 	two methods of measurement: we can now use any number of methods.
