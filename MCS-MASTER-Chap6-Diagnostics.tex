@@ -57,46 +57,44 @@
 	%	
 	%\end{abstract}
 	\chapter{Residual Analysis and Influence Diagnostics for Method Comparison}
-	Model validation and Model Appraisal are vital parts of the modelling process, yet are too often overlooked. Using a small handful of simple measures and methods, such as the AIC and $R^2$ measures, is insufficient to properly assess the usefulness of a fitted model. A full and comprehensive
-	analysis that tests of all of the assumptions, as far as possible, should be carried out. 
+	Model validation and model appraisal are vital parts of the modelling process, yet are too often overlooked.	Using a small handful of simple measures and methods, such as the AIC and $R^2$ measures, is insufficient to properly assess the usefulness of a fitted model. A full and comprehensive
+	analysis that comprises residual analysis and influence analysis for testing model assumptions, should be carried out.  In classical linear models model diagnostics are now considered a required part of any statistical analysis, and the methods are commonly available in statistical packages and standard textbooks on applied regression. However it has been noted by several papers \citep{Christensen, schabenberger} that model diagnostics do not often accompany LME model analyses.
 
 	\section{Residual Analysis}
-	In classical linear models, model diagnostics techniques determine whether or not the distributional assumptions are satisfied, and to assess the influence of unusual observations, and have been become a required part of any statistical analysis. Well established methods are commonly available in statistical packages and standard textbooks on applied regression. However it has been noted by several papers that model diagnostics do not often accompany LME model analyses. A residual is simply the difference between an observed value and the corresponding fitted value, as predicted by the model. The rationale is that, if the model is properly fitted to the model, then the residuals would approximate the random errors that one should expect.
-	that is to say, if the residuals behave randomly, with no discernible trend, the model has fitted the data well. If some sort of non-random trend is evident in the model, then the model can be considered to be poorly fitted.
-	
-	Statistical software environments, such as the \texttt{R} Programming language, provides a suite of tests and graphical procedures for appraising a fitted linear model, with several 
-	of these procedures analysing the model residuals.
+	In classical linear models, model diagnostics techniques determine whether or not the distributional assumptions are satisfied, and to assess the influence of unusual observations, and have been become a required part of any statistical analysis. Well established methods are commonly available in statistical packages and standard textbooks on applied regression. However it has been noted by several papers that model diagnostics do not often accompany LME model analyses. A residual is simply the difference between an observed value and the corresponding fitted value, as predicted by the model. As with classical models, there are two key techniques: a residual plot and the normal probability plot. The rationale is that, if the model is properly fitted to the model, then the residuals would approximate the random errors that one should expect.
+	that is to say, if the residuals behave randomly, with no discernible trend, the model has fitted the data well. If some sort of non-random trend is evident in the model, then the model can be considered to be poorly fitted. 
 	
 
-	
-		
-		However, for LME models the matter of residual is more complex, both from a theoretical point of view and from the practical matter of implementing a comprehensive analysis using statistical software. \citet{schabenberger} discusses residuals for LME model, providing a useful summary of various techniques. Prominent in literature is the taxonomy of residuals for LME Models, distinguishing between condition residuals, marginal residuals and EBLUPS \citep{PB, HildenMinton, schabenberger, west, NobreSinger2007}. 
-		
-		
 
-		
-		The underlying assumptions for LME models are similar to those of classical linear mdoels. There are two key techniques: a residual plot and the normal probability plot. Using statistical software it is possible to create plots specific to each method. The figures on the next page depict the residual analysis for the Blood data. This may be useful in determine which methods `disagree` with the rest.
-		Analysis of the residuals could determine if the methods of measurement disagree systematically, or whether or not erroneous measurements associated with a subset of the cases are the cause of disagreement. Beyond that, though, there is no additional insight into method comparison problems that can be gained by analyzing LME residuals, and further discussion is not required.
- \newpage 
-	
-		\begin{figure}[h!]
+However, for LME models the matter of residual is more complex, both from a theoretical point of view and from the practical matter of implementing a comprehensive analysis using statistical software. \citet{schabenberger} discusses residuals for LME model, providing a useful summary of various techniques. Prominent in literature is the taxonomy of residuals for LME Models, distinguishing between condition residuals, marginal residuals and EBLUPS, including \citet{ HildenMinton, schabenberger, west, NobreSinger2007}. The underlying assumptions for LME models are similar to those of classical linear mdoels. 
+
+Statistical software environments, such as the \texttt{R} Programming language, provides a suite of tests and graphical procedures for appraising a fitted linear model, with several of these procedures analysing the model residuals. Texts such as \citet{PB,west,Galecki} describe what can be implemented for LME residual analyses with statistical software, such as \texttt{R} and \texttt{SAS}.
+
+
+In the context of Method Comparison, a residual analysis would be carried out just as any other LME model would, testing normality. As such there is little scope for adding additional insights, other than to say that
+it is possible to create plots specific to each method. The figures on the next page depict the residual analysis for the Blood data. This can be used to indicate which methods disagree with the rest, but these would be a confirmation of something detected previously.
+
+Analysis of the residuals could determine if the methods of measurement disagree systematically, or whether or not erroneous measurements associated with a subset of the cases are the cause of disagreement. 
+The figure depicts residual plot for the Systolic Blood Pressure example. Points are labelled by subjects, with cases 67, 68 and 71 being among the prominent cases. Prominent cases warrant further investigation, but an analyst should procede to influence diagnostics beforehand.
+
+\begin{figure}[h!]
 			\centering
-			\includegraphics[width=0.9\linewidth]{images/Residuals-JS-Roy}
-
-
+			\includegraphics[width=0.8\linewidth]{images/Residuals-JS-Roy}
 		\end{figure}
+		
+The next figure depicts residual plot for the Systolic Blood Pressure example, panelled by the various measurement methods. It serves to confirm agreement between methods J and R, with lack of agreement between those two methods and method S. However, little insight can be gained as to what actually causes lack of agreement here. 
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\linewidth]{images/bloodnlme-ResidPlot}
+\caption{LME Residuals by Method (Blood Pressure Data)}
 
-	\begin{figure}[h!]
-		\centering
-		\includegraphics[width=0.9\linewidth]{images/ResidPlot2}
+\end{figure}
 
-
-	\end{figure}
 
 \newpage			
 	\section{Influence Diagnostics}
 
-	Model diagnostic techniques determine whether or not the distributional assumptions are satisfied, and to assess the influence of unusual observations. In classical linear models model diagnostics have been become a required part of any statistical analysis, and the methods are commonly available in statistical packages and standard textbooks on applied regression. However it has been noted by several papers that model diagnostics do not often accompany LME model analyses.
+	Model diagnostic techniques can determine whether or not the distributional assumptions are satisfied, but also to assess the influence of unusual observations. 
 	
 	
 	Following model specification and estimation, it is of interest to explore the model-data
@@ -129,25 +127,17 @@ Influential points have a large influence on the fit of the model. Influential p
 		estimates of the parameters should be obtained. The second step is that either single or multiple data points, specifically outliers,
 		should be omitted from the analysis, with the original parameter estimates being updated. This is known as \textit{leave one out} or \textit{leave k out} analysis. The final step of the procedure is comparing the sets of estimates computed from the entire and reduced data sets to determine whether the absence of observations changed the
 		analysis. 
-		
-		
-.	
-	
 
-	
-
-	
 	
 	%http://support.sas.com/documentation/cdl/en/statug/63033/HTML/default/viewer.htm#statug_mixed_sect024.htm
 	
-\subsubsection{Outliers and Leverage}
+%\subsubsection{Outliers and Leverage}
 	Influence can be thought of as consequence of leverage and outlierness. Outliers are the most noteworthy data points in an analysis, and an objective of influence analysis is how influential they are, and the manner in which they are influential. They can point to a model breakdown and lead to development of a better model.
 	The linear mixed effects model is a useful methodology for fitting a wide range of models. However, linear mixed effects models are known to be sensitive to outliers. Specifically likelihood based estimation techniques, such as ML and REML, are sensitive to outliers. \citet{Christensen} advises that identification of outliers is necessary before conclusions may be drawn from the fitted model. The leverage of an observation is a further consideration. 
 	
 %The question of whether or not a point should be considered an outlier must therefore be addressed. An outlier is an observation whose true value is unusual given its value on the predictor variables.
 
-An observation with an extreme, but not unusual, value on a predictor variable is a point with high leverage. High leverage points can have a great amount of effect on the estimate of regression coefficients. In general. a high leverage point means a extreme value for the one or more of the independent variables, and a greater potential of
-overly influencing the final fitted model. However, if a case has  extreme values for the independent variables but is fitted very well by a regression model, this case is not necessarily overly influential.
+An observation with an extreme, but not unusual, value on a predictor variable is a point with high leverage. High leverage points can have a great amount of effect on the estimate of regression coefficients. In general. a high leverage point means a extreme value for the one or more of the independent variables, and a greater potential of overly influencing the final fitted model. However, if a case has  extreme values for the independent variables but is fitted very well by a regression model, this case is not necessarily overly influential.
 
 In classical linear models, leverages are the diagonal elements $h_{ii}$ of the Projection matrix, also known as the Hat Matrix $\boldsymbol{H}$. \citet{schabenberger} describes two analogues of $\boldsymbol{H}$ for LME models. However the practical use for either approach is not made clear.
 
@@ -217,8 +207,8 @@ the variance (information) ration,
 the \index{Cook-Weisberg statistic} Cook-Weisberg statistic, and
 the \index{Andrews-Prebigon statistic} Andrews-Prebigon statistic.
 
-% %- \subsubsection{Global Measures}
-If the global measure suggests that the points in U are influential, you should next determine the nature of
+The subscript $(U)$ is used to denote quantities computed from data with subset of cases $U$ omitted.
+If the global measure suggests that the points in $U$ are influential, you should next determine the nature of
 that influence. In particular, the points can affect
 \begin{itemize}
 	\item the estimates of fixed effects
@@ -318,11 +308,11 @@ As previously described, \index{Cook's Distance} Cooks Distance ($D_{i}$) is a d
 %		
 %		In this section we introduce influence analysis and case deletion diagnostics. A full overview of the topic will be provided although there are specific tools that are particularly useful in the case of Method Comparison problems: specifically the Cook's Distance and the DFBETA.
 
-\citet{preisser} describes two type of diagnostics. When the set consists of only one observation, the type is called
-`\textit{observation-diagnostics}'. For multiple observations, Preisser describes the diagnostics as `\textit{cluster-deletion}' diagnostics. 
 
 
-A discussion of how leave-k-out diagnostics would work in the context of Method Comparison problems is required. There are several scenaros. Suppose we have two methods of measurement X and Y, each with three measurements for a specific case: $(x_1,x_2,x_3,y_1,y_2,y_3)$
+
+Consideration of how leave-$U$-out diagnostics would work in the context of Method Comparison problems is required. There are several scenarios. \citet{preisser} describes two type of diagnostics. When the set consists of only one observation, the type is called
+`\textit{observation-diagnostics}'. For multiple observations, Preisser describes the diagnostics as `\textit{cluster-deletion}' diagnostics. Suppose we have two methods of measurement X and Y, each with three measurements for a specific case: $(x_1,x_2,x_3,y_1,y_2,y_3)$
 
 \begin{itemize}
 	\item Leave One Out - one observation is omitted (e.g. $x_1$)
@@ -332,10 +322,10 @@ A discussion of how leave-k-out diagnostics would work in the context of Method 
 %% Schabenberger
 %%
 
-The natural sampling unit is the item or subject, similar to the example provided by \citet{schabenberger}. 
-The subscript $(U)$ is used to denote quantities computed from data with subset of cases $U$ omitted.
+The natural sampling unit is the item or subject, similar to the example provided by \citet{schabenberger}. Hence, the third option, henceforth, referred to as ``Leave subject Out" will be the option used.
 
-\subsubsection{Local Influence}
+
+\subsection{Local Influence}
 \citet{cook86} gives a completely general method for assessing the influence of local departures from assumptions in statistical models, introducing methods for local influence assessment for classical linear models. These methods provide a powerful tool for examining perturbations in the assumption of a model, particularly the effects of local perturbations of parameters of observations. The local-influence approach to influence assessment is quite different from the case deletion approach, comparisons are of interest.
 
 % % Beckman, Nachtsheim and Cook (1987)
@@ -382,21 +372,21 @@ the regression model in such a way, that the estimated regression line lies clos
 For linear models, the implementation of influence analysis is straightforward, but for LME models the process is more complex. \citet{schabenberger} examines the use and implementation of
 influence measures in LME models. \citet{schabenberger} highlights some of the issue regarding implementing LME model diagnostics, describing  the choice between \index{iterative influence analysis} iterative influence analysis and \index{non-iterative influence analysis} non-iterative influence analysis.
 \citet{schabenberger} considers several important aspects of the use and implementation of influence measures in LME models, noting that it is not always possible to
-derive influence statistics necessary for comparing full- and reduced-data parameter estimates. 
- \citet{schabenberger} describes the scenario wherein a data point is removed
-and the new estimate of the $D$ matrix is not positive definite. This may occur if a variance component
+derive influence statistics necessary for comparing full- and reduced-data parameter estimates. Closed-form expressions for computing the change in important model quantities might not be available.
+
+On a related matter, \citet{schabenberger} describes the scenario wherein a data point is removed and the new estimate of the $D$ matrix is not positive definite. This may occur if a variance component
 estimate now falls on the boundary of the parameter space \citep{schabenberger}. 
 
 %%Non-Iterative
 For classical linear models, it is not necessary to refit the model after removing a data point in order to measure the impact of an observation on the model. The change in fixed effect estimates, residuals, residual sums of squares, and the variance-covariance matrix of the fixed effects can be computed based on the fit to the full data alone, using update formulas \citep{sherman, hager1989}.
 
-For LME models, non-iterative methods are computationally efficient, but require the rather strong assumption that all 
-covariance parameters are known, and thus are not updated, with the exception of the profiled residual variance. Furthermore, closed-form expressions for computing the change in important model quantities might not be available.
+
 
 However, in LME models several important complications arise. Data points can affect not only the fixed effects but also the covariance parameter estimates on which the fixed-effects estimates depend.
 
 When applied to LME models, such update formulas are available only if one assumes that the covariance parameters are not affected by the removal of the observation in question. However, this is rarely a reasonable assumption.
-
+For LME models, non-iterative methods are computationally efficient, but require the rather strong assumption that all 
+covariance parameters are known, and thus are not updated, with the exception of the profiled residual variance.
 Update formulas for ``leave-U-out" estimates typically fail to account for changes in covariance parameters.  As the influence that each item would have on the variance estimate of a method comparison model is crucial, this substanitally negates their usefulness for Roy's Model.
 
 %============================================%
@@ -423,9 +413,7 @@ classical linear, the residual sums of squares serves that purpose. In linear mi
 
 %	\subsection{Likelihood Distances}
 
-The \index{likelihood distance} likelihood distance is a global summary measure that expresses the joint influence of the subsets of observations, $U$, on all parameters in $\phi$ that were subject to updating. 
-
-Importantly \citet{schabenberger} points out that the likelihood distance $LD(\psi_{(U)})$ is not the log-likelihood obtained by fitting the model to the reduced data set. Instead it is obtained by evaluating the likelihood function based on the full data set (containing all $n$ observations) at the reduced-data estimates.
+The \index{likelihood distance} likelihood distance is a global summary measure that expresses the joint influence of the subsets of observations, $U$, on all parameters that were subject to updating. \citet{schabenberger} points out that the likelihood distance $LD(\psi_{(U)})$ is not the log-likelihood obtained by fitting the model to the reduced data set. Instead it is obtained by evaluating the likelihood function based on the full data set (containing all $n$ observations) at the reduced-data estimates.
 
 
 
@@ -548,7 +536,7 @@ Pinheiro and Bates (pg 93-95) give a description of how confidence intervals for
 What is required is the computation of the variance ratios of within-item and between-item standard deviations.
 
 A naive approach would be to compute the variance ratios by relevant F distribution quantiles. However, the question arises as to the appropriate degrees of freedom.
-Bootstrap methods may be considered.
+Bootstrap methods for computing confidence intervals may be considered.
 
 
 
