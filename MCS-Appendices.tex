@@ -3058,6 +3058,83 @@ If there are no replicate measures,  both variances are completely confounded, a
 Scaling of new measurements is measured by β.
 
 
+\section{Carstensen Model (mir model)}
+
+A measurement $y_{mi}$ by method $m$ on individual $i$ is formulated as follows;
+\begin{equation}
+y_{mi}  = \alpha_{m} + \mu_{i} + e_{mi} \qquad  e_{mi} \sim
+\mathcal{N}(0,\sigma^{2}_{m})
+\end{equation}
+
+The differences are expressed as $d_{i} = y_{1i} - y_{2i}$. For the replicate case, an interaction term $c$ is added to the model, with an associated variance component. All the random effects are assumed independent, and that all replicate measurements are assumed to be exchangeable within each method.
+
+%----
+
+The following model (in the authors own notation) is
+formulated as follows, where $y_{mir}$ is the $r$th replicate measurement on subject $i$ with method $m$.
+
+
+Using Carstensen's notation, a measurement $y_{mi}$ by method $m$ on individual $i$ the measurement $y_{mir} $ is the $r$th replicate measurement on the $i$th item by the $m$th method, where $m=1,2,$ $i=1,\ldots,N,$ and $r = 1,\ldots,n_i$ is formulated as follows;
+
+\begin{equation}
+y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + \epsilon_{mir}, \qquad  e_{mi}
+\sim \mathcal{N}(0,\sigma^{2}_{m}), \quad c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}).
+\end{equation}
+
+Let $y_{mir} $ be the $r$th replicate measurement on the $i$th item by the $m$th method, where $m=1,2,$ $i=1,\ldots,N,$ and $r = 1,\ldots,n_i.$ When the design is balanced and there is no ambiguity we can set $n_i=n.$ The LME model can be written
+\begin{equation}
+y_{mir} = \beta_{0} + \beta_{m} + b_{mi} + \epsilon_{mir}.
+\end{equation}
+Here $\beta_0$ and $\beta_m$ are fixed-effect terms representing, respectively, a model intercept and an overall effect for method $m.$ The model can be reparameterized by gathering the $\beta$ terms together into (fixed effect) intercept terms $\alpha_m=\beta_0+\beta_m.$ The $b_{1i}$ and $b_{2i}$ terms are correlated random effect parameters having $\mathrm{E}(b_{mi})=0$ with $\mathrm{Var}(b_{mi})=d^2_m$ and $\mathrm{Cov}(b_{1i}, b_{2 i})=d_{12}.$ 
+
+%Here $\beta_0$ and $\beta_m$ are fixed-effect terms representing, respectively, a model intercept and an overall effect for method $m.$ The $b_{1i}$ and $b_{2i}$ terms represent random effect parameters corresponding to the two methods, having $\mathrm{E}(b_{mi})=0$ with $\mathrm{Var}(b_{mi})=d^2_m$ and $\mathrm{Cov}(b_{mi}, b_{m^\prime i})=g_{12}.$ 
+
+%The random error term for each response is denoted $\epsilon_{mir}$ having $\mathrm{E}(\epsilon_{mir})=0$, $\mathrm{Var}(\epsilon_{mir})=\sigma^2_m$, $\mathrm{Cov}(\epsilon_{1ir}, \epsilon_{2 ir})=\sigma_{12}$, $\mathrm{Cov}(\epsilon_{mir}, \epsilon_{mir^\prime})= 0$ and $\mathrm{Cov}(\epsilon_{1ir}, \epsilon_{2 ir^\prime})= 0.$ 
+The random error term for each response is denoted $\epsilon_{mir}$ having $\mathrm{E}(\epsilon_{mir})=0$, $\mathrm{Var}(\epsilon_{mir})=\sigma^2_m$, $\mathrm{Cov}(b_{mir}, b_{m^\prime ir})=\sigma_{12}$, $\mathrm{Cov}(\epsilon_{mir}, \epsilon_{mir^\prime})= 0$ and $\mathrm{Cov}(\epsilon_{mir}, \epsilon_{m^\prime ir^\prime})= 0.$
+When two methods of measurement are in agreement, there is no significant differences between $\beta_1$ and $\beta_2,$ $d^2_1 $ and$ d^2_2$, and $\sigma^2_1 $ and$ \sigma^2_2$.
+\bigskip
+
+% Complete paragraph by specifying variances and covariances for epsilons.
+% I thing that these are your sigmas?
+% Also, state equality of the parameters in this model when each of the three hypotheses above are true.
+
+
+Additionally these parameter are assumed to have Gaussian distribution. Two methods of measurement are in complete agreement if the null hypotheses $\mathrm{H}_1\colon \alpha_1 = \alpha_2$ and $\mathrm{H}_2\colon \sigma^2_1 = \sigma^2_2 $ and $\mathrm{H}_3\colon d^2_1= d^2_2$ hold simultaneously. \citet{ARoy2009} uses a Bonferroni correction to control the familywise error rate for tests of $\{\mathrm{H}_1, \mathrm{H}_2, \mathrm{H}_3\}$ and account for difficulties arising due to multiple testing. Additionally, Roy combines $\mathrm{H}_2$ and $\mathrm{H}_3$ into a single testable hypothesis $\mathrm{H}_4\colon \omega^2_1=\omega^2_2,$ where $\omega^2_m = \sigma^2_m + d^2_m$ represent the overall variability of method $m.$
+%Disagreement in overall variability may be caused by different between-item variabilities, by different within-item variabilities, or by both.
+
+
+
+Here the terms $\alpha_{m}$ and $\mu_{i}$ represent the fixed effect for method $m$ and a true value for item $i$ respectively. The random effect terms comprise an interaction term $c_{mi}$ and the residuals $\varepsilon_{mir}$.
+The $c_{mi}$ term represent random effect parameters corresponding to the two methods, having $\mathrm{E}(c_{mi})= 0$ with $\mathrm{Var}(c_{mi})=\tau^2_m$.  
+
+Carstensen specifies the variance of the interaction terms as being univariate normally distributed. As such, $\mathrm{Cov}(c_{mi}, c_{m^\prime i})= 0.$ All the random effects are assumed independent, and that all replicate measurements are assumed to be exchangeable within each method.
+
+
+
+
+%---Key difference 1---The True Value
+%---Colollary -- Difference in model types
+The presence of the true value term $\mu_i$ gives rise to an important difference between Carstensen's and Roy's models. Of particular importance is terms of the model, a true value for item $i$ ($\mu_{i}$).  The fixed effect of Roy's model comprise of an intercept term and fixed effect terms for both methods, with no reference to the true value of any individual item. In other words, Roy considers the group of items being measured as a sample taken from a population. Therefore a distinction can be made between the two models: Roy's model is a standard LME model, whereas Carstensen's model is a more complex additive model.
+
+
+%======================================================================================= %
+
+
+
+
+
+
+
+%\emph{The formulation of this model is general and refers to comparison
+%	of any number of methods  however, if only two methods are
+%	compared, separate values of $\tau^2_1$ and $\tau^2_2$ cannot be
+%	estimated, only their average value $\tau$, so in the case of only
+%	two methods we are forced to assume that $\tau_1 = \tau_2 = \tau$} \citep{BXC2008}.
+
+
+
+
+
 	\chapter{Bradley Blackwood}
 	%----------------------------------------------------------------------------------------------------------------------%
 	\section{Bartko's Bradley-Blackwood Test}
