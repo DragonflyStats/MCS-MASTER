@@ -1,5 +1,32 @@
 
-
+<pre><code>
+# set seed, for replicability
+set.seed(42)
+x = rnorm(50)
+y = x + rnorm(50) 
+
+baplot = function(x,y){
+  xstd = (x - mean(x))/sd(x)
+  ystd = (y - mean(y))/sd(y)
+  
+  bamean = (xstd+ystd)/2
+  badiff = (ystd-xstd)
+  
+  plot(badiff~bamean, pch=20, xlab="mean", ylab="difference")
+# in the following, the deparse(substitute(varname)) is what retrieves the
+# name of the argument as data
+  title(main=paste("Bland-Altman plot of x and y\n",
+    deparse(substitute(x)), "and", deparse(substitute(y)),
+    "standardized"), adj=".5")
+#construct the reference lines on the fly: no need to save the values in new 
+# variable names
+  abline(h = c(mean(badiff), mean(badiff)+1.96 * sd(badiff),
+    mean(badiff)-1.96 * sd(badiff)), lty=2)
+} 
+
+baplot(x,y)
+</code></pre>
+
 Exact description of repeated measures.
 Sampling Protocols
 Outline of Section 2
@@ -24,7 +51,7 @@ Repeatability
 Expansion to three method case
  
  
-Objective of paper.
+#### Objective of paper.
  
 Propose and demonstrate the implementation (using R) of method comparison study, based on LME models, that will perform the following tasks;
  
@@ -51,7 +78,7 @@ No matching
 linked replicates
 unlinked replicates
  
-Carstensen sampling
+#### Carstensen sampling
  
 Carstensen describes the sampling method employed on the fat dataswet.
 Outline of Section 2
@@ -81,11 +108,7 @@ m+mi    Fixed effects ( can assume m= 1 for measurements in same units)
 cmi+emir      Random interaction term and random measurement error
  
  
-Limits of agreement
- 
- 
-1-21.9622+12+22
-
+#### Limits of agreement
  
 
 
