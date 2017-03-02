@@ -1,7 +1,122 @@
 
 
 
+\documentclass[12pt, a4paper]{report}
+\usepackage{epsfig}
+\usepackage{subfigure}
+%\usepackage{amscd}
+\usepackage{amssymb}
+\usepackage{graphicx}
+%\usepackage{amscd}
+\usepackage{amssymb}
+\usepackage{subfiles}
+\usepackage{framed}
+\usepackage{subfiles}
+\usepackage{amsthm, amsmath}
+\usepackage{amsbsy}
+\usepackage{framed}
+\usepackage[usenames]{color}
+\usepackage{listings}
+\lstset{% general command to set parameter(s)
+	basicstyle=\small, % print whole listing small
+	keywordstyle=\color{red}\itshape,
+	% underlined bold black keywords
+	commentstyle=\color{blue}, % white comments
+	stringstyle=\ttfamily, % typewriter type for strings
+	showstringspaces=false,
+	numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=5pt, %
+	frame=shadowbox,
+	rulesepcolor=\color{black},
+	,columns=fullflexible
+} %
+%\usepackage[dvips]{graphicx}
+\usepackage{natbib}
+\bibliographystyle{chicago}
+\usepackage{vmargin}
+% left top textwidth textheight headheight
+% headsep footheight footskip
+\setmargins{3.0cm}{2.5cm}{15.5 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
+\renewcommand{\baselinestretch}{1.5}
+\pagenumbering{arabic}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{ill}[theorem]{Example}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{axiom}{Axiom}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{notation}{Notation}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[section]
+\newtheorem{example}{Example}[section]
+\renewcommand{\thenotation}{}
+\renewcommand{\thetable}{\thesection.\arabic{table}}
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+\title{Research notes: linear mixed effects models}
+\author{ } \date{ }
+
+
+\begin{document}
+	\author{Kevin O'Brien}
+	\title{Mixed Models for Method Comparison Studies}
+	\tableofcontents
+	
 \chapter{Appendices}
+\section{Appendix A : Improper Method Comparison Techniques}
+	The issue of whether two measurement methods are comparable to the extent that they can be used interchangeably with sufficient accuracy is encountered frequently in scientific research. Historically, comparison of two methods of measurement was carried
+	out by use of paired sample $t-$test, 
+	simple linear regression, or correlation coefficients. 
+	
+	
+	\subsection*{Paired sample \emph{t-}test}
+	\citet{Bartko} discusses the use of the well known paired sample $t$ test to test for inter-method bias; $H: \mu_{d}=0$. The test
+	statistic is distributed as a $t$ random variable with $n-1$ degrees of freedom and is calculated as follows,
+	\begin{equation}
+	t^{*} = \frac{\bar{d}}{ s_d/\sqrt{n}}
+	\end{equation}
+	where $\bar{d}$ and $s_{d}$ is the average of the differences of the $n$ observations. This method can be potentially misused for method comparison studies. Paired $t-$tests test only whether the mean responses are the same, and so provides a useful test for inter-method bias. However, no insight can be obtained about the variability of the case-wise differences by the paired $t-$test, critically undermining it as a stand-alone procedure. Only if the two methods show comparable
+	precision then the paired sample student $t$-test is appropriate for assessing the magnitude of the bias.
+	
+	%======================================================================================= %
+	
+	
+	\subsection*{The Correlation Coefficient}
+	%----------------------------------------------------------------------------%
+	%		\subsection{Pearson's Correlation Coefficient} 
+	% %- 			% http://www.jerrydallal.com/LHSP/compare.htm
+	
+	Correlation is inadequate to assess agreement because it only evaluates only the linear association of two sets of observations.  Nonetheless linear association is not the same as agreement. It is possible for two methods to
+	be highly correlated, yet have poor agreement due to any combination of constant and proportional bias. Arguments against its usage have been made repeatedly in the relevant literature,  with \citet{BA83}, \citet{BA86}, \citet{BA2003} and \citet{giavarina2015understanding} as examples.
+	%	
+	%	
+	%		
+	%	
+	%	The correlation coefficient can be close to 1 even when there is considerable bias between the two methods. For example, if one method gives measurements that are always 10 units higher than the other method, the correlation will be 1 exactly, but the measurements will always be 10 units apart.
+	%	
+	%	The magnitude of the correlation coefficient is affected by the range of subjects/units studied. 
+	%	
+	%	The correlation coefficient can be made smaller by measuring samples that are similar to each other and larger by measuring samples that are very different from each other. 
+	%	
+	
+	%----------------------------------------------------------------------------%
+	\subsection*{Regression Methods}
+	On account of the fact that one set of measurements are linearly related to another, one could surmise that simple linear Regression is the most suitable approach to analyzing comparisons. However simple linear regression  is considered by many authors to be wholly unsuitable for method comparison studies \citep{BA83,CornCoch,ludbrook97}. Simple linear regression is defined as such with the name `Model I regression' by \citet{CornCoch}, in contrast to `Model II regression' models, which shall be discussed later on.
+	
+	A key assumptions of simple linear regression is that the independent variable values are without random error. 	
+	For method comparison studies, both sets of measurement must be assumed to be measured with imprecision and neither case can be taken to be a reference method. Arbitrarily
+	selecting either method as the reference (i.e. the independent variable) will yield conflicting outcomes: a regression of $X$ on $Y$ would yield an entirely different model from fitting $Y$ on $X$.
+	
+	Further criticisms of linear regression exist.
+	Firstly regression methods are uninformative about the variability of the differences. Secondly regression models are unduly influenced by outliers. Lastly, regression models can not be used to effectively analyze repeated measurements.	
+	
+	
+	
+	
+	
+	
 
 \section{Inappropriate Techniques}
 The issue of whether two measurement methods are comparable to the extent that they can be used interchangeably with sufficient accuracy is encountered frequently in scientific research. Historically, comparison of two methods of measurement was carried
@@ -73,80 +188,100 @@ simple linear regression, or correlation coefficients.
 	%	
 
 
-\section{Repeatability}
 
 
 
-\section{Indices and Graphical Techniques}
-
-
-\section{Similar Problems}
-\citet{lewis1991} categorize method comparison studies into three
-	different types, namely: calibration, comparison and conversion. The key difference between the first two is
-	whether or not a `gold standard' method is used. In situations
-	where one instrument or method is known to be `accurate and
-	precise', it is considered as the `gold standard' \citep{lewis1991}. A
-	method that is not considered to be a gold standard is referred to
-	as an `approximate method'. In calibration studies they are
-	referred to as criterion methods and test methods respectively.\\
-    \smallskip
-	\textbf{1. Calibration problems}. The purpose is to establish a
-	relationship between methods, one of which is an approximate
-	method, the other a gold standard. The results of the approximate
-	method can be mapped to a known probability distribution of the
-	results of the gold standard \citep{lewis1991}. In such studies, the
-	gold standard method and corresponding approximate method are
-	generally referred to a criterion method and test method respectively. \citet*{BA83} make clear that their framework is
-	not intended for calibration problems.\\
-	\smallskip \textbf{2. Comparison problems}. When two approximate methods, that use the same units of measurement, are to be
-	compared. This is the case for which Bland and Altman's Methodology is intended, and therefore it is the most relevant of
-	the three for this thesis.\\
-	\smallskip \textbf{3. Conversion problems}. When two approximate methods, that use different units of measurement, are to be	compared. This situation would arise when the measurement methods
-	use `different proxies', i.e different mechanisms of measurement.\\
-	\smallskip
-	\citet{lewis1991} deals specifically with this issue. In the context
-	of this thesis, it is the least relevant of the three cases.
+\section{Appendix 2 : Variations of the Bland-Altman Plot} 
+The limits of agreement methodology assumes a constant level of bias throughout the range of measurements. As \citet*{BA86} point out this may not be the case. 
+Importantly \citet{BA99} makes the following point:
+\begin{quote}These estimates are meaningful only if we can assume
+	bias and variability are uniform throughout the range of
+	measurement, assumptions which can be checked graphically.
+	\end{quote}
 	
-\citet{Aroy2015} discusses the importance of gold Standards in the context of method comparison studies.
-			Currently the phrase `gold standard' describes the most accurate method of measurement available. No other criteria are set out. Further to \citet{DunnSEME}, various gold standards have a varying levels of repeatability. Dunn cites the example of the sphygmomanometer (i.e. a blood pressure measurement cuff), which is prone to measurement error. Consequently it can be said that a measurement method can be the `gold standard', yet have poor repeatability. \citet{DunnSEME} recognizes this problem. Hence, if the most accurate method is considered to have poor repeatability, it is referred to as a `bronze standard'.  Again, no formal definition of a bronze standard exists.
-		
-		% % % Bronze Standard
+	The importance of this statement is that, should the Bland Altman plot indicate that these assumptions are not met, then their
+	entire methodology, as posited thus far, is inappropriate for use
+	in a method comparison study. Again, in the context of potential
+	outlier in the Grubbs data (figure 1.2), this raises the question
+	on how to correctly continue. 
 	
-		
-	\citet[p.47]{DunnSEME} cautions that `gold standards' should not be
-	assumed to be error free and that `it is of necessity a subjective
-	decision when we come to decide that a particular method or
-	instrument can be treated as if it was a gold standard'. The
-	clinician gold standard, the sphygmomanometer, is used as an
-	example thereof.  The sphygmomanometer `leaves considerable room
-	for improvement'. \citet{pizzi} similarly addresses the issue of gold standards, `well-established gold
-	standard may itself be imprecise or even unreliable'.
+	Due to limitations of the conventional difference plot, a series of alternative formulations for the Bland-Altman approach have been proposed. Referring to the assumption that bias and variability are constant across the range of measurements, \citet{BA99} address the case where there is an increase in variability as the magnitude increases. They remark that it is possible to ignore the issue altogether, but the limits of agreement would be wider apart than necessary when just lower magnitude measurements are considered. Conversely the limits would be too narrow should only higher magnitude measurements be used. 
 	
+	To address the issue, they propose the logarithmic transformation of the data. The plot is then formulated as the difference of paired log values against their mean. Bland and Altman acknowledge that this is not easy to interpret, and may not be suitable in all cases.
 	
-The NIST F1 Caesium fountain atomic clock is considered to be the gold standard when measuring time, and is the primary time and
-	frequency standard for the United States. The NIST F1 is accurate to within one second per 60 million years \citep{NIST}.
+	\citet{BA99} offers two variations of the Bland-Altman plot that are intended to overcome potential problems that the conventional plot would be inappropriate for. The first variation is a plot of case-wise differences as percentage of averages, and is appropriate when there is an increase in variability of the differences as the magnitude increases. 
 	
-Measurements of the interior of the human body are, by definition,
-	invasive medical procedures. The design of method must balance the need for accuracy of measurement with the well-being of the	patient. This will inevitably lead to the measurement error as described by \citet{DunnSEME}. The magnetic resonance angiogram,
-	used to measure internal anatomy, is considered to the gold	standard for measuring aortic dissection. Medical tests based upon
-	the angiogram are reported to have a false positive reporting rate
-	of 5\% and a false negative reporting rate of 8\% \citep{ACR}.
-	
-In literature gold standards are, perhaps more accurately, can be referred to as
-	`fuzzy gold standards' \citep{phelps}. Consequently, when one of the methods is
-	essentially a fuzzy gold standard, as opposed to a `true' gold standard, the comparison of the criterion and test methods should
-	be consider both in the context of a comparison study and a	calibration study.
-	
-	
-	
-	
-	According to Bland and Altman, one should use the methodology
-	previous outlined, even when one of the methods is a gold standard.
+	The second variation is a plot of case-wise ratios as percentage of averages, removing the need for logarithmic transformation. This approach is useful when there is an increase in variability of the differences as the magnitude of the measurement increases. \citet{Eksborg} proposed such a ratio plot, independently of Bland and Altman. \citet{Dewitte} commented on the reception of this article by saying `\textit{Strange to say, this report has been overlooked}'.
 	
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
+  \section{Appendix 3 : The Coefficient of Repeatability}
+  
+  
+  \citet{BA99} strongly recommends the simultaneous estimation of repeatability and agreement by  collecting replicated data. \citet{ARoy2009} notes the lack of convenience in such calculations. The coefficient of repeatability is a measure of how well a measurement method agrees with itself over replicate measurements \citep{BA99}. 
+  
+  As mentioned previously, \citet{Barnhart} emphasize the importance of repeatability as part of an overall method comparison study. The coefficient of repeatability was proposed by \citet{BA99}, and is referenced in subsequent papers, such as \citet{BXC2008}. \citet{BSIrepeat} define a coefficient of
+  repeatability as \emph{the value below which the difference between two single test results....may be expected to lie within a specified probability.} \citet{BA99} defines the repeatability coefficient as the upper limits of a prediction interval for the absolute difference between two measurements by the same method on the same item under identical circumstances. % \citep{BXC2008}.	
+  
+  Once the within-item variability for both methods has been estimated, the relevant calculations for the coefficients of repeatability are straightforward.
+  The coefficient is calculated from the within-item variability $\sigma^2_{m}$ as  $1.96 \times \sqrt{2} \times \sigma_m$ = $2.83 \sigma_m$. For $95\%$ of subjects, two replicated measurement by the same method will be within this repeatability coefficient.
+  
+  
+  The coefficient of repeatability may provide the basis for the formulation a formal definition of a `gold standard'. For example, by determining the ratio of the repeatability coefficient $(CR)$ to the sample mean $\bar{X}$. Advisably the sample size should specified in advance. A gold standard may be defined as the method with the lowest value of $\lambda = CR /\bar{X}$ with $\lambda < 0.1\%$. Similarly, a silver standard may be defined as the method with the lowest value of $\lambda $ with $0.1\% \leq \lambda < 1\%$. Such thresholds are solely for expository purposes.
+  
+  %------------------------------------------------------------%
+  %
+  %
+  %	
+  %\section{Coefficient of Repeatability}
+  %The Bland Altman method offers a measurement on the repeatability of the methods. The \emph{Coefficient of Repeatability} (CR) can be calculated as 1.96 (or 2) times the standard deviations of the differences between the two measurements ($d_2$ and $d_1$).		
+  %
+  %
+  %%		
+  %%If the standard deviation of a measurement is $\sigma$ the repeatability coefficient is $2\times\sqrt{2} \sigma = 2.83\times \sigma \approx 2.8 \sigma$.
+  %%		$\sigma^2_{x}$ is the within-subject variance of method $x$. The repeatability coefficient is $2.77 \sigma_{x}$ (i.e. $1.96 \times \sqrt{2} \sigma_{x}$). 
+  %		
+  %		The repeatability of measurement methods is calculated
+  %		differently under the two models  Under the model assuming
+  %		exchangeable replicates (1), the repeatability is based only on
+  %		the residual standard deviation, i.e. $2.8\sigma_m$
+  %	
+  %	
+  %	 The coefficient is calculated from the residual standard deviation (i.e. $1.96 \times \sqrt{2} \times \sigma_m$ = $2.83 \sigma_m$).
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  %The coefficient of repeatability is referenced in subsequent papers, such as \citet{BXC2008} and \citet{ARoy2009}. Furthermore this coefficient features in other branches of measurement analysis. 
+  %\textbf{Find Some Papers to back this up}.
+  
+  %\section{Repeatability in Bland-Altman Blood Data Analysis}
+  %
+  %The Bland-Altman plot may also be used to assess a method's repeatability by comparing repeated measurements using one single measurement method on a sample of items.
+  %
+  %The plot can then also be used to check whether the variability or precision of a method is related to the size of the characteristic being measured.
+  %
+  %Since for the repeated measurements the same method is used, the mean difference should be zero.
+  %Therefore the Coefficient of Repeatability (CR) can be calculated as 1.96 (often rounded to 2) times the standard deviation of the case-wise differences.
+  %
+  %
+  % Two readings by the same method will be within $1.96
+  %		\sqrt{2} \sigma_w $ or $2.77 \sigma_w $ for 95\% of subjects. This value is called the repeatability coefficient.
+  %		
+  %		For observer J using the sphygmomanometer $ \sigma_w = \sqrt{37.408} = 6.116$ and so the repeatability coefficient is
+  %		$2:77 \times 6.116 = 16:95$ mmHg.
+  %		
+  %		 For the machine S,$ \sigma_w = \sqrt{83.141} = 9.118$ and the repeatability coefficient is $2:77 \times 9.118 = 25.27$ mmHg.
+  
+  
 	\newpage
-	\section{Other Types of Studies}
+	\section{Appendix 4 : Other Types of Studies}
 	\citet{lewis} categorize method comparison studies into three	different types.  The key difference between the first two is
 	whether or not a `gold standard' method is used. In situations where one instrument or method is known to be `accurate and
 	precise', it is considered as the`gold standard' \citep{lewis}. A	method that is not considered to be a gold standard is referred to
@@ -191,6 +326,155 @@ In literature gold standards are, perhaps more accurately, can be referred to as
 	be consider in the context of a comparison study, as well as of a
 	calibration study.	
 		
+	\subsection{Types of Comparison Studies}
+	\citet{lewis1991} categorize method comparison studies into three
+	different types, namely: calibration, comparison and conversion. The key difference between the first two is
+	whether or not a `gold standard' method is used. In situations
+	where one instrument or method is known to be `accurate and
+	precise', it is considered as the `gold standard' \citep{lewis1991}. A
+	method that is not considered to be a gold standard is referred to
+	as an `approximate method'. In calibration studies they are
+	referred to as criterion methods and test methods respectively.\\
+	\smallskip
+	\textbf{1. Calibration problems}. The purpose is to establish a
+	relationship between methods, one of which is an approximate
+	method, the other a gold standard. The results of the approximate
+	method can be mapped to a known probability distribution of the
+	results of the gold standard \citep{lewis1991}. In such studies, the gold standard method and corresponding approximate method are
+	generally referred to a criterion method and test method
+	respectively. \citet*{BA83} make clear that their framework is
+	not intended for calibration problems.\\
+	\smallskip \textbf{2. Comparison problems}. When two approximate
+	methods, that use the same units of measurement, are to be compared. This is the case for which Bland and Altman's approach is intended, and therefore it is the most relevant of
+	the three for this thesis.\\
+	\smallskip \textbf{3. Conversion problems}. When two approximate
+	methods, that use different units of measurement, are to be
+	compared. This situation would arise when the measurement methods
+	use `different proxies', i.e different mechanisms of measurement.\\
+	\smallskip
+	\citet{lewis1991} deals specifically with this issue. In the context
+	of this thesis, it is the least relevant of the three cases.
+	
+	
+	
+	\citet{Aroy2015} discusses the importance of gold standards in the context of method comparison studies.
+	Currently the phrase `gold standard' describes the most accurate method of measurement available. No other criteria are set out. Further to \citet{DunnSEME}, various gold standards have a varying levels of repeatability. Dunn cites the example of the sphygmomanometer (i.e. a blood pressure measurement cuff), which is prone to measurement error. Consequently it can be said that a measurement method can be the `gold standard', yet have poor repeatability. \citet{DunnSEME} recognizes this problem. Hence, if the most accurate method is considered to have poor repeatability, it is referred to as a `bronze standard'.  Again, no formal definition of a bronze standard exists.
+	
+	% % % Bronze Standard
+	
+	
+	\citet[p.47]{DunnSEME} cautions that `gold standards' should not be
+	assumed to be error free and that `it is of necessity a subjective
+	decision when we come to decide that a particular method or
+	instrument can be treated as if it was a gold standard'. The
+	clinician gold standard, the sphygmomanometer, is used as an
+	example thereof.  The sphygmomanometer `leaves considerable room
+	for improvement'. \citet{pizzi} similarly
+	addresses the issue of gold standards, `well-established gold
+	standard may itself be imprecise or even unreliable'.
+	
+	
+	The NIST F1 Caesium fountain atomic clock is considered to be the
+	gold standard when measuring time, and is the primary time and
+	frequency standard for the United States. The NIST F1 is accurate
+	to within one second per 60 million years \citep{NIST}.
+	
+	Measurements of the interior of the human body are, by definition,
+	invasive medical procedures. The design of method must balance the
+	need for accuracy of measurement with the well-being of the
+	patient. This will inevitably lead to the measurement error as
+	described by \citet{DunnSEME}. The magnetic resonance angiogram,
+	used to measure internal anatomy, is considered to the gold
+	standard for measuring aortic dissection. Medical tests based upon
+	the angiogram are reported to have a false positive reporting rate
+	of 5\% and a false negative reporting rate of 8\% \citep{ACR}.
+	
+	In literature gold standards are, perhaps more accurately, can be referred to as
+	`fuzzy gold standards' \citep{phelps}. Consequently, when one of the methods is
+	essentially a fuzzy gold standard, as opposed to a `true' gold standard, the comparison of the criterion and test methods should
+	be consider both in the context of a comparison study and a	calibration study.
+	
+	
+	According to Bland and Altman, one should use the approach previous outlined, even when one of the methods is a gold standard.
+	
+	
+\section{Similar Problems}
+\citet{lewis1991} categorize method comparison studies into three
+different types, namely: calibration, comparison and conversion. The key difference between the first two is
+whether or not a `gold standard' method is used. In situations
+where one instrument or method is known to be `accurate and
+precise', it is considered as the `gold standard' \citep{lewis1991}. A
+method that is not considered to be a gold standard is referred to
+as an `approximate method'. In calibration studies they are
+referred to as criterion methods and test methods respectively.\\
+\smallskip
+\textbf{1. Calibration problems}. The purpose is to establish a
+relationship between methods, one of which is an approximate
+method, the other a gold standard. The results of the approximate
+method can be mapped to a known probability distribution of the
+results of the gold standard \citep{lewis1991}. In such studies, the
+gold standard method and corresponding approximate method are
+generally referred to a criterion method and test method respectively. \citet*{BA83} make clear that their framework is
+not intended for calibration problems.\\
+\smallskip \textbf{2. Comparison problems}. When two approximate methods, that use the same units of measurement, are to be
+compared. This is the case for which Bland and Altman's Methodology is intended, and therefore it is the most relevant of
+the three for this thesis.\\
+\smallskip \textbf{3. Conversion problems}. When two approximate methods, that use different units of measurement, are to be	compared. This situation would arise when the measurement methods
+use `different proxies', i.e different mechanisms of measurement.\\
+\smallskip
+\citet{lewis1991} deals specifically with this issue. In the context
+of this thesis, it is the least relevant of the three cases.
+
+\citet{Aroy2015} discusses the importance of gold Standards in the context of method comparison studies.
+Currently the phrase `gold standard' describes the most accurate method of measurement available. No other criteria are set out. Further to \citet{DunnSEME}, various gold standards have a varying levels of repeatability. Dunn cites the example of the sphygmomanometer (i.e. a blood pressure measurement cuff), which is prone to measurement error. Consequently it can be said that a measurement method can be the `gold standard', yet have poor repeatability. \citet{DunnSEME} recognizes this problem. Hence, if the most accurate method is considered to have poor repeatability, it is referred to as a `bronze standard'.  Again, no formal definition of a bronze standard exists.
+
+% % % Bronze Standard
+
+
+\citet[p.47]{DunnSEME} cautions that `gold standards' should not be
+assumed to be error free and that `it is of necessity a subjective
+decision when we come to decide that a particular method or
+instrument can be treated as if it was a gold standard'. The
+clinician gold standard, the sphygmomanometer, is used as an
+example thereof.  The sphygmomanometer `leaves considerable room
+for improvement'. \citet{pizzi} similarly addresses the issue of gold standards, `well-established gold
+standard may itself be imprecise or even unreliable'.
+
+
+The NIST F1 Caesium fountain atomic clock is considered to be the gold standard when measuring time, and is the primary time and
+frequency standard for the United States. The NIST F1 is accurate to within one second per 60 million years \citep{NIST}.
+
+Measurements of the interior of the human body are, by definition,
+invasive medical procedures. The design of method must balance the need for accuracy of measurement with the well-being of the	patient. This will inevitably lead to the measurement error as described by \citet{DunnSEME}. The magnetic resonance angiogram,
+used to measure internal anatomy, is considered to the gold	standard for measuring aortic dissection. Medical tests based upon
+the angiogram are reported to have a false positive reporting rate
+of 5\% and a false negative reporting rate of 8\% \citep{ACR}.
+
+In literature gold standards are, perhaps more accurately, can be referred to as
+`fuzzy gold standards' \citep{phelps}. Consequently, when one of the methods is
+essentially a fuzzy gold standard, as opposed to a `true' gold standard, the comparison of the criterion and test methods should
+be consider both in the context of a comparison study and a	calibration study.
+
+
+
+
+According to Bland and Altman, one should use the methodology
+previous outlined, even when one of the methods is a gold standard.
+
+
+
+\section{Appendix 5 : Indices and Graphical Techniques}
+
+
+
+
+	\bibliographystyle{chicago}
+	\bibliography{2017bib}
+\end{document}	
+	
+	
+	
+	
 		
 		
 		
