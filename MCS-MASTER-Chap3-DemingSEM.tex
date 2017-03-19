@@ -76,6 +76,29 @@ The Bland-Altman plot is a simple tool for inspection of data, and
 \citet{Kinsella} comments on the lack of formal testing offered by
 that methodology. It is upon the practitioner opinion to judge the outcome of the approach. 
 
+\subsection{Model for Single Measurement Observations}
+\citet{kinsella} formulates a model for
+single measurement observations as a
+linear mixed effects model, i.e. a model that additively combines
+fixed effects and random effects:
+\[
+Y_{ij} =\quad \mu + \beta_{j} + u_{i} + \epsilon_{ij} \qquad i = 1,\dots,n
+\qquad j=1,2\]
+
+The true value of the measurement is represented by $\mu$ while the fixed effect due to method $j$ is $\beta_{j}$.
+For simplicity these terms can be combined into single terms; $\mu_{1} = \mu+ \beta_{1}$ and $\mu_{2} = \mu + \beta_{2}$. The inter-method bias is the difference of the two fixed effect terms, $\beta_{1}-\beta_{2}$. Each individual is assumed to give rise to a random error, represented by $u_{i}$. This random effects term is assumed to have mean zero and be normally distributed with variance $\sigma^2$. There is assumed to be an attendant error for each measurement on each individual, denoted $\epsilon_{ij}$. This is also assumed to have mean zero. The variance of measurement error for both methods are not assumed to be identical for both methods variance,  hence it is denoted $\sigma^2_{j}$. The set of observations ($x_{i},y_{i}$) by methods $X$ and $Y$ are assumed to follow a bivariate normal distribution with expected values $E(x_{i})= \mu_{i}$ and $E(y_{i})= \tau_{i}$ respectively. The variance covariance of the observations $\boldsymbol{\Sigma}$ is given by
+
+\[
+\boldsymbol{\Sigma} = \left[
+\begin{array}{cc}
+\sigma^{2} + \sigma^{2}_{1} & \sigma^{2} \\
+\sigma^{2} & \sigma^{2} + \sigma^{2}_{2} \\
+\end{array}
+\right]
+\] 
+% The inter-method bias is the difference of the two fixed effect terms, $\beta_{1}-\beta_{2}$.
+
+
 \subsection{Classical model for Single Measurements}
 
 \citet{BXC2004} presented a simple model to describe a measurement by method $m$, describing the relationship with its real value. The non-replicate case is considered first, as it is the context of the Bland Altman plots. This model assumes that inter-method bias is the only difference between the two methods.
@@ -116,6 +139,30 @@ Likewise the separate $\alpha$ can not be estimated, only their difference can b
 \[ d_{i} = y_{1i} - y_{2i} \sim \mathcal{N} (\alpha_{1} - \alpha_{2}, \sigma^2_{1} + \sigma^2_{2}). \]
 Importantly, this is independent of the item levels $\mu_i$. As the case-wise differences are of interest, the parameters of interest are the fixed effects for methods $\alpha_{m}$.
 
+\subsection{Statement of a Model}
+\citet{BXC2010} presents a useful formulation for comparing two methods $X$ and $Y$, in their measurement of item $i$, where the unknown `true value' is $\tau_i$. Other authors, such as \citet{Kinsella}, present similar formulations of the same model, as well as modified models to account for multiple measurements by each methods on each item, known as replicate measurements.
+
+%	\begin{eqnarray} X_i = \tau_i + \delta_i, \phantom{spacin} \delta_i \sim \mathcal{N}(0,\sigma^2_\delta)\\ Y_i = \alpha + \beta \tau_i + \epsilon_i, \phantom{spaci}  \epsilon_i \sim \mathcal{N}(0,\sigma^2_\epsilon)\end{eqnarray}
+%	
+In some types of analysis, such as the conversion problems described by \citet{lewis}, an estimate for 
+the scaling factor $\beta$ may also be sought. For the time being, we will restrict ourselves to problems where $\beta$ is assumed to be 1. 
+\begin{eqnarray}
+X_i = \tau_i + \delta_i, \phantom{spacin} \delta_i \sim \mathcal{N}(0,\sigma^2_\delta)\\
+Y_i = \alpha + \beta \tau_i + \epsilon_i, \phantom{spaci}  \epsilon_i \sim \mathcal{N}(0,\sigma^2_\epsilon)
+\end{eqnarray}
+
+In this formulation, $\alpha$ represents the inter-method bias, and can be estimated as $E(X-Y)$. That is to say, a simple estimate of the inter-method bias is given by the differences between pairs of measurements.  
+
+%Table~\ref{FCTdata} is a good example of possible inter-method bias; the `Fotobalk' consistently recording
+%smaller velocities than the `Counter' method. A cursory inspection of the table will indicate a systematic tendency for the Counter method to result in higher measurements than the Fotobalk method. % Consequently one would conclude that there is lack of agreement % between the two methods.
+
+
+
+
+
+
+
+\subsection*{Kinsella's Model}
 \citet{Kinsella} formulates a model for
 single measurement observations for a method comparison study as a
 linear mixed effects model, i.e. model that additively combine
@@ -125,10 +172,10 @@ Y_{ij} =\quad \mu + \beta_{j} + u_{i} + \epsilon_{ij} \qquad i = 1,\dots,n
 \qquad j=1,2\]
 
 The true value of the measurement is represented by $\mu$ while the fixed effect due to method $j$ is $\beta_{j}$.
-For simplicity these terms can be combined into single terms; $\mu_{1} = \mu+ \beta_{1}$ and $\mu_{2} = \mu + \beta_{2}$. The inter-method bias is the difference of the two fixed effect terms, $\beta_{1}-\beta_{2}$. Each of the $i$ individuals are assumed to give rise to random error, represented by $u_{i}$. This random effects terms is assumed to have mean zero and be normally distributed with variance $\sigma^2$. There is assumed to be an attendant error for each measurement on each individual, denoted $\epsilon_{ij}$. This is also assumed to have mean zero. The variance of measurement error for both methods are not assumed to be identical for both methods variance,  hence it is denoted $\sigma^2_{j}$. The set of observations ($x_{i},y_{i}$) by methods $X$ and $Y$ are assumed to follow the bivariate normal distribution with expected values $E(x_{i})= \mu_{i}$ and $E(x_{i})= \mu_{i}$ respectively. The variance covariance of the observations $\boldsymbol{\Sigma}$ is given by
+For simplicity these terms can be combined into single terms; $\mu_{1} = \mu+ \beta_{1}$ and $\mu_{2} = \mu + \beta_{2}$. The inter-method bias is the difference of the two fixed effect terms, $\beta_{1}-\beta_{2}$. Each of the $i$ individuals are assumed to give rise to random error, represented by $u_{i}$. This random effects terms is assumed to have mean zero and be normally distributed with variance $\sigma^2$. There is assumed to be an attendant error for each measurement on each individual, denoted $\epsilon_{ij}$. This is also assumed to have mean zero. The variance of measurement error for both methods are not assumed to be identical for both methods variance,  hence it is denoted $\sigma^2_{j}$. The set of observations ($x_{i},y_{i}$) by methods $X$ and $Y$ are assumed to follow the bivariate normal distribution with expected values $E(x_{i})= \mu_{i}$ and $E(x_{i})= \mu_{i}$ respectively. The variance covariance of the observations $\Sigma$ is given by
 
 \[
-\boldsymbol{\Sigma} = \left[
+\Sigma = \left[
 \begin{array}{cc}
 \sigma^{2} + \sigma^{2}_{1} & \sigma^{2} \\
 \sigma^{2} & \sigma^{2} + \sigma^{2}_{2} \\
@@ -136,7 +183,7 @@ For simplicity these terms can be combined into single terms; $\mu_{1} = \mu+ \b
 \right]
 \]
 
-\citet{Kinsella} demonstrates the estimation of the variance terms and relative precisions relevant to a method comparison study, with attendant confidence intervals for both. The measurement model introduced by \citet{Grubbs48,Grubbs73} provides a formal procedure for estimate the variances $\sigma^2$,$\sigma^2_{1}$ and $\sigma^2_{2}$ devices. \citet{Grubbs48} offers estimates, commonly known as Grubbs estimators, for the various variance components. These estimates are maximum likelihood estimates, a statistical concept that shall be revisited in due course.
+\citet{Kinsella} demonstrates the estimation of the variance terms and relative precisions relevant to a method comparison study, with attendant confidence intervals for both. The measurement model introduced by \citet{Grubbs48,Grubbs73} provides a formal procedure for estimate the variances $\sigma^2$, $\sigma^2_{1}$ and $\sigma^2_{2}$ devices. \citet{Grubbs48} offers estimates, commonly known as Grubbs estimators, for the various variance components. These estimates are maximum likelihood estimates, a statistical concept that shall be revisited in due course.
 \begin{eqnarray*}
 	\hat{\sigma^{2}} = \sum{\frac{(x_{i}-\bar{x})(y_{i}-\bar{y})}{n-1}} = Sxy\\
 	\hat{\sigma^{2}_{1}} = \sum{\frac{(x_{i}-\bar{x})^{2}}{n-1}} =S^{2}x - Sxy  \\
@@ -226,22 +273,12 @@ Morgan and Pitman noted that the correlation coefficient depends
 upon the difference $\sigma^{2}_{1}- \sigma^{2}_{2}$, being zero
 if and only if $\sigma^{2}_{1}=\sigma^{2}_{2}$.
 
-
-
-An early contribution to formal testing in method comparison was
-made by both \citet{Morgan} and \citet{Pitman}, in separate
-contributions. The Pitman-Morgan test for equal variances is based on the correlation of $D$ with $S$. The correlation coefficient is zero if, and only if, the variances are equal. The test statistic is the familiar t-test with $n-2$ degree of freedom. 
+The Pitman-Morgan test for equal variances is based on the correlation of $D$ with $S$. The correlation coefficient is zero if, and only if, the variances are equal. The test statistic is the familiar t-test with $n-2$ degree of freedom. 
 
 This test assess the equality
 of population variances. Pitman's test tests for zero correlation between the sums and products. The basis of this approach is that the distribution of the original measurements is bivariate normal.
 Correlation between differences and means is a test statistics for
 the null hypothesis of equal variances given bivariate normality.
-
-The classical Pitman-Morgan test is a hypothesis test for equality
-of the variance of two data sets; $\sigma^{2}_{1} =
-\sigma^{2}_{2}$, based on the correlation value $\rho_{a,d}$ ,and
-is evaluated as follows;
-
 
 The test of the hypothesis that the variances $\sigma^2_1$ and $\sigma^2_2$ are equal, which was devised concurrently by \citet{Pitman} and \citet{Morgan}, 
 is based on the correlation of the casewise-differences and sums, $d$ with $s,$ the coefficient being $ \rho_{(d,s)} = (\sigma^2_1 -\sigma^2_2) / ( \sigma_D \sigma_S ),$ which is zero if, and only
@@ -257,11 +294,11 @@ distribution of the original measurements is bivariate normal.
 Morgan and Pitman noted that the correlation coefficient depends
 upon the difference $\sigma^{2}_{1}- \sigma^{2}_{2}$, being zero
 if and only if $\sigma^{2}_{1}=\sigma^{2}_{2}$.
-Therefore a test of the hypothesis $H: \sigma^{2}_{1}=\sigma^{2}_{2}$ is equivalent to a test of the hypothesis $H: \rho(D,A) = 0$. This corresponds to the well-known $t-$test for a correlation coefficient with $n-2$ degrees of freedom. 
+Therefore a test of the hypothesis $H: \sigma^{2}_{1}=\sigma^{2}_{2}$ is equivalent to a test of the hypothesis $H: \rho(a,d) = 0$. This corresponds to the well-known $t-$test for a correlation coefficient with $n-2$ degrees of freedom. 
 
 
 The test of the hypothesis that the variance of both methods are
-equal is based on the correlation value $\rho_{D,A}$ which is
+equal is based on the correlation value $\rho_{a,d}$ which is
 evaluated as follows;
 
 
@@ -271,14 +308,8 @@ evaluated as follows;
 \rho(a,d)=\quad\frac{\sigma^{2}_{1}-\sigma^{2}_{2}}{\sqrt{(\sigma^{2}_{1}+\sigma^{2}_{2})(4\sigma^{2}_{S}+\sigma^{2}_{1}+\sigma^{2}_{2})}}
 \end{equation}
 
-\begin{equation}
-\rho(D,A)=\quad\frac{\sigma^{2}_{1}-\sigma^{2}_{2}}{\sqrt{(\sigma^{2}_{1}+\sigma^{2}_{2})(4\sigma^{2}_{S}+\sigma^{2}_{1}+\sigma^{2}_{2})}}
-\end{equation}
-
 The correlation constant takes the value zero if, and only if, the two variances are equal. Therefore a test of the hypothesis $H: \sigma^{2}_{1}=\sigma^{2}_{2}$ is equivalent to a test of the hypothesis $H: \rho(D,A) = 0$. The corresponds to the well-known
-$t$ test for a correlation coefficient with $n-2$ degrees of freedom. \citet{Bartko} describes the Morgan-Pitman test as identical to
-the test of the slope equal to zero in the regression of $Y_{i1}$ on $Y_{12}$, a result that can be derived using
-straightforward algebra.
+$t$ test for a correlation coefficient with $n-2$ degrees of freedom.
 
 
 \citet{Bartko} describes the Morgan-Pitman test as identical to the test of the slope equal to zero in the regression of $Y_{i1}$ on $Y_{12}$, a result that can be derived using straightforward algebra. The Pitman-Morgan test is equivalent to the marginal test of the slope estimate in Bradley-Blackwood’s model.
@@ -293,14 +324,14 @@ where $\bar{d}$ and $s_{d}$ is the average of the differences of
 the $n$ observations. Only if the two methods show comparable precision then the paired sample student t-test is appropriate for assessing the magnitude of the bias.
 
 
-\subsection{Bland-Altman Correlation test}
+\subsection{Bland-Altman Correlation Test}
 \citet{BA99} commented `we do not see a
-place for methods of analysis based on hypothesis testing', also stating that they consider structural equation models to be inappropriate.
-The approach proposed by \citet{BA83} is a formal test on the
+place for methods of analysis based on hypothesis testing', while also stating that they consider structural equation models to be inappropriate.
+An approach proposed by \citet{BA83} is a formal test on the
 Pearson correlation coefficient of case-wise differences and means
-($\rho_{AD}$). According to the authors, this test is equivalent
-to the `Pitman Morgan Test'. For the Grubbs data, the correlation
-coefficient estimate ($r_{AD}$) is 0.2625, with a 95\% confidence
+($\rho_{(a,d)}$). According to the authors, this test is equivalent
+to the `Pitman-Morgan Test'. For the Grubbs data, the correlation
+coefficient estimate ($r_{(a,d)}$) is 0.2625, with a 95\% confidence
 interval of (-0.366, 0.726) estimated by Fishers `$r$ to $z$'
 transformation \citep*{cohen2013applied}. The null hypothesis ($\rho_{AD}$ =0)
 fail to be rejected. Consequently the null hypothesis of equal
@@ -427,89 +458,6 @@ comparative precision of both methods.
 
 
 
-\subsection{Statement of a Model}
-\citet{BXC2010} presents a useful formulation for comparing two methods $X$ and $Y$, in their measurement of item $i$, where the unknown `true value' is $\tau_i$. Other authors, such as \citet{Kinsella}, present similar formulations of the same model, as well as modified models to account for multiple measurements by each methods on each item, known as replicate measurements.
-
-%	\begin{eqnarray} X_i = \tau_i + \delta_i, \phantom{spacin} \delta_i \sim \mathcal{N}(0,\sigma^2_\delta)\\ Y_i = \alpha + \beta \tau_i + \epsilon_i, \phantom{spaci}  \epsilon_i \sim \mathcal{N}(0,\sigma^2_\epsilon)\end{eqnarray}
-%	
-In some types of analysis, such as the conversion problems described by \citet{lewis}, an estimate for 
-the scaling factor $\beta$ may also be sought. For the time being, we will restrict ourselves to problems where $\beta$ is assumed to be 1. 
-\begin{eqnarray}
-X_i = \tau_i + \delta_i, \phantom{spacin} \delta_i \sim \mathcal{N}(0,\sigma^2_\delta)\\
-Y_i = \alpha + \beta \tau_i + \epsilon_i, \phantom{spaci}  \epsilon_i \sim \mathcal{N}(0,\sigma^2_\epsilon)
-\end{eqnarray}
-
-In this formulation, $\alpha$ represents the inter-method bias, and can be estimated as $E(X-Y)$. That is to say, a simple estimate of the inter-method bias is given by the differences between pairs of measurements.  
-
-%Table~\ref{FCTdata} is a good example of possible inter-method bias; the `Fotobalk' consistently recording
-%smaller velocities than the `Counter' method. A cursory inspection of the table will indicate a systematic tendency for the Counter method to result in higher measurements than the Fotobalk method. % Consequently one would conclude that there is lack of agreement % between the two methods.
-
-
-
-
-\subsection{Model for Single Measurement Observations}
-\citet{kinsella} formulates a model for
-single measurement observations as a
-linear mixed effects model, i.e. a model that additively combines
-fixed effects and random effects:
-\[
-Y_{ij} =\quad \mu + \beta_{j} + u_{i} + \epsilon_{ij} \qquad i = 1,\dots,n
-\qquad j=1,2\]
-
-The true value of the measurement is represented by $\mu$ while the fixed effect due to method $j$ is $\beta_{j}$.
-For simplicity these terms can be combined into single terms; $\mu_{1} = \mu+ \beta_{1}$ and $\mu_{2} = \mu + \beta_{2}$. The inter-method bias is the difference of the two fixed effect terms, $\beta_{1}-\beta_{2}$. Each individual is assumed to give rise to a random error, represented by $u_{i}$. This random effects term is assumed to have mean zero and be normally distributed with variance $\sigma^2$. There is assumed to be an attendant error for each measurement on each individual, denoted $\epsilon_{ij}$. This is also assumed to have mean zero. The variance of measurement error for both methods are not assumed to be identical for both methods variance,  hence it is denoted $\sigma^2_{j}$. The set of observations ($x_{i},y_{i}$) by methods $X$ and $Y$ are assumed to follow a bivariate normal distribution with expected values $E(x_{i})= \mu_{i}$ and $E(y_{i})= \tau_{i}$ respectively. The variance covariance of the observations $\boldsymbol{\Sigma}$ is given by
-
-\[
-\boldsymbol{\Sigma} = \left[
-\begin{array}{cc}
-\sigma^{2} + \sigma^{2}_{1} & \sigma^{2} \\
-\sigma^{2} & \sigma^{2} + \sigma^{2}_{2} \\
-\end{array}
-\right]
-\] 
-% The inter-method bias is the difference of the two fixed effect terms, $\beta_{1}-\beta_{2}$.
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\subsection{Measurement Error Models}
-\citet{DunnSEME} proposes a measurement error model for use in
-method comparison studies. Consider n pairs of measurements
-$X_{i}$ and $Y_{i}$ for $i=1,2,...n$.
-\begin{equation}
-X_{i} = \tau_{i}+\delta_{i}\\
-\end{equation}
-\begin{equation}
-Y_{i} = \alpha +\beta\tau_{i}+\epsilon_{i} \nonumber
-\end{equation}
-
-In the above formulation is in the form of a linear structural
-relationship, with $\tau_{i}$ and $\beta\tau_{i}$ as the true
-values, and $\delta_{i}$ and $\epsilon_{i}$ as the corresponding
-measurement errors. In the case where the units of measurement are
-the same, then $\beta =1$.
-
-\begin{equation}
-E(X_{i}) = \tau_{i}\\
-\end{equation}
-\begin{equation}
-E(Y_{i}) = \alpha +\beta\tau_{i} \nonumber
-\end{equation}
-\begin{equation}
-E(\delta_{i}) = E(\epsilon_{i}) = 0 \nonumber
-\end{equation}
-
-The value $\alpha$ is the inter-method bias between the two
-methods.
-
-\begin{eqnarray}
-z_0 &=& d = 0 \\
-z_{n+1} &=& z_n^2+c
-\end{eqnarray}
-
-
 
 
 \subsection{Statistical Model For Replicate Measurements}
@@ -524,14 +472,14 @@ y_{Aij} \\
 y_{Bij} \\
 \end{array}
 \right) \sim \mathcal{N}(
-\boldsymbol{\mu}, \boldsymbol{\Sigma})\mbox{   where } \boldsymbol{\mu} = \left(
+{\mu}, {\Sigma})\mbox{   where } {\mu} = \left(
 \begin{array}{c}
 \mu_{A} \\
 \mu_{B} \\
 \end{array}
 \right)
 \end{eqnarray}
-The matrix $\boldsymbol{\Sigma}$ represents the variance component matrix between response variables at a given time point $j$.
+The matrix ${\Sigma}$ represents the variance component matrix between response variables at a given time point $j$.
 \begin{equation}
 \boldsymbol{\Sigma} = \left( \begin{array}{cc}
 \sigma^2_{A} & \sigma_{AB} \\
@@ -540,6 +488,22 @@ The matrix $\boldsymbol{\Sigma}$ represents the variance component matrix betwee
 \end{equation}
 $\sigma^2_{A}$ is the variance of variable $A$, $\sigma^2_{B}$ is the variance of variable $B$ and $\sigma_{AB}$ is the covariance of the two variable. It is assumed that $\boldsymbol{\Sigma}$ does not depend on a particular time point, and is the same over all time points.
 
+
+\subsection{Model for Replicate Measurements}
+
+
+
+We generalize the single measurement model for the replicate measurement case, by additionally specifying replicate values. Let $y_{mir}$ be the $r-$th replicate measurement for item $i$ made by method $m$. Further to \citet{barnhart} fixed effect can be expressed with a single term $\alpha_{mi}$, which incorporate the true value $\mu_i$.
+
+\[ y_{mir} = \mu_{i} + \alpha_{m} + e_{mir}  \]
+
+Combining fixed effects \citep{barnhart}, we write,
+
+\[ y_{mir} = \alpha_{mi} + e_{mir}.\]
+
+The following assumptions are required
+$e_{mir}$ is independent of the fixed effects with mean $\mbox{E}(e_{mir}) = 0$.
+Further to \citet{barnhart} between-item and within-item variances $\mbox{Var}(\alpha_{mi}) = \sigma^2_{Bm}$ and $\mbox{Var}(e_{mir}) = \sigma^2_{Wm}$		
 
 \subsection{Carstensen's Model for Replicate Measurements}
 
@@ -572,29 +536,6 @@ y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + e_{mir}, \qquad  e_{mi}
 %A distinction can be made between the two models: Roy's model is a standard LME model, whereas Carstensen's model is a more complex additive model.
 
 
-\subsection{Model for Replicate Measurements}
-
-
-
-We generalize the single measurement model for the replicate measurement case, by additionally specifying replicate values. Let $y_{mir}$ be the $r-$th replicate measurement for item``i" made by method ``m". Further to \citet{barnhart} fixed effect can be expressed with a single term $\alpha_{mi}$, which incorporate the true value $\mu_i$.
-
-\[ y_{mir} = \mu_{i} + \alpha_{m} + e_{mir}  \]
-
-Combining fixed effects \citep{barnhart}, we write,
-
-\[ y_{mir} = \alpha_{mi} + e_{mir}.\]
-
-The following assumptions are required
-$e_{mir}$ is independent of the fixed effects with mean $\mbox{E}(e_{mir}) = 0$.
-Further to \citet{barnhart} between-item and within-item variances $\mbox{Var}(\alpha_{mi}) = \sigma^2_{Bm}$ and $\mbox{Var}(e_{mir}) = \sigma^2_{Wm}$		
-
-
-
-
-
-
-
-
 
 \section{Regression Methods}
 Conventional regression models are estimated using the ordinary
@@ -622,10 +563,6 @@ variable. With Model I regression, the models fitted in both cases
 will entirely different and inconsistent. However with Model II
 regression, they will be consistent and complementary.
 
-Regression approaches are useful for a making a detailed examination of the biases across the range of measurements, allowing bias to be decomposed into fixed bias and proportional bias.
-Fixed bias describes the case where one method gives values that are consistently different
-to the other across the whole range. Proportional
-bias describes the difference in measurements getting progressively greater, or smaller, across the range of measurements. A measurement method may have either an attendant fixed bias or proportional bias, or both. \citep{ludbrook}. Determination of these biases shall be discussed in due course.
 
 
 
@@ -647,36 +584,26 @@ bias describes the difference in measurements getting progressively greater, or 
 	assessing the agreement. This approach performs a simultaneous test for the equivalence of
 	means and variances of the respective methods. The Bradley Blackwood test is a simultaneous test for bias and
 	precision. They propose a regression approach which fits $D$ on $M$, where $D$ is the difference and average of a pair of results. 
-	
+	\begin{eqnarray}
+	D = (X_{1}-X_{2}) \\
+	M = (X_{1} + X_{2}) /2
+	\end{eqnarray}
+		
 	Using simple linear regression of the differences of each pair against the sums, a line is fitted to the model, with estimates for intercept and slope ($\hat{\beta}_{0}$ and $\hat{\beta}_{1}$).
 	%We have identified
 	%this approach  to be examined to see if it can be used as a %foundation for a test perform a test on
 	%means and variances individually.
-	\begin{equation}
-	D = (X_{1}-X_{2})
-	\end{equation}
-	\begin{equation}
-	M = (X_{1} + X_{2}) /2
-	\end{equation}
+
 	The Bradley Blackwood Procedure fits D on M as follows:\\
 	\begin{equation}
 	D = \beta_{0} + \beta_{1}M
 	\end{equation}
-	This technique offers a formal simultaneous hypothesis test for the
-	mean and variance of two paired data sets. The null
-	hypothesis of this test is that the mean ($\mu$) and variance
-	($\sigma^{2}$) of both data sets are equal if the slope and
-	intercept estimates are equal to zero(i.e $\sigma^{2}_{1} =
+This technique offers a formal simultaneous hypothesis test for the mean and variance of two paired data sets. The null hypothesis of this test is that the mean ($\mu$) and variance ($\sigma^{2}$) of both data sets are equal if the slope and intercept estimates are equal to zero(i.e $\sigma^{2}_{1} =
 	\sigma^{2}_{2}$ and $\mu_{1}=\mu_{2}$ if and only if $\beta_{0}=
-	\beta_{1}=0$ )
+	\beta_{1}=0$).
 	
-	Both regression coefficients are derived from the respective means and
-	standard deviations of their respective data sets.
-	
-	We determine if the respective means and variances are equal if
-	both beta values are simultaneously equal to zero. The test is
-	conducted using an F test, calculated from the results of a
-	regression of D on M.
+Both regression coefficients are derived from the respective means and
+standard deviations of their respective data sets. We determine if the respective means and variances are equal if both beta values are simultaneously equal to zero. The test is conducted using an F test, calculated from the results of a regression of D on M.
 	
 	%	\textbf{Russell et al} have suggested this method be used in conjunction with a paired t-test, with estimates of slope and intercept.
 	
@@ -694,31 +621,24 @@ bias describes the difference in measurements getting progressively greater, or 
 	the sums, and their differences. This approach can facilitate
 	simultaneous usage of test with the Bland-Altman methodology.
 	Bartko's test statistic take the form:
-	\[ F.test = \frac{(\Sigma d^{2})-SSReg}{2MSReg}
-	\]
+	\[ F^{\ast} = \frac{(\Sigma d^{2})-SSReg}{2MSReg}.\]
 	
-	
-	\subsubsection{Application to the Grubbs' Data}
-	For the Grubbs data, $\Sigma d^{2}=5.09 $, $SSReg = 0.60$ and
+For the Grubbs data, $\Sigma d^{2}=5.09 $, $SSReg = 0.60$ and
 	$MSreg=0.06$ Therefore the test statistic is $37.42$, with a
 	critical value of $4.10$. Hence the means and variance of the
 	Fotobalk and Counter chronometers are assumed to be simultaneously
 	equal.
 	
-	Importantly, this approach determines whether there is both
+Importantly, this approach determines whether there is both
 	inter-method bias and precision present, or alternatively if there
 	is neither present. It has previously been demonstrated that there
 	is a inter-method bias present, but as this procedure does not
 	allow for separate testing, no conclusion can be drawn on the
 	comparative precision of both methods.
-	
-	
-	
-	% latex table generated in R 2.6.0 by xtable 1.5-5 package
-	% Mon Aug 31 15:53:51 2009
-	\begin{table}[ht]
+
+\begin{table}[ht]
 		\begin{center}
-			\begin{tabular}{lrrrrr}
+			\begin{tabular}{|l|r|r|r|r|r|}
 				\hline
 				& Df & Sum Sq & Mean Sq & F value & Pr($>$F) \\
 				\hline
@@ -768,14 +688,7 @@ The Bland-Altman plot is uninformative about the comparative influence of propor
 	
 Deming regression method also calculates a line of best fit for two sets of data. It differs from simple linear regression in that it is derived in a way that factors in for error in the x-axis, as well as the y-axis. The sum of the square of the residuals of both variables are simultaneously minimized. This derivation results in the best fit to minimize the sum of the squares of the perpendicular distances from the data points. Normally distributed error of both variables is assumed, as well as a constant level of imprecision throughout the range of measurements.
 	
-	
-\subsection{Deming Regression}
 
-As stated previously, the fundamental flaw of simple linear regression is that it allows for measurement error in one variable only. This causes a downward biased slope estimate.
-
-Deming regression is a regression fitting approach that assumes error in both variables. Deming regression is recommended by \citet*{CornCoch} as the
-preferred Model II regression for use in method comparison
-studies.
 
 \subsection{Kummel's Estimates}
 
@@ -789,18 +702,7 @@ parameter.
 with $\lambda$ as the variance ratio. The intercept estimate $\alpha$ is simply estimated in the same way as in conventional linear
 regression, by using the identity $\bar{Y}-\hat{\beta}\bar{X}$. As stated previously $\lambda$ is often unknown, and therefore must be assumed to equal one. 
 
-
-
-For a given $\lambda$, \citet{Kummel} derived the following
-estimate that would later be used for the Deming regression slope
-parameter. The intercept estimate $\alpha$
-is simply estimated in the same way as in conventional linear
-regression, by using the identity $\bar{Y}-\hat{\beta}\bar{X}$;
-\begin{equation}
-\hat{\beta} =\quad \frac{S_{yy} - \lambda S_{xx}+[(S_{yy} -
-	\lambda S_{xx})^{2}+ 4\lambda S^{2}_{xy}]^{1/2}}{2S_{xy}},
-\end{equation}
-with $\lambda$ as the variance ratio. As stated previously $\lambda$ is often unknown, and therefore must be assumed to equal one. \citet{CarollRupert} states that Deming
+\citet{CarollRupert} states that Deming
 regression is acceptable only when the precision ratio ($\lambda$, in their paper as $\eta$) is correctly specified, but in practice this is often not the case, with the $\lambda$ being underestimated. Several candidate models, with varying variance ratios may be fitted, and estimates of the slope and intercept are produced. However no model selection information is available to determine the best fitting model.
 
 The sum of squared distances from measured sets of values to the regression line is minimized at an angles specified by the ratio $\lambda$ of the residual variance of both variables. The measurement error is specified with measurement error variance related as 
@@ -875,54 +777,13 @@ in \citet[p.398]{AltmanBook} .
 %\end{figure}
 
 
-
-\citet{CarollRupert} states that Deming's
-regression is acceptable only when the precision ratio ($\lambda$,
-in their paper as $\eta$) is correctly specified, but in practice
-this is often not the case, with the $\lambda$ being
-underestimated.
-
 The Deming regression line is estimated by minimizing the sums of squared deviations in both the x and y directions at an angle determined by the ratio of the analytical standard deviations for the two methods.
 	
 In cases involving only single measurements by each method, $\lambda$ may be unknown and is therefore assumes a value of one. While this will bias the estimates, it is less biased than ordinary linear regression.
 	
 This ratio can be estimated if multiple measurements were taken with each method, but if only one measurement was taken with each method, it can be assumed to be equal to one.
 	
-\subsubsection{Estimating the Variance ratio}
-	
-\begin{eqnarray*}
-		x_{i} = \mu +  \beta_{0} + \epsilon_{xi}\\
-		y_{i} = \mu +  \beta_{1} + \epsilon_{yi}
-\end{eqnarray*}
-	The inter-method bias is the difference of these biases. In order to determine an estimate for the residual variances, one of the method biases must be assumed to be zero, i.e. $\beta_{0} = 0$. The inter-method bias is now represented by $\beta_{1}$.
-	
-	\begin{eqnarray*}
-		x_{i} &=& \mu + \epsilon_{xi}\\
-		y_{i} &=& \mu +  \beta_{1} + \epsilon_{yi}
-	\end{eqnarray*}
-	
-	The residuals can be expressed as
-	\begin{eqnarray*}
-		\epsilon_{xi} &=& x_{i} - \mu  \\
-		\epsilon_{yi} &=& y_{i} - (\mu + \beta_{1}) 
-	\end{eqnarray*}
-	
-The variance of the residuals are equivalent to the variance of the corresponding observations, $\sigma^{2}_{\epsilon x} =
-	\sigma^{2}_{x}$ and $\sigma^{2}_{\epsilon y} = \sigma^{2}_{y}$.
-	\begin{equation}
-	\lambda = \frac{\sigma^{2}_{yx}}{\sigma^{2}_{y}}.
-	\end{equation}
-	
-Assuming constant standard deviations, and given duplicate measurements, the analytical standard deviations are given by
-	
-	\begin{eqnarray*}
-		SD^{2}_{ax} = \frac{1}{2n} \sum (x_{2i} - x_{1i})^{2}\\
-		SD^{2}_{ay} = \frac{1}{2n} \sum (y_{2i} - y_{1i})^{2}\\
-	\end{eqnarray*}
-	
-Using duplicate measurements, one can estimate the analyticalstandard deviations and compute their ratio. This ratio is then used for computing the slope by the Deming method \citep{linnet98}.
-	
-	
+
 	%\subsection{performance in the presence of oultiers}
 	%All least square estimation methods are sensitive to outliers.
 	
@@ -933,9 +794,7 @@ Deming regression suffers from some crucial drawbacks. Firstly it is computation
 Several candidate models, with varying variance ratios may be fitted, and estimates of the slope and intercept are produced. However no model selection information is available to determine the best fitting model.
 	
 
-	
-
-	\subsection{Model Evaluation for Deming Regression}
+\subsection{Model Evaluation for Deming Regression}
 	Bootstrap techniques can be used to obtain Confidence Intervals for Deming regression estimates. Authors such as 
 	\citet{carpenter2000bootstrap} and \citet{johnson2001bootstrap} provide relevant insights.
 	
@@ -948,118 +807,9 @@ Several candidate models, with varying variance ratios may be fitted, and estima
 	
 	%===================================================%
 
-	\subsection{Thompson 1963: Model Formulation and Formal Testing}
-	% The standard error of these variance estimates are:
-	% \begin{eqnarray}
-	% \mbox{var}(\sigma^{2}_{1}) = \frac{2\sigma^{4}_{1}}{n-1} +
-	% \frac{\sigma^2_{S}\sigma^2_{1}+\sigma^2_{S}\sigma^2_{2}+\sigma^2_{1}\sigma^2_{2}
-	% }{n-1}\\
-	% \mbox{var}(\sigma^{2}_{2}) =\quad \frac{2\sigma^{4}_{2}}{n-1} +
-	% \frac{\sigma^2_{S}\sigma^2_{1}+\sigma^2_{S}\sigma^2_{2}+\sigma^2_{1}\sigma^2_{2}
-	% }{n-1}\nonumber
-	% \end{eqnarray}
-	
-	%For the interval estimates for the variance components,
-	%\citet{Thompson} presents three relations that hold simultaneously
-	%with probability $1-2\alpha$ where $2\alpha=0.01$ or $0.05$.
-	
-	%\begin{eqnarray*}
-	%|\sigma^2-C_{xy}K| &\leqslant& M(C_{x}C_{y})^{\frac{1}{2}}\\
-	%|\sigma^2_{1}-(C_{x}-C_{xy})K|&\leqslant M(C_{x}(C_{x}+C_{y}-2C_{xy}))^{\frac{1}{2}}\nonumber\\
-	%|\sigma^2_{2}-(C_{y}-C_{xy})K|&\leqslant
-	%M(C_{y}(C_{x}+C_{y}-2C_{xy}))^{\frac{1}{2}}\nonumber
-	%\end{eqnarray*}
-	
-	%\citet{Thompson} contains tables for $K$ and $M$.
-	
-	\citet{Kinsella} formulates a model for un-replicated observations
-	for a method comparison study as a mixed model.
-	\begin{eqnarray}
-	Y_{ij} =\quad \mu_{j} + S_{i} + \epsilon_{ij} \quad i=1,2...n\quad
-	j=1,2\\
-	S \sim N(0,\sigma^{2}_{s})\qquad \epsilon_{ij} \sim
-	N(0,\sigma^{2}_{j}) \nonumber
-	\end{eqnarray}
-	
-	As with all mixed models, the variance of each observation is the
-	sum of all the associated variance components.
-	\begin{eqnarray}
-	\textrm{var}(Y_{ij}) =\quad \sigma^{2}_{s} + \sigma^{2}_{j} \\
-	\textrm{cov}(Y_{i1},Y_{i2})=\quad \sigma^{2}_{s} \nonumber
-	\end{eqnarray}
-	
-	
-The standard error of these variance estimates are:
-	\begin{eqnarray}
-	\textrm{var}(\sigma^{2}_{1}) =\quad \frac{2\sigma^{4}_{1}}{n-1} +\quad
-	\frac{\sigma^2_{S}\sigma^2_{1}+\sigma^2_{S}\sigma^2_{2}+\sigma^2_{1}\sigma^2_{2}
-	}{n-1}\\
-	\textrm{var}(\sigma^{2}_{2}) =\quad \frac{2\sigma^{4}_{2}}{n-1} +\quad
-	\frac{\sigma^2_{S}\sigma^2_{1}+\sigma^2_{S}\sigma^2_{2}+\sigma^2_{1}\sigma^2_{2}
-	}{n-1}\nonumber
-	\end{eqnarray}
-	
-\citet{Kinsella} demonstrates the estimation of the variance terms and relative precisions relevant to a method comparison study, with attendant confidence intervals for both. The measurement model introduced by \citet{Grubbs48,Grubbs73} provides a formal procedure for estimating the variances $\sigma^2$, $\sigma^2_{1}$ and $\sigma^2_{2}$. 
-	
-	% The standard error of these variance estimates are:
-	% \begin{eqnarray}
-	% \mbox{var}(\sigma^{2}_{1}) = \frac{2\sigma^{4}_{1}}{n-1} +
-	% \frac{\sigma^2_{S}\sigma^2_{1}+\sigma^2_{S}\sigma^2_{2}+\sigma^2_{1}\sigma^2_{2}
-	% }{n-1}\\
-	% \mbox{var}(\sigma^{2}_{2}) =\quad \frac{2\sigma^{4}_{2}}{n-1} +
-	% \frac{\sigma^2_{S}\sigma^2_{1}+\sigma^2_{S}\sigma^2_{2}+\sigma^2_{1}\sigma^2_{2}
-	% }{n-1}\nonumber
-	% \end{eqnarray}
-	
-\citet{kinsella} demonstrates how the Grubbs estimators for the
-	error variances can be calculated using the difference values,
-	providing a worked example on a data set.
-	\begin{eqnarray}
-	\hat{\sigma^{2}_{1}}
-	\quad=\sum{(y_{i1}-\bar{y{1}})(D_{i}-\bar{D})}\\
-	\hat{\sigma^{2}_{2}} \quad=
-	\sum{(y_{i2}-\bar{y_{2}})(D_{i}-\bar{D})} \nonumber
-	\end{eqnarray}
 
-The value $t$ is the $100(1-\alpha/2)\%$ upper quantile ofStudent's $t$ distribution with $n-2$ degrees of freedom \citep{Kinsella}. The confidence limits for $\Delta_{2}$ are found by substituting $C_{y}$ for $C_{x}$ in (1.2).
-	Negative lower limits are replaced by the value $0$. The ratio $\Delta_{2}$
-	can be found by interchanging $C_{y}$ and $C_{x}$. A lower confidence limit can be found by calculating the square root. The inequality in equation $1.10$ may also be used for hypothesis testing.
-	
 
-	where
-	
-	\begin{eqnarray}
-	C_{x}=\quad(n-1)S^2_{x}\nonumber\\
-	C_{xy}=\quad(n-1)S_{xy}\nonumber\\
-	C_{y}=\quad(n-1)S^2_{y}\nonumber\\
-	A=\quad C_{x}\times C_{y} - (C_{xy})^2 \nonumber
-	\end{eqnarray}
-	
-	$t$ is the $100(1-\alpha/2)\%$ quantile of Student's $t$
-	distribution with $n-2$ degrees of freedom. $\Delta_{2}$ can be
-	found by changing $C_{y}$ for $C_{x}$. A lower confidence limit
-	can be found by calculating the square root. This inequality may
-	also be used for hypothesis testing.
-	
-	\citet{Thompson} presents three relations that hold simultaneously
-	with probability $1-2\alpha$ where $2\alpha=0.01$ or $0.05$. \citet{Thompson} contains tables for $K$ and $M$.
-	
-	\begin{eqnarray}
-	|\sigma^2-C_{xy}K|\leqslant M(C_{x}C_{y})^{\frac{1}{2}}\\
-	|\sigma^2_{1}-(C_{x}-C_{xy})K|\leqslant M(C_{x}(C_{x}+C_{y}-2C_{xy}))^{\frac{1}{2}}\nonumber\\
-	|\sigma^2_{2}-(C_{y}-C_{xy})K|\leqslant
-	M(C_{y}(C_{x}+C_{y}-2C_{xy}))^{\frac{1}{2}}\nonumber
-	\end{eqnarray}	
-	
-	
-	
-	
-	
-	
-	
-	
 	\subsection{Structural Equation Modelling}
-	\citet{nawarathna2015} Measurement Error Models
 	
 	
 	
@@ -1068,9 +818,9 @@ The value $t$ is the $100(1-\alpha/2)\%$ upper quantile ofStudent's $t$ distribu
 	The structural equations approach avoids the biased estimation of the slope and intercept that occurs in ordinary least square regression.
 	
 	
-	Several authors, such as \citet{lewis1991}, \citet{gkelly1985},\citet{voelkel2005} and \citet{hopkins2004bias} advocate the use of SEM methods for method comparison. In \citet{hopkins2004bias}, a critique of the Bland-Altman plot he makes the following remark:
+	Several authors, such as \citet{lewis}, \citet{gkelly1985},\citet{voelkel2005} and \citet{hopkins2004bias} advocate the use of SEM methods for method comparison. In \citet{hopkins2004bias}, a critique of the Bland-Altman plot he makes the following remark:
 	
-	Authors, such as a \citet{lewis1991}, \citet{dunnSEME} and \citet{voelkel2005}, strongly advocate the use of \textit{Structural Equation Models} for the purposes of method comparison. Conversely \citet{BA99} also states that consider structural equation models to be inappropriate.
+	Authors, such as a \citet{lewis}, \citet{dunnSEME} and \citet{voelkel2005}, strongly advocate the use of \textit{Structural Equation Models} for the purposes of method comparison. Conversely \citet{BA99} also states that consider structural equation models to be inappropriate.
 	
 	\emph{What's needed for a comparison of two or more measures is a
 		generic approach more powerful even than regression to model the
@@ -1113,30 +863,24 @@ The value $t$ is the $100(1-\alpha/2)\%$ upper quantile ofStudent's $t$ distribu
 	Model II regression is suitable for method comparison studies, but it is more difficult to execute. Both Model I and II regression models are unduly influenced by outliers.
 	
 	
-	
-	\citet{CornCoch} argue for the use of methods that based on
+\citet{CornCoch} argue for the use of methods that based on
 	the assumption that both methods are imprecisely measured ,and
 	that yield a fitting that is consistent with both '$X$ on $Y$' and
 	'$Y$ on $X$' formulations. These methods uses alternatives to the
 	OLS approach to determine the slope and intercept.
 	
-	They describe three such alternative methods of regression; Deming, Mandel, and Bartlett regression. Collectively the authors refer to these approaches as Model II regression techniques.
+They describe three such alternative methods of regression; Deming, Mandel, and Bartlett regression. Collectively the authors refer to these approaches as Model II regression techniques.
 	
-	The authors make the distinction between model I and model II regression types.
+The authors make the distinction between model I and model II regression types.
 	
 	Model II regression is the appropriate type when the predictor variable “x” is measured with imprecision.
 	
-	Cornbleet and Cochrane remark that clinical laboratory measurements usually increase in absolute imprecision when larger values are measured.
+\citet{CornCoch} remark that clinical laboratory measurements usually increase in absolute imprecision when larger values are measured.
 	
-	
-	
-
-	
-	
-	\subsubsection{Model II regression}
+\subsubsection{Model II regression}
 In this type of analysis, both of the measurement methods are test methods, with both expected to be subject to error. Deming regression is an approach to model II regression.
 	
-		Model II regression method also calculates a line of best fit for two sets of data. It differs from Model I regression in that it is derived in a way that factors in for error in the x-axis, as well as the y-axis. \citet{CornCoch} refer to it as 'Model II regression'.
+Model II regression method also calculates a line of best fit for two sets of data. It differs from Model I regression in that it is derived in a way that factors in for error in the x-axis, as well as the y-axis. \citet{CornCoch} refer to it as 'Model II regression'.
 
 	
 
@@ -1210,21 +954,10 @@ In this type of analysis, both of the measurement methods are test methods, with
 	For single measurement method comparisons, Deming regression offers a useful complement to LME models.
 	
 	
+\subsection{Performance in the presence of Outliers}
+In common with all regression methods, Deming regression is vulnerable to outliers. 
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	\subsection{Performance in the presence of outliers}
-	All least square estimation methods are sensitive to outliers.
-	In common with all regression methods, Deming regression is vulnerable to outliers. 
-	
-	Bland Altman's 1986 paper contains a data set, measurement of mean velocity of circumferential fibre shortening (VCF) by the long axis and short axis in M-mode echocardiography. Evident in this data set are outliers. Choosing the most noticeable, we shall use the deming regression method on this data set, both with and
+\citet{BA86} contains a data set, measurement of mean velocity of circumferential fibre shortening (VCF) by the long axis and short axis in M-mode echocardiography. Evident in this data set are outliers. Choosing the most noticeable, we shall use the deming regression method on this data set, both with and
 	without this outlier, to assess its influence.
 	\begin{itemize}
 		\item In the presence of the outlier, the intercept and slope are estimated to be $-0.0297027$ and $1.0172959$ respectively.
@@ -1256,54 +989,12 @@ In this type of analysis, both of the measurement methods are test methods, with
 	
 	
 
-	\subsection{Using LME models to estimate the ratio (BXC) }
-	
-	\begin{eqnarray*}
-		y_{mi} &=& \mu + \beta_{m} + b_{i} + \epsilon_{mi}\\
-	\end{eqnarray*}
-	
-	with $\beta_{m}$ is a fixed effect for the method $m$ and $b_{i}$ is a random effect associated with patient $i$, and
-	$\epsilon_{mi}$ as the measurement error. This is a simple single level LME model. \citet{pb} provides for the implementation of fitting a model. The variance ratio of the residual variances is immediately determinable from the output. This variance ratio can be use to fit a Deming regression, as described in chapter 1.
-	
-	
-	
+
 	
 	
 
 	
-	%============================================================================= %
-	
-	
-	
-	
-	
-	\subsection{Ordinary Least Product Regression}
-	\citet{ludbrook97} states that the grouping structure can be
-	straightforward, but there are more complex data sets that have a hierarchical(nested) model.
-	
-	Observations between groups are independent, but observations
-	within each groups are dependent because they belong to the same
-	subpopulation. Therefore there are two sources of variation:
-	between-group and within-group variance.
-	% \vspace{5 mm} \noindent Mean correction is a method of reducing
-	%bias.
-	%-------------------------------------------------
-	
-	
-	
-	
-	\subsection{Least Products Regression}
-	Used as an alternative to Bland-Altman Analysis, this method is also known as 'Geometric Mean Regression' and 'Reduced Major Axis Regression'. This regression model minimizes the areas of the right triangles formed by the data points' vertical and horizontal deviations from the fitted line and the fitted line.
-	
-	Model II regression analysis caters for cases in which random error is attached to both dependent and independent variables. Comparing methods of measurement is just such a case.(Ludbrook)
-	
-	Least products regression is the Ludbrookes preferred technique for analysing the Model II case. In this, the sum of the products of the vertical and horizontal deviations of the x,y values from the line is minimized.
-	
-	Least products regression analysis is suitable for calibrating one method against another. It is also a sensitive technique for detecting and distinguishing fixed and proportional bias between
-	methods.
-	
-	Least-products regression can lead to inflated SEEs and estimates that do not tend to their true values an N approaches infinity (Draper and Smith, 1998).
-	
+
 	
 	
 	\bibliographystyle{chicago}
