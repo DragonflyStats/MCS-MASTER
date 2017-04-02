@@ -60,36 +60,48 @@
 \tableofcontents
 \newpage
 	\section{LME Models in Method Comparison Studies}
-	Linear mixed effects (LME) models can facilitate greater understanding of the potential causes of bias and differences in precision between two sets of measurement. Due to computation complexity, linear mixed effects models have not seen widespread use until many well known statistical software applications began facilitating them. Consequently LME approaches have seen increased use as a framework for method comparison studies in recent years (Lai $\&$ Shaio, \citet{BXC2004,BXC2008} and \citet{pkc2006} as examples).
+	Linear mixed effects (LME) models can facilitate greater understanding of the potential causes of bias and differences in precision between two sets of measurement. Due to computation complexity, LME models have not seen widespread use until many well known statistical software applications began facilitating them. Consequently LME approaches have seen increased use as a framework for method comparison studies in recent years (Lai $\&$ Shaio, \citet{BXC2004,BXC2008} and \citet{ARoy2009} as examples).
 	
 	
 	In part this is due to the increased profile of LME models, and furthermore the availability of capable software. Additionally a great understanding of residual analysis and influence analysis for LME models has been adchieved thanks to authors such as \citet{schabenberger}, \citet{Christensen}, \citet{cook86} \citet{west}, amongst others.
 	
-\citet{BXC2008} advocates the adoption of computer based approaches to method comparison studies, allowing the use of LME models that would not have been feasible otherwise. These authors remark that modern statistical computation, such as that used for LME models, greatly improve the efficiency of calculation compared to previous `by-hand' approaches, as advocated in \citet{BA99}, describing them as tedious, unnecessary and `outdated'. Rather than using the `by hand' methods, estimates for required LME parameters can be read directly from program output. Furthermore, using computer approaches removes associated constraints, such as the need for the design to be perfectly balanced.
+\citet{BXC2008} advocates the adoption of computer based approaches to method comparison studies, allowing the use of LME models that would not have been feasible otherwise. These authors remark that modern statistical computation, such as that used for LME models, greatly improve the efficiency of calculation compared to previous `by-hand' approaches, as advocated in \citet{BA99}, describing them as tedious, unnecessary and outdated. Instead estimates for required LME parameters can be read directly from program output. Furthermore, using computer approaches removes associated constraints, such as the need for the design to be perfectly balanced.
 
 
 
 
 \subsection{Test For Inter-Method Bias in the LME Frameworks}
-The presence of an inter-method bias is the source of disagreement between two methods of measurement that is most easily identified. This inter-method bias is specified as a fixed effect in the LME model, and interpretation of the results poses not difficulty to a trained practitioner.
+The presence of an inter-method bias is the source of disagreement between two methods of measurement that is most easily identified. A formal test for inter-method bias can be implemented by examining the fixed effects of the model. This inter-method bias can be specified as a fixed effect in the LME model. This is common to well known classical linear model methodologies, and interpretation of the results should pose not difficulty to a trained practitioner.
+
+The null hypotheses, that both methods have the same mean, which is tested against the alternative hypothesis, that both methods have different means.
 
 % Three hypothesis tests follow from this equation.
 As the first in a series of hypothesis tests, \citet{ARoy2009} presents a formal test for inter-method bias. With the null and alternative hypothesis denoted $H_1$ and $K_1$ respectively, this test is formulated as
-\[	\operatorname{H_1} : \mu_1 = \mu_2 ,\]
-\[	\operatorname{K_1} : \mu_1 \neq \mu_2.\]
-A formal test for inter-method bias can be implemented by examining the fixed effects of the model. This is common to well known classical linear model methodologies. The null hypotheses, that both methods have the same mean, which is tested against the alternative hypothesis, that both methods have different means. The inter-method bias and necessary test statistic and $p-$value are presented in computer output. 
+\begin{eqnarray}
+	\operatorname{H_1} : \mu_1 = \mu_2 ,\\
+	\operatorname{K_1} : \mu_1 \neq \mu_2.
+\end{eqnarray}
+ The inter-method bias and necessary test statistic and $p-$value are presented in computer output. 
 %================================================================%
 
 \subsection{Carstensen's LME Framework for Method Comparison}
 
-\cite{BXC2004,BXC2008} advocate a LME model for the purpose of comparing two methods of measurement where replicate measurements are available on each item. Their interest lies in generalizing the limits-of-agreement (LOA) method developed by \citet{BA86} to take proper cognizance of the replicate measurements. These limits of agreement based upon variance component estimates derived using linear mixed effects models. 
-\citet{BXC2004} proposes linear mixed effects models for deriving conversion calculations similar to Deming's regression, and for estimating variance components for measurements by different methods. 
+\citet{BXC2008} demonstrate statistical flaws with two approaches proposed by \citet{BA99} for the purpose of calculating the variance of the inter-method bias when replicate measurements are available.
+
+These authors advocate a LME model for the purpose of comparing two methods of measurement where replicate measurements are available on each item. 
+
+Instead, they recommend a fitted mixed effects model to obtain appropriate estimates for the variance of the inter-method bias.
+
+These estimates are based upon variance component estimates derived using LME models. These models estimate variance components for measurements by different methods. 
+
+As their interest mainly lies in extending the Bland-Altman approach, other formal tests are not considered.Their interest lies in generalizing the limits-of-agreement (LOA) method developed by \citet{BA86} to take proper cognizance of the replicate measurements.  Estimation of repeatability is included in this framework.
+
 \citet{BXC2004} presents a model to describe the relationship between a value of measurement and its real value. The non-replicate case is considered first, as it is the context of the Bland Altman plots. This model assumes that inter-method bias is the only difference between the two methods. A measurement $y_{mi}$ by method $m$ on individual $i$ is formulated as follows:
 \begin{equation}
 y_{mi}  = \alpha_{m} + \mu_{i} + e_{mi} \qquad ( e_{mi} \sim
 N(0,\sigma^{2}_{m})).
 \end{equation}
-\citet{BXC2008} demonstrate statistical flaws with two approaches proposed by \citet{BA99} for the purpose of calculating the variance of the inter-method bias when replicate measurements are available. Instead, they recommend a fitted mixed effects model to obtain appropriate estimates for the variance of the inter-method bias. As their interest mainly lies in extending the Bland-Altman approach, other formal tests are not considered. Measures of repeatability, a characteristic of individual methods of measurements, are also derived using this method.
+
 
 
 
@@ -100,7 +112,7 @@ For the replicate case, a measurement $y_{mi}$ by method $m$ on individual $i$ t
 y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + a_{ir} + \epsilon_{mir}, \qquad \quad c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}) , a_{ir} \sim \mathcal{N}(0,\varsigma^{2}),  \varepsilon_{mi} \sim \mathcal{N}(0,\varphi^{2}_{m}) .
 \end{equation}
 
-Let $y_{mir}$ denote the $r$th replicate measurement on the $i$th item by the $m$th method, where $m=1,2$ ; $i=1,\ldots,N;$ and $r = 1,\ldots,n_i.$ When the design is balanced and there is no ambiguity we can set $n_i=n$. The variation between items for method $m$ is captured by $\sigma_m$ and the within item variation by $\tau_m$.
+When the design is balanced and there is no ambiguity we can set $n_i=n$. The variation between items for method $m$ is captured by $\sigma_m$ and the within item variation by $\tau_m$.
 
 Using Carstensen's notation, a measurement $y_{mi}$ by method $m$ on individual $i$ the measurement $y_{mir} $ is the $r$th replicate measurement on the $i$th item by the $m$th method, where $m=1,2,$ $i=1,\ldots,N,$ and $r = 1,\ldots,n_i$ is formulated as follows;
 
@@ -109,14 +121,12 @@ y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + \epsilon_{mir}, \qquad  e_{mi}
 \sim \mathcal{N}(0,\sigma^{2}_{m}), \quad c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}).
 \end{equation}
 
-Here the terms $\alpha_{m}$ and $\mu_{i}$ represent the fixed effect for method $m$ and a true value for item $i$ respectively. The random effect terms comprise an interaction term $c_{mi}$ and the residuals $\epsilon_{mir}$.
-The $c_{mi}$ term represent random effect parameters corresponding to the two methods, having $\mathrm{E}(c_{mi})=0$ with $\mathrm{Var}(c_{mi})=\tau^2_m$. 
 
 Here the terms $\alpha_{m}$ and $\mu_{i}$ represent the fixed effect for method $m$ and a true value for item $i$ respectively. The random effect terms comprise an interaction term $c_{mi}$ and the residuals $\varepsilon_{mir}$. The $c_{mi}$ term represent random effect parameters corresponding to the two methods, having $\mathrm{E}(c_{mi})= 0$ with $\mathrm{Var}(c_{mi})=\tau^2_m$.  
 	
 Carstensen specifies the variance of the interaction terms as being univariate normally distributed. As such, $\mathrm{Cov}(c_{mi}, c_{m^\prime i})= 0.$ All the random effects are assumed independent, and that all replicate measurements are assumed to be exchangeable within each method.
 	
-The random error term for each response is denoted $\varepsilon_{mir}$ having $\mathrm{E}(\varepsilon_{mir})=0$, $\mathrm{Var}(\varepsilon_{mir})=\varphi^2_m$. All the random effects are assumed independent, and that all replicate measurements are assumed to be exchangeable within each method.
+The random error term for each response is denoted $\varepsilon_{mir}$ having $\mathrm{E}(\varepsilon_{mir})=0$, $\mathrm{Var}(\varepsilon_{mir})=\varphi^2_m$. 
 	
 The differences are expressed as $d_{i} = y_{1i} - y_{2i}$. For the replicate case, an interaction term $c$ is added to the model, with an associated variance component. All the random effects are assumed independent, and that all replicate measurements are assumed to be exchangeable within each method.
 	\begin{equation}
@@ -138,16 +148,12 @@ There is also the assumptions that observations of measurements by particular me
 
 
 	\citet{BXC2008} develop their model from a standard two-way analysis of variance model, reformulated for the case of replicate measurements, with random effects terms specified as appropriate.
-	Their model can be written as
-	%describing $y_{mir} $, again the $r$th replicate measurement on the $i$th item by the $m$th method ($m=1,2,$ %$i=1,\ldots,N,$ and $r = 1,\ldots,n$),
-	
-	\begin{equation}\label{BXC-model}
-	y_{mir}  = \alpha_{m} + \mu_{i} + a_{ir} + c_{mi} + \varepsilon_{mir}.
-	\end{equation}
-
 This model is
 formulated as follows, where $y_{mir}$ is the $r$th replicate
 measurement on subject $i$ with method $m$.
+
+	
+
 
 \begin{equation}
 y_{mir}  = \alpha_{m} + \beta_{m}\mu_{i} + c_{mi} + e_{mir} \qquad
@@ -158,13 +164,9 @@ respectively, in the presence of a real value $\mu_{i}.$ $c_{mi}$ is a interacti
 $e_{mir}$ is the residual associated with each observation.	Since variances are specific to each method, this model can be
 fitted separately for each method.
 
-
-
-\begin{equation}
-	y_{mir}  = \alpha_{m} + \beta_{m}\mu_{i} + c_{mi} + e_{mir} \qquad
-	( e_{mi} \sim N(0,\sigma^{2}_{m}), c_{mi} \sim N(0,\tau^{2}_{m}))
-\end{equation}
-This model includes a method by item interaction term.
+	\begin{equation}\label{BXC-model}
+	y_{mir}  = \alpha_{m} + \mu_{i} + a_{ir} + c_{mi} + \varepsilon_{mir}.
+	\end{equation}
 
 The fixed effects $\alpha_{m}$ and $\mu_{i}$ represent the intercept for method $m$ and the `true value' for item $i$ respectively. The random-effect terms comprise an item-by-replicate interaction term $a_{ir} \sim \mathcal{N}(0,\varsigma^{2})$, a method-by-item interaction term $c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}),$ and model error terms $\varepsilon_{mir} \sim \mathcal{N}(0,\varphi^{2}_{m}).$ All random-effect terms are assumed to be independent. For the case when replicate measurements are assumed to be exchangeable for item $i$, $a_{ir}$ can be removed. The model expressed in (2) describes measurements by $m$ methods, where $m = \{1,2,3\ldots\}$. 
 
@@ -187,7 +189,15 @@ With regards to specifying the variance terms, Carstensen remarks that using his
 %==================================================================== %
 \citet{BXC2008} presents a model where the variation between items for
 method $m$ is captured by $\sigma_m$ and the within item variation
-by $\tau_m$. It is not possible to estimate the interaction variance components $\tau^{2}_{1}$ and $\tau^{2}_{2}$ separately, and therefore they are assumed to be equal. The limits of agreement therefore are
+by $\tau_m$. 
+
+Based on the model expressed in (2), \citet{BXC2008} compute the limits of agreement as
+
+\[
+\alpha_1 - \alpha_2 \pm 2 \sqrt{ \tau^2_1 +  \tau^2_2 +  \varphi^2_1 +  \varphi^2_2 }
+\]
+
+It is not possible to estimate the interaction variance components $\tau^{2}_{1}$ and $\tau^{2}_{2}$ separately, and therefore they are assumed to be equal. The limits of agreement therefore are
 
 \[
 \hat{\alpha}_1 - \hat{\alpha}_2 \pm \sqrt{2 \hat{\tau}^2 +
@@ -195,15 +205,6 @@ by $\tau_m$. It is not possible to estimate the interaction variance components 
 \]
 
 
-
-Carstensen presents a model where the variation between items for
-method $m$ is captured by $\sigma_m$ and the within item variation
-by $\tau_m$.
-
-Based on the model expressed in (2), \citet{BXC2008} compute the limits of agreement as
-\[
-\alpha_1 - \alpha_2 \pm 2 \sqrt{ \tau^2_1 +  \tau^2_2 +  \varphi^2_1 +  \varphi^2_2 }
-\]
 \citet{BXC2008} notes that, for $m=2$,  separate estimates of $\tau^2_m$ can not be obtained. To overcome this, the assumption of equality, i.e. $\tau^2_1 = \tau^2_2$ is required.
 
 
@@ -215,11 +216,7 @@ as
 	\hat{\sigma}^2_1 + \hat{\sigma}^2_2}
 \]
 	
-%Carstensen specifies the variance of the interaction terms as being univariate normally distributed. As such, $\mathrm{Cov}(c_{mi}, c_{m^\prime i})= 0.$
-	
-	When only two methods are to be compared, separate estimates of $\tau^2_m$ can not be obtained. Instead the average value $\tau^2$ is obtained and used.
-	
-	
+
 
 	
 	%---Carstensen's limits of agreement
@@ -242,27 +239,10 @@ as
 	\citet{BXC2008} proposes a framework to calculate prediction
 	intervals in the presence of replicate measurements, overcoming
 	problems associated with Bland-Altman approach in this regard.
-	It is not possible to estimate the interaction variance components
-	$\tau^{2}_{1}$ and $\tau^{2}_{2}$ separately. Therefore it must be
-	assumed that they are equal. 
-	
+
 	
 	\subsection{Carstensen Methods}
-	
 
-	\begin{equation}
-	y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + e_{mir} \qquad ( e_{mi}
-	\sim N(0,\sigma^{2}_{m}), c_{mi} \sim N(0,\tau^{2}_{m}))
-	\end{equation}
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	
-	
-	
-	Carstensen \textit{et al} \cite{BXC2004} also advocates the use of linear mixed models in the study of method comparisons. 
-	
-	
-	The model is constructed to describe the relationship between a value of measurement and its real value.
-	
 	A measurement $y_{mi}$ by method $m$ on individual $i$ is
 	formulated as follows;
 	
@@ -342,13 +322,15 @@ Roy further proposes examination of the the overall variability by considering t
 	
 For the purposes of comparing two methods of measurement, \citet{ARoy2009} presents a framework utilizing LME models. This approach provides for the formal testing of inter-method bias, between-subject variability and within-subject variability of two methods. The formulation contains a Kronecker product covariance structure in a doubly multivariate setup. By doubly multivariate set up, Roy means that the information on each patient or item is multivariate at two levels, the number of methods and number of replicated measurements. Further to \citet{lam}, it is assumed that the replicates are linked over time. However it is easy to modify to the unlinked case.
 	
-	\citet{ARoy2009} proposes a suite of hypothesis tests for assessing the agreement of two methods of measurement, when replicate measurements are obtained for each item, using a LME approach. The tests are implemented by fitting a specific LME model, and three variations thereof, to the data. These three variant models introduce equality constraints that act as null hypothesis cases.
+\citet{ARoy2009} proposes a suite of hypothesis tests for assessing the agreement of two methods of measurement, when replicate measurements are obtained for each item, using a LME approach. The tests are implemented by fitting a specific LME model, and three variations thereof, to the data. These three variant models introduce equality constraints that act as null hypothesis cases.
 	
-	Two methods of measurement are in complete agreement if the null hypotheses $\mathrm{H}_1\colon \alpha_1 = \alpha_2$ and $\mathrm{H}_2\colon \sigma^2_1 = \sigma^2_2 $ and $\mathrm{H}_3\colon d^2_1= d^2_2$ hold simultaneously. \citet{ARoy2009} uses a Bonferroni correction to control the familywise error rate for tests of $\{\mathrm{H}_1, \mathrm{H}_2, \mathrm{H}_3\}$ and account for difficulties arising due to multiple testing. 
-	
+In addition to computing the inter-method bias, three significance tests are carried out on the respective formulations to make a judgement on whether or not two methods are in agreement. The difference in the models are specifically in how the the $D$ and $\Sigma$ matrices are constructed, using either an unstructured form or a compound symmetry form. The first model is compared against each of three other models successively. These tests are the pairwise comparison of candidate models, one formulated without constraints, the other with a constraint.
+
 
 	
-	Importantly \citet{ARoy2009} further proposes a series of three tests on the variance components of an LME model, which allow decisions on the second and third of Roy's criteria. For these tests, four candidate LME models are constructed. The differences in the models are specifically in how the the $D$ and $\Lambda$ matrices are constructed, using either an unstructured form or a compound symmetry form. To illustrate these differences, consider a generic matrix $A$,
+Four candidates models are fitted to the data. These models are similar to one another, but for the imposition of equality constraints. The tests are implemented by fitting a four variants of a specific LME model to the data. For the purpose of comparing models, one of the models acts as a reference model while the three other variant are nested models that introduce equality constraints to serves as null hypothesis cases. The framework uses a linear mixed effects regression fit using a combination of symmetric and compound symmetry (CS) correlation structure the variance covariance matrices.	
+	
+ For these tests, four candidate LME models are constructed. The differences in the models are specifically in how the the $D$ and $\Lambda$ matrices are constructed, using either an unstructured form or a compound symmetry form. To illustrate these differences, consider a generic matrix $A$,
 	
 	\[
 	\boldsymbol{A} = \left( \begin{array}{cc}
@@ -378,48 +360,17 @@ Here $\beta_0$ and $\beta_m$ are fixed-effect terms representing, respectively, 
 	%	\citet{ARoy2009} proposes a novel method using the LME model with Kronecker product covariance structure in a doubly multivariate set-up to assess the agreement between a new method and an established method with unbalanced data and with unequal replications for different subjects.
 	Response for $i$th subject can be written as
 	\[ y_i = \beta_0 + \beta_1x_{i1} + \beta_2x_{i2} + b_{1i}z_{i1}  + b_{2i}z_{i2} + \epsilon_i \]
-	\begin{itemize}
-		\item $\beta_1$ and $\beta_2$ are fixed effects corresponding to both methods. ($\beta_0$ is the intercept.)
-		\item $b_{1i}$ and $b_{2i}$ are random effects corresponding to both methods.
-	\end{itemize}
 	
 	In order to express Roy's LME model in matrix notation we gather all $2n_i$ observations specific to item $i$ into a single vector  $\boldsymbol{y}_{i} = (y_{1i1},y_{2i1},y_{1i2},\ldots,y_{mir},\ldots,y_{1in_{i}},y_{2in_{i}})^\prime.$ 
 	
 \subsection{Roy's Tests of Variances}
 	
-The first candidate model is compared to each of the three other models successively. It is the alternative model in each of the three tests, with the other three models acting as the respective null models. The models are compared using the likelihood ratio test, a general method for comparing nested models fitted by ML \citep{Lehmann2006}.
-	
-	%	The first model acts as an alternative hypothesis to be compared against each of three other models, acting as null hypothesis models, successively. The models are compared using the likelihood ratio test. Likelihood ratio tests are a class of tests based on the comparison of the values of the likelihood functions of two candidate models. 
-	The first test allows of the comparison the begin-subject variability of two methods. Similarly, the second test assesses the within-subject variability of two methods. A third test is a test that compares the overall variability of the two methods. Other important aspects of the method comparison study are consequent. The limits of agreement are computed using the results of the first model.
-	%	\begin{eqnarray*}
-	%		\operatorname{H_2} : g^2_1 = g^2_2 \\
-	%		\operatorname{K_2} : g^2_1 \neq g^2_2
-	%	\end{eqnarray*}%and a formal test for the equality of within-item variances.
-	\begin{eqnarray*}
-		\operatorname{H_3} : \sigma^2_1 = \sigma^2_2 \\
-		\operatorname{K_3} : \sigma^2_1 \neq \sigma^2_2
-	\end{eqnarray*}
-	A formal test for the equality of overall variances is also presented.
-	\begin{eqnarray*}
-		\operatorname{H_4} : \omega^2_1 = \omega^2_2 \\
-		\operatorname{K_4} : \omega^2_1 \neq \omega^2_2
-	\end{eqnarray*}
-	
-	Two methods can be considered to be in agreement if criteria based upon these techniques are met. Additionally Roy makes reference to the overall correlation coefficient of the two methods, which is determinable from variance estimates.
-	
-	Conversely, the tests of variability required detailed explanation. Each test is performed by fitting two candidate models, according with the null and alternative hypothesis respectively. The distinction between the models arise in the specification in one, or both, of the variance-covariance matrices. % A likelihood ratio test can then be used to compare these respective fits.
-	%---------------------------------------------%
-	
-	Four candidates models are fitted to the data. These models are similar to one another, but for the imposition of equality constraints. The tests are implemented by fitting a four variants of a specific LME model to the data. For the purpose of comparing models, one of the models acts as a reference model while the three other variant are nested models that introduce equality constraints to serves as null hypothesis cases. The framework uses a linear mixed effects regression fit using a combination of symmetric and compound symmetry (CS) correlation structure the variance covariance matrices.
-	
-	%============================================================================ %
+
 	
 
-	\subsection{Model Specification}
 \citet{ARoy2009} proposes a series of three tests on the variance components of an LME model. For these tests, four candidate models are fitted to the data, each differing by various constraints applied to the variance covariance matrices. 
 
-In addition to computing the inter-method bias, three significance tests are carried out on the respective formulations to make a judgement on whether or not two methods are in agreement. The difference in the models are specifically in how the the $D$ and $\Sigma$ matrices are constructed, using either an unstructured form or a compound symmetry form. The first model is compared against each of three other models successively. These tests are the pairwise comparison of candidate models, one formulated without constraints, the other with a constraint.
-	
+
 	
 	
 	 Three tests of hypothesis are provided, appropriate for evaluating the agreement between the two methods of measurement under this sampling scheme. 
@@ -431,7 +382,20 @@ In addition to computing the inter-method bias, three significance tests are car
 		H_{A}: \mbox{ }d_{1}  \neq d_{2}
 	\end{eqnarray*}
 	This test is facilitated by constructing a model specifying a symmetric form for $D$ (i.e. the alternative model) and comparing it with a model that has compound symmetric form for $D$ (i.e. the null model). For this test ${\hat{\Sigma}}$ has a symmetric form for both models, and will be the same for both.
-	
+
+The first candidate model is compared to each of the three other models successively. It is the alternative model in each of the three tests, with the other three models acting as the respective null models. The models are compared using the likelihood ratio test, a general method for comparing nested models fitted by ML \citep{Lehmann2006}.
+
+%	The first model acts as an alternative hypothesis to be compared against each of three other models, acting as null hypothesis models, successively. The models are compared using the likelihood ratio test. Likelihood ratio tests are a class of tests based on the comparison of the values of the likelihood functions of two candidate models. 
+The first test allows of the comparison the begin-subject variability of two methods. Similarly, the second test assesses the within-subject variability of two methods. A third test is a test that compares the overall variability of the two methods. Other important aspects of the method comparison study are consequent. The limits of agreement are computed using the results of the first model.
+%	\begin{eqnarray*}
+%		\operatorname{H_2} : g^2_1 = g^2_2 \\
+%		\operatorname{K_2} : g^2_1 \neq g^2_2
+%	\end{eqnarray*}%and a formal test for the equality of within-item variances.
+\begin{eqnarray*}
+	\operatorname{H_3} : \sigma^2_1 = \sigma^2_2 \\
+	\operatorname{K_3} : \sigma^2_1 \neq \sigma^2_2
+\end{eqnarray*}
+
 	%---------------------------------------------%
 	\subsubsection{Variability Test 2}
 	
@@ -449,6 +413,15 @@ In addition to computing the inter-method bias, three significance tests are car
 	\subsubsection{Variability Test 3}
 	Roy also integrates $\mathrm{H}_2$ and $\mathrm{H}_3$ into a single testable hypothesis $\mathrm{H}_4\colon \omega^2_1=\omega^2_2,$ where $\omega^2_m = \sigma^2_m + d^2_m$ represent the overall variability of method $m.$ \citet{ARoy2009} further proposes examination of the the overall variability by considering the second and third criteria be examined jointly. Should both the second and third criteria be fulfilled, then the overall variabilities of both methods would be equal. An examination of this topic is useful because a method for computing Limits of Agreement follows from here.
 	
+A formal test for the equality of overall variances is also presented.
+\begin{eqnarray*}
+	\operatorname{H_4} : \omega^2_1 = \omega^2_2 \\
+	\operatorname{K_4} : \omega^2_1 \neq \omega^2_2
+\end{eqnarray*}
+
+Two methods can be considered to be in agreement if criteria based upon these techniques are met. Additionally Roy makes reference to the overall correlation coefficient of the two methods, which is determinable from variance estimates.
+
+Conversely, the tests of variability required detailed explanation. Each test is performed by fitting two candidate models, according with the null and alternative hypothesis respectively. The distinction between the models arise in the specification in one, or both, of the variance-covariance matrices. % A likelihood ratio test can then be used to compare these respective fits.
 	
 	
 	
@@ -489,22 +462,25 @@ In addition to computing the inter-method bias, three significance tests are car
 	
 	The null model is constructed a symmetric form for both $\boldsymbol{\hat{D}}$ and $\boldsymbol{\hat{\Lambda}}$ while the alternative model uses a compound symmetry form for both.
 	
- Importantly, Carstensen's underlying model differs from Roy's model in some key respects, and therefore a prior discussion of Carstensen's model is required. The method of computation is the
- same as Roy's model, but with the covariance estimates set to zero.
- 
- In cases where there is negligible covariance between methods, the limits of agreement computed using Roy's model accord with those computed using Carstensen's model. In cases where some degree of
- covariance is present between the two methods, the limits of agreement computed using models will differ. In the presented
- example, it is shown that Roy's LOAs are lower than those of Carstensen, when covariance is present.
+
  
 \section{Comparing MCS Approaches }	
 	%%---Comparative Complexity
 Roy's tests afford the opportunity to expand upon Carstensen's approach. 
 
+ Importantly, Carstensen's underlying model differs from Roy's model in some key respects, and therefore a prior discussion of Carstensen's model is required. The method of computation is the
+ same as Roy's model, but with the covariance estimates set to zero.
+ 
+
+ 
+ 
 There is a substantial difference in the number of fixed parameters used by the respective models; the model in (\ref{ARoy2009-model}) requires two fixed effect parameters, i.e. the means of the two methods, for any number of items $N$, whereas the model in (\ref{BXC-model}) requires $N+2$ fixed effects.
 
 	
 	%---Key difference 1---The True Value
-	%---Colollary -- Difference in model types
+ In cases where there is negligible covariance between methods, the limits of agreement computed using Roy's model accord with those computed using Carstensen's model. In cases where some degree of
+ covariance is present between the two methods, the limits of agreement computed using models will differ. In the presented
+ example, it is shown that Roy's LOAs are lower than those of Carstensen, when covariance is present.
 	
 The presence of the true value term $\mu_i$ gives rise to an important difference between Carstensen's and Roys's models. The fixed effect of Roy's model comprise of an intercept term and fixed effect terms for both methods, with no reference to the true value of any individual item. In other words, Roy considers the group of items being measured as a sample taken from a population. Therefore a distinction can be made between the two models: Roy's model is a standard LME model, whereas Carstensen's model is a more complex additive model.
 
@@ -545,27 +521,8 @@ In the presented example, it is shown that Roys's LoAs are lower than those of C
 	Also, implementation requires that the between-item variances are estimated as the same value: $g^2_1 = g^2_2 = g^2$.
 	As a consequence, Carstensen's method does not allow for a formal test of the between-item variability.
 	
-	
-	
-	\[\left(\begin{array}{cc}
-	\omega^1_2  & 0 \\
-	0 & \omega^2_2 \\
-	\end{array}  \right)
-	=  \left(
-	\begin{array}{cc}
-	\tau^2  & 0 \\
-	0 & \tau^2 \\
-	\end{array} \right)+
-	\left(
-	\begin{array}{cc}
-	\sigma^2_1  & 0 \\
-	0 & \sigma^2_2 \\
-	\end{array}\right)
-	\]
-	
-	%---Key difference 1---The True Value
-	%---Colollary -- Difference in model types
-	The presence of the true value term $\mu_i$ gives rise to an important difference between Carstensen's and ARoy2009's models. The fixed effect of ARoy2009's model comprise of an intercept term and fixed effect terms for both methods, with no reference to the true value of any individual item. In other words, Roy considers the group of items being measured as a sample taken from a population. Therefore a distinction can be made between the two models: ARoy's model is a standard LME model, whereas Carstensen's model is a more complex additive model.
+
+
 \section{Agreement Criteria for Replicate Measurements}	
 
 
