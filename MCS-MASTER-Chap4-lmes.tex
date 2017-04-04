@@ -66,25 +66,14 @@
 %	\citet{BXC2008} and \citet{ARoy2009} highlight the need for method comparison methodologies suitable for use in the presence of replicate measurements. \citet{ARoy2009} presents a comprehensive methodology for assessing the agreement of two methods, for replicate measurements. This methodology has the added benefit of overcoming the problems of unbalanced data and unequal numbers of replicates. Implementation of the methodology, and interpretation of the results, is relatively easy for practitioners who have only basic statistical training. Furthermore, it can be shown that widely used existing methodologies, such as the limits of agreement, can be incorporated into Roy's methodology.
 %	
 %	
-%	While the method comparison problem is conventionally poised in the context of two methods of measurements, LME models allow for a straightforward analysis whereby several methods of measurement can be measured simulataneously. However simple models only can only indicate agreement of lack thereof, and the presence of inter-method bias. To consider more complex questions, more complex LME models are required.  Useful approaches will be introduced in a later section.
+%	  
 
-			\chapter{Linear Mixed Effects Models}
-
-
-In cases where there are repeated measurements by each of the two methods on the same subjects, \citet{BA99} suggest calculating
-the mean for each method on each subject and use these pairs of means to compare the two methods. The estimate of bias will be unaffected using this approach, but the estimate of the standard deviation of the differences will be incorrect \citep{BXC2004}. \citet{BXC2004} recommends that replicate measurements be used for each method, but recognizes that resulting data are more difficult to analyze. To this end, \citet{BXC2004} and \citet{BXC2008} recommend the use of LME models as a suitable framework for method comparison in the case of repeated measurements.
-\citet{ARoy2009} uses an LME model approach to provide a set of formal tests for method comparison studies.
-
-Several authors, such as \citet{gkelly1985} and \citet{voelkel2005center}, recommend the use of Structural Equation Model from method comparison problems.
-Structural equation modelling provides a statistically rigourous analysis, but the approach is undermined in several ways.  Highly complex models can be developed using SEM, but to overcome the problem of identifiability, a large quantity of data must be gathered. Often this is beyond what is practical in the main applications of method comparison studies, namely the medical sciences.  Once simplifications are applied, there is little functional difference between SEM and LMEs.
-Furthermore LME models have greater flexibility and can be adapted to any variant of the method comparison research question.
-
-			\section{Linear Mixed effects Models}
-			A linear mixed effects (LME) model is a statistical model containing both fixed effects and random effects (also known as variance components). LME models are a generalization of the classical linear model, which contain fixed effects only. When the levels of factors are considered to be sampled from a population,
-			and each level is not of particular interest, they are considered random quantities with associated variances.
-			The effects of the levels, as described, are known as random effects. Random effects are represented by unobservable
-			normally distributed random variables. Conversely fixed effects are considered non-random and the
-			levels of each factor are of specific interest.
+\chapter{Linear Mixed Effects Models}
+While the method comparison problem is conventionally poised in the context of two methods of measurements, LME models allow for a straightforward analysis whereby several methods of measurement can be measured simulataneously. However simple models only can only indicate agreement of lack thereof, and the presence of inter-method bias. To consider more complex questions, more complex LME models are required.			
+\section{Linear Mixed Effects Models}
+A linear mixed effects (LME) model is a statistical model containing both fixed effects and random effects (also known as variance components). LME models are a generalization of the classical linear model, which contain fixed effects only. When the levels of factors are considered to be sampled from a population, and each level is not of particular interest, they are considered random quantities with associated variances.
+			
+The effects of the levels, as described, are known as random effects. Random effects are represented by unobservable normally distributed random variables. Conversely fixed effects are considered non-random and the levels of each factor are of specific interest.
 			%LME models are useful models when considering repeated measurements or grouped observations.
 			
 			\citet{Fisher4} introduced variance components models for use in genetical studies. Whereas an estimate for variance must take an non-negative value, an individual variance component, i.e.\ a component of the overall variance, may be negative.
@@ -373,137 +362,6 @@ where \cite{YLee} describe $\psi = 0$ as quasi-data with mean $\mathrm{E}(\psi) 
 		
 		%------------------------------------------------------------------------------%
 
-		\subsection{Formulation of the Response Vector}
-		Information of individual $i$ is recorded in a response vector $\boldsymbol{y}_{i}$. The response vector is constructed by stacking the response of the $2$ responses at the first instance, then the $2$ responses at the second instance, and so on. Therefore the response vector is a $2n_{i} \times 1$ column vector.
-		The covariance matrix of $\boldsymbol{y_{i}}$ is a $2n_{i} \times 2n_{i}$ positive definite matrix $\boldsymbol{\Omega}_{i}$.
-		
-		Consider the case where three measurements are taken by both methods $A$ and $B$, $\boldsymbol{y}_{i}$ is a $6 \times 1$ random vector describing the $i$th subject.
-		\[
-		\boldsymbol{y}_{i} = (y_{i}^{A1},y_{i}^{B1},y_{i}^{A2},y_{i}^{B2},y_{i}^{A3},y_{i}^{B3}) \prime
-		\]
-		
-		The response vector $\boldsymbol{y_{i}}$ can be formulated as an LME model according to Laird-Ware form.
-		\begin{eqnarray*}
-			\boldsymbol{y_{i}} = \boldsymbol{X_{i}\beta}  + \boldsymbol{Z_{i}b_{i}} + \boldsymbol{\epsilon_{i}}\\
-			\boldsymbol{b_{i}} \sim \mathcal{N}(\boldsymbol{0,D})\\
-			\boldsymbol{\epsilon_{i}} \sim \mathcal{N}(\boldsymbol{0,R_{i}})
-		\end{eqnarray*}
-		
-		Information on the fixed effects are contained in a three dimensional vector $\boldsymbol{\beta} = (\beta_{0},\beta_{1},\beta_{2})\prime$. For computational purposes $\beta_{2}$ is conventionally set to zero. Consequently $\boldsymbol{\beta}$ is the solutions of the means of the two methods, i.e. $E(\boldsymbol{y}_{i})  = \boldsymbol{X}_{i}\boldsymbol{\beta}$. The variance covariance matrix $\boldsymbol{D}$ is a general $2 \times 2$ matrix, while $\boldsymbol{R}_{i}$ is a $2n_{i} \times 2n_{i}$ matrix.
-		
-		%------------------------------------------------------------------------------%
-
-		\subsection{Correlation Terms}
-
-	\citet{hamlett} demonstrated how the between-subject and within subject variabilities can be expressed in terms of
-	correlation terms with D and $\Sigma$ specified as follows:
-	
-	\[
-	{D} = \left( \begin{array}{cc}
-	\sigma^2_{A}\rho_{A} & \sigma_{A}\sigma_{b}\rho_{AB}\delta \\
-	\sigma_{A}\sigma_{b}\rho_{AB}\delta & \sigma^2_{B}\rho_{B}\\
-	
-	\end{array}\right)
-\qquad
-	l{\Sigma} = \left(
-	\begin{array}{cc}
-	\sigma^2_{A}(1-\rho_{A}) & \sigma_{AB}(1-\delta)  \\
-	\sigma_{AB}(1-\delta) & \sigma^2_{B}(1-\rho_{B}) \\
-	\end{array}\right).
-	\]
-	
-	$\rho_{A}$ describe the correlations of measurements made by the method $A$ at different times. Similarly $\rho_{B}$ describe the correlation of measurements made by the method $B$ at different times. Correlations among repeated measures within the same method are known as intra-class correlation coefficients.  The correlation of measurements taken at the same same time by both methods is denoted $\rho_{AB}$. The coefficient $\delta$ is added for when the measurements are taken at different times, and is a constant of less than $1$ for linked replicates. This is based on the assumption that linked replicates measurements taken at the same time would have greater correlation than those taken at different times. For unlinked replicates $\delta$ is simply $1$. \citet{hamlett} provides a useful graphical depiction of the role of each correlation coefficients.
-	
-	\citet{lam} used ML estimation to estimate the true correlation between the variables when the measurements are linked over time. The methodology relies on the assumption that the two variables with repeated measures follow a multivariate normal distribution. The methodology currently does not extend to any more than two cases. The MLE of the correlation takes into account the dependency among repeated measures.
-	
-	The true correlation $\rho_{xy}$ is repeated measurements can be considered as having two components: between subject and within-subject correlation. The usefulness of estimating repeated measure correlation coefficients is the calculation of between-method and within-method variabilities are produced as by-products.
-	
-%=========================================================================================================== %
-\subsubsection{The Variance Covariance Matrix}
-		The LME model can be written
-		\[
-		mathrm{y_{i}} = \mathrm{X_{i}\beta} + \mathrm{Z_{i}b_{i}} + \mathrm{\epsilon_{i}},
-		\]
-		where $\boldsymbol{\beta}=(\beta_0,\beta_1,\beta_2)^\prime$ is a vector of fixed effects, and $\boldsymbol{X}_i$ is a corresponding $2n_i\times 3$ design matrix for the fixed effects. The random effects are expressed in the vector $\boldsymbol{b}=(b_1,b_2)^\prime$, with $\boldsymbol{Z}_i$ the corresponding $2n_i\times 2$ design matrix. The vector $\boldsymbol{\epsilon}_i$ is a $2n_i\times 1$ vector of residual terms. Random effects and residuals are assumed to be independent of each other.
-	The variance matrix of \textbf{Y}, denoted \textbf{V}, is an $n \times n$ matrix that can be expressed
-	as 
-	\begin{eqnarray}
-	\textbf{V}= \textrm{Var} ( \textbf{Xb} + \textbf{Zb} + \textbf{e})\\
-	\textbf{V}= \textrm{Var} ( \textbf{Xb} ) + \textrm{Var} (\textbf{Zb}) +
-	\textrm{Var}(\textbf{e}),
-	\end{eqnarray}
-	
-	
-and $\operatorname{Var}(\textbf{Xb})$ is known to be zero. The variance of the
-	random effects $\mbox{Var}(\textbf{Zu})$ can be written as
-	$Z\mbox{Var}(\textbf{b})Z^{T}$.
-	\[
-	\mathrm{var}
-	\left(
-	\begin{array}{c}
-	b \\
-	\epsilon \\
-	\end{array}
-	\right)
-	=
-	\left(
-	\begin{array}{cc}
-	D & 0 \\
-	0 & \Sigma \\
-	\end{array}
-	\right)
-	\]
-	
-	
-	
-	
-	where $D$ and $\Sigma$ are positive definite matrices parameterized by an unknown variance component parameter vector $ \theta.$ The variance-covariance matrix for the vector of observations $y$ is given by $V = ZDZ^{\prime}+ \Sigma.$ This implies $y \sim(X\beta, V) = (X\beta,ZDZ^{\prime}+ \Sigma)$. 
-			
-		$\boldsymbol{R}_{i}$ is the variance covariance matrix for the residuals, i.e. the within-item sources of variation between both methods. Computational analysis of linear mixed effects models allow for the explicit analysis of both $\boldsymbol{D}$ and $\boldsymbol{R_i}$.
-		The above terms can be used to express the  variance covariance matrix $\boldsymbol{\Omega}_i$ for the responses on item $i$ ,
-		\[
-		\boldsymbol{\Omega}_i = \boldsymbol{Z}_i \boldsymbol{D} \boldsymbol{Z}_i^{\prime} + \boldsymbol{R}_i.
-		\]
-		%============================================================== %
-		
-		It is assumed that $\boldsymbol{b}_i \sim N(0,\boldsymbol{D})$, $\boldsymbol{\epsilon}_i$ is a matrix of random errors distributed as $N(0,\boldsymbol{R}_i)$ and that the random effects and residuals are independent of each other. Assumptions made on the structures of $\boldsymbol{D}$ and $\boldsymbol{R}_i$ will be discussed in due course.
-		
-		The random effects are assumed to be distributed as $\boldsymbol{b}_i \sim \mathcal{N}_2(0,\boldsymbol{D})$. The between-item variance covariance matrix $\boldsymbol{D}$ is constructed as follows:
-%		\[ \boldsymbol{D} =\left(
-%		\begin{array}{cc}
-%		d^2_1  & d_{12} \\
-%		d_{12} & d^2_2 \\
-%		\end{array}
-%		\right) \]
-		\[ \boldsymbol{D} = \mbox{Var}  \left[
-		\begin{array}{c}
-		b_1   \\
-		b_2  \\
-		\end{array}
-		\right] =  \left(
-		\begin{array}{cc}
-		d^2_1  & d_{12} \\
-		d_{12} & d^2_2 \\
-		\end{array}
-		\right) \]
-		
-
-	
-		%============================================================%
-		The distribution of the random effects is described as $\boldsymbol{b}_i \sim N(0,\boldsymbol{D})$. Similarly random errors are distributed as $\boldsymbol{\epsilon}_i \sim N(0,\boldsymbol{R}_i)$. The random effects and residuals are assumed to be independent. The variance-covariance matrix for the vector of observations $y$ is given by $V = ZDZ^{\prime}+ \Sigma.$ This implies $y \sim(X\beta, V) = (X\beta,ZDZ^{\prime}+ \Sigma)$. 
-	
-	
-	By letting $\operatorname{var}(b) = D$ (i.e $\textbf{b} ~ N(0,\textbf{D})$), this becomes $ZDZ^{T}$. This specifies the covariance due to random
-	effects. The residual covariance matrix $\operatorname{var}(e)$ is denoted as $R$, ($\textbf{e} ~ N(0,\textbf{R})$). Residual are uncorrelated,
-	hence \textbf{R} is equivalent to $\sigma^{2}$\textbf{I}, where \textbf{I} is the identity matrix. The variance matrix \textbf{V}
-	can therefore be written as:
-	
-	\begin{equation}
-	\textbf{V}  = \textbf{ZDZ}^{T} + \textbf{R}.
-	\end{equation}
-	
-	
-
 
 
 \section{Correlation Terms}
@@ -567,6 +425,119 @@ matrix are close to zero, the limits of agreement due to \citet{BXC2008} are ver
 
 
 
+
+		\subsection{Correlation Terms}
+		
+		\citet{hamlett} demonstrated how the between-subject and within subject variabilities can be expressed in terms of
+		correlation terms with D and $\Sigma$ specified as follows:
+		
+		\[
+		{D} = \left( \begin{array}{cc}
+		\sigma^2_{A}\rho_{A} & \sigma_{A}\sigma_{b}\rho_{AB}\delta \\
+		\sigma_{A}\sigma_{b}\rho_{AB}\delta & \sigma^2_{B}\rho_{B}\\
+		
+		\end{array}\right)
+		\qquad
+		l{\Sigma} = \left(
+		\begin{array}{cc}
+		\sigma^2_{A}(1-\rho_{A}) & \sigma_{AB}(1-\delta)  \\
+		\sigma_{AB}(1-\delta) & \sigma^2_{B}(1-\rho_{B}) \\
+		\end{array}\right).
+		\]
+		
+		$\rho_{A}$ describe the correlations of measurements made by the method $A$ at different times. Similarly $\rho_{B}$ describe the correlation of measurements made by the method $B$ at different times. Correlations among repeated measures within the same method are known as intra-class correlation coefficients.  The correlation of measurements taken at the same same time by both methods is denoted $\rho_{AB}$. The coefficient $\delta$ is added for when the measurements are taken at different times, and is a constant of less than $1$ for linked replicates. This is based on the assumption that linked replicates measurements taken at the same time would have greater correlation than those taken at different times. For unlinked replicates $\delta$ is simply $1$. \citet{hamlett} provides a useful graphical depiction of the role of each correlation coefficients.
+		
+		\citet{lam} used ML estimation to estimate the true correlation between the variables when the measurements are linked over time. The methodology relies on the assumption that the two variables with repeated measures follow a multivariate normal distribution. The methodology currently does not extend to any more than two cases. The MLE of the correlation takes into account the dependency among repeated measures.
+		
+		The true correlation $\rho_{xy}$ is repeated measurements can be considered as having two components: between subject and within-subject correlation. The usefulness of estimating repeated measure correlation coefficients is the calculation of between-method and within-method variabilities are produced as by-products.
+		
+		%=========================================================================================================== %
+		\subsection{The Variance Covariance Matrix}
+		The LME model can be written
+		\[
+		mathrm{y_{i}} = \mathrm{X_{i}\beta} + \mathrm{Z_{i}b_{i}} + \mathrm{\epsilon_{i}},
+		\]
+		where $\boldsymbol{\beta}=(\beta_0,\beta_1,\beta_2)^\prime$ is a vector of fixed effects, and $\boldsymbol{X}_i$ is a corresponding $2n_i\times 3$ design matrix for the fixed effects. The random effects are expressed in the vector $\boldsymbol{b}=(b_1,b_2)^\prime$, with $\boldsymbol{Z}_i$ the corresponding $2n_i\times 2$ design matrix. The vector $\boldsymbol{\epsilon}_i$ is a $2n_i\times 1$ vector of residual terms. Random effects and residuals are assumed to be independent of each other.
+		The variance matrix of \textbf{Y}, denoted \textbf{V}, is an $n \times n$ matrix that can be expressed
+		as 
+		\begin{eqnarray}
+		\textbf{V}= \textrm{Var} ( \textbf{Xb} + \textbf{Zb} + \textbf{e})\\
+		\textbf{V}= \textrm{Var} ( \textbf{Xb} ) + \textrm{Var} (\textbf{Zb}) +
+		\textrm{Var}(\textbf{e}),
+		\end{eqnarray}
+		
+		
+		and $\operatorname{Var}(\textbf{Xb})$ is known to be zero. The variance of the
+		random effects $\mbox{Var}(\textbf{Zu})$ can be written as
+		$Z\mbox{Var}(\textbf{b})Z^{T}$.
+		\[
+		\mathrm{var}
+		\left(
+		\begin{array}{c}
+		b \\
+		\epsilon \\
+		\end{array}
+		\right)
+		=
+		\left(
+		\begin{array}{cc}
+		D & 0 \\
+		0 & \Sigma \\
+		\end{array}
+		\right)
+		\]
+		
+		
+		
+		
+		where $D$ and $\Sigma$ are positive definite matrices parameterized by an unknown variance component parameter vector $ \theta.$ The variance-covariance matrix for the vector of observations $y$ is given by $V = ZDZ^{\prime}+ \Sigma.$ This implies $y \sim(X\beta, V) = (X\beta,ZDZ^{\prime}+ \Sigma)$. 
+		
+		$\boldsymbol{R}_{i}$ is the variance covariance matrix for the residuals, i.e. the within-item sources of variation between both methods. Computational analysis of linear mixed effects models allow for the explicit analysis of both $\boldsymbol{D}$ and $\boldsymbol{R_i}$.
+		The above terms can be used to express the  variance covariance matrix $\boldsymbol{\Omega}_i$ for the responses on item $i$ ,
+		\[
+		\boldsymbol{\Omega}_i = \boldsymbol{Z}_i \boldsymbol{D} \boldsymbol{Z}_i^{\prime} + \boldsymbol{R}_i.
+		\]
+		%============================================================== %
+		
+		It is assumed that $\boldsymbol{b}_i \sim N(0,\boldsymbol{D})$, $\boldsymbol{\epsilon}_i$ is a matrix of random errors distributed as $N(0,\boldsymbol{R}_i)$ and that the random effects and residuals are independent of each other. Assumptions made on the structures of $\boldsymbol{D}$ and $\boldsymbol{R}_i$ will be discussed in due course.
+		
+		The random effects are assumed to be distributed as $\boldsymbol{b}_i \sim \mathcal{N}_2(0,\boldsymbol{D})$. The between-item variance covariance matrix $\boldsymbol{D}$ is constructed as follows:
+		%		\[ \boldsymbol{D} =\left(
+		%		\begin{array}{cc}
+		%		d^2_1  & d_{12} \\
+		%		d_{12} & d^2_2 \\
+		%		\end{array}
+		%		\right) \]
+		\[ \boldsymbol{D} = \mbox{Var}  \left[
+		\begin{array}{c}
+		b_1   \\
+		b_2  \\
+		\end{array}
+		\right] =  \left(
+		\begin{array}{cc}
+		d^2_1  & d_{12} \\
+		d_{12} & d^2_2 \\
+		\end{array}
+		\right) \]
+		
+		
+		
+		%============================================================%
+		The distribution of the random effects is described as $\boldsymbol{b}_i \sim N(0,\boldsymbol{D})$. Similarly random errors are distributed as $\boldsymbol{\epsilon}_i \sim N(0,\boldsymbol{R}_i)$. The random effects and residuals are assumed to be independent. The variance-covariance matrix for the vector of observations $y$ is given by $V = ZDZ^{\prime}+ \Sigma.$ This implies $y \sim(X\beta, V) = (X\beta,ZDZ^{\prime}+ \Sigma)$. 
+		
+		
+		By letting $\operatorname{var}(b) = D$ (i.e $\textbf{b} ~ N(0,\textbf{D})$), this becomes $ZDZ^{T}$. This specifies the covariance due to random
+		effects. The residual covariance matrix $\operatorname{var}(e)$ is denoted as $R$, ($\textbf{e} ~ N(0,\textbf{R})$). Residual are uncorrelated,
+		hence \textbf{R} is equivalent to $\sigma^{2}$\textbf{I}, where \textbf{I} is the identity matrix. The variance matrix \textbf{V}
+		can therefore be written as:
+		
+		\begin{equation}
+		\textbf{V}  = \textbf{ZDZ}^{T} + \textbf{R}.
+		\end{equation}
+		
+		
+		
+		
 
 \subsection{Correlation}	
 Bivariate correlation coefficients have been shown to be of

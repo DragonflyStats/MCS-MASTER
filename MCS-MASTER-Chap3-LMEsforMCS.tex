@@ -60,6 +60,11 @@
 \tableofcontents
 \newpage
 	\section{LME Models in Method Comparison Studies}
+In cases where there are repeated measurements by each of the two methods on the same subjects, \citet{BA99} suggest calculating
+the mean for each method on each subject and use these pairs of means to compare the two methods. The estimate of bias will be unaffected using this approach, but the estimate of the standard deviation of the differences will be incorrect \citep{BXC2004}. \citet{BXC2004} recommends that replicate measurements be used for each method, but recognizes that resulting data are more difficult to analyze. To this end, \citet{BXC2004} and \citet{BXC2008} recommend the use of LME models as a suitable framework for method comparison in the case of repeated measurements.
+\citet{ARoy2009} uses an LME model approach to provide a set of formal tests for method comparison studies.
+
+	
 	Linear mixed effects (LME) models can facilitate greater understanding of the potential causes of bias and differences in precision between two sets of measurement. Due to computation complexity, LME models have not seen widespread use until many well known statistical software applications began facilitating them. Consequently LME approaches have seen increased use as a framework for method comparison studies in recent years (Lai $\&$ Shaio, \citet{BXC2004,BXC2008} and \citet{ARoy2009} as examples).
 	
 	
@@ -363,6 +368,26 @@ Here $\beta_0$ and $\beta_m$ are fixed-effect terms representing, respectively, 
 	
 	In order to express Roy's LME model in matrix notation we gather all $2n_i$ observations specific to item $i$ into a single vector  $\boldsymbol{y}_{i} = (y_{1i1},y_{2i1},y_{1i2},\ldots,y_{mir},\ldots,y_{1in_{i}},y_{2in_{i}})^\prime.$ 
 	
+		\subsection{Formulation of the Response Vector}
+		Information of individual $i$ is recorded in a response vector $\boldsymbol{y}_{i}$. The response vector is constructed by stacking the response of the $2$ responses at the first instance, then the $2$ responses at the second instance, and so on. Therefore the response vector is a $2n_{i} \times 1$ column vector.
+		The covariance matrix of $\boldsymbol{y_{i}}$ is a $2n_{i} \times 2n_{i}$ positive definite matrix $\boldsymbol{\Omega}_{i}$.
+		
+		Consider the case where three measurements are taken by both methods $A$ and $B$, $\boldsymbol{y}_{i}$ is a $6 \times 1$ random vector describing the $i$th subject.
+		\[
+		\boldsymbol{y}_{i} = (y_{i}^{A1},y_{i}^{B1},y_{i}^{A2},y_{i}^{B2},y_{i}^{A3},y_{i}^{B3}) \prime
+		\]
+		
+		The response vector $\boldsymbol{y_{i}}$ can be formulated as an LME model according to Laird-Ware form.
+		\begin{eqnarray*}
+			\boldsymbol{y_{i}} = \boldsymbol{X_{i}\beta}  + \boldsymbol{Z_{i}b_{i}} + \boldsymbol{\epsilon_{i}}\\
+			\boldsymbol{b_{i}} \sim \mathcal{N}(\boldsymbol{0,D})\\
+			\boldsymbol{\epsilon_{i}} \sim \mathcal{N}(\boldsymbol{0,R_{i}})
+		\end{eqnarray*}
+		
+		Information on the fixed effects are contained in a three dimensional vector $\boldsymbol{\beta} = (\beta_{0},\beta_{1},\beta_{2})\prime$. For computational purposes $\beta_{2}$ is conventionally set to zero. Consequently $\boldsymbol{\beta}$ is the solutions of the means of the two methods, i.e. $E(\boldsymbol{y}_{i})  = \boldsymbol{X}_{i}\boldsymbol{\beta}$. The variance covariance matrix $\boldsymbol{D}$ is a general $2 \times 2$ matrix, while $\boldsymbol{R}_{i}$ is a $2n_{i} \times 2n_{i}$ matrix.
+		
+		%------------------------------------------------------------------------------%
+
 \subsection{Roy's Tests of Variances}
 	
 
