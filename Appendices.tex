@@ -791,6 +791,38 @@ The matrix ${\Sigma}$ represents the variance component matrix between response 
 $\sigma^2_{A}$ is the variance of variable $A$, $\sigma^2_{B}$ is the variance of variable $B$ and $\sigma_{AB}$ is the covariance of the two variable. It is assumed that ${\Sigma}$ does not depend on a particular time point, and is the same over all time points.
 
 \newpage
+\subsection{Computation (BLUPs)} 
+Modern software packages can be used to fit models accordingly. The best linear unbiased predictor (BLUP) for a specific subject $i$ measured with method $m$ has the form $BLUP_{mir} = \hat{\alpha_{m}} + \hat{\beta_{m}}\mu_{i} + c_{mi}$, under the assumption that the $\mu$s are the true item values.
+
+
+%\citet{BXC2004} describes the above model as a `functional model',
+%similar to models described by \citet{Kimura}, but without any
+%assumptions on variance ratios. A functional model is . An
+%alternative to functional models is structural modelling
+
+\citet{BXC2004} uses the above formula to predict observations for a specific individual $i$ by method $m$;
+\begin{equation}BLUP_{mir} = \hat{\alpha_{m}} + \hat{\beta_{m}}\mu_{i} +
+c_{mi} 
+\end{equation}. 
+
+Under the assumption that the $\mu$s are the true item values, this would be sufficient to estimate parameters. The assumption of exchangeability can be unrealistic in certain situations.
+\citet{BXC2004} provides an amended formulation which includes an extra interaction
+term $d_{mr} \sim N(0,\omega^{2}_{m}$ to account for this.
+
+
+
+Maximum likelihood estimation is used to estimate the parameters.
+The REML estimation is not considered since it does not lead to a
+joint distribution of the estimates of fixed effects and random
+effects parameters, upon which the assessment of agreement is
+based.
+
+
+
+
+
+
+
 \section{Appendix 9: Carstensen's Examples}
 \subsection{Diabetes (HB1Ac) data set (2008 paper)}
 \citet{BXC2008} describes the sampling method when discussing a motivating example. Diabetes patients attending an outpatient clinic in Denmark have their $HbA_{1c}$ levels routinely measured at every visit. Venous and Capillary blood samples were obtained from all patients appearing at the clinic over two days. Samples were measured on four consecutive days on each machines, hence there are five analysis days.
@@ -799,6 +831,40 @@ $\sigma^2_{A}$ is the variance of variable $A$, $\sigma^2_{B}$ is the variance o
 
 
 \subsection{the Oximetry Data}
+\citet{BXC2008} introduces a second data set; the oximetry study. This study done at the Royal Children's Hospital in
+Melbourne to assess the agreement between co-oximetry and pulse oximetry in small babies.
+
+In most cases, measurements were taken by both method at three different times. In some cases there are either one or two pairs of measurements, hence the data is unbalanced. \citet{BXC2008} describes many of the children as being very sick, and with very low oxygen saturations levels. Therefore it must be assumed that a biological change can occur in interim periods, and measurements are not true replicates.
+
+
+
+\citet{BXC2008} demonstrate the necessity of accounting for linked replicated by comparing the limits of agreement from the `oximetry' data set using a model with the additional term, and one without. When the interaction is accounted for the limits of agreement are (-9.62,14.56). When the interaction is not accounted for, the limts of agreement are (-11.88,16.83). It is shown that the failure to include this additional term results in an over-estimation of the standard deviations of differences.
+
+Roy's approach assumes that replicates are linked. Limits of agreement are determined using Roy's method, without adding any additional terms, are found to be consistent with the `interaction' model; $(-9.562, 14.504 )$.  However, following Carstensen's example, an addition interaction term is added to the implementation of Roy's model to assess the effect, the limits of agreement estimates do not change. However there is a conspicuous difference in within-subject matrices of Roy's model and the modified model (denoted $1$ and $2$ respectively);
+\begin{equation}
+\hat{\boldsymbol{\Sigma}}_{1}= \left(\begin{array}{cc}
+16.61 &	11.67\\
+11.67 & 27.65 \end{array}\right) \qquad
+\boldsymbol{\hat{\Sigma}}_{2}= \left( \begin{array}{cc}
+7.55 & 2.60 \\
+2.60 & 18.59 \end{array} \right). 
+\end{equation}
+
+\noindent (The variance of the additional random effect in model $2$ is $3.01$.)
+
+\citet{akaike} introduces the Akaike information criterion ($AIC$), a model 
+selection tool based on the likelihood function. Given a data set, candidate models
+are ranked according to their AIC values, with the model having the lowest AIC being considered the best fit.Two candidate models can said to be equally good if there is a difference of less than $2$ in their AIC values.
+
+The Akaike information criterion (AIC) for both models are $AIC_{1} = 2304.226$ and $AIC_{2} = 2306.226$ , indicating little difference in models. The AIC values for the Carstensen `unlinked' and `linked' models are $1994.66$ and $1955.48$ respectively, indicating an improvement by adding the interaction term.
+
+The $\boldsymbol{\hat{\Sigma}}$ matrices are informative as to the difference between Carstensen's unlinked and linked models. For the oximetry data, the covariance terms (given above as 11.67 and 2.6 respectively) are of similar magnitudes to the variance terms. Conversely for the `fat' data the covariance term ($-0.00032$) is negligible. When the interaction term is added to the model, the covariance term remains negligible. (For the `fat' data, the difference in AIC values is also approximately $2$).
+
+To conclude, Carstensen's models provided a rigorous way to determine limits of agreement, but don't provide for the computation of $\boldsymbol{\hat{D}}$ and $\boldsymbol{\hat{\Sigma}}$. Therefore the test's proposed by \citet{ARoy2009} can not be implemented. Conversely, accurate limits of agreement as determined by Carstensen's model may also be found using Roy's method. Addition of the interaction term erodes the capability of Roy's approach to compare candidate models, and therefore shall not be adopted.
+
+Finally, to complement the blood pressure (i.e.`J vs S') method comparison from the previous section (i.e.`J vs S'), the limits of agreement are $15.62 \pm 1.96 \times 20.33 = (-24.22, 55.46)$.
+
+\newpage
 \citet{BXC2008} introduces a second data set; the oximetry study. This study done at the Royal Children's Hospital in Melbourne to assess the agreement between co-oximetry and pulse oximetry in small babies.
 
 
@@ -851,6 +917,18 @@ To conclude, Carstensen's models provided a rigorous way to determine limits of 
 Limits of agreement are determined using Roys's methodology, without adding any additional terms, are found to be consistent with the `interaction' model; $(-9.562, 14.504 )$. 
 
 \subsection{The Fat Data Set}
+%
+%\subsection{The Fat Data Set}
+As an example, \citet{BXC2008} discusses a comparison study of measurements of subcutaneous fat
+by two observers at the Steno Diabetes Center, Copenhagen. Measurements are in millimeters
+(mm). Each person is measured three times by each observer. The observations are considered to be `true' replicates.
+
+A linear mixed effects model is formulated, and implementation through several software packages is demonstrated.
+All of the necessary terms are presented in the computer output. The limits of agreement are therefore,
+\begin{equation}
+0.0449  \pm 1.96 \times  \sqrt{2 \times 0.0596^2 + 0.0772^2 + 0.0724^2} = (-0.220,  0.309).
+\end{equation}
+
 
 \citet{BXC2008} presents a data set `fat', which is a comparison of measurements of subcutaneous fat by two observers at the Steno Diabetes Center, Copenhagen. Measurements are in millimeters (mm). Each person is measured three times by each observer. The observations are considered to be `true' replicates.
 \citet{BXC2008} describes the calculation of the limits of agreement (with the inter-method bias implicit) for both data sets, based on his formulation;
