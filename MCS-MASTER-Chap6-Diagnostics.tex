@@ -106,26 +106,6 @@ Influential points have a large influence on the fit of the model. Influential p
 	%One approach for determining influential points is to compare the fit of the model with and without each observation.
 	
 	%The basic rationale behind identifying influential data is that when iteratively single units are omitted from the data, models based on these data should not produce substantially different estimates. 
-\subsection{A Procedure for Quantifying Influence}  
-Influence can be thought of as consequence of leverage and outlierness. Outliers are the most noteworthy data points in an analysis, and an objective of influence analysis is how influential they are, and the manner in which they are influential. They can point to a model breakdown and lead to development of a better model. \citet{schabenberger} describes a simple procedure for quantifying influence for LME Models. Firstly a model should be fitted to the data, and estimates of the parameters should be obtained. The second step is that either single or multiple data points, specifically outliers, should be omitted from the analysis, with the original parameter estimates being updated. This is known as \textit{``leave one out"} or \textit{``leave k out"} analysis. The final step of the procedure is comparing the sets of estimates computed from the entire and reduced data sets to determine whether the absence of observations changed the analysis. 
-
-%http://support.sas.com/documentation/cdl/en/statug/63033/HTML/default/viewer.htm#statug_mixed_sect024.htm
-	
-%\subsubsection{Outliers and Leverage}
-	
-The LME model is a useful methodology for fitting a wide range of models. However, linear mixed effects models are known to be sensitive to outliers. Specifically likelihood based estimation techniques, such as ML and REML, are sensitive to outliers. \citet{Christensen} advises that identification of outliers is necessary before conclusions may be drawn from the fitted model. The leverage of an observation is a further consideration. 
-	
-%The question of whether or not a point should be considered an outlier must therefore be addressed. An outlier is an observation whose true value is unusual given its value on the predictor variables.
-
-An observation with an extreme, but not unusual, value on a predictor variable is a point with high leverage. High leverage points can have a great amount of effect on the estimate of regression coefficients. In general. a high leverage point means a extreme value for the one or more of the independent variables, and a greater potential of overly influencing the final fitted model. However, if a case has  extreme values for the independent variables but is fitted very well by a regression model, this case is not necessarily overly influential.
-
-In classical models, leverages are the diagonal elements $h_{ii}$ of the Projection matrix, also known as the Hat Matrix ${H}$. \citet{schabenberger} describes two analogues of ${H}$ for LME models. However the practical use for either approach is not made clear.
-
-
-	% - Leverage is a measure of how far an independent variable deviates from its mean.
-	
-
-%\subsection{Cook's 1986 paper on Local Influence}%1.7.1
 
 \subsection{Analyzing Influence in LME Models}
 
@@ -282,64 +262,6 @@ Further to previous work, this section revisits case-deletion and residual diagn
 
 
 
-
-\subsubsection{Case Deletion Diagnostics for Variance Ratios}
-
-
-Taking the core principals of his methods, and applying them to the Method Comparison problem, case deletion diagnostics are used on the variance components of the Roy's model, specifically the ratio of between subject variances and the within subject covariances respecitvely.
-
-
-\[ \mbox{BSVR} = \frac{\sigma^2_2}{\sigma^2_2} \phantom{makespace}  \mbox{WSVR} = \frac{d^2_2}{d^2_2} \]
-
-These variance ratios are re-computed for each case removed, and may be analysed seperately or jointly for outliers.
-
-
-
-
-%\subsubsection{Methods for Identifying Outliers}
-The Grubbs' Test for Outliers is a commonly used technique for assessing outlier in a univariate data set, of which there are several variants.
-As there may be several outliers present, the Grubbs test is not practical. However an indication that a point being beyond the fences according to Tukey's specification for boxplots will suffice.
-
-
-% The first variant of Grubb's test is used to detect if the sample dataset contains one outlier, statistically different than
-% the other values. The test statistic is based by calculating score of this outlier $G$ (outlier minus mean and divided
-% by the standard deviation) and comparing it to appropriate critical values. Alternative method is calculating ratio of
-% variances of two datasets - full dataset and dataset without outlier.
-% %The obtained value called U is bound with G by simple formula.
-% The second variant is used to check if lowest and highest value are two outliers on opposite tails of sample. It is based on calculation of ratio of range to standard deviation of the sample.
-% 
-% The third variant calculates ratio of variance of full sample and sample without two extreme observations.
-% It is used to detect if dataset contains two outliers on the same tail.
-
-
-
-The WSVR values are plotted against the corresponding BSVR values, with commonly used bivariate methods may be applied jointly to the both sets of data sets, e.g Mahalanobis distances. Confidence ellipses can be superimposed over the plot with minimal effort. Two ellipses are generated by this technique, a 50 \% and 97.5\% confidence ellipse respectively. Outlying cases are idenified by the plot. Subject 68 is the most prominent case.
-
-The subjects were ranked by Mahalanobis distance, with the top 10 being presented in the following table. Both sets of ratio are addtionally expressed as a ratio of the full model variance ratios.
-\begin{center}
-	\begin{tabular}{|c|c|c|c|c|c|}
-		\hline
-		Subject (u) &  MD & WSVR$_{(u)}$ & WSVR (\%) & BSVR$_{(u)}$   & BSVR (\%)     \\ \hline \hline
-		68 & 44.7284   & 1.3615  & 0.9132   & 1.0353  & 0.9849 \\ \hline
-		30 & 16.7228   & 1.5045  & 1.0092   & 1.1024  & 1.0487 \\ \hline
-		71 & 11.5887   & 1.5210  & 1.0202   & 1.0932  & 1.0400 \\ \hline
-		80 & 11.0326   & 1.4796  & 0.9925   & 1.0114  & 0.9621 \\ \hline
-		38 & 10.3671   & 1.5011  & 1.0069   & 1.0917  & 1.0385 \\ \hline
-		67 & 10.1940   & 1.4308  & 0.9598   & 1.0514  & 1.0002 \\ \hline
-		43  & 7.6932   & 1.4385  & 0.9649   & 1.0511  & 0.9999 \\ \hline
-		72  & 4.7350   & 1.4900  & 0.9995   & 1.0262  & 0.9762 \\ \hline
-		48  & 4.4321   & 1.4950  & 1.0028   & 1.0280  & 0.9779 \\ \hline
-		29  & 4.3005   & 1.4910  & 1.0001   & 1.0769  & 1.0244 \\ \hline
-	\end{tabular}
-\end{center}
-From this table one may conclude that subjects 72, 48 and 29 are not particularly influential. Interestingly Subject 78, which was noticeable in the case deletion diagnostics for fixed effects, does not feature in this table.
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=0.9\linewidth]{08-plot1}
-	\caption{}
-	\label{fig:08-plot1}
-\end{figure}
 
 
 
