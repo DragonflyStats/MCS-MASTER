@@ -197,23 +197,6 @@ tests or confidence intervals about $\beta$.
 
 
 
-\subsection{Deletion Diagnostics}
-
-%Data from single individuals, or a small group of subjects may influence non-linear mixed effects model selection. 
-%Diagnostics routinely applied in model building may identify such individuals, but these methods are not specifically designed for that purpose and are, therefore, not optimal. 
-%We describe two likelihood-based diagnostics for identifying individuals that can influence the choice between two competing models.
-
-
-Deletion diagnostics provide a means of assessing the influence of an observation (or groups of observations) on parameters inferences for a fitted model. For classical linear models, \citet{cook77} greatly expands the study of residuals and influence measures. The key to making deletion diagnostics useable is the development of efficient computational formulas, allowing one to obtain the \index{case deletion diagnostics} case deletion diagnostics by making use of basic building blocks, computed only once for the full model.
-Cook's key observation was the effects of deleting each observation in turn could be calculated with little additional computation. Cook proposed a measure that combines the information of leverage and residual of the observation, now known simply as the Cook's Distance, $D_{(i)}$, which can be calculated without fitting a new regression coefficient each time an observation is deleted. Consequently deletion diagnostics have become an integral part of assessing linear models.
-
-
-It must be pointed out that the effect on the precision of estimates is separate from the effect on the point estimates. Data points that have a small \index{Cook's distance}Cook's distance, for example, can still greatly affect hypothesis tests and confidence intervals, if their 
-influence on the precision of the estimates is large.	
-
-\citet{Christensen} notes the case deletion diagnostics techniques have not been applied to linear mixed effects models and seeks to develop methodologies in that respect. \citet{Christensen} developed their global influences for the deletion of single observations in two steps: a one-step estimate for the REML (or ML) estimate of the variance components, and an ordinary case-deletion diagnostic for a weighted resgression problem (conditional on the estimated covariance matrix) for fixed effects.
-
-The computation of case deletion diagnostics in the classical model is made simple by the fact that estimates of $\beta$ and $\sigma^2$, which exclude the $i$th observation, can be computed without re-fitting the model. Such update formulas are available in the mixed model only if you assume that the covariance parameters are not affected by the removal of the observation in question. This is rarely a reasonable assumption, and undermines the use of many proposed procedures for Method Comparison.
 
 \subsection{Cook's Distance}
 As previously described, \index{Cook's Distance} Cooks Distance ($D_{i}$) is a diagnostic technique used in classical linear models, that functions as an overall measure of the influence of an observation that is a measure of aggregate impact of each observation on the group of regression coefficients, as well as the group of fitted values. \index{Cook's distance} Cook's Distance as a measure of the influence of observations in subset $U$ on a vector of parameter estimates is given below \citep{cook77}
@@ -274,100 +257,6 @@ Consideration of how leave-$U$-out diagnostics would work in the context of Meth
 The natural sampling unit is the item or subject, similar to the example provided by \citet{schabenberger}. Hence, the third option, henceforth, referred to as ``Leave subject Out" will be the option used.
 
 
-\subsection{Local Influence}
-\citet{cook86} gives a completely general method for assessing the influence of local departures from assumptions in statistical models, introducing methods for local influence assessment for classical linear models. These methods provide a powerful tool for examining perturbations in the assumption of a model, particularly the effects of local perturbations of parameters of observations. The local-influence approach to influence assessment is quite different from the case deletion approach, comparisons are of interest.
-
-% % Beckman, Nachtsheim and Cook (1987)
-\citet{Beckman} applied the \index{local influence}local influence method of Cook (1986) to the analysis of the LME model.  Other authors such as \citet{lesaffre1998local} have also extended these idea to LME models. 
-While the concept of influence analysis is straightforward, implementation in mixed models is more complex. Update formulae for fixed effects models are available only when the covariance parameters are assumed to be known. As such the local influence approach are not particularly useful in the context of Method Comparison, and so will not be considered further.
-
-
-\subsection{Comparing Influence and Residual Analysis}
-%In LME models, there are two types of residuals, marginal residuals and conditional residuals. A
-%marginal residual is the difference between the observed data and the estimated marginal mean. A conditional residual is the
-%difference between the observed data and the predicted value of the observation. In a model without random effects, both sets of residuals coincide \citep{schab}.
-
-\citet{influenceLME4} compares residual analysis and influence analysis. Cases with high residuals (defined as the difference between the observed and the predicted scores on the dependent
-variable) or with high standardized residuals (defined as the residual divided by the standard deviation
-of the residuals) are indicated as outliers.
-
-However, an influential case is not necessarily an outlying residual. On the contrary: a strongly influential case dominates
-the regression model in such a way, that the estimated regression line lies closely to this case. The analysis of residuals cannot be used for the detection of influential cases \citep{crawley2012r}.
-
-
-
-%=================================================================================== %
-
-
-\subsection{Iterative and Non-Iterative Influence Analysis}
-
-For linear models, the implementation of influence analysis is straightforward, but for LME models the process is more complex. \citet{schabenberger} examines the use and implementation of
-influence measures in LME models. \citet{schabenberger} highlights some of the issue regarding implementing LME model diagnostics, describing  the choice between \index{iterative influence analysis} iterative influence analysis and \index{non-iterative influence analysis} non-iterative influence analysis.
-\citet{schabenberger} considers several important aspects of the use and implementation of influence measures in LME models, noting that it is not always possible to
-derive influence statistics necessary for comparing full- and reduced-data parameter estimates. Closed-form expressions for computing the change in important model quantities might not be available.
-
-On a related matter, \citet{schabenberger} describes the scenario wherein a data point is removed and the new estimate of the $D$ matrix is not positive definite. This may occur if a variance component
-estimate now falls on the boundary of the parameter space \citep{schabenberger}. 
-
-%%Non-Iterative
-For classical linear models, it is not necessary to refit the model after removing a data point in order to measure the impact of an observation on the model. The change in fixed effect estimates, residuals, residual sums of squares, and the variance-covariance matrix of the fixed effects can be computed based on the fit to the full data alone, using update formulas \citep{sherman, hager1989}.
-
-
-
-However, in LME models several important complications arise. Data points can affect not only the fixed effects but also the covariance parameter estimates on which the fixed-effects estimates depend.
-
-When applied to LME models, such update formulas are available only if one assumes that the covariance parameters are not affected by the removal of the observation in question. However, this is rarely a reasonable assumption.
-For LME models, non-iterative methods are computationally efficient, but require the rather strong assumption that all 
-covariance parameters are known, and thus are not updated, with the exception of the profiled residual variance.
-Update formulas for ``leave-U-out" estimates typically fail to account for changes in covariance parameters.  As the influence that each item would have on the variance estimate of a method comparison model is crucial, this substanitally negates their usefulness for Roy's Model.
-
-%============================================%
-%%Iterative
-Iterative influence diagnostics requiring fitting the model without the observations in question. Computation execution time is substantially longer, although this is balanced by algorithmic 
-simplicity, with no assumptions beyond those used for the original model. A measure of total influence requires updates of all model parameters. This can only be achieved in general is by omitting observations or cases, then refitting the model. 
-
-
-An iterative analysis may seem computationally expensive. Computing iterative influence diagnostics for $n$ observations
-requires $n+1$ mixed models to be fitted iteratively.
-The execution times for iterative procedures are longer relative to non-iterative procedures, but are not so long that they would dissuade an analyst from using them.
-Despite the addition execution time of iteratives
-approaches, they are preferable for Method Comparison problems, as they can facilitate several complementary analyses concurrently. 
-
-
-Iterative methods retain the potential for useful analyses, if applied at different stage of the modelling process. Diagnostic measures, specifically the DFBETA, have characteristics that would make them very useful at the exploratory stage of the method comparison process. Implicitly various assumptions about variance are used, but simultaneously an approach based on DFBETA can be used to assess if these assumptions are valid.
-
-
-
-\subsection{Likelihood Distance}
-An overall influence statistic measures the change in the objective function being minimized. For example, in
-classical linear, the residual sums of squares serves that purpose. In linear mixed models fit by
-\index{maximum likelihood} maximum likelihood (ML) or \index{restricted maximum likelihood} restricted maximum likelihood (REML), an overall influence measure is the \index{likelihood distance} likelihood distance \citep{CookWeisberg}.
-
-%	\subsection{Likelihood Distances}
-
-The \index{likelihood distance} likelihood distance is a global summary measure that expresses the joint influence of the subsets of observations, $U$, on all parameters that were subject to updating. \citet{schabenberger} points out that the likelihood distance $LD(\psi_{(U)})$ is not the log-likelihood obtained by fitting the model to the reduced data set. Instead it is obtained by evaluating the likelihood function based on the full data set (containing all $n$ observations) at the reduced-data estimates.
-
-
-
-
-%==========================================================%
-%	\subsubsection{Likelihood Distances}
-
- The
-procedure requires the calculation of the full data estimates
-$\hat{\psi}$ and estimates based on the reduced data set
-$\hat{\psi}_{(U)}$. The likelihood distance is given by
-determining
-\[
-LD_{(U)} = 2\{l(\hat{\psi}) - l( \hat{\psi}_{(U)}) \}\]\[
-RLD_{(U)} = 2\{l_{R}(\hat{\psi}) - l_{R}(\hat{\psi}_{(U)})\}
-\]
-Large values indicate that $\boldsymbol{\hat{\theta}}$ and $\boldsymbol{\hat{\theta}_\omega}$ differ considerably.
-
-\citet{west} examines a group of methods that examine various aspects of influence diagnostics for LME models. For overall influence, the most common approaches are the \textit{likelihood distance} and the \textit{restricted likelihood distance}.
-
-%For noniterative methods the following computational devices are used to compute (restricted) likelihood distances provided that the residual variance
-%$\sigma^2$ is profiled.
 
 
 \section{Model Diagnostics for Roy's Models}
@@ -454,112 +343,12 @@ From this table one may conclude that subjects 72, 48 and 29 are not particularl
 
 
 
-%===========================================================================%
-
-\subsubsection{Variance Ratios}
-
-The relationship between precision and the within-item and between-item variability must be established. Roy establishes the equivalence of repeatability and within-item variability, and hence precision.  The method with the smaller within-item variability can be deemed to be the more precise.
-
-A useful approach is to compute the confidence intervals for the ratio of within-item standard deviations (equivalent to the ratio of repeatability coefficients), which can be interpreted in the usual manner.
-%	
-
-Pinheiro and Bates (pg 93-95) give a description of how confidence intervals for the variance components are computed. Furthermore a complete set of confidence intervals can be computed to complement the variance component estimates.
-
-What is required is the computation of the variance ratios of within-item and between-item standard deviations.
-
-A naive approach would be to compute the variance ratios by relevant F distribution quantiles. However, the question arises as to the appropriate degrees of freedom.
-Bootstrap methods for computing confidence intervals may be considered.
 
 
 
 
 
 
-
-\section{Using DFBETAs from LME Models to Assess Agreement}
-
-	The impact of an observation on a regression fitting can be determined by the difference between the estimated regression coefficient of a model with all observations and the estimated coefficient when the particular observation is deleted. DFBETA and DFFITS are well known measures of influence. Emphasis shall be placed on DFBETA, but a brief discussion of DFFITS is merited as it potentially provides for useful techniques in method comparison. \citet{schabenberger} provides a mathematical desciption of both.
-	
-	 DFBETAS is a standardized measure of the absolute difference between the estimate with a particular
-	case included and the estimate without that particular case,, thus measuring the impact each observation has on a particular predictor \citep{belsley2005}. For LME models, the DFBETA is a measure that standardizes the absolute difference in parameter estimates between an LME model based on a full set of data, and a model from reduced data.
-
-
- 
-	
-In general, large values of DFBETAS indicate observations that are influential in estimating a given parameter. \citet{belsley2005} recommend 2 as a general cutoff value to indicate influential observations and as a size-adjusted cutoff. There is no agreement as to the critical threshold for DFBETAs. The cut-off value for DFBETAs is $\frac{2}{\sqrt{n}}$, where $n$ is the number of observations. However, another cut-off is to look for observations with a value greater than 1.00. Here cutoff means,
-``this observation could be overly influential on the estimated coefficient".
-
- DFFITS is a diagnostic meant to show how influential a point is in a statistical regression. It is defined as the change, in the predicted value for a point, obtained when that point is left out of the regression, divided by the estimated standard deviation of the fit at that point:
-
-
-	
-
-	
-
-	\subsubsection{DFBETAs for Method Comparison}
-	
-	For LME models, a value for DFBETAS is calculated for each of the $k$ fixed effects, and for each of the $n$ item. Correctly there will be $p+1$ DFBETAs (the intercept, $\beta_0$, and one $\beta$ for each covariate). When the LME model is specified without an intercept term, as in Roy's Model, there is a set of DFBETAs corresponding to each measurement method, hence an $n \times p$ matrix.
-	
-	In the case of method comparison studies, a series of scatterplots can be constructed to compare each pair of measurement methods.
-	Furthermore 95\% confidence ellipse can be constructed around these scatterplots.
-	
-	
-	
-	The LME approach proposed by \citet{ARoy2009} is constrained by computational tractability.
-	Consequently a simpler LME formulation is used, one similar to that of \citet{BXC2008}. However one constraint that can be dispensed with is the restriction to
-	two methods of measurement: we can now use any number of methods.
-	The benefit of using this model is that metrics such as Cook's Distance and DFBETAs can be computed also.
-
-Furthermore, these measures form the basis of the analysis, rather than the estimates derived from the model. In the context of method comparison, these variables are the methods of measurement.
-Agreement will considered in the context of inter-method bias and the within-item variance ratio. Between-item variance ratio is not considered for this analysis.
-
-For a Method Comparison study, DFBETAs can be used as a proxy measurement, allowing simple techniques to be used for assessing agreement. Suppose an LME model was formulated to model agreement for two or more methods of measurement, specifically with replicate measurements. If the methods are to be agreement, the DFBETAs for each case would be the same for both methods. As such, agreement between any two methods can be determined by a simple scatterplot of the DFBetas. 
-	
-
-If the lack of agreement is caused, in part or in full, by differing within-item variances, there would be differing DFBETAs for each pair of methods. If the points align along the line of equality, then both methods can be said to be in agreement for within item variance. However DFBETAs are not useful for determining inter-method bias. If there is good agreement between methods, or if lack of agreement is caused by inter-method bias only, the DFBETA values will be almost identical for each subject in the data set. 
-	
-Following the idea proposed by \citet{BA86}, an identity plot to visually inspect this relationship between sets of DFBETAs. Modern statistical software usually allows for the creation of co-plots, so a grid of identity plots may be easily rendered for comparing each pair of methods. Used in conjection with a Bland-Altman plot, this co-plot can quickly determine agreement and indicate the source of lack of agreement.
-
-For an LME model fitted to the Blood data, the results tabulated below can be produced.  Cases can be ranked by the Cook's Distance, such that the most divergent DFBETA are highlighted, with the top 6 being presented below). The remaining columns are the DFBeta for each of the fixed effects, for each of the 85 subject.
-	\begin{center}
-		\begin{tabular}{|c|c|c|c|c|} \hline
-			Subject &    Cook's D  &    Method J  &   Method R  & Method S \\ \hline \hline
-			78 & 0.61557407 & -0.02934556 & -0.03387780 & 0.2954937  \\ \hline
-			80 & 0.41590973 & -0.06305026 & -0.06515241 & 0.2123881  \\ \hline
-			68 & 0.22536651 & -0.05334867 & -0.05062375 & 0.1555187  \\ \hline
-			72 & 0.09348500  & 0.02388626  & 0.02419887 & 0.1617474  \\ \hline
-			48 & 0.08706988  & 0.02147541  & 0.03145273 & 0.1581591  \\ \hline
-			30 & 0.07118415  & 0.26925807  & 0.26215970 & 0.1581569  \\ \hline
-		\end{tabular}
-	\end{center}
-For DFBETA identity plots are presented below. This set of plots indicate agreement between methods J and R in terms of within-item variance, while severe lack of agreement exists between these methods and the third method S, as is the conclusion of \citet{ARoy2009}.	
-	\begin{figure}[h!]
-		\centering
-		\includegraphics[width=1\linewidth]{images/04-DFbetaplots}
-		% \caption{}
-		% \label{fig:04-DFbetaplots}
-	\end{figure}
-	
-If lack of agreement is indicated, a subsequent analysis using a technique proposed by \citet{ARoy2009} can be used to identify the specific cause for this lack of agreement.
-	
-Other analyses may be used to complement these plots. The Pearson Correlation coefficient of the DFBETAs can be used in conjection with this analysis. A high correlation confirms good agreement, thouhg no threshold value for agreement is suggested.
-	
-The Bonferroni Outlier Test and Cook's Distance values can be used to identify unusual cases, when the relationship between sets of DFBETA is modelled as a (classical) linear model. In this model, the covariates should be homoskedastic. A test for non-constant variance may be used to verify this. 
-	
-	
-As an alternative to scatterplots, a mean difference plot could be used to assess agreement of with-item variance. This mean-difference plot differs from the Bland-Altman plot in that the plot is denominated in terms of DFBETA values, and not in measurement units. Here two of the three pairs of methods are compared on the same plot, red points indicate the J-R comparison while blue points are for the J-S comparison.
-
-	\begin{figure}[h!
-		]
-		\centering
-		\includegraphics[width=0.7\linewidth]{images/04-TMDplot}
-		
-	\end{figure}
-	
-%============================================== %
-%- F:
-\bibliographystyle{chicago}
-\bibliography{DB-txfrbib}
 
 \end{document}
 

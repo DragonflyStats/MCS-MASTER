@@ -988,7 +988,187 @@ The estimated overall variance covariance matrix for the the 'RV
 
 \section*{Appendix 10: Liao Shaio}
 \citet{LaiShiao} views the uses of linear mixed effects models as an expansion on the Bland-Altman framework, rather than as a replacement.  Their focus is to explain lack of agreement by means of additional covariates outside the scope of the traditional method comparison problem, which extends beyond the conventional method comparison study question. The data used for their examples is unavailable for independent use. 
+
+\section{Appendix 11: Deviance Residuals} %1.4.2	
+	% https://v8doc.sas.com/sashtml/insight/chap39/sect55.htm
+	
+	The \textbf{deviance residual} is the measure of deviance contributed from each observation and is given by
+	\[r_{Di} = \textrm{sign}( r_{i})
+	\sqrt{ d_{i}}\]
+	where $d_i$ is the individual deviance contribution. The deviance residuals can be used to check the model fit at each observation for generalized linear models. 
+	
+	%These residuals are stored in variables named \textit{RD\_yname} for each response variable, where yname is the response variable name. 
+	
+	The standardized and studentized deviance residuals are
+	\[
+	r_{Dsi} = \frac{r_{Di}}{\sqrt{\hat{ \phi} (1- h_{i})} }\]
+	\[r_{Dti} = \frac{r_{Di}}{\sqrt{ \hat{ \phi}_{(i)}
+			(1- h_{i})}}\]
+
+\section{Appendix 12: Standardization and Studentization} %1.4.2
+To alleviate the problem caused by inconstant variance, the residuals can be scaled (i.e. divided) by their standard deviations. This results in a \index{standardized residual}`standardized residual'. A random variable is said to be standardized if the difference from its mean is scaled by its standard deviation. The residuals  have mean zero but their variance is unknown, it depends on the true values of $\theta$. Standardization is  not possible in practice. Because true standard deviations are frequently unknown, one can instead divide a residual by the estimated standard deviation to obtain the \index{studentized residual}`studentized residual. 
+%Instead, you can compute studentized residuals by dividing a residual by an estimate of its standard deviation. 
+If that estimate is independent of the $i-$th observation, the process is termed \index{external studentization}`external studentization'. This is usually accomplished by excluding the $i-$th observation when computing the estimate of its standard error. If the observation contributes to the
+standard error computation, the residual is said to be \index{internally studentization}internally studentized.
+Externally \index{studentized residual} studentized residual require iterative influence analysis or a profiled residuals variance \textbf{(CITE)}.
+
+To alleviate the problems with the interpretation of conditional residuals that may have unequal variances, we consider sealing.
+Residuals obtained in this manner ave called studentized residuals.
+
+\begin{itemize}
+	\item Standard residual and inﬂuence diagnostics for linear models can be extended to linear mixed models. The dependence of ﬁxed-effects solutions on the covariance parameter estimates has important ramiﬁcations in perturbation analysis. 
+	\item To gauge the full impact of a set of observations on the analysis, covariance parameters need to be updated, which requires reﬁtting of the model. 
+	%	\item The experimental INFLUENCE option of the MODEL statement in the MIXED procedure (SAS 9.1) enables you to perform iterative and noniterative inﬂuence analysis for individual observations and sets of observations.
+	
+	\item The conditional (subject-speciﬁc) and marginal (population-averaged) formulations in the linear mixed model enable you to consider conditional residuals that use the estimated BLUPs of the random effects, and marginal residuals which are deviations from the overall mean. 
+	\item Residuals using the BLUPs are useful to diagnose whether the random effects components in the model are speciﬁed correctly, marginal residuals are useful to diagnose the ﬁxed-effects components. 
+	\item Both types of residuals are available in SAS 9.1 as an experimental option of the MODEL statement in the MIXED procedure.
+	
+	\item It is important to note that influence analyses are performed under the assumption that the chosen model is correct. Changing the model structure can alter the conclusions. Many other variance models have been ﬁt to the data presented in the repeated measures example. You need to see the conclusions about which model component is affected in light of the model being fit.
+	%	\item  For example, modeling these data with a random intercept and random slope for each child or an unstructured covariance matrix will affect your conclusions about which children are inﬂuential on the analysis and how this influence manifests itself.
+\end{itemize}
+
+
+% \subsubsection{Computation}%1.4.4
+
+The computation of internally studentized residuals relies on the diagonal entries of $\boldsymbol{V} (\hat{\theta})$ - $\boldsymbol{Q} (\hat{\theta})$, where $\boldsymbol{Q} (\hat{\theta})$ is computed as
+
+\[ \boldsymbol{Q} (\hat{\theta}) = \boldsymbol{X} ( \boldsymbol{X}^{\prime}\boldsymbol{Q} (\hat{\theta})^{-1}\boldsymbol{X})\boldsymbol{X}^{-1} \]
+
+
+
+
+
+
+
+
+
+\subsubsection{Internally and Externally Studentized Residuals}
+%Internally and Externally Studentized Residuals
+The computation of internally studentized residuals relies on the diagonal values of $\boldsymbol{V(\hat{\theta})} - \boldsymbol{Q(\hat{\theta})}$
+Externally studentized residuals require iterative influece analysis or a profiled residual variance.
+
+Cook's Distance
+\[ \boldsymbol{\delta}_{(U)} = \boldsymbol{\hat{\beta}}  - \boldsymbol{\hat{\beta}}_{(U)} \]
+A DFFIT measures the change in predicted values due to the removal of data points.
+(Belsey, Kuh and Welsch (1980))
+%[ \mbox{DFFITS}_{i} = \frac{\hat{y}_i - \hat{y}_{i(U)}}{ese(\hat{y}_i)} \]
+
+$\boldsymbol{D(\beta)}  = \boldsymbol{\delta}^{\prime}_{(U)} \boldsymbol{\delta}_{(U)} / rank(\boldsymbol{X})$
+Cook's D can be calibrated according to a chi-square distribution with degress of freedom equal to the rank of $\boldsymbol{X}$ \citep{Christensen}.
+
+%	$ \mbox{CovTrace}(\boldsymbol{\beta})$
+
+
+
+\subsubsection{Diagnostic Plots for LME models}
+
+
+
+
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\linewidth]{images/ResidPlot1}
+	\caption{}
+	\label{fig:ResidPlot1}
+\end{figure}
+
+
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{images/Resid-newplot}
+	\caption{}
+	\label{fig:Resid-newplot}
+\end{figure}
+
+
+
+
+\subsubsection{Reduced Data Set}
+It is important to determine if a specific group of cases or subjects give rise to the lack of agreement in the methods. If one were to examine fitted model if these cases were removed.
+
+In this instance, we conclude that there is a systemic diagreement between method S and the other two methods, and that lack of agreement can not be sourced to a handful of cases.
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{images/bloodnlmeResidPlot2B}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+%\subsection{Introduction (Page 1)}
+%
+%Linear models for uncorrelated data have well established measures to gauge the influence of one or more
+%observations on the analysis. For such models, closed-form update expressions allow efficient computations
+%without refitting the model. 
+%
+%
+%When similar notions of statistical influence are applied to mixed models,
+%things are more complicated. Removing data points affects fixed effects and covariance parameter estimates.
+%Update formulas for “\textit{leave-one-out}” estimates typically fail to account for changes in covariance
+%parameters. 
+%
+%Moreover, in repeated measures or longitudinal studies, one is often interested in multivariate
+%influence, rather than the impact of isolated points. 
+
+% This paper examines extensions of influence measures
+% in linear mixed models and their implementation in the MIXED procedure.
+
+
+
+
+
+
+
+
+
+lots of the elements of the marginal residual vector versus the explanatory variables in $X$ can be used to check the linearity of $\boldsymbol{y}$ in a similar manner to the residual plots used in linear models.	Conditional residuals should have mean of zero with no grouping structure. They should be homoscedastic. Conditional residuals are useful for checking normality of outliers
+
+%http://support.sas.com/documentation/cdl/en/statug/63033/HTML/default/viewer.htm#statug_mixed_sect024.htm
+
+In LME models, diagnostic techniques may consider `conditional' residuals. A conditional residual is the difference between an observed value $y_{i}$ and the conditional predicted value $\hat{y}_{i} $.
+
+\[ \hat{\epsilon}_{i} = y_{i} - \hat{y}_{i} = y_{i} - ( X_{i}\hat{\beta} + Z_{i}\hat{b}_{i}) \]
+
+However, using conditional residuals for diagnostics presents difficulties, as they tend to be correlated and their variances may be different for different subgroups, which can lead to erroneous conclusions.
+%1.5
+%http://support.sas.com/documentation/cdl/en/statug/63033/HTML/default/viewer.htm#statug_mixed_sect024.htm
+
+
+
 \newpage
+
+
+
+\section*{Appendix 13: Pearson Residual}%1.4.5
+	For an LME model, the \textit{raw} residuals at level $i$ are obtained by subtracting the fitted levels at that level from the response vector If we require a \textit{Pearson} type residual, we further dviide this by the estimated within-group standard error. The Pearson residual is the raw residual divided by the square root of the the within-group standard error for both methods. 
+	
+	The fitted values at level $i$ are obtained by adding together the population fitted values (based only on the fixed effects estimates) and the estimated contributions of the random effects to the fitted values at grouping levels less or equal to $i$. 
+	
+	In addition to Raw and Pearson residuals, there are normalized residuals : standardized residuals pre-multiplied by the inverse square-root factor of the estimated error correlation matrix. For the forthcoming examples, we will use the raw residuals.
+
+	
+	Another possible scaled residual is the \index{Pearson residual} `Pearson residual', whereby a residual is divided by the standard deviation of the dependent variable. The Pearson residual can be used when the variability of $\hat{\beta}$ is disregarded in the underlying assumptions.
+	
+	For an \texttt{lme} object, the residuals at level $i$ are obtained by subtracting the fitted levels at that level from the response vector (and dividing by the estimated within-group standard error, if \texttt{type="pearson"}).The Pearson residual is the raw residual divided by the square root of the variance function (here, the Within-group standard error for both methods, 6.11 and 9.11 respectively). The fitted values at level $i$ are obtained by adding together the population fitted values (based only on the fixed effects estimates) and the estimated contributions of the random effects to the fitted values at grouping levels less or equal to $i$.
+	
+	\begin{description}
+		\item[``\texttt{response}"]: the “raw” residuals (\textit{observed - fitted}) are used. This is the default option.
+		\item[``\texttt{pearson}"]: the standardized residuals (raw residuals divided by the corresponding standard errors) are used; 
+		\item[``\texttt{normalized}"]: the normalized residuals (standardized residuals pre-multiplied by the inverse square-root factor of the estimated error correlation matrix) are used.
+	\end{description}
+
+	
+	
+
 \bibliographystyle{chicago}
 \bibliography{2017bib}
 \end{document}	
