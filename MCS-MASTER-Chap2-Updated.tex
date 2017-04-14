@@ -68,61 +68,47 @@
 
 The issue of whether two methods of measurements are 
 comparable to the extent that they can be used 
-interchangeably with sufficient accuracy and measurement precision is encountered frequency in scientfic research (references).
+interchangeably with sufficient accuracy and measurement precision is encountered frequency in scientfic research. Published examples of method comparison studies can be found in disciplines
+as diverse as pharmacology \citep{ludbrook97}, anaesthesia \citep{Myles}, and cardiac imaging methods \citep{Krumm}(references).
 
 %-- Paragraph 1B
+%-- Paragraph 1C
 
 In the most basic design, items (such as people in medical studies) are measures once only by each of two measurement methods. 
-If the recorded measurements by the two instruments differ systematically, a problem of inter-method bias exists. Oftentimes this bias can be mitigated by some technical adjustment or recalibration of the readings.
+If the recorded measurements by the two instruments differ systematically, a problem of inter-method bias exists. Oftentimes this bias can be mitigated by some technical adjustment or recalibration of the readings. However, if the method variances differ, no comparable adjustment is possible, and a more serious problem exists.
 
-%-- Paragraph 1C
-However, if the method variances differ, no comparable adjustment is possible, and a more serious problem exists.
+
 
 %-- Paragraph 1D
 
 This problem has received significant attention in statistical literature over many decades.
-Statistical tests for equality of measurements precisions were devised by \citet{Pitman} and \citet{Morgan}. \citet{Grubbs48,Grubbs73} formulate a model testing framework for comparing multiple devices.
+Statistical tests for equality of measurements precisions were devised by \citet{pitman} and \citet{morgan}. \citet{Grubbs48,Grubbs73} formulate a model testing framework for comparing multiple devices.
 
 
 
 %-- Paragraph 2A
-
-A graphical tool advocated by \citet{BA83,BA86} shifted the analysis from concerns over statistical hypothesis testing to concerns of statistical equivalence. Known as the Bland-Altman plot this has become the most popular ( and in some cases, obligatory) method of presenting method comparison studies in journals.
-\citet{DunnSEME} prefers an approach based in measurement error models.
-
-
 %-- Paragraph 2B
 
-\citet{BXC2008} extend the technique to replicated deisign using LME frameworks to replicated designs using an LME framework, and supports this worj with an R package.
+A graphical tool advocated by \citet{BA83,BA86} shifted the analysis from concerns over statistical hypothesis testing to concerns of statistical equivalence. Known as the Bland-Altman plot, this technique has become the most popular (and in some cases, obligatory) method of presenting method comparison studies in journals. \citet{DunnSEME} prefers an approach based in measurement error models. \citet{BXC2008} extend the technique to replicated deisign using LME frameworks to replicated designs using an LME framework, and supports this work with an \texttt{R} package. \citet{broemeling2009} lays out a Bayesian strategy.
 
-Broemeling lays out a Bayesian strategy.
 
+With some few exceptions, e.g. \citet{hawkins1978} and \citet{Bartko}, the issue of outliers and anomalous values have not featured prominently in method comparison literature.
 
 %-- Paragraph 2C
 
-This chapter is organized as follows; firstly a review of the tools used in the analysis of unreplicated deisgns. We then consder ther extension to replicated designs.
-
-The LME framework advanced by \citet{BXC2008} is given special attention, and we conclude with some remarks out outliers.
+This chapter is organized as follows; firstly a review of the tools used in the analysis of unreplicated deisgns. We then consder ther extension to replicated designs. The LME framework advanced by \citet{BXC2008} and \citet{ARoy2009} are given special attention, and we conclude with some remarks about outliers, a topic that we will particular attention to in a later chapter.
 
 
 %-- Paragraph 3A
 
 
 
-\newpage
+\section{Conventional Approaches to Unreplicated Design}  
+Let the random variables $Y_1$ and $Y_2$ be distributed bivariate normal with $\mathrm{E}(Y_1)=\mu_1,\ \mathrm{E}(Y_2)=\mu_2,\ \mathrm{var}(Y_1)=\sigma^2_1,\ \mathrm{var}(Y_2)=\sigma^2_2,$ and correlation coefficient $-1<\rho<1.$ Of particular interest are tests of the unconditional marginal hypotheses $\textrm{H}^\prime\colon~\mu_1 = \mu_2$ and $\textrm{H}^{\prime\prime}\colon~\sigma^2_1 = \sigma^2_2,$ and tests of the joint hypothesis $\textrm{H}^\mathrm{J}\colon~\mu_1 = \mu_2\ \textrm{and}\ \sigma^2_1 = \sigma^2_2.$ The random variables $D=Y_1-Y_2$ and $S=Y_1+Y_2$ are bivariate normal with expectations $\mathrm{E}(D) = \mu_D = \mu_1- \mu_2$ and $\mathrm{E}(S) = \mu_S = \mu_1+ \mu_2,$ variances $\mathrm{var}(D) = \sigma^2_D = \sigma_1^2 + \sigma_2^2 - 2 \rho \sigma_1 \sigma_2$ and $\mathrm{var}(S) = \sigma^2_S = \sigma_1^2 + \sigma_2^2 + 2 \rho \sigma_1 \sigma_2,$ and covariance $\mathrm{cov}(D,S) = \sigma_1^2 - \sigma_2^2.$ The conditional distribution of $D$ given $S$ is normal with expectation $\mu_{D\mid S=s} = \mu_D + [ ( \sigma^2_1 - \sigma^2_2 ) / \sigma^2_S ] ( s - \mu_S )$ and variance $\sigma^2_{D\mid S} = \sigma^2_D - ( \sigma^2_1 - \sigma^2_2 )^2 / \sigma^2_S.$ These differences and sums are the building blocks of the test procedures: of $\textrm{H}^\prime,$ due to \cite{Student}; of $\textrm{H}^{\prime\prime}$, devised concurrently by \cite{pitman} and \cite{morgan}; and of $\textrm{H}^\mathrm{J},$ proposed by \citet{BB89}. Notably, the classic test procedure of $\textrm{H}^\prime$ due to \cite{Student} makes no assumptions about the equality, or otherwise, of the variance parameters $\sigma^2_1$ and $\sigma^2_2.$
+
+The test procedure for $\textrm{H}^\mathrm{J}$ advanced by \citet{BB89} additively decomposes into independent tests of $\textrm{H}^{\prime\prime}$ and the conditional marginal hypothesis $\textrm{H}^\dag\colon~\mu_1 = \mu_2,$ assuming the additional restriction $\sigma^2_1 = \sigma^2_2.$  The former test in this decomposition is the Pitman-Morgan procedure referred to above. The latter test in the decomposition is based on the $F$-ratio with $(1,n-2)$ degrees-of-freedom, denoted below by $F_0^\ast.$ Conveniently, all three test procedures can be calculated from the fitted simple linear regression of observed differences on observed sums. 
 
 
-
-\section{Introduction}  
-Let the random variables $Y_1$ and $Y_2$ be distributed bivariate normal with $\mathrm{E}(Y_1)=\mu_1,\ \mathrm{E}(Y_2)=\mu_2,\ \mathrm{var}(Y_1)=\sigma^2_1,\ \mathrm{var}(Y_2)=\sigma^2_2,$ and correlation coefficient $-1<\rho<1.$ Of particular interest are tests of the unconditional marginal hypotheses $\textrm{H}^\prime\colon~\mu_1 = \mu_2$ and $\textrm{H}^{\prime\prime}\colon~\sigma^2_1 = \sigma^2_2,$ and tests of the joint hypothesis $\textrm{H}^\mathrm{J}\colon~\mu_1 = \mu_2\ \textrm{and}\ \sigma^2_1 = \sigma^2_2.$ The random variables $D=Y_1-Y_2$ and $S=Y_1+Y_2$ are bivariate normal with expectations $\mathrm{E}(D) = \mu_D = \mu_1- \mu_2$ and $\mathrm{E}(S) = \mu_S = \mu_1+ \mu_2,$ variances $\mathrm{var}(D) = \sigma^2_D = \sigma_1^2 + \sigma_2^2 - 2 \rho \sigma_1 \sigma_2$ and $\mathrm{var}(S) = \sigma^2_S = \sigma_1^2 + \sigma_2^2 + 2 \rho \sigma_1 \sigma_2,$ and covariance $\mathrm{cov}(D,S) = \sigma_1^2 - \sigma_2^2.$ The conditional distribution of $D$ given $S$ is normal with expectation $\mu_{D\mid S=s} = \mu_D + [ ( \sigma^2_1 - \sigma^2_2 ) / \sigma^2_S ] ( s - \mu_S )$ and variance $\sigma^2_{D\mid S} = \sigma^2_D - ( \sigma^2_1 - \sigma^2_2 )^2 / \sigma^2_S.$ These differences and sums are the building blocks of the test procedures: of $\textrm{H}^\prime,$ due to \cite{Student}; of $\textrm{H}^{\prime\prime}$, devised concurrently by \cite{Pit39} and \cite{Morgan39}; and of $\textrm{H}^\mathrm{J},$ proposed by \citet{BradBlack89}. Notably, the classic test procedure of $\textrm{H}^\prime$ due to \cite{Student} makes no assumptions about the equality, or otherwise, of the variance parameters $\sigma^2_1$ and $\sigma^2_2.$
-
-
-We show that the test procedure for $\textrm{H}^\mathrm{J}$ advanced by \citet{BradBlack89} additively decomposes into independent tests of $\textrm{H}^{\prime\prime}$ and the conditional marginal hypothesis $\textrm{H}^\dag\colon~\mu_1 = \mu_2,$ assuming the additional restriction $\sigma^2_1 = \sigma^2_2.$  The former test in this decomposition is the Pitman-Morgan procedure referred to above. The latter test in the decomposition is based on the $F$-ratio with $(1,n-2)$ degrees-of-freedom, denoted below by $F_0^\ast.$ Conveniently, all three test procedures can be calculated from the fitted simple linear regression of observed differences on observed sums. 
-
-\newpage
-
-
-\section{Preliminaries}
 
 \subsection{The Pitman-Morgan test}
 
@@ -139,56 +125,116 @@ is the sample correlation coefficient of the $n$ case-wise differences $D_i = Y_
 \begin{equation}\label{BB:Fstat}
 F^* = (\frac{n-2}{2}) (\frac{\sum {D_i^2} - \mathrm{SSE}}{\mathrm{SSE}}) \sim F_{(2,n-2)\textrm{df}} ,
 \end{equation}
-where $\mathrm{SSE}$ is the residual error sum-of-squares from the fitted regression $\hat{D}_i=\hat{\beta}_0 +\hat{\beta}_1 s_i$ of the case-wise differences on the case-wise sums. The procedure is to reject the hypothesis $\textrm{H}^\mathrm{J}$ in favour of $\mu_1\neq\mu_2$ and (or) $\sigma^2_1\neq\sigma^2_2$ if $F^* >  F_{\alpha,(2,n-2)\textrm{df}}.$ The $F$ distribution in (\ref{BB:Fstat}) is valid conditional on $S,$ and since the distribution does not depend on $S$ it is also the unconditional distribution of the test statistic $F^*.$ Consequently there is no need to make special allowance for the fact that the case-wise sums encountered here are random sums, and not fixed, error-free explanatory variables as regression theory demands.   This is the same argument that is generally used to show that $t$-test for a correlation coefficient is valid, e.g., $T^*_\mathrm{PM}$ above \citep[page 499]{Hogg}.
+where $\mathrm{SSE}$ is the residual error sum-of-squares from the fitted regression $\hat{D}_i=\hat{\beta}_0 +\hat{\beta}_1 s_i$ of the case-wise differences on the case-wise sums. The procedure is to reject the hypothesis $\textrm{H}^\mathrm{J}$ in favour of $\mu_1\neq\mu_2$ and (or) $\sigma^2_1\neq\sigma^2_2$ if $F^* >  F_{\alpha,(2,n-2)\textrm{df}}.$ The $F$ distribution in (\ref{BB:Fstat}) is valid conditional on $S,$ and since the distribution does not depend on $S$ it is also the unconditional distribution of the test statistic $F^*.$ 
+
+Consequently there is no need to make special allowance for the fact that the case-wise sums encountered here are random sums, and not fixed, error-free explanatory variables as regression theory demands. This is the same argument that is generally used to show that $t$-test for a correlation coefficient is valid, e.g., $T^*_\mathrm{PM}$ above \citep[page 499]{Hogg}.
 
 
 
 
 \section*{Bland-Altman Plots}
 
-\citet{BA83} correctly criticised the use the paired differnce reegresion and correlation anlayss for use in method comparison
+\citet{BA83} correctly criticised the use the paired differnce reegresion and correlation anlayss for use in method comparison. Their graphical procedure is based on pair-wise differences versus pair-wise averages. This plot is essentially a visual analogue of the quantities underpinning the tests presented in the previous subsections.
 
 
 %===================================================================================================================%
 
 %-- Paragraph 4A
-
-In the original scatterplot of X and Y by 45 degrees and rescaling accordingly, and in essence serves the purpose of a diagnostic plot.
-
-From a historical perspective, a similar graphical tool was devised by Tukey several decades earlier \citet{wnuk}.
+The plot of differences versus average can be obtained by rotating the points in the original scatterplot of X and Y by 45 degrees and rescaling accordingly. This plot, in essence, serves the purpose of a diagnostic plot.
+From a historical perspective, a similar graphical tool was devised by Tukey several decades earlier \citet{kozak2014including}.
 
 %-- Paragraph 4B
 We will illustrate the workings of a Bland-Altman plot through a simple example. The Data is table 1 shows (GRUBBS)
 
+	To illustrate the characteristics of a typical method comparison
+	study consider the data in Table 1.1 \citep{Grubbs73}. In each of
+	twelve experimental trials, a single round of ammunition was fired
+	from a 155mm artillery piece and its velocity was measured simultaneously (and
+	independently) by three chronographs devices, identified here by
+	the labels `Fotobalk', `Counter' and `Terma'.
+	\smallskip
+	\begin{table}[ht]
+		\begin{center}
+			\begin{tabular}{|c|c|c|c|}
+				\hline
+				Round& Fotobalk [F] & Counter [C]& Terma [T]\\
+				\hline
+				1 & 793.8 & 794.6 & 793.2 \\
+				2 & 793.1 & 793.9 & 793.3 \\
+				3 & 792.4 & 793.2 & 792.6 \\
+				4 & 794.0 & 794.0 & 793.8 \\
+				5 & 791.4 & 792.2 & 791.6 \\
+				6 & 792.4 & 793.1 & 791.6 \\
+				7 & 791.7 & 792.4 & 791.6 \\
+				8 & 792.3 & 792.8 & 792.4 \\
+				9 & 789.6 & 790.2 & 788.5 \\
+				10 & 794.4 & 795.0 & 794.7 \\
+				11 & 790.9 & 791.6 & 791.3 \\
+				12 & 793.5 & 793.8 & 793.5 \\
+				\phantom{makespace} & \phantom{makespace} & \phantom{makespace} & \phantom{makespace} \\ \hline 
+			\end{tabular}
+			\caption{Velocity measurement from the three chronographs (Grubbs
+				1973).}
+		\end{center}
+		\label{FCTdata}
+	\end{table}
+	
+	An important aspect of the these data is that all three methods of
+	measurement are assumed to have an attended measurement error, and
+	the velocities reported in Table 1.1 can not be assumed to be
+	`true values' in any absolute sense.
 
-The values in the final two columns contain the pairwise differecnces $d_i = x_i - y_i$ and $a_i = \frac{x_i + y_i}{2} $.
+The Bland-Altman plot for comparing the `Fotobalk' and `Counter' methods, which shall henceforth be referred to as the `F vs C' comparison, is depicted on the right in Figure~\ref{GrubbsBAcombined}, using data from Table~\ref{GrubbsData1}. The dashed line in the Bland-Altman plot alludes to the inter-method bias between the two methods, estimated by calculating the average of the differences. In the case of Grubbs data the inter-method bias is $-0.6083$ metres per second. By inspection of the plot, one would notice that the differences tend to increase as the averages increase.
+
+\begin{table}[h!]
+	\renewcommand\arraystretch{0.7}%
+	\begin{center}
+		\begin{tabular}{|c||c|c|c||c|c|c|c|}
+			\hline
+			Round & Fotobalk  & Counter & Terma  &   &    &   &   \\
+			&  [F] & [C] & [T] &[F-C] &  [(F+C)/2] & [F-T] &  [(F+T)/2] \\
+			\hline
+			1 & 793.8 & 794.6 & 793.2 & -0.8 & 794.2 & 0.6 & 793.5 \\
+			2 & 793.1 & 793.9 & 793.3 & -0.8 & 793.5 & -0.2 & 793.2 \\
+			3 & 792.4 & 793.2 & 792.6 & -0.8 & 792.8 & -0.2 & 792.5 \\
+			4 & 794.0 & 794.0 & 793.8 & 0.0 & 794.0 & 0.2 & 793.9 \\
+			5 & 791.4 & 792.2 & 791.6 & -0.8 & 791.8 & -0.2 & 791.5 \\
+			6 & 792.4 & 793.1 & 791.6 & -0.7 & 792.8 & 0.8 & 792.0 \\
+			7 & 791.7 & 792.4 & 791.6 & -0.7 & 792.0 & 0.1 & 791.6 \\
+			8 & 792.3 & 792.8 & 792.4 & -0.5 & 792.5 & -0.1 & 792.3 \\
+			9 & 789.6 & 790.2 & 788.5 & -0.6 & 789.9 & 1.1 & 789.0 \\
+			10 & 794.4 & 795.0 & 794.7 & -0.6 & 794.7 & -0.3 & 794.5 \\
+			11 & 790.9 & 791.6 & 791.3 & -0.7 & 791.2 & -0.4 & 791.1 \\
+			12 & 793.5 & 793.8 & 793.5 & -0.3 & 793.6 & 0.0 & 793.5 \\
+			\hline
+		\end{tabular}
+		\caption{Fotobalk : Differences and Averages with counter and terma.}
+		\label{GrubbsData1}
+	\end{center}
+\end{table}
+
+The values in the final two columns contain the pairwise differences $d_i = x_i - y_i$ and $a_i = \frac{x_i + y_i}{2} $.
 
 %-- Paragraph 4C
-
-A plot of this quantities is show in figure 1.
-
-Also included is a horizontal grey line repesenting th mean of the differences $\bar{d}$.
-
-The horizontal dotted lines refer to the limits of agreement and are placed two standard deviations above and below $bar{d}$
 %-- Paragraph 4D
 
-The rationale for this plot is that methods showing good agreement would be expected to 
-have values falling predominantly between the limits of agreement.
+A plot of this quantities is show in figure 1. Also included is a horizontal grey line repesenting th mean of the differences $\bar{d}$. The horizontal dotted lines refer to the limits of agreement and are placed two standard deviations above and below $bar{d}$. The rationale for this plot is that methods showing good agreement would be expected to  have values falling predominantly between the limits of agreement.
 
 %===================================================================================================================%
 
 %-- Paragraph 5A
 
-\citet{BA86} suggested that exact LOAs can be obtained by placing 1.96 in place of the 2 as a multuplier.
+\citet{BA86} suggested that exact LOAs can be obtained by placing 1.96 in place of the 2 as a multiplier. \citet{BA99} revised this multiplier to be a $t$ value with $n-1$ degrees of freedom for the appropriate coverage.
 
 %-- Paragraph 5B
 
+\citet{BXC2008} argued that prediction intervals are the appropriate tool for deciding the placment of limits of agreement, and these can be calculated as
 
-\[ \bar{d} \pm t_{n-1}\]
+\[ \bar{d} \pm t_{n-1}.\]
 
 %-- Paragraph 5C
 
-\citet{BA83} supplement their graphical tool wth a test of the equality of variances, based n the Pitman-Morgan procedre. This test was omitted from their lances paper \citet{BA86}.
+\citet{BA83} supplement their graphical tool wth a test of the equality of variances, based on the Pitman-Morgan procedure. This test was omitted from their Lancet paper \citep{BA86}, but was mentioned again in \citet{BA99}.
 % Does it re-appear.
 
 
@@ -199,15 +245,24 @@ In \citet{BA99}, they argue that they don't see a role in hypothesis testing in 
 
 %=============================================================================%
 %Paragraph 6
-Much of this analysis is based on classical assumptions of normally distributed data.
+%Much of this analysis is based on classical assumptions of normally distributed data.
 
-Enhancements proposed by \citet{BA99}, such as the use of confidence interval estimates for Limits of agreement have been seldom used in practice.
+Enhancements proposed by \citet{BA99}, such as the use of confidence interval estimates for limits of agreement, have been seldom used in practice.
 
-\section{Conventional Approaches to Replicated Designs}
+\section{Conventional Approaches to Generalized Designs}
+Thus far, the approaches discussed have been based on a simple design, whereby an item is measured by two measurement methods. For method comparison problems, two levels of sophistication exist beyond the simple design. 
 
-It is worth noting that there are two type of replicate measurement, linked and unlinked.
+The first generalization of the design accounts for comparing two instruments when replicate measurements are present. \citet{ARoy2009} considers two instruments with replicate measurements a developing a testing framework based on linear mixed effects models.
 
-For method comparison, two levels of sophistication exist beyond the classical design. \citet{ARoy2009} considers two instruments with replicate measurements.
+The second generalization accounts of multiple methods of measurement, e.g. the framework proposed by \citet{Grubbs73}. \citet{BXC2008} extends the Bland-Altman framework, also using LME models, to allow for pair-wise comparison of instruments between multiple methods of measurement.
+
+\citet{BA99} addresses the issue of computing LOAs in the presence of replicate measurements, suggesting several computationally simple approaches.  When repeated measures data are available, it is desirable to use
+all the data to compare the two methods. However, the original Bland-Altman method was developed for two sets of measurements done on one occasion, and so this approach is not suitable for replicate measures data, other than a preliminary exploration of the data.
+
+
+%It is worth noting that there are two type of replicate measurement, linked and unlinked.
+%
+%.
 %=====================================================================================================================%
 % Paragraph 7A
 
