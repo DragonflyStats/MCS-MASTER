@@ -1,4 +1,69 @@
+\documentclass[12pt, a4paper]{report}
+\usepackage{epsfig}
+\usepackage{subfigure}
+%\usepackage{amscd}
+\usepackage{amssymb}
+\usepackage{graphicx}
+%\usepackage{amscd}
+\usepackage{amssymb}
+\usepackage{subfiles}
+\usepackage{framed}
+\usepackage{subfiles}
+\usepackage{amsthm, amsmath}
+\usepackage{amsbsy}
+\usepackage{framed}
+\usepackage[usenames]{color}
+\usepackage{listings}
+\lstset{% general command to set parameter(s)
+	basicstyle=\small, % print whole listing small
+	keywordstyle=\color{red}\itshape,
+	% underlined bold black keywords
+	commentstyle=\color{blue}, % white comments
+	stringstyle=\ttfamily, % typewriter type for strings
+	showstringspaces=false,
+	numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=5pt, %
+	frame=shadowbox,
+	rulesepcolor=\color{black},
+	,columns=fullflexible
+} %
+%\usepackage[dvips]{graphicx}
+\usepackage{natbib}
+\bibliographystyle{chicago}
+\usepackage{vmargin}
+% left top textwidth textheight headheight
+% headsep footheight footskip
+\setmargins{3.0cm}{2.5cm}{15.5 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
+\renewcommand{\baselinestretch}{1.5}
+\pagenumbering{arabic}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{ill}[theorem]{Example}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{axiom}{Axiom}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{notation}{Notation}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[section]
+\newtheorem{example}{Example}[section]
+\renewcommand{\thenotation}{}
+\renewcommand{\thetable}{\thesection.\arabic{table}}
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+\title{Research notes: linear mixed effects models}
+\author{ } \date{ }
 
+
+\begin{document}
+	\author{Kevin O'Brien}
+	\title{Mixed Models for Method Comparison Studies}
+	\tableofcontents
+	
+	%----------------------------------------------------------------------------------------%
+	\newpage
+	
 %-- Paragraph 1a
 
 The issue of whether two methods of measurements are 
@@ -44,7 +109,7 @@ The LME framework advanced by \citet{BXC2008} is given special attention, and we
 
 
 
-
+\newpage
 
 
 
@@ -54,6 +119,7 @@ Let the random variables $Y_1$ and $Y_2$ be distributed bivariate normal with $\
 
 We show that the test procedure for $\textrm{H}^\mathrm{J}$ advanced by \citet{BradBlack89} additively decomposes into independent tests of $\textrm{H}^{\prime\prime}$ and the conditional marginal hypothesis $\textrm{H}^\dag\colon~\mu_1 = \mu_2,$ assuming the additional restriction $\sigma^2_1 = \sigma^2_2.$  The former test in this decomposition is the Pitman-Morgan procedure referred to above. The latter test in the decomposition is based on the $F$-ratio with $(1,n-2)$ degrees-of-freedom, denoted below by $F_0^\ast.$ Conveniently, all three test procedures can be calculated from the fitted simple linear regression of observed differences on observed sums. 
 
+\newpage
 
 
 \section{Preliminaries}
@@ -69,46 +135,16 @@ is the sample correlation coefficient of the $n$ case-wise differences $D_i = Y_
 
 \subsection{The Bradley-Blackwood test}
 
-\cite{BradBlack89} write $\mu_{D \mid S=s} = \mu_D + [ ( \sigma^2_1 - \sigma^2_2) / \sigma^2_S ] (s - \mu_S) = \beta_0 + \beta_1 s$ where $\beta_0=\mu_D- [(\sigma^2_1-\sigma^2_2)/ \sigma^2_S] \mu_S$ and $\beta_1 = (\sigma^2_1 - \sigma^2_2 )/ \sigma^2_S.$ They use this result to propose a test of the joint hypothesis $\textrm{H}^\mathrm{J},$ which is true if, and only if, $\beta_0=\beta_1=0.$ Their test procedure follows directly from the theory of linear models \citep[for example]{Hogg} and is based on the $F$-ratio
+\cite{BB89} write $\mu_{D \mid S=s} = \mu_D + [ ( \sigma^2_1 - \sigma^2_2) / \sigma^2_S ] (s - \mu_S) = \beta_0 + \beta_1 s$ where $\beta_0=\mu_D- [(\sigma^2_1-\sigma^2_2)/ \sigma^2_S] \mu_S$ and $\beta_1 = (\sigma^2_1 - \sigma^2_2 )/ \sigma^2_S.$ They use this result to propose a test of the joint hypothesis $\textrm{H}^\mathrm{J},$ which is true if, and only if, $\beta_0=\beta_1=0.$ Their test procedure follows directly from the theory of linear models \citep[for example]{Hogg} and is based on the $F$-ratio
 \begin{equation}\label{BB:Fstat}
 F^* = (\frac{n-2}{2}) (\frac{\sum {D_i^2} - \mathrm{SSE}}{\mathrm{SSE}}) \sim F_{(2,n-2)\textrm{df}} ,
 \end{equation}
 where $\mathrm{SSE}$ is the residual error sum-of-squares from the fitted regression $\hat{D}_i=\hat{\beta}_0 +\hat{\beta}_1 s_i$ of the case-wise differences on the case-wise sums. The procedure is to reject the hypothesis $\textrm{H}^\mathrm{J}$ in favour of $\mu_1\neq\mu_2$ and (or) $\sigma^2_1\neq\sigma^2_2$ if $F^* >  F_{\alpha,(2,n-2)\textrm{df}}.$ The $F$ distribution in (\ref{BB:Fstat}) is valid conditional on $S,$ and since the distribution does not depend on $S$ it is also the unconditional distribution of the test statistic $F^*.$ Consequently there is no need to make special allowance for the fact that the case-wise sums encountered here are random sums, and not fixed, error-free explanatory variables as regression theory demands.   This is the same argument that is generally used to show that $t$-test for a correlation coefficient is valid, e.g., $T^*_\mathrm{PM}$ above \citep[page 499]{Hogg}.
 
 
-\section{Introduction}  
-Let the random variables $Y_1$ and $Y_2$ be distributed bivariate normal with $\mathrm{E}(Y_1)=\mu_1,\ \mathrm{E}(Y_2)=\mu_2,\ \mathrm{var}(Y_1)=\sigma^2_1,\ \mathrm{var}(Y_2)=\sigma^2_2,$ and correlation coefficient $-1<\rho<1.$ Of particular interest are tests of the unconditional marginal hypotheses $\textrm{H}^\prime\colon~\mu_1 = \mu_2$ and $\textrm{H}^{\prime\prime}\colon~\sigma^2_1 = \sigma^2_2,$ and tests of the joint hypothesis $\textrm{H}^\mathrm{J}\colon~\mu_1 = \mu_2\ \textrm{and}\ \sigma^2_1 = \sigma^2_2.$ The random variables $D=Y_1-Y_2$ and $S=Y_1+Y_2$ are bivariate normal with expectations $\mathrm{E}(D) = \mu_D = \mu_1- \mu_2$ and $\mathrm{E}(S) = \mu_S = \mu_1+ \mu_2,$ variances $\mathrm{var}(D) = \sigma^2_D = \sigma_1^2 + \sigma_2^2 - 2 \rho \sigma_1 \sigma_2$ and $\mathrm{var}(S) = \sigma^2_S = \sigma_1^2 + \sigma_2^2 + 2 \rho \sigma_1 \sigma_2,$ and covariance $\mathrm{cov}(D,S) = \sigma_1^2 - \sigma_2^2.$ The conditional distribution of $D$ given $S$ is normal with expectation $\mu_{D\mid S=s} = \mu_D + [ ( \sigma^2_1 - \sigma^2_2 ) / \sigma^2_S ] ( s - \mu_S )$ and variance $\sigma^2_{D\mid S} = \sigma^2_D - ( \sigma^2_1 - \sigma^2_2 )^2 / \sigma^2_S.$ These differences and sums are the building blocks of the test procedures: of $\textrm{H}^\prime,$ due to \cite{Student}; of $\textrm{H}^{\prime\prime}$, devised concurrently by \cite{Pit39} and \cite{Morgan39}; and of $\textrm{H}^\mathrm{J},$ proposed by \citet{BradBlack89}. Notably, the classic test procedure of $\textrm{H}^\prime$ due to \cite{Student} makes no assumptions about the equality, or otherwise, of the variance parameters $\sigma^2_1$ and $\sigma^2_2.$
 
 
-We show that the test procedure for $\textrm{H}^\mathrm{J}$ advanced by \citet{BradBlack89} additively decomposes into independent tests of $\textrm{H}^{\prime\prime}$ and the conditional marginal hypothesis $\textrm{H}^\dag\colon~\mu_1 = \mu_2,$ assuming the additional restriction $\sigma^2_1 = \sigma^2_2.$  The former test in this decomposition is the Pitman-Morgan procedure referred to above. The latter test in the decomposition is based on the $F$-ratio with $(1,n-2)$ degrees-of-freedom, denoted below by $F_0^\ast.$ Conveniently, all three test procedures can be calculated from the fitted simple linear regression of observed differences on observed sums. 
-
-
-
-\section{Preliminaries}
-
-\subsection{The Pitman-Morgan test}
-
-The test of the hypothesis that the variances $\sigma^2_1$ and $\sigma^2_2$ are equal, which was devised concurrently by \cite{Pit39} and \cite{Morgan39}, is based on the correlation of $D$ with $S,$ the coefficient being $\rho_{DS} = (\sigma^2_1 - \sigma^2_2) / (\sigma_D \sigma_S ),$ which is zero if, and only if, $\sigma^2_1 = \sigma^2_2.$ Consequently a test of $\textrm{H}^{\prime\prime}\colon\ \sigma^2_1 = \sigma^2_2$ is equivalent to a test of $\textrm{H}\colon\ \rho_{DS}=0$ and the test statistic is the familiar {\it t}-test for a correlation coefficient with $(n-2)$ degrees-of-freedom:  
-\[
-T^*_\mathrm{PM} = R \sqrt{ \frac{n-2}{1-R^2} },
-\]
-where $R =  \sum (D_i-\bar{D})(S_i-\bar{S}) / [ \sum(D_i-\bar{D})^2 \sum (S_i-\bar{S})^2 ]^{\frac{1}{2}} $ 
-is the sample correlation coefficient of the $n$ case-wise differences $D_i = Y_{i1} - Y_{i2}$ and sums $S_i = Y_{i1} + Y_{i2}.$ Throughout this paper the summation $\sum$ is taken to imply $\sum_{i=1}^n.$  The procedure is to reject the hypothesis $\textrm{H}^{\prime\prime}$ in favour of $\sigma^2_1\neq\sigma^2_2$ if $|T^*_\mathrm{PM}| >  t_{\alpha/2,(n-2)\textrm{df}}.$ 
-
-\subsection{The Bradley-Blackwood test}
-
-\cite{BradBlack89} write $\mu_{D \mid S=s} = \mu_D + [ ( \sigma^2_1 - \sigma^2_2) / \sigma^2_S ] (s - \mu_S) = \beta_0 + \beta_1 s$ where $\beta_0=\mu_D- [(\sigma^2_1-\sigma^2_2)/ \sigma^2_S] \mu_S$ and $\beta_1 = (\sigma^2_1 - \sigma^2_2 )/ \sigma^2_S.$ They use this result to propose a test of the joint hypothesis $\textrm{H}^\mathrm{J},$ which is true if, and only if, $\beta_0=\beta_1=0.$ Their test procedure follows directly from the theory of linear models \citep[for example]{Hogg} and is based on the $F$-ratio
-\begin{equation}\label{BB:Fstat}
-F^* = (\frac{n-2}{2}) (\frac{\sum {D_i^2} - \mathrm{SSE}}{\mathrm{SSE}}) \sim F_{(2,n-2)\textrm{df}} ,
-\end{equation}
-where $\mathrm{SSE}$ is the residual error sum-of-squares from the fitted regression $\hat{D}_i=\hat{\beta}_0 +\hat{\beta}_1 s_i$ of the case-wise differences on the case-wise sums. The procedure is to reject the hypothesis $\textrm{H}^\mathrm{J}$ in favour of $\mu_1\neq\mu_2$ and (or) $\sigma^2_1\neq\sigma^2_2$ if $F^* >  F_{\alpha,(2,n-2)\textrm{df}}.$ The $F$ distribution in (\ref{BB:Fstat}) is valid conditional on $S,$ and since the distribution does not depend on $S$ it is also the unconditional distribution of the test statistic $F^*.$ Consequently there is no need to make special allowance for the fact that the case-wise sums encountered here are random sums, and not fixed, error-free explanatory variables as regression theory demands.   This is the same argument that is generally used to show that $t$-test for a correlation coefficient is valid, e.g., $T^*_\mathrm{PM}$ above \citep[page 499]{Hogg}.
-
-
-%===================================================================================================================%
-%-- Paragraph 3B
-
-
-\subsection*{Bland-Altman Plots}
+\section*{Bland-Altman Plots}
 
 \citet{BA83} correctly criticised the use the paired differnce reegresion and correlation anlayss for use in method comparison
 
@@ -192,3 +228,9 @@ Their protocol for the treatment of outliers is unclear.
 
 
 
+
+\bibliographystyle{chicago}
+\bibliography{2017bib}
+
+
+\end{document}
