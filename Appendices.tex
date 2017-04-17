@@ -989,23 +989,15 @@ The estimated overall variance covariance matrix for the the 'RV
 \section*{Appendix 10: Liao Shaio}
 \citet{LaiShiao} views the uses of linear mixed effects models as an expansion on the Bland-Altman framework, rather than as a replacement.  Their focus is to explain lack of agreement by means of additional covariates outside the scope of the traditional method comparison problem, which extends beyond the conventional method comparison study question. The data used for their examples is unavailable for independent use. 
 
-\section{Appendix 11: Deviance Residuals} %1.4.2	
-	% https://v8doc.sas.com/sashtml/insight/chap39/sect55.htm
-	
-	The \textbf{deviance residual} is the measure of deviance contributed from each observation and is given by
-	\[r_{Di} = \textrm{sign}( r_{i})
-	\sqrt{ d_{i}}\]
-	where $d_i$ is the individual deviance contribution. The deviance residuals can be used to check the model fit at each observation for generalized linear models. 
-	
-	%These residuals are stored in variables named \textit{RD\_yname} for each response variable, where yname is the response variable name. 
-	
-	The standardized and studentized deviance residuals are
-	\[
-	r_{Dsi} = \frac{r_{Di}}{\sqrt{\hat{ \phi} (1- h_{i})} }\]
-	\[r_{Dti} = \frac{r_{Di}}{\sqrt{ \hat{ \phi}_{(i)}
-			(1- h_{i})}}\]
 
-\section{Appendix 12: Standardization and Studentization} %1.4.2
+\section{Appendix 11: Standardization and Studentization} %1.4.2
+\newpage
+\textit{In this chapter, we will look at residual analysis and diagnostic toold for LME models, and discuss how they can be applied to the method comparison problem.	In classical linear models, a residual is the difference between an observed value and its estimated or predicted value. For LME models, the topic is more complicated, and still a matter of active research. }
+
+\emph{The second part of the chapter looks at diagnostics techniques for LME models, firsly covering the theory, then proceeding to a discussion on 
+	implementing these using \texttt{R} code.}
+
+\emph{\citet{schabenberger} describes the examination of model-data agreement as comprising several elements; residual analysis, goodness of fit, collinearity diagnostics and influence analysis.}	
 To alleviate the problem caused by inconstant variance, the residuals can be scaled (i.e. divided) by their standard deviations. This results in a \index{standardized residual}`standardized residual'. A random variable is said to be standardized if the difference from its mean is scaled by its standard deviation. The residuals  have mean zero but their variance is unknown, it depends on the true values of $\theta$. Standardization is  not possible in practice. Because true standard deviations are frequently unknown, one can instead divide a residual by the estimated standard deviation to obtain the \index{studentized residual}`studentized residual. 
 %Instead, you can compute studentized residuals by dividing a residual by an estimate of its standard deviation. 
 If that estimate is independent of the $i-$th observation, the process is termed \index{external studentization}`external studentization'. This is usually accomplished by excluding the $i-$th observation when computing the estimate of its standard error. If the observation contributes to the
@@ -1163,6 +1155,22 @@ However, using conditional residuals for diagnostics presents difficulties, as t
 
 
 
+\section{Appendix 12: Deviance Residuals} %1.4.2	
+% https://v8doc.sas.com/sashtml/insight/chap39/sect55.htm
+
+The \textbf{deviance residual} is the measure of deviance contributed from each observation and is given by
+\[r_{Di} = \textrm{sign}( r_{i})
+\sqrt{ d_{i}}\]
+where $d_i$ is the individual deviance contribution. The deviance residuals can be used to check the model fit at each observation for generalized linear models. 
+
+%These residuals are stored in variables named \textit{RD\_yname} for each response variable, where yname is the response variable name. 
+
+The standardized and studentized deviance residuals are
+\[
+r_{Dsi} = \frac{r_{Di}}{\sqrt{\hat{ \phi} (1- h_{i})} }\]
+\[r_{Dti} = \frac{r_{Di}}{\sqrt{ \hat{ \phi}_{(i)}
+		(1- h_{i})}}\]
+
 \section*{Appendix 13: Pearson Residual}%1.4.5
 	For an LME model, the \textit{raw} residuals at level $i$ are obtained by subtracting the fitted levels at that level from the response vector If we require a \textit{Pearson} type residual, we further dviide this by the estimated within-group standard error. The Pearson residual is the raw residual divided by the square root of the the within-group standard error for both methods. 
 	
@@ -1182,7 +1190,70 @@ However, using conditional residuals for diagnostics presents difficulties, as t
 	\end{description}
 
 
-\section*{Appendix 14: DFFITS}%1.4.5
+	\section*{Appendix 14 :Conditional and Marginal Residuals}
+	
+	Suppose the linear mixed-effects model lme has an $n \times p$ fixed-effects design matrix $\boldsymbol{X}$ and an $n \times q$ random-effects design matrix $\boldsymbol{Z}$. 
+	
+	Also, suppose the p-by-1 estimated fixed-effects vector is $\hat{\beta}$ , and the q-by-1 estimated best linear unbiased predictor (BLUP) 
+	vector of random effects is $\hat{b}$ . 
+	
+	The fitted conditional response is
+	
+	\[ \hat{y}_{Cond} = X \hat{\beta} + Z \hat{b} \]
+
+	\subsubsection*{Conditional Residuals}
+	A conditional probability is the difference between the observed value and the predicted value of the dependent variable.
+	\begin{equation*}
+	\hat{\epsilon}_{i} = y_{i} - X_{i}\hat{\beta} + Z_{i}\hat{b}_{i}
+	\end{equation*}
+	
+	In general conditional residuals are not well suited for verifying model assumptions and detecting outliers. Even if the true model residuals are uncorrelated and have equal variance, conditional variances will tend to be correlated and their variances may be different for different subgroups of individuals \citep{west}.
+	
+	%	A conditional residual is the difference between an observed value $y_{i}$ and the conditional predicted value $\hat{y}_{i} $,
+	%	\[r_{ci} = y_i - x_i^{\prime} \hat{b} - z_i^{\prime} \hat{\gamma}\]
+	%	
+	%	\[y - X\beta - Z \eta = \epsilon \]	
+	%	
+	
+	For any type, you can compute the conditional or the marginal residuals. For example, the conditional raw residual is
+	
+	
+	\[ r_{Cond} = y - X \hat{\beta} - Z \hat{b} \]
+	
+	
+	%A conditional residual is the difference between the observed data and the predicted value of the observation,
+	%$r_{ci} = y_i - x_i^{\prime} \hat{b} - z_i^{\prime} \hat{\gamma}$
+	%
+	
+	In LME models, diagnostic techniques may consider `conditional' residuals. A conditional residual is the difference between an observed value $y_{i}$ and the conditional predicted value $\hat{y}_{i} $.
+	
+	\[ \hat{\epsilon}_{i} = y_{i} - \hat{y}_{i} = y_{i} - ( X_{i}\hat{\beta} + Z_{i}\hat{b}_{i}) \]
+	
+	However, using conditional residuals for diagnostics presents difficulties, as they tend to be correlated and their variances may be different for different subgroups, which can lead to erroneous conclusions.
+	
+	
+	
+
+
+	\subsubsection*{Marginal Residuals}
+	A marginal residual is the difference between the observed data and the estimated (marginal) mean, 
+	\[r_{mi} = y_i - x_0^{\prime} \hat{b} =x^{T}_{i}\hat{\beta}\]
+	
+	\[y - X\beta = Z \eta +\epsilon \]
+	
+	
+	The marginal residuals are defined according to
+	\begin{eqnarray*}
+		\hat{\xi} = y - X\hat{\beta} = M^{-1}Qy. \\\nonumber
+	\end{eqnarray*}
+	
+	A marginal residual is the difference between the observed data and the estimated (marginal) mean, $r_{mi} = y_i - x_0^{\prime} \hat{b}$. 
+	the fitted marginal response is
+	
+	
+	\[ \hat{y}_{Mar} = X \hat{\beta} \]
+
+\section*{Appendix 15: DFFITS}%1.4.5
 DFFITS is a diagnostic meant to show how influential a point is in a statistical regression. It is defined as the change, in the predicted value for a point, obtained when that point is left out of the regression, divided by the estimated standard deviation of the fit at that point.	
 	
 
