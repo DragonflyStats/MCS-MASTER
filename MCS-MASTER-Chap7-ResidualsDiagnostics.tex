@@ -66,7 +66,8 @@
 	\chapter{Model Diagnostics for Method Comparison}
 %	Model validation and model appraisal are vital parts of the modelling process, yet are too often overlooked. Using a small handful of simple measures and methods, such as the AIC and $R^2$ measures, is insufficient to properly assess the usefulness of a fitted model. 
 	
-Model diagnostics techniques determine whether or not the distributional assumptions are satisfied, and to assess the influence of unusual observations, and have been become a required part of any statistical analysis. In classical linear models model diagnostics are now considered a required part of any statistical analysis, and the methods are commonly available in statistical packages and standard textbooks on applied regression. A full and comprehensive analysis that comprises residual analysis and influence analysis for testing model assumptions, should be carried out. However it has been noted by several papers \citep{Christensen, schabenberger} that model diagnostics do not often accompany LME model analyses. \citet{schabenberger} discusses the state of LME diagnostics tools, providing a useful summary of established measures.
+Model diagnostics techniques determine whether or not the distributional assumptions are satisfied, and to assess the influence of unusual observations, and have been become a required part of any statistical analysis. In classical linear models model diagnostics are now considered a required part of any statistical analysis, and the methods are commonly available in statistical packages and standard textbooks on applied regression. LME model are a useful framework for fitting a wide range of models. However, they are known to be sensitive to outliers. Specifically likelihood based estimation techniques, such as ML and REML, are sensitive to outliers. \citet{Christensen} advises that identification of outliers is necessary before conclusions may be drawn from the fitted model. The leverage of an observation is a further consideration. 
+A full and comprehensive analysis that comprises residual analysis and influence analysis for testing model assumptions, should be carried out. However it has been noted by several papers \citep{Christensen, schabenberger} that model diagnostics do not often accompany LME model analyses. \citet{schabenberger} discusses the state of LME diagnostics tools, providing a useful summary of established measures.
 	
 The LME model is a useful methodology for fitting a wide range of models. However, linear mixed effects models are known to be sensitive to outliers. Specifically likelihood based estimation techniques, such as ML and REML, are sensitive to outliers. \citet{Christensen} advises that identification of outliers is necessary before conclusions may be drawn from the fitted model. The leverage of an observation is a further consideration. 
 
@@ -204,7 +205,7 @@ LME are flexible tools for the analysis of clustered and repeated measurement da
 	%---http://www.stat.purdue.edu/~bacraig/notes598S/SUGI_Paper_Schabenberger.pdf
 	
 \citet{PB} describes three types of residual that describe the variabilities
-present in LME models, marginal residuals, $\hat{\xi}$, which predict marginal errors, conditional residuals, $\hat{\epsilon}$, which predict conditional errors, and the BLUP,$\boldsymbol{Z\hat{b}}$, that predicts random effects.
+present in LME models, marginal residuals which predict marginal errors, conditional residual, which predict conditional errors, and the BLUP, $ {Z\hat{b}}$, that predicts random effects.
 Each type of residual is useful to evaluates some assumption of the model.
 	
 The definitions of both marginal residuals ($r_m$) and conditional residuals ($r_c$) follow from the definitions of marginal and conditional means in the LME model 
@@ -215,12 +216,7 @@ A marginal residual is the difference between the observed data and the estimate
 
 The conditional (subject-specific) and marginal (population-averaged) formulations in the linear mixed model enable you to consider conditional residuals that use the estimated BLUPs of the random effects, and marginal residuals which are deviations from the overall mean. Residuals using the BLUPs are useful to diagnose whether the random effects components in the model are specified correctly, marginal residuals are useful to diagnose the fixed-effects components.	
 	
-	The raw residuals $r_{mi}$ and $r_{ci}$ are usually not well suited for these purposes.
-	
-
-
-	
-	%- http://www.ime.usp.br/~jmsinger/MAE5705/EMR2013.pdf
+%- http://www.ime.usp.br/~jmsinger/MAE5705/EMR2013.pdf
 	
 	According to Hilton \& Minton (1995), a residual is considered pure for a specfic type fo error
 	if it depends only on the fixed components and on the error that it is supposed to predict.
@@ -231,10 +227,9 @@ The marginal raw residual is
 
 \[ r_{Mar} = y - X \hat{\beta}. \]
 
+Conditional residuals include contributions from both fixed and random effects, whereas marginal residuals include contribution from only fixed effects.
 	
-	Conditional residuals include contributions from both fixed and random effects, whereas marginal residuals include contribution from only fixed effects.
-	
-Marginal residuals are good for checking fixed effects.	
+
 
 	%In linear mixed effects models, diagnostic techniques may consider `conditional' residuals. A conditional residual is the difference between an observed value $y_{i}$ and the conditional predicted value $\hat{y}_{i} $.
 	%
@@ -274,7 +269,6 @@ Influence can be thought of as consequence of leverage and outlierness. Outliers
 %	
 	
 \subsection{A Procedure for Quantifying Influence}  
-Influence can be thought of as consequence of leverage and outlierness. Outliers are the most noteworthy data points in an analysis, and an objective of influence analysis is how influential they are, and the manner in which they are influential. They can point to a model breakdown and lead to development of a better model. 
 
 \citet{schabenberger} describes a simple procedure for quantifying influence for LME Models. Firstly a model should be fitted to the data, and estimates of the parameters should be obtained. The second step is that either single or multiple data points, specifically outliers, should be omitted from the analysis, with the original parameter estimates being updated. This is known as \textit{``leave one out"} or \textit{``leave k out"} analysis. The final step of the procedure is comparing the sets of estimates computed from the entire and reduced data sets to determine whether the absence of observations changed the analysis. 
 
@@ -282,7 +276,7 @@ Influence can be thought of as consequence of leverage and outlierness. Outliers
 
 %\subsubsection{Outliers and Leverage}
 
-LME model are a useful framework for fitting a wide range of models. However, they are known to be sensitive to outliers. Specifically likelihood based estimation techniques, such as ML and REML, are sensitive to outliers. \citet{Christensen} advises that identification of outliers is necessary before conclusions may be drawn from the fitted model. The leverage of an observation is a further consideration. 
+
 
 %The question of whether or not a point should be considered an outlier must therefore be addressed. An outlier is an observation whose true value is unusual given its value on the predictor variables.
 
@@ -321,6 +315,7 @@ which they are important to the analysis.
 %
 %Diagnostic methods for fixed effects are generally analogues of methods used in classical linear models.
 %Diagnostic methods for variance components are based on `one-step' methods. 
+
 
 
 \subsection{Measuring of Influence for LME Models}
@@ -366,14 +361,15 @@ Deletion diagnostics provide a means of assessing the influence of an observatio
 	
 Cook's key observation was the effects of deleting each observation in turn could be calculated with little additional computation. Cook proposed a measure that combines the information of leverage and residual of the observation, now known simply as the Cook's Distance, $D_{(i)}$, which can be calculated without fitting a new regression coefficient each time an observation is deleted. Consequently deletion diagnostics have become an integral part of assessing linear models.
 	
-	
-It must be pointed out that the effect on the precision of estimates is separate from the effect on the point estimates. Data points that have a small \index{Cook's distance}Cook's distance, for example, can still greatly affect hypothesis tests and confidence intervals, if their influence on the precision of the estimates is large.	
+The effect on the precision of estimates is separate from the effect on the point estimates. Data points that have a small \index{Cook's distance}Cook's distance, for example, can still greatly affect hypothesis tests and confidence intervals, if their influence on the precision of the estimates is large.	
 	
 	
 \citet{Christensen} notes the case deletion diagnostics techniques have not been applied to linear mixed effects models and seeks to develop methodologies in that respect. \citet{Christensen} developed their global influences for the deletion of single observations in two steps: a one-step estimate for the REML (or ML) estimate of the variance components, and an ordinary case-deletion diagnostic for a weighted resgression problem (conditional on the estimated covariance matrix) for fixed effects.
 	
 	
 Calculation of case deletion diagnostics in the OLS model is made simple by the fact that estimates of $\beta$ and $\sigma^2$, which exclude the $i$th observation, can be computed without re-fitting the model. Such update formulas are available in the LME model only if you assume that the covariance parameters are not affected by the removal of the observation in question. This is rarely a reasonable assumption, and fundamentally undermines the use of many proposed procedures for method comparison.
+
+\subsection*{Case Deletion}
 	
 \subsection{Cook's Distance}
 
@@ -392,7 +388,7 @@ Large values for Cook's distance indicate observations for special attention. Co
 
 Use of threshold values for Cook's Distance is discouraged \citep{fox1991}. However, informal heuristics do exist for OLS models, with an informal threshold of $4/n$ or $4/(n-k-1)$, where $n$ is the number of observations and $k$ the number of explanatory variables.
 
-\citet{fox1991} advises the use of diagnostic plotting and to examine in closer details the points with \textit{``values of D that are substantially larger than the rest}", and that thresholds should feature only to enhance graphical displays.
+\citet{fox1991} advises the use of diagnostic plotting and to examine in closer details the points with \textit{``values of Cook's Distance that are substantially larger than the rest}", and that thresholds should feature only to enhance graphical displays.
 
 The effect on the precision of estimates is separate from the effect on the point estimates. Data points that have a small \index{Cook's distance}Cook's distance, for example, can still greatly affect hypothesis tests and confidence intervals, if their  influence on the precision of the estimates is large.
 
@@ -526,8 +522,7 @@ An iterative analysis may seem computationally expensive. Computing iterative in
 
 
 	\subsection{Likelihood Distance}
-	An overall influence statistic measures the change in the objective function being minimized. For example, in
-	classical linear, the residual sums of squares serves that purpose. In linear mixed models fit by
+In LME models fit by
 	\index{maximum likelihood} maximum likelihood (ML) or \index{restricted maximum likelihood} restricted maximum likelihood (REML), an overall influence measure is the \index{likelihood distance} likelihood distance \citep{CookWeisberg}.
 	
 	\citet{west} examines a group of methods that examine various aspects of influence diagnostics for LME models. For overall influence, the most common approaches are the \textit{likelihood distance} and the \textit{restricted likelihood distance}.	
@@ -618,6 +613,48 @@ The subjects were ranked by Mahalanobis distance, with the top 10 being presente
 	
 
 
+\subsubsection{Case Deletion Diagnostics for Variance Ratios}
+Taking the core principals of his methods, and applying them to the method comparison problem, case deletion diagnostics are used on the variance components of the Roy's model, specifically the ratio of between subject variances and the within subject covariances respecitvely.
+\[ \mbox{BSVR} = \frac{\sigma^2_1}{\sigma^2_2} \phantom{makespace}  \mbox{WSVR} = \frac{g^2_1}{g^2_2} \]
+These variance ratios are re-computed for each case removed, and may be analysed seperately or jointly for outliers.
+
+The Grubbs' Test for Outliers is a commonly used technique for assessing outlier in a univariate data set, of which there are several variants. As there may be several outliers present, the Grubbs test is not practical. However an indication that a point being beyond the fences according to Tukey's specification for boxplots will suffice.
+
+
+% The first variant of Grubb's test is used to detect if the sample dataset contains one outlier, statistically different than
+% the other values. The test statistic is based by calculating score of this outlier $G$ (outlier minus mean and divided
+% by the standard deviation) and comparing it to appropriate critical values. Alternative method is calculating ratio of
+% variances of two datasets - full dataset and dataset without outlier.
+% %The obtained value called U is bound with G by simple formula.
+% The second variant is used to check if lowest and highest value are two outliers on opposite tails of sample. It is based on calculation of ratio of range to standard deviation of the sample.
+% 
+% The third variant calculates ratio of variance of full sample and sample without two extreme observations.
+% It is used to detect if dataset contains two outliers on the same tail.
+
+The WSVR values are plotted against the corresponding BSVR values, with commonly used bivariate methods may be applied jointly to the both sets of data sets, e.g Mahalanobis distances. Confidence ellipses can be superimposed over the plot with minimal effort. Two ellipses are generated by this technique, a 50 \% and 97.5\% confidence ellipse respectively. Outlying cases are idenified by the plot. Subject 68 is the most prominent case.
+
+The subjects were ranked by Mahalanobis distance, with the top 10 being presented in the following table. Both sets of ratio are addtionally expressed as a ratio of the full model variance ratios.
+\begin{center}
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		Subject (u) &  MD & WSVR$_{(u)}$ & WSVR (\%) & BSVR$_{(u)}$   & BSVR (\%)     \\ \hline \hline
+		68 & 44.7284   & 1.3615  & 0.9132   & 1.0353  & 0.9849 \\ \hline
+		30 & 16.7228   & 1.5045  & 1.0092   & 1.1024  & 1.0487 \\ \hline
+		71 & 11.5887   & 1.5210  & 1.0202   & 1.0932  & 1.0400 \\ \hline
+		80 & 11.0326   & 1.4796  & 0.9925   & 1.0114  & 0.9621 \\ \hline
+		38 & 10.3671   & 1.5011  & 1.0069   & 1.0917  & 1.0385 \\ \hline
+		67 & 10.1940   & 1.4308  & 0.9598   & 1.0514  & 1.0002 \\ \hline
+		43  & 7.6932   & 1.4385  & 0.9649   & 1.0511  & 0.9999 \\ \hline
+		72  & 4.7350   & 1.4900  & 0.9995   & 1.0262  & 0.9762 \\ \hline
+		48  & 4.4321   & 1.4950  & 1.0028   & 1.0280  & 0.9779 \\ \hline
+		29  & 4.3005   & 1.4910  & 1.0001   & 1.0769  & 1.0244 \\ \hline
+	\end{tabular}
+\end{center}
+From this table one may conclude that subjects 72, 48 and 29 are not particularly influential. Interestingly Subject 78, which was noticeable in the case deletion diagnostics for fixed effects, does not feature in this table.
+
+
+
+
 \subsubsection{Variance Ratios}
 \citet{ARoy2009} establishes the equivalence of repeatability and within-item variability, and hence precision.  The method with the smaller within-item variability can be deemed to be the more precise.
 	
@@ -631,6 +668,24 @@ What is required is the computation of the variance ratios of within-item and be
 	A naive approach would be to compute the variance ratios by relevant F distribution quantiles. However, the question arises as to the appropriate degrees of freedom.
 	Bootstrap methods for computing confidence intervals may be considered.
 	
+
+\subsubsection{Confidence Intervals for Variance Ratios}
+
+\citet{ARoy2009} establishes the equivalence of repeatability and within-item variability, and hence precision.  The method with the smaller within-item variability can be deemed to be the more precise.
+
+
+A useful approach is to compute the confidence intervals for the ratio of within-item standard deviations, which is interpreted in the usual manner.
+%	
+
+\citet[pg 93-95]{PB} give a description of how confidence intervals for the variance components are computed. Furthermore a complete set of confidence intervals can be computed to complement the variance component estimates.
+
+What is required is the computation of the variance ratios of within-item and between-item standard deviations.
+
+A naive approach would be to compute the variance ratios by relevant F distribution quantiles. However, the question arises as to the appropriate degrees of freedom.
+Bootstrap methods for computing confidence intervals may be considered.
+
+
+
 
 \section{Agreement Criteria for Replicate Measurements}	
 
@@ -647,6 +702,7 @@ possible consequence of, the violation of the other two agreement criteria. Howe
 
 
 	
+
 \section{Using DFBETAs from LME Models to Assess Agreement}
 
 The impact of an observation on a regression fitting can be determined by the difference between the estimated regression coefficient of a model with all observations and the estimated coefficient when the particular observation is deleted. DFBETA and DFFITS are well known measures of influence. Emphasis shall be placed on DFBETA, but a brief discussion of DFFITS is merited as it potentially provides for useful techniques in method comparison. \citet{schabenberger} provides a mathematical desciption of both.
@@ -659,7 +715,7 @@ In general, large values of DFBETAS indicate observations that are influential i
 %``this observation could be overly influential on the estimated coefficient".
 
 
-
+\newpage
 \subsubsection{Using DFBETAs for Method Comparison}
 For LME models, a value for DFBETAS is calculated for each of the $p$ fixed effects, and for each of the $n$ item. When the LME model is specified without an intercept term, as in Roy's Model, there is a set of DFBETAs corresponding to each measurement method, hence an $n \times p$ matrix.
 % Correctly there will be $p+1$ DFBETAs (the intercept, $\beta_0$, and one $\beta$ for each covariate)
