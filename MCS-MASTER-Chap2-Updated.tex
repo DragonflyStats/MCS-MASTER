@@ -72,7 +72,7 @@
 The issue of whether two methods of measurements are 
 comparable to the extent that they can be used 
 interchangeably with sufficient accuracy and measurement precision is encountered frequency in scientfic research. Published examples of method comparison studies can be found in disciplines
-as diverse as pharmacology \citep{ludbrook97}, anaesthesia \citep{Myles}, and cardiac imaging methods \citep{Krumm}(references).
+as diverse as pharmacology \citep{ludbrook97}, anaesthesia \citep{Myles}, and cardiac imaging methods \citep{Krumm}.
 
 %-- Paragraph 1B
 %-- Paragraph 1C
@@ -92,7 +92,7 @@ Statistical tests for equality of measurements precisions were devised by \citet
 %-- Paragraph 2A
 %-- Paragraph 2B
 
-A graphical tool advocated by \citet{BA83,BA86} shifted the analysis from concerns over statistical hypothesis testing to concerns of statistical equivalence. Known as the Bland-Altman plot, this technique has become the most popular (and in some cases, obligatory) method of presenting method comparison studies in journals. \citet{DunnSEME} prefers an approach based in measurement error models. \citet{BXC2008} extend the technique to replicated deisign using LME frameworks to replicated designs using an LME framework, and supports this work with an \texttt{R} package. \citet{broemeling2009} lays out a Bayesian strategy.
+A graphical tool advocated by \citet{BA83,BA86} shifted the analysis from concerns over statistical hypothesis testing to concerns of statistical equivalence. Known as the Bland-Altman plot, this technique has become the most popular (and in some cases, obligatory) method of presenting method comparison studies in journals \citep{BAcite}. \citet{DunnSEME} prefers an approach based in measurement error models. \citet{BXC2008} extend the technique to replicated deisign using LME frameworks to replicated designs using an LME framework, and supports this work with an \texttt{R} package. \citet{broemeling2009} lays out a Bayesian strategy.
 
 
 With some few exceptions, e.g. \citet{hawkins1978} and \citet{Bartko}, the issue of outliers and anomalous values have not featured prominently in method comparison literature, a topic that we will particular attention to in a later chapter.
@@ -137,14 +137,14 @@ The plot of differences versus average can be obtained by rotating the points in
 From a historical perspective, a similar graphical tool was devised by Tukey several decades earlier \citet{kozak2014including}.
 
 %-- Paragraph 4B
-We will illustrate the workings of a Bland-Altman plot through a simple example. The data contain in the table below was presented in \citep{Grubbs48}. In each of twelve experimental trials, a single round of ammunition was fired from a 155mm artillery piece and its velocity was measured simultaneously (and independently) by three chronographs devices, identified here by the labels `Fotobalk', `Counter' and `Terma'.
+We will illustrate the workings of a Bland-Altman plot through a simple example. The data contain in the table below was presented in \citet{Grubbs48}. In each of twelve experimental trials, a single round of ammunition was fired from a 155mm artillery piece and its velocity was measured simultaneously (and independently) by three chronographs devices, identified here by the labels `Fotobalk', `Counter' and `Terma'.
 \begin{table}[h!]
 	\renewcommand\arraystretch{0.7}%
 	\begin{center}
 		\begin{tabular}{|c||c|c|c||c|c|c|c|}
 			\hline
-			Round & Fotobalk  & Counter & Terma  &   &    &   &   \\
-			&  [F] & [C] & [T] &[F-C] &  [(F+C)/2] & [F-T] &  [(F+T)/2] \\
+
+Round	&  F & C & T &F-C &  (F+C)/2 & F-T &  (F+T)/2 \\
 			\hline
 			1 & 793.8 & 794.6 & 793.2 & -0.8 & 794.2 & 0.6 & 793.5 \\
 			2 & 793.1 & 793.9 & 793.3 & -0.8 & 793.5 & -0.2 & 793.2 \\
@@ -164,7 +164,7 @@ We will illustrate the workings of a Bland-Altman plot through a simple example.
 		\label{GrubbsData1}
 	\end{center}
 \end{table}
-The Bland-Altman plot for comparing the `Fotobalk' and `Counter' methods, which shall henceforth be referred to as the `F vs C' comparison, is depicted on the right in Figure~\ref{fig:FotobalkVsCounter}. The dashed line in the Bland-Altman plot alludes to the inter-method bias between the two methods, estimated by calculating the average of the differences. In the case of Grubbs data the inter-method bias is $-0.61$ metres per second. By inspection of the plot, one would notice that the differences tend to increase as the averages increase.
+The Bland-Altman plot for comparing the `Fotobalk' and `Counter' methods, which shall henceforth be referred to as the `F vs C' comparison, is depicted on the right in Figure~\ref{fig:FotobalkVsCounter}. The dashed line in the Bland-Altman plot alludes to the inter-method bias between the two methods, estimated by calculating the average of the differences. The values in the final two columns contain the pairwise differences $d_i = x_i - y_i$ and $a_i = {(x_i + y_i)/2} $. In the case of Grubbs data the inter-method bias is $-0.61$ metres per second. By inspection of the plot, one would notice that the differences tend to increase as the averages increase.
 %\begin{figure}
 %\centering
 %\includegraphics[width=0.7\linewidth]{images/GrubbsBAplot-LOA}
@@ -179,15 +179,7 @@ The Bland-Altman plot for comparing the `Fotobalk' and `Counter' methods, which 
 \label{fig:FotobalkVsCounter}
 \end{figure}
 
-
-
-
-The values in the final two columns contain the pairwise differences $d_i = x_i - y_i$ and $a_i = {(x_i + y_i)/2} $.
-
-%-- Paragraph 4C
-%-- Paragraph 4D
-
-A plot of this quantities is show in figure 1. Also included is a horizontal grey line repesenting th mean of the differences $\bar{d}$. The horizontal dotted lines refer to the limits of agreement and are placed two standard deviations above and below $bar{d}$. The rationale for this plot is that methods showing good agreement would be expected to  have values falling predominantly between the limits of agreement.
+A plot of this quantities is show in Figure~\ref{fig:FotobalkVsCounter}. Also included is a horizontal grey line repesenting the mean of the differences $\bar{d}$. The horizontal dotted lines refer to the limits of agreement and are placed two standard deviations above and below $\bar{d}$. The rationale for this plot is that methods showing good agreement would be expected to  have values falling predominantly between the limits of agreement.
 
 %===================================================================================================================%
 
@@ -196,7 +188,7 @@ A plot of this quantities is show in figure 1. Also included is a horizontal gre
 \citet{BA86} suggested that exact LOAs can be obtained by placing 1.96 in place of the 2 as a multiplier. \citet{BA99} revised this multiplier to be a $t$ value with $n-1$ degrees of freedom for the appropriate coverage.
 \citet{BXC2008} argued that prediction intervals are the appropriate tool for deciding the placment of limits of agreement, and these can be calculated as
 
-\[ \bar{d} \pm t_{n-1}.\left[ \sqrt{S.E(\bar{d})} \times \frac{n-1}{\sqrt{1 + (1/n)}} \right]. \]
+\[ \bar{d} \pm t_{n-1}.\left[ {S.E(\bar{d})} \times \frac{n-1}{\sqrt{1 + (1/n)}} \right]. \]
 
 %-- Paragraph 5C
 
@@ -214,18 +206,6 @@ A plot of this quantities is show in figure 1. Also included is a horizontal gre
 %Much of this analysis is based on classical assumptions of normally distributed data.
 
 Enhancements proposed by \citet{BA99}, such as the use of confidence interval estimates for limits of agreement, have been seldom used in practice.
-
-\section{Generalized Model Designs}
-Thus far, the approaches discussed have been based on a simple design, whereby an item is measured by two measurement methods. For method comparison problems, two levels of sophistication exist beyond the simple design. 
-
-The first generalization of the design accounts for comparing two instruments when replicate measurements are present. \citet{ARoy2009} considers two instruments with replicate measurements a developing a testing framework based on linear mixed effects models.
-
-The second generalization accounts of multiple methods of measurement, e.g. the framework proposed by \citet{Grubbs73}. \citet{BXC2008} extends the Bland-Altman framework, also using LME models, to allow for pair-wise comparison of instruments between multiple methods of measurement. \citet{christensenblackwood} present a multivariate linear model for method comparison based on Grubbs's model. Their approach generates the multiple  correlation test for equality of device variances, and yields a new simultaneous test for equality of variances and biases.
-
-
-The original Bland-Altman method was developed for two sets of measurements done on one occasion, and so this approach is not suitable for replicate measures data, other than a preliminary exploration of the data. \citet{BA99} addresses the issue of computing LOAs in the presence of replicate measurements, suggesting several computationally simple approaches. When repeated measures data are available, it is desirable to use all the data to compare the two methods. 
-
-
 
 
 \section{Prevalence of the Bland-Altman Plot}
@@ -290,6 +270,19 @@ unsuitable for conversion problems. There is no guidance on how to deal with out
 
 %- Roy and Carstensen
 
+\section{Generalized Model Designs}
+Thus far, the approaches discussed have been based on a simple design, whereby an item is measured by two measurement methods. For method comparison problems, two levels of sophistication exist beyond the simple design. 
+
+The first generalization of the design accounts for comparing two instruments when replicate measurements are present. \citet{ARoy2009} considers two instruments with replicate measurements a developing a testing framework based on linear mixed effects models.
+
+The second generalization accounts of multiple methods of measurement, e.g. the framework proposed by \citet{Grubbs73}. \citet{BXC2008} extends the Bland-Altman framework, also using LME models, to allow for pair-wise comparison of instruments between multiple methods of measurement. \citet{christensenblackwood} present a multivariate linear model for method comparison based on Grubbs's model. Their approach generates the multiple  correlation test for equality of device variances, and yields a new simultaneous test for equality of variances and biases.
+
+
+The original Bland-Altman method was developed for two sets of measurements done on one occasion, and so this approach is not suitable for replicate measures data, other than a preliminary exploration of the data. \citet{BA99} addresses the issue of computing LOAs in the presence of replicate measurements, suggesting several computationally simple approaches. When repeated measures data are available, it is desirable to use all the data to compare the two methods. 
+
+
+
+
 \section{LME Models in Method Comparison Studies}
 When repeated measures data are available for the the computation of the limits of agreement, it is desirable to use all the data to compare the two methods. The classical Bland-Altman method was developed for two sets of measurements done on one occasion, but is inadequate for replicate measurement data. 
 
@@ -306,20 +299,16 @@ The estimate of bias will be unaffected using this approach, but the estimate of
 	%This paper also comments that, while treating the
 	%replicate measurements as independent will cause a downward bias on the limits of agreement calculation, this method is preferable to the `mean of replicates' approach. 
 	
-	
-	\citet{BXC2008} extends the well established Bland-Altman methodology for the case of replicate measurements on each item by using LME models, to allow for a more statistically rigourous approach to computing appropriate estimates for the variance of the inter-method bias. As their interest mainly lies in extending the Bland-Altman approach, other formal tests are not considered.  
+\citet{BXC2008} extends the well established Bland-Altman approach for the case of replicate measurements on each item by using LME models, to allow for a more statistically rigourous approach to computing appropriate estimates for the variance of the inter-method bias. As their interest mainly lies in extending the Bland-Altman approach, other formal tests are not considered.  
 	
 	%Measures of repeatability, a
 	%characteristic of individual methods of measurements, are also
 	%derived using this method.
 	
-	
-	
-	
-	\subsection{Test For Inter-Method Bias in the LME Frameworks}
+\subsection{Test For Inter-Method Bias in the LME Frameworks}
 	The presence of an inter-method bias is the source of disagreement between two methods of measurement that is most easily identified. A formal test for this can be implemented by examining the fixed effects of the LME model, which model the inter-method bias. This is common to classical linear model, and interpretation of the results should pose not difficulty to a trained practitioner.
 	
-	The null hypotheses $H_1$, that both methods have the same mean, which is tested against the alternative hypothesis $K_1$ , that both methods have different means;
+The null hypotheses $H_1$, that both methods have the same mean, which is tested against the alternative hypothesis $K_1$, that both methods have different means;
 	\begin{eqnarray}
 	\operatorname{H_1} : \mu_1 = \mu_2 ,\\
 	\operatorname{K_1} : \mu_1 \neq \mu_2.
@@ -339,18 +328,33 @@ The estimate of bias will be unaffected using this approach, but the estimate of
 %	y_{mi}  = \alpha_{m} + \mu_{i} + e_{mi} \qquad ( e_{mi} \sim
 %	N(0,\sigma^{2}_{m}))
 %	\end{equation}
+	The measurement $y_{mi}$ by method $m$ on individual $i$ the measurement $y_{mir} $ is the $r$th replicate measurement on the $i$th item by the $m$th method, where $m=1,2,\ldots,M$ $i=1,\ldots,N,$ and $r = 1,\ldots,n_i$ is formulated as follows.
+	%	\begin{equation}
+	%	y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + a_{ir} + \epsilon_{mir}, \qquad \quad c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}) , a_{ir} \sim \mathcal{N}(0,\varsigma^{2}),  \varepsilon_{mi} \sim \mathcal{N}(0,\varphi^{2}_{m}) .
+	%	\end{equation}
+
+\begin{equation}
+	y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + e_{mir}, \qquad  e_{mi}
+	\sim \mathcal{N}(0,\sigma^{2}_{m}), \quad c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}).
+\end{equation}
 	
-	The following model (in the authors own notation) is
-	formulated as follows, where $y_{mir}$ is the $r$th replicate
-	measurement on subject $i$ with method $m$. The differences are expressed as $d_{i} = y_{1i} - y_{2i}$.
-	\begin{equation}
+The following model (in the authors own notation) is formulated as follows, where $y_{mir}$ is the $r$th replicate measurement on subject $i$ with method $m$. 
+
+\begin{equation}
 	y_{mir}  = \alpha_{m} + \beta_{m}\mu_{i} + c_{mi} + e_{mir} \qquad
-	( e_{mi} \sim N(0,\sigma^{2}_{m}), c_{mi} \sim N(0,\tau^{2}_{m}))
-	\end{equation}
-	The intercept term $\alpha$ and the $\beta_{m}\mu_{i}$ term follow from \citet{DunnSEME}, expressing constant and proportional bias
-	respectively, in the presence of a real value $\mu_{i}$. $c_{mi}$ is a interaction term to account for replicate, and $e_{mir}$ is the residual associated with each observation. Since variances are specific to each method, this model can be
-	fitted separately for each method.
+\end{equation}
+The intercept term $\alpha$ and the $\beta_{m}\mu_{i}$ term follow from \citet{DunnSEME}, expressing constant and proportional bias
+respectively, in the presence of a real value $\mu_{i}$. $c_{mi}$ is a interaction term to account for replicate, with $c_{mi} \sim N(0,\tau^{2}_{m})$, and $e_{mir}$ is the residual associated with each observation $ e_{mi} \sim N(0,\sigma^{2}_{m})$. Since variances are specific to each method, this model can be fitted separately for each method.
+	Here the terms $\alpha_{m}$ and $\mu_{i}$ represent the fixed effect for method $m$ and a true value for item $i$ respectively. The $\beta_{m}$ term follow from \citet{DunnSEME}, expressing constant and proportional bias respectively, in the presence of a real value $\mu_{i}.$ We will just consider the case where $\beta=1$ presently. 
 	
+	
+	
+	$c_{mi}$ is a interaction term to account for replicate, and $e_{mir}$ is the residual associated with each observation. Since variances are specific to each method, this model can be fitted separately for each method.
+	\begin{equation}\label{BXC-model}
+	y_{mir}  = \alpha_{m} + \mu_{i} + a_{ir} + c_{mi} + \varepsilon_{mir}.
+	\end{equation}
+	The variation between items for method $m$ is captured by $\sigma_m$ and the within item variation by $\tau_m$.	
+		
 This formulation doesn't require the data set to be balanced, but does require a sufficient number of replicates and measurements to overcome the problem of identifiability. Consequently more than two methods of measurement may
 be required to carry out the analysis. There is also the assumptions that observations of measurements by particular methods are exchangeable within subjects. The quality of exchangeability means that future samples from a population behaves like earlier samples. For the replicate case, an interaction term $c$ is added to the model, with an associated variance component. All the random effects are assumed independent, and that all replicate measurements are assumed to be exchangeable within each method. 
 	
@@ -413,26 +417,9 @@ be required to carry out the analysis. There is also the assumptions that observ
 %	
 	
 	
-	The measurement $y_{mi}$ by method $m$ on individual $i$ the measurement $y_{mir} $ is the $r$th replicate measurement on the $i$th item by the $m$th method, where $m=1,2,\ldots,M$ $i=1,\ldots,N,$ and $r = 1,\ldots,n_i$ is formulated as follows.
-%	\begin{equation}
-%	y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + a_{ir} + \epsilon_{mir}, \qquad \quad c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}) , a_{ir} \sim \mathcal{N}(0,\varsigma^{2}),  \varepsilon_{mi} \sim \mathcal{N}(0,\varphi^{2}_{m}) .
-%	\end{equation}
-%	
-%	
-	\begin{equation}
-	y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + e_{mir}, \qquad  e_{mi}
-	\sim \mathcal{N}(0,\sigma^{2}_{m}), \quad c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}).
-	\end{equation}
 
-	Here the terms $\alpha_{m}$ and $\mu_{i}$ represent the fixed effect for method $m$ and a true value for item $i$ respectively. The $\beta_{m}$ term follow from \citet{DunnSEME}, expressing constant and proportional bias respectively, in the presence of a real value $\mu_{i}.$ We will just consider the case where $\beta=1$ presently. 
 	
-	
-	
-	$c_{mi}$ is a interaction term to account for replicate, and $e_{mir}$ is the residual associated with each observation. Since variances are specific to each method, this model can be fitted separately for each method.
-	\begin{equation}\label{BXC-model}
-	y_{mir}  = \alpha_{m} + \mu_{i} + a_{ir} + c_{mi} + \varepsilon_{mir}.
-	\end{equation}
-	The variation between items for method $m$ is captured by $\sigma_m$ and the within item variation by $\tau_m$.	
+
 %	The random-effect terms comprise an item-by-replicate interaction term $a_{ir} \sim \mathcal{N}(0,\varsigma^{2})$, a method-by-item interaction term $c_{mi} \sim \mathcal{N}(0,\tau^{2}_{m}),$ and model error terms $\varepsilon_{mir} \sim \mathcal{N}(0,\varphi^{2}_{m}).$ 
 	
 	All random-effect terms are assumed to be independent. For the case when replicate measurements are assumed to be exchangeable for item $i$, $a_{ir}$ can be removed. This model describes measurements by $m$ methods, where $m = \{1,2,3\ldots\}$. When the design is balanced and there is no ambiguity we can set $n_i=n$.
@@ -463,7 +450,8 @@ Failure to take the replication structure into account results in over-estimatio
 	
 	\citet{BXC2008} proposed a technique to calculate prediction intervals in the presence of replicate measurements, overcoming problems associated with Bland-Altman approach in this regard. Between-subject variation for method $m$ is given by $g^2_{m}$ (in the author's notation $\tau^2_m$) and within-subject variation is given by $\sigma^2_{m}$.  
 
-	\citet{BXC2008} states a model where the variation between items for method $m$ is captured by $\tau_m$ (our notation $g^2_m$) and the within-item variation by $\sigma_m$. When only two methods are compared, \citet{BXC2008} notes that separate estimates of $\tau^2_m$ can not be obtained due to the model over-specification. To overcome this, the assumption of equality, i.e. $\tau^2_1 = \tau^2_2$, is required.
+	\citet{BXC2008} states a model where the variation between items for method $m$ is captured by $\tau_m$ (our notation $g^2_m$) and the within-item variation by $\sigma_m$. When only two methods are compared, \citet{BXC2008} notes that separate estimates of $\tau^2_m$ can not be obtained due to the model over-specification.
+	% To overcome this, the assumption of equality, i.e. $\tau^2_1 = \tau^2_2$, is required.
 	
 	When only two methods are to be compared, separate estimates of $\tau^2_m$ can not be obtained. Instead the average value $\tau^2$ is used. The between-subject variability ${D}$ and within-subject variability ${\Lambda}$ can be presented in matrix form,\[
 	{G} = \left(%
@@ -623,27 +611,20 @@ Four candidates models are fitted to the data. These models are similar to one a
 	
 	As the within-subject variabilities are fundamental to the coefficient of repeatability, this variability test likelihood ratio test is equivalent to testing the equality of two coefficients of repeatability of two methods. In presenting the results of this test, \citet{ARoy2009} includes the coefficients of repeatability for both methods.
 	
+\subsubsection{Variability Test 3}
+Roy also integrates $\mathrm{H}_2$ and $\mathrm{H}_3$ into a single testable hypothesis $\mathrm{H}_4\colon \omega^2_1=\omega^2_2,$ where $\omega^2_m = \sigma^2_m + g^2_m$ represent the overall variability of method $m.$ \citet{ARoy2009} further proposes examination of the the overall variability by considering the second and third criteria be examined jointly. Should both the second and third criteria be fulfilled, then the overall variabilities of both methods would be equal. An examination of this topic is useful because a method for computing limits of agreement follows from here.
 	
-	\subsubsection{Variability Test 3}
-	Roy also integrates $\mathrm{H}_2$ and $\mathrm{H}_3$ into a single testable hypothesis $\mathrm{H}_4\colon \omega^2_1=\omega^2_2,$ where $\omega^2_m = \sigma^2_m + g^2_m$ represent the overall variability of method $m.$ \citet{ARoy2009} further proposes examination of the the overall variability by considering the second and third criteria be examined jointly. Should both the second and third criteria be fulfilled, then the overall variabilities of both methods would be equal. An examination of this topic is useful because a method for computing Limits of Agreement follows from here.
-	
-	A formal test for the equality of overall variances is also presented.
+A formal test for the equality of overall variances is also presented.
 	\begin{eqnarray*}
 		\operatorname{H_4} : \omega^2_1 = \omega^2_2 \\
 		\operatorname{K_4} : \omega^2_1 \neq \omega^2_2
 	\end{eqnarray*}
+Two methods can be considered to be in agreement if criteria based upon these techniques are met. Additionally Roy makes reference to the overall correlation coefficient of the two methods, which is determinable from variance estimates.
 	
-	Two methods can be considered to be in agreement if criteria based upon these techniques are met. Additionally Roy makes reference to the overall correlation coefficient of the two methods, which is determinable from variance estimates.
+Conversely, the tests of variability required detailed explanation. Each test is performed by fitting two candidate models, according with the null and alternative hypothesis respectively. The distinction between the models arise in the specification in one, or both, of the variance-covariance matrices. % A likelihood ratio test can then be used to compare these respective fits.
 	
-	Conversely, the tests of variability required detailed explanation. Each test is performed by fitting two candidate models, according with the null and alternative hypothesis respectively. The distinction between the models arise in the specification in one, or both, of the variance-covariance matrices. % A likelihood ratio test can then be used to compare these respective fits.
-	
-	
-	
-	Disagreement in overall variability may be caused by different between-item variabilities, by different within-item variabilities, or by both.  If the exact cause of disagreement between the two methods is not of interest, then the overall variability test $H_4$ is an alternative to testing $H_2$ and $H_3$ separately.
-	
-	The estimated overall variance covariance matrix `Block
+Disagreement in overall variability may be caused by different between-item variabilities, by different within-item variabilities, or by both. If the exact cause of disagreement between the two methods is not of interest, then the overall variability test $H_4$ is an alternative to testing $H_2$ and $H_3$ separately. The estimated overall variance covariance matrix `Block
 	$\Omega_{i}$' is the addition of estimate of the between-subject variance covariance matrix $\hat{D}$ and the within-subject variance covariance matrix $\hat{\Sigma}$.
-	
 	\begin{equation}
 	\mbox{Block  }\Omega_{i} = \hat{D} + \hat{\Sigma}
 	\end{equation}
@@ -668,31 +649,25 @@ Four candidates models are fitted to the data. These models are similar to one a
 		\]
 	\end{center}
 	
-	The last of the variability test examines whether or not both methods have the same overall variability. This enables the joint consideration of second and third criteria.
-	\begin{eqnarray*}
-		H_{0}: \mbox{ }\omega_{1}  = \omega_{2} \\
-		H_{A}: \mbox{ }\omega_{1}  \neq \omega_{2}
-	\end{eqnarray*}
-	
-	The null model is constructed a symmetric form for both ${\hat{D}}$ and ${\hat{\Lambda}}$ while the alternative model uses a compound symmetry form for both.
-	
-	
-	
-	
-	
-	
-	\subsection{Computing Limits of Agreement Using Roy's Model}
-	\citet{ARoy2009} has demonstrated a method whereby $g^2_{A}$ and $g^2_{B}$ can be estimated separately. Also covariance terms are present in both ${D}$ and ${\Sigma}$. Using Roy's approach, the variance of case-wise difference in measurements can be determined from Block-${\Omega}_{i}$. Hence limits of agreement can be computed. The computation of the limits of agreement require that the variance of the difference of measurements. This variance is easily computable from the estimate of the ${\mbox{Block - } \Omega_{i}}$ matrix.
-	The variance of differences is easily computable from the variance estimates in the ${\mbox{Block - } \Omega_{i}}$ matrix, i.e.
+%	The last of the variability test examines whether or not both methods have the same overall variability. This enables the joint consideration of second and third criteria.
+%	\begin{eqnarray*}
+%		H_{0}: \mbox{ }\omega_{1}  = \omega_{2} \\
+%		H_{A}: \mbox{ }\omega_{1}  \neq \omega_{2}
+%	\end{eqnarray*}
+%	
+%	The null model is constructed a symmetric form for both ${\hat{D}}$ and ${\hat{\Lambda}}$ while the alternative model uses a compound symmetry form for both.
+%	
+\subsection{Computing Limits of Agreement Using Roy's Model}
+\citet{ARoy2009} has demonstrated a method whereby $g^2_{A}$ and $g^2_{B}$ can be estimated separately. Also covariance terms are present in both ${D}$ and ${\Sigma}$. Using Roy's approach, the variance of case-wise difference in measurements can be determined from Block-${\Omega}_{i}$. Hence limits of agreement can be computed. The computation of the limits of agreement require that the variance of the difference of measurements. This variance is easily computable from the estimate of the ${\mbox{Block - } \Omega_{i}}$ matrix.
+
+The variance of differences is easily computable from the variance estimates in the ${\mbox{Block - } \Omega_{i}}$ matrix, i.e.
 	\[
 	\mathrm{Var}(y_1 - y_2) = \sqrt{ \omega^2_1 + \omega^2_2 - 2\omega_{12}}.
 	\]	
-	Lack of agreement can arise if there is a disagreement in overall variabilities. 
-	%-------------------------------------------------------------------------------------%
-	
-	The limits of agreement computed by Roy's method are derived from the variance covariance matrix for overall variability.
-	This matrix is the sum of the between subject VC matrix and the within-subject Variance Covariance matrix.
-	For Carstensen's `fat' data, the limits of agreement computed using Roy's
+Lack of agreement can arise if there is a disagreement in overall variabilities. 
+
+The limits of agreement computed by Roy's method are derived from the variance covariance matrix for overall variability.
+This matrix is the sum of the between subject VC matrix and the within-subject Variance Covariance matrix. For Carstensen's `fat' data, the limits of agreement computed using Roy's
 	method are consistent with the estimates given by \citet{BXC2008}; $0.044884  \pm 1.96 \times  0.1373979 = (-0.224,  0.314).$
 	
 	
@@ -709,12 +684,12 @@ In many cases the limits of agreement derived from this method accord with those
 	
 	\[{D} = \left(
 	\begin{array}{cc}
-	g^1_2  & 0 \\
+	g^2_1  & 0 \\
 	0 & g^2_2 \\
 	\end{array}
 	\right) \;\;\;\; {\Sigma} = \left(
 	\begin{array}{cc}
-	\sigma^1_2  & 0 \\
+	\sigma^2_1  & 0 \\
 	0 & \sigma^2_2 \\
 	\end{array}
 	\right) \]
