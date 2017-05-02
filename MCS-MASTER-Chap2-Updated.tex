@@ -52,7 +52,7 @@
 \newtheorem{remark}{Remark}[section]
 \newtheorem{example}{Example}[section]
 \renewcommand{\thenotation}{}
-\renewcommand{\thetable}{\thesection.\arabic{table}}
+%\renewcommand{\thetable}{\thesection.\arabic{table}}
 %\renewcommand{\thefigure}{\thesection.\arabic{figure}}
 \title{Research notes: linear mixed effects models}
 \author{ } \date{ }
@@ -67,35 +67,27 @@
 	\newpage
 	
 %-- Paragraph 1a
-\chapter{Established Techniques for Method Comparison Studies}
-\section{Techniques for Simple Design Studies}
+\chapter{Techniques for Method Comparison Studies}
+\section{Simple Experimental Layouts}
 The issue of whether two methods of measurements are 
 comparable to the extent that they can be used 
-interchangeably with sufficient accuracy and measurement precision is encountered frequency in scientfic research. Published examples of method comparison studies can be found in disciplines
-as diverse as pharmacology \citep{ludbrook97}, anaesthesia \citep{Myles}, and cardiac imaging methods \citep{Krumm}.
-
-%-- Paragraph 1B
-%-- Paragraph 1C
-
-In the most basic design, items (i.e. people in medical studies) are measures once only by each of two measurement methods. 
+interchangeably with sufficient accuracy and measurement precision is encountered frequency in scientfic research. The problem is ubiquitous and arises in disciplines
+as diverse as pharmacology \citep{ludbrook97}, anaesthesia \citep{Myles}, and cardiac imaging methods \citep{Krumm}. In the most basic design, items, often people in medical studies, are measures once only by each of two measurement methods. 
 If the recorded measurements by the two instruments differ systematically, a problem of inter-method bias exists. Oftentimes this bias can be mitigated by some technical adjustment or recalibration of the readings. However, if the method variances differ, no comparable adjustment is possible, and a more serious problem exists.
-
-
 
 %-- Paragraph 1D
 
 This problem has received significant attention in statistical literature over many decades.
 Statistical tests for equality of measurements precisions were devised by \citet{pitman} and \citet{morgan}. \citet{Grubbs48,Grubbs73} formulate a model testing framework for comparing multiple devices.
 
-
-
 %-- Paragraph 2A
 %-- Paragraph 2B
 
-A graphical tool advocated by \citet{BA83,BA86} shifted the analysis from concerns over statistical hypothesis testing to concerns of statistical equivalence. Known as the Bland-Altman plot, this technique has become the most popular (and in some cases, obligatory) method of presenting method comparison studies in journals \citep{BAcite}. \citet{DunnSEME} prefers an approach based in measurement error models. \citet{BXC2008} extend the technique to replicated deisign using LME frameworks to replicated designs using an LME framework, and supports this work with an \texttt{R} package. \citet{broemeling2009} lays out a Bayesian strategy.
+A graphical tool advocated by \citet{BA83,BA86} shifted the analysis from concerns over statistical hypothesis testing to concerns of statistical equivalence. This plot is commonly referred to as the Bland-Altman plot \citep{Dewitte, Myles, krouwer2008bland, smith2010bar}, and has become the most popular (and in some cases, obligatory) method of presenting method comparison studies in journals \citep{BAcite}. \citet{DunnSEME} prefers an approach based in measurement error models. \citet{BXC2008} advocated the use of linear mixed effects (LME) models to extend the Bland-Altman technique to replicated design to replicated designs, and supports this work with an \texttt{R} package. \citet{broemeling2009} lays out a Bayesian strategy.
 
 
-With some few exceptions, e.g. \citet{hawkins1978} and \citet{Bartko}, the issue of outliers and anomalous values have not featured prominently in method comparison literature, a topic that we will particular attention to in a later chapter.
+With some few exceptions, e.g. \citet{hawkins1978} and \citet{Bartko}, the issue of outliers and anomalous values have not featured prominently in method comparison literature. \citet{Bartko} proposes confidence ellipsoids as an enhancement of the Bland-Altman plot.
+\textit{This a topic that we will particular attention to in a later chapter.}
 
 %-- Paragraph 2C
 
@@ -106,14 +98,14 @@ This chapter is organized as follows; firstly a review of the tools used in the 
 
 
 
-\section{Conventional Approaches to Unreplicated Design}  
+\section{Two Method Single Replicate Design}  
 Let the random variables $Y_1$ and $Y_2$ be distributed bivariate normal with $\mathrm{E}(Y_1)=\mu_1,\ \mathrm{E}(Y_2)=\mu_2,\ \mathrm{var}(Y_1)=\sigma^2_1,\ \mathrm{var}(Y_2)=\sigma^2_2,$ and correlation coefficient $-1<\rho<1.$ Of particular interest are tests of the unconditional marginal hypotheses $\textrm{H}^\prime\colon~\mu_1 = \mu_2$ and $\textrm{H}^{\prime\prime}\colon~\sigma^2_1 = \sigma^2_2,$ and tests of the joint hypothesis $\textrm{H}^\mathrm{J}\colon~\mu_1 = \mu_2\ \textrm{and}\ \sigma^2_1 = \sigma^2_2.$ The random variables $D=Y_1-Y_2$ and $S=Y_1+Y_2$ are bivariate normal with expectations $\mathrm{E}(D) = \mu_D = \mu_1- \mu_2$ and $\mathrm{E}(S) = \mu_S = \mu_1+ \mu_2,$ variances $\mathrm{var}(D) = \sigma^2_D = \sigma_1^2 + \sigma_2^2 - 2 \rho \sigma_1 \sigma_2$ and $\mathrm{var}(S) = \sigma^2_S = \sigma_1^2 + \sigma_2^2 + 2 \rho \sigma_1 \sigma_2,$ and covariance $\mathrm{cov}(D,S) = \sigma_1^2 - \sigma_2^2.$ The conditional distribution of $D$ given $S$ is normal with expectation $\mu_{D\mid S=s} = \mu_D + [ ( \sigma^2_1 - \sigma^2_2 ) / \sigma^2_S ] ( s - \mu_S )$ and variance $\sigma^2_{D\mid S} = \sigma^2_D - ( \sigma^2_1 - \sigma^2_2 )^2 / \sigma^2_S.$ These differences and sums are the building blocks of the test procedures: of $\textrm{H}^\prime,$ due to \cite{Student}; of $\textrm{H}^{\prime\prime}$, devised concurrently by \cite{pitman} and \cite{morgan}; and of $\textrm{H}^\mathrm{J},$ proposed by \citet{BB89}. Notably, the classic test procedure of $\textrm{H}^\prime$ due to \cite{Student} makes no assumptions about the equality, or otherwise, of the variance parameters $\sigma^2_1$ and $\sigma^2_2.$
 
-The test procedure for $\textrm{H}^\mathrm{J}$ advanced by \citet{BB89} additively decomposes into independent tests of $\textrm{H}^{\prime\prime}$ and the conditional marginal hypothesis $\textrm{H}^\dag\colon~\mu_1 = \mu_2,$ assuming the additional restriction $\sigma^2_1 = \sigma^2_2.$  The former test in this decomposition is the Pitman-Morgan procedure referred to above. The latter test in the decomposition is based on the $F$-ratio with $(1,n-2)$ degrees-of-freedom, denoted below by $F_0^\ast.$ Conveniently, all three test procedures can be calculated from the fitted simple linear regression of observed differences on observed sums. 
+%The test procedure for $\textrm{H}^\mathrm{J}$ advanced by \citet{BB89} additively decomposes into independent tests of $\textrm{H}^{\prime\prime}$ and the conditional marginal hypothesis $\textrm{H}^\dag\colon~\mu_1 = \mu_2,$ assuming the additional restriction $\sigma^2_1 = \sigma^2_2.$  The former test in this decomposition is the Pitman-Morgan procedure referred to above. The latter test in the decomposition is based on the $F$-ratio with $(1,n-2)$ degrees-of-freedom, denoted below by $F_0^\ast.$ Conveniently, all three test procedures can be calculated from the fitted simple linear regression of observed differences on observed sums. 
 
 
 
-\subsection{The Pitman-Morgan test}
+\subsection*{The Pitman-Morgan test}
 
 The test of the hypothesis that the variances $\sigma^2_1$ and $\sigma^2_2$ are equal, which was devised concurrently by \cite{pitman} and \cite{morgan}, is based on the correlation of $D$ with $S,$ the coefficient being $\rho_{DS} = (\sigma^2_1 - \sigma^2_2) / (\sigma_D \sigma_S ),$ which is zero if, and only if, $\sigma^2_1 = \sigma^2_2.$ Consequently a test of $\textrm{H}^{\prime\prime}\colon\ \sigma^2_1 = \sigma^2_2$ is equivalent to a test of $\textrm{H}\colon\ \rho_{DS}=0$ and the test statistic is the familiar {\it t}-test for a correlation coefficient with $(n-2)$ degrees-of-freedom:  
 \[
@@ -123,23 +115,25 @@ where $R =  \sum (D_i-\bar{D})(S_i-\bar{S}) / [ \sum(D_i-\bar{D})^2 \sum (S_i-\b
 is the sample correlation coefficient of the $n$ case-wise differences $D_i = Y_{i1} - Y_{i2}$ and sums $S_i = Y_{i1} + Y_{i2}.$ Throughout this paper the summation $\sum$ is taken to imply $\sum_{i=1}^n.$  The procedure is to reject the hypothesis $\textrm{H}^{\prime\prime}$ in favour of $\sigma^2_1\neq\sigma^2_2$ if $|T^*_\mathrm{PM}| >  t_{\alpha/2,(n-2)\textrm{df}}.$ 
 
 
+\subsection*{The Bradley-Blackwood test}
 
+\cite{BB89} write $\mu_{D \mid S=s} = \mu_D + [ ( \sigma^2_1 - \sigma^2_2) / \sigma^2_S ] (s - \mu_S) = \beta_0 + \beta_1 s$ where $\beta_0=\mu_D- [(\sigma^2_1-\sigma^2_2)/ \sigma^2_S] \mu_S$ and $\beta_1 = (\sigma^2_1 - \sigma^2_2 )/ \sigma^2_S.$ They use this result to propose a test of the joint hypothesis $\textrm{H}^\mathrm{J},$ which is true if, and only if, $\beta_0=\beta_1=0.$ Their test procedure follows directly from the theory of linear models \citep[for example]{Hogg} and is based on the $F$-ratio
+\begin{equation}\label{BB:Fstat}
+F^* = (\frac{n-2}{2}) (\frac{\sum {D_i^2} - \mathrm{SSE}}{\mathrm{SSE}}) \sim F_{(2,n-2)\textrm{df}} ,
+\end{equation}
+where $\mathrm{SSE}$ is the residual error sum-of-squares from the fitted regression $\hat{D}_i=\hat{\beta}_0 +\hat{\beta}_1 s_i$ of the case-wise differences on the case-wise sums. The procedure is to reject the hypothesis $\textrm{H}^\mathrm{J}$ in favour of $\mu_1\neq\mu_2$ and (or) $\sigma^2_1\neq\sigma^2_2$ if $F^* >  F_{\alpha,(2,n-2)\textrm{df}}.$ The $F$ distribution in (\ref{BB:Fstat}) is valid conditional on $S,$ and since the distribution does not depend on $S$ it is also the unconditional distribution of the test statistic $F^*.$ Consequently there is no need to make special allowance for the fact that the case-wise sums encountered here are random sums, and not fixed, error-free explanatory variables as regression theory demands.   This is the same argument that is generally used to show that $t$-test for a correlation coefficient is valid, e.g., $T^*_\mathrm{PM}$ above \citep[page 499]{Hogg}.
 
 \section*{Bland-Altman Plots}
 
-\citet{BA83} correctly criticised the use the paired differnce reegresion and correlation anlayss for use in method comparison. Their graphical procedure is based on pair-wise differences versus pair-wise averages. This plot is essentially a visual analogue of the quantities underpinning the tests presented previously.
-
-
-%===================================================================================================================%
-
-%-- Paragraph 4A
-The plot of differences versus average can be obtained by rotating the points in the original scatterplot of X and Y by 45 degrees and rescaling accordingly. This plot, in essence, serves the purpose of a diagnostic plot.
+\citet{BA83} correctly criticised the use the paired differnce reegresion and correlation anlayss for use in method comparison. Their graphical procedure is based on pair-wise differences versus pair-wise averages, and is essentially a visual analogue of the quantities underpinning the tests presented previously. The plot of differences versus average can be obtained by rotating the points in the original scatterplot of X and Y by the rotation matrix R, where \[R = \left(\begin{array}{cc}
+1 & -1 \\ 
+0.5 & 0.5
+\end{array}\right) \] and rescaling accordingly \citep{newson2016rank}. This plot, in essence, serves the purpose of a diagnostic plot.
 From a historical perspective, a similar graphical tool was devised by Tukey several decades earlier \citet{kozak2014including}.
 
-%-- Paragraph 4B
-We will illustrate the workings of a Bland-Altman plot through a simple example. The data contain in the table below was presented in \citet{Grubbs48}. In each of twelve experimental trials, a single round of ammunition was fired from a 155mm artillery piece and its velocity was measured simultaneously (and independently) by three chronographs devices, identified here by the labels `Fotobalk', `Counter' and `Terma'.
+The workings of a Bland-Altman plot can be illustrated through a simple example. The data contain in the table below was presented in \citet{Grubbs48}. In each of twelve experimental trials, a single round of ammunition was fired from a 155mm artillery piece and its velocity was measured simultaneously (and independently) by three chronographs devices, identified here by the labels `Fotobalk', `Counter' and `Terma', and labelled as $F$, $C$ and $T$ respectively.
 \begin{table}[h!]
-	\renewcommand\arraystretch{0.7}%
+	\renewcommand\arraystretch{0.9}%
 	\begin{center}
 		\begin{tabular}{|c||c|c|c||c|c|c|c|}
 			\hline
@@ -160,11 +154,11 @@ Round	&  F & C & T &F-C &  (F+C)/2 & F-T &  (F+T)/2 \\
 			12 & 793.5 & 793.8 & 793.5 & -0.3 & 793.6 & 0.0 & 793.5 \\
 			\hline
 		\end{tabular}
-		\caption{Fotobalk : Differences and Averages with counter and terma.}
+		\caption{Fotobalk : differences and averages with Counter and Terma (Grubbs, 1948).}
 		\label{GrubbsData1}
 	\end{center}
 \end{table}
-The Bland-Altman plot for comparing the `Fotobalk' and `Counter' methods, which shall henceforth be referred to as the `F vs C' comparison, is depicted on the right in Figure~\ref{fig:FotobalkVsCounter}. The dashed line in the Bland-Altman plot alludes to the inter-method bias between the two methods, estimated by calculating the average of the differences. The values in the final two columns contain the pairwise differences $d_i = x_i - y_i$ and $a_i = {(x_i + y_i)/2} $. In the case of Grubbs data the inter-method bias is $-0.61$ metres per second. By inspection of the plot, one would notice that the differences tend to increase as the averages increase.
+The Bland-Altman plot for comparing the `Fotobalk' and `Counter' methods, which shall henceforth be referred to as the `F vs C' comparison, is depicted on the right in Figure~\ref{fig:FotobalkVsCounter}. The dashed line in the Bland-Altman plot alludes to the inter-method bias between the two methods, estimated by calculating the average of the differences $\bar{d}$. The values in the final two columns contain the pairwise differences $d_i = x_i - y_i$ and $a_i = {(x_i + y_i)/2} $. In the case of Grubbs data the inter-method bias is $-0.61$ metres per second. By inspection of the plot, one would notice that the differences tend to increase as the averages increase.
 %\begin{figure}
 %\centering
 %\includegraphics[width=0.7\linewidth]{images/GrubbsBAplot-LOA}
@@ -174,25 +168,24 @@ The Bland-Altman plot for comparing the `Fotobalk' and `Counter' methods, which 
 
 \begin{figure}
 \centering
-\includegraphics[width=0.55\linewidth]{images/FotobalkVsCounter}
-\caption{}
+\includegraphics[width=0.7\linewidth]{images/FvC}
+\caption{\textit{Bland Altman Plot for Fotobalk vs Counter Comparison (Grubbs, 1948)}}
 \label{fig:FotobalkVsCounter}
 \end{figure}
 
 A plot of this quantities is show in Figure~\ref{fig:FotobalkVsCounter}. Also included is a horizontal grey line repesenting the mean of the differences $\bar{d}$. The horizontal dotted lines refer to the limits of agreement and are placed two standard deviations above and below $\bar{d}$. The rationale for this plot is that methods showing good agreement would be expected to  have values falling predominantly between the limits of agreement.
 
-%===================================================================================================================%
 
 %-- Paragraph 5A
 %-- Paragraph 5B
 \citet{BA86} suggested that exact LOAs can be obtained by placing 1.96 in place of the 2 as a multiplier. \citet{BA99} revised this multiplier to be a $t$ value with $n-1$ degrees of freedom for the appropriate coverage.
 \citet{BXC2008} argued that prediction intervals are the appropriate tool for deciding the placment of limits of agreement, and these can be calculated as
 
-\[ \bar{d} \pm t_{n-1}.\left[ {S.E(\bar{d})} \times \frac{n-1}{\sqrt{1 + (1/n)}} \right]. \]
+\[ \bar{d} \pm t_{n-1}.\left[ {S.E.(\bar{d})} \times \frac{n-1}{\sqrt{1 + (1/n)}} \right]. \]
 
 %-- Paragraph 5C
 
-\citet{BA83} supplement their graphical tool wth a test of the equality of variances, based on the Pitman-Morgan procedure. This test was omitted from their Lancet paper \citep{BA86}, but was mentioned again in \citet{BA99}. In \citet{BA99}, they argue that they don't see a role in hypothesis testing in establishing equivalence of measurement methods.
+\citet{BA83} supplement their graphical tool wth a test of the equality of variances, based on the Pitman-Morgan procedure. This test was omitted from their Lancet paper \citep{BA86}, but was mentioned again in \citet{BA99}. In \citet{BA99}, they argue that they do not see a role in hypothesis testing in establishing equivalence of measurement methods.
 % Does it re-appear.
 
 
@@ -280,15 +273,15 @@ The second generalization accounts of multiple methods of measurement, e.g. the 
 
 The original Bland-Altman method was developed for two sets of measurements done on one occasion, and so this approach is not suitable for replicate measures data, other than a preliminary exploration of the data. \citet{BA99} addresses the issue of computing LOAs in the presence of replicate measurements, suggesting several computationally simple approaches. When repeated measures data are available, it is desirable to use all the data to compare the two methods. 
 
-
-
-
-\section{LME Models in Method Comparison Studies}
 When repeated measures data are available for the the computation of the limits of agreement, it is desirable to use all the data to compare the two methods. The classical Bland-Altman method was developed for two sets of measurements done on one occasion, but is inadequate for replicate measurement data. 
 
 \citet{BA99} addressed this issue by suggesting several computationally simple approaches.  One approach suggested by \citet{BA99} is to calculate the mean for each method on each subject and use these pairs of means to compare the two methods. Their second approach is to treat each measurement separately. 
-	
+
 The estimate of bias will be unaffected using this approach, but the estimate of the standard deviation of the differences will be too small, because of the reduction of the effect of repeated measurement error \citep{BXC2004,BXC2008}. These authors recommends that replicate measurements be used for each method, but recognizes that resulting data are more difficult to analyze. To this end, they recommend the use of LME models as a suitable framework.
+
+
+\section{Linear Mixed Effects Models in Method Comparison Studies}
+
 	%\citet{ARoy2009} uses an LME model approach to provide a set of formal tests for method comparison studies.
 	
 	%\citet{BXC2008} demonstrate statistical flaws with two approaches proposed by \citet{BA99} for the purpose of calculating the variance of the inter-method bias when replicate measurements are available.	
@@ -311,7 +304,7 @@ The estimate of bias will be unaffected using this approach, but the estimate of
 The null hypotheses $H_1$, that both methods have the same mean, which is tested against the alternative hypothesis $K_1$, that both methods have different means;
 	\begin{eqnarray}
 	\operatorname{H_1} : \mu_1 = \mu_2 ,\\
-	\operatorname{K_1} : \mu_1 \neq \mu_2.
+%	\operatorname{K_1} : \mu_1 \neq \mu_2.
 	\end{eqnarray}
 	The inter-method bias and necessary test statistic and $p-$value are presented in computer output. 
 	%================================================================%
@@ -581,7 +574,7 @@ Four candidates models are fitted to the data. These models are similar to one a
 	The first test determines whether or not both methods $A$ and $B$ have the same between-subject variability, further to the second of Roy's criteria.
 	\begin{eqnarray*}
 		H_{2}: \mbox{ }g_{1}  = g_{2} \\
-		K_{2}: \mbox{ }g_{1}  \neq g_{2}
+	%	K_{2}: \mbox{ }g_{1}  \neq g_{2}
 	\end{eqnarray*}
 	This test is facilitated by constructing a model specifying a symmetric form for $D$ (i.e. the alternative model) and comparing it with a model that has compound symmetric form for $D$ (i.e. the null model). For this test ${\hat{\Sigma}}$ has a symmetric form for both models, and will be the same for both.
 	
@@ -595,7 +588,7 @@ Four candidates models are fitted to the data. These models are similar to one a
 	%	\end{eqnarray*}%and a formal test for the equality of within-item variances.
 	\begin{eqnarray*}
 		\operatorname{H_3} : \sigma^2_1 = \sigma^2_2 \\
-		\operatorname{K_3} : \sigma^2_1 \neq \sigma^2_2
+	%	\operatorname{K_3} : \sigma^2_1 \neq \sigma^2_2
 	\end{eqnarray*}
 	
 	%---------------------------------------------%
@@ -604,7 +597,7 @@ Four candidates models are fitted to the data. These models are similar to one a
 	This test determines whether or not both methods have the same within-subject variability, thus enabling a decision on the third of Roy's criteria.
 	\begin{eqnarray*}
 		H_{4}: \mbox{ }\sigma_{1}  = \sigma_{2} \\
-		K_{4}: \mbox{ }\sigma_{1}  \neq \sigma_{2}
+	%	K_{4}: \mbox{ }\sigma_{1}  \neq \sigma_{2}
 	\end{eqnarray*}
 	
 	This model is performed in the same manner as the first test, only reversing the roles of ${\hat{G}}$ and ${\hat{\Sigma}}$. The null model is constructed a symmetric form for ${\hat{\Sigma}}$ while the alternative model uses a compound symmetry form. This time ${\hat{G}}$ has a symmetric form for both models, and will be the same for both.
@@ -617,7 +610,7 @@ Roy also integrates $\mathrm{H}_2$ and $\mathrm{H}_3$ into a single testable hyp
 A formal test for the equality of overall variances is also presented.
 	\begin{eqnarray*}
 		\operatorname{H_4} : \omega^2_1 = \omega^2_2 \\
-		\operatorname{K_4} : \omega^2_1 \neq \omega^2_2
+%		\operatorname{K_4} : \omega^2_1 \neq \omega^2_2
 	\end{eqnarray*}
 Two methods can be considered to be in agreement if criteria based upon these techniques are met. Additionally Roy makes reference to the overall correlation coefficient of the two methods, which is determinable from variance estimates.
 	
