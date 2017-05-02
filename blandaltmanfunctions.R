@@ -16,3 +16,6 @@ bland <- function(x, y, titl=''){
   plot(g)
 
 }
+
+
+myDF <- read.csv("https://raw.githubusercontent.com/RWorkshop/workshopdatasets/master/artillerydata.csv")
