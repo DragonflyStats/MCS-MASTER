@@ -66,12 +66,14 @@
 	\chapter{Model Diagnostics for Method Comparison}
 %	Model validation and model appraisal are vital parts of the modelling process, yet are too often overlooked. Using a small handful of simple measures and methods, such as the AIC and $R^2$ measures, is insufficient to properly assess the usefulness of a fitted model. 
 	
-Model diagnostics techniques determine whether or not the distributional assumptions are satisfied, and to assess the influence of unusual observations, and have been become a required part of any statistical analysis. In classical linear models model diagnostics are now considered a required part of any statistical analysis, and the methods are commonly available in statistical packages and standard textbooks on applied regression. LME model are a useful framework for fitting a wide range of models. However, they are known to be sensitive to outliers. Specifically likelihood based estimation techniques, such as ML and REML, are sensitive to outliers. \citet{Christensen} advises that identification of outliers is necessary before conclusions may be drawn from the fitted model. The leverage of an observation is a further consideration. 
-A full and comprehensive analysis that comprises residual analysis and influence analysis for testing model assumptions, should be carried out. However it has been noted by several papers \citep{Christensen, schabenberger} that model diagnostics do not often accompany LME model analyses. \citet{schabenberger} discusses the state of LME diagnostics tools, providing a useful summary of established measures.
+Model diagnostics techniques determine whether or not the distributional assumptions are satisfied, and to assess the influence of unusual observations, and have been become a required part of any statistical analysis. In classical linear models model diagnostics are now considered a required part of any statistical analysis, and the methods are commonly available in statistical packages and standard textbooks on applied regression. LME model are a useful framework for fitting a wide range of models. However, they are known to be sensitive to outliers, specifically the likelihood based estimation techniques, such as ML and REML. \citet{Christensen} advises that outlier identification is necessary before any conclusions may be drawn from the fitted model. The leverage of an observation is a further consideration. 
+A full and comprehensive analysis that comprises residual analysis and influence analysis for testing model assumptions, should be carried out. However it has been noted by several papers \citep{Christensen, schabenberger} that model diagnostics do not often accompany LME model analyses. Model diagnostic techniques, well established for classical models, have since been adapted for use with linear mixed effects models. Diagnostic techniques for LME models are inevitably more difficult to implement, due to the increased complexity. \citet{schabenberger} discusses the state of LME diagnostics tools, providing a useful summary of established measures.
 	
 
 \subsection*{Literature Review}	
-\citet{schabenberger} discusses residuals for LME model, providing a useful summary of various techniques. Prominent in literature is the taxonomy of residuals for LME Models, distinguishing between condition residuals, marginal residuals and EBLUPS, including \citet{hilden1995, schabenberger, west, NobreSinger2007}. \citet{schabenberger} remarks that the concept of critiquing the model-data agreement applies in LME models in the same way as in linear fixed-effects models. \citet{west} argues that model and data diagnostics are even more important because of the more complex model structure.
+\citet{schabenberger} remarks that the concept of critiquing the model-data agreement applies in LME models in the same way as in linear fixed-effects models. \citet{west} argues that model and data diagnostics are even more important because of the more complex model structure.
+
+\citet{schabenberger} discusses residuals for LME model, and provides a useful summary of various techniques. Prominent in literature is the taxonomy of residuals for LME Models, distinguishing between condition residuals, marginal residuals and EBLUPS, including \citet{hilden1995, schabenberger, west, NobreSinger2007}. \citet{schabenberger} remarks that the concept of critiquing the model-data agreement applies in LME models in the same way as in linear fixed-effects models. \citet{west} argues that model and data diagnostics are even more important because of the more complex model structure.
 
 
 Following model specification and estimation, it is of interest to explore the model-data agreement by raising pertinent questions.  Further to the analysis of residuals, \citet{schabenberger} recommends the examination of the following questions:
@@ -88,34 +90,40 @@ Influential points are of particular interest in the context of method compariso
 
 \citet{schabenberger} describes a simple procedure for quantifying influence for LME Models. Firstly a model should be fitted to the data, and estimates of the parameters should be obtained. The second step is that either single or multiple data points, specifically outliers, should be omitted from the analysis, with the original parameter estimates being updated. This is known as \textit{``leave one out"} or \textit{``leave k out"} analysis. The final step of the procedure is comparing the sets of estimates computed from the entire and reduced data sets to determine whether the absence of observations changed the analysis. 
 
-	The last of these three questions, regarding influential points, is of particular interest in the context of Method Comparison. After fitting an LME model, it is important to carry put model diagnostics to check whether distributional assumptions for the residuals as satisfied and whether the fit the model is sensitive to unusual assumptions. 
-
-
-Influential points are of particular interest in the context of method comparison. After fitting an LME model, it is important to carry put model diagnostics to check whether distributional assumptions for the residuals as satisfied and whether the fit the model is sensitive to unusual assumptions. \citet{schabenberger} remarks that the concept of critiquing the model-data agreement applies in LME models in the same way as in linear fixed-effects models. \citet{west} argues that model and data diagnostics are even more important because of the more complex model structure.
-
 
 %http://support.sas.com/documentation/cdl/en/statug/63033/HTML/default/viewer.htm#statug_mixed_sect024.htm
 
 %http://www.itl.nist.gov/div898/handbook/pmd/section4/pmd44.htm
-
+	\subsection{Comparing Influence and Residual Analysis}
+	%In LME models, there are two types of residuals, marginal residuals and conditional residuals. A
+	%marginal residual is the difference between the observed data and the estimated marginal mean. A conditional residual is the
+	%difference between the observed data and the predicted value of the observation. In a model without random effects, both sets of residuals coincide \citep{schab}.
+	
+	\citet{influenceLME4} compares residual analysis and influence analysis. Cases with high residuals (defined as the difference between the observed and the predicted scores on the dependent
+	variable) or with high standardized residuals (defined as the residual divided by the standard deviation
+	of the residuals) are indicated as outliers.
+	
+	However, an influential case is not necessarily an outlying residual. On the contrary: a strongly influential case dominates
+	the regression model in such a way, that the estimated regression line lies closely to this case. The analysis of residuals cannot be used for the detection of influential cases \citep{crawley2012r}.
 
 	
 \section{Residual Analysis}
-Analysis of residuals, the differences between observed values and the values predicted by the model, is a widely used model validation technique. This approach is used to examine model assumptions and to detect outliers and potentially influential data points. 
+Analysis of residuals, the differences between observed values and the values predicted by the model, is a widely used model validation technique, and is used to examine model assumptions and to detect outliers and potentially influential data points. 
 
 As with classical models, there are two key techniques: a residual plot and the normal probability plot. The rationale is that, if the model is properly fitted to the model, then the residuals would approximate the random errors that one should expect. If the residuals behave randomly, with no discernible trend, the model has fitted the data well. 
 %If some sort of non-random trend is evident in the model, then the model can be considered to be poorly fitted. 
 
-The underlying assumptions for LME models are similar to those of OLS models. However, for LME models the matter of residuals are more complex, both from a theoretical point of view and from the practicalities of implementing a comprehensive analysis using statistical software. \citet{schabenberger} discusses residuals for LME model, providing a useful summary of various techniques. Prominent in literature is the taxonomy of residuals for LME Models, distinguishing between condition residuals, marginal residuals and EBLUPS, including \citet{hilden1995, schabenberger, west, NobreSinger2007}.  
+The underlying assumptions for LME models are similar to those of OLS models. However, for LME models the matter of residuals are more complex, both from a theoretical point of view and from the practicalities of implementing a comprehensive analysis using statistical software.
 
 Statistical software environments, such as the \texttt{R} programming language, provides a suite of tests and graphical procedures for appraising a fitted LME model, with several of these procedures analysing the model residuals. Texts such as \citet{PB,west,Galecki} describe what can be implemented for LME residual analyses with statistical software, such as \texttt{R} and \texttt{SAS}.
 
 
 %The figures on the next page depict the residual analysis for the \textit{Blood} data, which can be used to indicate which methods disagree with the rest, but these would be a confirmation of something detected previously.
 
-In the context of method comparison, a residual analysis would be carried out just as any other LME model would, testing normality. 
+ 
 
 
+\subsection*{Residual Plots}
 Analysis of the residuals could determine if the methods of measurement disagree systematically, or whether or not erroneous measurements associated with a subset of the cases are the cause of disagreement. 
 The figure depicts residual plot for the systolic blood pressure example used in \citet{BA99}. Points are labelled by subjects, with cases 67, 68 and 71 being among the prominent cases. Prominent cases warrant further investigation, but an analyst should procede to influence diagnostics beforehand.
 
@@ -127,6 +135,7 @@ Residual diagnostics are typically implemented as a plot of the observed residua
 	\caption{}
 	\label{fig:ResidPlot}
 \end{figure}
+The underlying assumptions for LME models are similar to those of classical linear models. There are two key techniques: a residual plot and the normal probability plot. In the context of method comparison, a residual analysis would be carried out just as any other LME model would, testing normality. \citet{PB} provide some insight into how to compute and interpret model diagnostic plots for LME models. Unfortunately this aspect of LME theory is not as expansive as the corresponding body of work for linear models.
 
 As the LME model can be tailored to the needs of the particular research question, the rationale behind the model appraisal must follow accordingly. 
 For method comparison studies, one can create plots specific to each method, useful in determining which methods disagree with the rest.
@@ -154,9 +163,9 @@ Figure~\ref{bloodnlme-ResidPlot} depicts residual plot for the Systolic Blood Pr
 
 
 \subsubsection{LME Residuals}
-LME are flexible tools for the analysis of clustered and repeated measurement data. LME extend the capabilities of standard linear models by allowing unbalanced and missing data, as long as the missing data are MAR. Structured covariance matrices for both the random effects G and the residuals R. The underlying assumptions for LME models are similar to those of classical linear models. There are two key techniques: a residual plot and the normal probability plot.
+LME are flexible tools for the analysis of clustered and repeated measurement data. LME extend the capabilities of standard linear models by allowing unbalanced and missing data, as long as the missing data are MAR. Structured covariance matrices for both the random effects G and the residuals R. 
 
-\citet{PB} provide some insight into how to compute and interpret model diagnostic plots for LME models. Unfortunately this aspect of LME theory is not as expansive as the corresponding body of work for linear models.
+
 
 	\subsubsection{Taxonomy of LME Residuals}
 	Standard residual and influence diagnostics for linear models can
@@ -208,14 +217,8 @@ Standard residual and influence diagnostics for linear models can be extended to
 
 	Model diagnostic techniques can determine whether or not the distributional assumptions are satisfied, but also to assess the influence of unusual observations. Following model specification and estimation, it is of interest to explore the model-data agreement by raising pertinent questions. 
 	
-Influential points have a large influence on the fit of the model. Influential points are a set of one or more observations whose removal would cause a different conclusion in the analysis, e.g. substantially changes the estimate of the regression coefficients. \citet{west} remarks that influence diagnostics play an important role in the interpretation of results, because influential data can negatively influence the statistical model and generalizability of the model. \citet{schabenberger} remarks that the concept of critiquing the model-data agreement applies in LME models in the same way as in linear fixed-effects models. In fact, because of the more complex model structure, you can argue that model and
+	Influential points have a large influence on the fit of the model. Influential points are a set of one or more observations whose removal would cause a different conclusion in the analysis, e.g. substantially changes the estimate of the regression coefficients. \citet{west} remarks that influence diagnostics play an important role in the interpretation of results, because influential data can negatively influence the statistical model and generalizability of the model. 
 
-Model diagnostic techniques can determine whether or not the distributional assumptions are satisfied, but also to assess the influence of unusual observations. Following model specification and estimation, it is of interest to explore the model-data agreement by raising pertinent questions. \citet{PB} provide some insight into how to compute and interpret model diagnostic plots for LME models. 
-
-	
-	Influential points have a large influence on the fit of the model. Influential points are a set of one or more observations whose removal would cause a different conclusion in the analysis, e.g. substantially changes the estimate of the regression coefficients. \citet{west} remarks that influence diagnostics play an important role in the interpretation of results, because influential data can negatively influence the statistical model and generalizability of the model. \citet{schabenberger} remarks that the concept of critiquing the model-data agreement applies in LME models in the same way as in linear
-	fixed-effects models. In fact, because of the more complex model structure, it can be argued that model and
-	data diagnostics are even more important \citep{west}.
 	%Influential points have a large influence on the fit of the model. 
 	
 	%One approach for determining influential points is to compare the fit of the model with and without each observation.
@@ -234,8 +237,8 @@ If the global measure suggests that the points in $U$ are influential, you shoul
 that influence. In particular, the points can affect the estimates of the precision of the fixed effects and covariance parameters, and hence predicted values.
 
 
-Consideration of how leave-$U$-out diagnostics would work in the context of Method Comparison problems is required. There are several scenarios. \citet{preisser} describes two type of diagnostics. When the set consists of only one observation, the type is called
-`\textit{observation-diagnostics}'. For multiple observations, Preisser describes the diagnostics as `\textit{cluster-deletion}' diagnostics. Suppose we have two methods of measurement X and Y, each with three measurements for a specific case: $(x_1,x_2,x_3,y_1,y_2,y_3)$
+For case-deletion approaches, \citet{preisser} describes two type of diagnostics. When the set consists of only one observation, the type is called
+`\textit{observation-diagnostics}'. For multiple observations, Preisser describes the diagnostics as `\textit{cluster-deletion}' diagnostics.Consideration of how leave-$U$-out diagnostics would work in the context of Method Comparison problems is required.  Suppose we have two methods of measurement X and Y, each with three measurements for a specific case: $(x_1,x_2,x_3,y_1,y_2,y_3)$
 
 \begin{itemize}
 	\item Leave One Out - one observation is omitted (e.g. $x_1$)
@@ -251,7 +254,7 @@ The natural sampling unit is the item or subject, similar to the example provide
 
 \subsection{Analyzing Influence in LME Models}
 
-Influence diagnostics are formal techniques that allow the identification observation that heavily influence estimates of parameters.
+Influence diagnostics are formal techniques that allow the identification observation that heavily influence estimates of the estimates of fixed effects and variance covariance parameters.
 Influential points are a set of one or more observations whose removal would cause a different conclusion in the analysis, e.g. substantially affect estimates. \citet{west} remarks that influence diagnostics play an important role in the interpretation of results, because influential data can negatively influence the statistical model and generalizability of the model.
 
 
@@ -263,15 +266,13 @@ Influential points are a set of one or more observations whose removal would cau
 
 
 
-Model diagnostic techniques, well established for classical models, have since been adapted for use with linear mixed effects models. Diagnostic techniques for LME models are inevitably more difficult to implement, due to the increased complexity.
 
-Influence diagnostics are formal techniques allowing for the identification of observations that exert substantial  influence on the estimates of fixed effects and variance covariance parameters.
 
 Influence can be thought of as consequence of leverage and outlierness. Outliers are the most noteworthy data points in an analysis, and an objective of influence analysis is how influential they are, and the manner in which they are influential. They can point to a model breakdown and lead to development of a better model.
 
 While linear models and GLMS can be studied with a wide range of well-established diagnostic technqiues, the choice of methodology is much more restricted for the case of LMEs. However
 influence diagnostics for LME Models is an area of active research. Research on diagnostic analyses for LME models are presented in \citet{Beckman}, 
-\citet{Christensen}, \citet{HildenMinton}, \citet{lesaffre1998local}, \citet{Banerjee1997}, 
+\citet{Christensen}, \citet{Hilden95}, \citet{lesaffre1998local}, \citet{Banerjee1997}, 
 \citet{fung2002}, \citet{Demi}, \citet{Zewotir} and \citet{NobreSinger2007, NobreSinger2011}.
 
 
@@ -359,9 +360,10 @@ If the predictions are the same with or without the observation in question, the
 
 Large values for Cook's distance indicate observations for special attention. Cook's distance can be used in several ways: to indicate data points that are particularly worth checking for validity; to indicate regions of the design space where it would be good to be able to obtain more data points.
 
-Use of threshold values for Cook's Distance is discouraged \citep{fox1991}. However, informal heuristics do exist for OLS models, with an informal threshold of $4/n$ or $4/(n-k-1)$, where $n$ is the number of observations and $k$ the number of explanatory variables.
 
-\citet{fox1991} advises the use of diagnostic plotting and to examine in closer details the points with \textit{``values of D that are substantially larger than the rest}", and that thresholds should feature only to enhance graphical displays.
+%However, informal heuristics do exist for OLS models, with an informal threshold of $4/n$ or $4/(n-k-1)$, where $n$ is the number of observations and $k$ the number of explanatory variables.
+
+Although informal heuristics exist, use of threshold values for Cook's Distance is discouraged \citep{fox1991}. \citet{fox1991} advises the use of diagnostic plotting and to examine in closer details the points with \textit{``values of D that are substantially larger than the rest}", and that thresholds should feature only to enhance graphical displays.
 
 The effect on the precision of estimates is separate from the effect on the point estimates. Data points that have a small \index{Cook's distance}Cook's distance, for example, can still greatly affect hypothesis tests and confidence intervals, if their  influence on the precision of the estimates is large.
 
@@ -401,17 +403,7 @@ While the concept of influence analysis is straightforward, implementation in mi
 
 
 
-	\subsection{Comparing Influence and Residual Analysis}
-	%In LME models, there are two types of residuals, marginal residuals and conditional residuals. A
-	%marginal residual is the difference between the observed data and the estimated marginal mean. A conditional residual is the
-	%difference between the observed data and the predicted value of the observation. In a model without random effects, both sets of residuals coincide \citep{schab}.
-	
-	\citet{influenceLME4} compares residual analysis and influence analysis. Cases with high residuals (defined as the difference between the observed and the predicted scores on the dependent
-	variable) or with high standardized residuals (defined as the residual divided by the standard deviation
-	of the residuals) are indicated as outliers.
-	
-	However, an influential case is not necessarily an outlying residual. On the contrary: a strongly influential case dominates
-	the regression model in such a way, that the estimated regression line lies closely to this case. The analysis of residuals cannot be used for the detection of influential cases \citep{crawley2012r}.
+
 	
 \subsection{Iterative and Non-Iterative Influence Analysis}
 	
@@ -483,6 +475,20 @@ In LME models fit by
 
 \section{Model Diagnostics for Roy's Models}
 	
+
+\subsubsection{Variance Ratios}
+\citet{ARoy2009} establishes the equivalence of repeatability and within-item variability, and hence precision.  The method with the smaller within-item variability can be deemed to be the more precise.
+
+A useful approach is to compute the confidence intervals for the ratio of within-item standard deviations, which is interpreted in the usual manner.
+%	
+
+\citet[pg 93-95]{PB} give a description of how confidence intervals for the variance components are computed. Furthermore a complete set of confidence intervals can be computed to complement the variance component estimates.
+
+What is required is the computation of the variance ratios of within-item and between-item standard deviations.
+
+A naive approach would be to compute the variance ratios by relevant F distribution quantiles. However, the question arises as to the appropriate degrees of freedom.
+Bootstrap methods for computing confidence intervals may be considered.
+	
 Further to previous work, this section revisits case-deletion and residual diagnostics, and explores how approaches devised by \citet{Galecki} can be used to appraise Roy's model. These authors specifically look at Cook's Distances and Likelihood Distances.
 	%	For the Roy Model, Cook's Distances may also be generated using the \textbf{\textit{predictmeans}}
 	%	
@@ -490,17 +496,17 @@ Further to previous work, this section revisits case-deletion and residual diagn
 
 	\begin{figure}[h!]
 		\centering
-		\includegraphics[width=0.7\linewidth]{images/LogLik-JS-Roy}
+		\includegraphics[width=0.9\linewidth]{images/LogLik-JS-Roy}
 		\caption{}
 		\label{fig:LogLik-JS-Roy}
 	\end{figure}
 	
 
-Taking the core principals of his methods, and applying them to the method comparison problem, case deletion diagnostics are used on the variance components of the Roy's model, specifically the ratio of between subject variances and the within subject covariances respecitvely.
+Taking the core principals of his methods, and applying them to the method comparison problem, case deletion diagnostics are used on the variance components of the Roy's model, specifically the ratio of between subject variances and the within subject covariances respectively.
 \[ \mbox{BSVR} = \frac{\sigma^2_1}{\sigma^2_2} \phantom{makespace}  \mbox{WSVR} = \frac{g^2_1}{g^2_2} \]
 These variance ratios are re-computed for each case removed, and may be analysed seperately or jointly for outliers.
 	
-The Grubbs' Test for Outliers is a commonly used technique for assessing outlier in a univariate data set, of which there are several variants. As there may be several outliers present, the Grubbs test is not practical. However an indication that a point being beyond the fences according to Tukey's specification for boxplots will suffice.
+The Grubbs' Outlier Test is a commonly used technique for assessing outlier in a univariate data set, of which there are several variants. As there may be several outliers present, the Grubbs test is not practical. However an indication that a point being beyond the fences according to Tukey's specification for boxplots will suffice.
 	
 	
 	% The first variant of Grubb's test is used to detect if the sample dataset contains one outlier, statistically different than
@@ -537,25 +543,12 @@ The subjects were ranked by Mahalanobis distance, with the top 10 being presente
 	\begin{figure}[h!]
 		\centering
 		\includegraphics[width=0.9\linewidth]{08-plot1}
-		\caption{}
+		\caption{Identification of Prominent Observations}
 		\label{fig:08-plot1}
 	\end{figure}
 	
 
 
-\subsubsection{Variance Ratios}
-\citet{ARoy2009} establishes the equivalence of repeatability and within-item variability, and hence precision.  The method with the smaller within-item variability can be deemed to be the more precise.
-	
-A useful approach is to compute the confidence intervals for the ratio of within-item standard deviations, which is interpreted in the usual manner.
-	%	
-	
-\citet[pg 93-95]{PB} give a description of how confidence intervals for the variance components are computed. Furthermore a complete set of confidence intervals can be computed to complement the variance component estimates.
-	
-What is required is the computation of the variance ratios of within-item and between-item standard deviations.
-	
-A naive approach would be to compute the variance ratios by relevant F distribution quantiles. However, the question arises as to the appropriate degrees of freedom.
-	Bootstrap methods for computing confidence intervals may be considered.
-	
 
 
 
