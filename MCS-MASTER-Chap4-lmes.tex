@@ -203,9 +203,7 @@ Substituting $\hat{\beta}$ from (\ref{mle:beta:hat}) into $\ell(\beta, \theta|y)
 \ell_P(\theta \mid y) &=& \ell(\hat{\beta}, \theta \mid y) \\
 &=& -\frac{1}{2} \log |V| -\frac{1}{2}(y - X \hat{\beta})'V^{-1}(y - X \hat{\beta})
 \end{eqnarray*}
-of the variance parameter $\theta.$ Estimates of the parameters $\theta$ specifying $V$ can be found by maximizing $\ell_P(\theta \mid y)$ over $\theta.$ These are the ML estimates.
-
-For REML estimation the \emph{restricted} log-likelihood is defined as
+of the variance parameter $\theta.$ Estimates of the parameters $\theta$ specifying $V$ can be found by maximizing $\ell_P(\theta \mid y)$ over $\theta.$ These are the ML estimates. For REML estimation the \emph{restricted} log-likelihood is defined as
 \[
 \ell_R(\theta \mid y) =
 \ell_P(\theta \mid y) -\frac{1}{2} \log |X^\prime VX |.
@@ -355,7 +353,7 @@ y_{Bij} \\
 \right)
 \end{eqnarray*}
 
-The matrix $\Sigma$ represents the variance component matrix between response variables at a given time point $j$.
+The matrix $\boldsymbol{\Sigma}$ represents the variance component matrix between response variables at a given time point $j$.
 
 \[
 \boldsymbol{\Sigma} = \left( \begin{array}{cc}
@@ -370,9 +368,96 @@ $\sigma^2_{A}$ is the variance of variable $A$, $\sigma^2_{B}$ is the variance o
 
 
 
+\section{The Variance Covariance Matrix}
+The LME model can be written
+\[
+\mathrm{y_{i}} = \mathrm{X_{i}\beta} + \mathrm{Z_{i}b_{i}} + \mathrm{\epsilon_{i}},
+\]
+where $\boldsymbol{\beta}=(\beta_0,\beta_1,\beta_2)^\prime$ is a vector of fixed effects, and $\boldsymbol{X}_i$ is a corresponding $2n_i\times 3$ design matrix for the fixed effects. The random effects are expressed in the vector $\boldsymbol{b}=(b_1,b_2)^\prime$, with $\boldsymbol{Z}_i$ the corresponding $2n_i\times 2$ design matrix. The vector $\boldsymbol{\epsilon}_i$ is a $2n_i\times 1$ vector of residual terms. Random effects and residuals are assumed to be independent of each other.
+The variance matrix of \textbf{Y}, denoted \textbf{V}, is an $n \times n$ matrix that can be expressed
+as 
+\begin{eqnarray}
+\textbf{V}= \textrm{Var} ( \textbf{Xb} + \textbf{Zb} + \textbf{e})\\
+\textbf{V}= \textrm{Var} ( \textbf{Xb} ) + \textrm{Var} (\textbf{Zb}) +
+\textrm{Var}(\textbf{e}),
+\end{eqnarray}
+
+
+and $\operatorname{Var}(\textbf{Xb})$ is known to be zero. The variance of the
+random effects $\mbox{Var}(\textbf{Zu})$ can be written as
+$Z\mbox{Var}(\textbf{b})Z^{\prime}$.
+\[
+\mathrm{var}
+\left(
+\begin{array}{c}
+b \\
+\epsilon \\
+\end{array}
+\right)
+=
+\left(
+\begin{array}{cc}
+D & 0 \\
+0 & \Sigma \\
+\end{array}
+\right)
+\]
+
+
+
+
+where $D$ and $\boldsymbol{\Sigma}$ are positive definite matrices parameterized by an unknown variance component parameter vector $ \theta.$ The variance-covariance matrix for the vector of observations $y$ is given by $V = ZDZ^{\prime}+ \Sigma.$ This implies $y \sim(X\beta, V) = (X\beta, \boldsymbol{ZDZ}^{\prime}+ \Sigma)$. 
+
+$\boldsymbol{R}_{i}$ is the variance covariance matrix for the residuals, i.e. the within-item sources of variation between both methods. Computational analysis of linear mixed effects models allow for the explicit analysis of both $\boldsymbol{D}$ and $\boldsymbol{R_i}$.
+The above terms can be used to express the  variance covariance matrix $\boldsymbol{\Omega}_i$ for the responses on item $i$ ,
+\[
+\boldsymbol{\Omega}_i = \boldsymbol{Z}_i \boldsymbol{D} \boldsymbol{Z}_i^{\prime} + \boldsymbol{R}_i.
+\]
+%============================================================== %
+
+It is assumed that $\boldsymbol{b}_i \sim N(0,\boldsymbol{D})$, $\boldsymbol{\epsilon}_i$ is a matrix of random errors distributed as $N(0,\boldsymbol{R}_i)$ and that the random effects and residuals are independent of each other. Assumptions made on the structures of $\boldsymbol{D}$ and $\boldsymbol{R}_i$ will be discussed in due course.
+
+The random effects are assumed to be distributed as $\boldsymbol{b}_i \sim \mathcal{N}_2(0,\boldsymbol{D})$. The between-item variance covariance matrix $\boldsymbol{D}$ is constructed as follows:
+%\[ \boldsymbol{D} =\left(
+%\begin{array}{cc}
+%d^2_1  & d_{12} \\
+%d_{12} & d^2_2 \\
+%\end{array}
+%\right) \]
+\[ \boldsymbol{D} = \mbox{Var}  \left[
+\begin{array}{c}
+b_1   \\
+b_2  \\
+\end{array}
+\right] =  \left(
+\begin{array}{cc}
+d^2_1  & d_{12} \\
+d_{12} & d^2_2 \\
+\end{array}
+\right) \]
+
+
+
+%============================================================%
+The distribution of the random effects is described as $\boldsymbol{b}_i \sim N(0,\boldsymbol{D})$. Similarly random errors are distributed as $\boldsymbol{\epsilon}_i \sim N(0,\boldsymbol{R}_i)$. The random effects and residuals are assumed to be independent. The variance-covariance matrix for the vector of observations $y$ is given by $V = \boldsymbol{ZDZ}^{\prime}+ \Sigma.$ This implies $y \sim(X\beta, V) = (X\beta,ZDZ^{\prime}+ \Sigma)$. 
+
+
+By letting $\operatorname{var}(b) = D$ (i.e $\textbf{b} ~ N(0,\textbf{D})$), this becomes $\boldsymbol{ZDZ}^{\prime}$. This specifies the covariance due to random
+effects. The residual covariance matrix $\operatorname{var}(e)$ is denoted as $R$, ($\textbf{e} ~ N(0,\textbf{R})$). Residual are uncorrelated,
+hence \textbf{R} is equivalent to $\sigma^{2}$\textbf{I}, where \textbf{I} is the identity matrix. The variance matrix \textbf{V}
+can therefore be written as:
+
+\begin{equation}
+\textbf{V}  = \textbf{ZDZ}^{\prime} + \textbf{R}.
+\end{equation}
+
+
+
+
+
 \section{Correlation Terms}
 
-Roy's tests are complemented by the ability to the overall correlation coefficient of the two methods, which is determinable from variance estimates. Two methods can be considered to be in agreement if criteria based upon these tests are met. Inference for inter-method bias follows from well-established methods and, as such, will only be noted when describing examples.
+Roy's tests are complemented by the ability to the overall correlation coefficient of the two methods, which are estimable from variance estimates. Two methods can be considered to be in agreement if criteria based upon these tests are met. Inference for inter-method bias follows from well-established methods and, as such, will only be noted when describing examples.
 
 
 In addition to the variability tests, \citet{ARoy2009} advises that it is preferable that a correlation of greater than $0.82$ exist for two methods to be considered interchangeable. However if two methods fulfil all the other conditions for agreement, failure to comply with this one can be overlooked, and demonstrates that placing undue importance to it can lead to incorrect conclusions.
@@ -389,8 +474,85 @@ The methodology proposed by \citet{ARoy2009} is largely based on \citet{hamlett}
 
 
 
-%------------------------------------------------------------------------------------%
 
+
+
+
+\subsection{Correlation Terms}
+
+\citet{hamlett} demonstrated how the between-subject and within subject variabilities can be expressed in terms of
+correlation terms with D and $\Sigma$ specified as follows:
+
+\[
+{D} = \left( \begin{array}{cc}
+\sigma^2_{A}\rho_{A} & \sigma_{A}\sigma_{b}\rho_{AB}\delta \\
+\sigma_{A}\sigma_{b}\rho_{AB}\delta & \sigma^2_{B}\rho_{B}\\
+
+\end{array}\right)
+\qquad
+l{\Sigma} = \left(
+\begin{array}{cc}
+\sigma^2_{A}(1-\rho_{A}) & \sigma_{AB}(1-\delta)  \\
+\sigma_{AB}(1-\delta) & \sigma^2_{B}(1-\rho_{B}) \\
+\end{array}\right).
+\]
+
+$\rho_{A}$ describe the correlations of measurements made by the method $A$ at different times. Similarly $\rho_{B}$ describe the correlation of measurements made by the method $B$ at different times. Correlations among repeated measures within the same method are known as intra-class correlation coefficients.  The correlation of measurements taken at the same same time by both methods is denoted $\rho_{AB}$. The coefficient $\delta$ is added for when the measurements are taken at different times, and is a constant of less than $1$ for linked replicates. This is based on the assumption that linked replicates measurements taken at the same time would have greater correlation than those taken at different times. For unlinked replicates $\delta$ is simply $1$. \citet{hamlett} provides a useful graphical depiction of the role of each correlation coefficients.
+
+\citet{lam} used ML estimation to estimate the true correlation between the variables when the measurements are linked over time. The methodology relies on the assumption that the two variables with repeated measures follow a multivariate normal distribution. The methodology currently does not extend to any more than two cases. The MLE of the correlation takes into account the dependency among repeated measures.
+
+The true correlation $\rho_{xy}$ is repeated measurements can be considered as having two components: between subject and within-subject correlation. The usefulness of estimating repeated measure correlation coefficients is the calculation of between-method and within-method variabilities are produced as by-products.
+
+%=========================================================================================================== %
+
+\subsection{Correlation}
+Bivariate correlation coefficients have been shown to be of
+limited use in method comparison studies \citep{BA86}. However,
+recently correlation analysis has been developed to cope with
+repeated measurements, enhancing their potential usefulness. Roy
+incorporates the use of correlation into his methodology.
+
+
+In addition to the variability tests, Roy advises that it is preferable that a correlation of greater than $0.82$ exist for two methods to be considered interchangeable. However if two methods fulfil all the other conditions for agreement, failure to comply with this one can be overlooked. Indeed Roy demonstrates that placing undue importance to it can lead to incorrect conclusions. 
+
+\citet{ARoy2009} remarks that current computer implementations only gives overall correlation coefficients, but not their variances. Consequently it is not possible to carry out inferences based on all overall correlation coefficients.
+
+\subsection{Formal Testing for Covariances} %(Off-Diagonal Components in Roy's Model)
+
+The Within-item variability is specified as follows, where $x$ and $y$ are the methods of measurement in question.
+\[ \left(
+\begin{array}{cc}
+\sigma^2_x & \sigma_{xy} \\
+\sigma_{xy} & \sigma^2_y \\
+\end{array}
+\right)
+\]
+
+$\sigma^2_x$ and $\sigma^2_y$ describe the level of measurement error associated with each of the measurement methods for a given item. Attention must be given to the off-diagonal elements of the matrix. It is intuitive to consider the measurement error of the two methods as independent of each other. A formal test can be performed to test the hypothesis that the off-diagonal terms are zero.
+\[ \left(
+\begin{array}{cc}
+\sigma^2_x & \sigma_xy \\
+\sigma_xy & \sigma^2_y \\
+\end{array}
+\right) vs \left(
+\begin{array}{cc}
+\sigma^2_x & 0 \\
+0 & \sigma^2_y \\
+\end{array}
+\right)
+\]
+
+As it is pertinent to the difference between the two described methodologies, the facilitation of a formal test would be useful. Extending the approach proposed by \citet{ARoy2009}, the test for overall covariance can be formulated:
+\begin{eqnarray*}
+\operatorname{H_5} : \sigma_{12} = 0 \\
+\operatorname{K_5} : \sigma_{12} \neq 0
+\end{eqnarray*}
+As with the tests for variability, this test is performed by comparing a pair of model fits corresponding to the null and alternative hypothesis. In addition to testing the overall covariance, similar tests can be formulated for both the component variabilities if necessary.
+
+
+
+%------------------------------------------------------------------------------------%
+\subsection{Difference In Models}
 
 Aside from the fixed effects, another important difference is that Carstensen's model requires that particular assumptions be applied, specifically that the off-diagonal elements of the between-item
 and within-item variability matrices are zero. By extension the
@@ -428,165 +590,6 @@ matrix are close to zero, the limits of agreement due to \citet{BXC2008} are ver
 
 
 
-
-
-
-
-\subsection{Correlation Terms}
-
-\citet{hamlett} demonstrated how the between-subject and within subject variabilities can be expressed in terms of
-correlation terms with D and $\Sigma$ specified as follows:
-
-\[
-{D} = \left( \begin{array}{cc}
-\sigma^2_{A}\rho_{A} & \sigma_{A}\sigma_{b}\rho_{AB}\delta \\
-\sigma_{A}\sigma_{b}\rho_{AB}\delta & \sigma^2_{B}\rho_{B}\\
-
-\end{array}\right)
-\qquad
-l{\Sigma} = \left(
-\begin{array}{cc}
-\sigma^2_{A}(1-\rho_{A}) & \sigma_{AB}(1-\delta)  \\
-\sigma_{AB}(1-\delta) & \sigma^2_{B}(1-\rho_{B}) \\
-\end{array}\right).
-\]
-
-$\rho_{A}$ describe the correlations of measurements made by the method $A$ at different times. Similarly $\rho_{B}$ describe the correlation of measurements made by the method $B$ at different times. Correlations among repeated measures within the same method are known as intra-class correlation coefficients.  The correlation of measurements taken at the same same time by both methods is denoted $\rho_{AB}$. The coefficient $\delta$ is added for when the measurements are taken at different times, and is a constant of less than $1$ for linked replicates. This is based on the assumption that linked replicates measurements taken at the same time would have greater correlation than those taken at different times. For unlinked replicates $\delta$ is simply $1$. \citet{hamlett} provides a useful graphical depiction of the role of each correlation coefficients.
-
-\citet{lam} used ML estimation to estimate the true correlation between the variables when the measurements are linked over time. The methodology relies on the assumption that the two variables with repeated measures follow a multivariate normal distribution. The methodology currently does not extend to any more than two cases. The MLE of the correlation takes into account the dependency among repeated measures.
-
-The true correlation $\rho_{xy}$ is repeated measurements can be considered as having two components: between subject and within-subject correlation. The usefulness of estimating repeated measure correlation coefficients is the calculation of between-method and within-method variabilities are produced as by-products.
-
-%=========================================================================================================== %
-\subsection{The Variance Covariance Matrix}
-The LME model can be written
-\[
-mathrm{y_{i}} = \mathrm{X_{i}\beta} + \mathrm{Z_{i}b_{i}} + \mathrm{\epsilon_{i}},
-\]
-where $\boldsymbol{\beta}=(\beta_0,\beta_1,\beta_2)^\prime$ is a vector of fixed effects, and $\boldsymbol{X}_i$ is a corresponding $2n_i\times 3$ design matrix for the fixed effects. The random effects are expressed in the vector $\boldsymbol{b}=(b_1,b_2)^\prime$, with $\boldsymbol{Z}_i$ the corresponding $2n_i\times 2$ design matrix. The vector $\boldsymbol{\epsilon}_i$ is a $2n_i\times 1$ vector of residual terms. Random effects and residuals are assumed to be independent of each other.
-The variance matrix of \textbf{Y}, denoted \textbf{V}, is an $n \times n$ matrix that can be expressed
-as 
-\begin{eqnarray}
-\textbf{V}= \textrm{Var} ( \textbf{Xb} + \textbf{Zb} + \textbf{e})\\
-\textbf{V}= \textrm{Var} ( \textbf{Xb} ) + \textrm{Var} (\textbf{Zb}) +
-\textrm{Var}(\textbf{e}),
-\end{eqnarray}
-
-
-and $\operatorname{Var}(\textbf{Xb})$ is known to be zero. The variance of the
-random effects $\mbox{Var}(\textbf{Zu})$ can be written as
-$Z\mbox{Var}(\textbf{b})Z^{T}$.
-\[
-\mathrm{var}
-\left(
-\begin{array}{c}
-b \\
-\epsilon \\
-\end{array}
-\right)
-=
-\left(
-\begin{array}{cc}
-D & 0 \\
-0 & \Sigma \\
-\end{array}
-\right)
-\]
-
-
-
-
-where $D$ and $\Sigma$ are positive definite matrices parameterized by an unknown variance component parameter vector $ \theta.$ The variance-covariance matrix for the vector of observations $y$ is given by $V = ZDZ^{\prime}+ \Sigma.$ This implies $y \sim(X\beta, V) = (X\beta,ZDZ^{\prime}+ \Sigma)$. 
-
-$\boldsymbol{R}_{i}$ is the variance covariance matrix for the residuals, i.e. the within-item sources of variation between both methods. Computational analysis of linear mixed effects models allow for the explicit analysis of both $\boldsymbol{D}$ and $\boldsymbol{R_i}$.
-The above terms can be used to express the  variance covariance matrix $\boldsymbol{\Omega}_i$ for the responses on item $i$ ,
-\[
-\boldsymbol{\Omega}_i = \boldsymbol{Z}_i \boldsymbol{D} \boldsymbol{Z}_i^{\prime} + \boldsymbol{R}_i.
-\]
-%============================================================== %
-
-It is assumed that $\boldsymbol{b}_i \sim N(0,\boldsymbol{D})$, $\boldsymbol{\epsilon}_i$ is a matrix of random errors distributed as $N(0,\boldsymbol{R}_i)$ and that the random effects and residuals are independent of each other. Assumptions made on the structures of $\boldsymbol{D}$ and $\boldsymbol{R}_i$ will be discussed in due course.
-
-The random effects are assumed to be distributed as $\boldsymbol{b}_i \sim \mathcal{N}_2(0,\boldsymbol{D})$. The between-item variance covariance matrix $\boldsymbol{D}$ is constructed as follows:
-%\[ \boldsymbol{D} =\left(
-%\begin{array}{cc}
-%d^2_1  & d_{12} \\
-%d_{12} & d^2_2 \\
-%\end{array}
-%\right) \]
-\[ \boldsymbol{D} = \mbox{Var}  \left[
-\begin{array}{c}
-b_1   \\
-b_2  \\
-\end{array}
-\right] =  \left(
-\begin{array}{cc}
-d^2_1  & d_{12} \\
-d_{12} & d^2_2 \\
-\end{array}
-\right) \]
-
-
-
-%============================================================%
-The distribution of the random effects is described as $\boldsymbol{b}_i \sim N(0,\boldsymbol{D})$. Similarly random errors are distributed as $\boldsymbol{\epsilon}_i \sim N(0,\boldsymbol{R}_i)$. The random effects and residuals are assumed to be independent. The variance-covariance matrix for the vector of observations $y$ is given by $V = ZDZ^{\prime}+ \Sigma.$ This implies $y \sim(X\beta, V) = (X\beta,ZDZ^{\prime}+ \Sigma)$. 
-
-
-By letting $\operatorname{var}(b) = D$ (i.e $\textbf{b} ~ N(0,\textbf{D})$), this becomes $ZDZ^{T}$. This specifies the covariance due to random
-effects. The residual covariance matrix $\operatorname{var}(e)$ is denoted as $R$, ($\textbf{e} ~ N(0,\textbf{R})$). Residual are uncorrelated,
-hence \textbf{R} is equivalent to $\sigma^{2}$\textbf{I}, where \textbf{I} is the identity matrix. The variance matrix \textbf{V}
-can therefore be written as:
-
-\begin{equation}
-\textbf{V}  = \textbf{ZDZ}^{T} + \textbf{R}.
-\end{equation}
-
-
-
-
-
-\subsection{Correlation}
-Bivariate correlation coefficients have been shown to be of
-limited use in method comparison studies \citep{BA86}. However,
-recently correlation analysis has been developed to cope with
-repeated measurements, enhancing their potential usefulness. Roy
-incorporates the use of correlation into his methodology.
-
-
-In addition to the variability tests, Roy advises that it is preferable that a correlation of greater than $0.82$ exist for two methods to be considered interchangeable. However if two methods fulfil all the other conditions for agreement, failure to comply with this one can be overlooked. Indeed Roy demonstrates that placing undue importance to it can lead to incorrect conclusions. 
-
-\citet{ARoy2009} remarks that current computer implementations only gives overall correlation coefficients, but not their variances. Consequently it is not possible to carry out inferences based on all overall correlation coefficients.
-\subsection{Formal Testing for Covariances} %(Off-Diagonal Components in Roy's Model)
-
-The Within-item variability is specified as follows, where $x$ and $y$ are the methods of measurement in question.
-\[ \left(
-\begin{array}{cc}
-\sigma^2_x & \sigma_{xy} \\
-\sigma_{xy} & \sigma^2_y \\
-\end{array}
-\right)
-\]
-
-$\sigma^2_x$ and $\sigma^2_y$ describe the level of measurement error associated with each of the measurement methods for a given item. Attention must be given to the off-diagonal elements of the matrix. It is intuitive to consider the measurement error of the two methods as independent of each other. A formal test can be performed to test the hypothesis that the off-diagonal terms are zero.
-\[ \left(
-\begin{array}{cc}
-\sigma^2_x & \sigma_xy \\
-\sigma_xy & \sigma^2_y \\
-\end{array}
-\right) vs \left(
-\begin{array}{cc}
-\sigma^2_x & 0 \\
-0 & \sigma^2_y \\
-\end{array}
-\right)
-\]
-
-As it is pertinent to the difference between the two described methodologies, the facilitation of a formal test would be useful. Extending the approach proposed by ARoy2009, the test for overall covariance can be formulated:
-\begin{eqnarray*}
-\operatorname{H_5} : \sigma_{12} = 0 \\
-\operatorname{K_5} : \sigma_{12} \neq 0
-\end{eqnarray*}
-As with the tests for variability, this test is performed by comparing a pair of model fits corresponding to the null and alternative hypothesis. In addition to testing the overall covariance, similar tests can be formulated for both the component variabilities if necessary.
 %================================================================= %
 
 \section{Extension of Roy's Technique}
@@ -611,8 +614,6 @@ Roy's methodology is not suitable for the case of single measurements because it
 
 
 
-\section{Conclusion}
-\citet{BXC2008} and \citet{ARoy2009} highlight the need for method comparison methodologies suitable for use in the presence of replicate measurements. \citet{ARoy2009} presents a comprehensive methodology for assessing the agreement of two methods, for replicate measurements. This methodology has the added benefit of overcoming the problems of unbalanced data and unequal numbers of replicates. Implementation of the methodology, and interpretation of the results, is relatively easy for practitioners who have only basic statistical training. Furthermore, it can be shown that widely used existing methodologies, such as the limits of agreement, can be incorporated into Roy's methodology.
 
 
 \addcontentsline{toc}{section}{Bibliography}
