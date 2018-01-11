@@ -330,7 +330,7 @@ measurement on subject $i$ with method $m$. The differences are expressed as $d_
 	
 	
 	
-	\subsection{Roy's LME Framework for Method Comparison }
+	\section{Roy's LME Framework for Method Comparison }
 	\citet{Barnhart} sets out three criteria for two methods to be considered in agreement: no significant bias, no difference in the between-subject variabilities, and no significant difference in the within-subject variabilities. 
 	
 	
@@ -523,10 +523,76 @@ Conversely, the tests of variability required detailed explanation. Each test is
 	
 	
 	
-	%========================================================================================= %
-	\section{Conclusion}
-	\citet{BXC2008} and \citet{ARoy2009} highlight the need for method comparison methodologies suitable for use in the presence of replicate measurements. \citet{ARoy2009} presents a comprehensive methodology for assessing the agreement of two methods, for replicate measurements. This methodology has the added benefit of overcoming the problems of unbalanced data and unequal numbers of replicates. Implementation of the methodology, and interpretation of the results, is relatively easy for practitioners who have only basic statistical training. Furthermore, it can be shown that widely used existing methodologies, such as the limits of agreement, can be incorporated into Roy's methodology.
+
 	
+
+%=========================================================================================================== %
+
+\section{Correlation}
+Bivariate correlation coefficients have been shown to be of limited use in method comparison studies \citep{BA86}. However,
+recently correlation analysis has been developed to cope with repeated measurements, enhancing their potential usefulness. 
+Roy's tests are complemented by the ability to the overall correlation coefficient of the two methods, which are estimable from variance estimates. Two methods can be considered to be in agreement if criteria based upon these tests are met. Inference for inter-method bias follows from well-established methods and, as such, will only be noted when describing examples.
+
+
+In addition to the variability tests, \citet{ARoy2009} advises that it is preferable that a correlation of greater than $0.82$ exist for two methods to be considered interchangeable. However if two methods fulfil all the other conditions for agreement, failure to comply with this one can be overlooked, and demonstrates that placing undue importance to it can lead to incorrect conclusions.
+
+\citet{ARoy2009} remarks that current computer implementations (e.g. PROC MIXED) only gives overall correlation coefficients, but not their variances. Similarly variance are not determinable in \texttt{R} as yet either. Consequently it is not possible to carry out inferences based on all overall correlation coefficients.
+%===========================================================================================================%
+\subsection{Formal Testing for Covariances} %(Off-Diagonal Components in Roy's Model)
+
+The Within-item variability is specified as follows, where $x$ and $y$ are the methods of measurement in question.
+\[ \left(
+\begin{array}{cc}
+\sigma^2_x & \sigma_{xy} \\
+\sigma_{xy} & \sigma^2_y \\
+\end{array}
+\right)
+\]
+
+$\sigma^2_x$ and $\sigma^2_y$ describe the level of measurement error associated with each of the measurement methods for a given item. Attention must be given to the off-diagonal elements of the matrix. It is intuitive to consider the measurement error of the two methods as independent of each other. A formal test can be performed to test the hypothesis that the off-diagonal terms are zero.
+\[ \left(
+\begin{array}{cc}
+\sigma^2_x & \sigma_{xy} \\
+\sigma_{xy} & \sigma^2_y \\
+\end{array}
+\right) vs \left(
+\begin{array}{cc}
+\sigma^2_x & 0 \\
+0 & \sigma^2_y \\
+\end{array}
+\right)
+\]
+
+As it is pertinent to the difference between the two described methodologies, the facilitation of a formal test would be useful. Extending the approach proposed by \citet{ARoy2009}, the test for overall covariance can be formulated as $\operatorname{H_5} : \sigma_{12} = 0$.
+
+As with the tests for variability, this test is performed by comparing a pair of model fits corresponding to the null and alternative hypothesis. In addition to testing the overall covariance, similar tests can be formulated for both the component variabilities if necessary.
+
+%------------------------------------------------------------------------------------%
+
+
+\section{Extension of Roy's Technique}
+Roy's methodology is constructed to compare two methods in the presence of replicate measurements. Necessarily it is worth examining whether this methodology can be adapted for different circumstances.
+
+An implementation of Roy's methodology, whereby three or more methods are used, is not feasible due to computational restrictions. Specifically there is a failure to reach convergence before the iteration limit is reached. This may be due to the presence of additional variables, causing the problem of non-identifiability. In the case of two variables, it is required to estimate two variance terms and four correlation terms, six in all. For the case of three variabilities, three variance terms must be estimated as well as nine correlation terms, twelve in all. In general for $n$ methods has $2 \times T_{n}$ variance terms, where $T_n$ is the triangular number for $n$, i.e. the addition analogue of the factorial. Hence the computational complexity quite increases substantially for every increase in $n$.
+
+Should an implementation be feasible, further difficulty arises when interpreting the results. The fundamental question is whether two methods have close agreement so as to be interchangeable. When three methods are present in the model, the null hypothesis is that all three methods have the same variability relevant to the respective tests. The outcome of the analysis will either be that all three are interchangeable or that all three are not interchangeable.
+
+The tests would not be informative as to whether any two of those three were interchangeable, or equivalently if one method in particular disagreed with the other two. Indeed it is easier to perform three pair-wise comparisons separately and then to combine the results.
+
+
+
+\subsection{Application of Roy's Approach For Non-Replicate Measurements}
+
+Roy's methodology is not suitable for the case of single measurements because it follows from the decomposition for the covariance matrix of the response vector $y_{i}$, as presented in \citet{hamlett}. The decomposition depends on the estimation of correlation terms, which would be absent in the single measurement case. Indeed there can be no within-subject variability if there are no repeated terms for it to describe. There would only be the covariance matrix of the measurements by both methods, which doesn't require the use of LME models. To conclude, simpler existing methodologies, such as Deming regression, would be the correct approach where there only one measurements by each method.
+
+
+
+
+
+
+
+
+
 	
 	\section{Differences Between Approaches}
 	
@@ -568,19 +634,9 @@ Conversely, the tests of variability required detailed explanation. Each test is
 	%\end{array}\right)
 	%\]
 	
+
 	
-	%-----------------------------------------------------------------------------------%
-	
-	
-	
-	
-	
-	
-	In cases where there is negligible covariance between methods, the limits of agreement computed using Roy's model accord with those computed using model described by \citet{BXC2008}. 
-	
-	
-	
-	A consequence of this is that the between-method and within-method covariance are zero. In cases where there is negligible covariance between methods, the limits of agreement computed using Roy's model accord with those computed using Carstensen's model. In cases where some degree of covariance is present between the two methods, the limits of agreement computed using models will differ. In the presented example, it is shown that Roy's LoAs are lower than those of Carstensen, when covariance is present. 
+A consequence of this is that the between-method and within-method covariance are zero. In cases where there is negligible covariance between methods, the limits of agreement computed using Roy's model accord with those computed using model described by \citet{BXC2008}.  In cases where some degree of covariance is present between the two methods, the limits of agreement computed using models will differ. In the presented example, it is shown that Roy's LoAs are lower than those of Carstensen, when covariance is present. 
 	
 	\[\left(\begin{array}{cc}
 	\omega^1_2  & 0 \\
@@ -600,6 +656,44 @@ Conversely, the tests of variability required detailed explanation. Each test is
 	
 	There is a substantial difference in the number of fixed parameters used by the respective models; the model in \citet{ARoy2009} requires two fixed effect parameters, i.e. the means of the two methods, for any number of items $N$, whereas the model using the Carstensen Model requires $N+2$ fixed effects. Allocating fixed effects to each item $i$ using Carstensen's model accords with earlier work on comparing methods of measurement, such as \citet{Grubbs48}. However allocation of fixed effects in ANOVA models suggests that the group of items is itself of particular interest, rather than as a representative sample used of the overall population. However this approach seems contrary to the purpose of LoAs as a prediction interval for a population of items. Conversely, \citet{ARoy2009}
 	uses a more intuitive approach, treating the observations as a random sample population, and allocating random effects accordingly.
+
+	%========================================================================================= %
+\section{Conclusion}
+\citet{BXC2008} and \citet{ARoy2009} highlight the need for method comparison methodologies suitable for use in the presence of replicate measurements. \citet{ARoy2009} presents a comprehensive methodology for assessing the agreement of two methods, for replicate measurements. This methodology has the added benefit of overcoming the problems of unbalanced data and unequal numbers of replicates. Implementation of the methodology, and interpretation of the results, is relatively easy for practitioners who have only basic statistical training. Furthermore, it can be shown that widely used existing methodologies, such as the limits of agreement, can be incorporated into Roy's methodology.
+\section{Difference In Models}
+
+Aside from the fixed effects, another important difference is that Carstensen's model requires that particular assumptions be applied, specifically that the off-diagonal elements of the between-item and within-item variability matrices are zero. By extension the
+overall variability off diagonal elements are also zero.
+
+Also, implementation requires that the between-item variances are estimated as the same value: $d^2_1 = d^2_2 = d^2$. Necessarily
+Carstensen's method does not allow for a formal test of the between-item variability.
+
+\[\left(\begin{array}{cc}
+\omega^1_2  & 0 \\
+0 & \omega^2_2 \\
+\end{array}  \right)
+=  \left(
+\begin{array}{cc}
+d^2  & 0 \\
+0 & d^2 \\
+\end{array} \right)+
+\left(
+\begin{array}{cc}
+\sigma^2_1  & 0 \\
+0 & \sigma^2_2 \\
+\end{array}\right)
+\]
+In cases where the off-diagonal terms in the overall variability
+matrix are close to zero, the limits of agreement due to \citet{BXC2008} are very similar to the limits of agreement that follow from the general model.
+
+
+
+
+
+
+
+%================================================================= %
+
 	
 	\subsection{Comparing MCS Approaches}
 	%%---Comparative Complexity
