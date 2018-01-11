@@ -63,9 +63,9 @@
 	
 	\section{LME Models in Method Comparison Studies}
 	
-	When repeated measurements are available for the the computation of the limits of agreement, it is desirable to use all available data to compare the two methods. The classical Bland-Altman method was developed for two sets of measurements done on one occasion, but is inadequate for replicate measurement data. 
+	When repeated measurements are available for calculating the limits of agreement, it is desirable to use all available data to compare the two methods. The classical Bland-Altman method was developed for two sets of measurements done on one occasion, but is inadequate for replicate measurement data. 
 	
-	\citet{BA99} addressed this issue by suggesting several computationally simple approaches.  One approach suggested by \citet{BA99} is to calculate the mean for each method on each subject and use these pairs of means to compare the two methods. Their second approach is to treat each measurement separately. 
+	\citet{BA99} addressed this issue by suggesting several computationally simple approaches.  One proposed approach is to calculate the mean for each method on each subject and use these pairs of means to compare the two methods. Their second approach is to treat each measurement separately. 
 	The estimate of bias will be unaffected using this approach, but the estimate of the standard deviation of the differences will be too small, because of the reduction of the effect of repeated measurement error \citep{BXC2004,BXC2008}. 
 	
 	\citet{BXC2008} recommends that replicate measurements be used for each method, but recognizes that resulting data are more difficult to analyze. To this end, they recommend the use of LME models as a suitable framework, a view shared by \citet{ARoy2009} etc.
@@ -89,10 +89,7 @@
 	
 	
 	
-	\subsection{Test For Inter-Method Bias in the LME Frameworks}
-	Firstly, a practitioner would investigate whether a significant inter-method bias is present between the methods, as this is the source of disagreement between two methods of measurement that is most easily identified. A formal test for the hypothesis $\operatorname{H_1} : \mu_1 = \mu_2$ can be implemented by examining the fixed effects of the LME model, equivalent to a conventional paired $t-$test. Estimates for the fixed effects yield the inter-method bias, typically accompanied by the necessary test statistic and $p-$value in programming software output. 
-	% This is common to classical linear models, and interpretation of the results should pose not difficulty to a trained practitioner.
-	
+
 	%================================================================%
 	
 	\subsection{Introduction to LME Methods for Computing Limits of Agreement}
@@ -129,25 +126,27 @@
 	
 	\citet{BXC2004} presents a model to describe the relationship between a value of measurement and its real value. The non-replicate case is considered first, as it is the context of the Bland Altman plots. This model assumes that inter-method bias is the only difference between the two methods. A measurement $y_{mi}$ by method $m$ on individual $i$ is formulated as follows:
 	\begin{equation}
-		y_{mi}  = \alpha_{m} + \mu_{i} + e_{mi} 
+		y_{mi}  = \alpha_{m} + \beta_m\mu_{i} + \epsilon_{mi} 
 	\end{equation}
-	with $ e_{mi} \sim N(0,\sigma^{2}_{m})$.
-	Here the terms $\alpha_{m}$ and $\mu_{i}$ represent the fixed effect for method $m$ and a true value for item $i$ respectively. The $\beta_{m}$ term follow from \citet{DunnSEME}, expressing constant and proportional bias respectively, in the presence of a real value $\mu_{i}.$ We will just consider the case where $\beta=1$ presently. 	
-	
-	The intercept term $\alpha$ and the $\beta_{m}\mu_{i}$ term follow from \citet{DunnSEME}, expressing constant and proportional bias
-respectively, in the presence of a real value $\mu_{i}$. 	
-	
-	
+	with $\epsilon_{mi} \sim N(0,\sigma^{2}_{m})$.
+
+	Here the terms $\alpha_{m}$ and $\mu_{i}$ represent the fixed effect for method $m$ and a true value for item $i$ respectively.  The $\beta_{m}$ term follow from \citet{DunnSEME}, expressing constant and proportional bias respectively, in the presence of a real value $\mu_{i}.$ We will just consider the case where $\beta=1$ presently. Between-subject variation for method $m$ is given by $d^2_{m}$ (in the author's notation $\tau^2_m$) and within-subject variation is given by $\sigma^2_{m}$.  
+ 	
+	\subsection{Test For Inter-Method Bias in the LME Frameworks}
+Firstly, a practitioner would investigate whether a significant inter-method bias is present between the methods, as this is the source of disagreement between two methods of measurement that is most easily identified. A formal test for the hypothesis $\operatorname{H_1} : \mu_1 = \mu_2$ can be implemented by examining the fixed effects of the LME model, equivalent to a conventional paired $t-$test. Estimates for the fixed effects yield the inter-method bias, typically accompanied by the necessary test statistic and $p-$value in programming software output. 
+% This is common to classical linear models, and interpretation of the results should pose not difficulty to a trained practitioner.
+
 	\subsection*{Replicate Measurement Case}
 	
+\citet{BXC2008} proposes the addition of an random effects term to their model when the replicates are linked. This term is used to describe the `item by replicate' interaction, $a_{ir}$, which is independent of the methods. This interaction is a source of variability independent of the methods. Therefore failure to account for it will result in variability being wrongly attributed to the methods.
 	
 For the replicate case, an interaction term $c$ is added to the model, with an associated variance component. 
 
-$c_{mi}$ is a interaction term to account for replicate, and $e_{mir}$ is the residual associated with each observation. Since variances are specific to each method, this model can be
+$c_{mi}$ is a interaction term to account for replicate, and $\epsilon_{mir}$ is the residual associated with each observation. Since variances are specific to each method, this model can be
 fitted separately for each method.
 	
 	
-\citet{BXC2008} proposes the addition of an random effects term to their model when the replicates are linked. This term is used to describe the `item by replicate' interaction, $a_{ir}$, which is independent of the methods. This interaction is a source of variability independent of the methods. Therefore failure to account for it will result in variability being wrongly attributed to the methods.	
+	
 
 
 	
@@ -162,14 +161,8 @@ fitted separately for each method.
 	\begin{equation}
 		y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + a_{ir} + \epsilon_{mir},
 	\end{equation}
-	The random error term for each response is denoted $\varepsilon_{mir}$ with $\mathrm{E}(\epsilon_{mir})=0$ and $\mathrm{Var}(\epsilon_{mir})=\sigma^2_m$. 
-	
-	
-The random-effect terms comprise an item-by-replicate interaction term $a_{ir} \sim \mathcal{N}(0,\varsigma^{2})$, a method-by-item interaction term $c_{mi} \sim N(0,\tau^{2}_{m})$. $e_{mir}$ is the residual associated with each observation, with $e_{mir} \sim N(0,\varphi^{2}_{m})$. The $c_{mi}$ term represent random effect parameters corresponding to the two methods, having $\mathrm{E}(c_{mi})= 0$ with $\mathrm{Var}(c_{mi})=\tau^2_m$.
- 
-
-
-	\citet{BXC2008} specifies the variance of the interaction terms as being univariate normally distributed. As such, $\mathrm{Cov}(c_{mi}, c_{m^\prime i})= 0.$ 
+The random error term for each response is denoted $\epsilon_{mir}$ with $\mathrm{E}(\epsilon_{mir})=0$ and $\mathrm{Var}(\epsilon_{mir})=\sigma^2_m$. 
+The random-effect terms comprise an item-by-replicate interaction term $a_{ir} \sim \mathcal{N}(0,\sigma^{2})$, a method-by-item interaction term $c_{mi} \sim N(0,\tau^{2}_{m})$. $\epsilon_{mir}$ is the residual associated with each observation, with $\varepsilon_{mir} \sim N(0,\varphi^{2}_{m})$. The $c_{mi}$ term represent random effect parameters corresponding to the two methods, having $\mathrm{E}(c_{mi})= 0$ with $\mathrm{Var}(c_{mi})=\tau^2_m$. \citet{BXC2008} specifies the variance of the interaction terms as being univariate normally distributed. As such, $\mathrm{Cov}(c_{mi}, c_{m^\prime i})= 0.$ 
 	
 
 	
@@ -256,17 +249,15 @@ y_{mir}  = \alpha_{m} + \mu_{i} + c_{mi} + \epsilon_{mir}, \qquad  e_{mi}
 
 
 
-The following model (in the authors own notation) is
+
+
+
+
+	
+
+\citet{BXC2008} proposed a technique to calculate prediction intervals in the presence of replicate measurements, overcoming problems associated with Bland-Altman approach in this regard. The following model (in the authors own notation) is
 formulated as follows, where $y_{mir}$ is the $r$th replicate
-measurement on subject $i$ with method $m$. The differences are expressed as $d_{i} = y_{1i} - y_{2i}$.
-
-
-
-	
-
-\citet{BXC2008} proposed a technique to calculate prediction intervals in the presence of replicate measurements, overcoming problems associated with Bland-Altman approach in this regard.Between-subject variation for method $m$ is given by $d^2_{m}$ (in the author's notation $\tau^2_m$) and within-subject variation is given by $\sigma^2_{m}$.  
-	
-	\citet{BXC2008} proposes a framework to calculate prediction intervals in the presence of replicate measurements, overcoming problems associated with Bland-Altman approach in this regard. \citet{BXC2008} compute the limits of agreement as
+measurement on subject $i$ with method $m$. The differences are expressed as $d_{i} = y_{1i} - y_{2i}$. \citet{BXC2008} compute the limits of agreement as
 	\[
 	\alpha_1 - \alpha_2 \pm 2 \sqrt{ \tau^2_1 +  \tau^2_2 +  \varphi^2_1 +  \varphi^2_2 }
 	\]
@@ -281,6 +272,11 @@ measurement on subject $i$ with method $m$. The differences are expressed as $d_
 		\hat{\sigma}^2_1 + \hat{\sigma}^2_2}
 	\]
 	
+	Importantly the covariance terms in both variability matrices are zero, so no covariance components are present. Further to his model, Carstensen computes the limits of agreement as
+
+\[
+\hat{\alpha}_1 - \hat{\alpha}_2 \pm \sqrt{2 \hat{d}^2 + \hat{\sigma}^2_1 + \hat{\sigma}^2_2}.
+\]
 
 	
 
@@ -310,13 +306,7 @@ measurement on subject $i$ with method $m$. The differences are expressed as $d_
 	\begin{equation}
 		\mbox{var} (y_{A}-y_{B}) = 2d^2 + \sigma^2_{A}+ \sigma^2_{B}.
 	\end{equation}
-	Importantly the covariance terms in both variability matrices are zero, so no covariance components are present. Further to his model, Carstensen computes the limits of agreement
-	as
-	
-	\[
-	\hat{\alpha}_1 - \hat{\alpha}_2 \pm \sqrt{2 \hat{d}^2 + \hat{\sigma}^2_1 + \hat{\sigma}^2_2}
-	\]
-	
+
 	
 	
 	
