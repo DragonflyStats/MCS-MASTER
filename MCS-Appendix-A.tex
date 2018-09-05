@@ -1,0 +1,254 @@
+
+\documentclass[12pt, a4paper]{report}
+
+\usepackage{epsfig}
+\usepackage{subfigure}
+%\usepackage{amscd}
+\usepackage{amssymb}
+\usepackage{graphicx}
+%\usepackage{amscd}
+\usepackage{amssymb}
+\usepackage{subfiles}
+\usepackage{framed}
+\usepackage{subfiles}
+\usepackage{amsthm, amsmath}
+\usepackage{amsbsy}
+\usepackage{framed}
+\usepackage[usenames]{color}
+\usepackage{listings}
+\lstset{% general command to set parameter(s)
+basicstyle=\small, % print whole listing small
+keywordstyle=\color{red}\itshape,
+% underlined bold black keywords
+commentstyle=\color{blue}, % white comments
+stringstyle=\ttfamily, % typewriter type for strings
+showstringspaces=false,
+numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=5pt, %
+frame=shadowbox,
+rulesepcolor=\color{black},
+,columns=fullflexible
+} %
+%\usepackage[dvips]{graphicx}
+\usepackage{natbib}
+\bibliographystyle{chicago}
+\usepackage{vmargin}
+% left top textwidth textheight headheight
+% headsep footheight footskip
+\setmargins{1.0cm}{0.75cm}{18.5 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
+%\voffset=-2.5cm
+%\oddsidemargin=1cm
+%\textwidth = 520pt
+
+\renewcommand{\baselinestretch}{1.5}
+\pagenumbering{arabic}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{ill}[theorem]{Example}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{axiom}{Axiom}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{notation}{Notation}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[section]
+\newtheorem{example}{Example}[section]
+\renewcommand{\thenotation}{}
+\renewcommand{\thetable}{\thesection.\arabic{table}}
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+\title{Research notes: linear mixed effects models}
+\author{ } \date{ }
+
+
+\begin{document}
+\author{Kevin O'Brien}
+\title{LME Models for Method Comparison Studies}
+%\tableofcontents
+
+\chapter{A Simplified LME Framework for Method Comparison}
+
+
+\section{Systolic Blood Pressure Data Set}
+
+\citet{ARoy2009} provides three case studies, using data sets well known in method comparison studies, to demonstrate how the methodology should be used. The first two examples used are from the `blood pressure' data set introduced by \citet{BA99}. The data set is a tabulation of simultaneous measurements of systolic blood pressure were made by each of two experienced observers (denoted `\textit{J}' and `\textit{R}') using a sphygmomanometer and by a semi-automatic blood pressure monitor (denoted `\textit{S}'). Three sets of readings were made in quick succession. Roy compares the `\textit{J}' and `\textit{S}' methods in the first of her examples.
+
+\section{Implementation in \texttt{R}}
+To implement an LME model in \texttt{R}, the \texttt{nlme} package is used. This package is loaded into the \texttt{R} environment using the library command, (i.e.\ \texttt{library(nlme)}). The \texttt{lme} command is used to fit LME models. The first two arguments to the \texttt{lme} function specify the fixed effect component of the model, and the data set to which the model is to be fitted. The first candidate model (`\texttt{ref.nlme}') fits an LME model on the data set `Blood'. The variable `\texttt{meth}' is assigned as the fixed effect, with the response variable `\texttt{y}' (i.e. blood pressure).
+
+The third argument contain the random effects component of the formulation, describing the random effects, and their grouping structure. The \texttt{nlme} package provides a set of positive-definite matrices , the \texttt{pdMat} class, that can be used to specify a structure for the between-subject variance-covariance matrix for the random effects. For Roy's models, we will use the \texttt{pdSymm} and \texttt{pdCompSymm} to specify a symmetric structure and a compound symmetry structure respectively. A full discussion of these structures can be found in \citet[pg. 158]{PB}.
+
+Similarly a variety of structures for the with-subject variance-covariance matrix can be implemented using \texttt{nlme}. To implement a particular matrix structure, one must specify both a variance function and correlation structure accordingly. Variance functions are used to model the variance structure of the within-subject errors. \texttt{varIdent} is a variance function object used to allow different variances according to the levels of a classification factor in the data. A compound symmetry structure is implemented using the \texttt{corCompSymm} class, while the symmetric form is specified by \texttt{corSymm} class. Finally, the estimation methods is specified as ``ML" or ``REML".
+
+\begin{framed}
+\begin{description}
+\item[\texttt{y}] : Response variable
+\item[\texttt{meth}] : Method of Measurement
+\item[\texttt{item}] : Subject
+\item[\texttt{repl}] : Replicate index
+\end{description}
+\end{framed}
+
+Using this \texttt{R} implementation for other data sets requires that the data set is structured appropriately (i.e.\ each case of observation records the index, response, method and replicate). Once formatted properly, implementation is simply a case of re-writing the first line of code, and computing the four candidate models accordingly.
+
+\section{Implementation in \texttt{R}}
+To implement an LME model in \texttt{R}, the \texttt{nlme} package is used. This package is loaded into the \texttt{R} environment using the library command, (i.e.\ \texttt{library(nlme)}). The \texttt{lme} command is used to fit LME models. The first two arguments to the \texttt{lme} function specify the fixed effect component of the model, and the data set to which the model is to be fitted. The first candidate model (`\texttt{ref.nlme}') fits an LME model on the data set `Blood'. The variable `\texttt{meth}' is assigned as the fixed effect, with the response variable `\texttt{y}' (i.e. blood pressure).
+
+The third argument contain the random effects component of the formulation, describing the random effects, and their grouping structure. The \texttt{nlme} package provides a set of positive-definite matrices , the \texttt{pdMat} class, that can be used to specify a structure for the between-subject variance-covariance matrix for the random effects. For Roy's models, we will use the \texttt{pdSymm} and \texttt{pdCompSymm} to specify a symmetric structure and a compound symmetry structure respectively. A full discussion of these structures can be found in \citet[pg. 158]{PB}.
+
+Similarly a variety of structures for the with-subject variance-covariance matrix can be implemented using \texttt{nlme}. To implement a particular matrix structure, one must specify both a variance function and correlation structure accordingly. Variance functions are used to model the variance structure of the within-subject errors. \texttt{varIdent} is a variance function object used to allow different variances according to the levels of a classification factor in the data. A compound symmetry structure is implemented using the \texttt{corCompSymm} class, while the symmetric form is specified by \texttt{corSymm} class. Finally, the estimation methods is specified as ``ML" or ``REML".
+
+\begin{description}
+\item[\texttt{y}] : Response variable
+\item[\texttt{meth}] : Method of Measurement
+\item[\texttt{item}] : Subject
+\item[\texttt{repl}] 
+\end{description}
+
+Using this \texttt{R} implementation for other data sets requires that the data set is structured appropriately (i.e.\ each case of observation records the index, response, method and replicate). Once formatted properly, implementation is simply a case of re-writing the first line of code, and computing the four candidate models accordingly.
+
+
+\section{Computation of LMEs using R} 
+
+\cite{PB} advises how to
+implement LME models in statistical software (ostensibly for S and S PLUS, but \texttt{R} is very similar). When tackling linear mixed effects models using the R language, a statistician can call upon the \texttt{lme} command found in the \texttt{nlme} package. This command fits a LME model to the data set using either Maximum Likelihood (ML) or Restricted Maximum Likelihood (REML). 
+%%-- ML may be referred to as 'full maximum likelihood' estimation.
+
+The first two arguments for \texttt{lme} are \texttt{fixed} and \texttt{data}, which give the model for the expected responses (i.e. the fixed part of the model), and the data that the model should be fitted from. The next argument is  \emph{random}, a one-sided
+formula which describes the random effects, and the grouping structure for the model. The  \emph{method} argument can specify whether to use 'REML', the default setting, or 'ML'.
+
+
+\section{Important Consideration for MCS}
+
+The key issue is that \texttt{nlme} allows for the particular specification of Roy's Model, specifically direct specification of the VC matrices for within subject and between subject residuals.
+
+The \texttt{lme4} package does not allow for Roy's Model, for reasons that will identified shortly.To advance the ideas that eminate from Roy's paper, one is required to use the \texttt{nlme} context. However, to take advantage of the infrastructure already provided for \texttt{lme4} models, one may change the research question away from that of Roy's paper. To this end, an exploration of what \textbf{\textit{influence.ME}} can accomplished is merited. The first of Roy's candidate model can be implemented using the following code;\\
+
+\begin{framed}
+\begin{verbatim}
+ref.nlme = lme(BP ~ method-1, data = dat,
+random =  list(subject=pdSymm(~ method-1)),
+weights=varIdent(form=~1|method),
+correlation = corSymm(form=~1 | subject/obs), method="ML")
+\end{verbatim}
+\end{framed}
+
+For the blood pressure data used in \citet{ARoy2009}, all four candidate models are implemented by slight variations of this piece of code, specifying either \texttt{pdSymm} or \texttt{pdCompSymm} in the second line, and either \texttt{corSymm} or \texttt{corCompSymm} in the fourth line.
+For example, the second candidate model `MCS2' is implemented with the same code as MCS1, except for the term \texttt{pdCompSymm} in the second line, rather than \texttt{pdSymm}.
+
+\begin{framed}
+\begin{verbatim}
+    test1.nlme = lme(BP ~ method-1, data = dat,
+random = list(subject=pdCompSymm(~ method-1)),
+weights = varIdent(form=~1|method),
+correlation = corSymm(form=~1 | subject/obs), method="ML")
+\end{verbatim}
+\end{framed}
+
+The fixed effects estimates are the same for all four candidate models. The inter-method bias can be easily determined by inspecting a summary of any model. The summary presents estimates for all of the important parameters, but not the complete variance-covariance matrices (although some simple \texttt{R} functions can be written to overcome this). The variance estimates for the random effects for \texttt{test1.nlme} is presented below.
+
+\begin{framed}
+\begin{verbatim}
+Random effects:
+Formula: ~method - 1 | subject
+Structure: Compound Symmetry
+StdDev Corr
+methodJ  30.765
+methodS  30.765 0.829
+Residual  6.115
+\end{verbatim}
+\end{framed}
+
+Similarly, for computing the limits of agreement the standard deviation of the differences is not explicitly given. Again, a simple \texttt{R} function can be written to calculate the limits of agreement directly.
+
+\newpage
+
+\section{Computation of LMEs using R} 
+
+\cite{PB} advises how to
+implement LME models in statistical software (ostensibly for S and S PLUS, but \texttt{R} is very similar). When tackling linear mixed effects models using the \texttt{R} language, a statistician can use the \texttt{lme()} function, from the \texttt{nlme} package. 
+%%-- ML may be referred to as 'full maximum likelihood' estimation.
+
+The first two arguments for \texttt{lme} are \texttt{fixed} and \texttt{data}, which give the model for the expected responses (i.e. the fixed part of the model), and the data that the model should be fitted from. The next argument is \emph{random}, a one-sided
+formula which describes the random effects, and the grouping structure for the model. 
+
+The \texttt{lme()} command fits a LME model to the data set using either Maximum Likelihood (ML) or Restricted Maximum Likelihood (REML).  The \emph{method} argument can specify whether to use 'REML', the default setting, or 'ML'.
+
+
+\section{Important Consideration for Method Comparison}
+
+The key issue is that \texttt{nlme} allows for the particular specification of Roy's Model, specifically direct specification of the VC matrices for within subject and between subject residuals.
+
+The \texttt{lme4} package does not allow for Roy's Model, for reasons that will identified shortly.To advance the ideas that eminate from Roy's paper, one is required to use the \texttt{nlme} context. However, to take advantage of the infrastructure already provided for \texttt{lme4} models, one may change the research question away from that of Roy's paper. To this end, an exploration of what \textbf{\textit{influence.ME}} can accomplished is merited. The first of Roy's candidate model can be implemented using the following code;\\
+
+\begin{framed}
+\begin{verbatim}
+ref.nlme <- lme(BP ~ method-1, data = dat,
+random =  list(subject=pdSymm(~ method-1)),
+weights=varIdent(form=~1|method),
+correlation = corSymm(form=~1 | subject/obs), 
+method="ML")
+\end{verbatim}
+\end{framed}
+
+For the blood pressure data used in \citet{ARoy2009}, all four candidate models are implemented by slight variations of this piece of code, specifying either \texttt{pdSymm} or \texttt{pdCompSymm} in the second line, and either \texttt{corSymm} or \texttt{corCompSymm} in the fourth line.
+For example, the second candidate model `MCS2' is implemented with the same code as MCS1, except for the term \texttt{pdCompSymm} in the second line, rather than \texttt{pdSymm}.
+
+\begin{framed}
+\begin{verbatim}
+test1.nlme <- lme(BP ~ method-1, data = dat,
+random = list(subject=pdCompSymm(~ method-1)),
+weights = varIdent(form=~1|method),
+correlation = corSymm(form=~1 | subject/obs), 
+method="ML")
+\end{verbatim}
+\end{framed}
+
+The fixed effects estimates are the same for all four candidate models. The inter-method bias can be easily determined by inspecting a summary of any model. The summary presents estimates for all of the important parameters, but not the complete variance-covariance matrices (although some simple \texttt{R} functions can be written to overcome this). The variance estimates for the random effects for \texttt{test1.nlme} is presented below.
+
+\begin{framed}
+\begin{verbatim}
+Random effects:
+Formula: ~method - 1 | subject
+Structure: Compound Symmetry
+StdDev Corr
+methodJ  30.765
+methodS  30.765 0.829
+Residual  6.115
+\end{verbatim}
+\end{framed}
+
+Similarly, for computing the limits of agreement the standard deviation of the differences is not explicitly given. Again, a simple \texttt{R} function can be written to calculate the limits of agreement directly.
+
+
+\newpage
+
+
+\section{Fitting Models with the LME4 R package}
+Two LME models are fitted to the data, one using the nlme package, one with the lme4 package. These models shall be called ``\texttt{ref.nlme}" and ``\texttt{ref.lme4}" respectively.
+
+In both cases the method is characterized by a fixed effect, while there is a random effect for each subject. This random effect accounts for the replicate measurements associated with each subject. The differences between the estimate provided by the respective models are negligible, due to the simplicity of the model specification.
+
+Maximum likelihood or restricted maximum likelihood (REML) estimates of the parameters in linear mixed-effects models can be determined using the \texttt{lmer} function in the \textbf{\textit{lme4}} package for \texttt{R}. As for most model-fitting functions in \texttt{R}, the model is described in an \texttt{lmer} call by a formula, in this case including both fixed- and random-effects terms. 
+
+The formula and data together determine a numerical representation of the model from which the profiled deviance or the profiled REML criterion can be evaluated as a function of some of the model parameters. The appropriate criterion is optimized, using one of the constrained optimization functions in \texttt{R}, to provide the parameter estimates. We describe the structure of the model, the steps in evaluating the profiled deviance or REML criterion, and the structure of classes or types that represents such a model. 
+
+Sufficient detail is included to allow specialization of these structures by users who wish to write functions to fit specialized linear mixed models, such as models incorporating pedigrees or smoothing splines, that are not easily expressible in the formula language used by \texttt{lmer()}.
+
+
+\newpage
+
+\section{Fitting Models with the LME4 R package}
+Two LME models are fitted to the data, one using the nlme package, one with the lme4 package. These models shall be called ``\texttt{ref.nlme}" and ``\texttt{ref.lme4}" respectively.
+
+In both cases the method is characterized by a fixed effect, while there is a random effect for each subject. This random effect accounts for the replicate measurements associated with each subject. The differences between the estimate provided by the respective models are negligible, due to the simplicity of the model specification.
+
+Maximum likelihood or restricted maximum likelihood (REML) estimates of the parameters in linear mixed-effects models can be determined using the \texttt{lmer} function in the \textbf{\textit{lme4}} package for \texttt{R}. As for most model-fitting functions in \texttt{R}, the model is described in an \texttt{lmer} call by a formula, in this case including both fixed- and random-effects terms. 
+
+The formula and data together determine a numerical representation of the model from which the profiled deviance or the profiled REML criterion can be evaluated as a function of some of the model parameters. The appropriate criterion is optimized, using one of the constrained optimization functions in \texttt{R}, to provide the parameter estimates. We describe the structure of the model, the steps in evaluating the profiled deviance or REML criterion, and the structure of classes or types that represents such a model. 
+
+Sufficient detail is included to allow specialization of these structures by users who wish to write functions to fit specialized linear mixed models, such as models incorporating pedigrees or smoothing splines, that are not easily expressible in the formula language used by \texttt{lmer()}.
+
+
+\end{document}

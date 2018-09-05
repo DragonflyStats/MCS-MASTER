@@ -1,0 +1,255 @@
+
+\documentclass[12pt, a4paper]{report}
+
+\usepackage{epsfig}
+\usepackage{subfigure}
+%\usepackage{amscd}
+\usepackage{amssymb}
+\usepackage{graphicx}
+%\usepackage{amscd}
+\usepackage{amssymb}
+\usepackage{subfiles}
+\usepackage{framed}
+\usepackage{subfiles}
+\usepackage{amsthm, amsmath}
+\usepackage{amsbsy}
+\usepackage{framed}
+\usepackage[usenames]{color}
+\usepackage{listings}
+\lstset{% general command to set parameter(s)
+basicstyle=\small, % print whole listing small
+keywordstyle=\color{red}\itshape,
+% underlined bold black keywords
+commentstyle=\color{blue}, % white comments
+stringstyle=\ttfamily, % typewriter type for strings
+showstringspaces=false,
+numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=5pt, %
+frame=shadowbox,
+rulesepcolor=\color{black},
+,columns=fullflexible
+} %
+%\usepackage[dvips]{graphicx}
+\usepackage{natbib}
+\bibliographystyle{chicago}
+\usepackage{vmargin}
+% left top textwidth textheight headheight
+% headsep footheight footskip
+\setmargins{1.0cm}{0.75cm}{18.5 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
+%\voffset=-2.5cm
+%\oddsidemargin=1cm
+%\textwidth = 520pt
+
+\renewcommand{\baselinestretch}{1.5}
+\pagenumbering{arabic}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{ill}[theorem]{Example}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{axiom}{Axiom}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{notation}{Notation}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[section]
+\newtheorem{example}{Example}[section]
+\renewcommand{\thenotation}{}
+\renewcommand{\thetable}{\thesection.\arabic{table}}
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+\title{Research notes: linear mixed effects models}
+\author{ } \date{ }
+
+
+\begin{document}
+\author{Kevin O'Brien}
+\title{LME Models for Method Comparison Studies}
+%\tableofcontents
+
+\chapter{A Simplified LME Framework for Method Comparison}
+
+\subsection{Roy's Reference Model}
+Conventionally LME models can be tested using Likelihood Ratio Tests, wherein a reference model is compared to a nested model.
+
+
+\citet{ARoy2009} presents two nested models that specify the condition of equality as required, with a third nested model for an additional test. There three formulations share the same structure, and can be specified by making slight alterations of the code for the Reference Model.
+\section{Roy's Candidate Models}
+
+
+
+\begin{framed}
+\begin{verbatim}
+
+> Ref.Fit = lme(y ~ meth-1, data = dat,   #Symm , Symm#
++     random = list(item=pdSymm(~ meth-1)), 
++     weights=varIdent(form=~1|meth),
++     correlation = corSymm(form=~1 | item/repl), 
++     method="ML")
+\end{verbatim}
+\end{framed}
+Roy(2009) presents two nested models that specify the condition of equality as required, with a third nested model for an additional test. There three formulations share the same structure, and can be specified by making slight alterations of the code for the Reference Model.
+Nested Model (Between-Item Variability)
+
+
+\begin{framed}\begin{verbatim}
+> NMB.fit  = lme(y ~ meth-1, data = dat,   #CS , Symm#
++     random = list(item=pdCompSymm(~ meth-1)),
++     correlation = corSymm(form=~1 | item/repl), 
++     method="ML")
+
+
+Nested Model (Within –item Variability)
+> NMW.fit = lme(y ~ meth-1, data = dat,   #Symm , CS# 
++     random = list(item=pdSymm(~ meth-1)),
++     weights=varIdent(form=~1|meth), 
++     correlation = corCompSymm(form=~1 | item/repl), 
++     method="ML")
+\end{verbatim}
+\end{framed}
+
+\subsection{Model Fit 1}
+
+This is a simple model with no interactions. There is a fixed effect for each method and a random effect for each subject.
+\begin{equation*}
+y_{ijk} = \beta_{j}  + b_{i} + \epsilon_{ijk}, \qquad i=1,\dots,2, j=1,\dots,85, k=1,\dots,3
+\end{equation*}
+
+\begin{eqnarray*}
+b_{i} \sim \mathcal{N}(0,\sigma^2_{b}), \qquad \epsilon_{i} \sim \mathcal{N}(0,\sigma^2)
+\end{eqnarray*}
+\begin{framed}
+\begin{verbatim}
+> Ref.Fit = lme(y ~ meth-1, data = dat,   #Symm , Symm#
++     random = list(item=pdSymm(~ meth-1)), 
++     weights=varIdent(form=~1|meth),
++     correlation = corSymm(form=~1 | item/repl), 
++     method="ML")
+\end{verbatim}
+\end{framed}
+
+\begin{verbatim}
+Linear mixed-effects model fit by REML
+Data: dat
+Log-restricted-likelihood: -2155.853
+Fixed: BP ~ method
+(Intercept)     methodS
+127.40784    15.61961
+
+Random effects:
+Formula: ~1 | subject
+(Intercept) Residual
+StdDev:    29.39085 12.44454
+
+Number of Observations: 510
+Number of Groups: 85
+\end{verbatim}
+
+The following output was obtained.
+
+\begin{verbatim}
+Linear mixed-effects model fit by REML
+Data: dat
+Log-restricted-likelihood: -2047.714
+Fixed: BP ~ method
+(Intercept)     methodS
+127.40784    15.61961
+
+Random effects:
+Formula: ~1 | subject
+(Intercept)
+StdDev:    28.28452
+
+Formula: ~1 | method %in% subject
+(Intercept) Residual
+StdDev:    12.61562 7.763666
+
+Number of Observations: 510
+Number of Groups:
+subject method %in% subject
+85                 170
+\end{verbatim}
+
+Nested Model (Between-Item Variability)
+\begin{framed}
+\begin{verbatim}
+> NMB.fit  = lme(y ~ meth-1, data = dat,   #CS , Symm#
++     random = list(item=pdCompSymm(~ meth-1)),
++     correlation = corSymm(form=~1 | item/repl), 
++     method="ML")
+\end{verbatim}
+\end{framed}
+\subsection{Test 1}
+The first of Roy's candidate model can be implemented using the following code;\\
+
+\begin{framed}
+\begin{verbatim}
+ref.nlme = lme(BP ~ method-1, data = dat,
+random =  list(subject=pdSymm(~ method-1)),
+weights=varIdent(form=~1|method),
+correlation = corSymm(form=~1 | subject/obs), method="ML")
+\end{verbatim}
+\end{framed}
+For the blood pressure data used in \citet{ARoy2009}, all four candidate models are implemented by slight variations of this piece of code, specifying either \texttt{pdSymm} or \texttt{pdCompSymm} in the second line, and either \texttt{corSymm} or \texttt{corCompSymm} in the fourth line.
+
+For example, the first test model `\texttt{test1.nlme}' is implemented with the same code as \texttt{ref.nlme}, except for the term \texttt{pdCompSymm} in the second line, rather than \texttt{pdSymm}.
+\begin{framed}
+\begin{verbatim}
+test1.nlme = lme(BP ~ method-1, data = dat,
+random = list(subject=pdCompSymm(~ method-1)),
+weights = varIdent(form=~1|method),
+correlation = corSymm(form=~1 | subject/obs), method="ML")
+\end{verbatim}
+\end{framed}
+
+Using this \texttt{R} implementation for other data sets requires that the data set is structured appropriately (i.e.\ each case of observation records the index, response, method and replicate). Once formatted properly, implementation is simply a case of re-writing the first line of code, and computing the four candidate models accordingly.
+
+A likelihood ratio test is perform to determine which model is more suitable. To perform this test, simply use the \texttt{anova} command with the names of the candidate models as arguments. The following piece of code implement the first of Roy's variability tests.
+
+\begin{framed}
+\begin{verbatim}
+> anova(MCS1,MCS2)
+Model df    AIC    BIC  logLik   Test L.Ratio p-value
+MCS1     1  8 4077.5 4111.3 -2030.7
+MCS2     2  7 4075.6 4105.3 -2030.8 1 vs 2 0.15291  0.6958
+>
+\end{verbatim}
+\end{framed}
+
+The fixed effects estimates are the same for all four candidate models. The inter-method bias can be easily determined by inspecting a summary of any model. The summary presents estimates for all of the important parameters, but not the complete variance-covariance matrices (although some simple \texttt{R} functions can be written to overcome this). The variance estimates for the random effects for MCS2 is presented below.
+
+\begin{verbatim}
+Random effects:
+Formula: ~method - 1 | subject
+Structure: Compound Symmetry
+StdDev Corr
+methodJ  30.765
+methodS  30.765 0.829
+Residual  6.115
+\end{verbatim}
+
+Similarly, for computing the limits of agreement the standard deviation of the differences is not explicitly given. Again, A simple \texttt{R} function can be written to calculate the limits of agreement directly.
+
+\subsection{Variability test 1}
+This is a test on whether both methods $A$ and $B$ have the same between-subject variability or not.
+\begin{eqnarray}
+H_{0}: \mbox{ }d_{A}  = d_{B} \\
+H_{A}: \mbox{ }d_{A}  \neq d_{B}
+\end{eqnarray}
+When implemented using \texttt{R}, this test is facilitated by constructing a model specifying a symmetric form for $D$ (i.e. the alternative model) and comparing it with a model that has compound symmetric form for $D$ (i.e. the null model). For this test $\boldsymbol{\hat{\Sigma}}$ has a symmetric form for both models, and will be the same for both.
+
+
+
+\subsection{Nested Model (Overall Variability)}
+Additionally there is a third nested model, that can be used to test overall variability, substantively a a joint test for between-item and within-item variability. The motivation for including such a test in the suite is not clear, although it does circumvent the need for multiple comparison procedures in certain circumstances, hence providing a simplified procedure for non-statisticians.
+
+\begin{framed}
+\begin{verbatim}
+> NMO.fit = lme(y ~ meth-1, data = dat,   #CS , CS# 
++     random = list(item=pdCompSymm(~ meth-1)), 
++     correlation = corCompSymm(form=~1 | item/repl), 
++     method="ML")
+\end{verbatim}
+\end{framed}
+
+\end{document}
