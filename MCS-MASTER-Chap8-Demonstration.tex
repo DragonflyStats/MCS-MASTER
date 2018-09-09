@@ -123,12 +123,6 @@ A symmetric matrix allows the diagonal terms $a_{11}$ and $a_{22}$ to differ. Th
 
 
 
-
-\section{Systolic Blood Pressure Data Set}
-
-\citet{ARoy2009} provides three case studies, using data sets well known in method comparison studies, to demonstrate how the methodology should be used. The first two examples used are from the `blood pressure' data set introduced by \citet{BA99}. The data set is a tabulation of simultaneous measurements of systolic blood pressure were made by each of two experienced observers (denoted `\textit{J}' and `\textit{R}') using a sphygmomanometer and by a semi-automatic blood pressure monitor (denoted `\textit{S}'). Three sets of readings were made in quick succession. Roy compares the `\textit{J}' and `\textit{S}' methods in the first of her examples.
-
-
 \subsection{Demonstration of Roy's testing}
 
 
@@ -256,56 +250,6 @@ MCS2     2  7 4075.6 4105.3 -2030.8 1 vs 2 0.15291  0.6958
 
 The test statistic is the difference of the $-2$ log likelihoods; $0.153$. The $p-$value is $0.696$. Therefore we fail to reject the hypothesis that both have the same between-subject variabilities.
 
-%---------------------------------------------%
-\section{Model Fit 2}
-\subsubsection{Nested Model (Between-Item Variability)}
-\begin{framed}
-\begin{verbatim}
-> NMB.fit  = lme(y ~ meth-1, data = dat,   #CS , Symm#
-+     random = list(item=pdCompSymm(~ meth-1)),
-+     correlation = corSymm(form=~1 | item/repl), 
-+     method="ML")
-\end{verbatim}
-\end{framed}
-
-
-
-This is a simple model, this time with an interaction effect.
-There is a fixed effect for each method. This model has random effects at two levels $b_{i}$ for the subject, and
-another, $b_{ij}$, for the respective method within each subject.
-\begin{equation*}
-y_{ijk} = \beta_{j}  + b_{i} + b_{ij} + \epsilon_{ijk}, \qquad i=1,\dots,2, j=1,\dots,85, k=1,\dots,3
-\end{equation*}
-\begin{eqnarray*}
-b_{i} \sim \mathcal{N}(0,\sigma^2_{1}), \qquad b_{ij} \sim \mathcal{N}(0,\sigma^2_{2}), \qquad \epsilon_{i} \sim \mathcal{N}(0,\sigma^2)
-\end{eqnarray*}
-
-In this model, the random interaction terms all have the same variance $\sigma^2_{2}$. These terms are assumed to be independent of each other, even
-within the same subject.
-
-\begin{verbatim}
-Linear mixed-effects model fit by REML
-Data: dat
-Log-restricted-likelihood: -2047.714
-Fixed: BP ~ method
-(Intercept)     methodS
-127.40784    15.61961
-
-Random effects:
-Formula: ~1 | subject
-(Intercept)
-StdDev:    28.28452
-
-Formula: ~1 | method %in% subject
-(Intercept) Residual
-StdDev:    12.61562 7.763666
-
-Number of Observations: 510
-Number of Groups:
-subject method %in% subject
-85                 170
-\end{verbatim}
-
 \subsection{Variability test 2}
 
 This is a test on whether both methods $A$ and $B$ have the same within-subject variability or not.
@@ -338,21 +282,6 @@ With the alternative model the MLE is as follows:
 
 The outcome of this test is that it can be assumed that they have equal
 The test statistic is the difference of the $-2$ log likelihoods; $28.617$. The $p-$value is less than $0.0001$. In this case we reject the null hypothesis that both models have the same within-subject variabilities.
-
-%-----------------------------------------------%
-\subsection{Model Fit 3}
-
-This model is a more general model, compared to 'model fit 2'. This model treats the random interactions for each subject as a vector and
-allows the variance-covariance matrix for that vector to be estimated from the set of all positive-definite matrices.
-$\boldsymbol{y_{i}}$ is the entire response vector for the $i$th subject.
-$\boldsymbol{X_{i}}$ and $\boldsymbol{Z_{i}}$  are the fixed- and random-effects design matrices respectively.
-\begin{equation*}
-\boldsymbol{y_{i}} = \boldsymbol{X_{i}\beta}  + \boldsymbol{Z_{i}b_{i}} + \boldsymbol{\epsilon_{i}}, \qquad i=1,\dots,85
-\end{equation*}
-\begin{eqnarray*}
-\boldsymbol{Z_{i}} \sim \mathcal{N}(\boldsymbol{0,\Psi}),\qquad
-\boldsymbol{\epsilon_{i}} \sim \mathcal{N}(\boldsymbol{0,\sigma^2\Lambda})
-\end{eqnarray*}
 
 
 \subsection{Variability Test 3}
@@ -387,99 +316,6 @@ The test statistic is the difference of the $-2$ log likelihoods; $28.884$. The 
 
 
 
-\section{Likelihood Ratio Test}
-The first model acts as an alternative hypothesis to be compared against each of three other models, acting as null hypothesis models, successively. The models are compared using the likelihood ratio test. Likelihood ratio tests are a class of tests based on the comparison of the values of the likelihood functions of two candidate models. LRTs can be used to test hypotheses about covariance parameters or fixed effects parameters in the context of LMEs. The test statistic for the likelihood ratio test is the difference of the log-likelihood functions, multiplied by $-2$.
-
-The probability distribution of the test statistic is approximated by the $\chi^2$ distribution with ($\nu_{1} - \nu_{2}$) degrees of freedom, where $\nu_{1}$ and $\nu_{2}$ are the degrees of freedom of models 1 and 2 respectively. Each of these three test shall be examined in more detail shortly.
-
-
-
-A general method for comparing nested models fit by maximum liklihood is the liklihood ratio 
-test. This test can be used for models fit by REML (restricted maximum liklihood), but only if the 
-fixed terms in the two models are invariant, and both models have been fit by REML. Otherwise, 
-the argument: method=”ML” must be employed (ML = maximum liklihood). 
-
-Example of a liklihood ratio test used to compare two models: 
-
-
-
-The output will contain a p-value, and this should be used in conjunction with the AIC scores to 
-judge which model is preferred. Lower AIC scores are better. 
-
-Generally, liklihood ratio tests should be used to evaluate the significance of terms on the 
-random effects portion of two nested models, and should not be used to determine the 
-significance of the fixed effects. 
-
-A simple way to more reliably test for the significance of fixed effects in an LME model is to use 
-conditional F-tests, as implemented with the simple “anova” function. 
-
-
-
-
-
-
-
-\subsection{LRTs with \texttt{R}}
-Likelihood ratio tests are very simple to implement in \texttt{R}, simply use the `\texttt{anova()}'
-commands. Sample output will be given for each variability test. The likelihood ratio
-test is the procedure used to compare the fit of two models. For each candidate model,
-the `-2 log likelihood' (M2LL) is computed. The test statistic for each of the three
-hypothesis tests is the difference of the M2LL for each pair of models. If the p-value
-in each of the respective tests exceed as significance level chosen by the analyst, then
-the null model must be rejected.
-
-\begin{equation}
--??2 ln \Lambda_d = [\mbox{M2LL under H0 model}] - [\mbox{M2LL under HA model}] 
-\end{equation}
-
-These test statistics follow a chi-square distribution with the degrees of freedom
-computed as the difference of the LRT degrees of freedom.
-\begin{equation}
-\nu_ = [ \mbox{LRT df under H0 model}] - [\mbox{ LRT df under HA model}]
-\end{equation}
-
-%\begin{framed}
-%\begin{verbatim}
-%
-%> anova(MCS1,MCS2)
-%
-%Model df AIC BIC logLik Test L.Ratio p-value
-%MCS1 1 8 4077.5 4111.3 -2030.7
-%MCS2 2 7 4075.6 4105.3 -2030.8 1 vs 2 0.15291 0.6958
-%
-%\end{verbatim}
-%\end{framed}
-\begin{center}
-\begin{tabular}{|c|c|c|c|c|c|c|c|}
-\hline
-Model   &      df &   AIC  & BIC      & logLik & Test & L.Ratio & p-value \\ \hline
-MCS1    &       8 & 4077.5 & 4111.3 & -2030.7  &       &         &        \\ \hline
-MCS2    &       7 & 4075.6 & 4105.3 & -2030.8  & 1 vs 2 & 0.15291 & 0.6958 \\
-\hline 
-\end{tabular} 
-\end{center}
-\begin{framed}
-\begin{verbatim}
-
-#ANOVAs
-test1 = anova(fit1,fit2) # Between-Subject Variabilities
-test2 = anova(fit1,fit3) # Within-Subject Variabilities
-test3 = anova(fit1,fit4) # Overall Variabilities
-
-\end{verbatim}
-\end{framed}
-
-To perform a likelihood ratio test for two candidate models, simply use the \texttt{anova()} command with the names of the candidate models as arguments. The following piece of code implement the first of Roy's variability tests.
-
-\begin{framed}
-\begin{verbatim}
-> anova(MCS1,MCS2)
-Model df    AIC    BIC  logLik   Test L.Ratio p-value
-MCS1     1  8 4077.5 4111.3 -2030.7
-MCS2     2  7 4075.6 4105.3 -2030.8 1 vs 2 0.15291  0.6958
->
-\end{verbatim}
-\end{framed}
 
 
 %Repeatability (Barnhart pg 7)
@@ -713,43 +549,6 @@ The off-diagonal blocks of the overall correlation matrix $\boldsymbol{\hat{r}_{
 The overall conclusion of the procedure is that method $J$ and $S$ are not in agreement, specifically due to the within-subject variability, and the inter-method bias. The repeatability coefficients are substantially different, with the coefficient for method $S$ being 49\% larger than for method $J$. Additionally the overall correlation coefficient did not exceed the recommended threshold of $0.82$.
 
 
-\section{Roy's Candidate Models}
-
-
-
-\begin{framed}
-\begin{verbatim}
-
-> Ref.Fit = lme(y ~ meth-1, data = dat,   #Symm , Symm#
-+     random = list(item=pdSymm(~ meth-1)), 
-+     weights=varIdent(form=~1|meth),
-+     correlation = corSymm(form=~1 | item/repl), 
-+     method="ML")
-\end{verbatim}
-\end{framed}
-Roy(2009) presents two nested models that specify the condition of equality as required, with a third nested model for an additional test. There three formulations share the same structure, and can be specified by making slight alterations of the code for the Reference Model.
-
-
-
-
-
-
-
-\section{Model terms}
-It is important to note the following characteristics of this model.
-Let the number of replicate measurements on each item $i$ for both methods be $n_i$, hence $2 \times n_i$ responses. However, it is assumed that there may be a different number of replicates made for different items. Let the maximum number of replicates be $p$. An item will have up to $2p$ measurements, i.e. $\max(n_{i}) = 2p$.
-
-% \item $\boldsymbol{y}_i$ is the $2n_i \times 1$ response vector for measurements on the $i-$th item.
-% \item $\boldsymbol{X}_i$ is the $2n_i \times  3$ model matrix for the fixed effects for observations on item $i$.
-% \item $\boldsymbol{\beta}$ is the $3 \times  1$ vector of fixed-effect coefficients, one for the true value for item $i$, and one effect each for both methods.
-Later on $\boldsymbol{X}_i$ will be reduced to a $2 \times 1$ matrix, to allow estimation of terms. This is due to a shortage of rank. The fixed effects vector can be modified accordingly.
-$\boldsymbol{Z}_i$ is the $2n_i \times  2$ model matrix for the random effects for measurement methods on item $i$.
-$\boldsymbol{b}_i$ is the $2 \times  1$ vector of random-effect coefficients on item $i$, one for each method.
-$\boldsymbol{\epsilon}$  is the $2n_i \times  1$ vector of residuals for measurements on item $i$.
-$\boldsymbol{G}$ is the $2 \times  2$ covariance matrix for the random effects.
-$\boldsymbol{R}_i$ is the $2n_i \times  2n_i$ covariance matrix for the residuals on item $i$.
-The expected value is given as $\mbox{E}(\boldsymbol{y}_i) = \boldsymbol{X}_i\boldsymbol{\beta}.$ \citep{hamlett}
-The variance of the response vector is given by $\mbox{Var}(\boldsymbol{y}_i)  = \boldsymbol{Z}_i \boldsymbol{G} \boldsymbol{Z}_i^{\prime} + \boldsymbol{R}_i$ \citep{hamlett}.
 
 
 
@@ -757,27 +556,7 @@ The variance of the response vector is given by $\mbox{Var}(\boldsymbol{y}_i)  =
 Conventionally LME models can be tested using Likelihood Ratio Tests, wherein a reference model is compared to a nested model.
 
 
-\citet{ARoy2009} presents two nested models that specify the condition of equality as required, with a third nested model for an additional test. There three formulations share the same structure, and can be specified by making slight alterations of the code for the Reference Model.
 
-\subsection{Model Fit 1}
-
-This is a simple model with no interactions. There is a fixed effect for each method and a random effect for each subject.
-\begin{equation*}
-y_{ijk} = \beta_{j}  + b_{i} + \epsilon_{ijk}, \qquad i=1,\dots,2, j=1,\dots,85, k=1,\dots,3
-\end{equation*}
-
-\begin{eqnarray*}
-b_{i} \sim \mathcal{N}(0,\sigma^2_{b}), \qquad \epsilon_{i} \sim \mathcal{N}(0,\sigma^2)
-\end{eqnarray*}
-\begin{framed}
-\begin{verbatim}
-> Ref.Fit = lme(y ~ meth-1, data = dat,   #Symm , Symm#
-+     random = list(item=pdSymm(~ meth-1)), 
-+     weights=varIdent(form=~1|meth),
-+     correlation = corSymm(form=~1 | item/repl), 
-+     method="ML")
-\end{verbatim}
-\end{framed}
 
 \begin{verbatim}
 Linear mixed-effects model fit by REML
@@ -855,156 +634,6 @@ Similarly, for computing the limits of agreement the standard deviation of the d
 
 
 %---------------------------------------------%
-
-
-\section{Likelihood Ratio Test}
-The first model acts as an alternative hypothesis to be compared against each of three other models, acting as null hypothesis models, successively. The models are compared using the likelihood ratio test. Likelihood ratio tests are a class of tests based on the comparison of the values of the likelihood functions of two candidate models. 
-
-LRTs can be used to test hypotheses about covariance parameters or fixed effects parameters in the context of LMEs. The test statistic for the likelihood ratio test is the difference of the log-likelihood functions, multiplied by $-2$.
-
-The probability distribution of the test statistic is approximated by the $\chi^2$ distribution with ($\nu_{1} - \nu_{2}$) degrees of freedom, where $\nu_{1}$ and $\nu_{2}$ are the degrees of freedom of models 1 and 2 respectively. Each of these three test shall be examined in more detail shortly.
-
-
-
-A general method for comparing nested models fit by maximum liklihood is the liklihood ratio 
-test. This test can be used for models fit by REML (restricted maximum liklihood), but only if the 
-fixed terms in the two models are invariant, and both models have been fit by REML. Otherwise, 
-the argument: method=``ML" must be employed (ML = maximum liklihood). 
-
-
-
-The output will contain a p-value, and this should be used in conjunction with the AIC scores to 
-judge which model is preferred. Lower AIC scores are better. 
-
-Generally, likelihood ratio tests should be used to evaluate the significance of terms on the 
-random effects portion of two nested models, and should not be used to determine the 
-significance of the fixed effects. 
-
-A simple way to more reliably test for the significance of fixed effects in an LME model is to use 
-conditional F-tests, as implemented with the simple \texttt{anova()} function. 
-
-
-
-
-
-
-
-\subsection{LRTs with \texttt{R}}
-Likelihood ratio tests are very simple to implement in \texttt{R}, simply use the `\texttt{anova()}'
-commands. Sample output will be given for each variability test. The likelihood ratio
-test is the procedure used to compare the fit of two models. For each candidate model,
-the `-2 log likelihood' (M2LL) is computed. The test statistic for each of the three
-hypothesis tests is the difference of the M2LL for each pair of models. If the p-value
-in each of the respective tests exceed as significance level chosen by the analyst, then
-the null model must be rejected.
-
-\begin{equation}
--2 ln \Lambda_d = [\mbox{M2LL under H0 model}] - [\mbox{M2LL under HA model}] 
-\end{equation}
-
-These test statistics follow a chi-square distribution with the degrees of freedom
-computed as the difference of the LRT degrees of freedom.
-\begin{equation}
-\nu_ = [ \mbox{LRT df under H0 model}] - [\mbox{ LRT df under HA model}]
-\end{equation}
-
-%\begin{framed}
-%\begin{verbatim}
-%
-%> anova(MCS1,MCS2)
-%
-%Model df AIC BIC logLik Test L.Ratio p-value
-%MCS1 1 8 4077.5 4111.3 -2030.7
-%MCS2 2 7 4075.6 4105.3 -2030.8 1 vs 2 0.15291 0.6958
-%
-%\end{verbatim}
-%\end{framed}
-\begin{center}
-\begin{tabular}{|c|c|c|c|c|c|c|c|}
-\hline
-Model   &      df &   AIC  & BIC      & logLik & Test & L.Ratio & p-value \\ \hline
-MCS1    &       8 & 4077.5 & 4111.3 & -2030.7  &       &         &        \\ \hline
-MCS2    &       7 & 4075.6 & 4105.3 & -2030.8  & 1 vs 2 & 0.15291 & 0.6958 \\
-\hline 
-\end{tabular} 
-\end{center}
-\begin{framed}
-\begin{verbatim}
-
-#ANOVAs
-test1 = anova(fit1,fit2) # Between-Subject Variabilities
-test2 = anova(fit1,fit3) # Within-Subject Variabilities
-test3 = anova(fit1,fit4) # Overall Variabilities
-
-\end{verbatim}
-\end{framed}
-
-To perform a likelihood ratio test for two candidate models, simply use the \texttt{anova()} command with the names of the candidate models as arguments. The following piece of code implement the first of Roy's variability tests.
-
-\begin{framed}
-\begin{verbatim}
-> anova(MCS1,MCS2)
-Model df    AIC    BIC  logLik   Test L.Ratio p-value
-MCS1     1  8 4077.5 4111.3 -2030.7
-MCS2     2  7 4075.6 4105.3 -2030.8 1 vs 2 0.15291  0.6958
->
-\end{verbatim}
-\end{framed}
-
-
-%Repeatability (Barnhart pg 7)
-%ISOs definition: Closeness of agreement netween measures under the same conditions. (i.e. True Replicates)
-
-The matter of how well two methods of measurement are said to be “in agreement” is a frequently posed question in statistical literature. A useful, and broadly consistent, set of definitions of what this “agreement” entail is put forth by Barnhart et al and Roy (2009). 
-As pointed out by earlier contributors to the subject ( commonly referred to as “Method Comparison Studies”)
-
-Shared with previous contributions (Bland and Altman, Carstensen) is the condition that there should no systematic  tendency for one of the methods to consistently provide a value higher that than of the other method. If such a tendency did exist, we would refer to it as an inter-method bias.
-
-In earlier literature, the emphasis was placed up on single measurements simultaneously by each of the methods of measurement. Several different approaches, such as the Bland-Altman plot, and Orthogonal Regression (a special case of Deming Regression where the residual variances are assumed to be equal) have been proposed. Arguably, for the single replicate case, the established methodologies are sufficient for assessing agreement between two methods.
-
-In subsequent contributions, the matter of assessing agreement in the presence  of replicate measurements was addressed. Some approaches extended already established approaches (Bland-Altam 1999).  Other contributions were based on methodologies not seen previously in Method comparison Study Literature  (for example, Carstensen et al 2008 and Roy 2009, using LME models). 
-
-\subsection{Worked Eamples : Likelihood Ratio Tests}
-
-
-The likelihood Ratio test is very simple to implement in \texttt{R}. All that is required it to specify the reference model and the relevant nested mode as arguments to the command \texttt{anova()}.
-
-The figure below displays the three tests described by Roy (2009).
-
-\begin{framed}
-\begin{verbatim}
-> # Between-Subject Variabilities
-> testB    = anova(Ref.Fit,NMB.fit) 
->         
-> # Within-Subject Variabilities                
-> testW   = anova(Ref.Fit,NMW.fit) 
->                       
-> # Overall Variabilities
-> testO     = anova(Ref.Fit,NMO.fit)                        
-
-
-\end{verbatim}
-\end{framed}
-\begin{framed}   
-\begin{verbatim}
-> anova(MCS1,MCS2)
->
-Model df    AIC    BIC  logLik   Test L.Ratio p-value
-MCS1     1  8 4077.5 4111.3 -2030.7
-MCS2     2  7 4075.6 4105.3 -2030.8 1 vs 2 0.15291  0.6958
-\end{verbatim}
-\end{framed}
-
-\subsection{Nested Model (Between-Item Variability)}
-\begin{framed}
-\begin{verbatim}
-NMB.fit <- lme(y ~ meth-1, 
-data = dat, 
-random = list(item=pdCompSymm(~ meth-1)),
-correlation = corSymm(form=~1 | item/repl), 
-method="ML")
-\end{verbatim}
-\end{framed}
 
 
 

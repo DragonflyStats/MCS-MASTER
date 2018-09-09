@@ -80,7 +80,7 @@ Response for $i$th subject can be written as
 \item $b_{1i}$ and $b_{2i}$ are random effects corresponding to both methods.
 \end{itemize}
 
-Overall variability between the two methods ($\Omega$) is sum of between-subject ($D$) and within-subject variability ($\Sigma$),
+Overall variability between the two methods ($\Omega$) is sum of between-subject ($G$) and within-subject variability ($\Sigma$),
 \[
 \mbox{Block } \boldsymbol{\Omega}_i = \left[ \begin{array}{cc} d^2_1 & d_{12}\\ d_{12} & d^2_2\\ \end{array} \right]
 + \left[\begin{array}{cc} \sigma^2_1 & \sigma_{12}\\ \sigma_{12} & \sigma^2_2\\ \end{array}\right].
@@ -97,9 +97,9 @@ where $\boldsymbol{\beta}=(\beta_0,\beta_1,\beta_2)^\prime$ is a vector of fixed
 It is assumed that $\boldsymbol{b}_i \sim N(0,\boldsymbol{G})$, $\boldsymbol{\epsilon}_i$ is a matrix of random errors distributed as $N(0,\boldsymbol{R}_i)$ and that the random effects and residuals are independent of each other.
 % Assumptions made on the structures of $\boldsymbol{G}$ and $\boldsymbol{R}_i$ will be discussed in due course.
 
-The maximum likelihood estimate of the between-subject variance covariance matrix of two methods is given as $D$. The estimate for
+The maximum likelihood estimate of the between-subject variance covariance matrix of two methods is given as $G$. The estimate for
 the within-subject variance covariance matrix is $\hat{\Sigma}$. The estimated overall variance covariance matrix `Block
-$\Omega_{i}$' is the addition of $\hat{D}$ and $\hat{\Sigma}$.
+$\Omega_{i}$' is the addition of $\hat{G}$ and $\hat{\Sigma}$.
 
 \begin{equation}
 \mbox{Block  }\Omega_{i} = \hat{G} + \hat{\Sigma}
@@ -189,182 +189,8 @@ Later on $\boldsymbol{X}_i$ will be reduced to a $2 \times 1$ matrix, to allow e
 The expected value is given as $\mbox{E}(\boldsymbol{y}_i) = \boldsymbol{X}_i\boldsymbol{\beta}.$ \citep{hamlett}
  The variance of the response vector is given by $\mbox{Var}(\boldsymbol{y}_i)  = \boldsymbol{Z}_i \boldsymbol{G} \boldsymbol{Z}_i^{\prime} + \boldsymbol{R}_i$ \citep{hamlett}.
 
-\newpage
 
 
-\section{Roy's Model}
-\citet{ARoy2009} proposes a LME based approach with Kronecker product covariance structure with doubly multivariate setup to
-assess the agreement between two methods. By doubly multivariate set up, Roy means that the information on each patient or item is multivariate at two levels, the number of methods and number of replicated measurements. Further to \citet{lam}, it is assumed that the replicates are linked over time. However it is easy to modify to the unlinked case. This approachs allows for unbalanced data, i.e. unequal numbers of replications for each subject.
-
-Response for $i$th subject can be written as
-\[ y_i = \beta_0 + \beta_1x_{i1} + \beta_2x_{i2} + b_{1i}z_{i1}  + b_{2i}z_{i2} + \epsilon_i \]
-\begin{itemize}
-\item $\beta_1$ and $\beta_2$ are fixed effects corresponding to both methods, with $\beta_0$ as the intercept.
-\item $b_{1i}$ and $b_{2i}$ are random effects corresponding to both methods.
-\end{itemize}
-
-
-
-
-
-In order to express Roy's LME model in matrix notation we gather all $2n_i$ observations specific to item $i$ into a single vector  $\boldsymbol{y}_{i} = (y_{1i1},y_{2i1},y_{1i2},\ldots,y_{mir},\ldots,y_{1in_{i}},y_{2in_{i}})^\prime.$ The LME model can be written
-\[
-\boldsymbol{y_{i}} = \boldsymbol{X_{i}\beta} + \boldsymbol{Z_{i}b_{i}} + \boldsymbol{\epsilon_{i}},
-\]
-where $\boldsymbol{\beta}=(\beta_0,\beta_1,\beta_2)^\prime$ is a vector of fixed effects, and $\boldsymbol{X}_i$ is a corresponding $2n_i\times 3$ design matrix for the fixed effects. The random effects are expressed in the vector $\boldsymbol{b}=(b_1,b_2)^\prime$, with $\boldsymbol{Z}_i$ the corresponding $2n_i\times 2$ design matrix. The vector $\boldsymbol{\epsilon}_i$ is a $2n_i\times 1$ vector of residual terms.
-
-It is assumed that $\boldsymbol{b}_i \sim N(0,\boldsymbol{G})$, $\boldsymbol{\epsilon}_i$ is a matrix of random errors distributed as $N(0,\boldsymbol{R}_i)$ and that the random effects and residuals are independent of each other.
-% Assumptions made on the structures of $\boldsymbol{G}$ and $\boldsymbol{R}_i$ will be discussed in due course.
-
-The maximum likelihood estimate of the between-subject variance covariance matrix of two methods is given as $\boldsymbol{D}$. The estimate for
-the within-subject variance covariance matrix is $\hat{\Sigma}$. The estimated overall variance covariance matrix `Block
-$\Omega_{i}$' is the addition of $\hat{D}$ and $\hat{\Sigma}$.
-
-\begin{equation}
-\mbox{Block  }\Omega_{i} = \hat{G} + \hat{\Sigma}
-\end{equation}
-
-$\boldsymbol{G}$ is the variance covariance matrix for the random effects $\boldsymbol{b}$.
-i.e. between-item sources of variation. The between-item variance covariance matrix $\boldsymbol{G}$ is constructed as follows:
-
-\[ \mbox{Var}  \left[
-\begin{array}{c}
-b_1   \\
-b_2  \\
-\end{array}
-\right] =  \boldsymbol{G} =\left(
-\begin{array}{cc}
-g^2_1  & g_{12} \\
-g_{12} & g^2_2 \\
-\end{array}
-\right) \]
-It is important to note that no special assumptions about the structure of $\boldsymbol{G}$ are made. An example of such an assumption would be that $\boldsymbol{G}$ is the product of a scalar value and the identity matrix.
-
-$\boldsymbol{R}_{i}$ is the variance covariance matrix for the residuals, i.e. the within-item sources of variation between both methods. Computational analysis of linear mixed effects models allow for the explicit analysis of both $\boldsymbol{G}$ and $\boldsymbol{R_i}$.
-
-The overall variability between the two methods is the sum of between-item variability
-$\boldsymbol{G}$ and within-item variability $\boldsymbol{\Sigma}$. \citet{ARoy2009} denotes the overall variability
-as ${\mbox{Block - }\boldsymbol \Omega_{i}}$. The overall variation for methods $1$ and $2$ are given by
-
-\begin{center}
-\[\left(\begin{array}{cc}
-\omega^2_1  & \omega_{12} \\
-\omega_{12} & \omega^2_2 \\
-\end{array}  \right)
-=  \left(
-\begin{array}{cc}
-g^2_1  & g_{12} \\
-g_{12} & g^2_2 \\
-\end{array} \right)+
-\left(
-\begin{array}{cc}
-\sigma^2_1  & \sigma_{12} \\
-\sigma_{12} & \sigma^2_2 \\
-\end{array}\right)
-\]
-\end{center}
-The computation of the limits of agreement require that the variance of the difference of measurements. This variance is easily computable from the estimate of the ${\mbox{Block - }\boldsymbol \Omega_{i}}$ matrix. Lack of agreement can arise if there is a disagreement in overall variabilities. This may be due to due to the disagreement in either between-item variabilities or within-item variabilities, or both. \citet{ARoy2009} allows for a formal test of each.
-
-\section{Roy's Model}
-\citet{ARoy2009} proposes a LME based approach with Kronecker product covariance structure with doubly multivariate setup to
-assess the agreement between two methods. By doubly multivariate set up, Roy means that the information on each patient or item is multivariate at two levels, the number of methods and number of replicated measurements. Further to \citet{lam}, it is assumed that the replicates are linked over time. However it is easy to modify to the unlinked case. This approachs allows for unbalanced data, i.e. unequal numbers of replications for each subject.
-
-Response for $i$th subject can be written as
-\[ y_i = \beta_0 + \beta_1x_{i1} + \beta_2x_{i2} + b_{1i}z_{i1}  + b_{2i}z_{i2} + \epsilon_i \]
-\begin{itemize}
-\item $\beta_1$ and $\beta_2$ are fixed effects corresponding to both methods, with $\beta_0$ as the intercept.
-\item $b_{1i}$ and $b_{2i}$ are random effects corresponding to both methods.
-\end{itemize}
-
-
-
-
-
-In order to express Roy's LME model in matrix notation we gather all $2n_i$ observations specific to item $i$ into a single vector  $\boldsymbol{y}_{i} = (y_{1i1},y_{2i1},y_{1i2},\ldots,y_{mir},\ldots,y_{1in_{i}},y_{2in_{i}})^\prime.$ The LME model can be written
-\[
-\boldsymbol{y_{i}} = \boldsymbol{X_{i}\beta} + \boldsymbol{Z_{i}b_{i}} + \boldsymbol{\epsilon_{i}},
-\]
-where $\boldsymbol{\beta}=(\beta_0,\beta_1,\beta_2)^\prime$ is a vector of fixed effects, and $\boldsymbol{X}_i$ is a corresponding $2n_i\times 3$ design matrix for the fixed effects. The random effects are expressed in the vector $\boldsymbol{b}=(b_1,b_2)^\prime$, with $\boldsymbol{Z}_i$ the corresponding $2n_i\times 2$ design matrix. The vector $\boldsymbol{\epsilon}_i$ is a $2n_i\times 1$ vector of residual terms.
-
-It is assumed that $\boldsymbol{b}_i \sim N(0,\boldsymbol{G})$, $\boldsymbol{\epsilon}_i$ is a matrix of random errors distributed as $N(0,\boldsymbol{R}_i)$ and that the random effects and residuals are independent of each other.
-% Assumptions made on the structures of $\boldsymbol{G}$ and $\boldsymbol{R}_i$ will be discussed in due course.
-
-The maximum likelihood estimate of the between-subject variance covariance matrix of two methods is given as $\boldsymbol{D}$. The estimate for
-the within-subject variance covariance matrix is $\hat{\Sigma}$. The estimated overall variance covariance matrix `Block
-$\Omega_{i}$' is the addition of $\hat{D}$ and $\hat{\Sigma}$.
-
-\begin{equation}
-\mbox{Block  }\Omega_{i} = \hat{G} + \hat{\Sigma}
-\end{equation}
-
-$\boldsymbol{G}$ is the variance covariance matrix for the random effects $\boldsymbol{b}$.
-i.e. between-item sources of variation. The between-item variance covariance matrix $\boldsymbol{G}$ is constructed as follows:
-
-\[ \mbox{Var}  \left[
-\begin{array}{c}
-b_1   \\
-b_2  \\
-\end{array}
-\right] =  \boldsymbol{G} =\left(
-\begin{array}{cc}
-g^2_1  & g_{12} \\
-g_{12} & g^2_2 \\
-\end{array}
-\right) \]
-It is important to note that no special assumptions about the structure of $\boldsymbol{G}$ are made. An example of such an assumption would be that $\boldsymbol{G}$ is the product of a scalar value and the identity matrix.
-
-$\boldsymbol{R}_{i}$ is the variance covariance matrix for the residuals, i.e. the within-item sources of variation between both methods. Computational analysis of linear mixed effects models allow for the explicit analysis of both $\boldsymbol{G}$ and $\boldsymbol{R_i}$.
-
-The overall variability between the two methods is the sum of between-item variability
-$\boldsymbol{G}$ and within-item variability $\boldsymbol{\Sigma}$. \citet{ARoy2009} denotes the overall variability
-as ${\mbox{Block - }\boldsymbol \Omega_{i}}$. The overall variation for methods $1$ and $2$ are given by
-
-\begin{center}
-\[\left(\begin{array}{cc}
-\omega^2_1  & \omega_{12} \\
-\omega_{12} & \omega^2_2 \\
-\end{array}  \right)
-=  \left(
-\begin{array}{cc}
-g^2_1  & g_{12} \\
-g_{12} & g^2_2 \\
-\end{array} \right)+
-\left(
-\begin{array}{cc}
-\sigma^2_1  & \sigma_{12} \\
-\sigma_{12} & \sigma^2_2 \\
-\end{array}\right)
-\]
-\end{center}
-The computation of the limits of agreement require that the variance of the difference of measurements. This variance is easily computable from the estimate of the ${\mbox{Block - }\boldsymbol \Omega_{i}}$ matrix. Lack of agreement can arise if there is a disagreement in overall variabilities. This may be due to due to the disagreement in either between-item variabilities or within-item variabilities, or both. \citet{ARoy2009} allows for a formal test of each.
-%--------------------------------------------------%
-\section{Roy's Model}
-
-
-
-
-
-\section{Model Terms for Roy's Techniques}
-$\boldsymbol{b}_{i}$ is a $m-$dimensional vector comprised of
-the random effects.
-\begin{equation}
-\boldsymbol{b}_{i} = \left( \begin{array}{c}
-b_{1i} \\
-b_{21}  \\
-\end{array}\right)
-\end{equation}
-
-$\boldsymbol{V}$ represents the correlation matrix of the replicated measurements on a given method.
-$\boldsymbol{\Sigma}$ is the within-subject VC matrix.
-
-$\boldsymbol{V}$ and $\boldsymbol{\Sigma}$ are positive
-definite matrices. The dimensions of $\boldsymbol{V}$ and
-$\boldsymbol{\Sigma}$ are $3 \times 3 ( = p \times p )$ and $ 2 \times
-2 (= k \times k)$.
-
-It is assumed that $\boldsymbol{V}$ is the same for both methods and $\boldsymbol{\Sigma}$ is
-the same for all replications.
-$\boldsymbol{V} \bigotimes \boldsymbol{\Sigma}$ creates a $ 6 \times 6 ( = kp \times
-kp)$ matrix.
-$\boldsymbol{R}_{i}$ is a sub-matrix of this.
+\bibliographystyle{chicago}
+\bibliography{2017bib}
 \end{document}
