@@ -1,6 +1,4 @@
-
-\documentclass[12pt, a4paper]{report}
-
+\documentclass[12pt, a4paper]{article}
 \usepackage{epsfig}
 \usepackage{subfigure}
 %\usepackage{amscd}
@@ -8,25 +6,25 @@
 \usepackage{graphicx}
 %\usepackage{amscd}
 \usepackage{amssymb}
-\usepackage{subfiles}
+%\usepackage{subfiles}
 \usepackage{framed}
-\usepackage{subfiles}
+% \usepackage{subfiles}
 \usepackage{amsthm, amsmath}
 \usepackage{amsbsy}
 \usepackage{framed}
 \usepackage[usenames]{color}
 \usepackage{listings}
 \lstset{% general command to set parameter(s)
-basicstyle=\small, % print whole listing small
-keywordstyle=\color{red}\itshape,
-% underlined bold black keywords
-commentstyle=\color{blue}, % white comments
-stringstyle=\ttfamily, % typewriter type for strings
-showstringspaces=false,
-numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=5pt, %
-frame=shadowbox,
-rulesepcolor=\color{black},
-,columns=fullflexible
+	basicstyle=\small, % print whole listing small
+	keywordstyle=\color{red}\itshape,
+	% underlined bold black keywords
+	commentstyle=\color{blue}, % white comments
+	stringstyle=\ttfamily, % typewriter type for strings
+	showstringspaces=false,
+	numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=5pt, %
+	frame=shadowbox,
+	rulesepcolor=\color{black},
+	,columns=fullflexible
 } %
 %\usepackage[dvips]{graphicx}
 \usepackage{natbib}
@@ -34,11 +32,7 @@ rulesepcolor=\color{black},
 \usepackage{vmargin}
 % left top textwidth textheight headheight
 % headsep footheight footskip
-\setmargins{1.0cm}{0.75cm}{18.5 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
-%\voffset=-2.5cm
-%\oddsidemargin=1cm
-%\textwidth = 520pt
-
+\setmargins{3.0cm}{2.5cm}{15.5 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
 \renewcommand{\baselinestretch}{1.5}
 \pagenumbering{arabic}
 \theoremstyle{plain}
@@ -62,12 +56,8 @@ rulesepcolor=\color{black},
 \author{ } \date{ }
 
 
-\begin{document}
-\author{Kevin O'Brien}
-\title{LME Models for Method Comparison Studies}
-%\tableofcontents
-
-
+\begin{document}	
+	\tableofcontents
 
 \section{Likelihood Ratio Test}
 The first model acts as an alternative hypothesis to be compared against each of three other models, acting as null hypothesis models, successively. The models are compared using the likelihood ratio test. Likelihood ratio tests are a class of tests based on the comparison of the values of the likelihood functions of two candidate models. LRTs can be used to test hypotheses about covariance parameters or fixed effects parameters in the context of LMEs. The test statistic for the likelihood ratio test is the difference of the log-likelihood functions, multiplied by $-2$.
@@ -96,18 +86,6 @@ conditional F-tests, as implemented with the simple \texttt{anova()} function.
 
 
 
-
-\newpage
-
-
-
-
-
-
-
-
-
-
 \subsection{LRTs with \texttt{R}}
 Likelihood ratio tests are very simple to implement in \texttt{R}, simply use the `\texttt{anova()}'
 commands. Sample output will be given for each variability test. The likelihood ratio
@@ -117,12 +95,17 @@ hypothesis tests is the difference of the M2LL for each pair of models. If the p
 in each of the respective tests exceed as significance level chosen by the analyst, then
 the null model must be rejected.
 
-\begin{equation}
--??2 ln \Lambda_d = [\mbox{M2LL under H0 model}] - [\mbox{M2LL under HA model}] 
-\end{equation}
+%
+%\begin{equation}
+%-2 ln \Lambda_d = [\mbox{M2LL under H0 model}] - [\mbox{M2LL under HA model}] 
+%\end{equation}
 
-These test statistics follow a chi-square distribution with the degrees of freedom
+
+
+The test statistics follow a 
+chi-square distribution with the degrees of freedom
 computed as the difference of the LRT degrees of freedom.
+
 \begin{equation}
 \nu_ = [ \mbox{LRT df under H0 model}] - [\mbox{ LRT df under HA model}]
 \end{equation}
