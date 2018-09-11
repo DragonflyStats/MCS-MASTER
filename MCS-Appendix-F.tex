@@ -153,6 +153,19 @@ To perform a likelihood ratio test for two candidate models, simply use the \tex
 	\end{verbatim}
 \end{framed}
 
+
+A likelihood ratio test is perform to determine which model is more suitable. To perform this test, simply use the \texttt{anova} command with the names of the candidate models as arguments. The following piece of code implement the first of Roy's variability tests.
+
+\begin{framed}
+	\begin{verbatim}
+	> anova(MCS1,MCS2)
+	Model df    AIC    BIC  logLik   Test L.Ratio p-value
+	MCS1     1  8 4077.5 4111.3 -2030.7
+	MCS2     2  7 4075.6 4105.3 -2030.8 1 vs 2 0.15291  0.6958
+	>
+	\end{verbatim}
+\end{framed}
+
 \subsection{Worked Eamples : Likelihood Ratio Tests}
 
 
@@ -184,16 +197,6 @@ The figure below displays the three tests described by Roy (2009).
 	\end{verbatim}
 \end{framed}
 
-\subsection{Nested Model (Between-Item Variability)}
-\begin{framed}
-	\begin{verbatim}
-	NMB.fit <- lme(y ~ meth-1, 
-	data = dat, 
-	random = list(item=pdCompSymm(~ meth-1)),
-	correlation = corSymm(form=~1 | item/repl), 
-	method="ML")
-	\end{verbatim}
-\end{framed}
 
 \bibliographystyle{chicago}
 \bibliography{2017bib}
