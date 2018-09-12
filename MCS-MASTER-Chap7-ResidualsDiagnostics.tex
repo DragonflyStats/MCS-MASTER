@@ -64,25 +64,36 @@ columns=fullflexible
 
 \newpage
 \chapter{Model Diagnostics for Method Comparison}
-Model validation and model appraisal are vital parts of the modelling process, yet are too often overlooked. Using a small set of simple measures and methods, such as the AIC and $R^2$ measures, is insufficient to properly assess the usefulness of a fitted model.
-
-Model diagnostics techniques determine whether or not the distributional assumptions are satisfied, and to assess the influence of unusual observations. In classical linear models model diagnostics are now considered a required part of any statistical analysis, and are commonly available in statistical packages and standard textbooks on applied regression.
-
-
 Linear Mixed Effects models are a useful framework for fitting a wide range of models. However, they are known to be sensitive to outliers, specifically the likelihood based estimation techniques, such as ML and REML. 
 
-A full and comprehensive analysis that comprises residual analysis and influence analysis for testing model assumptions, should be carried out. Furthermore, a suite of diagnostic procedures designed for method comparison should be adopted. However it has been noted by several papers \citep{Christensen, schabenberger} that model diagnostics do not often accompany LME model analyses. 
+A full and comprehensive analysis that comprises residual analysis and influence analysis for testing model assumptions, should be carried out. Therefore, a suite of diagnostic procedures should be specified for method comparison in mind. However it has been noted by several papers \citep{Christensen, schabenberger} that model diagnostics do not often accompany LME model analyses. 
 
-\citet{schabenberger} remarks that the concept of critiquing the model-data agreement applies in LME models in the same way as in linear fixed-effects models. \citet{west} argues that model and data diagnostics are even more important because of the more complex model structure. 
+Further to the analysis of residuals, \citet{schabenberger} recommends the examination of the following questions:
+\begin{itemize}
+	\item Does the model-data agreement support the model assumptions?
+	\item Should model components be refined, and if so, which components? 
+	%%- For example, should certain explanatory variables
+	%%- be added or removed, and is the covariance of the observations properly specified?
+	\item Are individual data points or groups of cases particularly
+	influential on the analysis?
+\end{itemize}
+The last of these three questions, regarding influential points, is of particular interest in the context of method comparison. After fitting an LME model, it is important to carry put model diagnostics to check whether distributional assumptions for the residuals as satisfied and whether the fit the model is sensitive to unusual assumptions. 
+
+%Model validation and model appraisal are vital parts of the modelling process, yet are too often overlooked. Using a small set of simple measures and methods, such as the AIC and $R^2$ measures, is insufficient to properly assess the usefulness of a fitted model.
+
+Model diagnostics techniques determine whether or not the distributional assumptions are satisfied, and to assess the influence of unusual observations. For classical linear models model diagnostics are now considered a required part of any statistical analysis, and are commonly available in statistical packages and standard textbooks on applied regression.
 
 
-Model diagnostic techniques, well established for classical models, have since been adapted for use with linear mixed effects models. Diagnostic techniques for LME models are inevitably more difficult to implement, due to the increased complexity. \citet{Christensen} advises that outlier identification is necessary before any conclusions may be drawn from the fitted model, with the leverage of an observation a further consideration. \citet{schabenberger} discusses the state of LME diagnostics tools, providing a useful summary of established measures. Prominent in literature is the taxonomy of residuals for LME Models, distinguishing between condition residuals, marginal residuals and EBLUPS, including \citet{hilden1995, schabenberger, west, NobreSinger2007}. 
+Model diagnostic techniques, well established for classical models, have since been adapted for use with linear mixed effects models. \citet{schabenberger} remarks that the concept of critiquing the model-data agreement applies in LME models in the same way as in classical linear models. \citet{west} argues that model and data diagnostics are even more important because of the more complex model structure. 
+
+
+Diagnostic techniques for LME models are inevitably more difficult to implement, due to the increased complexity. \citet{Christensen} advises that outlier identification is necessary before any conclusions may be drawn from the fitted model, with the leverage of an observation a further consideration. \citet{schabenberger} discusses the state of LME diagnostics tools, providing a useful summary of established measures. Prominent in literature is the taxonomy of residuals for LME Models, distinguishing between condition residuals, marginal residuals and EBLUPS, including \citet{hilden1995, schabenberger, west, NobreSinger2007}. 
 
 
 \section{Residual Analysis}
-Analysis of residuals, the differences between observed values and the values predicted by the model, is a widely used model validation technique, and is used to examine model assumptions, as well as to detect outliers and potentially influential data points. 
+Analysis of residuals, the differences between observed values and fitted values, is a widely used model validation technique used to examine model assumptions, as well as to detect outliers and potentially influential data points. 
 
-As with classical models, there are two key techniques: a residual plot and the normal probability plot. The rationale is that, if the model is properly fitted to the model, then the residuals would approximate the random errors that one should expect. If the residuals behave randomly, with no discernible trend, the model has fitted the data well. 
+As with classical models, there are two key graphical techniques: a residual plot and the normal probability plot. The rationale is that, if the model is properly fitted to the model, then the residuals would approximate the random errors that one should expect. If the residuals behave randomly, with no discernible trend, the model has fitted the data reasonably well. 
 %If some sort of non-random trend is evident in the model, then the model can be considered to be poorly fitted. 
 
 The underlying assumptions for LME models are similar to those of classical linear models. However, for LME models the matter of residuals are more complex, both from a theoretical point of view and from the practicalities of implementing a comprehensive analysis using statistical software.
@@ -195,16 +206,6 @@ Model diagnostic techniques can determine whether or not the distributional assu
 
 Unfortunately this aspect of LME theory is not as expansive as the corresponding body of work for classical linear models. \citet{PB} provide some insight into how to compute and interpret model diagnostic plots for LME models. Their particular observations will be reverted to shortly. 
 
-Further to the analysis of residuals, \citet{schabenberger} recommends the examination of the following questions:
-\begin{itemize}
-\item Does the model-data agreement support the model assumptions?
-\item Should model components be refined, and if so, which components? 
-%%- For example, should certain explanatory variables
-%%- be added or removed, and is the covariance of the observations properly specified?
-\item Are individual data points or groups of cases particularly
-influential on the analysis?
-\end{itemize}
-The last of these three questions, regarding influential points, is of particular interest in the context of method comparison. After fitting an LME model, it is important to carry put model diagnostics to check whether distributional assumptions for the residuals as satisfied and whether the fit the model is sensitive to unusual assumptions. 
 
 Influence diagnostics are formal techniques that allow the identification observation that heavily influence estimates of the estimates of fixed effects and variance covariance parameters.
 
@@ -268,7 +269,7 @@ that influence. In particular, the points can affect the estimates of the precis
 
 
 For case-deletion approaches, \citet{preisser} describes two type of diagnostics. When the set consists of only one observation, the type is called
-`\textit{observation-diagnostics}'. For multiple observations, Preisser describes the diagnostics as `\textit{cluster-deletion}' diagnostics.Consideration of how leave-$U$-out diagnostics would work in the context of Method Comparison problems is required.  Suppose we have two methods of measurement X and Y, each with three measurements for a specific case: $(x_1,x_2,x_3,y_1,y_2,y_3)$
+`\textit{observation-diagnostics}'. For multiple observations, Preisser describes the diagnostics as `\textit{cluster-deletion}' diagnostics. Consideration of how leave-$U$-out diagnostics would work in the context of Method Comparison problems is required.  Suppose we have two methods of measurement X and Y, each with three measurements for a specific case: $(x_1,x_2,x_3,y_1,y_2,y_3)$
 
 \begin{itemize}
 \item \textbf{Leave One Out} - one observation is omitted (e.g. $x_1$)
@@ -277,10 +278,7 @@ For case-deletion approaches, \citet{preisser} describes two type of diagnostics
 \end{itemize}
 %% Schabenberger
 
-The natural sampling unit is the item or subject, similar to the example provided by \citet{schabenberger}. Hence, the third option, henceforth, referred to as ``Leave item out" will be the option used.
-
-
-
+The natural sampling unit is the item or subject, similar to the example provided by \citet{schabenberger}. Hence, the third option, henceforth, referred to as ``\textit{Leave item out}" will be the option used.
 
 \subsection{Analyzing Influence in LME Models}
 
@@ -294,9 +292,10 @@ Influence can be thought of as consequence of leverage and outlierness. Outliers
 
 While linear models and GLMS can be studied with a wide range of well-established diagnostic technqiues, the choice of methodology is much more restricted for the case of LMEs. However
 influence diagnostics for LME Models is an area of active research. Research on diagnostic analyses for LME models are presented in \citet{Beckman}, 
-\citet{Christensen}, \citet{Hilden95}, \citet{lesaffre1998local}, \citet{Banerjee1997}, 
+\citet{Christensen}, \citet{hilden1995}, \citet{lesaffre1998local}, \citet{Banerjee1997}, 
 \citet{fung2002}, \citet{Demi}, \citet{Zewotir} and \citet{NobreSinger2007, NobreSinger2011}.
 
+%%- \citet{Hildon 1995}
 %%- FIX : Banerjee1997
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
