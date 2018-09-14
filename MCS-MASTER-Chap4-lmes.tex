@@ -69,12 +69,9 @@ rulesepcolor=\color{black},
 %  
 
 \chapter{Linear Mixed Effects Models}
-While the method comparison problem is conventionally poised in the context of two methods of measurements, LME models allow for a straightforward analysis whereby several methods of measurement can be measured simulataneously. However simple models only can only indicate agreement of lack thereof, and the presence of inter-method bias. To consider more complex questions, more complex LME models are required.
+While the method comparison problem is conventionally poised in the context of two methods of measurements, LME models allow for a straightforward analysis whereby several methods of measurement can be measured simulataneously. However simple models can only indicate agreement of lack thereof, and the presence of inter-method bias. To consider more complex questions, more complex LME models would be required.
 
-Linear mixed effects (LME) models can facilitate greater understanding of the potential causes of bias and differences in precision between two sets of measurement. Due to computation complexity, LME models have not seen widespread use until many well known statistical software applications began facilitating them. Consequently LME approaches have seen increased use as a framework for method comparison studies in recent years (Lai $\&$ Shaio, \citet{BXC2004,BXC2008} and \citet{ARoy2009} as examples).
-
-
-In part this is due to the increased profile of LME models, and furthermore the availability of capable software. Additionally a great understanding of residual analysis and influence analysis for LME models has been adchieved thanks to authors such as \citet{schabenberger}, \citet{Christensen}, \citet{cook86} \citet{west}, amongst others.
+Linear mixed effects (LME) models can facilitate greater understanding of the potential causes of bias and differences in precision between two sets of measurement. Due to computation complexity, LME models have not seen widespread use until many well known statistical software applications began facilitating them. Consequently LME approaches have seen increased use as a framework for method comparison studies in recent years (Lai $\&$ Shaio, \citet{BXC2004,BXC2008} and \citet{ARoy2009} as examples), due to a higher profile in scientific literature, and the increased availability of capable software. Additionally development of a framework for LME model diagnostics has progressed, thanks to authors such as \citet{schabenberger}, \citet{Christensen}, \citet{cook86} \citet{west}, amongst others.
 
 \section{Linear Mixed Effects Models}
 A linear mixed effects (LME) model is a statistical model containing both fixed effects and random effects (also known as variance components). LME models are a generalization of the classical linear model, which contain fixed effects only. When the levels of factors are considered to be sampled from a population, and each level is not of particular interest, they are considered random quantities with associated variances.
@@ -115,7 +112,7 @@ dimension $n \times 1$. The random effects are contained in the  $q \times
 % The likelihood function ($L(\theta)$)is a fundamental concept in statistical inference. It indicates how likely a particular population is to produce an observed sample. The set of values that maximize the likelihood function are considered to be optimal, and are used as the estimates of the parameters. For computational ease, it is common to use the logarithm of the likelihood function, known simply as the log-likelihood ($\ell(\theta)$).
 
 \subsection{LME Model Estimation}
-Estimation of LME models involve two complementary estimation issues'; estimating the vectors of the fixed and random effects estimates $\hat{\beta}$ and $\hat{b}$ and estimating the variance covariance matrices $D$ and $\Sigma$. Inference about fixed effects have become known as `estimates', while inferences about random effects have become known as `predictions'. The most common approach to obtain estimators are Best Linear Unbiased Estimator (BLUE) and Best Linear Unbiased Predictor (BLUP). For an LME model given by (\ref{LW}), the BLUE of $\hat{\beta}$ is given by
+Estimation of LME models involve two complementary estimation issues'; estimating the vectors of the fixed and random effects estimates $\hat{\beta}$ and $\hat{b}$ and estimating the variance covariance matrices $G$ and $\Sigma$. Inference about fixed effects have become known as `estimates', while inferences about random effects have become known as `predictions'. The most common approach to obtain estimators are Best Linear Unbiased Estimator (BLUE) and Best Linear Unbiased Predictor (BLUP). For an LME model given by (\ref{LW}), the BLUE of $\hat{\beta}$ is given by
 \begin{equation}
 \hat{\beta} = (X^\prime V^{-1}X)^{-1}X^\prime V^{-1}y,
 \end{equation}whereas the BLUP of $\hat{b}$ is given by
@@ -128,7 +125,7 @@ Because of the dimensionality of V (i.e. $n \times n$) computing the inverse of 
 \begin{equation}
 \left|
 \begin{array}{cc}
-D & 0 \\
+G & 0 \\
 0 & \Sigma \\
 \end{array}
 \right|^{-\frac{1}{2}}
@@ -141,7 +138,7 @@ y - X \beta -Zb \\
 \end{array}
 \right)^\prime
 \left( \begin{array}{cc}
-D & 0 \\
+G & 0 \\
 0 & \Sigma \\
 \end{array}\right)^{-1}
 \left(
@@ -163,7 +160,7 @@ This leads to the mixed model equations
 \left(\begin{array}{cc}
 X^\prime\Sigma^{-1}X & X^\prime\Sigma^{-1}Z
 \\
-Z^\prime\Sigma^{-1}X & X^\prime\Sigma^{-1}X + D^{-1}
+Z^\prime\Sigma^{-1}X & X^\prime\Sigma^{-1}X + G^{-1}
 \end{array}\right)
 \left(\begin{array}{c}
 \beta \\
@@ -177,7 +174,7 @@ Z^\prime\Sigma^{-1}y
 \label{Henderson:Equations}
 \end{equation}
 Using these equations, obtaining the estimates requires the inversion of a matrix
-of dimension $p+q \times p+q$, considerably smaller in size than $V$. \citet{Henderson63} shows that these mixed model equations do not depend on normality and that $\hat{\beta}$ and $\hat{b}$ are the BLUE and BLUP under general conditions, provided $D$ and $\Sigma$ are known.
+of dimension $p+q \times p+q$, considerably smaller in size than $V$. \citet{Henderson63} shows that these mixed model equations do not depend on normality and that $\hat{\beta}$ and $\hat{b}$ are the BLUE and BLUP under general conditions, provided $G$ and $\Sigma$ are known.
 
 \cite{Robi:BLUP:1991} points out that although \cite{Henderson:1950} initially referred to the estimates $\hat{\beta}$ and $\hat{b}$ from (\ref{Henderson:Equations}) as ``joint maximum likelihood estimates", \cite{Henderson:1973} later advised that these estimates should not be referred to as ``maximum likelihood" as the function being maximized in (\ref{Henderson:Criterion}) is a joint density rather than a likelihood function. \cite{YLee} remarks that it is clear that Henderson used joint estimation for computational purposes, without recognizing the theoretical implications.
 
@@ -219,7 +216,7 @@ The REML approach does not base estimates on a maximum likelihood fit of all the
 
 \subsubsection{Estimation of the Random Effects}
 
-The established approach for estimating the random effects is to use the best linear predictor of $b$ from $y,$ which for a given $\beta$ equals $DZ^\prime V^{-1}(y - X \beta).$ In practice $\beta$ is replaced by an estimator such as $\hat{\beta}$ from (\ref{mle:beta:hat}) so that $\hat{b} = DZ^\prime V^{-1}(y - X \hat{\beta}).$ Pre-multiplying by the appropriate matrices it is straightforward to show that these estimates $\hat{\beta}$ and $\hat{b}$ satisfy the equations in (\ref{Henderson:Equations}).
+The established approach for estimating the random effects is to use the best linear predictor of $b$ from $y,$ which for a given $\beta$ equals $GZ^\prime V^{-1}(y - X \beta).$ In practice $\beta$ is replaced by an estimator such as $\hat{\beta}$ from (\ref{mle:beta:hat}) so that $\hat{b} = DZ^\prime V^{-1}(y - X \hat{\beta}).$ Pre-multiplying by the appropriate matrices it is straightforward to show that these estimates $\hat{\beta}$ and $\hat{b}$ satisfy the equations in (\ref{Henderson:Equations}).
 
 %\subsubsection{Estimation of Fixed and Random Effects}
 %Potentially it may be impossible to compute unique BLUE estimates for all the fixed factors in a model. This may be due to linear dependence in the model
@@ -271,7 +268,7 @@ The established approach for estimating the random effects is to use the best li
 
 \subsubsection{Algorithms for Likelihood Function Optimization}
 
-Iterative numerical techniques are used to optimize the log-likelihood function and estimate the covariance parameters $\theta$. The procedure is subject to the constraint that $R$ and $D$ are both positive definite. The most common iterative algorithms for optimizing the likelihood function are the Newton-Raphson method, which is the preferred method, the expectation maximization (EM) algorithm and the Fisher scoring methods.
+Iterative numerical techniques are used to optimize the log-likelihood function and estimate the covariance parameters $\theta$. The procedure is subject to the constraint that $R$ and $G$ are both positive definite. The most common iterative algorithms for optimizing the likelihood function are the Newton-Raphson method, which is the preferred method, the expectation maximization (EM) algorithm and the Fisher scoring methods.
 
 The EM algorithm, introduced by \citet{EM}, is an iterative technique for maximizing complicated likelihood functions. The algorithm alternates between performing an expectation (E) step and the maximization (M) step. The `E' step computes the expectation of the log-likelihood evaluated using the current estimate for the variables. In the `M' step, parameters that maximize the expected log-likelihood, found on the previous `E' step, are computed. These parameter estimates are then used to determine the distribution of the variables in the next `E' step. The algorithm alternatives between these two steps until convergence is reached.
 
@@ -406,25 +403,25 @@ D & 0 \\
 
 
 
-where $D$ and $\boldsymbol{\Sigma}$ are positive definite matrices parameterized by an unknown variance component parameter vector $ \theta.$ The variance-covariance matrix for the vector of observations $y$ is given by $V = ZDZ^{\prime}+ \Sigma.$ This implies $y \sim(X\beta, V) = (X\beta, \boldsymbol{ZDZ}^{\prime}+ \Sigma)$. 
+where $G$ and $\boldsymbol{\Sigma}$ are positive definite matrices parameterized by an unknown variance component parameter vector $ \theta.$ The variance-covariance matrix for the vector of observations $y$ is given by $V = ZGZ^{\prime}+ \Sigma.$ This implies $y \sim(X\beta, V) = (X\beta, \boldsymbol{ZGZ}^{\prime}+ \Sigma)$. 
 
-$\boldsymbol{R}_{i}$ is the variance covariance matrix for the residuals, i.e. the within-item sources of variation between both methods. Computational analysis of linear mixed effects models allow for the explicit analysis of both $\boldsymbol{D}$ and $\boldsymbol{R_i}$.
+$\boldsymbol{R}_{i}$ is the variance covariance matrix for the residuals, i.e. the within-item sources of variation between both methods. Computational analysis of linear mixed effects models allow for the explicit analysis of both $\boldsymbol{G}$ and $\boldsymbol{R_i}$.
 The above terms can be used to express the  variance covariance matrix $\boldsymbol{\Omega}_i$ for the responses on item $i$ ,
 \[
-\boldsymbol{\Omega}_i = \boldsymbol{Z}_i \boldsymbol{D} \boldsymbol{Z}_i^{\prime} + \boldsymbol{R}_i.
+\boldsymbol{\Omega}_i = \boldsymbol{Z}_i \boldsymbol{G} \boldsymbol{Z}_i^{\prime} + \boldsymbol{R}_i.
 \]
 %============================================================== %
 
-It is assumed that $\boldsymbol{b}_i \sim N(0,\boldsymbol{D})$, $\boldsymbol{\epsilon}_i$ is a matrix of random errors distributed as $N(0,\boldsymbol{R}_i)$ and that the random effects and residuals are independent of each other. Assumptions made on the structures of $\boldsymbol{D}$ and $\boldsymbol{R}_i$ will be discussed in due course.
+It is assumed that $\boldsymbol{b}_i \sim N(0,\boldsymbol{G})$, $\boldsymbol{\epsilon}_i$ is a matrix of random errors distributed as $N(0,\boldsymbol{R}_i)$ and that the random effects and residuals are independent of each other. Assumptions made on the structures of $\boldsymbol{G}$ and $\boldsymbol{R}_i$ will be discussed in due course.
 
-The random effects are assumed to be distributed as $\boldsymbol{b}_i \sim \mathcal{N}_2(0,\boldsymbol{D})$. The between-item variance covariance matrix $\boldsymbol{D}$ is constructed as follows:
-%\[ \boldsymbol{D} =\left(
+The random effects are assumed to be distributed as $\boldsymbol{b}_i \sim \mathcal{N}_2(0,\boldsymbol{G})$. The between-item variance covariance matrix $\boldsymbol{G}$ is constructed as follows:
+%\[ \boldsymbol{G} =\left(
 %\begin{array}{cc}
 %d^2_1  & d_{12} \\
 %d_{12} & d^2_2 \\
 %\end{array}
 %\right) \]
-\[ \boldsymbol{D} = \mbox{Var}  \left[
+\[ \boldsymbol{G} = \mbox{Var}  \left[
 \begin{array}{c}
 b_1   \\
 b_2  \\
@@ -439,16 +436,16 @@ d_{12} & d^2_2 \\
 
 
 %============================================================%
-The distribution of the random effects is described as $\boldsymbol{b}_i \sim N(0,\boldsymbol{D})$. Similarly random errors are distributed as $\boldsymbol{\epsilon}_i \sim N(0,\boldsymbol{R}_i)$. The random effects and residuals are assumed to be independent. The variance-covariance matrix for the vector of observations $y$ is given by $V = \boldsymbol{ZDZ}^{\prime}+ \Sigma.$ This implies $y \sim(X\beta, V) = (X\beta,ZDZ^{\prime}+ \Sigma)$. 
+The distribution of the random effects is described as $\boldsymbol{b}_i \sim N(0,\boldsymbol{G})$. Similarly random errors are distributed as $\boldsymbol{\epsilon}_i \sim N(0,\boldsymbol{R}_i)$. The random effects and residuals are assumed to be independent. The variance-covariance matrix for the vector of observations $y$ is given by $V = \boldsymbol{ZGZ}^{\prime}+ \Sigma.$ This implies $y \sim(X\beta, V) = (X\beta,ZGZ^{\prime}+ \Sigma)$. 
 
 
-By letting $\operatorname{var}(b) = D$ (i.e $\textbf{b} ~ N(0,\textbf{D})$), this becomes $\boldsymbol{ZDZ}^{\prime}$. This specifies the covariance due to random
+By letting $\operatorname{var}(b) = D$ (i.e $\textbf{b} ~ N(0,\textbf{G})$), this becomes $\boldsymbol{ZDZ}^{\prime}$. This specifies the covariance due to random
 effects. The residual covariance matrix $\operatorname{var}(e)$ is denoted as $R$, ($\textbf{e} ~ N(0,\textbf{R})$). Residual are uncorrelated,
 hence \textbf{R} is equivalent to $\sigma^{2}$\textbf{I}, where \textbf{I} is the identity matrix. The variance matrix \textbf{V}
 can therefore be written as:
 
 \begin{equation}
-\textbf{V}  = \textbf{ZDZ}^{\prime} + \textbf{R}.
+\textbf{V}  = \textbf{ZGZ}^{\prime} + \textbf{R}.
 \end{equation}
 
 
@@ -472,7 +469,7 @@ The methodology proposed by \citet{ARoy2009} is largely based on \citet{hamlett}
 correlation terms with D and $\Sigma$ specified as follows:
 
 \[
-{D} = \left( \begin{array}{cc}
+{G} = \left( \begin{array}{cc}
 \sigma^2_{A}\rho_{A} & \sigma_{A}\sigma_{b}\rho_{AB}\delta \\
 \sigma_{A}\sigma_{b}\rho_{AB}\delta & \sigma^2_{B}\rho_{B}\\
 

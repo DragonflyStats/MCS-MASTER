@@ -75,6 +75,20 @@ rulesepcolor=\color{black},
 %mixed effects models should be applied to method comparison
 %studies.
 
+%Repeatability (Barnhart pg 7)
+%ISOs definition: Closeness of agreement netween measures under the same conditions. (i.e. True Replicates)
+
+The matter of how well two methods of measurement are said to be “in agreement” is a frequently posed question in statistical literature. A useful, and broadly consistent, set of definitions of what this “agreement” entail is put forth by Barnhart et al and Roy (2009). 
+As pointed out by earlier contributors to the subject ( commonly referred to as “Method Comparison Studies”)
+
+Shared with previous contributions (Bland and Altman, Carstensen) is the condition that there should no systematic  tendency for one of the methods to consistently provide a value higher that than of the other method. If such a tendency did exist, we would refer to it as an inter-method bias.
+
+In earlier literature, the emphasis was placed up on single measurements simultaneously by each of the methods of measurement. Several different approaches, such as the Bland-Altman plot, and Orthogonal Regression (a special case of Deming Regression where the residual variances are assumed to be equal) have been proposed. Arguably, for the single replicate case, the established methodologies are sufficient for assessing agreement between two methods.
+
+In subsequent contributions, the matter of assessing agreement in the presence  of replicate measurements was addressed. Some approaches extended already established approaches (Bland-Altam 1999).  Other contributions were based on methodologies not seen previously in Method comparison Study Literature  (for example, Carstensen et al 2008 and Roy 2009, using LME models). 
+
+
+
 Linear mixed effects (LME) models can facilitate greater understanding of the potential causes of bias and differences in precision between two sets of measurement. \citet{LaiShiao} views the uses of linear mixed effects models as an expansion on the Bland-Altman methodology, rather than as a replacement. \citet{BXC2008} remarks that modern statistical computation, such as that used for LME models, greatly improve the efficiency of calculation compared to previous `by-hand' methods. 
 
 Roy provides three case studies, using data sets well known in method comparison studies, to demonstrate how the methodology should be used.
@@ -108,7 +122,7 @@ The inter-method bias and necessary $t-$value and $p-$value are presented in com
 
 
 
-Importantly \citet{ARoy2009} further proposes a series of three tests on the variance components of an LME model, which allow decisions on the second and third of Roy's criteria. For these tests, four candidate LME models are constructed. The differences in the models are specifically in how the the $D$ and $\Lambda$ matrices are constructed, using either an unstructured form or a compound symmetry form. To illustrate these differences, consider a generic matrix $A$,
+Importantly \citet{ARoy2009} further proposes a series of three tests on the variance components of an LME model, which allow decisions on the second and third of Roy's criteria. For these tests, four candidate LME models are constructed. The differences in the models are specifically in how the the $\boldsymbol{G}$ and $\Lambda$ matrices are constructed, using either an unstructured form or a compound symmetry form. To illustrate these differences, consider a generic matrix $A$,
 
 \[
 \boldsymbol{A} = \left( \begin{array}{cc}
@@ -154,43 +168,12 @@ The tests are implemented by fitting a specific LME model, and three variations 
 Other important aspects of the method comparison study are consequent. The limits of agreement are computed using the results of the first model.
 
 
-\subsection{Test 2}
-The second variability test determines maximum likelihood estimates of the within-subject variance covariance matrix, for both the reference model, in CS form, and the alternative model in symmetric form.
 
-\[
-\boldsymbol{\hat{\Sigma}_{CS}} = \left( \begin{array}{cc}
-60.27  & 16.06  \\
-16.06  & 60.27  \\
-\end{array}\right),
-\hspace{1.5cm}
-\boldsymbol{\hat{\Sigma}}_{Symm} = \left( \begin{array}{cc}
-37.40 & 16.06  \\
-16.06 & 83.14  \\
-\end{array}\right).
-\]
-
-A likelihood ratio test is perform to compare both candidate models. The log-likelihood of the alternative model model is $-2045.0$. As before, the null model has a log-likelihood of $-2030.7$. The test statistic is computed as $28.617$, again presented with greater precision. The $p-$value is less than $0.0001$. In this case we reject the null hypothesis of equal within-subject variability. Consequently the third of Roy's criteria is unfulfilled.
 The coefficient of repeatability for methods $J$ and $S$ are found to be 16.95 mmHg and 25.28 mmHg respectively.
 
-\subsection{Test 3}
-The last of the three variability tests is carried out to compare the overall variabilities of both methods.
-With the null model the MLE of the within-subject variance covariance matrix is given below. The overall variabilities for the null and alternative models, respectively, are determined to be as follows;
-\[
-\boldsymbol{\hat{\Omega}}_{CS} = \left( \begin{array}{cc}
-1007.92  & 801.65  \\
-801.65  & 1007.92  \\
-\end{array}\right),
-\hspace{1.5cm}
-\boldsymbol{\hat{\Omega}}_{Symm} = \left( \begin{array}{cc}
-961.38 & 801.40  \\
-801.40 & 1054.43  \\
-\end{array}\right),
-\]
-
-The log-likelihood of the alternative model model is $-2045.2$, and again, the null model has a log-likelihood of $-2030.7$. The test statistic is $28.884$, and the $p-$value is less than $0.0001$. The null hypothesis, that both methods have equal overall variability, is rejected. Further to the second variability test, it is known that this difference is specifically due to the difference of within-subject variabilities.
 
 \subsection{Correlation}
-Lastly, \citet{Roy2009} considers the overall correlation coefficient. The diagonal blocks $\boldsymbol{\hat{r}_{\Omega}}_{ii}$ of the correlation matrix indicate an overall coefficient of $0.7959$. This is less than the threshold of 0.82 that Roy recommends.
+Lastly, \citet{Aroy2009} considers the overall correlation coefficient. The diagonal blocks $\boldsymbol{\hat{r}_{\Omega}}_{ii}$ of the correlation matrix indicate an overall coefficient of $0.7959$. This is less than the threshold of 0.82 that Roy recommends.
 
 
 \begin{equation}
@@ -217,39 +200,6 @@ The overall conclusion of the procedure is that method $J$ and $S$ are not in ag
 
 
 
-
-%--------------------------------------------------%
-\subsubsection{Bland-Altman's blood data}
-With the alternative model, the MLE of the between-subject variance covariance matrix is given by
-\begin{equation}
-\boldsymbol{\hat{G}_{Symm}} = \left( \begin{array}{cc}
-923.98 & 785.24  \\
-785.24 & 971.30  \\
-\end{array}\right)
-\end{equation}
-
-With the refence model the MLE is as follows:
-
-\begin{equation}
-\boldsymbol{\hat{G}_{CS}} = \left( \begin{array}{cc}
-946.50 & 784.32  \\
-784.32 & 946.50  \\
-\end{array}\right)
-\end{equation}
-
-\begin{framed}
-\begin{verbatim}
-> anova(MCS1,MCS2)
->
->
-Model df    AIC    BIC  logLik   Test L.Ratio p-value
-MCS1     1  8 4077.5 4111.3 -2030.7
-MCS2     2  7 4075.6 4105.3 -2030.8 1 vs 2 0.15291  0.6958
-\end{verbatim}
-\end{framed}
-
-The test statistic is the difference of the $-2$ log likelihoods; $0.153$. The $p-$value is $0.696$. Therefore we fail to reject the hypothesis that both have the same between-subject variabilities.
-
 \subsection{Variability test 2}
 
 This is a test on whether both methods $A$ and $B$ have the same within-subject variability or not.
@@ -262,238 +212,9 @@ H_{A}: \mbox{ }\sigma_{A}  = \sigma_{B}
 This model is performed in the same manner as the first test, only reversing the roles of $\boldsymbol{\hat{G}}$ and $\boldsymbol{\hat{\Sigma}}$. The null model is constructed  a symmetric form for $\boldsymbol{\hat{\Sigma}}$ while the alternative model uses a compound symmetry form. This time $\boldsymbol{\hat{G}}$ has a symmetric form for both models, and will be the same for both.
 
 
-\subsubsection{Bland-Altman's Blood Data}
-For the null model the MLE of the within-subject variance covariance matrix is given below.
-
-\begin{equation}
-\boldsymbol{\hat{\Sigma}_{Symm}} = \left( \begin{array}{cc}
-37.40 & 16.06  \\
-16.06 & 83.14  \\
-\end{array}\right)
-\end{equation}
-With the alternative model the MLE is as follows:
-
-\begin{equation}
-\boldsymbol{\hat{\Sigma}_{CS}} = \left( \begin{array}{cc}
-60.27  & 16.06  \\
-16.06  & 60.27  \\
-\end{array}\right)
-\end{equation}
-
-The outcome of this test is that it can be assumed that they have equal
-The test statistic is the difference of the $-2$ log likelihoods; $28.617$. The $p-$value is less than $0.0001$. In this case we reject the null hypothesis that both models have the same within-subject variabilities.
-
-
-\subsection{Variability Test 3}
-This is a test on whether both methods $A$ and $B$ have the same overall variability or not.
-\begin{eqnarray}
-H_{0}: \mbox{ }\sigma_{A}  = \sigma_{B} \\
-H_{A}: \mbox{ }\sigma_{A}  = \sigma_{B}
-\end{eqnarray}
-
-The null model is constructed a symmetric form for both $\boldsymbol{\hat{D}}$ and $\boldsymbol{\hat{\Lambda}}$ while the alternative model uses a compound symmetry form for both.
-
-\subsubsection{Bland-Altman's Blood Data}
-With the null model the MLE of the within-subject variance covariance matrix is given below.
-
-\begin{equation}
-\boldsymbol{\hat{\Sigma}_{Symm}} = \left( \begin{array}{cc}
-961.38 & 801.40  \\
-801.40 & 1054.43  \\
-\end{array}\right)
-\end{equation}
-
-With the alternative model the MLE is as follows:
-\begin{equation}
-\boldsymbol{\hat{\Sigma}_{CS}} = \left( \begin{array}{cc}
-1007.92  & 801.65  \\
-801.65  & 1007.92  \\
-\end{array}\right)
-\end{equation}
-
-
-The test statistic is the difference of the $-2$ log likelihoods; $28.884$. The $p-$value is less than $0.0001$. We again reject the null hypothesis. Each model has a different overall variability, a foregone conclusion from the second variability test.
 
 
 
-
-
-%Repeatability (Barnhart pg 7)
-%ISOs definition: Closeness of agreement netween measures under the same conditions. (i.e. True Replicates)
-
-The matter of how well two methods of measurement are said to be “in agreement” is a frequently posed question in statistical literature. A useful, and broadly consistent, set of definitions of what this “agreement” entail is put forth by Barnhart et al and Roy (2009). 
-As pointed out by earlier contributors to the subject ( commonly referred to as “Method Comparison Studies”)
-
-Shared with previous contributions (Bland and Altman, Carstensen) is the condition that there should no systematic  tendency for one of the methods to consistently provide a value higher that than of the other method. If such a tendency did exist, we would refer to it as an inter-method bias.
-
-In earlier literature, the emphasis was placed up on single measurements simultaneously by each of the methods of measurement. Several different approaches, such as the Bland-Altman plot, and Orthogonal Regression (a special case of Deming Regression where the residual variances are assumed to be equal) have been proposed. Arguably, for the single replicate case, the established methodologies are sufficient for assessing agreement between two methods.
-
-In subsequent contributions, the matter of assessing agreement in the presence  of replicate measurements was addressed. Some approaches extended already established approaches (Bland-Altam 1999).  Other contributions were based on methodologies not seen previously in Method comparison Study Literature  (for example, Carstensen et al 2008 and Roy 2009, using LME models). 
-
-\subsection{Worked Eamples : LikelihoodRatio Tests}
-
-
-The likelihood Ratio test is very simple to implement in \texttt{R}. All that is required it to specify the reference model and the relevant nested mode as arguments to the command \texttt{anova()}.
-
-The figure below displays the three tests described by Roy (2009).
-
-\begin{framed}
-\begin{verbatim}
-> # Between-Subject Variabilities
-> testB    = anova(Ref.Fit,NMB.fit) 
->         
-> # Within-Subject Variabilities                
-> testW   = anova(Ref.Fit,NMW.fit) 
->                       
-> # Overall Variabilities
-> testO     = anova(Ref.Fit,NMO.fit)                        
-
-
-\end{verbatim}
-\end{framed}
-\begin{framed}   
-\begin{verbatim}
-> anova(MCS1,MCS2)
->
->
-Model df    AIC    BIC  logLik   Test L.Ratio p-value
-MCS1     1  8 4077.5 4111.3 -2030.7
-MCS2     2  7 4075.6 4105.3 -2030.8 1 vs 2 0.15291  0.6958
-\end{verbatim}
-\end{framed}
-
-\subsection{Nested Model (Between-Item Variability)}
-\begin{framed}
-\begin{verbatim}
-> NMB.fit  = lme(y ~ meth-1, data = dat,   #CS , Symm#
-+     random = list(item=pdCompSymm(~ meth-1)),
-+     correlation = corSymm(form=~1 | item/repl), 
-+     method="ML")
-\end{verbatim}
-\end{framed}
-
-
-
-
-%-------------------------------------------------
-\begin{itemize}
-\item \textbf{Blood (JSR) data:} 
-\item \textbf{PEFR Data:} ARoy20092009
-\item \textbf{Oximetry data:} BXC2004
-\item \textbf{Fat data:} BXC2004
-\item \textbf{Trig Gerber Data:} BXC2008
-\item \textbf{Nadler Hurley:}
-\item \textbf{Hamlett:}
-\end{itemize}
-
-
-
-%%\section{results}
-%%
-%%Using Carstensen's method, the standard deviations of the casewise
-%%differences were computed as 20.4314,20.2682,2.2608
-%%respectively. Using Roy's model, these deviations are estimated to
-%%be 20.3275, 20.1632, 2.2528 respectively.
-%%
-%%Similarly for the \texttt{fat} and \texttt{ox} data Carstensen computes the
-%%difference deviations as and 6.1686 , whereas under
-%%Roy's model they are estimated to be 6.139275202 and
-%%respectively.
-%%
-%%However, using the PEFR and cardiac data, differences emerge.
-%%\begin{center}
-%%\begin{tabular}{|c|c|c|}
-%%\hline
-%%% after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
-%%Data & Carstensen & Roy \\
-%%\hline
-%%Fat &  0.1352 & 0.1373\\
-%%Ox & 6.1686 & 6.1392 \\
-%%Blood JS & 20.4314 & 20.3275
-%%\\
-%%Blood JR & 2.26088 & 2.2528
-%%\\
-%%Blood RS & 20.2682 & 20.16326412
-%%\\
-%%Hamlett & 0.9031 & 0.8922
-%%
-%%\\
-%%\hline
-%%\end{tabular}
-%%\end{center}
-
-
-
-
-
-
-\chapter{Other Data Sets}
-\section{IC/RV comparison}
-
-For the the RV-IC comparison, $\hat{D}$ is given by
-
-
-\begin{equation}
-\hat{D}= \left[ \begin{array}{cc}
-1.6323 & 1.1427  \\
-1.1427 & 1.4498 \\
-\end{array} \right]
-\end{equation}
-
-The estimate for the within-subject variance covariance matrix is
-given by
-\begin{equation}
-\hat{\Sigma}= \left[ \begin{array}{cc}
-0.1072 & 0.0372  \\
-0.0372 & 0.1379  \\
-\end{array}\right]
-\end{equation}
-The estimated overall variance covariance matrix for the the 'RV
-vs IC' comparison is given by
-\begin{equation}
-Block \Omega_{i}= \left[ \begin{array}{cc}
-1.7396 & 1.1799  \\
-1.1799 & 1.5877  \\
-\end{array} \right].
-\end{equation}
-
-The power of the
-likelihood ratio test may depends on specific sample size and the
-specific number of  replications, and the author proposes
-simulation studies to examine this further.
-
-
-
-\chapter{Fitting MCS Models with R}
-
-\subsection{Criteria for Agreement}
-
-Roy (2009) proposes a suite of hypothesis tests for assessing the agreement of two methods of measurement, when replicate measurements are obtained for each item, using a LME approach. (An item would commonly be a patient). 
-
-Two methods of measurement can be said to be in agreement if there is no significant difference between in three key respects. Firstly, there is no inter-method bias between the two methods, i.e. there is no persistent tendency for one method to give higher values than the other.
-
-Secondly, both methods of measurement have the same  within-subject variability. In such a case the variance of the replicate measurements would consistent for both methods. Lastly, the methods have equal between-subject variability. 
-
-For the mean measurements for each case, the variances of the mean measurements from both methods are equal.
-
-\citet{ARoy2009} sets out three criteria for two methods to be considered in agreement. Firstly that there be no significant bias. Second that there is no difference in the between-subject variabilities, and lastly that there is no significant difference in the within-subject variabilities. \citet{ARoy2009} further proposes examination of the the overall variability by considering the second and third criteria be examined jointly. Should both the second and third criteria be fulfilled, then the overall variabilities of both methods would be equal.
-
-\citet{Barnhart} describes the sources of disagreement as differing population means, different between-subject variances, different within-subject variances between two methods and poor correlation between measurements of two methods.
-
-\citet{ARoy2009} considers two methods to be in agreement if three conditions are met.
-
-\begin{enumerate}
-\item no significant bias, i.e. the difference between the two
-mean readings is not "statistically significant",
-
-\item high overall correlation coefficient,
-
-\item the agreement between the two methods by testing their
-repeatability coefficients.
-
-\end{enumerate}
-
-\citet{ARoy2009} demonstrates a LME model specification, and a series of tests that look at each of these agreement criteria individually. If two methods of measuement lack agreement, the specific reason or reasons for this lack of agreement can be identified.
 
 
 \section{LME models in method comparison studies}
@@ -523,31 +244,6 @@ assesses the within-subject variability of two methods. A third test is a test t
 The tests are implemented by fitting a specific LME model, and three variations thereof, to the data. These three variant models introduce equality constraints that act null hypothesis cases.
 
 Other important aspects of the method comparison study are consequent. The limits of agreement are computed using the results of the first model.
-
-
-
-
-\subsection{Correlation}
-Lastly, \citet{Roy2009} considers the overall correlation coefficient. The diagonal blocks $\boldsymbol{\hat{r}_{\Omega}}_{ii}$ of the correlation matrix indicate an overall coefficient of $0.7959$. This is less than the threshold of 0.82 that Roy recommends.
-
-
-\begin{equation}
-\boldsymbol{\hat{r}_{\Omega}}_{ii} = \left( \begin{array}{cc}
-1  & 0.7959  \\
-0.7959  & 1  \\
-\end{array}\right)
-\end{equation}
-
-The off-diagonal blocks of the overall correlation matrix $\boldsymbol{\hat{r}_{\Omega}}_{ii'}$ present the correlation coefficients further to \citet{hamlett}.
-\[
-\boldsymbol{\hat{r}_{\Omega}}_{ii'} = \left( \begin{array}{cc}
-0.9611  & 0.7799  \\
-0.7799  & 0.9212  \\
-\end{array}\right).
-\]
-
-The overall conclusion of the procedure is that method $J$ and $S$ are not in agreement, specifically due to the within-subject variability, and the inter-method bias. The repeatability coefficients are substantially different, with the coefficient for method $S$ being 49\% larger than for method $J$. Additionally the overall correlation coefficient did not exceed the recommended threshold of $0.82$.
-
 
 
 
