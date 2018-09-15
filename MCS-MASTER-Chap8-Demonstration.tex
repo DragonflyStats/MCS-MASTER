@@ -67,7 +67,7 @@ rulesepcolor=\color{black},
 \title{LME Models for Method Comparison Studies}
 %\tableofcontents
 
-\chapter{A Simplified LME Framework for Method Comparison}
+\chapter{A Demonstration of Roy's Framework using \texttt{R}}
 
 \section{LME models in method comparison studies}
 %With the greater computing power available for scientific
@@ -79,9 +79,9 @@ rulesepcolor=\color{black},
 %ISOs definition: Closeness of agreement netween measures under the same conditions. (i.e. True Replicates)
 
 The matter of how well two methods of measurement are said to be “in agreement” is a frequently posed question in statistical literature. A useful, and broadly consistent, set of definitions of what this “agreement” entail is put forth by Barnhart et al and Roy (2009). 
-As pointed out by earlier contributors to the subject ( commonly referred to as “Method Comparison Studies”)
+As pointed out by earlier contributors to the subject (commonly referred to as “Method Comparison Studies”)
 
-Shared with previous contributions (Bland and Altman, Carstensen) is the condition that there should no systematic  tendency for one of the methods to consistently provide a value higher that than of the other method. If such a tendency did exist, we would refer to it as an inter-method bias.
+Shared with previous contributions (\citet{BA86,BA99}, Carstensen) is the condition that there should no systematic  tendency for one of the methods to consistently provide a value higher that than of the other method. If such a tendency did exist, we would refer to it as an inter-method bias.
 
 In earlier literature, the emphasis was placed up on single measurements simultaneously by each of the methods of measurement. Several different approaches, such as the Bland-Altman plot, and Orthogonal Regression (a special case of Deming Regression where the residual variances are assumed to be equal) have been proposed. Arguably, for the single replicate case, the established methodologies are sufficient for assessing agreement between two methods.
 
@@ -114,58 +114,21 @@ incorporates the use of correlation into this methodology.
 \citet{ARoy2009} uses an approach based on linear mixed effects (LME) models for the purpose of comparing the agreement between two methods of measurement, where replicate measurements on items, typically individuals, by both methods are available. She provides three tests of hypothesis appropriate for evaluating the agreement between the two methods of measurement under this sampling scheme. These tests consider null hypotheses that assume: absence of inter-method bias; equality of between-subject variabilities of the two methods; equality of within-subject variabilities of the two methods. By inter-method bias we mean that a systematic difference exists between observations recorded by the two methods. Differences in between-subject variabilities of the two methods arise when one method is yielding average response levels for individuals than are more variable than the average response levels for the same sample of individuals taken by the other method.  Differences in within-subject variabilities of the two methods arise when one method is yielding responses for an individual than are more variable than the responses for this same individual taken by the other method. The two methods of measurement can be considered to agree, and subsequently can be used interchangeably, if all three null hypotheses are true.
 
 
-This bias is specified as a fixed effect in the LME model.  For a practitioner who has a reasonable level of competency in R and undergraduate statistics (in particular simple linear regression model) this is a straight-forward procedure.
-
-A formal test for inter-method bias can be implemented by examining the fixed effects of the model. This is common to well known classical linear model methodologies. The null hypotheses, that both methods have the same mean, which is tested against the alternative hypothesis, that both methods have different means.
-
-The inter-method bias and necessary $t-$value and $p-$value are presented in computer output. A decision on whether the first of Roy's criteria is fulfilled can be based on these values.
-
-
-
-Importantly \citet{ARoy2009} further proposes a series of three tests on the variance components of an LME model, which allow decisions on the second and third of Roy's criteria. For these tests, four candidate LME models are constructed. The differences in the models are specifically in how the the $\boldsymbol{G}$ and $\Lambda$ matrices are constructed, using either an unstructured form or a compound symmetry form. To illustrate these differences, consider a generic matrix $A$,
-
-\[
-\boldsymbol{A} = \left( \begin{array}{cc}
-a_{11} & a_{12}  \\
-a_{21} & a_{22}  \\
-\end{array}\right).
-\]
-
-A symmetric matrix allows the diagonal terms $a_{11}$ and $a_{22}$ to differ. The compound symmetry structure requires that both of these terms be equal, i.e $a_{11} = a_{22}$.
 
 
 
 
 
-\subsection{Demonstration of Roy's testing}
+Importantly \citet{ARoy2009} further proposes a series of three tests on the variance components of an LME model, which allow decisions on the second and third of Roy's criteria.
 
 
-The inter-method bias between the two method is found to be $15.62$ , with a $t-$value of $-7.64$, with a $p-$value of less than $0.0001$. Consequently there is a significant inter-method bias present between methods $J$ and $S$, and the first of the Roy's three agreement criteria is unfulfilled.
 
-Next, the first variability test is carried out, yielding maximum likelihood estimates of the between-subject variance covariance matrix, for both the null model, in compound symmetry (CS) form, and the alternative model in symmetric (symm) form. These matrices are determined to be as follows;
-\[
-\boldsymbol{\hat{G}}_{CS} = \left( \begin{array}{cc}
-946.50 & 784.32  \\
-784.32 & 946.50  \\
-\end{array}\right),
-\hspace{1.5cm}
-\boldsymbol{\hat{G}}_{Symm} = \left( \begin{array}{cc}
-923.98 & 785.24  \\
-785.24 & 971.30  \\
-\end{array}\right).
-\]
 
-A likelihood ratio test is perform to compare both candidate models. The log-likelihood of the null model is $-2030.7$, and for the alternative model $-2030.8$. The test statistic, presented with greater precision than the log-likelihoods, is $0.1592$. The $p-$value is $0.6958$. Consequently we fail to reject the null model, and by extension, conclude that the hypothesis that methods $J$ and $S$ have the same between-subject variability. Thus the second of the criteria is fulfilled.
+
+
 
 \section{Roy's Variability Tests}
-Variability tests proposed by \citet{ARoy2009} affords the opportunity to expand upon Carstensen's approach.
 
-The first test allows of the comparison the begin-subject variability of two methods. Similarly, the second test
-assesses the within-subject variability of two methods. A third test is a test that compares the overall variability of the two methods.
-
-The tests are implemented by fitting a specific LME model, and three variations thereof, to the data. These three variant models introduce equality constraints that act null hypothesis cases.
-
-Other important aspects of the method comparison study are consequent. The limits of agreement are computed using the results of the first model.
 
 
 
@@ -193,35 +156,9 @@ The off-diagonal blocks of the overall correlation matrix $\boldsymbol{\hat{r}_{
 
 The overall conclusion of the procedure is that method $J$ and $S$ are not in agreement, specifically due to the within-subject variability, and the inter-method bias. The repeatability coefficients are substantially different, with the coefficient for method $S$ being 49\% larger than for method $J$. Additionally the overall correlation coefficient did not exceed the recommended threshold of $0.82$.
 
-%--------------------------------------------------%
-\section{Roy's Model}
-
-
-
-
-
-\subsection{Variability test 2}
-
-This is a test on whether both methods $A$ and $B$ have the same within-subject variability or not.
-
-\begin{eqnarray}
-H_{0}: \mbox{ }\sigma_{A}  = \sigma_{B} \\
-H_{A}: \mbox{ }\sigma_{A}  = \sigma_{B}
-\end{eqnarray}
-
-This model is performed in the same manner as the first test, only reversing the roles of $\boldsymbol{\hat{G}}$ and $\boldsymbol{\hat{\Sigma}}$. The null model is constructed  a symmetric form for $\boldsymbol{\hat{\Sigma}}$ while the alternative model uses a compound symmetry form. This time $\boldsymbol{\hat{G}}$ has a symmetric form for both models, and will be the same for both.
-
-
-
-
-
-
 
 \section{LME models in method comparison studies}
-%With the greater computing power available for scientific
-%analysis, it is inevitable that complex models such as linear
-%mixed effects models should be applied to method comparison
-%studies.
+With the greater computing power available for scientific analysis, it is inevitable that complex models such as linear mixed effects models should be applied to method comparison studies.
 
 
 
@@ -229,27 +166,15 @@ This model is performed in the same manner as the first test, only reversing the
 
 
 
-\subsection{Demonstration of Roy's testing}
-
-The inter-method bias between the two method is found to be $15.62$ , with a $t-$value of $-7.64$, with a $p-$value of less than $0.0001$. Consequently there is a significant inter-method bias present between methods $J$ and $S$, and the first of the Roy's three agreement criteria is unfulfilled.
 
 
 
-\section{Roy's Variability Tests}
-Variability tests proposed by \citet{ARoy2009} affords the opportunity to expand upon Carstensen's approach.
 
-The first test allows of the comparison the begin-subject variability of two methods. Similarly, the second test
-assesses the within-subject variability of two methods. A third test is a test that compares the overall variability of the two methods.
-
-The tests are implemented by fitting a specific LME model, and three variations thereof, to the data. These three variant models introduce equality constraints that act null hypothesis cases.
-
-Other important aspects of the method comparison study are consequent. The limits of agreement are computed using the results of the first model.
 
 
 
 
 \subsection{Roy's Reference Model}
-Conventionally LME models can be tested using Likelihood Ratio Tests, wherein a reference model is compared to a nested model.
 
 
 
@@ -295,12 +220,6 @@ Number of Groups:
 subject method %in% subject
 85                 170
 \end{verbatim}
-
-For the blood pressure data used in \citet{ARoy2009}, all four candidate models are implemented by slight variations of this piece of code, specifying either \texttt{pdSymm} or \texttt{pdCompSymm} in the second line, and either \texttt{corSymm} or \texttt{corCompSymm} in the fourth line.
-
-
-
-Using this \texttt{R} implementation for other data sets requires that the data set is structured appropriately (i.e.\ each case of observation records the index, response, method and replicate). Once formatted properly, implementation is simply a case of re-writing the first line of code, and computing the four candidate models accordingly.
 
 A likelihood ratio test is perform to determine which model is more suitable. To perform this test, simply use the \texttt{anova} command with the names of the candidate models as arguments. The following piece of code implement the first of Roy's variability tests.
 

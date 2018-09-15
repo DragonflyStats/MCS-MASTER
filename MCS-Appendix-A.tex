@@ -108,44 +108,7 @@ formula which describes the random effects, and the grouping structure for the m
 
 The key issue is that \texttt{nlme} allows for the particular specification of Roy's Model, specifically direct specification of the VC matrices for within subject and between subject residuals.
 
-The \texttt{lme4} package does not allow for Roy's Model, for reasons that will identified shortly.To advance the ideas that eminate from Roy's paper, one is required to use the \texttt{nlme} context. However, to take advantage of the infrastructure already provided for \texttt{lme4} models, one may change the research question away from that of Roy's paper. To this end, an exploration of what \textbf{\textit{influence.ME}} can accomplished is merited. The first of Roy's candidate model can be implemented using the following code;\\
-
-\begin{framed}
-\begin{verbatim}
-ref.nlme = lme(BP ~ method-1, data = dat,
-random =  list(subject=pdSymm(~ method-1)),
-weights=varIdent(form=~1|method),
-correlation = corSymm(form=~1 | subject/obs), method="ML")
-\end{verbatim}
-\end{framed}
-
-For the blood pressure data used in \citet{ARoy2009}, all four candidate models are implemented by slight variations of this piece of code, specifying either \texttt{pdSymm} or \texttt{pdCompSymm} in the second line, and either \texttt{corSymm} or \texttt{corCompSymm} in the fourth line.
-For example, the second candidate model `MCS2' is implemented with the same code as MCS1, except for the term \texttt{pdCompSymm} in the second line, rather than \texttt{pdSymm}.
-
-\begin{framed}
-\begin{verbatim}
-    test1.nlme = lme(BP ~ method-1, data = dat,
-random = list(subject=pdCompSymm(~ method-1)),
-weights = varIdent(form=~1|method),
-correlation = corSymm(form=~1 | subject/obs), method="ML")
-\end{verbatim}
-\end{framed}
-
-The fixed effects estimates are the same for all four candidate models. The inter-method bias can be easily determined by inspecting a summary of any model. The summary presents estimates for all of the important parameters, but not the complete variance-covariance matrices (although some simple \texttt{R} functions can be written to overcome this). The variance estimates for the random effects for \texttt{test1.nlme} is presented below.
-
-\begin{framed}
-\begin{verbatim}
-Random effects:
-Formula: ~method - 1 | subject
-Structure: Compound Symmetry
-StdDev Corr
-methodJ  30.765
-methodS  30.765 0.829
-Residual  6.115
-\end{verbatim}
-\end{framed}
-
-Similarly, for computing the limits of agreement the standard deviation of the differences is not explicitly given. Again, a simple \texttt{R} function can be written to calculate the limits of agreement directly.
+The \texttt{lme4} package does not allow for Roy's Model, for reasons that will identified shortly.To advance the ideas that eminate from Roy's paper, one is required to use the \texttt{nlme} context. However, to take advantage of the infrastructure already provided for \texttt{lme4} models, one may change the research question away from that of Roy's paper. To this end, an exploration of what \textbf{\textit{influence.ME}} can accomplished is merited. 
 
 
 \section{Fitting Models with the LME4 R package}

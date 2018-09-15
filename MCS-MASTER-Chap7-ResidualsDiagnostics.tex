@@ -530,14 +530,9 @@ A naive approach would be to compute the variance ratios by relevant F distribut
 
 Further to previous work, this section revisits case-deletion and residual diagnostics, and explores how approaches devised by \citet{Galecki} can be used to appraise Roy's model. These authors specifically look at Cook's Distances and Likelihood Distances.
 %For the Roy Model, Cook's Distances may also be generated using the \textbf{\textit{predictmeans}}
-%
-
-                                                                                                                                                                                                                                                                                                                                                                                                               %
-
-
 
 Applying the core principals of this methods to method comparison problem, case deletion diagnostics are used on the variance components of the Roy's model, specifically the ratio of between-subject variances and the within-subject covariances respectively.
-\[ \mbox{BSVR} = \frac{\sigma^2_1}{\sigma^2_2} \phantom{makespace}  \mbox{WSVR} = \frac{d^2_1}{d^2_2} \]
+\[ \mbox{WSVR} = \frac{\sigma^2_1}{\sigma^2_2} \phantom{makespace}  \mbox{BSVR} = \frac{g^2_1}{g^2_2} \]
 These variance ratios are re-computed for each case removed, and may be analysed seperately or jointly for outliers, using standard techniques, such as the Grubbs tests.
 
 
@@ -575,106 +570,8 @@ From this table one may conclude that subjects 72, 48 and 29 are not particularl
 
                                                
 
-
-\section{Agreement Criteria for Replicate Measurements}
-
-
-Varying degrees of importances should be attached to each the three agreement criteria listed by \citet{Barnhart}. Between-item variance $d^2_i$ is fundamentally a measure of the variability of the item-wise means, as measured by method $i$, but it does contain limited information on the precision of that method. 
-
-For conventional method comparison problems, both methods measures the same set of items using the same unit of measurement. Convergence to equality of between-item variance is inevitable as the number of items $n$ increases. Significantly different estimates for $d^2_1$ and $d^2_2$ should not be expected for any practical problem. 
-
-Therefore a violation of third criterium (i.e. different between-item variances) criterium is contingent upon, and a  
-possible consequence of, the violation of the other two agreement criteria. However, a violation of the third criterium will not occur in isolation. As noted elsewhere, the matter of inter-method bias can be easily accounted for, once detected. Both between-items and within-items variances must be calculated such that sources of variances are properly assigned, and to compute limits of agreement. However, testing the within-item criterium is the most informative analysis and therefore requires the most attention. 
-
-
-          
-
-
-
-
-\section{Using DFBETAs from LME Models to Assess Agreement}
-
- DFBETA and DFFITS are well known measures of influence. Emphasis shall be placed on DFBETA, but a brief discussion of DFFITS is merited as it potentially provides for useful techniques in method comparison. \citet{schabenberger} provides a mathematical desciption of both.
-
-
-DFBETAS is a standardized measure of the absolute difference between the estimate with a particular
-case included and the estimate without that particular case,, thus measuring the impact each observation has on a particular predictor \citep{belsley2005}. For LME models, the DFBETA is a measure that standardizes the absolute difference in parameter estimates between an LME model based on a full set of data, and a model from reduced data.
-
-In general, large values of DFBETAS indicate observations that are influential in estimating a given parameter. There is no agreement as to the critical threshold for DFBETAs. \citet{belsley2005} recommend 2 as a general cutoff value to indicate influential observations and as a size-adjusted cutoff.  The cut-off value for DFBETAs is $\frac{2}{\sqrt{n}}$, where $n$ is the number of observations. 
-
-
-
-\subsubsection{Using DFBETAs for Method Comparison}
-For LME models, a value for DFBETAS is calculated for each of the $p$ fixed effects, and for each of the $n$ item. When the LME model is specified without an intercept term, as in Roy's Model, there is a set of DFBETAs corresponding to each measurement method, hence an $n \times p$ matrix.
-% Correctly there will be $p+1$ DFBETAs (the intercept, $\beta_0$, and one $\beta$ for each covariate)
-
-The LME approach proposed by \citet{ARoy2009} is constrained by computational tractability. Consequently a simpler LME formulation is used, one similar to that of \citet{BXC2008}. However one constraint that can be dispensed with is the restriction to two methods of measurement: we can now use any number of methods. The benefit of using this model is that metrics such as Cook's Distance and DFBETAs can be computed also.
-
-For a method comparison study, DFBETAs can be used as a proxy measurement, allowing simple techniques to be used for assessing agreement. Suppose an LME model was formulated to model agreement for two or more methods of measurement, specifically with replicate measurements.
-
-Hence, commonly used bivariate analyses constructed to compare each pair of methods, based on their respective sets of DFBETAs. Furthermore 95\% confidence ellipse can be constructed around these scatterplots. If the methods are to be agreement, the DFBETAs for each case would be the same for both methods. As such, agreement between any two methods can be visually inspected from a scatterplot of the DFBetas. 
-
-
-%%
-%%Furthermore, these measures form the basis of the analysis, rather than the estimates derived from the model. In the context of method comparison, these variables are the methods of measurement. Agreement will considered in the context of inter-method bias and the within-item variance ratio. Between-item variance ratio is not considered for this analysis.
-
-Following the idea proposed by \citet{BA86}, an identity plot to visually inspect this relationship between sets of DFBETAs. Modern statistical software usually allows for the creation of co-plots, so a grid of identity plots may be easily rendered for comparing each pair of methods.
-
-If the lack of agreement is caused, in part or in full, by differing within-item variances, there would be differing DFBETAs for each pair of methods. If the points align along the line of equality, then both methods can be said to be in agreement for within item variance. However DFBETAs are not useful for determining inter-method bias. 
-
-If there is good agreement between methods, or if lack of agreement is caused by inter-method bias only, the DFBETA values will be almost identical for each subject. Therefore this plot should be used in conjunction with a Bland-Altman plot. If lack of agreement is indicated, a comprehensive analysis using Roy's framework can be used to formally test for various causes of lack of agreement \citep{ARoy2009}.
-
-
-
-For an LME model fitted to the Systolic Blood Pressure data, the results tabulated below can be produced.  Cases can be ranked by the Cook's Distance, with the top 6 being presented below). The remaining columns are the DFBeta for each of the fixed effects, for each of the 85 subject.
-\begin{center}
-\begin{tabular}{|c|c|c|c|c|} \hline
-Subject &    Cook's D  &    Method J  &   Method R  & Method S \\ \hline \hline
-78 & 0.6155 & -0.0293 & -0.0338 & 0.2954  \\ \hline
-80 & 0.4159 & -0.0630 & -0.0651 & 0.2123  \\ \hline
-68 & 0.2253 & -0.0533 & -0.0506 & 0.1555  \\ \hline
-72 & 0.0934  & 0.0238  & 0.0241 & 0.1617  \\ \hline
-48 & 0.0870  & 0.0214  & 0.0314 & 0.1581  \\ \hline
-30 & 0.0711  & 0.2692  & 0.2621 & 0.1581  \\ \hline
-\end{tabular}
-\end{center}
-For DFBETA identity plots are presented in Figure~\ref{fig:04-DFbetaplots}. This set of plots indicate agreement between methods J and R in terms of within-item variance, while severe lack of agreement exists between these methods and the third method S, as is the conclusion of \citet{ARoy2009}.
-\begin{figure}[h!]
-\centering
-\includegraphics[width=1.1\linewidth]{images/04-DFbetaplots}
-% \caption{}
-\label{fig:04-DFbetaplots}
-\end{figure}
-
-
-
-%Other analyses may be used to complement these plots. The Pearson Correlation coefficient of the DFBETAs can be used in conjection with this analysis. A high correlation confirms good agreement, thouhg no threshold value for agreement is suggested.
-
-The Bonferroni Outlier Test and Cook's Distance values can be used to identify unusual cases, when the relationship between sets of DFBETA is modelled as a (classical) linear model. In this model, the covariates should be homoskedastic. A test for non-constant variance may be used to verify this. 
-
-
-As an alternative to scatterplots, a mean difference plot could be used to assess agreement of with-item variance. This mean-difference plot differs from the Bland-Altman plot in that the plot is denominated in terms of DFBETA values, and not in measurement units. Here two of the three pairs of methods are compared on the same plot, red points indicate the J-R comparison while blue points are for the J-S comparison.
-
-\begin{figure}[h!
-]
-\centering
-\includegraphics[width=0.7\linewidth]{images/04-TMDplot}
-
-\end{figure}
-
-
-
-
-
-
-
+\bibliographystyle{chicago}
 \bibliography{2017bib}
 
 
-
 \end{document}
-
-
-%---------------------------------------------------------------------------------------------------%
-
-

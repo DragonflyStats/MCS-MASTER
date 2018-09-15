@@ -57,43 +57,39 @@
 
 
 \begin{document}	
-	\tableofcontents
+
 
 \section{Likelihood Ratio Test}
+A general method for comparing nested models fit by maximum liklihood is the liklihood ratio 
+test. 
+
+The likelihood ratio test is the procedure used to compare the fit of two models. For each candidate model,
+the `-2 log likelihood' (M2LL) is computed. The test statistic for each of the three
+hypothesis tests is the difference of the M2LL for each pair of models. If the p-value in each of the respective tests exceed as significance level chosen by the analyst, then
+the null model must be rejected.
+
 The first model acts as an alternative hypothesis to be compared against each of three other models, acting as null hypothesis models, successively. The models are compared using the likelihood ratio test. Likelihood ratio tests are a class of tests based on the comparison of the values of the likelihood functions of two candidate models. LRTs can be used to test hypotheses about covariance parameters or fixed effects parameters in the context of LMEs. The test statistic for the likelihood ratio test is the difference of the log-likelihood functions, multiplied by $-2$.
 
 The probability distribution of the test statistic is approximated by the $\chi^2$ distribution with ($\nu_{1} - \nu_{2}$) degrees of freedom, where $\nu_{1}$ and $\nu_{2}$ are the degrees of freedom of models 1 and 2 respectively. Each of these three test shall be examined in more detail shortly.
 
+A likelihood ratio test is perform to determine which model is more suitable. To perform this test, simply use the \texttt{anova} command with the names of the candidate models as arguments. The following piece of code implement the first of Roy's variability tests.
 
+The output will contain a p-value, and this should be used in conjunction with the AIC scores to judge which model is preferred. Lower AIC scores are better. 
 
-A general method for comparing nested models fit by maximum liklihood is the liklihood ratio 
-test. This test can be used for models fit by REML (restricted maximum liklihood), but only if the 
-fixed terms in the two models are invariant, and both models have been fit by REML. Otherwise, 
-the argument: method=”ML” must be employed (ML = maximum liklihood). 
-
-
-
-
-The output will contain a p-value, and this should be used in conjunction with the AIC scores to 
-judge which model is preferred. Lower AIC scores are better. 
-
-Generally, likelihood ratio tests should be used to evaluate the significance of terms on the 
-random effects portion of two nested models, and should not be used to determine the 
+Generally, likelihood ratio tests should be used to evaluate the significance of terms on the random effects portion of two nested models, and should not be used to determine the 
 significance of the fixed effects. 
 
-A simple way to more reliably test for the significance of fixed effects in an LME model is to use 
-conditional F-tests, as implemented with the simple \texttt{anova()} function. 
+A simple way to more reliably test for the significance of fixed effects in an LME model is to use conditional F-tests, as implemented with the simple \texttt{anova()} function. 
+
+This test can be used for models fit by REML (restricted maximum liklihood), but only if the fixed terms in the two models are invariant, and both models have been fit by REML. Otherwise, 
+the argument: \texttt{method=``ML"} must be employed (\texttt{ML = maximum likelihood}). 
 
 
 
 \subsection{LRTs with \texttt{R}}
 Likelihood ratio tests are very simple to implement in \texttt{R}, simply use the `\texttt{anova()}'
-commands. Sample output will be given for each variability test. The likelihood ratio
-test is the procedure used to compare the fit of two models. For each candidate model,
-the `-2 log likelihood' (M2LL) is computed. The test statistic for each of the three
-hypothesis tests is the difference of the M2LL for each pair of models. If the p-value
-in each of the respective tests exceed as significance level chosen by the analyst, then
-the null model must be rejected.
+commands. Sample output will be given for each variability test. 
+
 
 %
 %\begin{equation}
@@ -130,48 +126,12 @@ computed as the difference of the LRT degrees of freedom.
 		\hline 
 	\end{tabular} 
 \end{center}
-\begin{framed}
-	\begin{verbatim}
-	
-	#ANOVAs
-	test1 = anova(fit1,fit2) # Between-Subject Variabilities
-	test2 = anova(fit1,fit3) # Within-Subject Variabilities
-	test3 = anova(fit1,fit4) # Overall Variabilities
-	
-	\end{verbatim}
-\end{framed}
-
-To perform a likelihood ratio test for two candidate models, simply use the \texttt{anova()} command with the names of the candidate models as arguments. The following piece of code implement the first of Roy's variability tests.
-
-\begin{framed}
-	\begin{verbatim}
-	> anova(MCS1,MCS2)
-	Model df    AIC    BIC  logLik   Test L.Ratio p-value
-	MCS1     1  8 4077.5 4111.3 -2030.7
-	MCS2     2  7 4075.6 4105.3 -2030.8 1 vs 2 0.15291  0.6958
-	>
-	\end{verbatim}
-\end{framed}
-
-
-A likelihood ratio test is perform to determine which model is more suitable. To perform this test, simply use the \texttt{anova} command with the names of the candidate models as arguments. The following piece of code implement the first of Roy's variability tests.
-
-\begin{framed}
-	\begin{verbatim}
-	> anova(MCS1,MCS2)
-	Model df    AIC    BIC  logLik   Test L.Ratio p-value
-	MCS1     1  8 4077.5 4111.3 -2030.7
-	MCS2     2  7 4075.6 4105.3 -2030.8 1 vs 2 0.15291  0.6958
-	>
-	\end{verbatim}
-\end{framed}
-
-\subsection{Worked Eamples : Likelihood Ratio Tests}
-
 
 The likelihood Ratio test is very simple to implement in \texttt{R}. All that is required it to specify the reference model and the relevant nested mode as arguments to the command \texttt{anova()}.
 
 The figure below displays the three tests described by Roy (2009).
+
+To perform a likelihood ratio test for two candidate models, simply use the \texttt{anova()} command with the names of the candidate models as arguments. The following piece of code implement the first of Roy's variability tests.
 
 \begin{framed}
 	\begin{verbatim}
@@ -187,6 +147,9 @@ The figure below displays the three tests described by Roy (2009).
 	
 	\end{verbatim}
 \end{framed}
+
+
+
 \begin{framed}   
 	\begin{verbatim}
 	> anova(MCS1,MCS2)
@@ -196,6 +159,7 @@ The figure below displays the three tests described by Roy (2009).
 	MCS2     2  7 4075.6 4105.3 -2030.8 1 vs 2 0.15291  0.6958
 	\end{verbatim}
 \end{framed}
+
 
 
 \bibliographystyle{chicago}
