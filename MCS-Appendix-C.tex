@@ -68,6 +68,113 @@ rulesepcolor=\color{black},
 %\tableofcontents
 
 \chapter{Appendix C}
+
+\section{Demonstration of Roy's Model}
+The computation of the limits of agreement require that the variance of the difference of measurements. This variance is easily computable from the estimate of the ${\mbox{Block - }\boldsymbol \Omega_{i}}$ matrix. Lack of agreement can arise if there is a disagreement in overall variabilities. This may be due to due to the disagreement in either between-item variabilities or within-item variabilities, or both. \citet{ARoy2009} allows for a formal test of each.
+
+
+\citet{ARoy2009} proposes a LME based approach with Kronecker product covariance structure with doubly multivariate setup to
+assess the agreement between two methods. By doubly multivariate set up, Roy means that the information on each patient or item is multivariate at two levels, the number of methods and number of replicated measurements. Further to \citet{lam}, it is assumed that the replicates are linked over time. However it is easy to modify to the unlinked case. This approachs allows for unbalanced data, i.e. unequal numbers of replications for each subject.
+
+Response for $i$th subject can be written as
+\[ y_i = \beta_0 + \beta_1x_{i1} + \beta_2x_{i2} + b_{1i}z_{i1}  + b_{2i}z_{i2} + \epsilon_i \]
+\begin{itemize}
+	\item $\beta_1$ and $\beta_2$ are fixed effects corresponding to both methods. ($\beta_0$ is the intercept.)
+	\item $b_{1i}$ and $b_{2i}$ are random effects corresponding to both methods.
+\end{itemize}
+
+Overall variability between the two methods ($\Omega$) is sum of between-subject ($G$) and within-subject variability ($\Sigma$),
+\[
+\mbox{Block } \boldsymbol{\Omega}_i = \left[ \begin{array}{cc} d^2_1 & d_{12}\\ d_{12} & d^2_2\\ \end{array} \right]
++ \left[\begin{array}{cc} \sigma^2_1 & \sigma_{12}\\ \sigma_{12} & \sigma^2_2\\ \end{array}\right].
+\]
+
+
+
+In order to express Roy's LME model in matrix notation we gather all $2n_i$ observations specific to item $i$ into a single vector  $\boldsymbol{y}_{i} = (y_{1i1},y_{2i1},y_{1i2},\ldots,y_{mir},\ldots,y_{1in_{i}},y_{2in_{i}})^\prime.$ The LME model can be written
+\[
+\boldsymbol{y_{i}} = \boldsymbol{X_{i}\beta} + \boldsymbol{Z_{i}b_{i}} + \boldsymbol{\epsilon_{i}},
+\]
+where $\boldsymbol{\beta}=(\beta_0,\beta_1,\beta_2)^\prime$ is a vector of fixed effects, and $\boldsymbol{X}_i$ is a corresponding $2n_i\times 3$ design matrix for the fixed effects. The random effects are expressed in the vector $\boldsymbol{b}=(b_1,b_2)^\prime$, with $\boldsymbol{Z}_i$ the corresponding $2n_i\times 2$ design matrix. The vector $\boldsymbol{\epsilon}_i$ is a $2n_i\times 1$ vector of residual terms.
+
+It is assumed that $\boldsymbol{b}_i \sim N(0,\boldsymbol{G})$, $\boldsymbol{\epsilon}_i$ is a matrix of random errors distributed as $N(0,\boldsymbol{R}_i)$ and that the random effects and residuals are independent of each other.
+% Assumptions made on the structures of $\boldsymbol{G}$ and $\boldsymbol{R}_i$ will be discussed in due course.
+
+The maximum likelihood estimate of the between-subject variance covariance matrix of two methods is given as $G$. The estimate for
+the within-subject variance covariance matrix is $\hat{\Sigma}$. The estimated overall variance covariance matrix `Block
+$\Omega_{i}$' is the addition of $\hat{G}$ and $\hat{\Sigma}$.
+
+\begin{equation}
+\mbox{Block  }\Omega_{i} = \hat{G} + \hat{\Sigma}
+\end{equation}
+
+$\boldsymbol{G}$ is the variance covariance matrix for the random effects $\boldsymbol{b}$.
+i.e. between-item sources of variation. The between-item variance covariance matrix $\boldsymbol{G}$ is constructed as follows:
+
+\[ \mbox{Var}  \left[
+\begin{array}{c}
+b_1   \\
+b_2  \\
+\end{array}
+\right] =  \boldsymbol{G} =\left(
+\begin{array}{cc}
+g^2_1  & g_{12} \\
+g_{12} & g^2_2 \\
+\end{array}
+\right) \]
+It is important to note that no special assumptions about the structure of $\boldsymbol{G}$ are made. An example of such an assumption would be that $\boldsymbol{G}$ is the product of a scalar value and the identity matrix.
+
+$\boldsymbol{R}_{i}$ is the variance covariance matrix for the residuals, i.e. the within-item sources of variation between both methods. Computational analysis of linear mixed effects models allow for the explicit analysis of both $\boldsymbol{G}$ and $\boldsymbol{R_i}$.
+
+The overall variability between the two methods is the sum of between-item variability
+$\boldsymbol{G}$ and within-item variability $\boldsymbol{\Sigma}$. \citet{ARoy2009} denotes the overall variability
+as ${\mbox{Block - }\boldsymbol \Omega_{i}}$. The overall variation for methods $1$ and $2$ are given by
+
+\begin{center}
+	\[\left(\begin{array}{cc}
+	\omega^2_1  & \omega_{12} \\
+	\omega_{12} & \omega^2_2 \\
+	\end{array}  \right)
+	=  \left(
+	\begin{array}{cc}
+	g^2_1  & g_{12} \\
+	g_{12} & g^2_2 \\
+	\end{array} \right)+
+	\left(
+	\begin{array}{cc}
+	\sigma^2_1  & \sigma_{12} \\
+	\sigma_{12} & \sigma^2_2 \\
+	\end{array}\right)
+	\]
+\end{center}
+
+\section{Model Fit}
+
+
+This is a simple model, this time with an interaction effect.
+There is a fixed effect for each method. This model has random effects at two levels $b_{i}$ for the subject, and
+another, $b_{ij}$, for the respective method within each subject.
+\begin{equation*}
+y_{ijk} = \beta_{j}  + b_{i} + b_{ij} + \epsilon_{ijk}, \qquad i=1,\dots,2, j=1,\dots,85, k=1,\dots,3
+\end{equation*}
+\begin{eqnarray*}
+	b_{i} \sim \mathcal{N}(0,\sigma^2_{1}), \qquad b_{ij} \sim \mathcal{N}(0,\sigma^2_{2}), \qquad \epsilon_{i} \sim \mathcal{N}(0,\sigma^2)
+\end{eqnarray*}
+
+In this model, the random interaction terms all have the same variance $\sigma^2_{2}$. These terms are assumed to be independent of each other, even
+within the same subject.
+
+This model treats the random interactions for each subject as a vector and
+allows the variance-covariance matrix for that vector to be estimated from the set of all positive-definite matrices.
+$\boldsymbol{y_{i}}$ is the entire response vector for the $i$th subject.
+$\boldsymbol{X_{i}}$ and $\boldsymbol{Z_{i}}$  are the fixed- and random-effects design matrices respectively.
+\begin{equation*}
+\boldsymbol{y_{i}} = \boldsymbol{X_{i}\beta}  + \boldsymbol{Z_{i}b_{i}} + \boldsymbol{\epsilon_{i}}, \qquad i=1,\dots,85
+\end{equation*}
+\begin{eqnarray*}
+	\boldsymbol{Z_{i}} \sim \mathcal{N}(\boldsymbol{0,\Psi}),\qquad
+	\boldsymbol{\epsilon_{i}} \sim \mathcal{N}(\boldsymbol{0,\sigma^2\Lambda})
+\end{eqnarray*}
 \citet{ARoy2009} presents two nested models that specify the condition of equality as required, with a third nested model for an additional test. There three formulations share the same structure, and can be specified by making slight alterations of the code for the Reference Model.
 
  For these tests, four candidate LME models are constructed. The differences in the models are specifically in how the the $\boldsymbol{G}$ and $\Lambda$ matrices are constructed, using either an unstructured form or a compound symmetry form. To illustrate these differences, consider a generic matrix $A$,
@@ -115,60 +222,7 @@ The first of Roy's candidate model can be implemented using the following code;
 	\end{verbatim}
 \end{framed}
 
-\subsection{Model Fit 1}
 
-This is a simple model with no interactions. There is a fixed effect for each method and a random effect for each subject.
-\begin{equation*}
-y_{ijk} = \beta_{j}  + b_{i} + \epsilon_{ijk}, \qquad i=1,\dots,2, j=1,\dots,85, k=1,\dots,3
-\end{equation*}
-
-\begin{eqnarray*}
-	b_{i} \sim \mathcal{N}(0,\sigma^2_{b}), \qquad \epsilon_{i} \sim \mathcal{N}(0,\sigma^2)
-\end{eqnarray*}
-
-
-\begin{framed}
-	\begin{verbatim}
-	Linear mixed-effects model fit by REML
-	Data: dat
-	Log-restricted-likelihood: -2155.853
-	Fixed: BP ~ method
-	(Intercept)     methodS
-	127.40784    15.61961
-	
-	Random effects:
-	Formula: ~1 | subject
-	(Intercept) Residual
-	StdDev:    29.39085 12.44454
-	
-	Number of Observations: 510
-	Number of Groups: 85
-	\end{verbatim}
-\end{framed}
-The following output was obtained.
-
-\begin{verbatim}
-Linear mixed-effects model fit by REML
-Data: dat
-Log-restricted-likelihood: -2047.714
-Fixed: BP ~ method
-(Intercept)     methodS
-127.40784    15.61961
-
-Random effects:
-Formula: ~1 | subject
-(Intercept)
-StdDev:    28.28452
-
-Formula: ~1 | method %in% subject
-(Intercept) Residual
-StdDev:    12.61562 7.763666
-
-Number of Observations: 510
-Number of Groups:
-subject method %in% subject
-85                 170
-\end{verbatim}
 
 Using this \texttt{R} implementation for other data sets requires that the data set is structured appropriately (i.e.\ each case of observation records the index, response, method and replicate). Once formatted properly, implementation is simply a case of re-writing the first line of code, and computing the four candidate models accordingly.
 
@@ -188,22 +242,6 @@ Residual  6.115
 Similarly, for computing the limits of agreement the standard deviation of the differences is not explicitly given. Again, A simple \texttt{R} function can be written to calculate the limits of agreement directly.
 
 
-
-
-This is a simple model, this time with an interaction effect.
-There is a fixed effect for each method. This model has random effects at two levels $b_{i}$ for the subject, and
-another, $b_{ij}$, for the respective method within each subject.
-\begin{equation*}
-y_{ijk} = \beta_{j}  + b_{i} + b_{ij} + \epsilon_{ijk}, \qquad i=1,\dots,2, j=1,\dots,85, k=1,\dots,3
-\end{equation*}
-\begin{eqnarray*}
-	b_{i} \sim \mathcal{N}(0,\sigma^2_{1}), \qquad b_{ij} \sim \mathcal{N}(0,\sigma^2_{2}), \qquad \epsilon_{i} \sim \mathcal{N}(0,\sigma^2)
-\end{eqnarray*}
-
-In this model, the random interaction terms all have the same variance $\sigma^2_{2}$. These terms are assumed to be independent of each other, even
-within the same subject.
-
-\newpage
 \subsection{Inter-method Bias}
 This bias is specified as a fixed effect in the LME model.  For a practitioner who has a reasonable level of competency in R and undergraduate statistics (in particular simple linear regression model) this is a straight-forward procedure.
 
@@ -219,18 +257,18 @@ Conventionally LME models can be tested using Likelihood Ratio Tests, wherein a 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
-\section{Variability Test 1: Within –item Variability}
+
+\section{Variability Test 1: Within-Item Variability}
 
 
-Next, the first variability test is carried out, yielding maximum likelihood estimates of the between-subject variance covariance matrix, for both the null model, in compound symmetry (CS) form, and the alternative model in symmetric (symm) form. 
+Next, the first variability test is carried out, yielding maximum likelihood estimates of the within-item variance covariance matrix, for both the null model, in compound symmetry (CS) form, and the alternative model in symmetric (symm) form. 
 \begin{framed}
 \begin{verbatim}
-> NMW.fit = lme(y ~ meth-1, data = dat,   #Symm , CS# 
-+     random = list(item=pdSymm(~ meth-1)),
-+     weights=varIdent(form=~1|meth), 
-+     correlation = corCompSymm(form=~1 | item/repl), 
-+     method="ML")
+NMW.fit = lme(y ~ meth-1, data = dat,   #Symm , CS# 
+     random = list(item=pdSymm(~ meth-1)),
+     weights=varIdent(form=~1|meth), 
+     correlation = corCompSymm(form=~1 | item/repl), 
+     method="ML")
 \end{verbatim}
 \end{framed}
 
@@ -295,12 +333,13 @@ With the alternative model the MLE is as follows:
 The second candidate model `MCS2' is implemented with the same code as MCS1, except for the term \texttt{pdCompSymm} in the second line, rather than \texttt{pdSymm}.
 
 \begin{framed}
-	\begin{verbatim}
-	test1.nlme = lme(BP ~ method-1, data = dat,
-	random = list(subject=pdCompSymm(~ method-1)),
-	weights = varIdent(form=~1|method),
-	correlation = corSymm(form=~1 | subject/obs), method="ML")
-	\end{verbatim}
+\begin{verbatim}
+NMW.Fit = lme(y ~ meth-1, data = dat,   #Symm , CS# 
+  random = list(item=pdSymm(~ meth-1)),
+  # weights=varIdent(form=~1|meth), 
+  correlation = corCompSymm(form=~1 | item/repl), 
+  method="ML")
+\end{verbatim}
 \end{framed}
 
 The outcome of this test is that it can be assumed that they have equal
@@ -323,24 +362,24 @@ The test statistic is the difference of the $-2$ log likelihoods; $0.153$. The $
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\section{Variability Test 2: Between Subject Variances}
-This is a test on whether both methods $A$ and $B$ have the same between-subject variability or not.
+\section{Variability Test 2: Between-Item Variances}
+This is a test on whether both methods $A$ and $B$ have the same between-item variability or not.
 \begin{eqnarray}
 H_{0}: \mbox{ }g_{A}  = g_{B} \\
 H_{A}: \mbox{ }g_{A}  \neq g_{B}
 \end{eqnarray}
-When implemented using \texttt{R}, this test is facilitated by constructing a model specifying a symmetric form for $\boldsymbol{G}$ (i.e. the alternative model) and comparing it with a model that has compound symmetric form for $\boldsymbol{G}$ (i.e. the null model). For this test $\boldsymbol{\hat{\Sigma}}$ has a symmetric form for both models, and will be the same for both.
+When implemented using \texttt{R}, this test is facilitated by constructing a model specifying a symmetric form for $\boldsymbol{G}$ (i.e. the alternative model) and comparing it with a model that has compound symmetric form for $\boldsymbol{G}$ (i.e. the null model). For this test $\boldsymbol{\hat{\Sigma}}$ has a symmetric form for both models, and will result in the same estimate for both.
 
 
-For example, the first test model `\texttt{NMB.fit}' is implemented with the same code as \texttt{ref.nlme}, except for the term \texttt{pdCompSymm} in the second line, rather than \texttt{pdSymm}.
+For example, the first test model `\texttt{NMB.fit}' is implemented with the same code as \texttt{Ref.Fit}, except for the term \texttt{pdCompSymm} in the second line, rather than \texttt{pdSymm}.
 
 \subsection{Nested Model (Between-Item Variability)}
 \begin{framed}
 \begin{verbatim}
-> NMB.fit  = lme(y ~ meth-1, data = dat,   #CS , Symm#
-+     random = list(item=pdCompSymm(~ meth-1)),
-+     correlation = corSymm(form=~1 | item/repl), 
-+     method="ML")
+NMB.fit  = lme(y ~ meth-1, data = dat,   #CS , Symm#
+     random = list(item=pdCompSymm(~ meth-1)),
+     correlation = corSymm(form=~1 | item/repl), 
+     method="ML")
 \end{verbatim}
 \end{framed}
 
@@ -366,16 +405,17 @@ With the refence model the MLE is as follows:
 For the blood pressure data used in \citet{ARoy2009}, all four candidate models are implemented by slight variations of this piece of code, specifying either \texttt{pdSymm} or \texttt{pdCompSymm} in the second line, and either \texttt{corSymm} or \texttt{corCompSymm} in the fourth line.
 
 
-The fixed effects estimates are the same for all four candidate models. The inter-method bias can be easily determined by inspecting a summary of any model. The summary presents estimates for all of the important parameters, but not the complete variance-covariance matrices (although some simple \texttt{R} functions can be written to overcome this). The variance estimates for the random effects for \texttt{test1.nlme} is presented below.
+The fixed effects estimates are the same for all four candidate models. The inter-method bias can be easily determined by inspecting a summary of any model. The summary presents estimates for all of the important parameters, but not the complete variance-covariance matrices (although some simple \texttt{R} functions can be written to overcome this). The variance estimates for the random effects for \texttt{NMW.Fit} is presented below.
 
 \begin{framed}
 	\begin{verbatim}
 	Random effects:
 	Formula: ~method - 1 | subject
 	Structure: Compound Symmetry
-	StdDev Corr
+	
+	         StdDev  Corr
 	methodJ  30.765
-	methodS  30.765 0.829
+	methodS  30.765  0.829
 	Residual  6.115
 	\end{verbatim}
 \end{framed}
@@ -385,33 +425,19 @@ Similarly, for computing the limits of agreement the standard deviation of the d
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Variability Test 3: Overall Variability}
-Additionally there is a third nested model, that can be used to test overall variability, substantively a a joint test for between-item and within-item variability. The motivation for including such a test in the suite is not clear, although it does circumvent the need for multiple comparison procedures in certain circumstances, hence providing a simplified procedure for non-statisticians.
+The last of the three variability tests is carried out to compare the overall variabilities of both methods. A third nested model is used to test overall variability, substantively a joint test for between-item and within-item variability. 
+
+The motivation for including such a test in the suite is not clear, although it does circumvent the need for multiple comparison procedures in certain circumstances, hence providing a simplified procedure for non-statisticians.
 
 \begin{framed}
-	\begin{verbatim}
-	> NMO.fit = lme(y ~ meth-1, data = dat,   #CS , CS# 
-	+     random = list(item=pdCompSymm(~ meth-1)), 
-	+     correlation = corCompSymm(form=~1 | item/repl), 
-	+     method="ML")
-	\end{verbatim}
+\begin{verbatim}
+NMO.fit = lme(y ~ meth-1, data = dat,   #CS , CS# 
+  random = list(item=pdCompSymm(~ meth-1)), 
+  correlation = corCompSymm(form=~1 | item/repl), 
+  method="ML")
+\end{verbatim}
 \end{framed}
 
-\subsection{Model Fit 3}
-
-This model is a more general model, compared to 'model fit 2'. This model treats the random interactions for each subject as a vector and
-allows the variance-covariance matrix for that vector to be estimated from the set of all positive-definite matrices.
-$\boldsymbol{y_{i}}$ is the entire response vector for the $i$th subject.
-$\boldsymbol{X_{i}}$ and $\boldsymbol{Z_{i}}$  are the fixed- and random-effects design matrices respectively.
-\begin{equation*}
-\boldsymbol{y_{i}} = \boldsymbol{X_{i}\beta}  + \boldsymbol{Z_{i}b_{i}} + \boldsymbol{\epsilon_{i}}, \qquad i=1,\dots,85
-\end{equation*}
-\begin{eqnarray*}
-	\boldsymbol{Z_{i}} \sim \mathcal{N}(\boldsymbol{0,\Psi}),\qquad
-	\boldsymbol{\epsilon_{i}} \sim \mathcal{N}(\boldsymbol{0,\sigma^2\Lambda})
-\end{eqnarray*}
-
-\subsection{Test 3}
-The last of the three variability tests is carried out to compare the overall variabilities of both methods.
 With the null model the MLE of the within-subject variance covariance matrix is given below. The overall variabilities for the null and alternative models, respectively, are determined to be as follows;
 \[
 \boldsymbol{\hat{\Omega}}_{CS} = \left( \begin{array}{cc}
@@ -434,13 +460,10 @@ H_{0}: \mbox{ }\sigma_{A}  = \sigma_{B} \\
 H_{A}: \mbox{ }\sigma_{A}  = \sigma_{B}
 \end{eqnarray}
 
-The null model is constructed a symmetric form for both $\boldsymbol{\hat{D}}$ and $\boldsymbol{\hat{\Lambda}}$ while the alternative model uses a compound symmetry form for both.
-
-
-With the null model the MLE of the within-subject variance covariance matrix is given below.
+The null model is constructed a symmetric form for both $\boldsymbol{\hat{G}}$ and $\boldsymbol{\hat{\Sigma}}$ while the alternative model uses a compound symmetry form for both. With the null model the MLE of the within-subject variance covariance matrix is given below.
 
 \begin{equation}
-\boldsymbol{\hat{\Sigma}_{Symm}} = \left( \begin{array}{cc}
+\boldsymbol{\hat{\Omega}_{Symm}} = \left( \begin{array}{cc}
 961.38 & 801.40  \\
 801.40 & 1054.43  \\
 \end{array}\right)
@@ -448,7 +471,7 @@ With the null model the MLE of the within-subject variance covariance matrix is 
 
 With the alternative model the MLE is as follows:
 \begin{equation}
-\boldsymbol{\hat{\Sigma}_{CS}} = \left( \begin{array}{cc}
+\boldsymbol{\hat{\Omega}_{CS}} = \left( \begin{array}{cc}
 1007.92  & 801.65  \\
 801.65  & 1007.92  \\
 \end{array}\right)
@@ -456,6 +479,11 @@ With the alternative model the MLE is as follows:
 
 
 The test statistic is the difference of the $-2$ log likelihoods; $28.884$. The $p-$value is less than $0.0001$. We again reject the null hypothesis. Each model has a different overall variability, a foregone conclusion from the second variability test.
+
+
+\newpage
+
+\section{Issue of Tractability}
 
 
 \bibliographystyle{chicago}
