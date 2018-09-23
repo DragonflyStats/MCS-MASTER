@@ -70,7 +70,6 @@ rulesepcolor=\color{black},
 \chapter{Appendix C}
 
 \section{Demonstration of Roy's Model}
-The computation of the limits of agreement require that the variance of the difference of measurements. This variance is easily computable from the estimate of the ${\mbox{Block - }\boldsymbol \Omega_{i}}$ matrix. Lack of agreement can arise if there is a disagreement in overall variabilities. This may be due to due to the disagreement in either between-item variabilities or within-item variabilities, or both. \citet{ARoy2009} allows for a formal test of each.
 
 
 \citet{ARoy2009} proposes a LME based approach with Kronecker product covariance structure with doubly multivariate setup to
@@ -148,21 +147,6 @@ as ${\mbox{Block - }\boldsymbol \Omega_{i}}$. The overall variation for methods 
 	\]
 \end{center}
 
-\section{Model Fit}
-
-
-This is a simple model, this time with an interaction effect.
-There is a fixed effect for each method. This model has random effects at two levels $b_{i}$ for the subject, and
-another, $b_{ij}$, for the respective method within each subject.
-\begin{equation*}
-y_{ijk} = \beta_{j}  + b_{i} + b_{ij} + \epsilon_{ijk}, \qquad i=1,\dots,2, j=1,\dots,85, k=1,\dots,3
-\end{equation*}
-\begin{eqnarray*}
-	b_{i} \sim \mathcal{N}(0,\sigma^2_{1}), \qquad b_{ij} \sim \mathcal{N}(0,\sigma^2_{2}), \qquad \epsilon_{i} \sim \mathcal{N}(0,\sigma^2)
-\end{eqnarray*}
-
-In this model, the random interaction terms all have the same variance $\sigma^2_{2}$. These terms are assumed to be independent of each other, even
-within the same subject.
 
 This model treats the random interactions for each subject as a vector and
 allows the variance-covariance matrix for that vector to be estimated from the set of all positive-definite matrices.
@@ -175,6 +159,7 @@ $\boldsymbol{X_{i}}$ and $\boldsymbol{Z_{i}}$  are the fixed- and random-effects
 	\boldsymbol{Z_{i}} \sim \mathcal{N}(\boldsymbol{0,\Psi}),\qquad
 	\boldsymbol{\epsilon_{i}} \sim \mathcal{N}(\boldsymbol{0,\sigma^2\Lambda})
 \end{eqnarray*}
+
 \citet{ARoy2009} presents two nested models that specify the condition of equality as required, with a third nested model for an additional test. There three formulations share the same structure, and can be specified by making slight alterations of the code for the Reference Model.
 
  For these tests, four candidate LME models are constructed. The differences in the models are specifically in how the the $\boldsymbol{G}$ and $\Lambda$ matrices are constructed, using either an unstructured form or a compound symmetry form. To illustrate these differences, consider a generic matrix $A$,
@@ -188,297 +173,40 @@ a_{21} & a_{22}  \\
 
 A symmetric matrix allows the diagonal terms $a_{11}$ and $a_{22}$ to differ. The compound symmetry structure requires that both of these terms be equal, i.e $a_{11} = a_{22}$.
 
-\section{Roy's Variability Tests}
-For the blood pressure data used in \citet{ARoy2009}, all four candidate models are implemented by slight variations of this piece of code, specifying either \texttt{pdSymm} or \texttt{pdCompSymm} in the second line, and either \texttt{corSymm} or \texttt{corCompSymm} in the fourth line.
 
 
 
-Variability tests proposed by \citet{ARoy2009} affords the opportunity to expand upon Carstensen's approach.
-
-The first test allows of the comparison the within-subject variability of two methods. Similarly, the second test
-assesses the between-subject variability of two methods. A third test is a test that compares the overall variability of the two methods.
-
-The tests are implemented by fitting a specific LME model, and three variations thereof, to the data. These three variant models introduce equality constraints that act null hypothesis cases.
-
-
-For the blood pressure data used in \citet{ARoy2009}, all four candidate models are implemented by slight variations of this piece of code, specifying either \texttt{pdSymm} or \texttt{pdCompSymm} in the second line, and either \texttt{corSymm} or \texttt{corCompSymm} in the fourth line.
 
 
 
-Using this \texttt{R} implementation for other data sets requires that the data set is structured appropriately (i.e.\ each case of observation records the index, response, method and replicate). Once formatted properly, implementation is simply a case of re-writing the first line of code, and computing the four candidate models accordingly.
-
-
-Other important aspects of the method comparison study are consequent. The limits of agreement are computed using the results of the first model.
-
-\section{Reference Model}
-The first of Roy's candidate model can be implemented using the following code;
-\begin{framed}
-	\begin{verbatim}
-	> Ref.Fit = lme(y ~ meth-1, data = dat,   #Symm , Symm#
-	+     random = list(item=pdSymm(~ meth-1)), 
-	+     weights=varIdent(form=~1|meth),
-	+     correlation = corSymm(form=~1 | item/repl), 
-	+     method="ML")
-	\end{verbatim}
-\end{framed}
 
 
 
-Using this \texttt{R} implementation for other data sets requires that the data set is structured appropriately (i.e.\ each case of observation records the index, response, method and replicate). Once formatted properly, implementation is simply a case of re-writing the first line of code, and computing the four candidate models accordingly.
 
 
-The fixed effects estimates are the same for all four candidate models. The inter-method bias can be easily determined by inspecting a summary of any model. The summary presents estimates for all of the important parameters, but not the complete variance-covariance matrices (although some simple \texttt{R} functions can be written to overcome this). The variance estimates for the random effects for \texttt{NMW.fit} is presented below.
-
-\begin{verbatim}
-Random effects:
-Formula: ~method - 1 | subject
-Structure: Compound Symmetry
-StdDev Corr
-methodJ  30.765
-methodS  30.765 0.829
-Residual  6.115
-\end{verbatim}
-
-Similarly, for computing the limits of agreement the standard deviation of the differences is not explicitly given. Again, A simple \texttt{R} function can be written to calculate the limits of agreement directly.
 
 
-\subsection{Inter-method Bias}
-This bias is specified as a fixed effect in the LME model.  For a practitioner who has a reasonable level of competency in R and undergraduate statistics (in particular simple linear regression model) this is a straight-forward procedure.
-
-A formal test for inter-method bias can be implemented by examining the fixed effects of the model. This is common to well known classical linear model methodologies. The null hypotheses, that both methods have the same mean, which is tested against the alternative hypothesis, that both methods have different means.
-
-The inter-method bias and necessary $t-$value and $p-$value are presented in computer output. A decision on whether the first of Roy's criteria is fulfilled can be based on these values.
 
 
-The inter-method bias between the two method is found to be $15.62$ , with a $t-$value of $-7.64$, with a $p-$value of less than $0.0001$. Consequently there is a significant inter-method bias present between methods $J$ and $S$, and the first of the Roy's three agreement criteria is unfulfilled.
-
-\section{Likelihood Ratio Tests}
-Conventionally LME models can be tested using Likelihood Ratio Tests, wherein a reference model is compared to a nested model.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Variability Test 1: Within-Item Variability}
-
-
-Next, the first variability test is carried out, yielding maximum likelihood estimates of the within-item variance covariance matrix, for both the null model, in compound symmetry (CS) form, and the alternative model in symmetric (symm) form. 
-\begin{framed}
-\begin{verbatim}
-NMW.fit = lme(y ~ meth-1, data = dat,   #Symm , CS# 
-     random = list(item=pdSymm(~ meth-1)),
-     weights=varIdent(form=~1|meth), 
-     correlation = corCompSymm(form=~1 | item/repl), 
-     method="ML")
-\end{verbatim}
-\end{framed}
-
-These matrices are determined to be as follows;
-\[
-\boldsymbol{\hat{G}}_{CS} = \left( \begin{array}{cc}
-946.50 & 784.32  \\
-784.32 & 946.50  \\
-\end{array}\right),
-\hspace{1.5cm}
-\boldsymbol{\hat{G}}_{Symm} = \left( \begin{array}{cc}
-923.98 & 785.24  \\
-785.24 & 971.30  \\
-\end{array}\right).
-\]
-
-A likelihood ratio test is perform to compare both candidate models. The log-likelihood of the null model is $-2030.7$, and for the alternative model $-2030.8$. The test statistic, presented with greater precision than the log-likelihoods, is $0.1592$. The $p-$value is $0.6958$. Consequently we fail to reject the null model, and by extension, conclude that the hypothesis that methods $J$ and $S$ have the same between-subject variability. Thus the second of the criteria is fulfilled.
-
-\subsection{Variability Test 1}
-
-This is a test on whether both methods $A$ and $B$ have the same within-subject variability or not.
-
-\begin{eqnarray}
-H_{0}: \mbox{ }\sigma_{A}  = \sigma_{B} \\
-H_{A}: \mbox{ }\sigma_{A}  = \sigma_{B}
-\end{eqnarray}
-
-This model is performed in the same manner as the first test, only reversing the roles of $\boldsymbol{\hat{G}}$ and $\boldsymbol{\hat{\Sigma}}$. The null model is constructed  a symmetric form for $\boldsymbol{\hat{\Sigma}}$ while the alternative model uses a compound symmetry form. This time $\boldsymbol{\hat{G}}$ has a symmetric form for both models, and will be the same for both.
 \subsection{Test 1}
-The first variability test determines maximum likelihood estimates of the within-subject variance covariance matrix, for both the reference model, in CS form, and the alternative model in symmetric form.
-
-For the null model the MLE of the within-subject variance covariance matrix is given below.
-
-\begin{equation}
-\boldsymbol{\hat{\Sigma}_{Symm}} = \left( \begin{array}{cc}
-37.40 & 16.06  \\
-16.06 & 83.14  \\
-\end{array}\right)
-\end{equation}
-With the alternative model the MLE is as follows:
-
-\begin{equation}
-\boldsymbol{\hat{\Sigma}_{CS}} = \left( \begin{array}{cc}
-60.27  & 16.06  \\
-16.06  & 60.27  \\
-\end{array}\right)
-\end{equation}
-
-
-\[
-\boldsymbol{\hat{\Sigma}_{CS}} = \left( \begin{array}{cc}
-60.27  & 16.06  \\
-16.06  & 60.27  \\
-\end{array}\right),
-\hspace{1.5cm}
-\boldsymbol{\hat{\Sigma}}_{Symm} = \left( \begin{array}{cc}
-37.40 & 16.06  \\
-16.06 & 83.14  \\
-\end{array}\right).
-\]
-
-The second candidate model `MCS2' is implemented with the same code as MCS1, except for the term \texttt{pdCompSymm} in the second line, rather than \texttt{pdSymm}.
-
-\begin{framed}
-\begin{verbatim}
-NMW.Fit = lme(y ~ meth-1, data = dat,   #Symm , CS# 
-  random = list(item=pdSymm(~ meth-1)),
-  # weights=varIdent(form=~1|meth), 
-  correlation = corCompSymm(form=~1 | item/repl), 
-  method="ML")
-\end{verbatim}
-\end{framed}
-
-The outcome of this test is that it can be assumed that they have equal
-The test statistic is the difference of the $-2$ log likelihoods; $28.617$. The $p-$value is less than $0.0001$. In this case we reject the null hypothesis that both models have the same within-subject variabilities.
 
 
 
-A likelihood ratio test is perform to compare both candidate models. The log-likelihood of the alternative model model is $-2045.0$. As before, the null model has a log-likelihood of $-2030.7$. The test statistic is computed as $28.617$, again presented with greater precision. The $p-$value is less than $0.0001$. In this case we reject the null hypothesis of equal within-subject variability. Consequently the third of Roy's criteria is unfulfilled.
-\begin{framed}
-\begin{verbatim}
-> anova(MCS1,MCS2)
->
-Model df    AIC    BIC  logLik   Test L.Ratio p-value
-MCS1     1  8 4077.5 4111.3 -2030.7
-MCS2     2  7 4075.6 4105.3 -2030.8 1 vs 2 0.15291  0.6958
-\end{verbatim}
-\end{framed}
 
-The test statistic is the difference of the $-2$ log likelihoods; $0.153$. The $p-$value is $0.696$. Therefore we fail to reject the hypothesis that both have the same between-subject variabilities.
+
+
+
+
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
-\section{Variability Test 2: Between-Item Variances}
-This is a test on whether both methods $A$ and $B$ have the same between-item variability or not.
-\begin{eqnarray}
-H_{0}: \mbox{ }g_{A}  = g_{B} \\
-H_{A}: \mbox{ }g_{A}  \neq g_{B}
-\end{eqnarray}
-When implemented using \texttt{R}, this test is facilitated by constructing a model specifying a symmetric form for $\boldsymbol{G}$ (i.e. the alternative model) and comparing it with a model that has compound symmetric form for $\boldsymbol{G}$ (i.e. the null model). For this test $\boldsymbol{\hat{\Sigma}}$ has a symmetric form for both models, and will result in the same estimate for both.
 
 
-For example, the first test model `\texttt{NMB.fit}' is implemented with the same code as \texttt{Ref.Fit}, except for the term \texttt{pdCompSymm} in the second line, rather than \texttt{pdSymm}.
-
-\subsection{Nested Model (Between-Item Variability)}
-\begin{framed}
-\begin{verbatim}
-NMB.fit  = lme(y ~ meth-1, data = dat,   #CS , Symm#
-     random = list(item=pdCompSymm(~ meth-1)),
-     correlation = corSymm(form=~1 | item/repl), 
-     method="ML")
-\end{verbatim}
-\end{framed}
 
 
-With the alternative model, the MLE of the between-subject variance covariance matrix $\boldsymbol{G}$ is given by
-\begin{equation}
-\boldsymbol{\hat{G}_{Symm}} = \left( \begin{array}{cc}
-923.98 & 785.24  \\
-785.24 & 971.30  \\
-\end{array}\right)
-\end{equation}
 
-With the refence model the MLE is as follows:
-
-\begin{equation}
-\boldsymbol{\hat{G}_{CS}} = \left( \begin{array}{cc}
-946.50 & 784.32  \\
-784.32 & 946.50  \\
-\end{array}\right)
-\end{equation}
-
-
-For the blood pressure data used in \citet{ARoy2009}, all four candidate models are implemented by slight variations of this piece of code, specifying either \texttt{pdSymm} or \texttt{pdCompSymm} in the second line, and either \texttt{corSymm} or \texttt{corCompSymm} in the fourth line.
-
-
-The fixed effects estimates are the same for all four candidate models. The inter-method bias can be easily determined by inspecting a summary of any model. The summary presents estimates for all of the important parameters, but not the complete variance-covariance matrices (although some simple \texttt{R} functions can be written to overcome this). The variance estimates for the random effects for \texttt{NMW.Fit} is presented below.
-
-\begin{framed}
-	\begin{verbatim}
-	Random effects:
-	Formula: ~method - 1 | subject
-	Structure: Compound Symmetry
-	
-	         StdDev  Corr
-	methodJ  30.765
-	methodS  30.765  0.829
-	Residual  6.115
-	\end{verbatim}
-\end{framed}
-
-Similarly, for computing the limits of agreement the standard deviation of the differences is not explicitly given. Again, a simple \texttt{R} function can be written to calculate the limits of agreement directly.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
-\section{Variability Test 3: Overall Variability}
-The last of the three variability tests is carried out to compare the overall variabilities of both methods. A third nested model is used to test overall variability, substantively a joint test for between-item and within-item variability. 
-
-The motivation for including such a test in the suite is not clear, although it does circumvent the need for multiple comparison procedures in certain circumstances, hence providing a simplified procedure for non-statisticians.
-
-\begin{framed}
-\begin{verbatim}
-NMO.fit = lme(y ~ meth-1, data = dat,   #CS , CS# 
-  random = list(item=pdCompSymm(~ meth-1)), 
-  correlation = corCompSymm(form=~1 | item/repl), 
-  method="ML")
-\end{verbatim}
-\end{framed}
-
-With the null model the MLE of the within-subject variance covariance matrix is given below. The overall variabilities for the null and alternative models, respectively, are determined to be as follows;
-\[
-\boldsymbol{\hat{\Omega}}_{CS} = \left( \begin{array}{cc}
-1007.92  & 801.65  \\
-801.65  & 1007.92  \\
-\end{array}\right),
-\hspace{1.5cm}
-\boldsymbol{\hat{\Omega}}_{Symm} = \left( \begin{array}{cc}
-961.38 & 801.40  \\
-801.40 & 1054.43  \\
-\end{array}\right),
-\]
-
-The log-likelihood of the alternative model model is $-2045.2$, and again, the null model has a log-likelihood of $-2030.7$. The test statistic is $28.884$, and the $p-$value is less than $0.0001$. The null hypothesis, that both methods have equal overall variability, is rejected. Further to the second variability test, it is known that this difference is specifically due to the difference of within-subject variabilities.
-
-
-This is a test on whether both methods $A$ and $B$ have the same overall variability or not.
-\begin{eqnarray}
-H_{0}: \mbox{ }\sigma_{A}  = \sigma_{B} \\
-H_{A}: \mbox{ }\sigma_{A}  = \sigma_{B}
-\end{eqnarray}
-
-The null model is constructed a symmetric form for both $\boldsymbol{\hat{G}}$ and $\boldsymbol{\hat{\Sigma}}$ while the alternative model uses a compound symmetry form for both. With the null model the MLE of the within-subject variance covariance matrix is given below.
-
-\begin{equation}
-\boldsymbol{\hat{\Omega}_{Symm}} = \left( \begin{array}{cc}
-961.38 & 801.40  \\
-801.40 & 1054.43  \\
-\end{array}\right)
-\end{equation}
-
-With the alternative model the MLE is as follows:
-\begin{equation}
-\boldsymbol{\hat{\Omega}_{CS}} = \left( \begin{array}{cc}
-1007.92  & 801.65  \\
-801.65  & 1007.92  \\
-\end{array}\right)
-\end{equation}
-
-
-The test statistic is the difference of the $-2$ log likelihoods; $28.884$. The $p-$value is less than $0.0001$. We again reject the null hypothesis. Each model has a different overall variability, a foregone conclusion from the second variability test.
 
 
 \newpage
