@@ -1,0 +1,168 @@
+% http://www.jstor.org/discover/10.2307/2347496?uid=3738232&uid=2&uid=4&sid=21102779496553
+% http://lme4.r-forge.r-project.org/slides/2011-03-16-Amsterdam/3Profiling.pdf
+
+% -------------------------------------------------------------------------------------------- %
+
+The method of constructing confidence regions based on the generalised likelihood ratio statistic is well 
+known for parameter vectors. A similar construction of a confidence interval for a single entry of a vector 
+can be implemented by repeatedly maximising over the other parameters. 
+
+We present an algorithm for finding these confidence interval endpoints that requires less computation. 
+It employs a modified Newton-Raphson iteration to solve a system of equations that defines the endpoints.
+
+% -------------------------------------------------------------------------------------------- %
+Parameter estimates and conﬁdence intervals for linear mixed-effects models
+Hani Nakhoul
+http://stat.ethz.ch/education/semesters/ss2010/seminar/04_slides.pdf
+
+% -------------------------------------------------------------------------------------------- %
+
+	\section{Two-tailed testing} A test for equality of variances, based on the likelihood Ratio test, is very simple to implement using existing methodologies. All that is required it to specify the reference model and the relevant nested mode as arguments to the command \texttt{anova()}. The output can be interpreted in the usual way.
+	
+	\section{One Tailed Testing}
+	The approach proposed by Roy deals with the question of agreement, and indeed interchangeability, as developed by Bland and Altman's corpus of work. In the view of Dunn, a question relevant to many practitioners is which of the two methods is more precise.
+	
+	The relationship between precision and the within-item and between-item variability must be established. Roy establishes the equivalence of repeatability and within-item variability, and hence precision.  The method with the smaller within-item variability can be deemed to be the more precise.
+	
+	\section{Enabling One Tailed Testing}
+	A useful approach is to compute the confidence intervals for the ratio of within-item standard deviations (equivalent to the ratio of repeatability coefficients), which can be interpreted in the usual manner ( or alternatively, the ratio of the variances). In fact, the ratio of within-item standard deviations, with the attendant confidence interval,  can be determined using a single \texttt{R} command: \texttt{intervals()}.
+	
+	Pinheiro and Bates (pg 93-95) give a description of how confidence intervals for the variance components are computed. Furthermore a complete set of confidence intervals can be computed to complement the variance component estimates.
+	However , to facilitate one tailed testing, What is required is the computation of the variance ratios of within-item and between-item standard deviations.
+	
+	A naïve approach would be to compute the variance ratios by relevant F distribution quantiles. However, the question arises as to the appropriate degrees of freedom. However, Douglas Bates has stated that an alternative approach is required (i.e. Profile Likelihoods)
+	
+	\begin{quote}
+		"The omission of standard errors on variance components is intentional.
+		The distribution of an estimator of a variance component is highly
+		skewed and obtaining an estimate of the standard deviation of a skewed
+		distribution is not very useful.  A much better approach is based on
+		profiling the objective function." (Douglas Bates May 2012)
+	\end{quote}
+	
+	
+	\section{Profile Likelihood}
+	Normal-based confidence intervals for a parameter of interest are inaccurate when the sampling distribution of the estimate is skewed. The technique known as profile likelihood can produce confidence intervals with better coverage. It may be used when the model includes only the variable of interest or several other variables in addition. Profile-likelihood confidence intervals are particularly useful in nonlinear models.
+	
+	Profile likelihood confidence intervals are based on the log-likelihood function.  
+	%For a single parameter, likelihood theory shows that the 2 points 1.92 units down from the maximum of the log-likelihood function provide a $95\%$ confidence interval when there is no extrabinomial variation (i.e. c = 1)..  The value 1.92 is half of the chi-square value of 3.84 with 1 degree of freedom.
+	
+	%Thus, the same confidence interval can be computed with the deviance by adding 3.84 to the minimum of the deviance function, where the deviance is the log-likelihood multiplied by -2 minus the -2 log likelihood value of the saturated model.
+	
+	\section{Implementation of PL Confidence Intervals}
+	
+	The suitable calculation of confidence limits for this variance ratio are to be computed using the profile likelihood approach. The \texttt{R} package \texttt{profilelikelihood} will be assessed for feasibility, particularly the command \texttt{profilelikelihood.lme()}
+	
+	
+	Normal-based condence intervals for a parameter of interest are inaccurate when the sampling 
+	distribution of the estimate is skewed. The technique known as profile likelihood can produce confidence 
+	intervals with better coverage. It may be used when the model includes only the variable of interest or 
+	several other variables in addition.
+	Profile-likelihood confidence intervals are particularly useful in nonlinear models. 
+	Profile likelihood confidence intervals are based on the log-likelihood function.
+	
+	%http://cran.r-project.org/web/packages/ProfileLikelihood/ProfileLikelihood.pdf
+	
+	%http://lme4.r-forge.r-project.org/slides/2011-03-16-Amsterdam/3Profiling.pdf
+	
+	%http://lme4.r-forge.r-project.org/slides/2009-07-21-Seewiesen/4PrecisionD.pdf
+	
+	
+	
+
+
+
+
+	%---------------------------------------------------------------------%
+	\section{Confounded Residuals}
+	Hilden-Minton (1995, PhD thesis, UCLA): residual is pure for a specific type of error if it depends only on the fixed components and
+	on the error that it is supposed to predict	Residuals that depend on other types of errors are called \textit{\textbf{confounded
+			residuals}}
+	This code will allow you to make QQ plots for each level of the random effects.  LME models assume that not only the within-cluster residuals are normally distributed, but that each level of the random effects are as well. Depending on the model, you can vary the level from 0, 1, 2 and so on
+	\begin{framed}
+		\begin{verbatim}
+		qqnorm(JS.roy1, ~ranef(.))
+		
+		# 	qqnorm(JS.roy1, ~ranef(.,levels=1)
+		\end{verbatim}
+	\end{framed}
+	%====================================================================%
+	This code will allow you to make QQ plots for each level of the random effects.  LME models assume that not only the within-cluster residuals are normally distributed, but that each level of the random effects are as well. Depending on the model, you can vary the level from 0, 1, 2 and so on
+	\begin{framed}
+		\begin{verbatim}
+		qqnorm(JS.roy1, ~ranef(.))
+		
+		# 	qqnorm(JS.roy1, ~ranef(.,levels=1)
+		\end{verbatim}
+	\end{framed}
+
+%-------------------------------------------------------------------Simplifying GLS by KH -%
+
+%---------------------------------------------------------------------------------------------------%
+\newpage
+
+\section{Two-tailed testing} A test for equality of variances, based on the likelihood Ratio test, is very simple to implement using existing methodologies. All that is required it to specify the reference model and the relevant nested mode as arguments to the command \texttt{anova()}. The output can be interpreted in the usual way.
+
+\section{One Tailed Testing}
+The approach proposed by Roy deals with the question of agreement, and indeed interchangeability, as developed by Bland and Altman's corpus of work. In the view of Dunn, a question relevant to many practitioners is which of the two methods is more precise.
+
+The relationship between precision and the within-item and between-item variability must be established. Roy establishes the equivalence of repeatability and within-item variability, and hence precision.  The method with the smaller within-item variability can be deemed to be the more precise.
+
+\section{Enabling One Tailed Testing}
+A useful approach is to compute the confidence intervals for the ratio of within-item standard deviations (equivalent to the ratio of repeatability coefficients), which can be interpreted in the usual manner ( or alternatively, the ratio of the variances). In fact, the ratio of within-item standard deviations, with the attendant confidence interval,  can be determined using a single \texttt{R} command: \texttt{intervals()}.
+
+Pinheiro and Bates (pg 93-95) give a description of how confidence intervals for the variance components are computed. Furthermore a complete set of confidence intervals can be computed to complement the variance component estimates.
+However , to facilitate one tailed testing, What is required is the computation of the variance ratios of within-item and between-item standard deviations.
+
+A naive approach would be to compute the variance ratios by relevant F distribution quantiles. However, the question arises as to the appropriate degrees of freedom. However, Douglas Bates has stated that an alternative approach is required (i.e. Profile Likelihoods)
+
+\begin{quote}
+	"The omission of standard errors on variance components is intentional.
+	The distribution of an estimator of a variance component is highly
+	skewed and obtaining an estimate of the standard deviation of a skewed
+	distribution is not very useful.  A much better approach is based on
+	profiling the objective function." (Douglas Bates May 2012)
+\end{quote}
+
+
+\section{Profile Likelihood}
+Normal-based confidence intervals for a parameter of interest are inaccurate when the sampling distribution of the estimate is skewed. The technique known as profile likelihood can produce confidence intervals with better coverage. It may be used when the model includes only the variable of interest or several other variables in addition. Profile-likelihood confidence intervals are particularly useful in nonlinear models.
+
+Profile likelihood confidence intervals are based on the log-likelihood function.  
+%For a single parameter, likelihood theory shows that the 2 points 1.92 units down from the maximum of the log-likelihood function provide a $95\%$ confidence interval when there is no extrabinomial variation (i.e. c = 1)..  The value 1.92 is half of the chi-square value of 3.84 with 1 degree of freedom.
+
+%Thus, the same confidence interval can be computed with the deviance by adding 3.84 to the minimum of the deviance function, where the deviance is the log-likelihood multiplied by -2 minus the -2 log likelihood value of the saturated model.
+
+\section{Implementation of PL Confidence Intervals}
+
+The suitable calculation of confidence limits for this variance ratio are to be computed using the profile likelihood approach. The \texttt{R} package \texttt{profilelikelihood} will be assessed for feasibility, particularly the command \texttt{profilelikelihood.lme()}
+
+
+
+%http://cran.r-project.org/web/packages/ProfileLikelihood/ProfileLikelihood.pdf
+
+%http://lme4.r-forge.r-project.org/slides/2011-03-16-Amsterdam/3Profiling.pdf
+
+%http://lme4.r-forge.r-project.org/slides/2009-07-21-Seewiesen/4PrecisionD.pdf
+
+
+
+%---------------------------------------------------------------------------%
+\newpage
+\section{Extension of techniques to LME Models} %1.2
+
+Model diagnostic techniques, well established for classical models, have since been adapted for use with linear mixed effects models.Diagnostic techniques for LME models are inevitably more difficult to implement, due to the increased complexity.
+
+Beckman, Nachtsheim and Cook (1987) \citet{Beckman} applied the \index{local influence}local influence method of Cook (1986) to the analysis of the linear mixed model.
+
+While the concept of influence analysis is straightforward, implementation in mixed models is more complex. Update formulae for fixed effects models are available only when the covariance parameters are assumed to be known.
+
+If the global measure suggests that the points in $U$ are influential, the nature of that influence should be determined. In particular, the points in $U$ can affect the following
+
+\begin{itemize}
+	\item the estimates of fixed effects,
+	\item the estimates of the precision of the fixed effects,
+	\item the estimates of the covariance parameters,
+	\item the estimates of the precision of the covariance parameters,
+	\item fitted and predicted values.
+\end{itemize}

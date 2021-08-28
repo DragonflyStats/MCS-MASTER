@@ -1,0 +1,199 @@
+\documentclass[MAIN.tex]{subfiles}
+
+% Load any packages needed for this document
+\begin{document}
+\section{Laird Ware}
+	\citet{LW82} provides a form of notation for notation for LME models that has since become the standard form, or the basis for more complex formulations. Due to computation complexity, linear mixed effects models have not seen widespread use until many well known statistical software applications began facilitating them. SAS Institute added PROC MIXED to its software suite in 1992 \citep{singer}. \citet{PB} described how to compute LME models in the \texttt{S-plus} environment.
+	
+	Using Laird-Ware form, the LME model is commonly described in matrix form,
+	\begin{equation}
+	y = X\beta + Zb + \epsilon
+	\label{LW}
+	\end{equation}
+	
+	\noindent where $y$ is a vector of $N$ observable random variables, $\beta$ is a vector of $p$ fixed effects, $X$ and $Z$ are $N \times p$ and $N \times q$ known matrices, and $b$ and $\epsilon$  are vectors of $q$ and $N,$ respectively, random effects such that $\mathrm{E}(b)=0, \ \mathrm{E}(\epsilon)=0$
+	and
+	\[
+	\mathrm{var}
+	\left(
+	\begin{array}{c}
+	b \\
+	\epsilon \\
+	\end{array}
+	\right)
+	=
+	\left(
+	\begin{array}{cc}
+	D & 0 \\
+	0 & \Sigma \\
+	\end{array}
+	\right)
+	\]
+	
+	
+	
+	
+	where $D$ and $\Sigma$ are positive definite matrices parameterized by an unknown variance component parameter vector $ \theta.$ The variance-covariance matrix for the vector of observations $y$ is given by $V = ZDZ^{\prime}+ \Sigma.$ This implies $y \sim(X\beta, V) = (X\beta,ZDZ^{\prime}+ \Sigma)$. It is worth noting that $V$ is an $n \times n$ matrix, as the dimensionality becomes relevant later on. The notation provided here is generic, and will be adapted to accord with complex formulations that will be encountered in due course.
+
+\section{Matrix Formulation} There are matrix (i.e multivariate)
+formulations of both fixed effects models and random effects
+models. \citet{BrownPrescott} remarks that the matrix notation
+makes the underlying theory of mixed effects models much easier to
+work with. The fixed effects models can be specified as follows;
+
+\begin{equation}
+\textbf{Y} = \textbf{Xb} + \textbf{e}
+\end{equation}
+
+\textbf{Y} is the vector of $n$ observations, with dimension $n
+\times 1$. \textbf{b} is a vector of fixed $p$ effects, and has
+dimension $p \times 1$. It is composed of coefficients, with the
+first element being the population mean. For the skin tumour
+example, with the three specified fixed effects, $p=4$. \textbf{X}
+is known as the design `matrix', model matrix for fixed effects,
+and comprises $0$s or $1$s, depending on whether the relevant
+fixed effects have any effect on the observation is question.
+\textbf{X} has dimension $n \times p$. \textbf{e} is the vector of
+residuals with dimension $n \times 1$.
+
+The random effects models can be specified similarly. \textbf{Z}
+is known as the `model matrix for random effects', and also
+comprises $0$s or $1$s. It has dimension $n \times q$. \textbf{u}
+is a vector of random $q$ effects, and has dimension $q \times 1$.
+
+\begin{equation}
+\textbf{Y} = \textbf{Zu} + \textbf{e}
+\end{equation}
+
+Again, once the component fixed effects and random effects
+components are considered, progression to a mixed model
+formulation is a simple step. Further to \citet{LW82}, it is
+conventional to formulate a mixed effects model in matrix form as
+follows:
+
+\begin{equation}
+\textbf{Y} = \textbf{Xb} + \textbf{Zu} + \textbf{e}
+\end{equation}
+
+($E(\textbf{u})=0$, $E(\textbf{e})=0 $ and $E(\textbf{y}) =
+\textbf{Xb}$)
+
+\section{Statement of the LME model}
+A linear mixed effects model is a linear mdoel that combined fixed and random effect terms formulated by \citet{LW82} as follows;
+
+\begin{displaymath}
+Y_{i} =X_{i}\beta + Z_{i}b_{i} + \epsilon_{i}
+\end{displaymath}
+\begin{itemize}
+	
+	\item $Y_{i}$ is the $n \times 1$ response vector \item $X_{i}$ is
+	the $n \times p$ Model matrix for fixed effects \item $\beta$ is
+	the $p \times 1$ vector of fixed effects coefficients \item
+	$Z_{i}$ is the $n \times q$ Model matrix for random effects \item
+	$b_{i}$ is the $q \times 1$ vector of random effects coefficients,
+	sometimes denoted as $u_{i}$ \item $\epsilon$ is the $n \times 1$
+	vector of observation errors
+\end{itemize}
+
+
+The linear mixed effects model is given by
+\begin{equation}
+Y = X\beta + Zu + \epsilon
+\end{equation}
+
+
+
+
+\subsection{Stating the LME Model}
+The general linear mixed
+model is
+\[
+Y = X\beta + Zu + \varepsilon\]
+where Y is a $(n\times1)$ vector of observed data, X is an $(n\times p)$ fixed-effects design or regressor matrix of rank
+k, Z is a $(n \times g)$ random-effects design or regressor matrix, $u$ is a $(g \times 1)$ vector of random effects, and $\varepsilon$ is
+an $(n\times1)$ vector of model errors (also random effects). The distributional assumptions made by the MIXED
+procedure are as follows: γ is normal with mean 0 and variance G; $\varepsilon$ is normal with mean 0 and variance
+R; the random components $u$ and $\varepsilon$ are independent. Parameters of this model are the fixed-effects β and
+all unknowns in the variance matrices G and R. The unknown variance elements are referred to as the
+covariance parameters and collected in the vector $theta$.
+%===========================================================================%
+
+The concept of critiquing the model-data agreement applies in mixed models in the same way as in linear
+fixed-effects models. In fact, because of the more complex model structure, you can argue that model and
+data diagnostics are even more important. For example, you are not only concerned with capturing the
+important variables in the model. You are also concerned with “distributing” them correctly between the
+fixed and random components of the model. The mixed model structure presents unique and interesting
+challenges that prompt us to reexamine the traditional ideas of influence and residual analysis.
+%==========================================================================%
+This paper presents the extension of traditional tools and statistical measures for influence and residual
+analysis to the linear mixed model and demonstrates their implementation in the MIXED procedure (experimental
+features in SAS 9.1). The remainder of this paper is organized as follows. The “Background” section
+briefly discusses some mixed model estimation theory and the challenges to model diagnosis that result
+from it.
+
+%	 The diagnostics implemented in the MIXED procedure are discussed in the “Residual Diagnostics
+%	in the MIXED Procedure” section (page 3) and the “Influence Diagnostics in the MIXED Procedure” section
+%	(page 5). The syntax options and suboptions you use to request the various diagnostics are briefly sketched
+%	in the “Syntax” section (page 9). The presentation concludes with an example.
+%	
+%	
+%--------------------------------------------------------------------------------------%
+\subsection{Laird Ware Formulation}
+\begin{equation*}
+\boldsymbol{y_{i}} = \boldsymbol{X_{i}\beta}  + \boldsymbol{Z_{i}b_{i}} + \boldsymbol{\epsilon_{i}}, \qquad i=1,\dots,85
+\end{equation*}
+\begin{eqnarray*}
+	\boldsymbol{Z_{i}} \sim \mathcal{N}(\boldsymbol{0,\Psi}),\qquad
+	\boldsymbol{\epsilon_{i}} \sim \mathcal{N}(\boldsymbol{0,\sigma^2\Lambda})
+\end{eqnarray*}
+
+
+
+
+
+\subsection{Stating the LME Model}
+The general linear mixed
+model is
+\[
+Y = X\beta + Zu + \varepsilon\]
+where Y is a $(n\times1)$ vector of observed data, X is an $(n\times p)$ fixed-effects design or regressor matrix of rank
+k, Z is a $(n \times g)$ random-effects design or regressor matrix, $u$ is a $(g \times 1)$ vector of random effects, and $\varepsilon$ is
+an $(n\times1)$ vector of model errors (also random effects). The distributional assumptions made by the MIXED
+procedure are as follows: γ is normal with mean 0 and variance G; $\varepsilon$ is normal with mean 0 and variance
+R; the random components $u$ and $\varepsilon$ are independent. Parameters of this model are the fixed-effects β and
+all unknowns in the variance matrices G and R. The unknown variance elements are referred to as the
+covariance parameters and collected in the vector $theta$.
+%===========================================================================%
+
+The concept of critiquing the model-data agreement applies in mixed models in the same way as in linear
+fixed-effects models. In fact, because of the more complex model structure, you can argue that model and
+data diagnostics are even more important. For example, you are not only concerned with capturing the
+important variables in the model. You are also concerned with “distributing” them correctly between the
+fixed and random components of the model. The mixed model structure presents unique and interesting
+challenges that prompt us to reexamine the traditional ideas of influence and residual analysis.
+%==========================================================================%
+This paper presents the extension of traditional tools and statistical measures for influence and residual
+analysis to the linear mixed model and demonstrates their implementation in the MIXED procedure (experimental
+features in SAS 9.1). The remainder of this paper is organized as follows. The “Background” section
+briefly discusses some mixed model estimation theory and the challenges to model diagnosis that result
+from it.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\bibliographystyle{chicago}
+\bibliography{DB-txfrbib}
+\end{document}

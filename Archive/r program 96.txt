@@ -1,0 +1,111 @@
+#U=6.260
+#U=5.82
+U=7.15
+k=1
+#l=14
+#l=19
+l=9
+cx=(U*k)/(U*k+l)
+
+cx
+#0.2478226
+
+
+bx=beta((k/2),(l/2))
+#0.582673
+integrand=function(u){(u^((k/2)-1))*((1-u)^((l/2)-1))}
+#integrate(integrand, lower = 0, upper = 1)
+#0.582673 with absolute error < 8e-05
+K=integrate(integrand, lower = 0, upper = cx)$value
+K
+# 0.5700587
+Int=K/bx
+Int=Int*pf(U,1,14)
+Int
+
+##########################################################
+#1,14 =6.26
+#1,19 = 5.82
+#1,9 = 7.15
+
+
+N = 1000
+M=10000
+
+sum1=0
+sum2=0
+for (j in 1:N)
+{
+x=rf(M,1,9)
+y=rf(M,1,9)
+z=x
+for(k in 1:M){z[k]=max(x[k],y[k])}
+
+sum1=sum1+quantile(z,0.95)
+sum2=sum2+quantile(z,0.5)
+
+}
+sum1=sum1/N
+sum2=sum2/N
+sum1
+sum2
+
+sum1=0
+sum2=0
+for (j in 1:N)
+{
+x=rf(M,1,14)
+y=rf(M,1,14)
+z=x
+for(k in 1:M){z[k]=max(x[k],y[k])}
+quantile(z,0.95)
+sum1=sum1+quantile(z,0.95)
+sum2=sum2+quantile(z,0.5)
+
+}
+sum1=sum1/N
+sum2=sum2/N
+sum1
+sum2
+
+sum1=0
+sum2=0
+for (j in 1:N)
+{
+x=rf(M,1,19)
+y=rf(M,1,19)
+z=x
+for(k in 1:M){z[k]=max(x[k],y[k])}
+quantile(z,0.95)
+sum1=sum1+quantile(z,0.95)
+sum2=sum2+quantile(z,0.5)
+
+}
+sum1=sum1/N
+sum2=sum2/N
+sum1
+sum2
+
+
+#######################################################
+
+     95% 
+7.176059 
+
+     50% 
+1.246335 
+
+
+
+     95% 
+6.250248 
+
+     50% 
+1.195045
+
+
+     95% 
+5.896761 
+
+     50% 
+1.169938 

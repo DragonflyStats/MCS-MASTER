@@ -1,0 +1,364 @@
+\documentclass[MAIN.tex]{subfiles}
+
+% Load any packages needed for this document
+\begin{document}
+	\chapter{Bradley Blackwood}
+	%----------------------------------------------------------------------------------------------------------------------%
+\section{Simple Linear Regression}
+
+% 1.A. Use of SLR, description of SLR as Model I
+% 1.B. Inappropriate for MCS
+% 1.C  Calibration and Conversion problems
+
+
+
+
+Simple linear regression calculates a line of best fit for two
+sets of data, n which the independent variable, X, is measured without error, with y as the dependent variable.  
+
+SLR (Model I) regression is considered by many \citet{BA83,CornCoch,ludbrook97} to be wholly unsuitable for
+method comparison studies, although recommended for use in calibration studies \citep{CornCoch}. Even in the case where one
+method is a gold standard , it is disputed as to whether it is a valid approach. Model II regression is more suitable for method comparison studies, but it is more difficult to execute. Both Model I and II regression models are unduly influenced by outliers. Regression Models can not be used to analyze repeated measurements
+
+
+
+
+\subsubsection{The Identity Plot} This is a simple graphical approach, advocated by \citet{BA86}, that yields a cursory examination of how well the measurement methods agree. In the case of good agreement, the co-variates of the plot accord closely with the $X=Y$ line.
+
+\subsubsection{Advantages of Regression Approaches for MCS}
+\begin{itemize}
+	\item These methods can be employed in conversion problems.
+	\item Bland and Altman have stated that regression analysis offers insights into MCS problems.
+\end{itemize}
+\subsubsection{Disadvantages}
+\begin{itemize}
+	\item Regression methods are uninformative about the variability of the differences.
+\end{itemize}
+
+\begin{itemize}\item
+	Regression methods can determine the presence of bias, and the levels of constant bias and proportional bias thereof \cite{ludbrook97,ludbrook02}.
+\end{itemize}
+
+	\section{Blackwood Bradley Model} 
+	
+	\citet{BB89} have developed a regression based procedure for
+	assessing the agreement. This approach performs a simultaneous test for the equivalence of
+	means and variances of the respective methods. Using simple linear
+	regression of the differences of each pair against the sums, a
+	line is fitted to the model, with estimates for intercept and
+	slope ($\hat{\beta}_{0}$ and $\hat{\beta}_{1}$).
+	%We have identified
+	%this approach  to be examined to see if it can be used as a %foundation for a test perform a test on
+	%means and variances individually.
+	\begin{equation}
+	D = (X_{1}-X_{2})
+	\end{equation}
+	\begin{equation}
+	M = (X_{1} + X_{2}) /2
+	\end{equation}
+	The Bradley Blackwood Procedure fits D on M as follows:\\
+	\begin{equation}
+	D = \beta_{0} + \beta_{1}M
+	\end{equation}
+	This technique offers a formal simultaneous hypothesis test for the
+	mean and variance of two paired data sets.  The null
+	hypothesis of this test is that the mean ($\mu$) and variance
+	($\sigma^{2}$) of both data sets are equal if the slope and
+	intercept estimates are equal to zero(i.e $\sigma^{2}_{1} =
+	\sigma^{2}_{2}$ and $\mu_{1}=\mu_{2}$ if and only if $\beta_{0}=
+	\beta_{1}=0$ )
+	
+	A test statistic is then calculated from the regression analysis
+	of variance values \citep{BB89} and is distributed as `$F$' random
+	variable. The degrees of freedom are $\nu_{1}=2$ and $\nu_{1}=n-2$
+	(where $n$ is the number of pairs). The critical value is chosen
+	for $\alpha\%$ significance with those same degrees of freedom.
+	\citet{Bartko} amends this approach for use in method
+	comparison studies, using the averages of the pairs, as opposed to
+	the sums, and their differences. This approach can facilitate
+	simultaneous usage of test with the Bland-Altman approach.
+	Bartko's test statistic take the form:
+	\[ F.test = \frac{(\Sigma d^{2})-SSReg}{2MSReg}
+	\]
+	% latex table generated in R 2.6.0 by xtable 1.5-5 package
+	% Mon Aug 31 15:53:51 2009
+	\begin{table}[h!]
+		\begin{center}
+			\begin{tabular}{lrrrrr}
+				\hline
+				& Df & Sum Sq & Mean Sq & F value & Pr($>$F) \\
+				\hline
+				Averages & 1 & 0.04 & 0.04 & 0.74 & 0.4097 \\
+				Residuals & 10 & 0.60 & 0.06 &  &  \\
+				\hline
+			\end{tabular}
+			\caption{Regression ANOVA of case-wise differences and averages
+				for Grubbs Data}
+		\end{center}
+	\end{table}
+	%(calculate using R code $qf(0.95,2,10)$).
+	
+	For the Grubbs data, $\Sigma d^{2}=5.09 $, $SSReg = 0.60$ and
+	$MSreg=0.06$ Therefore the test statistic is $37.42$, with a
+	critical value of $4.10$. Hence the means and variance of the
+	Fotobalk and Counter chronometers are assumed to be simultaneously
+	equal.
+	
+	Importantly, this approach determines whether there is both
+	inter-method bias and precision present, or alternatively if there
+	is neither present. It has previously been demonstrated that there
+	is a inter-method bias present, but as this procedure does not
+	allow for separate testing, no conclusion can be drawn on the
+	comparative precision of both methods.
+	
+	
+	\section{Bartko's Bradley-Blackwood Test}
+
+	\begin{itemize}
+		\item The Bradley Blackwood test is a simultaneous test for bias and
+		precision. They propose a regression approach which fits D on M,
+		where D is the difference and average of a pair of results.
+		\item Both beta values, the intercept and slope, are derived from the respective means and
+		standard deviations of their respective data sets.
+		\item We determine if the respective means and variances are equal if
+		both beta values are simultaneously equal to zero. The Test is
+		conducted using an F test, calculated from the results of a
+		regression of D on M.
+		\item We have identified this approach  to be examined to see if it can
+		be used as a foundation for a test perform a test on means and
+		variances individually.
+		\item Russell et al have suggested this method be used in conjunction
+		with a paired t-test , with estimates of slope and intercept.
+	\end{itemize}
+	
+	
+\section*{Bartko's Discussion of BB}
+
+Let $y = X_1 - X_2$ and $x= (X_1 - X_2)/2$.
+The Bradley-Blackwood procedure fits $y$ on $x$, such that
+\[ y = \beta_0 + \beta_1x \]
+
+The slope and intercepte are given bu
+
+\[\beta_1 =  \frac{(\sigma^2_1 = \sigma^2_2)}{2\sigma^2_x}\]
+%------------------------------------------------%
+
+
+	\section{Bradley-Blackwood Test (Kevin Hayes Talk)}
+	%--------------------------------------------------------------------%
+	% KH - UW
+	
+	This work considers the problem of testing $\mu_1$ = $\mu_2$ and $\sigma^2_1 = \sigma^2_2$ using a random sample from a bivariate normal distribution with parameters $(\mu_1, \mu_2, \sigma^2_1, \sigma^2_2, \rho)$. 
+	
+	The new contribution is a decomposition of the Bradley-Blackwood test statistic (\textit{Bradley and Blackwood, 1989})for the simultaneous test of {$\mu_1$ = $\mu_2$; $\sigma^2_1 = \sigma^2_2$}  as a sum of two statistics. 
+	
+	One is equivalent to the Pitman-Morgan (\textit{Pitman, 1939; Morgan, 1939}) test statistic 
+	for $\sigma^2_1 = \sigma^2_2$ and the other one is a new alternative to the standard paired-t test of $\mu_D = \mu_1 = \mu_2 = 0$. 
+	
+	Surprisingly, the classic Student paired-t test makes no assumptions about the equality (or otherwise) of the 
+	variance parameters. 
+	
+	The power functions for these tests are quite easy to derive, and show that when $\sigma^2_1 = \sigma^2_2$, 
+	the paired t-test has a slight advantage over the new alternative in terms of power, but when $\sigma^2_1 \neq \sigma^2_2$, the 
+	new test has substantially higher power than the paired-t test.
+	
+	While Bradley and Blackwood provide a test on the joint hypothesis of equal means and equal variances their regression based approach does not separate these two issues.
+	
+	The rejection of the joint hypothesis may be 
+	due to two groups with unequal means and unequal variances; unequal means and equal variances, or equal means and unequal variances. We propose an approach for resolving this (model selection) problem in a manner controlling the magnitudes of the relevant type I error probabilities.
+	
+	
+	
+	
+
+	\section{Conclusions about Existing Methodologies}
+	
+	The Bland Altman methodology is well noted for its ease of use,
+	and can be easily implemented with most software packages. Also it
+	doesn't require the practitioner to have more than basic
+	statistical training. The plot is quite informative about the
+	variability of the differences over the range of measurements. For
+	example, an inspection of the plot will indicate the 'fan effect'.
+	They also can be used to detect the presence of an outlier.
+	
+	\citet{ludbrook97,ludbrook02} criticizes these plots on the
+	basis that they presents no information on effect of constant bias
+	or proportional bias. These plots are only practicable when both
+	methods measure in the same units. Hence they are totally
+	unsuitable for conversion problems. The limits of agreement are
+	somewhat arbitrarily constructed. They may or may not be suitable
+	for the data in question. It has been found that the limits given
+	are too wide to be acceptable. There is no guidance on how to deal
+	with outliers. Bland and Altman recognize effect they would have
+	on the limits of agreeement, but offer no guidance on how to
+	correct for those effects.
+	
+	There is no formal testing procedure provided. Rather, it is upon
+	the practitioner opinion to judge the outcome of the methodology.
+	
+	
+	
+	
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%9 Appendix                  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	
+	%
+	%\section{Contention }
+	%Several papers have commented that this approach is undermined
+	%when the basic assumptions underlying linear regression are not
+	%met, the regression equation, and consequently the estimations of
+	%bias are undermined. Outliers are a source of error in regression
+	%estimates.In method comparison studies, the X variable is a
+	%precisely measured reference method. Cornbleet Gochman (1979)
+	%argued that criterion may be regarded as the correct value. Other
+	%papers dispute this.
+	%
+	
+	
+	
+	%
+	%
+	%\section{A regression based approach based on Bland Altman Analysis}
+	%Lu et al used such a technique in their comparison of DXA
+	%scanners. They also used the Blackwood Bradley test. However it
+	%was shown that, for particular comparisons,  agreement between
+	%methods was indicated according to one test, but lack of agreement
+	%was indicated by the other.
+	
+	
+	
+	\section*{Bartko's Ellipse}
+	
+	\[ \frac{x - \bar{x}}{\sigma^2_x} - \frac{2\rho(x - \bar{x})(y - \bar{y})}{\sigma_x \sigma_y} + \frac{y - \bar{y}}{\sigma^2_y} = \chi^2(2df_(1-\rho^2) \]
+	%------------------------------------------------%
+	
+	
+
+	\section{A regression based approach based on Bland Altman Analysis}
+	Bland and Altman have stated that regression analysis offers insights into method comparison studies. Regression methods can determine the presence of bias, and the levels of constant bias and proportional bias thereof \cite{ludbrook97,ludbrook02}.
+	While they are informative about inter-method bias, Regression methods offer the analyst no insights into the relative precision of both methods. These methods can be employed in conversion problems, however errors are
+	attended.
+	\citet{lu2001} used such a technique in their comparison of DXA scanners. They also used the Blackwood Bradley test. However it was shown that, for particular comparisons, agreement between methods was indicated according to one test, but lack of agreement was indicated by the other.
+	
+
+	
+	\section*{Remarks}
+	\begin{itemize}
+		\item Pearson's Correlation of (x,y) is the same as Pitman's correlation of sums and differences.
+		
+		\item Techniques for plotting an ellipse can be found in Douglas Altman's book.
+	\end{itemize}
+	%------------------------------------------------%
+
+	\section{KP}
+	Most residual covariance structures are design for one
+	within-subject factor. However two or more may be present. For
+	such cases, an approppriate approach would be the residual
+	covariance structure using Kronecker product of the underlying
+	within-subject factor specific covariances structure.
+	
+
+
+
+\section{Bartko and Blackwood Bradley}
+
+The Bradley Blackwood procedure is a simultaneous test for equality of the variance and mean of a pair of data sets. 
+A linear regression is fitted according to the sums and differences.
+The null hypothesis is that mean and variance of both methods equal.
+%The test statistic is provided in \BB89
+%The critical value is an F value at \alpha % significance, withdegrees of freedom 2 and n-2, where n is the number of paired values.
+
+
+
+
+
+It was amended by Bartko to be uses in the Method comparison study.
+
+It is noticeably a simultaneous test for bias and precision. If I It is uninformative about either both of these properties on their own.
+
+
+
+
+\chapter{REGRESSION}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Regression
+
+\section{Constant and Proportional Bias}
+
+Linear Regression is a commonly used technique for comparing paired assays. The Intercept and Slope can provide estimates for the constant bias and proportional bias occurring between both methods. If the basic assumptions underlying linear regression are not met, the regression equation, and consequently the estimations
+of bias are undermined. Outliers are a source of error in regression estimates.
+
+Constant or proportional bias in method comparison studies using linear regression can be detected by an individual test on the intercept or the slope of the line regressed from the results of the two methods to be compared.
+
+
+
+
+
+
+
+\section{Regression Approaches to MCS}
+%============================================ %
+- This section of the paper will discuss several regression-based techniques for method comparison study, 
+such as *Deming Regression*. 
+- This section will highlight several useful characteristics of the data that 
+regression based techniques may highlight, and also the limitations of these techniques.
+
+
+
+
+
+
+\subsection{Passing and Bablok (1983) }
+Passing \& Bablok have described a linear regression model that are without the usual assumptions regarding the distribution of
+the samples and the measurement errors. The result does not depend on the assignment of the methods (or instruments) to X and Y.
+
+
+
+The slope B and intercept A are calculated with their 95\% confidence interval. These confidence intervals are used to determine whether there is only a chance difference between B and 1 and between A and 0.
+
+
+ The slope and intercept  are calculated with their 95\% confidence interval.Hypothesis tests on the slope and intercept maybe then
+carried out.\\
+
+If the hypothesis of the intercept is rejected, then it is concluded that it is significant different from $0$ and both
+raters differ at least by a constant amount.
+	\\
+If the hypothesis of the slope is rejected, then it is concluded that the slope is significant different from $1$ and there is at
+least a proportional difference between the two raters.
+
+
+% www.medcalc.be
+% MCR package
+
+
+\subsection{Passing and bablok}
+proposed an linear regression procedure with no special assumptions regarding the distribution of the data.
+This non parametric method is based on ranking the observatons so it is computationally intensive.
+The result is independent of the assignment of the reference method (X) and the reference method (Y).
+
+\textit{" a new biometric method procedure for testing the equality of measurements from two different analytical methods"
+J Clin. Chem Clin.BioChem. [21], 709-720 (1983)}
+
+The presence of bias may impair agreement between the two analytical methods.
+
+types of bias
+
+\begin{itemize}
+	\item constant bais
+	\item proportionl bias
+\end{itemize}
+%-------------------------------------------------------------------------------%
+
+
+
+
+
+
+\addcontentsline{toc}{section}{Bibliography}
+
+%--------------------------------------------------------------------------------------%
+
+\bibliographystyle{chicago}
+\bibliography{2017bib}
+\end{document}

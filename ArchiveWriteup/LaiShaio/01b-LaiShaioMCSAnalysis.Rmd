@@ -1,0 +1,31 @@
+---
+title: "LiaShaio"
+author: "Kevin O'Brien"
+date: "Tuesday, August 25, 2015"
+output: html_document
+---
+
+```{r}
+#using package NLME
+library(nlme)
+library(lme4)
+source("data/BloodData.R")
+```
+
+```{r}
+head(Blood)
+cov(Blood)
+```
+
+### Working on the Blood Data
+
+```{r}
+blood = groupedData( BP ~ method | subject ,
+  data = data.frame( BP = c(Blood), 
+    subject = rep(seq(nrow(Blood)), ncol(Blood)),
+    method = rep(c("J","R","S"), rep(nrow(Blood)*3, 3)),
+    repl = rep(rep(c(1:3), rep(nrow(Blood), 3)), 3) ),
+	labels = list(BP = "Systolic Blood Pressure", method = "Measurement Device"),
+	)
+```
+

@@ -1,0 +1,413 @@
+\documentclass[MAIN.tex]{subfiles}
+\begin{document}
+	
+\section{Case Deletion Diagnostics}
+
+Since the pioneering work of Cook in 1977, deletion measures have been applied to many statistical models for identifying influential observations. Case-deletion diagnostics provide a useful tool for identifying influential observations and outliers.
+
+The key to making deletion diagnostics useable is the development of efficient computational formulas, allowing one to obtain the \index{case deletion diagnostics} case deletion diagnostics by making use of basic building blocks, computed only once for the full model.
+
+The computation of case deletion diagnostics in the classical model is made simple by the fact that estimates of $\beta$ and $\sigma^2$, which exclude the ith observation, can be computed without re-fitting the model. 
+
+
+\citet{preisser} describes two type of diagnostics. When the set consists of only one observation, the type is called `\textit{observation-diagnostics}'. For multiple observations, Preisser describes the diagnostics as `\textit{cluster-deletion}' diagnostics. 
+
+When applied to LME models, such update formulas are available only if one assumes that the covariance parameters are not affected by the removal of the observation in question. However, this is rarely a reasonable assumption.
+
+Such update formulas are available in the mixed model only if you assume that the covariance parameters are not affected by the removal of the observation in question. This is rarely a reasonable assumption.
+
+\subsection{Local Influence}
+
+\citet{Christensen} developed their global influences for the deletion of single observations in two steps: a one-step estimate for the REML (or ML) estimate of the variance components, and an ordinary case-deletion diagnostic for a weighted regression problem (conditional on the estimated covariance matrix) for fixed effects.
+
+
+Christensen, Pearson and Johnson (1992) studied \index{case deletion diagnostics} case deletion diagnostics, in particular the equivalent of \index{Cook's distance}Cook's distance, for diagnosing influential observations when estimating the fixed effect parameters and variance components.
+
+
+\subsection{Deletion Diagnostics}
+
+
+
+Deletion diagnostics provide a means of assessing the influence of an observation (or groups of observations) on inference on the estimated parameters of LME models.
+
+Data from single individuals, or a small group of subjects may influence non-linear mixed effects model selection. Diagnostics routinely applied in model building may identify such individuals, but these methods are not specifically designed for that purpose and are, therefore, not optimal. We describe two likelihood-based diagnostics for identifying individuals that can influence the choice between two competing models.
+
+
+
+\section{Case Deletion Diagnostics for LME models}
+	
+\citet{HaslettDillane} remark that linear mixed effects models didn't experience a corresponding growth in the use of deletion	diagnostics, adding that \citet{McCullSearle} makes no mention of diagnostics whatsoever.
+	
+Christensen, Pearson and Johnson (1992) describes three propositions that are required for efficient case-deletion in LME models. The first proposition	decribes how to efficiently update $V$ when the $i$th element is deleted.
+	\begin{equation}
+	V_{[i]}^{-1} = \Lambda_{[i]} - \frac{\lambda
+		\lambda\prime}{\nu^{}ii}
+	\end{equation}
+	
+	
+	The second of christensen's propostions is the following set of
+	equations, which are variants of the Sherman Wood bury updating
+	formula.
+	\begin{eqnarray}
+	X'_{[i]}V_{[i]}^{-1}X_{[i]} &=& X' V^{-1}X -
+	\frac{\hat{x}_{i}\hat{x}'_{i}}{s_{i}}\\
+	(X'_{[i]}V_{[i]}^{-1}X_{[i]})^{-1} &=& (X' V^{-1}X)^{-1} +
+	\frac{(X' V^{-1}X)^{-1}\hat{x}_{i}\hat{x}' _{i}
+		(X' V^{-1}X)^{-1}}{s_{i}- \bar{h}_{i}}\\
+	X'_{[i]}V_{[i]}^{-1}Y_{[i]} &=& X\prime V^{-1}Y -
+	\frac{\hat{x}_{i}\hat{y}' _{i}}{s_{i}}
+	\end{eqnarray}
+	
+
+		
+		
+
+		
+		\subsubsection{Influence on measure component ratios}               %-Case Deletion section 6.2.2
+		The general diagnostic tools for variance component ratios are the analogues of the Cook's distance and the Information Ratio.
+		
+		
+		\begin{eqnarray*}
+			CD_{U}(\gamma) = (\hat{\gamma}_{(U)} - \hat{\gamma})^{\prime}[\mbox{var}(\hat{\gamma})]^{-1}(\hat{\gamma}_{(U)} - \hat{\gamma})\\
+			= -\boldsymbol{g^{\prime}}_{(U)} (\boldsymbol{Q}-\boldsymbol{G})^{-1}\boldsymbol{Q}(\boldsymbol{Q}-\boldsymbol{G})\boldsymbol{g}_{(U)} \\
+			&= \boldsymbol{g^{\prime}}_{(U)} (\boldsymbol{I}_{r}  \mbox{var}(\hat{\gamma})\boldsymbol{G})^{-2}\mbox{var}(\hat{\gamma})\boldsymbol{g}_{(U)}
+		\end{eqnarray*}
+		
+		Large values of $CD(\gamma)$ highlight observation groups for closer attentions
+		
+		
+		\begin{eqnarray*}
+			IR{\gamma}  = \frac{\mbox{det}(\boldsymbol{Q} - \boldsymbol{G})}{\mbox{det}(\boldsymbol{Q})}
+		\end{eqnarray*}
+		
+		Ideally when all observations have the same influence on the information matrix $IR{\gamma}$ is approximately one.
+		Deviations from one indicate the group $U$ is influential. Since $\mbox{var}(\hat{\gamma})$ and $\boldsymbol{I}_{r}$ are fixed for all observations, $IR{\gamma}$ is a function of $\boldsymbol{G}$, in turn a function of $\boldsymbol{C}_{i}$ and $c_{ii}$.
+
+\section{Case Deletion Diagnostics for LME models}
+
+\citet{schabenberger} examines the use and implementation of influence measures in LME models.
+
+\citet{schabenberger} describes a simple procedure for quantifying
+influence. Firstly a model should be fitted to the data, and estimates of the parameters should be obtained. The second step is that either single of multiple data points, specifically outliers, should be omitted from the analysis, with the original parameter estimates being updated. This is known as `leave one out \ leave k out' analysis. The final step of the procedure is comparing the sets of estimates computed from the entire and reduced data sets to determine whether the absence of observations changed the
+analysis.
+
+
+\subsection*{schabenberger}
+\citet{schabenberger} notes that it is not always possible to derive influence statistics necessary for comparing full- and
+reduced-data parameter estimates. \citet{HaslettDillane} offers an procedure to assess the influences for the variance components within the linear model, complementing the existing methods for the fixed components. The essential problem is that there is no
+useful updating procedures for $\hat{V}$, or for $\hat{V}^{-1}$. \citet{HaslettDillane} propose an alternative , and
+computationally inexpensive approach, making use of the `delete=replace' identity.
+
+\citet{Haslett99} considers the effect of `leave k out' calculations on the parameters $\beta$ and $\sigma^{2}$, using
+several key results from \citet{HaslettHayes} on partioned matrices.
+
+
+
+\subsection{Extension of Diagnostic Methods to LME models}
+
+
+
+\citet{CPJ} noted the case deletion diagnostics techniques had not been applied to linear mixed effects models and seeks to develop methodologies in that respect. \citet{CPJ} develops these techniques in the context of REML.
+
+\citet{CPJ} develops \index{case deletion diagnostics} case deletion diagnostics, in particular the equivalent of \index{Cook's distance} Cook's distance, a well-known metric, for diagnosing influential observations when estimating the fixed effect parameters and variance components. Deletion diagnostics provide a means of assessing the influence of an observation (or groups of observations) on inference on the estimated parameters of LME models. We shall provide a fuller discussion of Cook's distance in due course.
+
+
+%A simple compact matrix formula is derived to assess the local influence of the fixed-effects regression coefficients. 
+
+
+%
+%
+%\section{Case Deletion Diagnostics for LME models} %1.6
+%
+%Data from single individuals, or a small group of subjects may influence non-linear mixed effects model selection. Diagnostics routinely applied in model building may identify such individuals, but these methods are not specifically designed for that purpose and are, therefore, not optimal. 
+
+\citet{Demi} proposes two likelihood-based diagnostics for identifying individuals that can influence the choice between two competing models.
+
+
+
+
+	\subsection{Extending deletion diagnostics to LMEs}
+	
+	
+	\citet{Christensen} notes the case deletion diagnostics techniques have not been applied to linear mixed effects models and seeks to develop methodologies in that respect. \citet{Christensen} develops these techniques in the context of REML
+	
+	% www.jds-online.com/file_download/70/JDS-205.pdf
+	
+	\begin{eqnarray*}
+		X= \left[%
+		\begin{array}{c}
+			x^\prime_{i} \\
+			X(i) \\
+		\end{array}%
+		\right],
+		Z= \left[%
+		\begin{array}{c}
+			z^\prime_{ij} \\
+			Z_{j(i)} \\
+		\end{array}%
+		\right] ,
+		Z = \left[%
+		\begin{array}{c}
+			z^\prime_{ij} \\
+			Z_{j(i)} \\
+		\end{array}%
+		\right], \\
+		y = \left[%
+		\begin{array}{c}
+			y^\prime_{ij} \\
+			y_{j(i)} \\
+		\end{array}%
+		\right]
+		\mbox{ and } H = \left[%
+		\begin{array}{cc}
+			h_{ii}& h\\
+			h_{j(i)} & h\\
+		\end{array}%
+		\right]
+	\end{eqnarray*}
+	
+	For notational simplicity, $\boldsymbol{A}_{(i)}$ denotes an $n
+	\times m$ matrix  $\boldsymbol{A}$ with the $i$-th row removed,
+	$\boldsymbol{a}_{i}$ denotes the $i$-th row of $\boldsymbol{A}$,
+	and $a_{ij}$ denotes the $(i, j)$-th element of $\boldsymbol{A}$.
+	
+	$\boldsymbol{a}_{(i)}$ denotes a vector $\boldsymbol{a}$ with the $i$-th element, $a_{i}$, removed.
+	
+	\begin{equation}
+	\breve{a_{i}} =  \boldsymbol{a}_{i} -
+	\boldsymbol{A}_{(i)}\boldsymbol{H}_{[i]}\boldsymbol{h}_{i}
+	\end{equation}
+
+	
+\section{Extension of Diagnostic Methods to LME models}
+
+When similar notions of statistical influence are applied to mixed models,
+things are more complicated. Removing data points affects fixed effects and covariance parameter estimates.
+Update formulas for “\textit{leave-one-out}” estimates typically fail to account for changes in covariance
+parameters. 
+%
+%
+%In LME models, there are two types of residuals, marginal residuals and conditional residuals. A
+%marginal residual is the difference between the observed data and the estimated marginal mean. A conditional residual is the
+%difference between the observed data and the predicted value of the observation. In a model without random effects, both sets of residuals coincide \citep{schab}.
+
+\citet{Christiansen} noted the case deletion diagnostics techniques have not been applied to linear mixed effects models and seeks to develop methodologies in that respect. \citet{Christiansen} develops these techniques in the context of REML.
+
+\citet{CPJ} noted the case deletion diagnostics techniques had not been applied to linear mixed effects models and seeks to develop methodologies in that respect. \citet{CPJ} develops these techniques in the context of REML.
+
+%\citet{CPJ} develops \index{case deletion diagnostics} case deletion diagnostics, in particular the equivalent of \index{Cook's distance} Cook's distance, a well-known metric, for diagnosing influential observations when estimating the fixed effect parameters and variance components. Deletion diagnostics provide a means of assessing the influence of an observation (or groups of observations) on inference on the estimated parameters of LME models. We shall provide a fuller discussion of Cook's distance in due course.
+
+
+\citet{Demi} extends several regression diagnostic techniques commonly used in linear regression, such as leverage, infinitesimal influence, case deletion diagnostics, Cook's distance, and local influence to the linear mixed-effects model. In each case, the proposed new measure has a direct interpretation in terms of the effects on a parameter of interest, and reduces to the familiar linear regression measure when there are no random effects. 
+
+The new measures that are proposed by \citet{Demi} are explicitly defined functions and do not require re-estimation of the model, especially for cluster deletion diagnostics. The basis for both the cluster deletion diagnostics and Cook's distance is a generalization of Miller's simple update formula for case deletion for linear models. Furthermore \citet{Demi} shows how Pregibon's infinitesimal case deletion diagnostics is adapted to the linear mixed-effects model. 
+%A simple compact matrix formula is derived to assess the local influence of the fixed-effects regression coefficients. 
+
+
+\section{Extension of Diagnostic Methods to LME models}
+
+
+When similar notions of statistical influence are applied to mixed models,
+things are more complicated. Removing data points affects fixed effects and covariance parameter estimates.
+Update formulas for “\textit{leave-one-out}” estimates typically fail to account for changes in covariance
+parameters. 
+%
+%
+%In LME models, there are two types of residuals, marginal residuals and conditional residuals. A
+%marginal residual is the difference between the observed data and the estimated marginal mean. A conditional residual is the
+%difference between the observed data and the predicted value of the observation. In a model without random effects, both sets of residuals coincide \citep{schab}.
+
+\citet{Christensen} noted the case deletion diagnostics techniques have not been applied to linear mixed effects models and seeks to develop methodologies in that respect. \citet{Christensen} develops these techniques in the context of REML.
+
+\citet{CPJ} noted the case deletion diagnostics techniques had not been applied to linear mixed effects models and seeks to develop methodologies in that respect. \citet{CPJ} develops these techniques in the context of REML.
+
+
+%\citet{CPJ} develops \index{case deletion diagnostics} case deletion diagnostics, in particular the equivalent of \index{Cook's distance} Cook's distance, a well-known metric, for diagnosing influential observations when estimating the fixed effect parameters and variance components. Deletion diagnostics provide a means of assessing the influence of an observation (or groups of observations) on inference on the estimated parameters of LME models. We shall provide a fuller discussion of Cook's distance in due course.
+
+
+\citet{Demi} extends several regression diagnostic techniques commonly used in linear regression, such as leverage, infinitesimal influence, case deletion diagnostics, Cook's distance, and local influence to the linear mixed-effects model. In each case, the proposed new measure has a direct interpretation in terms of the effects on a parameter of interest, and reduces to the familiar linear regression measure when there are no random effects. 
+
+The new measures that are proposed by \citet{Demi} are explicitly defined functions and do not require re-estimation of the model, especially for cluster deletion diagnostics. The basis for both the cluster deletion diagnostics and Cook's distance is a generalization of Miller's simple update formula for case deletion for linear models. Furthermore \citet{Demi} shows how Pregibon's infinitesimal case deletion diagnostics is adapted to the linear mixed-effects model. 
+%A simple compact matrix formula is derived to assess the local influence of the fixed-effects regression coefficients. 
+
+
+%
+%
+%\section{Case Deletion Diagnostics for LME models} %1.6
+%
+%Data from single individuals, or a small group of subjects may influence non-linear mixed effects model selection. Diagnostics routinely applied in model building may identify such individuals, but these methods are not specifically designed for that purpose and are, therefore, not optimal. 
+
+\citet{Demi} proposes two likelihood-based diagnostics for identifying individuals that can influence the choice between two competing models.
+
+
+
+
+
+
+
+
+\section{Case Deletion Diagnostics for LME models} %1.6
+Data from single individuals, or a small group of subjects may influence non-linear mixed effects model selection. Diagnostics routinely applied in model building may identify such individuals, but these methods are not specifically designed for that purpose and are, therefore, not optimal. 
+
+\citet{Demi} proposes two likelihood-based diagnostics for identifying individuals that can influence the choice between two competing models.
+
+
+
+\section{Extension of technique to LME Models} %1.4
+
+Model diagnostic techniques , well established for classical models, have since been adapted for use with linear mixed effects models.Diagnostic techniques for LME models are inevitably more difficult to implement, due to the increased complexity.
+
+Beckman, Nachtsheim and Cook (1987) applied the \index{local influence}local influence method of Cook (1986)
+to the analysis of the linear mixed model.
+
+
+While the concept of influence analysis is straightforward, implementation in mixed models is more complex. Update formulae for fixed effects models are available only when the covariance parameters are assumed to be known.
+
+
+If the global measure suggests that the points in $U$ are influential, the nature of that influence should be determined. In particular, the points in $U$ can affect
+\begin{itemize}
+	\item the estimates of fixed effects
+	\item the estimates of the precision of the fixed effects
+	\item the estimates of the covariance parameters
+	\item the estimates of the precision of the covariance parameters
+	\item fitted and predicted values
+\end{itemize}
+
+
+
+
+
+
+
+
+
+%----------------------------------------------------------------------------------------%
+\section{The CPJ Paper}%1.13
+
+\subsection{Case-Deletion results for Variance components}
+\textbf{CPJ} examines case deletion results for estimates of the variance components, proposing the use of one-step estimates of variance components for examining case influence. The method describes focuses on REML estimation, but can easily be adapted to ML or other methods.
+
+This paper develops their global influences for the deletion of single observations in two steps: a one-step estimate for the REML (or ML) estimate of the variance components, and an ordinary case-deletion diagnostic for a weighted regression problem ( conditional on the estimated covariance matrix) for fixed effects.
+
+% Lesaffre's approach accords with that proposed by Christensen et al when applied in a repeated measurement context, with a large sample size.
+
+\subsection{CPJ Notation} %1.13.1
+
+\[ \boldsymbol{C} = \boldsymbol{H}^{-1} = \left[
+\begin{array}{cc}
+c_{ii} & \boldsymbol{c}_{i}^{\prime}\\
+\boldsymbol{c}_{i} &  \boldsymbol{C}_{[i]}
+\end{array} \right]
+\]
+
+\textbf{CPJ} noted the following identity:
+
+\[ \boldsymbol{H}_{[i]}^{-1}  = \boldsymbol{C}_{[i]} - {1 \over c_{ii}}\boldsymbol{c}_{[i]}\boldsymbol{c}_{[i]}^{\prime} \]
+
+
+\textbf{CPJ} use the following as building blocks for case deletion statistics.
+\begin{multicols}{3}
+	\begin{itemize}
+		\item $\breve{x}_i$
+		\item $\breve{z}_i$
+		\item $\breve{z}_ij$
+		\item $\breve{y}_i$
+		\item $p_ii$
+		\item $m_i$
+	\end{itemize}
+\end{multicols}
+
+All of these terms are a function of a row (or column) of $\boldsymbol{H}$ and $\boldsymbol{H}_{[i]}^{-1}$
+
+\section{Matrix Notation for Case Delection} %1.15
+
+\subsection{Case deletion notation} %1.15.1
+
+For notational simplicity, $\boldsymbol{A}(i)$ denotes an $n \times m$ matrix $\boldsymbol{A}$ with the $i$-th row
+removed, $a_i$ denotes the $i$-th row of $\boldsymbol{A}$, and $a_{ij}$ denotes the $(i, j)-$th element of $\boldsymbol{A}$.
+
+
+\section{CPJ's Three Propositions} %1.16
+%-----------------------------%
+
+
+\subsubsection{Proposition 1}
+
+\[
+\boldsymbol{V}^{-1} =
+\left[ \begin{array}{cc}
+\nu^{ii} & \lambda_{i}^{\prime}  \\
+\lambda_{i} & \Lambda_{[i]}
+\end{array}\right] \]
+
+
+\[\boldsymbol{V}_{[i]}^{-1} = \boldsymbol{\Lambda}_{[i]} - { \lambda_{i} \lambda_{i} ^{\prime} \over \lambda_{i} } \]
+
+%-----------------------------%
+\subsection{Proposition 2}
+
+\begin{itemize}
+	\item[(i)] $ \boldsymbol{X}_{[i]}^{T}\boldsymbol{V}^{-1}_{[i]}\boldsymbol{X}_{[i]}$ = $\boldsymbol{X}^{\prime}\boldsymbol{V}^{-1}\boldsymbol{X}$
+	\item[(ii)] = $(\boldsymbol{X}^{\prime}\boldsymbol{V}^{-1}\boldsymbol{Y})^{-1}$
+	\item[(iii)] $ \boldsymbol{X}_{[i]}^{T}\boldsymbol{V}^{-1}_{[i]}\boldsymbol{Y}_{[i]}$ = $\boldsymbol{X}^{\prime}\boldsymbol{V}^{-1}\boldsymbol{Y}$
+\end{itemize}
+%-----------------------------%
+\subsection{Proposition 3}
+This proposition is similar to the formula for the one-step Newtown Raphson estimate of the logistic regression coefficients given by pregibon (1981)
+and discussed in Cook Weisberg.
+
+\section{The CPJ Paper}%1.20
+
+\subsection{Case-Deletion results for Variance components}
+\citet{Christensen} examines case deletion results for estimates of the variance components, proposing the use of one-step estimates of variance components for examining case influence. The method describes focuses on REML estimation, but can easily be adapted to ML or other methods.
+
+\citet{CPJ} examines case deletion results for estimates of the variance components, proposing the use of one-step estimates of variance components for examining case influence. The method describes focuses on REML estimation, but can easily be adapted to ML or other methods.
+
+This paper develops their global influences for the deletion of single observations in two steps: a one-step estimate for the REML (or ML) estimate of the variance components, and an ordinary case-deletion diagnostic for a weighted regression problem ( conditional on the estimated covariance matrix) for fixed effects.
+
+% Lesaffre's approach accords with that proposed by Christensen et al when applied in a repeated measurement context, with a large sample size.
+
+\citet{Christensen} developed their global influences for the deletion of single observations in two steps: a one-step estimate for the REML (or ML) estimate of the variance components, and an ordinary case-deletion diagnostic for a weighted resgression problem ( conditional on the estimated covariance matrix) for fixed effects. Lesaffre's approach accords with that proposed by Christensen et al when applied in a repeated measurement context, with a large
+sample size.
+
+\subsection{Preisser 2008}
+
+Preisser \& Qaqish (1996) introduced one-step deletion diagnostics for generalized estimating equations.
+In this note, we derive a different expression for DBETAm,
+and show that it is equivalent to the formula of Preisser \& Qaqish (1996). We show that significant
+computational savings are possible through application of the Sherman–Morrison–Woodbury formula
+(Sherman \& Morrison, 1950; Henderson \& Searle, 1981) for the inverse of a matrix component in the
+diagnostic formula.
+
+\subsection{Partitioning Matrices} %1.14.2
+Without loss of generality, matrices can be partitioned as if the $i-$th omitted observation is the first row; i.e. $i=1$.
+
+
+
+% Lesaffre's approach accords with that proposed by Christensen et al when applied in a repeated measurement context, with a large sample size.
+
+
+\section{Case deletion notation} %1.14.1
+
+For notational simplicity, $\boldsymbol{A}(i)$ denotes an $n \times m$ matrix $\boldsymbol{A}$ with the $i$-th row
+removed, $a_i$ denotes the $i$-th row of $\boldsymbol{A}$, and $a_{ij}$ denotes the $(i, j)-$th element of $\boldsymbol{A}$.
+
+
+
+\subsection{Partitioning Matrices} %1.14.2
+Without loss of generality, matrices can be partitioned as if the $i-$th omitted observation is the first row; i.e. $i=1$.
+
+%---------------------------------------------------------------------------%
+	
+
+\subsection{Effects on fitted and predicted values}
+\begin{equation}
+\hat{e_{i}}_{(U)} = y_{i} - x\hat{\beta}_{(U)}
+\end{equation}
+
+
+
+\bibliographystyle{chicago}
+\bibliography{2017bib}
+
+\end{document} 

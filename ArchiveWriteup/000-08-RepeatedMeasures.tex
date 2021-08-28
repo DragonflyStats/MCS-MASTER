@@ -1,0 +1,131 @@
+\documentclass[MAIN.tex]{subfiles}
+\begin{document}
+
+	Bland and Altman attend to the issue of repeated measures in
+	$1996$.
+	
+	Repeated measurements on several subjects can be used to quantify
+	measurement error, the variation between measurements of the same
+	quantity on the same individual.
+	
+	Bland and Altman discuss two metrics for measurement error; the
+	within-subject standard deviation ,and the correlation
+	coefficient.
+	
+	The above plot incorporates both the conventional limits of
+	agreement ( the inner pair of dashed lines), the `t' limits of
+	agreement ( the outer pair of dashed lines) centred around the
+	inter-method bias (indicated by the full line). This plot is
+	intended for expository purposes only, as the sample size is
+	small.
+	
+\newpage
+How Bland and Altman have extended the Difference Plot (with Limits of agreement) to the case of replicate measurements.
+When replicate measurements are taken with each method on each item, more complex methodologies are required. Bland \& Altman(1999) describe a number of approaches to adopt in such a case. The first approach is to take the average measurement over the replicates measurements on each subject by each method.
+The second approach is to simply treat these replicate measurements as independent measurements in their own right, and use the pre-existing Bland-Altman approach for single measurements.
+The proposed approach shares the same overall structure as their earlier work. However complex calculations are now required to compute the variance of case-wise differences. This is compounded by the fact that different approaches are required depending on whether or not there are equal or unequal numbers of replicates.
+What have they missed? Carstensen et al discuss in depth the shortfalls in this approach.
+Carstensen et al (2008) address the flaws in both approaches, demonstrating how the first approach would lead to an underestimation of the variance of case-wise differences. The second case would also lead to incorrect estimates, although it is pointed out that the second approach is much better than the first.	
+	
+	
+	\subsection{Replicate Measurements}
+	
+	Thus far, the formulation for comparison of two measurement
+	methods is one where one measurement by each method is taken on
+	each subject. Should there be two or more measurements by each
+	methods, these measurement are known as `replicate measurements'.
+	\citet{BXC2008} recommends the use of replicate measurements, but
+	acknowledges that  additional computational complexity.
+	
+	\citet*{BA86} address this problem by offering two different
+	approaches. The premise of the first approach is that replicate
+	measurements can be treated as independent measurements. The
+	second approach is based upon using the mean of the each group of
+	replicates as a representative value of that group. Using either
+	of these approaches will allow an analyst to estimate the inter
+	method bias.
+	
+	%\subsubsection{Mean of Replicates Limits of Agreement}
+	
+	However, because of the removal of the effects of the replicate
+	measurements error, this would cause the estimation of the
+	standard deviation of the differences to be unduly small.
+	\citet*{BA86} propose a correction for this.
+	
+	\citet{BXC2008} takes issue with the limits of agreement based on
+	mean values, in that they can only be interpreted as prediction
+	limits for difference between means of repeated measurements by
+	both methods, as opposed to the difference of all measurements.
+	Incorrect conclusions would be caused by such a misinterpretation.
+	\citet{BXC2008} demonstrates how the limits of agreement
+	calculated using the mean of replicates are `much too narrow as
+	prediction limits for differences between future single
+	measurements'. This paper also comments that, while treating the
+	replicate measurements as independent will cause a downward bias
+	on the limits of agreement calculation, this method is preferable
+	to the `mean of replicates' approach.
+	
+
+	
+	
+	
+	%This application of the
+	%Grubbs method presumes the existence of this condition, and necessitates
+	%replication of observations by means external to and independent of the first
+	%means. The Grubbs estimators method is based on the laws of propagation of
+	%error. By making three independent simultaneous measurements on the same
+	%physical material, it is possible by appropriate mathematical manipulation of
+	%the sums and differences of the associated variances to obtain a valid
+	%estimate of the precision of the primary means. Application of the Grubbs
+	%estimators procedure to estimation of the precision of an apparatus uses
+	%the results of a physical test conducted in such a way as to obtain a series
+	%of sets of three independent observations.
+	
+\section{Repeated Measurements}
+	
+In cases where there are repeated measurements by each of the two methods on the same subjects , Bland Altman suggest calculating	the mean for each method on each subject and use these pairs of means to compare the two methods.
+The estimate of bias will be unaffected using this approach, but the estimate of the standard deviation of the differences will be too small, because of the reduction of the effect of repeated measurement error. Bland Altman propose a correction for this. Carstensen attends to this issue also, adding that another approach would be to treat each repeated measurement separately.
+	
+In this model , the variances of the random effects must depend on $m$, since the different methods do not necessarily measure on the
+same scale, and different methods naturally must be assumed to have different variances. \citet{BXC2004} attends to the issue of comparative variances.
+
+\section{Repeated measurements in LME models}
+
+In many statistical analyzes, the need to determine parameter estimates where multiple measurements are available on each of a set of variables often arises. Further to \citet{lam}, \citet{hamlett} performs an analysis of the correlation of replicate measurements, for two variables of interest, using LME models.
+
+Let $y_{Aij}$ and $y_{Bij}$ be the $j$th repeated observations of the variables of interest $A$ and $B$ taken on the $i$th subject. The number of repeated measurements for each variable may differ for each individual. Both variables are measured on each time points. Let $n_{i}$ be the number of observations for each variable, hence $2\times n_{i}$ observations in total.
+
+It is assumed that the pair $y_{Aij}$ and $y_{Bij}$ follow a bivariate normal distribution.
+\begin{eqnarray*}
+	\left(
+	\begin{array}{c}
+		y_{Aij} \\
+		y_{Bij} \\
+	\end{array}
+	\right) \sim \mathcal{N}(
+	\boldsymbol{\mu}, \boldsymbol{\Sigma})\mbox{   where } \boldsymbol{\mu} = \left(
+	\begin{array}{c}
+		\mu_{A} \\
+		\mu_{B} \\
+	\end{array}
+	\right)
+\end{eqnarray*}
+
+The matrix $\Sigma$ represents the variance component matrix between response variables at a given time point $j$.
+
+\[
+\boldsymbol{\Sigma} = \left( \begin{array}{cc}
+\sigma^2_{A} & \sigma_{AB} \\
+\sigma_{AB} & \sigma^2_{B}\\
+\end{array}   \right)
+\]
+
+$\sigma^2_{A}$ is the variance of variable $A$, $\sigma^2_{B}$ is the variance of variable $B$ and $\sigma_{AB}$ is the covariance of the two variable. It is assumed that $\boldsymbol{\Sigma}$ does not depend on a particular time point, and is the same over all time points.
+
+\addcontentsline{toc}{section}{Bibliography}
+
+%--------------------------------------------------------------------------------------%
+
+\bibliographystyle{chicago}
+\bibliography{DB-txfrbib}
+\end{document}

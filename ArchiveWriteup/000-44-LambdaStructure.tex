@@ -1,0 +1,392 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{natbib}
+\usepackage{vmargin}
+\usepackage{graphicx}
+\usepackage{epsfig}
+\usepackage{subfigure}
+%\usepackage{amscd}
+\usepackage{amssymb}
+\usepackage{subfiles}
+\usepackage{subfigure}
+\usepackage{framed}
+\usepackage{subfiles}
+\usepackage{amsbsy}
+\usepackage{amsthm, amsmath}
+%\usepackage[dvips]{graphicx}
+\bibliographystyle{chicago}
+\renewcommand{\baselinestretch}{1.1}
+
+% left top textwidth textheight headheight % headsep footheight footskip
+\setmargins{3.0cm}{2.5cm}{15.5 cm}{23.5cm}{0.25cm}{0cm}{0.5cm}{0.5cm}
+
+\pagenumbering{arabic}
+%-------------------------------------------------------------------Simplifying GLS by KH -%
+
+
+\begin{document}
+\section{nlme - Variance functions}
+
+Variance functions are applied to LME models through the \texttt{`weights'} argument. $R$ supports several variance functions.
+
+`\texttt{varIdent}' cosntructs a model with different variances per stratum.
+
+\subsection{Diagnostic plots}
+[Pinheiro Bates Page 391] Diagnostic plots for identifying within-group heteroscedascity and assessing the adequacy of a variance function can also be used with `nlme' objects.
+
+
+
+
+\subsection{Correlation terms}
+\citet{hamlett} demonstrated how the between-subject and within subject variabilities can be expressed in terms of
+correlation terms.
+
+\[
+\boldsymbol{D} = \left( \begin{array}{cc}
+\sigma^2_{A}\rho_{A} & \sigma_{A}\sigma_{b}\rho_{AB}\delta \\
+\sigma_{A}\sigma_{b}\rho_{AB}\delta & \sigma^2_{B}\rho_{B}\\
+
+\end{array}\right)
+\]
+
+\[
+\boldsymbol{\Lambda} = \left(
+\begin{array}{cc}
+\sigma^2_{A}(1-\rho_{A}) & \sigma_{AB}(1-\delta)  \\
+\sigma_{AB}(1-\delta) & \sigma^2_{B}(1-\rho_{B}) \\
+\end{array}\right).
+\]
+
+$\rho_{A}$ describe the correlations of measurements made by the method $A$ at different times. Similarly $\rho_{B}$ describe the correlation of measurements made by the method $B$ at different times. Correlations among repeated measures within the same method are known as intra-class correlation coefficients. $\rho_{AB}$ describes the correlation of measurements taken at the same same time by both methods. The coefficient $\delta$ is added for when the measurements are taken at different times, and is a constant of less than $1$ for linked replicates. This is based on the assumption that linked replicates measurements taken at the same time would have greater correlation than those taken at different times. For unlinked replicates $\delta$ is simply $1$. \citet{hamlett} provides a useful graphical depiction of the role of each correlation coefficients.
+
+
+
+
+
+\subsection{For Expository Purposes}
+
+
+
+For expository purposes consider the case where each item provides three replicates by each method. Then in matrix notation the model has the structure
+\[
+\boldsymbol{y}_{i} =
+\left(
+\begin{array}{c}
+y_{1i1} \\
+y_{2i1} \\
+y_{1i2} \\
+y_{2i2} \\
+y_{1i3} \\
+y_{2i3} \\
+\end{array}
+\right) = 
+\left(
+\begin{array}{ccc}
+1 & 1 & 0 \\
+1 & 0 & 1 \\
+1 & 1 & 0 \\
+1 & 0 & 1 \\
+1 & 1 & 0 \\
+1 & 0 & 1 \\
+\end{array}
+\right)
+\left(
+\begin{array}{c}
+\beta_0 \\ \beta_1 \\ \beta_2 \\
+\end{array}
+\right)
++
+\left(
+\begin{array}{cc}
+1 & 0 \\
+0 & 1 \\
+1 & 0 \\
+0 & 1 \\
+1 & 0 \\
+0 & 1 \\
+\end{array}
+\right)\left(
+\begin{array}{c}
+b_{1i} \\   b_{2i} \\
+\end{array}
+\right)
++
+\left(
+\begin{array}{c}
+\epsilon_{1i1} \\
+\epsilon_{2i1} \\
+\epsilon_{1i2} \\
+\epsilon_{2i2} \\
+\epsilon_{1i3} \\
+\epsilon_{2i3} \\
+\end{array}
+\right).
+\]
+The between item variance covariance $\boldsymbol{G}$ is as before, while the within item variance covariance is given as
+%------Specification of within item VC matrix R---%
+\[ \boldsymbol{G} =\left(
+\begin{array}{cc}
+g^2_1  & g_{12} \\
+g_{12} & g^2_2 \\
+\end{array}
+\right) \]
+
+\[
+\boldsymbol{R}_i = \left(
+\begin{array}{cccccc}
+\sigma^2_{1} & \sigma_{12} & 0 & 0 & 0 & 0 \\
+\sigma_{12} & \sigma^2_{2} & 0 & 0 & 0 & 0 \\
+0 & 0 & \sigma^2_{1} & \sigma_{12} & 0 & 0 \\
+0 & 0 & \sigma_{12} & \sigma^2_{2} & 0 & 0 \\
+0 & 0 & 0 & 0 & \sigma^2_{1} & \sigma_{12} \\
+0 & 0 & 0 & 0 & \sigma_{12} & \sigma^2_{2} \\
+\end{array} \right)
+\]
+Assumptions made on the structures of $\boldsymbol{G}$ and $\boldsymbol{R}_i$ will be discussed in due course.
+
+
+
+
+
+
+
+
+
+
+
+
+%-----------------------------------------------------------------------------------------------------%
+
+
+
+\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Lambda Structure}
+
+\begin{equation}
+\boldsymbol{\epsilon} \sim \mathcal{N}(\boldsymbol{0},\sigma^2 \boldsymbol{\Lambda})
+\end{equation}
+\begin{enumerate}
+	\item A simple assumption is to assumes that residuals are independent and homoscedastic, i.e. $\boldsymbol{Lambda = I}$.
+	
+	\item For the Bland Altman blood pressure data,$\boldsymbol{\Lambda}$ has kronecker product structure
+	and has dimensions $6 \times 6$.
+\end{enumerate}
+
+
+
+\subsection{Variance-Covariance Structures}
+
+\subsubsection{Independence}
+
+As though analyzed using between subjects analysis.
+\[
+\left(
+\begin{array}{c c c}
+\psi^2 & 0 & 0   \\
+0 & \psi^2 & 0   \\
+0 & 0 & \psi^2   \\
+\end{array}%
+\right)
+\]
+
+
+\subsubsection{Compound Symmetry}
+
+Assumes that the variance-covariance structure has a single variance (represented by $\psi^2$)
+for all 3 of the time points and a single covariance (represented by $\psi_{ij}$) for each of the pairs of trials.
+
+\[
+\left(%
+\begin{array}{c c c}
+\psi^2 &  \psi_{12} & \psi_{13}   \\
+\psi_{21} & \psi^2 & \psi_{23}   \\
+\psi_{31} & \psi_{32} & \psi^2   \\
+\end{array}%
+\right)
+\]
+
+
+\subsubsection{Unstructured}
+
+Assumes that each variance and covariance is unique.
+Each trial has its own variance (e.g. s12 is the variance of trial 1)
+and each pair of trials has its own covariance (e.g. s21 is the covariance of trial 1 and trial2).
+This structure is illustrated by the half matrix below.
+
+
+\subsubsection{Autoregressive}
+
+Another common covariance structure which is frequently observed
+in repeated measures data is an autoregressive structure,
+which recognizes that observations which are more proximate
+are more correlated than measures that are more distant.
+
+
+
+
+
+
+
+
+\begin{itemize}
+	\item $\boldsymbol{\Psi}$ refers to the between-subject sources of variation. $\boldsymbol{R}_{i}$ refers to the within-subject
+	source of variation between two methods. LME models allow for the explicit analysis of each.
+	
+	\item $\boldsymbol{\Psi}$ is the variance covariance structure for the random effects.
+	
+	
+	There is three alternative structures for
+	$\boldsymbol{\Psi}$, the diagonal form, the identity form and the general form.
+	\[
+	\boldsymbol{\Psi} =
+	\left(%
+	\begin{array}{c c}
+	\psi^2_1 & 0  \\
+	0 & \psi^2_2  \\
+	\end{array}%
+	\right)\qquad \mathrm{or} \qquad \boldsymbol{\Psi} =
+	\left(%
+	\begin{array}{c c}
+	\psi_{11} & \psi_{12}  \\
+	\psi_{21} & \psi_{22}  \\
+	\end{array}%
+	\right)
+	\qquad \mathrm{or} \qquad \boldsymbol{\Psi} =
+	\left(%
+	\begin{array}{c c}
+	\psi_{11} & \psi_{12}  \\
+	\psi_{21} & \psi_{22}  \\
+	\end{array}%
+	\right)
+	\]
+	
+	
+	
+	\item $\boldsymbol{\epsilon}_{i}$ is a $n_{i}$-dimensional vector
+	comprised of residual components. For the blood pressure data $n_{i} = 85$.
+	
+	\item $\boldsymbol{\beta}$ is the solutions of the means of the two methods. In the LME output, the bias ad corresponding
+	t-value and p-values are presented. This is relevant to Roy's first test.
+	
+	\item $\boldsymbol{b}_{i}$ is a $m-$dimensional vector comprised of
+	the random effects.
+	\begin{equation}
+	\boldsymbol{b}_{i} = \left( \begin{array}{c}
+	b_{1i} \\
+	b_{21}  \\
+	\end{array}\right)
+	\end{equation}
+	
+	\item $\boldsymbol{\Psi}$ is the variance-covariance matrix of the random effects ,
+	with $2 \times 2$ dimensions.
+	\begin{equation}
+	\boldsymbol{\Psi} =
+	\left(%
+	\begin{array}{c c}
+	\psi_{11} & \psi_{12}  \\
+	\psi_{21} & \psi_{22}  \\
+	\end{array}%
+	\right)
+	\end{equation}
+	
+	\item  $\boldsymbol{\Sigma}$ represents the partial VC matrix of
+	the established matrix and the new method for any replicates.
+	
+	\begin{equation}
+	\Sigma = \left( \begin{array}{cc}
+	\sigma^2_{e} & \sigma^{en} \\
+	\sigma_{en} & \sigma^2_{n} \\
+	\end{array}\right)
+	\end{equation}
+	
+	\begin{itemize}
+		\item $\sigma^2_{e}$ - partial variance of the established method.
+		\item $\sigma^2_{n}$ - partial variance of the new method.
+		\item $\sigma_{en}$ - partial covariance between both methods.
+	\end{itemize}
+	
+	\item $\boldsymbol{V}$ represents the correlation matrix of the replicated measurements on a given method.
+	$\boldsymbol{\Sigma}$ is the within-subject VC matrix.
+	
+	\item $\boldsymbol{V}$ and $\boldsymbol{\Sigma}$ are positive
+	definite matrices. The dimensions of $\boldsymbol{V}$ and
+	$\boldsymbol{\Sigma}$ are $3 \times 3 ( = p \times p )$ and $ 2 \times
+	2 (= k \times k)$.
+	
+	\item It is assumed that $\boldsymbol{V}$ is the same for both methods and $\boldsymbol{\Sigma}$ is
+	the same for all replications.
+	
+	\item $\boldsymbol{V} \bigotimes \boldsymbol{\Sigma}$ creates a $ 6 \times 6 ( = kp \times
+	kp)$ matrix.
+	$\boldsymbol{R}_{i}$ is a sub-matrix of this.
+	
+	\item The variance covariance structure $\boldsymbol{R}_{i}$ has a separable covariance structure.
+	
+	\item The overall variability $\boldsymbol{\mbox{Block} \Omega_{i}}$ is the sum of the
+	between-subject variability $\boldsymbol{\Psi}$
+	and the within subject variability $\boldsymbol{\Sigma}$
+	
+	\begin{equation}
+	\left( \begin{array}{cc}
+	\omega^2_{e} & \omega^{en} \\
+	\omega_{en} & \omega^2_{n} \\
+	\end{array}\right)
+	=
+	\left( \begin{array}{cc}
+	\psi^2_{e} & \psi^{en} \\
+	\psi_{en} & \psi^2_{n} \\
+	\end{array}\right)
+	+
+	\left( \begin{array}{cc}
+	\sigma^2_{e} & \sigma^{en} \\
+	\sigma_{en} & \sigma^2_{n} \\
+	\end{array}\right)
+	\end{equation}
+	
+	\item  No special form of the random effects VC matrix $\boldsymbol{\Psi}$ is assumed.
+	Form cans be specified.
+	The \tt{pdMat} class is used by the `nlme' package to specify patterned VC matrices.
+	\begin{itemize}
+		\item pdDiag - Assumes random effects are independent, with different variance.
+		\item pdIdent - Assumes random effects are independent, with same variance.
+		\item pdSymm - General symmetric positive definite matrix.
+		\item pdCompSymm
+	\end{itemize}
+	
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\bibliographystyle{chicago}
+\bibliography{DB-txfrbib}
+\end{document}

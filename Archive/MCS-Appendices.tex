@@ -1,0 +1,1341 @@
+\documentclass[12pt, a4paper]{report}
+
+\usepackage{epsfig}
+\usepackage{subfigure}
+%\usepackage{amscd}
+\usepackage{amssymb}
+\usepackage{graphicx}
+%\usepackage{amscd}
+\usepackage{amssymb}
+\usepackage{subfiles}
+\usepackage{framed}
+\usepackage{subfiles}
+\usepackage{amsthm, amsmath}
+\usepackage{amsbsy}
+\usepackage{framed}
+\usepackage[usenames]{color}
+\usepackage{listings}
+\lstset{% general command to set parameter(s)
+	basicstyle=\small, % print whole listing small
+	keywordstyle=\color{red}\itshape,
+	% underlined bold black keywords
+	commentstyle=\color{blue}, % white comments
+	stringstyle=\ttfamily, % typewriter type for strings
+	showstringspaces=false,
+	numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=5pt, %
+	frame=shadowbox,
+	rulesepcolor=\color{black},
+	,columns=fullflexible
+} %
+%\usepackage[dvips]{graphicx}
+\usepackage{natbib}
+\bibliographystyle{chicago}
+\usepackage{vmargin}
+% left top textwidth textheight headheight
+% headsep footheight footskip
+\setmargins{1.0cm}{0.75cm}{18.5 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
+%\voffset=-2.5cm
+%\oddsidemargin=1cm
+%\textwidth = 520pt
+
+\renewcommand{\baselinestretch}{1.5}
+\pagenumbering{arabic}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{ill}[theorem]{Example}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{axiom}{Axiom}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{notation}{Notation}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[section]
+\newtheorem{example}{Example}[section]
+\renewcommand{\thenotation}{}
+\renewcommand{\thetable}{\thesection.\arabic{table}}
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+\title{Research notes: linear mixed effects models}
+\author{ } \date{ }
+
+
+\begin{document}
+	\author{Kevin O'Brien}
+	\title{Mixed Models for Method Comparison Studies}
+	\tableofcontents
+
+
+
+
+\chapter{Method Comparison Studies}
+	
+	The desired outcome of this research is to
+	
+	\begin{itemize}
+		\item Formulate a methodology that represents Best practice in Method Comparison Studies. Indeed the methodology is envsiaged to advance what is considered best practice, inter alia, by making diagnostics procedures a standard part of MCS. 
+		
+		\item Provide for ease of use such that non-statisticians can master and implement the method, with a level of training that one would expect 
+		as part of a Professional CPD programe.
+		
+	\end{itemize}
+\section*{Abstract}
+This chapter is broken into two parts. The first part is a review of diagnostics methods for linear models, intended to acquaint the reader with the subject, and also to provide a basis for material covered in the second part. Particular attention is drawn to graphical methods.
+
+The second part of the chapter looks at diagnostics techniques for LME models, firsly covering the theory, then proceeding to a discussion on 
+implementing these using \texttt{R} code.
+
+While a substantial body of work has been developed in this area, there is still areas worth exploring. 
+In particular the development of graphical techniques pertinent to LME models should be looked at.
+
+
+
+
+%\section{Introduction (Page 1)}
+%
+%Linear models for uncorrelated data have well established measures to gauge the influence of one or more
+%observations on the analysis. For such models, closed-form update expressions allow efficient computations
+%without refitting the model. 
+%
+%
+%When similar notions of statistical influence are applied to mixed models,
+%things are more complicated. Removing data points affects fixed effects and covariance parameter estimates.
+%Update formulas for “\textit{leave-one-out}” estimates typically fail to account for changes in covariance
+%parameters. 
+%
+%Moreover, in repeated measures or longitudinal studies, one is often interested in multivariate
+%influence, rather than the impact of isolated points. 
+
+% This paper examines extensions of influence measures
+% in linear mixed models and their implementation in the MIXED procedure.
+
+
+
+Apropos of the matter of ease-of-use, certain assumptions must be made.
+	
+The user has a reasonable amount of computer literacy. The user would have a reasonable understanding of statistics, consistent with an undergraduate statistics module. That is to say, that the user is acquainted with the idea of $p-$values.
+	
+Easy to follow set of instructions to properly implement the method.
+
+\section{Outline of Thesis}
+In the first chapter the study of method comparison is introduced, while the second chapter provides a review of current methodologies. The intention of this thesis is to progress the
+study of method comparison studies, using a statistical method known as Linear mixed effects models.
+Chapter three shall describes linear mixed effects models, and how the use of the linear mixed
+effects models have so far extended to method comparison studies. Implementations of important existing work shall be presented, using the \texttt{R} programming language.
+
+Model diagnostics are an integral component of a complete statistical analysis.
+In chapter three model diagnostics shall be described in depth, with particular
+emphasis on linear mixed effects models, further to chapter two.
+
+For the fourth chapter, important linear mixed effects model diagnostic methods shall be extended to method comparison studies, and proposed methods shall be demonstrated on data sets that have become well known in literature on method comparison. The purpose is to both calibrate these methods and to demonstrate applications for them.
+The last chapter shall focus on robust measures of important parameters such as agreement.
+
+%======================================================================%
+
+
+
+\section{Test for inter-method bias}
+Bias is determinable by examination of the 't-table'. Estimate for both methods are given, and the bias is simply the difference between the two. Because the $R$ implementation does not account for an intercept term, a $p-$value is not given. Should a $p-$value be required specifically for the bias, and simple restructuring of the model is required wherein an intercept term is included. Output from a second implementation will yield a $p-$value.
+
+
+\section{LME}
+Consistent with the conventions of mixed models, \citet{pkc}
+formulates the measurement $y_{ij} $from method $i$ on individual
+$j$ as follows;
+\begin{equation}
+y_{ij} =P_{ij}\theta + W_{ij}v_{i} + X_{ij}b_{j} + Z_{ij}u_{j} +
+\epsilon_{ij},     (j=1,2, i=1,2....n)
+\end{equation}
+The design matrix $P_{ij}$ , with its associated column vector
+$\theta$, specifies the fixed effects common to both methods. The
+fixed effect specific to the $j$th method is articulated by the
+design matrix $W_{ij}$ and its column vector $v_{i}$. The random
+effects common to both methods is specified in the design matrix
+$X_{ij}$, with vector $b_{j}$ whereas the random effects specific
+to the $i$th subject by the $j$th method is expressed by $Z_{ij}$,
+and vector $u_{j}$. Noticeably this notation is not consistent
+with that described previously.  The design matrices are specified
+so as to includes a fixed intercept for each method, and a random
+intercept for each individual. Additional assumptions must also be
+specified;
+\begin{equation}
+v_{ij} \sim N(0,\Sigma),
+\end{equation}
+These vectors are assumed to be independent for different $i$s,
+and are also mutually independent. All Covariance matrices are
+positive definite.  In the above model effects can be classed as
+those common to both methods, and those that vary with method.
+When considering differences, the effects common to both
+effectively cancel each other out. The differences of each pair of
+measurements can be specified as following;
+\begin{equation}
+d_{ij} = X_{ij}b_{j} + Z_{ij}u_{j} + \epsilon_{ij},     (j=1,2,
+i=1,2....n)
+\end{equation}
+This formulation has seperate distributional assumption from the
+model stated previously.
+
+This agreement covariate $x$ is the key step in how this
+methodology assesses agreement.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+
+
+
+
+
+
+\section{Remarks}
+The relationship between precision and the within-item and between-item variability must be established. Roy establishes the equivalence of repeatability and within-item variability, and hence precision.  The method with the smaller within-item variability can be deemed to be the more precise.
+
+A useful approach is to compute the confidence intervals for the ratio of within-item standard deviations (equivalent to the ratio of repeatability coefficients), which can be interpreted in the usual manner.  
+
+In fact, the ratio of within-item standard deviations, with the attendant confidence interval,  can be determined using a single R command: \texttt{intervals()}.
+
+Pinheiro and Bates (pg 93-95) give a description of how confidence intervals for the variance components are computed. Furthermore a complete set of confidence intervals can be computed to complement the variance component estimates. 
+
+What is required is the computation of the variance ratios of within-item and between-item standard deviations.  
+
+A naive  approach would be to compute the variance ratios by relevant F distribution quantiles. However, the question arises as to the appropriate degrees of freedom.
+
+Limits of agreement are easily computable using the LME framework. While we will not be considering this analysis, a demonstration will be provided in the example.
+
+
+\section{PRESS}
+	% The DFBETA for a particular observation is the difference between the regression coefficient for an included variable calculated for all of the data and the regression coefficient calculated with the observation deleted, scaled by the standard error calculated with the observation deleted.
+	
+	
+	
+	%===================================%
+	
+	
+	% % - http://support.sas.com/documentation/cdl/en/statug/63347/HTML/default/viewer.htm#statug_mixed_sect027.htm
+	An (unconditional) predicted value is $\hat{y}_i = x^{\prime}_i \boldsymbol{\hat{\beta}}$, where
+	the vector $x_i$ is the $i$th row of $\boldsymbol{X}$.
+	
+	%	For an \texttt{lme} object, such as our fitted model \texttt{JS.roy1}, the predicted values for each subject can be determined using the \texttt{coef.lme} function.
+	%	\begin{framed}
+	%		\begin{verbatim}
+	%		> JS.roy1 %>% coef %>% head(5)
+	%		methodJ   methodS
+	%		74     84.31724  91.08404
+	%		36     91.54994  97.05548
+	%		3      81.16581  96.48653
+	%		62     92.09493  90.89073
+	%		31     88.41411 103.38802
+	%		\end{verbatim}
+	%	\end{framed}
+	
+ %http://support.sas.com/documentation/cdl/en/statug/63347/HTML/default/viewer.htm#statug_mixed_sect027.htm
+
+	An (unconditional) predicted value is $\hat{y}_i = x^{\prime}_i \boldsymbol{\hat{\beta}}$, where
+	the vector $x_i$ is the $i$th row of $\boldsymbol{X}$.
+	The (raw) residual is given as $\varepsilon_i = y_i - \hat{y}_i$. The PRESS residual is
+	similarly constructed, using the predicted value for observation $i$ with a model fitted from reduced data.
+	\[ \varepsilon_{i(U)} = y_i - x^{\prime}_i \boldsymbol{\hat{\beta}}_{(U)} \]
+	
+	
+\section{One Way ANOVA}
+	\subsection{Page 448}
+	Computing the variance of $\hat{\beta}$
+	\begin{eqnarray}
+	\mbox{var}(\hat{\beta}) = (X^{\prime}V^{-1}X)^-1
+	\end{eqnarray}
+	It is not necessary to compute $V^{-1}$ explicitly.
+	
+	\begin{eqnarray}
+	V^{-1}X &= \Sigma^{1}{X-Z()Z^{\prime}\Sigma^{-1}X} \\
+	&= \Sigma^{-1}(X-Zb_{x})
+	\end{eqnarray}
+	
+	The estimate $b_{x}$ is the same term obtained from the random effects model; $X = Zb_{x} + e$, using $X$ as an outcome variable.
+	This formula is convenient in applications where $b_{x}$ can be easily computed. Since $X$ is a matrix of $p$ columns, $b_{x}$ can simple be computed column by column. according to the columns of $X$.
+	\subsection{Page 448- simple example}
+	Consider a simple model of the form;
+	\begin{equation*}
+	y_{ij} = \mu + \beta_{i} + \epsilon_{ij}.
+	\end{equation*}
+	
+	The iterative procedure is as follows Evaluate the individual group mean $\bar{y_{i}}$ and variance $\hat{Sigma^2}_{i}$. Then use the variance of the group means as an estimate of the $\sigma^2_{b}$. The average of the the variances of the groups is the initial estimate of the $\sigma^2_{e}$.
+	\subsubsection{Iterative procedure}
+	
+	The iterative procedure comprises two steps, with $0$ as the first approximation of $b_{i}$.
+	
+	The first step is to compute $\lambda$, the ratio of variabilities,
+	
+	\begin{equation*}
+	\lambda = \frac{\sigma^2_{b}}{\sigma^2_{e}}
+	\end{equation*}
+	
+	\begin{eqnarray*}
+		\mu = \frac{1}{N} \sum_{ij} (y_{ij} - b_{i}) \\
+		b_{i} = \frac{n(\bar{y_{i}}-\mu)}{n+ \lambda} \\
+	\end{eqnarray*}
+	
+	
+	The second step is to updat $sigma^2_{e}$
+	
+	\begin{equation}
+	\sigma^2_{e} = \frac{e^{\prime}e}{N-df}
+	\end{equation}
+	
+	where $e$ is the vector of $e_{ij} = y_{ij}-\mu-b_{i}$ and $df =
+	qn / n+\lambda$ and
+	\begin{equation}
+	\sigma^{2}_{b} = \frac{1}{q} \sum_{i=1}^{q} b_{1}^2 +
+	(\frac{n}{\sigma^2_{e}}+\frac{1}{\sigma^2_{b}})^{-1}
+	\end{equation}
+	
+	\subsubsection{Worked Example}
+	
+	Further to [pawitan 17.1] the initial estimates for variability
+	are $\sigma^{2}_{b} = 1.7698$ and $\sigma^{2}_{e} = 0.3254$. At
+	convergence the following results are obtained.
+	\\
+	n=16, q=5
+	\begin{eqnarray*}
+		\hat{\mu} = \bar{y} = 14.175 \\
+		\hat{\sigma}^2 = 0.325\\
+		\hat{\sigma}^2_{b} = 1.395\\
+		\sigma  = 0.986 \\
+	\end{eqnarray*}
+	At convergene the following estimates are obtained,
+	\begin{eqnarray*}
+		\hat{\mu} = 14.1751 \\
+		\hat{b}= (-0.6211, 0.2683,1.4389,-1.914,0.8279)\\
+		\hat{\sigma}^2_{b} = 1.3955\\
+		\hat{\sigma}^2_{e} = 0.3254\\
+	\end{eqnarray*}
+	
+
+	
+
+	%=========================================================================================================================================== %
+	
+\section{BA - BXC 2009  Discussion}
+
+\textbf{Discussion}\\
+I have here proposed a simple twist to the results from regression of the differences on the sums in the case of a linear relationship
+between two methods of measurement. It is consistent with the obvious underlying model, and exploits the fact that although
+the parameters of the model cannot be estimated, those functions of the parameters that are needed for creating predictions
+can be estimated.
+%----------------------------------------------------------------------------------------------------------------%
+The prediction limits provided have the attractive property that if the prediction line with limits is drawn in a coordinate
+system, the chart will apply in both ways; hence, both the line and the limits are symmetric. Precisely as the prediction intervals
+derived from the classical LoA are in the case where the difference between methods is constant.
+%----------------------------------------------------------------------------------------------------------------%
+The drawback is that the regression of the differences on the means ignores that the averages are correlated with the residuals
+(i.e. the error terms), and therefore gives biased estimates if the slope linking the two methods is far from 1 or the residual
+variances are very different. However, both of these are rather uncommon in method comparison studies, so the method proposed
+here is widely applicable.
+%----------------------------------------------------------------------------------------------------------------%
+When considering LoA, the only feasible transformation is the log-transform, which gives LoA for the ratio of measurements,
+which is immediately understandable. If, for example, the measurements are fractions where some are close to either 0 or 1 a
+logit transform may be adequate. 
+
+LoA would then be for (log) odds-ratios, not very easily understood. For other more arbitrarily
+chosen transformation the situation may be even worse. But if a plot with conversion lines and limits are constructed, then the
+plot is readily back-transformed to the original scale for practical use.
+
+	
+	%================================================%
+	
+\subsection{EBLUPS-Diagnostics for Random Effects}
+%% West Page 42 Section 2.8.3
+\citet{west} recommends the empirical Bayes predictor, also known as EBLUPS as a diagnostic tool for Random effects. Checking EBLUPS for normality is of limited value.
+
+
+\section{EBLUP}
+
+%-http://chjs.deuv.cl/Vol3N1/ChJS-03-01-05.pdf
+
+The EBLUP is useful to identify outlier subjects given that it represents the distance between the population mean value and the value predicted for the ith subject. A way of using the EBLUP to search for outliers subjects is to use the Mahalanobis distance (see Waternaux et al., 1989), FORMULA
+
+It is also possible to use the EBLUP
+to verify the random effects normality assumption. For more information; see \citet{nobresinger}. In Table 2 we summarize diagnostic techniques involving residuals discussed
+in Nobre and Singer (2007).
+
+%----------------------------------------------------%
+
+$\Lambda = \frac{\mbox{max}_{H_{0}}L}{\mbox{max}_{H_{1}}L}$
+	
+
+\section{Unknown Material}
+
+
+To standardize the assessment of how influential data is, several measures of influence are commonly used, such as DFBETAS 
+and Cook’s Distance.
+
+Although influential cases thus have extreme values on one or more of the variables, they can be onliers
+rather than outliers. 
+
+To account for this, the (standardized) deleted residual is defined as the difference between
+the observed score of a case on the dependent variable, and the predicted score from the regression
+model fitted from data when that case is omitted.
+
+Just as influential cases are not necessarily outliers, outliers are not necessarily influential cases. 
+
+This also holds for deleted residuals. The reason for this is that the amount of influence a case exerts on the regression slope is not only determined by how well its (observed) score is fitted by the specified regression model, but also by its score(s) on the independent variable(s). The degree to which the scores of a case on the independent variable(s) are extreme is indicated by the leverage of this case. 
+
+
+%=========================================================%
+
+
+\subsection{Estimation}
+
+\begin{eqnarray}
+\hat{\beta} &=& X^{T} \\
+\hat{\gamma} &=& G(\hat{\theta})Z^{T}
+\end{eqnarray}
+
+The difference between perturbation and residual analysis between the linear and LME models.
+The estimates of the fixed effects $\beta$ depend on the estimates of the covariance parameters.
+
+
+
+
+	
+
+	\section{RSquared for LME models}
+	
+	As a complement to this, one can also consider how to properly employ the $R^2$ measure, in the context of Methoc Comparison Studies, further to the work by \citet{edwards2008}, namely ``An $R^2$ statistic for fixed effects in the linear mixed model".
+	
+	\begin{framed}
+		
+		\begin{quote}
+			\textbf{Abstract for ``An $R^2$ statistic for fixed effects in the linear mixed model"}
+			Statisticians most often use the linear mixed model to analyze Gaussian longitudinal data. 
+			
+			The value and familiarity of the R2 statistic in the linear univariate model naturally creates great interest in extending it to the linear mixed model. We define and describe how to compute a model R2 statistic for the linear mixed model by using only a single model. 
+			
+			The proposed R2 statistic measures multivariate association between the repeated outcomes and the fixed effects in the linear mixed model. The R2 statistic arises as a 1–1 function of an appropriate F statistic for testing all fixed effects (except typically the intercept) in a full model. 
+			
+			The statistic compares the full model with a null model with all fixed effects deleted (except typically the intercept) while retaining exactly the same covariance structure. 
+			
+			Furthermore, the R2 statistic leads immediately to a natural definition of a partial R2 statistic. A mixed model in which ethnicity gives a very small p-value as a longitudinal predictor of blood pressure (BP) compellingly illustrates the value of the statistic. 
+			
+			In sharp contrast to the extreme p-value, a very small $R^2$ , a measure of statistical and scientific importance, indicates that ethnicity has an almost negligible association with the repeated BP outcomes for the study.
+		\end{quote}
+	\end{framed}
+	
+
+
+\section{Roy's Candidate models}
+The original Bland Altman Method was developed for two sets of
+measurements done on one occasion (i.e. independent data), and so
+this approach is not suitable for repeated measures data. However,
+as a naïve analysis, it may be used to explore the data because of
+the simplicity of the method. Myles states that such misuse of the
+standards Bland Altman method is widespread in Anaesthetic and
+critical care literature.
+\\
+\\
+Bland and Altman have provided a modification for analysing
+repeated measures under stable or chaninging conditions, where
+repeated data is collected over a period of time. Myers proposes
+an alternative Random effects model for this purpose.
+\\
+\\
+with repeated measures data, we can
+calculate the mean of the repeated measurements by each method on
+each individuals. \emph{ The pairs of means can then be used to
+	compare the two methods based on the 95\% limits of agreement for
+	the difference of means. The bias between the two methods will not
+	be affected by averaging the repeated measurements.}.However the
+variation of the differences will be underestimated by this
+practice because the measurement error is, to some extent,
+removed. Some advanced statistical calculations are needed to take
+into account these measurement errors. \emph{Random effects models
+	can be used to estimate the within-subject variation after
+	accounting for other observed and unobserved variations, in which
+	each subject has a different intercept and slope over the
+	observation period .On the basis of the within-subject variance
+	estimated by the random effects model, we can then create an
+	appropriate Bland Altman Plot.}The sequence or the time of the
+measurement over the observation period can be taken as a random
+effect.
+
+
+
+
+
+
+
+
+
+
+\section{Other Approaches : Marginal Modelling}
+(Diggle 2002) proposes the use of marginal models as an
+alternative to mixed models.m Marginal models are appropriate when
+interences about the mean response are of specific interest.
+
+\section{Other Approaches}
+
+
+\citet{pkcng} generalize this approach to account for situations
+where the distributions are not identical, which is commonly the
+case. The TDI is not consistent and may not preserve its
+asymptotic nominal level, and that the coverage probability
+approach of \citet{lin2002} is overly conservative for moderate
+sample sizes. This methodology proposed by \citet{pkcng} is a
+regression based approach that models the mean and the variance of
+differences as functions of observed values of the average of the
+paired measurements.
+
+
+
+%-------------------------------------------------
+\section{Introduction}
+
+Outliers and detection of influent observations is an important step in the analysis of a data set. There are several ways of evaluating the influence of perturbations in the data set and in the model given the parameter estimates. 
+
+
+\section{Computation and Notation } %2.3
+with $\boldsymbol{V}$ unknown, a standard practice for estimating $\boldsymbol{X \beta}$ is the estime the variance components $\sigma^2_j$,
+compute an estimate for $\boldsymbol{V}$ and then compute the projector matrix $A$, $\boldsymbol{X \hat{\beta}}  = \boldsymbol{AY}$.
+
+
+Zewotir remarks that $\boldsymbol{D}$ is a block diagonal with the $i-$th block being $u \boldsymbol{I}$
+
+%============================================================================%
+
+% - http://journal.r-project.org/archive/2012-2/RJournal_2012-2_Nieuwenhuis~et~al.pdf
+
+% - http://www.rensenieuwenhuis.nl/tag/lme4/
+
+% - http://lme4.r-forge.r-project.org/lMMwR/lrgprt.pdf
+
+%============================================================================%
+\section*{SEM}
+A Study of the Bland-Altman Plot and its Associated Methodology
+
+Joseph G. Voelkel Bruce E. Siskowski 
+
+% - https://www.rit.edu/kgcoe/cqas/sites/rit.edu.kgcoe.cqas/files/docs/TR%202005-3.pdf
+
+
+
+% - http://sprouts.aisnet.org/785/1/TAMReview.pdf
+% - http://organizacija.fov.uni-mb.si/index.php/organizacija/article/viewFile/557/999
+
+
+
+
+
+\subsection*{Measurement Systems Analysis}The topic of measurement sensitivity anaylysis (MSA, also known as Gauge R\&R) is prevalent in industrial statistics (i.e Six Sigma).
+
+There is extensive literature that covers the area. For the sake of brevity, we will use Cano et al.
+
+For sake of clarity, Cano's definitions of repeatability and reproducibility are listed, with added emphasis.
+
+Reproducibility is rarely, if ever, discussed in the domain of Method Comparison Studies. This may be due to the fact that prevalent methodologies can be used for the problem.However
+the methodologies proposed by this research can easily be extended.
+
+
+
+
+
+
+\section*{Bayesian BA - Philip J Schluter}
+Bayesian Bland Altman Approaches
+%================================%
+A multivariate hierarchical Bayesian approach to measuring agreement in repeated
+measurement method comparison studies
+
+*http://www.biomedcentral.com/1471-2288/9/6*
+
+
+
+\subsection*{Background}
+Assessing agreement in method comparison studies depends on two fundamentally important components; validity (the between method agreement) and reproducibility (the within method agreement). 
+
+The Bland-Altman limits of agreement technique is one of the favoured approaches in medical literature for assessing between method validity. However, few researchers have adopted this approach for the assessment of both validity and reproducibility. 
+
+This may be partly due to a lack of a flexible, easily implemented and readily available statistical machinery to analyse repeated measurement method comparison data.
+
+\textbf{Methods}\\
+Adopting the Bland-Altman framework, but using Bayesian methods, we present this statistical machinery. Two multivariate hierarchical Bayesian models are advocated, one which assumes that the underlying values for subjects remain static (exchangeable replicates) and one which assumes that the underlying values can change between repeated measurements (non-exchangeable replicates).
+
+\textbf{Results}\\
+We illustrate the salient advantages of these models using two separate datasets that have been previously analysed and presented; 
+(i) assuming static underlying values analysed using both multivariate hierarchical Bayesian models,  
+(ii) assuming each subject's underlying value is continually changing quantity and analysed using the non-exchangeable replicate multivariate hierarchical Bayesian model.  
+
+\textbf{Conclusion}
+These easily implemented models allow for full parameter uncertainty, simultaneous method comparison, handle unbalanced or missing data, and provide estimates and credible regions for all the parameters of interest. Computer code for the analyses in also presented, provided in the freely available and currently cost free software package WinBUGS.
+<hr>
+
+\section*{Bayesian Approach}
+A multivariate hierarchical Bayesian approach to measuring agreement in repeated measurement method comparison studies
+PJ Schluter - BMC medical research methodology, 2009 - biomedcentral.com
+
+\begin{itemize}
+	\item Assessing agreement in method comparison studies depends on two fundamentally important 
+	components; validity (the between method agreement) and reproducibility (the within method 
+	agreement). 
+	\item The Bland-Altman limits of agreement technique is one of the f
+\end{itemize}
+
+
+
+\section{Hawkins : Diagnostics for conformity of paired quantitative measurements}
+
+\begin{itemize}
+	\item Matched pairs data arise in many contexts – in case-control clinical trials, for example, and from cross-over designs. They also arise in experiments to verify the equivalence of quantitative assays. This latter use (which is the main focus of this paper) raises difficulties not always seen in other matched pairs applications. 
+	
+	\item Since the designs deliberately vary the analyte levels over a wide range, issues of variance dependent on mean, calibrations of differing slopes, and curvature all need to be added to the usual model assumptions such as normality. 
+	
+	\item Violations in any of these assumptions invalidate the conventional matched pairs analysis. 
+	
+	\item A graphical method, due to Bland and Altman, of looking at the relationship between the average and the difference of the members of the pairs is shown to correspond to a formal testable regression model. 
+	
+	\item Using standard regression diagnostics, one may detect and diagnose departures from the model assumptions and remedy them – for example using variable transformations. Examples of different common scenarios and possible approaches to handling them are shown.
+\end{itemize}
+
+
+%====================================%
+
+\section{Hutson et al}
+A multi-Rate nonparametric test of agreement and corresponding agreement plot
+
+%- Published in: Computational Statistics and Data Analysis 54(2010)109-119
+%- Author: Alan D. Hutson, University of Buffalo
+
+
+
+This approach takes advantage of readily avilable tests of uniformity found in most statistical software packages.
+Such tests include the KS d statistic, the Anderson Darling Statistic and the Cramer-Von Mises statistical test for univariate data.
+
+An important aspect of this approach is the "Agreement Region".
+
+
+
+
+\section{Turkan's LMEs}
+% Influence Analysis in the LME Models
+% Turkan and Toktamus
+% Pakistan Journal of Statistics;2012, Vol. 28 Issue 3, p341
+
+% - http://www.tandfonline.com/doi/abs/10.1080/03610920903564727?journalCode=lsta20#.VHj9vfmsXE4
+
+The linear mixed model is considerably sensitive to outliers and influential observations. 
+It is known that outliers and influential observations affect substantially the results of analysis. 
+So it is very important to be aware of these observations. 
+
+Some diagnostics which are analogue of diagnostics in multiple linear regression were developed to detect 
+outliers and influential observations in the linear mixed model. 
+\emph{
+	In this paper, the new diagnostic measure which is analogue of the Pena's influence statistic is developed for 
+	the linear mixed model.
+}
+
+
+%page 341
+
+%-----------------------------------------------------------------------------------------%
+%page 342
+Estimation and Building blacks in LME models
+
+%-----------------------------------------------------------------------------------------%
+%page 343
+
+\[ \hat{u} = DZ^{T}H^{-1}(y-X\hat{\beta}) \]
+
+\[ \hat{y} = (I_n -  H^{-1})y + H^{-1}X\hat{\beta}\]
+
+%-----------------------------------------------------------------------------------------%
+%page 345
+
+The proposed diagnostic Measure.
+
+%-----------------------------------------------------------------------------------------%
+% http://halweb.uc3m.es/esp/Personal/personas/dpena/articles/TECHanews2005.pdf
+
+
+
+%--------------------------------------------------------------------Diagnostics%
+\section{Diagnostics}
+
+%http://www.artifex.org/~meiercl/R_statistics_guide.pdf
+\subsection{Identifying outliers with a LME model object}
+
+The process is slightly different than with standard LME model objects, since the \textbf{\emph{influence}}
+function does not work on lme model objects. Given \textbf{\emph{mod.lme}}, we can use the plot function to
+identify outliers.
+%----------------------%
+\subsection{Diagnostics for Random Effects}
+Empirical best linear unbiased predictors EBLUPS provide the a useful way of diagnosing random effects.
+
+EBLUPs are also known as ``shrinkage estimators" because they tend to be smaller than the estimated effects would be if they were computed by treating a random factor as if it was fixed \citep{west}.
+
+
+\section{Covariance Parameters} %1.5
+The unknown variance elements are referred to as the covariance parameters and collected in the vector $\theta$.
+% - where is this coming from?
+% - where is it used again?
+% - Has this got anything to do with CovTrace etc?
+%---------------------------------------------------------------------------%
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Distribution of Maxima} It is possible to use Order
+Statistics theory to assess conditional probabilities. With two
+random variables $T_{0}$ and $T_{1}$, we define two variables $Z$
+and $W$ such that they take the maximum and minimum values of the
+pair of $T$ values.
+
+\subsection{Plot of the Maxima against the Minima}
+
+
+In Figure 1,  The Maximas are plotted against their corresponding
+minima. The Critical values of the Maxima and Minima are displayed
+in the dotted lines.The Line of Equality depicts the obvious
+logical constraint of the each Maximum value being greater than
+its corresponding minimum value.
+
+
+
+
+Consequently, of the categories of method comparison study,
+comparison studies, the second category, is of particular
+importance, and the following discussion shall concentrate upon
+it. Less emphasis shall be place on the other three categories.
+
+\bigskip Further to \citet{BA86}, 'equivalence' of two methods expresses
+that both can be used interchangeably.
+\citet[p.49]{DunnSEME} remarks that this is a very restrictive
+interpretation of equivalence, and that while agreement indicated
+equivalence, equivalence does not necessarily reflect agreement.
+
+The main difference between Myers proposed method and the Bland Altman is that the random effects model is used to estimate the
+within-subject variance after adjusting for known and unknown variables. The Bland Altman approach uses one way analysis of
+variance to estimate the within subject variance. In general, the random effects model is an extension of the analysis of the ANOVA method and it can adjust for many more covariates than the ANOVA method.
+
+
+
+
+\subsection{Further Assumptions of Linear Models}
+
+As with fitted models, the assumption of normality of residuals and homogeneity of variance is applicable to LMEs also. 
+
+%--------------------------------------%
+
+
+Homoscedascity is the technical term to describe the variance of the
+residuals being constant across the range of predicted values.
+Heteroscedascity is the converse scenario : the variance differs along
+the range of values.
+
+%--Marginal and Conditional Residuals
+
+
+\section*{Leave-One-Out Diagnostics with \texttt{lmeU}}
+Galecki et al provide a brief the matter of LME influence diagnostics in their book.
+
+The command \texttt{lmeU} fits a model with a particular subject removed. The identifier of the subject to be removed is passed as the only argument
+
+A plot ofthe per-observation diagnostics individual subject log-likelihood contributions can be rendered.
+
+\section*{The addition of an extra factor}
+
+
+%=========================================================================%
+
+
+Interaction terms are featured in ANOVA designs.
+
+%=========================================================================%
+My search just now found no mention of Cook's distance or influence measures.  
+
+The closest I found was an unanswered question on this from 
+April 2003 (http://finzi.psych.upenn.edu/R/Rhelp02a/archive/4797.html).
+
+Beyond that, there is an excellent discussion of "Examining a Fitted Model" in Sec. 4.3 (pp. 174-197) of Pinheiro and Bates (2000) 
+Mixed-Effects Models in S and S-Plus (Springer).  
+
+Pinheiro and Bates decided NOT to include plots of Cook's distance among the many diagnostics they did provide.  
+However, 'plot(fit.lme)' plots 'standardized residuals' vs. predicted or 'fitted values'.  
+Wouldn't points with large influence stand apart from the crowd in terms of 'fitted value'?
+
+Of course, there are many things other one could do to get at related information, including reading the code for 'influence' and 'lme', and 
+figure out from that how to write an 'influence' method for an 'lme' object. 
+
+
+
+
+
+
+
+
+
+\section{Covariance Parameters} %1.18
+The unknown variance elements are referred to as the covariance parameters and collected in the vector $\theta$.
+
+
+
+
+\section{Roy2013}
+
+http://business.utsa.edu/wps/MSS/0017MSS-253-2013.pdf
+
+
+Testing the Equality of Mean Vectors for Paired Doubly Multivariate Observations 
+
+
+Example 2. (Mineral Data): This data set is taken from Johnson and Wichern (2007, p. 43).
+An investigator measured the mineral content of bones (radius, humerus and ulna) by photon
+absorptiometry to examine whether dietary supplements would slow bone loss in 25 older women.
+Measurements were recorded for three bones on the dominant and nondominant sides. Thus,
+the data is doubly multivariate and clearly u = 2 and q = 3.
+The bone mineral contents for the ﬁrst 24 women one year after their participation in an
+experimental program is given in Johnson and Wichern (2007, p. 353). 
+
+
+
+Thus, for our analysis
+we take only ﬁrst 24 women in the ﬁrst data set. We test whether there has been a bone loss
+considering the data as doubly multivariate and has BCS structure. We rearrange the variables
+in the data set by grouping together the mineral content of the dominant sides of radius, humerus
+and ulna as the ﬁrst three variables, that is, the variables in the ﬁrst location (u = 1) and then
+the mineral contents for the non-dominant side of the same bones (u = 2)
+
+
+
+\section{Outlier Testing} 
+A new outlier identification test for method comparison studies based on robust regression.
+
+The identification of outliers in method comparison studies (MCS) is an important part of data analysis, as outliers can indicate serious errors in the measurement process. Common outlier tests proposed in the literature usually require a homogeneous sample distribution and homoscedastic random error variances. However, datasets in MCS usually do not meet these assumptions. In this work, a new outlier test based on robust linear regression is proposed to overcome these special problems. The LORELIA (local reliability) residual test is based on a local, robust residual variance estimator, given as a weighted sum of the observed residuals. The new test is compared to a standard test proposed in the literature by a Monte Carlo simulation. Its performance is illustrated in examples.
+
+\section{Lorelia}
+
+
+Method comparison studies are performed in order to prove equivalence between two measurement methods or instruments. The identification of outliers is an important part of data analysis as outliers can indicate serious errors in the measurement process. Common outlier tests 
+proposed in the literature require a homogeneous sample distribution and homoscedastic random error variances. However, datasets in method comparison studies usually do not meet these assumptions. To overcome this problem, different data transformation methods are proposed in the literature. However, they will only be applicable if the random errors can be described by simple additive or multiplicative models. In this work, a new outlier test based on robust linear regression is proposed which provides a general solution to the above problem. The LORELIA (LOcal RELIAbility) residual test is based on a local, robust residual variance estimator, given as a weighted sum of the observed residuals. Outlier limits are estimated from the actual data situation without making assumptions on the underlying error variance model. The performance of the new test is demonstrated in examples and simulations.
+
+\section{Note on Roy's paper}
+\begin{enumerate}
+	
+	
+	\item Basic model:
+	\begin{center}
+		$ \boldsymbol{y_{i}} = \boldsymbol{X_{i}\beta}
+		+ \boldsymbol{Z_{i}b_{i}} + \boldsymbol{\epsilon_{i}}, \qquad i=1,\dots,n$ \\
+		$\boldsymbol{Z_{i}} \sim \mathcal{N}(\boldsymbol{0,\Sigma}),\quad
+		\boldsymbol{\epsilon_{i}} \sim \mathcal{N}(\boldsymbol{0, \sigma^2
+			\boldsymbol{I} })$
+	\end{center}
+	
+	Assumptions are made about homoskedasticity.
+	
+	\item General model:
+	\begin{center}
+		$ \boldsymbol{y_{i}} = \boldsymbol{X_{i}\beta}
+		+ \boldsymbol{Z_{i}b_{i}} + \boldsymbol{\epsilon_{i}}, \qquad i=1,\dots,n$ \\
+		$\boldsymbol{Z_{i}} \sim \mathcal{N}(\boldsymbol{0,\Psi}),\quad
+		\boldsymbol{\epsilon_{i}} \sim \mathcal{N}(\boldsymbol{0,\sigma^2 \boldsymbol{\Lambda} })$
+	\end{center}
+	
+	Assumptions about homoskedasticity are relaxed \cite[pg.202]{pb}.
+	
+	
+	
+	
+	
+	\item $\sigma^2 \boldsymbol{\Lambda}$ is the general form for the VC structure for residuals.
+	
+	\item The response vector $\boldsymbol{y}_{i}$ comprises the observations of
+	the subject, as measured by two methods, taking three measurements each.
+	Hence a $6 \times 1$ random vector corresponding to the $i$th subject.
+	\begin{equation}
+	\boldsymbol{y}_{i} = (y_{i}^{j1},y_{i}^{Jj2},y_{i}^{j3},y_{i}^{s1},y_{i}^{s2},y_{i}^{s3}) \prime
+	\end{equation}
+	
+	\item The number of replicates is $p$. A subject will have up to
+	$2p$ measurements, for the two instrument case, i.e. $Max(n_{i}) = 2p$.
+	(Let $k$ denote number of instruments, which is assumed to be $2$
+	unless stated otherwise.) For the blood pressure data $p=3$.
+	
+	
+\end{enumerate}
+
+
+
+
+%\section{Introduction (Page 1)}
+%
+%Linear models for uncorrelated data have well established measures to gauge the influence of one or more
+%observations on the analysis. For such models, closed-form update expressions allow efficient computations
+%without refitting the model. 
+%
+%
+%When similar notions of statistical influence are applied to mixed models,
+%things are more complicated. Removing data points affects fixed effects and covariance parameter estimates.
+%Update formulas for “\textit{leave-one-out}” estimates typically fail to account for changes in covariance
+%parameters. 
+%
+%Moreover, in repeated measures or longitudinal studies, one is often interested in multivariate
+%influence, rather than the impact of isolated points. 
+
+% This paper examines extensions of influence measures
+% in linear mixed models and their implementation in the MIXED procedure.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%========================================================================================================= %
+
+
+%\section{Case Deletion Diagnostics}
+%
+%
+%Linear models for uncorrelated data have well established measures to gauge the influence of one or more
+%observations on the analysis. For such models, closed-form update expressions allow efficient computations
+%without refitting the model. 
+%
+%
+%Since the pioneering work of Cook in 1977, deletion measures have been applied to many statistical models for identifying influential observations. Case-deletion diagnostics provide a useful tool for identifying influential observations and outliers.
+%
+%The key to making deletion diagnostics useable is the development of efficient computational formulas, allowing one to obtain the \index{case deletion diagnostics} case deletion diagnostics by making use of basic building blocks, computed only once for the full model.
+%
+%The computation of case deletion diagnostics in the classical model is made simple by the fact that estimates of $\beta$ and $\sigma^2$, which exclude the $i-$th observation, can be computed without re-fitting the model. %\subsection{Terminology for Case Deletion diagnostics} %1.8
+%
+%\citet{preisser} describes two type of diagnostics. When the set consists of only one observation, the type is called
+%`\textit{observation-diagnostics}'. For multiple observations, Preisser describes the diagnostics as `\textit{cluster-deletion}' diagnostics. When applied to LME models, such update formulas are available only if one assumes that the covariance parameters are not affected by the removal of the observation in question. However, this is rarely a reasonable assumption.
+%
+%
+%
+%
+%%---------------------------------------------------------------------------%
+
+
+\section{Regression Of Differences On Averages}
+Further to Carstensen, we can formulate the two measurements
+$y_{1}$ and $y_{2}$ as follows:
+\\
+$y_{1} = \alpha + \beta\mu + \epsilon_{1}$
+\\
+$y_{2} = \alpha + \beta\mu + \epsilon_{2}$
+
+
+\section{Residual diagnostics} %1.3
+For classical linear models, residual diagnostics are typically conducted using a plot of the observed residuals and the predicted values. A visual inspection for the presence of trends inform the analyst on the validity of distributional assumptions, and to detect outliers and influential observations.
+
+%\section{Case Deletion Diagnostics}
+%
+%
+%Linear models for uncorrelated data have well established measures to gauge the influence of one or more
+%observations on the analysis. For such models, closed-form update expressions allow efficient computations
+%without refitting the model. 
+%
+
+\begin{framed}
+	
+	\begin{quote}
+		\textbf{Abstract for ``An $R^2$ statistic for fixed effects in the linear mixed model"}
+		Statisticians most often use the linear mixed model to analyze Gaussian longitudinal data. 
+		
+		The value and familiarity of the R2 statistic in the linear univariate model naturally creates great interest in extending it to the linear mixed model. We define and describe how to compute a model R2 statistic for the linear mixed model by using only a single model. 
+		
+		The proposed R2 statistic measures multivariate association between the repeated outcomes and the fixed effects in the linear mixed model. The R2 statistic arises as a 1–1 function of an appropriate F statistic for testing all fixed effects (except typically the intercept) in a full model. 
+		
+		The statistic compares the full model with a null model with all fixed effects deleted (except typically the intercept) while retaining exactly the same covariance structure. 
+		
+		Furthermore, the R2 statistic leads immediately to a natural definition of a partial R2 statistic. A mixed model in which ethnicity gives a very small p-value as a longitudinal predictor of blood pressure (BP) compellingly illustrates the value of the statistic. 
+		
+		In sharp contrast to the extreme p-value, a very small $R^2$ , a measure of statistical and scientific importance, indicates that ethnicity has an almost negligible association with the repeated BP outcomes for the study.
+	\end{quote}
+\end{framed}
+
+%======================%
+% nlme
+\subsubsection*{The \texttt{nlme} package}
+
+With regards to \texttt{nlme}, the torch has been passed to Galecki Galecki \& Burzykowski (UMich. and Hasselt respecitely).  Galecki \& Burzykowski published \textit{Linear Mixed Effects Models using \texttt{R}}. 
+Also, the accompanying \texttt{R} package, nlmeU package is under current development, with a version being released XXXX.
+
+
+
+
+
+%======================%
+% lme4 and influence.ME
+\subsubsection*{The \texttt{lme4} package}
+
+The \texttt{lme4} package is also under active development, under the leadership of Ben Bolker (McMaster University). According to CRAN, the LME4 package, fits linear and generalized linear mixed-effects models
+
+\begin{quote}
+	The models and their components are represented using S4 classes and methods. The core computational algorithms are implemented using the Eigen C++ library for numerical linear algebra and RcppEigen "glue".
+	(CRAN)
+\end{quote}
+
+
+%=====================%
+% Important Consideration for MCS
+
+The key issue is that \texttt{nlme} allows for the particular specification of Roy's Model, speciifically direct spefiication of the VC matrices for within subject and between subject residuals.
+The \texttt{lme4} package does not allow for this.
+To advance the ideas that eminate from Roys' paper, one is required to use the \texttt{nlme} context. However, to take advantage of the infrastructure already provided for \texttt{lme4} models, one may change the research question away from that of Roy's paper. 
+To this end, an exploration of what textit{influence.ME} can accomplished is merited.
+As a complement to this, one can also consider how to properly employ the $R^2$ measure, in the context of Methoc Comparison Studies, further to the work by Edwards et al, namely ``An $R^2$ statistic for fixed effects in the linear mixed model".
+%================================================= %
+\newpage
+\begin{framed}
+	
+	\begin{quote}
+		\textbf{Abstract for ``An $R^2$ statistic for fixed effects in the linear mixed model"}
+		Statisticians most often use the linear mixed model to analyze Gaussian longitudinal data. 
+		
+		The value and familiarity of the R2 statistic in the linear univariate model naturally creates great interest in extending it to the linear mixed model. We define and describe how to compute a model R2 statistic for the linear mixed model by using only a single model. 
+		
+		The proposed R2 statistic measures multivariate association between the repeated outcomes and the fixed effects in the linear mixed model. The R2 statistic arises as a 1–1 function of an appropriate F statistic for testing all fixed effects (except typically the intercept) in a full model. 
+		
+		The statistic compares the full model with a null model with all fixed effects deleted (except typically the intercept) while retaining exactly the same covariance structure. 
+		
+		Furthermore, the R2 statistic leads immediately to a natural definition of a partial R2 statistic. A mixed model in which ethnicity gives a very small p-value as a longitudinal predictor of blood pressure (BP) compellingly illustrates the value of the statistic. 
+		
+		In sharp contrast to the extreme p-value, a very small $R^2$ , a measure of statistical and scientific importance, indicates that ethnicity has an almost negligible association with the repeated BP outcomes for the study.
+	\end{quote}
+\end{framed}
+
+
+
+\begin{equation}
+r_{mi}=x^{T}_{i}\hat{\beta}
+\end{equation}
+
+
+\subsection{Note 1: Coefficient of Repeatability}
+The coefficient of repeatability is a measure of how well a
+measurement method agrees with itself over replicate measurements
+\citep{BA99}. Once the within-item variability is known, the
+computation of the coefficients of repeatability for both methods
+is straightforward.
+
+
+
+\subsection{Note 2: Carstensen model in the single measurement case}
+\citet{BXC2004} presents a model to describe the relationship between a value of measurement and its real value.
+The non-replicate case is considered first, as it is the context of the Bland-Altman plots.
+This model assumes that inter-method bias is the only difference between the two methods.
+
+
+\begin{equation}
+y_{mi}  = \alpha_{m} + \mu_{i} + e_{mi} \qquad  e_{mi} \sim \mathcal{N}(0,\sigma^{2}_{m})
+\end{equation}
+
+The differences are expressed as $d_{i} = y_{1i} - y_{2i}$.
+
+For the replicate case, an interaction term $c$ is added to the model, with an associated variance component.
+
+
+
+
+\subsection{Note 3: Model terms}
+It is important to note the following characteristics of this model.
+\begin{itemize}
+	\item Let the number of replicate measurements on each item $i$ for both methods be $n_i$, hence $2 \times n_i$ responses. However, it is assumed that there may be a different number of replicates made for different items. Let the maximum number of replicates be $p$. An item will have up to $2p$ measurements, i.e. $\max(n_{i}) = 2p$.
+	
+	% \item $\boldsymbol{y}_i$ is the $2n_i \times 1$ response vector for measurements on the $i-$th item.
+	% \item $\boldsymbol{X}_i$ is the $2n_i \times  3$ model matrix for the fixed effects for observations on item $i$.
+	% \item $\boldsymbol{\beta}$ is the $3 \times  1$ vector of fixed-effect coefficients, one for the true value for item $i$, and one effect each for both methods.
+	
+	\item Later on $\boldsymbol{X}_i$ will be reduced to a $2 \times 1$ matrix, to allow estimation of terms. This is due to a shortage of rank. The fixed effects vector can be modified accordingly.
+	\item $\boldsymbol{Z}_i$ is the $2n_i \times  2$ model matrix for the random effects for measurement methods on item $i$.
+	\item $\boldsymbol{b}_i$ is the $2 \times  1$ vector of random-effect coefficients on item $i$, one for each method.
+	\item $\boldsymbol{\epsilon}$  is the $2n_i \times  1$ vector of residuals for measurements on item $i$.
+	\item $\boldsymbol{G}$ is the $2 \times  2$ covariance matrix for the random effects.
+	\item $\boldsymbol{R}_i$ is the $2n_i \times  2n_i$ covariance matrix for the residuals on item $i$.
+	\item The expected value is given as $\mbox{E}(\boldsymbol{y}_i) = \boldsymbol{X}_i\boldsymbol{\beta}.$ \citep{hamlett}
+	\item The variance of the response vector is given by $\mbox{Var}(\boldsymbol{y}_i)  = \boldsymbol{Z}_i \boldsymbol{G} \boldsymbol{Z}_i^{\prime} + \boldsymbol{R}_i$ \citep{hamlett}.
+\end{itemize}
+
+
+%\chapter{Limits of Agreement}
+\section{Modelling Agreement with LME Models}
+
+% Carstensen pages 22-23
+
+
+Roys uses and LME model approach to provide a set of formal tests for method comparison studies.\\
+
+Four candidates models are fitted to the data.\\
+
+These models are similar to one another, but for the imposition of equality constraints.\\
+
+These tests are the pairwise comparison of candidate models, one formulated without constraints, the other with a constraint.\\
+
+
+Roy's model uses fixed effects $\beta_0 + \beta_1$ and $\beta_0 + \beta_1$ to specify the mean of all observationsby \\ methods 1 and 2 respectuively.
+
+
+
+
+
+Roy adheres to Random Effect ideas in ANOVA
+
+Roy treats items as a sample from a population.\\
+
+Allocation of fixed effects and random effects are very different in each model\\
+
+Carstensen's interest lies in the difference between the population from which they were drawn.\\
+
+Carstensen's model is a mixed effects ANOVA.\\
+
+\[
+Y_{mir}  =  \alpha_m + \mu_i + c_{mi} + e_{mir}, \qquad c_{mi} \sim \mathcal{\tau^2_m}, \qquad e_{mir} \sim \mathcal{\sigma^2_m},
+\]
+
+This model includes a method by item iteration term.\\
+
+Carstensen presents two models. One for the case where the replicates, and a second for when they are linked.\\
+
+Carstensen's model does not take into account either between-item or within-item covariance between methods.\\
+
+
+In the presented example, it is shown that Roy's LoAs are lower than those of Carstensen.
+Carstensen makes some interesting remarks in this regard.
+
+\begin{quote}
+	The only slightly non-standard (meaning "not often used") feature is the differing residual variances between methods.
+\end{quote}
+\newpage
+
+
+
+\section{Covariance Parameters} %1.5
+The unknown variance elements are referred to as the covariance parameters and collected in the vector $\theta$.
+% - where is this coming from?
+% - where is it used again?
+% - Has this got anything to do with CovTrace etc?
+
+
+
+
+\section{Missing Data in Method Comparison Studies}
+
+The matter of missing data has not been commonly encountered in either Method Comparison Studies or Linear Mixed Effects Modelling. However Roy (2009) deals with the relevant assumptions regrading missing data.
+
+Galecki \& Burzykowski (2013) tackles the subject of missing data in LME Modelling.
+
+Furthermore the nlmeU package includes the \texttt{patMiss} function, which ``allows to compactly present pattern of missing data in a given vector/matrix/data
+frame or combination of thereof".
+
+
+
+
+\begin{framed} 
+	\begin{itemize}
+		\item \texttt{R} command and \texttt{R} object - Typewriter Font
+		\item \texttt{R} Package name - Italics
+		\item Selected Acronyms and Proper Nouns - Italics
+	\end{itemize}
+\end{framed}
+\medskip
+
+\begin{itemize}	
+	\item This chapter is broken into two parts. The first part is a review of diagnostics methods for linear models, intended to acquaint the
+	reader with the subject, and also to provide a basis for material covered in the second part. Particular attention is drawn to graphical methods.
+	
+	\item The second part of the chapter looks at diagnostics techniques for LME models, firsly covering the theory, then proceeding to a discussion on 
+	implementing these using \texttt{R} code.
+	\item While a substantial body of work has been developed in this area, ther are still area worth exploring. 
+	In particular the development of graphical techniques pertinent to LME models should be looked at.
+\end{itemize}
+
+
+
+
+
+
+
+
+
+	\section{LME - Pankaj Choudhury}
+	Consistent with the conventions of mixed models, \citep{pkc}
+	formulates the measurement $y_{ij} $from method $i$ on individual
+	$j$ as follows;
+	\begin{equation}
+	y_{ij} =P_{ij}\theta + W_{ij}v_{i} + X_{ij}b_{j} + Z_{ij}u_{j} +
+	\epsilon_{ij},     (j=1,2, i=1,2....n)
+	\end{equation}
+	The design matrix $P_{ij}$ , with its associated column vector
+	$\theta$, specifies the fixed effects common to both methods. The
+	fixed effect specific to the $j$th method is articulated by the
+	design matrix $W_{ij}$ and its column vector $v_{i}$. The random
+	effects common to both methods is specified in the design matrix
+	$X_{ij}$, with vector $b_{j}$ whereas the random effects specific
+	to the $i$th subject by the $j$th method is expressed by $Z_{ij}$,
+	and vector $u_{j}$. Noticeably this notation is not consistent
+	with that described previously.  The design matrices are specified
+	so as to includes a fixed intercept for each method, and a random
+	intercept for each individual. Additional assumptions must also be
+	specified;
+	\begin{equation}
+	v_{ij} \sim N(0,\Sigma),
+	\end{equation}
+	These vectors are assumed to be independent for different $i$s,
+	and are also mutually independent. All Covariance matrices are
+	positive definite.  In the above model effects can be classed as
+	those common to both methods, and those that vary with method.
+	When considering differences, the effects common to both
+	effectively cancel each other out. The differences of each pair of
+	measurements can be specified as following;
+	\begin{equation}
+	d_{ij} = X_{ij}b_{j} + Z_{ij}u_{j} + \epsilon_{ij},     (j=1,2,
+	i=1,2....n)
+	\end{equation}
+	This formulation has seperate distributional assumption from the
+	model stated previously.
+	
+	This agreement covariate $x$ is the key step in how this approach assesses agreement.
+	
+	\newpage
+	%========================%
+\section{Modelling Agreement with LME Models}
+
+% Carstensen pages 22-23
+
+
+Roys uses and LME model approach to provide a set of formal tests for method comparison studies.\\
+
+Four candidates models are fitted to the data.\\
+
+These models are similar to one another, but for the imposition of equality constraints.\\
+
+These tests are the pairwise comparison of candidate models, one formulated without constraints, the other with a constraint.\\
+
+
+Roy's model uses fixed effects $\beta_0 + \beta_1$ and $\beta_0 + \beta_1$ to specify the mean of all observationsby \\ methods 1 and 2 respectuively.
+
+
+
+
+
+Roy adheres to Random Effect ideas in ANOVA
+
+Roy treats items as a sample from a population.\\
+
+Allocation of fixed effects and random effects are very different in each model\\
+
+Carstensen's interest lies in the difference between the population from which they were drawn.\\
+
+Carstensen's model is a mixed effects ANOVA.\\
+
+\[
+Y_{mir}  =  \alpha_m + \mu_i + c_{mi} + e_{mir}, \qquad c_{mi} \sim \mathcal{\tau^2_m}, \qquad e_{mir} \sim \mathcal{\sigma^2_m},
+\]
+
+This model includes a method by item iteration term.\\
+
+Carstensen presents two models. One for the case where the replicates, and a second for when they are linked.\\
+
+Carstensen's model does not take into account either between-item or within-item covariance between methods.\\
+
+
+In the presented example, it is shown that Roy's LoAs are lower than those of Carstensen.
+Carstensen makes some interesting remarks in this regard.
+
+\begin{quote}
+	The only slightly non-standard (meaning "not often used") feature is the differing residual variances between methods.
+\end{quote}
+
+
+
+
+
+It is also desirable to measure the influence of the case deletions on the covariance matrix of $\hat{\beta}$.
+
+
+
+%===================================================================%
+
+\begin{itemize}
+	\item \textit{
+		The previous Section (Section 4) is a literary review of residual diagnostics and influence procedures
+		for Linear Mixed Effects Models, drawing heavily on Schabenberger and Zewotir.}
+	
+	\item \textit{	Section 4 begins with an introduction to key topics in residual diagnostics, such as influence, leverage, outliers
+		and Cook's distance. Other concepts such as DFFITS and DFBETAs will be introduced briefly, mostly to explain why the are not particularly useful for
+		the Method Comparison context, and therefore are not elaborated upon.}
+	
+	\item \textit{	In brief, Variable Selection is not applicable to Method Comparison Studies, in the 
+		commonly used used context. 
+		Testing a rather simplisticy specificied model against one with more random effects terms is tractable, but this research question is of secondary importance.}
+\end{itemize}
+
+
+
+
+	\section{Remarks on the Multivariate Normal Distribution}
+	
+	Diligence is required when considering the models. Carstensen specifies his models in terms of the univariate normal distribution. ARoy2009's model is specified using the bivariate normal distribution.
+	This gives rises to a key difference between the two model, in that a bivariate model accounts for covariance between the variables of interest.
+	The multivariate normal distribution of a $k$-dimensional random vector $X = [X_1, X_2, \ldots, X_k]$
+	can be written in the following notation:
+	\[
+	X\ \sim\ \mathcal{N}(\mu,\, \Sigma),
+	\]
+	or to make it explicitly known that $X$ is $k$-dimensional,
+	\[
+	X\ \sim\ \mathcal{N}_k(\mu,\, \Sigma).
+	\]
+	with $k$-dimensional mean vector
+	\[ \mu = [ \operatorname{E}[X_1], \operatorname{E}[X_2], \ldots, \operatorname{E}[X_k]] \]
+	and $k \times k$ covariance matrix
+	\[ \Sigma = [\operatorname{Cov}[X_i, X_j]], \; i=1,2,\ldots,k; \; j=1,2,\ldots,k \]
+	
+	\bigskip
+	
+	\begin{enumerate}
+		\item Univariate Normal Distribution
+		
+		\[
+		X\ \sim\ \mathcal{N}(\mu,\, \sigma^2),
+		\]
+		
+		\item Bivariate Normal Distribution
+		
+		\begin{itemize}
+			\item[(a)] \[  X\ \sim\ \mathcal{N}_2(\mu,\, \Sigma), \vspace{1cm}\]
+			\item[(b)] \[    \mu = \begin{pmatrix} \mu_x \\ \mu_y \end{pmatrix}, \quad
+			\Sigma = \begin{pmatrix} \sigma_x^2 & \rho \sigma_x \sigma_y \\
+			\rho \sigma_x \sigma_y  & \sigma_y^2 \end{pmatrix}.\]
+		\end{itemize}
+	\end{enumerate}
+	
+	
+	
+
+
+
+\addcontentsline{toc}{section}{Bibliography}
+
+%--------------------------------------------------------------------------------------%
+
+\bibliographystyle{chicago}
+\bibliography{DB-txfrbib}
+
+
+\end{document}
+
+

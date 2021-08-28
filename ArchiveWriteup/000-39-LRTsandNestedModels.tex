@@ -1,0 +1,331 @@
+\documentclass[MAIN.tex]{subfiles}
+\begin{document}
+
+\subsection*{Likelihood and estimation}
+
+Likelihood is the hypothetical probability that an event that has already occurred would yield a specific outcome. Likelihood differs from probability in that probability refers to future occurrences, while likelihood refers to past known outcomes.
+
+The likelihood function is a fundamental concept in statistical inference. It indicates how likely a particular population is to
+produce an observed sample. The set of values that maximize the likelihood function are considered to be optimal, and are used as
+the estimates of the parameters.
+
+Maximum likelihood (ML) estimation is a method of obtaining parameter estimates by optimizing the likelihood function. The
+likelihood function is constructed as a function of the parameters in the specified model.
+
+Restricted maximum likelihood (REML) is an alternative methods of computing parameter estimated. REML is often preferred to ML
+because it produces unbiased estimates of covariance parameters by taking into account the loss of degrees of freedom that results
+from estimating the fixed effects in $\boldsymbol{\beta}$.
+
+REML estimation reduces the bias in the variance component, and also handles high correlations
+more effectively, and is less sensitive to outliers than ML.  The problem with REML for model building is that the "likelihoods" obtained for different fixed effects are not comparable. Hence it is not valid to compare models
+with different fixed effects using a likelihood ratio test or AIC when REML is used to
+estimate the model. Therefore models derived using ML must be used instead.
+
+\bigskip
+
+
+Assuming a statistical model $f_{\theta}(y)$ parameterized by a fixed and unknown set of parameters $\theta$, the likelihood $L(\theta)$ is the probability of the observed data $y$ considered as a function of $\theta$ \citep{youngjo}.
+
+The estimate for the fixed effects are referred to as the best linear unbiased estimates (BLUE). Henderson's estimate for the random effects is known as the best linear unbiased predictor (BLUP).
+
+\section{Likelihood ratio test}
+
+
+%http://www.princeton.edu/~achaney/tmve/wiki100k/docs/Likelihood-ratio_test.html
+%http://warnercnr.colostate.edu/~gwhite/fw663/LikelihoodRatioTests.PDF
+
+\subsection{Introduction}
+A likelihood ratio test is used to compare the fit of two models, one of which is nested within the other. This often occurs when testing whether a simplifying assumption for a model is valid, as when two or more model parameters are assumed to be related.
+
+Likelihood ratio tests are a class of tests based on the comparison of the values of the likelihood functions of two candidate models.
+Likelihood ratio tests (LRTs) are a family of tests used to compare the value of likelihood functions for two models, whose respective formulations define a hypothesis to be tested (i.e. the nested and reference model). 
+
+The likelihood ratio test (LRT) is a statistical test of the goodness-of-fit between two models. A relatively more complex model is compared to a simpler model to see if it fits a particular dataset significantly better. If so, the additional parameters of the more complex model are often used in subsequent analyses. 
+
+
+
+\subsection{Usage and Rationale}
+The LRT begins with a comparison of the likelihood scores of the two models:
+
+\[LR = 2*(lnL1-lnL2)\]
+This LRT statistic approximately follows a chi-square distribution. To determine if the difference in likelihood scores among the two models is statistically significant, we next must consider the degrees of freedom. In the LRT, degrees of freedom is equal to the number of additional parameters in the more complex model. Using this information we can then determine the critical value of the test statistic from standard statistical tables.
+
+\bigskip 
+
+For each candidate model, the `-2 log likelihood' ($M2LL$) is computed. The test statistic for each of the three hypothesis tests is the difference of the $M2LL$ for each pair of models. If the $p-$value in each of the respective tests exceed as significance level chosen by the analyst, then the null model must be rejected.
+
+\begin{equation}
+-2\mbox{ ln }\Lambda_{d} =  [ M2LL \mbox{ under }H_{0} \mbox{ model}] - [ M2LL \mbox{ under }H_{A} \mbox{ model}]
+\end{equation}
+
+These test statistics follow a chi-square distribution with the degrees of freedom computed as the difference of the LRT degrees of freedom.
+
+\begin{equation}
+\nu = [\mbox{ LRT df under }H_{0} \mbox{ model}] - [\mbox{ LRT df under }H_{A} \mbox{ model}]
+\end{equation}
+
+\bigskip
+
+The LRT is explained in more detail by Felsenstein (1981), Huelsenbeck and Crandall (1997), Huelsenbeck and Rannala (1997), and Swofford et al. (1996). 
+%While the focus of this page is using the LRT to compare two competing models, under some circumstances one can compare two competing trees estimated using the same likelihood model. There are many additional considerations (e.g., see Kishino and Hasegawa 1989, Shimodaira and Hasegawa 1999, and Swofford et al. 1996).\\
+\bigskip
+
+
+Both models are fitted to the data and their log-likelihood recorded. The test statistic (usually denoted D) is twice the difference in these log-likelihoods:
+
+The model with more parameters will always fit at least as well (have a greater log-likelihood). Whether it fits significantly better and should thus be preferred can be determined by deriving the probability or p-value of the obtained difference D. 
+
+\bigskip
+The test requires nested models, that is, models in which the more complex one can be transformed into the simpler model by imposing a set of linear constraints on the parameters.
+
+In a concrete case, if model 1 has 1 free parameter and a log-likelihood of 8012 and the alternative model has 3 degrees of freedom and a LL of 8024, then the probability of this difference is that of chi-square of 24 = 2·(8024 − 8012) under 2 = 3 − 1 degrees of freedom. Certain assumptions must be met for the statistic to follow a chi-squared distribution and often empirical p-values are computed.
+
+
+\subsection{LRT Test Statistic}
+The test statistic for each of the three hypothesis tests is the difference of the $M2LL$ for each pair of models. The test statistic for the LRT is the difference of the log-likelihood functions, multiplied by $-2$.
+
+The probability distribution of the test statistic is approximated by the $\chi^2$ distribution with ($\nu_{1} - \nu_{2}$) degrees of freedom, where $\nu_{1}$ and $\nu_{2}$ are the degrees of freedom of models 1 and 2 respectively. 
+
+If the $p-$value in each of the respective tests exceed as significance level chosen by the analyst, then the null model must be rejected.
+
+\bigskip
+
+
+
+The significance of the likelihood ratio test can be found by comparing the likelihood ratio to the $\chi^2$ distribution, with the appropriate degrees of freedom.
+\begin{equation}
+\nu = [\mbox{ LRT df under }H_{0} \mbox{ model}] - [\mbox{ LRT df under }H_{A} \mbox{ model}]
+\end{equation}
+
+
+L= - 2ln is approximately distributed as 2 under $H\_0$ for large sample size and under the normality assumption.
+\begin{equation}
+-2\mbox{ ln }\Lambda_{d} =  [ M2LL \mbox{ under }H_{0} \mbox{ model}] - [ M2LL \mbox{ under }H_{A} \mbox{ model}]
+\end{equation}
+These test statistics follow a chi-square distribution with the degrees of freedom computed as the difference of the LRT degrees of freedom.
+
+\bigskip
+
+In many cases, the probability distribution of the test statistic can be approximated by a chi-square distribution with (df1 − df2) degrees of freedom, where df1 and df2 are the degrees of freedom of models 1 and 2 respectively.\\
+
+\subsection{Statistical Assumptions for Likelihood Ratio Tests}
+	
+We generally use LRTs to evaluate the significance of terms in the random effects structure, i.e. different nested models are fitted in which the random effects structure is changed.
+
+
+	
+The LRT is only valid if used to compare hierarchically nested models. That is, the more complex model must differ from the simple model only by the addition of one or more parameters. Adding additional parameters will always result in a higher likelihood score. However, there comes a point when adding additional parameters is no longer justified in terms of significant improvement in fit of a model to a particular dataset. The LRT provides one objective criterion for selecting among possible models.\\
+	
+When testing hypotheses around covariance parameters in an LME model, REML estimation for both models is recommended by \citep{west}, as it REML estimation can be shown to reduce the bias inherent in ML estimates of covariance parameters. Conversely, \citet{PB} advises that testing hypotheses on fixed-effect parameters should be based on ML estimation, and that using REML would not be appropriate in this context.
+
+\bigskip
+	
+A general method for comparing nested models fit by maximum likelihood is the \textbf{\emph{likelihood ratio test}}. This test can be used for models fit by REML (restricted maximum liklihood), but only if the fixed terms in the two models are invariant, and both models have been fit by REML. Otherwise, the argument: method=``ML" must be employed (ML = maximum likelihood).
+	
+Generally, likelihood ratio tests should be used to evaluate the significance of terms on the random effects portion of two nested models, and should not be used to determine the significance of the fixed effects. 	A simple way to more reliably test for the significance of fixed effects in an LME model is to use conditional F-tests, which will give the most reliable test of the fixed effects included inthe  model.
+	
+	%======================================================= %
+
+\subsection{Testing Procedures}
+Roy's methodology requires the construction of four candidate models. The first candidate model is compared to each of the three other models successively. It is the alternative model in each of the three tests, with the other three models acting as the respective null models.
+
+
+
+Likelihood ratio tests are very simple to implement in \texttt{R}, simply use the '\texttt{anova()}' commands. Sample output will be given for each variability test.
+
+
+
+
+A general method for comparing nested models fit by maximum liklihood is the liklihood ratio 
+test. This test can be used for models fit by REML (restricted maximum liklihood), but only if the 
+fixed terms in the two models are invariant, and both models have been fit by REML. Otherwise, 
+the argument: method=”ML” must be employed (ML = maximum liklihood). 
+
+Example of a liklihood ratio test used to compare two models: 
+
+CODE HERE
+
+
+Generally, liklihood ratio tests should be used to evaluate the significance of terms on the 
+random effects portion of two nested models, and should not be used to determine the 
+significance of the fixed effects. 
+
+
+
+
+
+
+	\subsection{Relevance of Estimation Methods}
+	
+	The problem with REML for model building is that the ``likelihoods" obtained for different fixed effects are not comparable. Hence it is not valid to compare models with different fixed effects using a likelihood ratio test or AIC when REML is used to estimate the model. Therefore models derived using ML must be used instead.
+	
+	
+	
+	Nested LME models, fitted by ML estimation, can be compared using the likelihood ratio test \citep{Lehmann2006}.
+	Models fitted using REML estimation can also be compared, but only if both were fitted using REML, and both have the same fixed effects specifications.
+	
+	Likelihood ratio tests are generally used to test the significance of terms in the random effects structure.
+	
+	
+	
+	
+	
+	%-----------------------------------------------------------------------------%
+	%\subsection{Empirical p-values of LRT tests}
+	
+	% - \subsection{Likelihood Ratio Tests: PB on LRTS for LMEs}
+	%% - http://ayeimanol-r.net/2013/11/05/mixed-effects-modeling-four-hour-workshop-part-iv-lmes/
+	For both REML and ML estimates, the nominal $p-$values for the LRT statistics under a $\chi^2$ distribution with 2 degrees of freedom are much greater than empirical values. A number of ways of dealing with this issues are discussed \citep[pg.86]{pb}.
+	
+	One should be aware that these p-values may be conservative. That is, the reported p-value may be greater than the true p-value for the test and, in some cases, it may be much greater.\citep[pg.87]{pb}.
+	
+	
+	
+	Pinheiro \& Bates (2000; p. 88) argue that Likelihood Ratio Test comparisons of models varying in fixed effects tend to be anticonservative i.e. 
+	will see you observe significant differences in model fit more often than you should. 
+	
+	% I think they are talking, especially, about situations in which the number of model parameter differences (differences between the complex model and the nested simpler model) is large relative to the number of observations. 
+	
+	% This is not really a worry for this dataset, but I will come back to the substance of this view, and alternatives to the approach taken here.
+	
+	%=======================================================================================%
+\subsection{Score Function and Fisher Information}
+	
+Such a test can also be used for models fitted using REML, but only if both models have been fitted by REML, and if the fixed effects specification is the same for both models.
+	
+Each of these three test shall be examined in more detail shortly. The power of the likelihood ratio test may depends on specific sample size and the specific number of replications, and \citet{ARoy2009} proposes simulation studies to examine this further.
+	
+The score function $S(\theta)$ is the derivative of the log likelihood with respect to $\theta$,
+	
+	\[
+	S(\theta) = \frac{\partial}{\partial \theta}\emph{l}(\theta),
+	\]
+	
+and the maximum likelihood estimate is the solution to the score equation $	S(\theta) = 0.$	The Fisher information $I(\theta)$, which is defined as
+	\[
+	I(\theta) = - \frac{\partial^2}{\partial \theta^2}\emph{l}(\theta),
+	\]
+give rise to the observed Fisher information ($I(\hat{\theta})$) and the expected Fisher information ($\mathcal{I}(\theta)$).
+	
+\section{Nested Models }
+
+\subsection{Definitions of Nested Models}
+An important step in the process of model selection is to determine, for a given pair of models, if there is a ``nesting relationship" between the two.
+
+We define Model A to be ``nested" in Model B if Model A is a special case of Model B, i.e. Model B with a specific constraint applied.
+
+One model is said to be \emph{nested} within another model, i.e. the reference model, if it represents a special case of the reference model \citep{PB}.
+\subsection{Nesting: Model Selection Using Likelihood Ratio Tests}
+The relationship between the respective models presented by \citet{ARoy2009} is known as ``nesting".
+Hypotheses can be formulated in the context of a pair of models that have a nesting relationship \citet{west}.
+An important step in the process of model selection is to determine, for a given pair of models, if there is a ``nesting relationship" between the two.
+
+\textit{Model A} to be nested in the reference model, \textit{Model B}, if \textit{Model A} is a special case of \textit{Model B}, or with some specific constraint applied. One model is said to be \emph{nested} within another model, i.e. the reference model, if it represents a special case of the reference model \citep{PB}.
+
+LRTs can be used to test hypotheses about covariance parameters or fixed effects parameters in the context of LMEs.
+
+
+
+
+
+
+
+
+
+
+\subsection{Nested and Reference Models}
+Hypotheses can be formulated in the context of a pair of models that have a nesting relationship \citep{west}.
+
+LRTs are a class of tests used to compare the value of likelihood functions for two models defining a hypothesis to be tested (i.e. the nested and reference model).
+
+The significance of the likelihood ratio test can be found by comparing it to the  $\chi^2$ distribution, with the appropriate degrees of freedom.
+
+
+
+\section{Other material}
+\subsection{Implementing Likelihood Ratio Tests using \texttt{R}}
+\begin{itemize}
+	\item Example of a likelihood ratio test used to compare two models: \newline \texttt{>anova(modelA, modelB)}
+	
+	\item The output will contain a p-value, and this should be used in conjunction with the AIC scores to judge which model is preferred. Lower AIC scores are better.
+	
+	\item Generally, likelihood ratio tests should be used to evaluate the significance of terms on the
+	random effects portion of two nested models, and should not be used to determine the significance of the fixed effects.
+	\item A simple way to more reliably test for the significance of fixed effects in an LME model is to use
+	conditional F-tests, as implemented with the simple ``anova" function.
+	
+	
+Example:\newline \texttt{>anova(modelA)}
+	
+	
+	will give the most reliable test of the fixed effects included in model1.
+\end{itemize}
+
+\bigskip
+
+A simple way to more reliably test for the significance of fixed effects in an LME model is to use 
+conditional F-tests, as implemented with the simple “anova” function. 
+
+
+\begin{framed}
+\begin{verbatim}
+> anova(MCS1,MCS2)
+
+Model df    AIC    BIC  logLik   Test L.Ratio p-value
+MCS1     1  8 4077.5 4111.3 -2030.7
+MCS2     2  7 4075.6 4105.3 -2030.8 1 vs 2 0.15291  0.6958
+\end{verbatim}
+\end{framed}
+	
+The output will contain a p-value, and this should be used in conjunction with the AIC scores to 
+judge which model is preferred. Lower AIC scores are better. 
+
+
+\subsection{Pinheiro Bates}
+A general method for comparing nested models fitted by ML is the \textbf{\emph{likelihood ratio test}} \citep{lehmann1986}. Such a test can also be used for models fitted using REML, but only if both models have been fitted by REML, and if the fixed effects specification is the same for both models.
+
+If $k_i$ is the number of parameters to be estimated in model $i$, then the asymptotic, or ``large sample", distribution of the LRT statistic, under the null hypothesis that the restricted model is adequate, is a $\chi^2$ distribution with $k_2-k_1$ degrees of freedom \citep[pg.83]{PB}.
+
+We generally use LRTs to evaluate the significance of terms in the random effects structure, i.e. different nested models are fitted in which the random effects structure is changed.
+
+
+	%==================================================================%
+
+	\subsection{Akaike Information Critierion}
+	\citet{akaike} introduces the Akaike information criterion ($AIC$), a model selection tool based on the likelihood function. The AIC is a model selection method, assessing how the goodness of
+	fit of a model. It is computed as follows:
+	\begin{displaymath}
+	AIC = -2l_{max}+ 2k
+	\end{displaymath}
+	with $l_{max}$ as the log-likelihood maximum and $k$ as the number
+	of parameters. Given a data set, candidate models are ranked according to their AIC values, with the model having the lowest AIC being considered the best fit.
+	
+	
+	Additionally nested models may be compared by using the Akaike Information Criterion,(AIC) and the Bayesian Information Criterion (BIC).
+	
+	% When comparing the respective scores for nested models, the model with the smaller score is considered to be the preferable model. ML / REML
+	% [Morrell 1998]
+	
+	
+	
+	%% -Treatment of items as fixed effects
+	%	\citet{PB} addresses the issue of treating items as fixed effects. Such a specification is useful only for the specific sample of items, rather than the population of items, where the interest would naturally lie.
+	%	
+	%	\citet{PB} advises the specification of random effects to correspond to items; treating the item effects as random deviations from the population mean.	
+	
+
+
+
+
+
+\subsection{LRTs for covariance parameters}
+\citet{west} recommends that, when testing hypotheses around covariance parameters in an LME model, REML estimation for both models should be used. REML estimation can be shown to reduce the bias inherent in ML estimates of covariance parameters \citep{morrell98}.
+
+
+LRTs can be used to test hypotheses about covariance parameters or fixed effects parameters in the context of LMEs.  Each of these three test shall be examined in more detail shortly.
+
+\addcontentsline{toc}{section}{Bibliography}
+
+\bibliography{2017bib}
+
+\end{document}

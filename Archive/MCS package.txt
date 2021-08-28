@@ -1,0 +1,170 @@
+install.packages("agRee")
+library(agRee)
+set.seed(1234)
+X <- rnorm(20,mean=10,sd=1.2)
+Y <- rnorm(20,mean=9.8,sd=1.4)
+DF=data.frame(X,Y)
+DF=as.matrix(DF)
+agree.plot(DF)
+
+
+################################################################################
+
+Paralleling SAS, we'll write a small function to draw the plot, annotating within to highlight some details. If you're primarily a SAS coder, note the syntax needed to find the name of an object submitted to a function. In contrast, assigning values to new objects created with the function is entirely natural. The resulting plot is shown below.
+
+# set seed, for replicability
+set.seed(42)
+x = rnorm(50)
+y = x + rnorm(50) 
+
+baplot = function(x,y){
+  xstd = (x - mean(x))/sd(x)
+  ystd = (y - mean(y))/sd(y)
+  
+  bamean = (xstd+ystd)/2
+  badiff = (ystd-xstd)
+  
+  plot(badiff~bamean, pch=20, xlab="mean", ylab="difference")
+# in the following, the deparse(substitute(varname)) is what retrieves the
+# name of the argument as data
+  title(main=paste("Bland-Altman plot of x and y\n",
+    deparse(substitute(x)), "and", deparse(substitute(y)),
+    "standardized"), adj=".5")
+#construct the reference lines on the fly: no need to save the values in new 
+# variable names
+  abline(h = c(mean(badiff), mean(badiff)+1.96 * sd(badiff),
+    mean(badiff)-1.96 * sd(badiff)), lty=2)
+} 
+
+baplot(x,y)
+
+################################################################################
+
+# Bland-Altman plot R function.
+# Author: jmmateos@mce.hggm.es
+baplot <- function(m1, m2, ...) {
+    # m1 and m2 are the measurements
+    means <- (m1 + m2) / 2
+    diffs <- m1 - m2
+    mdiff <- mean(diffs)
+    sddiff <- sd(diffs)
+    
+    # Compute the figure limits
+    ylimh <- mdiff + 3 * sddiff
+    yliml <- mdiff - 3 * sddiff
+    par(pch=16,cex=1.4,col="black")
+    # Plot data
+    plot(diffs ~ means, xlab = "Average values", col="red", 
+         ylab = "Differences", ylim = c(yliml, ylimh), ...)    
+    abline(h = mdiff) # Center line
+    abline(h=0,col="green",lwd=0.9)
+    # Standard deviations lines
+    abline(h = mdiff + 1.96 * sddiff, lty = 2)
+    abline(h = mdiff - 1.96 * sddiff, lty = 2)
+}
+baplot(X,Y)
+
+
+
+install.packages("agRee")
+library(agRee)
+set.seed(1234)
+X <- rnorm(20,mean=10,sd=1.2)
+Y <- rnorm(20,mean=9.8,sd=1.4)
+DF=data.frame(X,Y)
+DF=as.matrix(DF)
+agree.plot(DF)
+
+
+################################################################################
+
+Paralleling SAS, we'll write a small function to draw the plot, annotating within to highlight some details. If you're primarily a SAS coder, note the syntax needed to find the name of an object submitted to a function. In contrast, assigning values to new objects created with the function is entirely natural. The resulting plot is shown below.
+
+# set seed, for replicability
+set.seed(42)
+x = rnorm(50)
+y = x + rnorm(50) 
+
+baplot = function(x,y){
+  xstd = (x - mean(x))/sd(x)
+  ystd = (y - mean(y))/sd(y)
+  
+  bamean = (xstd+ystd)/2
+  badiff = (ystd-xstd)
+  
+  plot(badiff~bamean, pch=20, xlab="mean", ylab="difference")
+# in the following, the deparse(substitute(varname)) is what retrieves the
+# name of the argument as data
+  title(main=paste("Bland-Altman plot of x and y\n",
+    deparse(substitute(x)), "and", deparse(substitute(y)),
+    "standardized"), adj=".5")
+#construct the reference lines on the fly: no need to save the values in new 
+# variable names
+  abline(h = c(mean(badiff), mean(badiff)+1.96 * sd(badiff),
+    mean(badiff)-1.96 * sd(badiff)), lty=2)
+} 
+
+baplot(x,y)
+
+################################################################################
+
+# Bland-Altman plot R function.
+# Author: jmmateos@mce.hggm.es
+baplot <- function(m1, m2, ...) {
+    # m1 and m2 are the measurements
+    means <- (m1 + m2) / 2
+    diffs <- m1 - m2
+    mdiff <- mean(diffs)
+    sddiff <- sd(diffs)
+    
+    # Compute the figure limits
+    ylimh <- mdiff + 3 * sddiff
+    yliml <- mdiff - 3 * sddiff
+    par(pch=16,cex=1.4,col="black")
+    # Plot data
+    plot(diffs ~ means, xlab = "Average values", col="red", 
+         ylab = "Differences", ylim = c(yliml, ylimh), ...)    
+    abline(h = mdiff) # Center line
+    abline(h=0,col="green",lwd=0.9)
+    # Standard deviations lines
+    abline(h = mdiff + 1.96 * sddiff, lty = 2)
+    abline(h = mdiff - 1.96 * sddiff, lty = 2)
+}
+baplot(X,Y)
+
+```{r}
+library("mcr")
+data(creatinine,package="mcr")
+x <- creatinine$serum.crea
+y <- creatinine$plasma.crea
+```
+### Deming regression fit.
+The confidence intercals for regression coefficients are calculated with analytical method
+```{r}
+
+model1<- mcreg(x,y,error.ratio=1,method.reg="Deming", method.ci="analytical",
+mref.name = "serum.crea", mtest.name = "plasma.crea", na.rm=TRUE)
+```
+### Results
+```{r}
+printSummary(model1)
+getCoefficients(model1)
+plot(model1)
+```
+#### Deming regression fit.
+The confidence intervals for regression coefficients
+are calculated with bootstrap (BCa) method
+
+```{r}
+model2<- mcreg(x,y,error.ratio=1,method.reg="Deming",
+method.ci="bootstrap", method.bootstrap.ci = "BCa",
+mref.name = "serum.crea", mtest.name = "plasma.crea", na.rm=TRUE)
+compareFit(model1, model2)
+```
+
+```{r}
+model <- mcreg( x,y,error.ratio=1,method.reg="Deming", method.ci="analytical",
+mref.name = "serum.crea", mtest.name = "plasma.crea", na.rm=TRUE )
+calcResponse(model, x.levels=c(1,2,3))
+```
+

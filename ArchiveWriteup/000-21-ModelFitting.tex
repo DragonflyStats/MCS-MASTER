@@ -1,0 +1,668 @@
+\documentclass[Main.tex]{subfiles}
+\begin{document}
+	\chapter{Fitting LME Models}
+	%\subsection{Overview of R implementations}
+	Further to previous material, an appraisal of the current state of development for statistical software for fitting for LME models, particularly for \texttt{nlme} and \texttt{lme4} fitted models.
+	
+	%======================%
+	% lme4 and influence.ME
+	
+	The \textbf{lme4} pacakge is used to fit linear and generalized linear mixed-effects models in the R environment.
+	The \textbf{lme4} package is also under active development, under the leadership of Ben Bolker (McMaster Uni., Canada).
+	
+	
+	Crucially, a review of internet resources indicates that almost all of the progress in this regard has been done for \texttt{lme4} fitted models, specifically the \textit{Influence.ME} \texttt{R} package. (Nieuwenhuis et al 2014)
+	Conversely there is very little for \texttt{nlme} models. One would immediately look at the current development workflow for both packages.
+	
+	%======================%
+	% Douglas Bates
+	
+	As an aside, Douglas Bates was arguably the most prominent \texttt{R} developer working in the LME area. 
+	However Bates has now prioritised the development of LME models in another computing environment , i.e Julia. 
+	% The current version of this is XXXX
+	
+	%======================%
+	% nlme
+	
+	With regards to \texttt{nlme}, the package is now maintained by the \texttt{R} core development team. The most recent major text is by Galecki \& Burzykowski, who have published \textit{ Linear Mixed Effects Models using \texttt{R}. }
+	Also, the accompanying \texttt{R} package, nlmeU package is under current development, with a version being released $0.70-3$.
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	%========================================================== %
+	
+	
+	
+	\section{Relevance of Roy's Methodology}
+	
+	The relevance of Roy's methodology is that estimates for the between-item variances for both methods $\hat{d}^2_m$ are computed. Also the VC matrices are constructed with covariance
+	terms and, so the difference variance must be formulated accordingly.
+	
+	
+	\[
+	\hat{\alpha}_1 - \hat{\alpha}_2 \pm \sqrt{ \hat{d}^2_1  +
+		\hat{d}^2_1 + \hat{\sigma}^2_1 + \hat{\sigma}^2_2 - 2 \hat{d}_{12}
+		- 2 \hat{\sigma}_12}
+	\]
+	%=================================================================== %
+	
+	
+	
+	%
+	%\citet{ARoy2009} considers the problem of assessing the agreement
+	%between two methods with replicate observations in a doubly
+	%multivariate set-up using linear mixed effects models.
+	%
+	%\citet{ARoy2009} uses examples from \citet{BA86} to be able to
+	%compare both types of analysis.
+	
+	
+	%The maximum likelihood estimate of the between-subject variance
+	%covariance matrix of two methods is given as $D$. The estimate for
+	%the within-subject variance covariance matrix is $\hat{\Sigma}$.
+	%The estimated overall variance covariance matrix `Block
+	%$\Omega_{i}$' is the addition of $\hat{D}$ and $\hat{\Sigma}$.
+	%
+	%
+	%\begin{equation}
+	%	\mbox{Block  }\Omega_{i} = \hat{D} + \hat{\Sigma}
+	%\end{equation}
+	
+\section*{Roy Test}
+
+Roy’s Tests (Roy 2009)
+%=============================%
+Roy 2009 devised an LME based Testing approach to the MCS problem, based on earlier work by Hamlett et al. 
+Roy 2009 presents a series of three formal hypothesis tests for assessing agreement between two methods of measurement.
+Roy also alludes to some of the current shortcomings of the approach.
+
+%%%% Components of Test
+
+Comparing different model specifications with LRT tests
+
+%%%% Papers:
+- Roy 2007
+- Roy 2009
+- Hamlett et al.
+- Roy Leiva 2011
+
+
+
+Conventionally LME models can be tested using Likelihood Ratio Tests, wherein a reference model is compared to a nested model.
+\begin{verbatim}
+> Ref.Fit = lme(y ~ meth-1, data = dat,   #Symm , Symm#
++     random = list(item=pdSymm(~ meth-1)), 
++     weights=varIdent(form=~1|meth),
++     correlation = corSymm(form=~1 | item/repl), 
++     method="ML")
+\end{verbatim}
+Roy(2009) presents two nested models that specify the condition of equality as required, with a third nested model for an additional test. There three formulations share the same structure, and can be specified by making slight alterations of the code for the Reference Model.
+\begin{verbatim}
+Nested Model (Between-Item Variability)
+> NMB.fit  = lme(y ~ meth-1, data = dat,   #CS , Symm#
++     random = list(item=pdCompSymm(~ meth-1)),
++     correlation = corSymm(form=~1 | item/repl), 
++     method="ML")
+\end{verbatim}
+
+
+
+\begin{verbatim}
+Nested Model (Within –item Variability)
+> NMW.fit = lme(y ~ meth-1, data = dat,   #Symm , CS# 
++     random = list(item=pdSymm(~ meth-1)),
++     weights=varIdent(form=~1|meth), 
++     correlation = corCompSymm(form=~1 | item/repl), 
++     method="ML")
+\end{verbatim}
+
+
+Nested Model (Overall Variability)
+Additionally there is a third nested model, that can be used to test overall variability, substantively a a joint test for between-item and within-item variability. The motivation for including such a test in the suite is not clear, although it does circumvent the need for multiple comparison procedures in certain circumstances, hence providing a simplified procedure for non-statisticians.
+\begin{verbatim}
+> NMO.fit = lme(y ~ meth-1, data = dat,   #CS , CS# 
++     random = list(item=pdCompSymm(~ meth-1)), 
++     correlation = corCompSymm(form=~1 | item/repl), 
++     method="ML")
+\end{verbatim}
+
+ANOVAs  for  Original Fits
+The likelihood Ratio test is very simple to implement in R. All that is required it to specify the reference model and the relevant nested mode as arguments to the command anova().
+The figure below displays the three tests described by Roy (2009).
+\begin{verbatim}
+> testB    = anova(Ref.Fit,NMB.fit)                          # Between-Subject Variabilities
+> testW   = anova(Ref.Fit,NMW.fit)                        # Within-Subject Variabilities
+> testO     = anova(Ref.Fit,NMO.fit)                        # Overall Variabilities
+\end{verbatim}
+\newpage
+
+	\section{Interaction Terms in Model}
+	
+	\emph{
+		One important feature of replicate observations is that they should be independent
+		of each other. In essence, this is achieved by ensuring that the observer makes each
+		measurement independent of knowledge of the previous value(s). This may be difficult
+		to achieve in practice.}
+	
+	
+	Further to \citet{barnhart}, if the measurements by a method on an item are not necessarily true replications, e.g., repeated measures over time, then additional terms may be needed for $e_{mir}$. \citet{BXC2008} also addresses this issue by the addition of an interaction term (i.e. a random effect) $u_mi$, yielding
+	
+	\[ y_{mir} =  \alpha_{mi} + u_{mi} + e_{mi}.  \]
+	
+	The additional interaction term is characterized as $u_{mi}  \sim \mathcal{N}(0, \tau^2_m)$ \citep{BXC2008}. This extra interaction term provides a source of extra variability, but this variance is not relevant to computing the case-wise differences.
+	
+	%
+	%\citet{BXC2008} advises that the formulation of the model should take the exchangeability (in other words, whether or not the measurements are `true replicates') into account. If there is a linkage between measurements (therefore not `true' replicates) , the `item by replicate' should be included in the model. If there is no linkage, and the replicates are indeed true replicates, the interaction term should be omitted.
+	%
+	%
+	%
+	%\citet{ARoy2009} also assigns a random effect $u_{mi}$ for each response $y_{mir}$. Importantly Roy's model assumes linkage.
+	
+	
+	%\citet{BXC2008} formulates an LME model, both in the absence and the presence of an interaction term. \citet{BXC2008} uses both to demonstrate the importance of using an interaction term. Failure to take the replication structure into
+	%account results in over-estimation of the limits of agreement. For the Carstensen estimates below, an interaction term was included when computed.
+	%
+	%
+	
+	
+	
+	
+	
+	
+	%============================================================================= %
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	\section{Difference Variance further to Carstensen}
+	
+	
+	%---Key difference 1---The True Value
+	%---Carstensen's limits of agreement
+	%---The between item variances are not individually computed. An estimate for their sum is used.
+	%---The within item variances are indivdually specified.
+	%---Carstensen remarks upon this in his book (page 61), saying that it is "not often used".
+	%---The Carstensen model does not include covariance terms for either VC matrices.
+	%---Some of Carstensens estimates are presented, but not extractable, from R code, so calculations have to be done by %---hand.
+	%---All of Roys stimates are  extractable from R code, so automatic compuation can be implemented
+	%---When there is negligible covariance between the two methods, Roys LoA and Carstensen's LoA are roughly the same.
+	%---When there is covariance between the two methods, Roy's LoA and Carstensen's LoA differ, Roys usually narrower.
+	
+	%================================================================================= %
+	
+	
+	
+	Even though the separate variances can not be identified, their sum can be estimated by the empirical variance of the differences.
+	
+	Like wise the separate $\alpha$ can not be
+	estimated, only their difference can be estimated as
+	$\bar{D}$
+	
+	
+	We assume that that the variance of the measurements is different for both methods, but it does not mean that the separate variances can be estimated with the data available.
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	%With regards to the specification of the variance terms, Carstensen  remarks that using their approach is common, %remarking that \emph{ The only slightly non-standard (meaning ``not often used") feature is 
+	
+	%\section{Correlation indices}
+	%\citet{ARoy2009} remarks that PROC MIXED only gives overall correlation coefficients, but not their variances. Consequently it is not possible to carry out inferences based on all overall correlation coefficients.
+	
+	
+	
+	%================================================================================================== %
+	
+	\section{Why use LMEs for Method Comparison?}
+	The LME model approach has seen increased use as a framework for method comparison studies in recent years (Lai $\&$ Shaio, Carstensen and Choudhary as examples). In part this is due to the increased profile of LME models, and furthermore the availability of capable software. Additionally LME based approaches may utilise the diagnostic and influence analysis techniques that have been developed in recent times.
+	
+	
+	Roy proposes an LME model with Kronecker product covariance structure in a doubly multivariate setup. Response for $i$th subject can be written as
+	\[ y_i = \beta_0 + \beta_1x_{i1} + \beta_2x_{i2} + b_{1i}z_{i1}  + b_{2i}z_{i2} + \epsilon_i \]
+	\begin{itemize}
+		\item $\beta_1$ and $\beta_2$ are fixed effects corresponding to both methods. ($\beta_0$ is the intercept.)
+		\item $b_{1i}$ and $b_{2i}$ are random effects corresponding to both methods.
+	\end{itemize}
+	
+	Overall variability between the two methods ($\Omega$) is sum of between-subject ($D$) and within-subject variability ($\Sigma$),
+	\[
+	\mbox{Block } \boldsymbol{\Omega}_i = \left[ \begin{array}{cc} d^2_1 & d_{12}\\ d_{12} & d^2_2\\ \end{array} \right]
+	+ \left[\begin{array}{cc} \sigma^2_1 & \sigma_{12}\\ \sigma_{12} & \sigma^2_2\\ \end{array}\right].
+	\]
+	
+	The well-known ``Limits of Agreement", as developed by Bland and Altman (1986) are easily computable using the LME framework, proposed by Roy. While we will not be considering this analysis, a demonstration will be provided in the example.
+	
+	Further to this, Roy(2009) demonstrates an suite of tests that can be used to determine how well two methods of measurement, in the presence of repeated measures, agree with each other.
+	
+	\begin{itemize}\itemsep0.5cm
+		\item No Significant inter-method bias
+		\item No difference in the between-subject variabilities of the two methods
+		\item No difference in the within-subject variabilities of the two methods
+	\end{itemize}
+	
+	\section{Definition of Replicate measurements}
+	Further to \citet{BA99}, a formal definition is required of what exactly replicate measurements are
+	
+	\emph{By replicates we mean two or more measurements on the same
+		individual taken in identical conditions. In general this requirement means that the
+		measurements are taken in quick succession.}
+	
+	\citet{BA99} also remark that an important feature of replicate observations is that they should be independent
+	of each other. This issue is addressed by \citet{BXC2010}, in terms of exchangeability and linkage. Carstenen advises that repeated measurements come in two \emph{substantially different} forms, depending on the circumstances of their measurement: exchangable and linked.
+	%----------------------------------------------------------------------------%
+	\subsection{Exchangeable measurements}
+	Repeated measurements are said to be exchangeable if no relationship exists between successive measurements across measurements. If the condition of exchangeability exists, a group of measurement of the same item determined by the same method can be re-arranged in any permutation without prejudice to proper analysis. There is no reason to believe that the true value of the underlying variable has changed over the course of the measurements.
+	
+	For the purposes of method comparison studies the following remarks can be made. The $r-$th measurement made by method $1$ has no special correspondence to the $r-$th measurement made by method $2$, and consequently any pairing of repeated measurements are as good as each other.
+	
+	Exchangeable repeated measurements can be treated as true replicates.
+	%----------------------------------------------------------------------------%
+	\subsection{Linked measurements}
+	Repeated measurements are said to be linked if a direct correspondence exists between successive measurements across measurements, i.e. pairing. Such measurements are commonly made with a time interval between them, but simultaneously for both methods. Paired measurements are exchangeable, but individual measurements are not.
+	
+	If the paired measurements are taken
+	in a short period of time so that no real systemic changes can take place on each item, they can be considered true replicates.
+	Should enough time elapse for systemic changes, linked repeated measurements can not be treated as true replicates.
+	
+	\subsection{Replicate measurements in ARoy2009's paper}
+	\citet{ARoy2009} takes its definition of replicate measurement: two or more measurements on the same item taken
+	under identical conditions. ARoy2009 also assumes linked measurements, but it is can be used for the non-linked case.
+	
+	%----------------------------------------------------------------------------------------------------%
+	\newpage
+	\subsection{Random effects}
+	
+	Further to \citet{barnhart}, if the measurements by a method on an item are not necessarily true replications, e.g., repeated measures over time, then additional terms may be needed for $e_{mir}$. \citet{BXC2008} also addresses this issue by the addition of an interaction term (i.e. a random effect) $u_mi$, yielding
+	
+	\[ y_{mir} =  \alpha_{mi} + u_{mi} + e_{mi}.  \]
+	
+	The additional interaction term is characterized as $u_{mi}  \sim \mathcal{N}(0, \tau^2_m)$ \citep{BXC2008}.
+	
+	This extra interaction term provides a source of extra variability, but this variance is not relevant to computing the case-wise differences.
+	
+	\citet{BXC2008} advises that the formulation of the model should take the exchangeability (in other words, whether or not the measurements are `true replicates') into account. If there is a linkage between measurements (therefore not `true' replicates) , the `item by replicate' should be included in the model. If there is no linkage, and the replicates are indeed true replicates, the interaction term should be omitted.
+	
+	\citet{BXC2008} demonstrates how to compute the limits of agreement for two methods in the case of linked measurements. As a surplus source of variability is excluded from the computation, the limits of agreement are not unduly wide, which would have been the case if the measurements were treated as true replicates.
+	
+	\citet{ARoy2009} also assigns a random effect $u_{mi}$ for each response $y_{mir}$. Importantly ARoy2009's model assumes linkage.
+	
+	%----------------------------------------------------------------------------%
+	\section{Model for replicate measurements}
+	
+	We generalize the single measurement model for the replicate measurement case, by additionally specifying replicate values. Let $y_{mir}$ be the $r-$th replicate measurement for subject ``i" made by method ``m". Further to \citet{barnhart} fixed effect can be expressed with a single term $\alpha_{mi}$, which incorporate the true value $\mu_i$.
+	
+	\[ y_{mir} = \mu_{i} + \alpha_{m} + e_{mir}  \]
+	
+	Combining fixed effects \citep{barnhart}, we write,
+	
+	\[ y_{mir} = \alpha_{mi} + e_{mir}.\]
+	
+	The following assumptions are required
+	
+	\begin{itemize}
+		\item $e_{mir}$ is independent of the fixed effects with mean $\mbox{E}(e_{mir}) = 0$.
+		\item Further to \citet{barnhart} between-item and within-item variances $\mbox{Var}(\alpha_{mi}) = \sigma^2_{Bm}$ and $\mbox{Var}(e_{mir}) = \sigma^2_{Wm}$
+		\item In keeping with \citet{ARoy2009}, these variance shall be considered as part of the between-item variance covariance matrix $\boldsymbol{D}$ and the within-item variance covariance matrix  $\boldsymbol{\Sigma}$
+		respectively, and will be denoted accordingly ( i.e. $d^2_{m}$ and $\sigma^2_{m}$).
+		\item Additionally, the total variability of method "m", denoted $\omega^2_m$ is the sum of the within-item and between-item variabilities.
+		
+		\[ \omega^2_m = d^2_{m}+ \sigma^2_{m} \]
+		
+	\end{itemize}
+	%----------------------------------------------------------------------------%
+	\newpage
+	
+	
+	
+
+
+\section{Off-Diagonal Components in Roy's Model}
+
+The Within-item variability is specified as follows, where $x$ and $y$ are the methods of measurement in question.
+\[ \left(
+\begin{array}{cc}
+\sigma^2_x & \sigma_{xy} \\
+\sigma_{xy} & \sigma^2_y \\
+\end{array}
+\right)
+\]
+
+$\sigma^2_x$ and $\sigma^2_y$ describe the level of measurement error associated with each of the measurement methods for a given item. Attention must be given to the off-diagonal elements of the matrix.
+
+It is intuitive to consider the measurement error of the two methods as independent of each other.
+
+\section{Formal Testing}
+A formal test can be performed to test the hypothesis that the off-diagonal terms are zero.
+\[ \left(
+\begin{array}{cc}
+\sigma^2_x & \sigma_xy \\
+\sigma_xy & \sigma^2_y \\
+\end{array}
+\right) vs \left(
+\begin{array}{cc}
+\sigma^2_x & 0 \\
+0 & \sigma^2_y \\
+\end{array}
+\right)
+\]
+
+
+%================================================================================%
+\section{Basic Models Fits}
+Further to \citet{PB}, several simple LME models are constructed
+for the blood pressure data. This data set is the subject of a
+method comparison study in \citet{BA99}.
+
+\subsection{Implementing the Mixed Models Fits}
+They are implemented using the following {\tt{R}} code, utilising the
+`nlme' package. An analysis of variance is used to compare the model fits.
+
+The {\tt{R}} script:
+\begin{verbatim}
+fit1 = lme( BP ~ method, data = dat, random = ~1 | subject )
+fit2 = update(fit1, random = ~1 | subject/method )
+fit3 = update(fit1, random = ~method - 1 | subject )
+#analysis of variance
+anova(fit1,fit2,fit3)
+\end{verbatim}
+
+
+\begin{enumerate}
+	
+	
+	\item Simplest workable model, allows differences between methods
+	and incorporates a random intercept for each subject. For subject
+	1 we have
+	\[
+	\boldsymbol{X}_i =
+	\left(%
+	\begin{array}{cc}
+	1 & 0 \\
+	1 & 0 \\
+	1 & 0 \\
+	1 & 1 \\
+	1 & 1 \\
+	1 & 1 \\
+	\end{array}%
+	\right),\quad
+	\boldsymbol{\beta} =
+	\left(%
+	\begin{array}{c}
+	\beta_0 \\
+	\beta_1 \\
+	\end{array}%
+	\right), \quad
+	\boldsymbol{Z}_i =
+	\left(%
+	\begin{array}{c}
+	1 \\
+	1 \\
+	1 \\
+	1 \\
+	1 \\
+	1 \\
+	\end{array}%
+	\right), \quad \boldsymbol{b}_i = b
+	\]
+	where $\mathrm{E}(b)=0$ and $\mathrm{var}(b)=\psi.$
+	
+	\item
+	\[
+	\boldsymbol{Z}_i =
+	\left(%
+	\begin{array}{c c}
+	1 & 0 \\
+	1 & 0 \\
+	1 & 0 \\
+	0 & 1 \\
+	0 & 1 \\
+	0 & 1 \\
+	\end{array}%
+	\right)
+	\quad \boldsymbol{b}_i =
+	\left(%
+	\begin{array}{c c}
+	b_1 & 0  \\
+	0 & b_2  \\
+	\end{array}%
+	\right)
+	\]
+	
+	where $\mathrm{E}(b_i)=0$ and $\mathrm{var}(\boldsymbol{b})=
+	\boldsymbol{\Psi}$.
+	
+	The variance of error terms is a $6 \times 6$ matrix.
+	
+\end{enumerate}
+
+%============================================================================%
+
+\subsection{Model Fit 1}
+
+This is a simple model with no interactions. There is a fixed effect for each method and a random effect for each subject.
+\begin{equation*}
+y_{ijk} = \beta_{j}  + b_{i} + \epsilon_{ijk}, \qquad i=1,\dots,2, j=1,\dots,85, k=1,\dots,3
+\end{equation*}
+
+\begin{eqnarray*}
+	b_{i} \sim \mathcal{N}(0,\sigma^2_{b}), \qquad \epsilon_{i} \sim \mathcal{N}(0,\sigma^2)
+\end{eqnarray*}
+
+\begin{verbatim}
+Linear mixed-effects model fit by REML
+Data: dat
+Log-restricted-likelihood: -2155.853
+Fixed: BP ~ method
+(Intercept)     methodS
+127.40784    15.61961
+
+Random effects:
+Formula: ~1 | subject
+(Intercept) Residual
+StdDev:    29.39085 12.44454
+
+Number of Observations: 510
+Number of Groups: 85
+\end{verbatim}
+
+
+\subsection{Model Fit 2}
+
+This is a simple model, this time with an interaction effect.
+There is a fixed effect for each method. This model has random effects at two levels $b_{i}$ for the subject, and
+another, $b_{ij}$, for the respective method within each subject.
+\begin{equation*}
+y_{ijk} = \beta_{j}  + b_{i} + b_{ij} + \epsilon_{ijk}, \qquad i=1,\dots,2, j=1,\dots,85, k=1,\dots,3
+\end{equation*}
+\begin{eqnarray*}
+	b_{i} \sim \mathcal{N}(0,\sigma^2_{1}), \qquad b_{ij} \sim \mathcal{N}(0,\sigma^2_{2}), \qquad \epsilon_{i} \sim \mathcal{N}(0,\sigma^2)
+\end{eqnarray*}
+
+In this model, the random interaction terms all have the same variance $\sigma^2_{2}$. These terms are assumed to be independent of each other, even
+within the same subject.
+
+\begin{verbatim}
+Linear mixed-effects model fit by REML
+Data: dat
+Log-restricted-likelihood: -2047.714
+Fixed: BP ~ method
+(Intercept)     methodS
+127.40784    15.61961
+
+Random effects:
+Formula: ~1 | subject
+(Intercept)
+StdDev:    28.28452
+
+Formula: ~1 | method %in% subject
+(Intercept) Residual
+StdDev:    12.61562 7.763666
+
+Number of Observations: 510
+Number of Groups:
+subject method %in% subject
+85                 170
+\end{verbatim}
+
+
+
+\subsection{Model Fit 3}
+
+This model is a more general model, compared to 'model fit 2'. This model treats the random interactions for each subject as a vector and
+allows the variance-covariance matrix for that vector to be estimated from the set of all positive-definite matrices.
+$\boldsymbol{y_{i}}$ is the entire response vector for the $i$th subject.
+$\boldsymbol{X_{i}}$ and $\boldsymbol{Z_{i}}$  are the fixed- and random-effects design matrices respectively.
+\begin{equation*}
+\boldsymbol{y_{i}} = \boldsymbol{X_{i}\beta}  + \boldsymbol{Z_{i}b_{i}} + \boldsymbol{\epsilon_{i}}, \qquad i=1,\dots,85
+\end{equation*}
+\begin{eqnarray*}
+	\boldsymbol{Z_{i}} \sim \mathcal{N}(\boldsymbol{0,\Psi}),\qquad
+	\boldsymbol{\epsilon_{i}} \sim \mathcal{N}(\boldsymbol{0,\sigma^2\Lambda})
+\end{eqnarray*}
+
+For the first subject the response vector, $\boldsymbol{y_{1}}$, is:
+\begin{table}[ht]
+	\begin{center}
+		\begin{tabular}{rrllr}
+			\hline
+			observation & BP & subject & method & replicate \\
+			\hline
+			1 & 100.00 & 1 & J &   1 \\
+			86 & 106.00 & 1 & J &   2 \\
+			171 & 107.00 & 1 & J &   3 \\
+			511 & 122.00 & 1 & S &   1 \\
+			596 & 128.00 & 1 & S &   2 \\
+			681 & 124.00 & 1 & S &   3 \\
+			\hline
+		\end{tabular}
+	\end{center}
+\end{table}
+%===============================================================================================%
+The fixed effects design matrix $\boldsymbol{X_{i}}$ is given by:
+\begin{table}[ht]
+	\begin{center}
+		\begin{tabular}{r|r}
+			\hline
+			(Intercept) & method S \\
+			\hline
+			1 & 0 \\
+			1 & 0 \\
+			1 & 0 \\
+			1 & 1 \\
+			1 & 1 \\
+			1 & 1 \\
+			\hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+The random effects design matrix $\boldsymbol{Z_{i}}$ is given by:
+\begin{table}[ht]
+	\begin{center}
+		\begin{tabular}{r|r}
+			\hline
+			method J & method S \\
+			\hline
+			1 & 0 \\
+			1 & 0 \\
+			1 & 0 \\
+			0 & 1 \\
+			0 & 1 \\
+			0 & 1 \\
+			\hline
+		\end{tabular}
+	\end{center}
+\end{table}
+%========================================================================================%
+The following output was obtained.
+\begin{verbatim}
+Linear mixed-effects model fit by REML
+Data: dat
+Log-restricted-likelihood: -2047.582
+Fixed: BP ~ method
+(Intercept)     methodS
+127.40784    15.61961
+
+Random effects:
+Formula: ~method - 1 | subject
+Structure: General positive-definite, Log-Cholesky parametrization
+StdDev    Corr
+methodJ  30.455093 methdJ
+methodS  31.477237 0.835
+Residual  7.763666
+
+Number of Observations: 510
+Number of Groups: 85
+
+\end{verbatim}
+
+
+
+
+
+\subsection{Extended LME model}
+% Pinheiro Bates Page 202
+The extended single level LME model relaxes the independence assumption, allowing heteroscedastic and correlated within group errors.
+
+
+\begin{equation}
+\epsilon_{i} = \mathcal{N}(0, \sigma^2 \Lambda_{i})
+\end{equation}
+
+$\Lambda_{i}$ are positive definite matrices. $\sigma^2$ is factored out of the matrix for computational reasons.
+
+
+\section{Variance functions}
+
+Variance functions are applied to LME models through the `weights' argument. $R$ supports several variance functions.
+
+`varIdent' cosntructs a model with different variances per stratum.
+
+\subsection{Diagnostic plots}
+% Pinheiro Bates Page 391
+Diagnostic plots for identifying within-group heteroscedascity and assessing the adequacy of a variance function can also be used with `nlme' objects.
+
+
+
+
+
+
+
+
+
+
+
+
+
+\bibliographystyle{chicago}
+\bibliography{DB-txfrbib}
+\end{document}

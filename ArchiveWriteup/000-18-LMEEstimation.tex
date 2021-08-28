@@ -1,0 +1,371 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{natbib}
+\usepackage{vmargin}
+\usepackage{graphicx}
+\usepackage{epsfig}
+\usepackage{subfigure}
+%\usepackage{amscd}
+\usepackage{amssymb}
+\usepackage{subfiles}
+\usepackage{subfigure}
+\usepackage{framed}
+\usepackage{subfiles}
+\usepackage{amsbsy}
+\usepackage{amsthm, amsmath}
+%\usepackage[dvips]{graphicx}
+\bibliographystyle{chicago}
+\renewcommand{\baselinestretch}{1.1}
+
+% left top textwidth textheight headheight % headsep footheight footskip
+\setmargins{3.0cm}{2.5cm}{15.5 cm}{23.5cm}{0.25cm}{0cm}{0.5cm}{0.5cm}
+
+\pagenumbering{arabic}
+
+\begin{document}
+	
+	\subsection{Estimation}
+	Estimation of LME models involve two complementary estimation issues'; estimating the vectors of the fixed and random effects estimates $\hat{\beta}$ and $\hat{b}$ and estimating the variance covariance matrices $D$ and $\Sigma$.
+	Inference about fixed effects have become known as `estimates', while inferences about random effects have become known as `predictions'. The most common approach to obtain estimators are Best Linear Unbiased Estimator (BLUE) and Best Linear Unbiased Predictor (BLUP). For an LME model given by (\ref{LW}), the BLUE of $\hat{\beta}$ is given by
+	\[\hat{\beta} = (X^\prime V^{-1}X)^{-1}X^\prime V^{-1}y,\]whereas the BLUP of $\hat{b}$ is given by
+	\[\hat{b} = DZ^{\prime} V^{-1} (y-X\hat{\beta}).\]
+	
+	\subsubsection{Henderson's equations}
+	Because of the dimensionality of V (i.e. $n \times n$) computing the inverse of V can be difficult. As a way around the this problem \citet{Henderson53, Henderson59,Henderson63,Henderson73,Henderson84a} offered a more simpler approach of jointly estimating $\hat{\beta}$ and $\hat{b}$.
+	\cite{Henderson:1950} made the (ad-hoc) distributional assumptions $y|b \sim \mathrm{N} (X \beta + Zb, \Sigma)$ and $b \sim \mathrm{N}(0,D),$ and proceeded to maximize the joint density of $y$ and $b$
+	\begin{equation}
+	\left|
+	\begin{array}{cc}
+	D & 0 \\
+	0 & \Sigma \\
+	\end{array}
+	\right|^{-\frac{1}{2}}
+	\exp
+	\left\{ -\frac{1}{2}
+	\left(
+	\begin{array}{c}
+	b \\
+	y - X \beta -Zb \\
+	\end{array}
+	\right)^\prime
+	\left( \begin{array}{cc}
+	D & 0 \\
+	0 & \Sigma \\
+	\end{array}\right)^{-1}
+	\left(
+	\begin{array}{c}
+	b \\
+	y - X \beta -Zb \\
+	\end{array}
+	\right)
+	\right\},
+	\label{u&beta:JointDensity}
+	\end{equation}
+	with respect to $\beta$ and $b,$ which ultimately requires minimizing the criterion
+	\begin{equation}
+	(y - X \beta -Zb)'\Sigma^{-1}(y - X \beta -Zb) + b^\prime D^{-1}b.
+	\label{Henderson:Criterion}
+	\end{equation}
+	This leads to the mixed model equations
+	\begin{equation}
+	\left(\begin{array}{cc}
+	X^\prime\Sigma^{-1}X & X^\prime\Sigma^{-1}Z
+	\\
+	Z^\prime\Sigma^{-1}X & X^\prime\Sigma^{-1}X + D^{-1}
+	\end{array}\right)
+	\left(\begin{array}{c}
+	\beta \\
+	b
+	\end{array}\right)
+	=
+	\left(\begin{array}{c}
+	X^\prime\Sigma^{-1}y \\
+	Z^\prime\Sigma^{-1}y
+	\end{array}\right).
+	\label{Henderson:Equations}
+	\end{equation}
+	Using these equations, obtaining the estimates requires the inversion of a matrix
+	of dimension $p+q \times p+q$, considerably smaller in size than $V$. \citet{Henderson1963} shows that these mixed model equations do not depend on normality and that $\hat{\beta}$ and $\hat{b}$ are the BLUE and BLUP under general conditions, provided $D$ and $\Sigma$ are known.
+	
+	\cite{Robi:BLUP:1991} points out that although \cite{Henderson:1950} initially referred to the estimates $\hat{\beta}$ and $\hat{b}$ from (\ref{Henderson:Equations}) as ``joint maximum likelihood estimates", \cite{Henderson:1973} later advised that these estimates should not be referred to as ``maximum likelihood" as the function being maximized in (\ref{Henderson:Criterion}) is a joint density rather than a likelihood function. \cite{Lee:Neld:Pawi:2006} remarks that it is clear that Henderson used joint estimation for computational purposes, without recognizing the theoretical implications.
+	
+	\subsubsection{Estimation of the fixed parameters}
+	
+	The vector $y$ has marginal density $y \sim \mathrm{N}(X \beta,V),$ where $V = \Sigma + ZDZ^\prime$ is specified through the variance component parameters $\theta.$ The log-likelihood of the fixed parameters $(\beta, \theta)$ is
+	\begin{equation}
+	\ell (\beta, \theta|y) =
+	-\frac{1}{2} \log |V| -\frac{1}{2}(y -
+	X \beta)'V^{-1}(y -
+	X \beta), \label{Likelihood:MarginalModel}
+	\end{equation}
+	and for fixed $\theta$ the estimate $\hat{\beta}$ of $\beta$ is obtained as the solution of
+	\begin{equation}
+	(X^\prime V^{-1}X) {\beta} = X^\prime V^{-1}y.
+	\label{mle:beta:hat}
+	\end{equation}
+	
+	Substituting $\hat{\beta}$ from (\ref{mle:beta:hat}) into $\ell(\beta, \theta|y)$ from (\ref{Likelihood:MarginalModel}) returns the \emph{profile} log-likelihood
+	\begin{eqnarray*}
+		\ell_P(\theta \mid y) &=& \ell(\hat{\beta}, \theta \mid y) \\
+		&=& -\frac{1}{2} \log |V| -\frac{1}{2}(y - X \hat{\beta})'V^{-1}(y - X \hat{\beta})
+	\end{eqnarray*}
+	of the variance parameter $\theta.$ Estimates of the parameters $\theta$ specifying $V$ can be found by maximizing $\ell_P(\theta \mid y)$ over $\theta.$ These are the ML estimates.
+	
+	For REML estimation the \emph{restricted} log-likelihood is defined as
+	\[
+	\ell_R(\theta \mid y) =
+	\ell_P(\theta \mid y) -\frac{1}{2} \log |X^\prime VX |.
+	\]
+	%\subsubsection{Likelihood estimation techniques}
+	%Maximum likelihood and restricted maximum likelihood have become the most common strategies
+	%for estimating the variance component parameter $\theta.$ Maximum likelihood estimation obtains
+	%parameter estimates by optimizing the likelihood function.
+	%To obtain ML estimate the likelihood is constructed as a function of the parameters in the specified LME model.
+	% The maximum likelihood estimates (MLEs) of the parameters are the values of the arguments that maximize the likelihood function.
+	
+	The REML approach does not base estimates on a maximum likelihood fit of all the information, but instead uses a likelihood function derived from a data set, transformed to remove the irrelevant influences \citep{REMLDefine}.
+	Restricted maximum likelihood is often preferred to maximum likelihood because REML estimation reduces the bias in the variance component by taking into account the loss of degrees of freedom that results
+	from estimating the fixed effects in $\boldsymbol{\beta}$. Restricted maximum likelihood also handles high correlations more effectively, and is less sensitive to outliers than maximum likelihood.  The problem with REML for model building is that the likelihoods obtained for different fixed effects are not comparable. Hence it is not valid to compare models with different fixed effects using a likelihood ratio test or AIC when REML is used to
+	estimate the model. Therefore models derived using ML must be used instead.
+	
+\subsubsection{Estimation of the fixed parameters}
+
+The vector $y$ has marginal density $y \sim \mathrm{N}(X \beta,V),$ where $V = \Sigma + ZDZ^\prime$ is specified through the variance component parameters $\theta.$ The log-likelihood of the fixed parameters $(\beta, \theta)$ is
+\begin{equation}
+\ell (\beta, \theta|y) =
+-\frac{1}{2} \log |V| -\frac{1}{2}(y -
+X \beta)'V^{-1}(y -
+X \beta), \label{Likelihood:MarginalModel}
+\end{equation}
+and for fixed $\theta$ the estimate $\hat{\beta}$ of $\beta$ is obtained as the solution of
+\begin{equation}
+(X^\prime V^{-1}X) {\beta} = X^\prime V^{-1}y.
+\label{mle:beta:hat}
+\end{equation}
+
+Substituting $\hat{\beta}$ from (\ref{mle:beta:hat}) into $\ell(\beta, \theta|y)$ from (\ref{Likelihood:MarginalModel}) returns the \emph{profile} log-likelihood
+\begin{eqnarray*}
+	\ell_P(\theta \mid y) &=& \ell(\hat{\beta}, \theta \mid y) \\
+	&=& -\frac{1}{2} \log |V| -\frac{1}{2}(y - X \hat{\beta})'V^{-1}(y - X \hat{\beta})
+\end{eqnarray*}
+of the variance parameter $\theta.$ Estimates of the parameters $\theta$ specifying $V$ can be found by maximizing $\ell_P(\theta \mid y)$ over $\theta.$ These are the ML estimates.
+
+For REML estimation the \emph{restricted} log-likelihood is defined as
+\[
+\ell_R(\theta \mid y) =
+\ell_P(\theta \mid y) -\frac{1}{2} \log |X^\prime VX |.
+\]
+%\subsubsection{Likelihood estimation techniques}
+%Maximum likelihood and restricted maximum likelihood have become the most common strategies
+%for estimating the variance component parameter $\theta.$ Maximum likelihood estimation obtains
+%parameter estimates by optimizing the likelihood function.
+%To obtain ML estimate the likelihood is constructed as a function of the parameters in the specified LME model.
+% The maximum likelihood estimates (MLEs) of the parameters are the values of the arguments that maximize the likelihood function.
+
+The REML approach does not base estimates on a maximum likelihood fit of all the information, but instead uses a likelihood function derived from a data set, transformed to remove the irrelevant influences \citep{REMLDefine}.
+Restricted maximum likelihood is often preferred to maximum likelihood because REML estimation reduces the bias in the variance component by taking into account the loss of degrees of freedom that results
+from estimating the fixed effects in $\boldsymbol{\beta}$. Restricted maximum likelihood also handles high correlations more effectively, and is less sensitive to outliers than maximum likelihood.  The problem with REML for model building is that the likelihoods obtained for different fixed effects are not comparable. Hence it is not valid to compare models with different fixed effects using a likelihood ratio test or AIC when REML is used to
+estimate the model. Therefore models derived using ML must be used instead.
+	\subsubsection{Estimation of the random effects}
+	
+	The established approach for estimating the random effects is to use the best linear predictor of $b$ from $y,$ which for a given $\beta$ equals $DZ^\prime V^{-1}(y - X \beta).$ In practice $\beta$ is replaced by an estimator such as $\hat{\beta}$ from (\ref{mle:beta:hat}) so that $\hat{b} = DZ^\prime V^{-1}(y - X \hat{\beta}).$ Pre-multiplying by the appropriate matrices it is straightforward to show that these estimates $\hat{\beta}$ and $\hat{b}$ satisfy the equations in (\ref{Henderson:Equations}).
+	
+\subsubsection{Algorithms for likelihood function optimization}Iterative numerical techniques are used to optimize the log-likelihood function and estimate the covariance parameters $\theta$. The procedure is subject to the constraint that $R$ and $D$ are both positive definite. The most common iterative algorithms for optimizing the likelihood function are the Newton-Raphson method, which is the preferred method, the expectation maximization (EM) algorithm and the Fisher scoring methods.
+
+The EM algorithm, introduced by \citet{EM}, is an iterative technique for maximizing complicated likelihood functions. The algorithm alternates between performing an expectation (E) step
+and the maximization (M) step. The `E' step computes the expectation of the log-likelihood evaluated using the current
+estimate for the variables. In the `M' step, parameters that maximize the expected log-likelihood, found on the previous `E' step, are computed. These parameter estimates are then used to determine the distribution of the variables in the next `E' step. The algorithm alternatives between these two steps until convergence is reached.
+
+The main drawback of the EM algorithm is its slow rate of
+convergence. Consequently the EM algorithm is rarely used entirely in LME estimation,
+instead providing an initial set of values that can be passed to
+other optimization techniques.
+
+The Newton Raphson (NR) method is the most common, and recommended technique for ML and
+REML estimation. The NR algorithm minimizes an objective function defines as $-2$ times the log likelihood for the covariance parameters $\theta$. At every iteration the NR algorithm requires the
+calculation of a vector of partial derivatives, known as the gradient, and the second derivative matrix with respect to the covariance parameters. This is known as the observed Hessian matrix. Due to the Hessian matrix, the NR algorithm is more time-consuming, but convergence is reached with fewer iterations compared to the EM algorithm. The Fisher scoring algorithm is an variant of the NR algorithm that is more numerically stable and likely to converge, but not recommended to obtain final estimates.
+
+
+%------------------------------------------------------------------------------%		
+	\subsubsection{Algorithms for likelihood function optimization}Iterative numerical techniques are used to optimize the log-likelihood function and estimate the covariance parameters $\theta$. The procedure is subject to the constraint that $R$ and $D$ are both positive definite. The most common iterative algorithms for optimizing the likelihood function are the Newton-Raphson method, which is the preferred method, the expectation maximization (EM) algorithm and the Fisher scoring methods.
+	
+	The EM algorithm, introduced by \citet{EM}, is an iterative technique for maximizing complicated likelihood functions. The algorithm alternates between performing an expectation (E) step
+	and the maximization (M) step. The `E' step computes the expectation of the log-likelihood evaluated using the current
+	estimate for the variables. In the `M' step, parameters that maximize the expected log-likelihood, found on the previous `E' step, are computed. These parameter estimates are then used to determine the distribution of the variables in the next `E' step. The algorithm alternatives between these two steps until convergence is reached.
+	
+	The main drawback of the EM algorithm is its slow rate of
+	convergence. Consequently the EM algorithm is rarely used entirely in LME estimation,
+	instead providing an initial set of values that can be passed to
+	other optimization techniques.
+	
+	The Newton Raphson (NR) method is the most common, and recommended technique for ML and
+	REML estimation. The NR algorithm minimizes an objective function defines as $-2$ times the log likelihood for the covariance parameters $\theta$. At every iteration the NR algorithm requires the
+	calculation of a vector of partial derivatives, known as the gradient, and the second derivative matrix with respect to the covariance parameters. This is known as the observed Hessian matrix. Due to the Hessian matrix, the NR algorithm is more time-consuming, but convergence is reached with fewer iterations compared to the EM algorithm. The Fisher scoring algorithm is an variant of the NR algorithm that is more numerically stable and likely to converge, but not recommended to obtain final estimates.
+	
+	\subsubsection{The extended likelihood}
+	
+	The desire to have an entirely likelihood-based justification for estimates of random effects, in contrast to Henderson's equation, has motivated \citet[page 429]{Pawi:in:2001} to define the \emph{extended likelihood}. He remarks ``In mixed effects modelling the extended likelihood has been called \emph{h-likelihood} (for hierarchical  likelihood) by \cite{Lee:Neld:hier:1996}, while in smoothing literature it is known as the \emph{penalized likelihood} (e.g.\ \citeauthor{Gree:Silv:nonp:1994} \citeyear{Gree:Silv:nonp:1994})." The extended likelihood can be written $L(\beta,\theta,b|y) = p(y|b;\beta,\theta) p(b;\theta)$ and adopting the same distributional assumptions used by \cite{Henderson:1950} yields the log-likelihood function
+	
+	\begin{eqnarray*}
+		\ell_h(\beta,\theta,b|y)
+		& = \displaystyle -\frac{1}{2} \left\{ \log|\Sigma| + (y - X \beta -Zb)'\Sigma^{-1}( y - X \beta -Zb) \right.\\
+		&  \hspace{0.5in} \left. + \log|D| + b^\prime D^{-1}b \right\}.
+	\end{eqnarray*}
+	Given $\theta$, differentiating with respect to $\beta$ and $b$ returns Henderson's equations in (\ref{Henderson:Equations}).
+	
+	\subsubsection{The LME model as a general linear model}
+	Henderson's equations in (\ref{Henderson:Equations}) can be rewritten $( T^\prime W^{-1} T ) \delta = T^\prime W^{-1} y_{a} $ using
+	\[
+	\delta = \left(\begin{array}{c}\beta \\ b \end{array}\right),
+	\ y_{a} = \left(\begin{array}{c}
+	y \cr \psi
+	\end{array}\right),
+	\ T = \left(\begin{array}{cc}
+	X & Z  \\
+	0 & I
+	\end{array}\right),
+	\ \textrm{and} \ W = \left(\begin{array}{cc}
+	\Sigma & 0  \cr
+	0 &  D \end{array}\right),
+	\]
+	where \cite{Lee:Neld:Pawi:2006} describe $\psi = 0$ as quasi-data with mean $\mathrm{E}(\psi) = b.$ Their formulation suggests that the joint estimation of the coefficients $\beta$ and $b$ of the linear mixed effects model can be derived via a classical augmented general linear model $y_{a} = T\delta + \varepsilon$ where $\mathrm{E}(\varepsilon) = 0$ and $\mathrm{var}(\varepsilon) = W,$ with \emph{both} $\beta$ and $b$ appearing as fixed parameters. The usefulness of this reformulation of an LME as a general linear model will be revisited.
+	
+	
+	% - Section 4
+\subsection{Estimation}
+Estimation of LME models involve two complementary estimation issues'; estimating the vectors of the fixed and random effects estimates $\hat{\beta}$ and $\hat{b}$ and estimating the variance covariance matrices $D$ and $\Sigma$.
+Inference about fixed effects have become known as `estimates', while inferences about random effects have become known as `predictions'. The most common approach to obtain estimators are Best Linear Unbiased Estimator (BLUE) and Best Linear Unbiased Predictor (BLUP). For an LME model given by (\ref{LW}), the BLUE of $\hat{\beta}$ is given by
+\[\hat{\beta} = (X^\prime V^{-1}X)^{-1}X^\prime V^{-1}y,\]whereas the BLUP of $\hat{b}$ is given by
+\[\hat{b} = DZ^{\prime} V^{-1} (y-X\hat{\beta}).\]
+
+
+
+
+
+
+\section{Likelihood and estimation}
+
+Likelihood is the hypothetical probability that an event that has already occurred would yield a specific outcome. Likelihood differs from probability in that probability refers to future occurrences, while likelihood refers to past known outcomes.
+
+The likelihood function ($L(\theta)$)is a fundamental concept in statistical inference. It indicates how likely a particular population is to produce an observed sample. The set of values that maximize the likelihood function are considered to be optimal, and are used as the estimates of the parameters. For computational ease, it is common to use the logarithm of the likelihood function, known simply as the log-likelihood ($\ell(\theta)$).
+
+%========================================================= %
+
+\newpage
+	
+\section{Estimation of random effects}
+
+Estimation of random effects for LME models in the NLME package is accomplished through use
+of both EM (Expectation-Maximization) algorithms and Newton-Raphson algorithms.
+\begin{itemize}
+	\item EM iterations bring estimates of the parameters into the region of the optimum very quickly, but
+	convergence to the optimum is slow when near the optimum.
+	\item Newton-Raphson iterations are computationally intensive and can be unstable when far from the
+	optimum. However, close to the optimum they converge quickly.
+	\item The LME function implements a hybrid approach, using 25 EM iterations to quickly get near the
+	optimum, then switching to Newton-Raphson iterations to quickly converge to the optimum. \item If
+	convergence problems occur, the ``control-argument in LME can be used to change the way the
+	model arrives at the optimum.
+\end{itemize}
+
+\section{Restricted Likelihood Estimation}
+
+Restricted maximum likelihood (REML) is an alternative methods of
+computing parameter estimated, developed by \citet*{PT71} and
+\citet{Harville} to provide unbiased estimates of variance and
+covariance parameters. The REML approach does not base estimates on a maximum likelihood fit of all the information, but instead uses a likelihood function derived from a data set, transformed to remove the irrelevant influences \citep{REMLDefine}.
+%		This particular form of maximum likelihood estimation which does not base estimates on a maximum likelihood fit of all the information, but instead uses a likelihood function calculated from a transformed set of data, so that nuisance parameters have no effect.
+%		
+
+REML obtains estimates of the fixed effects using non-likelihoodlike methods, such as ordinary least squares or generalized least squares, and then using these estimates it
+maximizes the likelihood of the residuals (subtracting off the
+fixed effects) to obtain estimates of the variance parameters. In
+most software packages REML is the default algorithm used to
+compute coefficients for the predictor variables. REML estimation
+reduces the bias in the variance component, and also handles high
+correlations more effectively, and is less sensitive to outliers
+than ML.
+
+The variance components in the LME model may be estimated by ML or REML. Maximum Likelihood estimates do not take into account the estimation of fixed effects and so
+are biased downwards. REML estimates accounts for the presence of these nuisance parameters by maximising the linearly independent error contrasts to obtain more unbiased estimates.
+
+
+
+
+%The log likelihood $\emph{l}(\theta)$
+
+
+
+\citet{McCullSearle} describes two important outcomes of using
+REML. Firstly variance components can be estimated without being
+affected by fixed effects. Secondly in estimating variance
+components with REML, degrees of freedom for the fixed effects can
+be taken into account implicitly, whereas with ML they are not.
+%	When estimating variance from normally distributed data, the ML
+%	estimator for $\sigma^{2}$ is $\frac{S_{yy}}{n}$ whereas the REML
+%	estimator is $\frac{S_{yy}}{n-1}$. $S_{yy}$ is the sum of square
+%	identity;
+%	\begin{equation}
+%	S_{yy} = \Sigma_{i=i}^{N} (y-\bar{y})^{2}
+%	\end{equation}
+
+Restricted maximum likelihood is often preferred to maximum likelihood because REML estimation reduces the bias in the variance component by taking into account the loss of degrees of freedom that results
+from estimating the fixed effects in $\boldsymbol{\beta}$. Restricted maximum likelihood also handles high correlations more effectively, and is less sensitive to outliers than maximum likelihood.  The problem with REML for model building is that the likelihoods obtained for different fixed effects are not comparable. Hence it is not valid to compare models with different fixed effects using a likelihood ratio test or AIC when REML is used to
+estimate the model. Therefore models derived using ML must be used instead.
+
+
+%\subsection{Model Selection} The previous section on estimation assumes the specification of a mixed model in terms of X, Z, D, and R. Even though $X$ and $Z$ have known elements, there is some
+%flexibility is specifying the form and construction is flexible, and for a particular data set, there are numerous possibilities	that can be considered. Similarly, various potential covariance 	structures for \textbf{D} and \textbf{R} may be considered.
+
+
+%------------------------------------------------------------------------------%
+\section{Algorithms : ML v REML}
+Maximum likelihood estimation is a method of obtaining estimates of unknown parameters by optimizing a likelihood function. The ML
+parameter estimates are the values of the argument that maximise the likelihood function, i.e. the estimates that make the observed
+values of the dependent variable most likely, given the distributional assumptions
+
+The most common iterative algorithms used for the optimization
+problem in the context of LMEs are the EM algoritm, fisher scoring
+algorithm and NR algorithm, which [cite:West] commends as the
+preferred method.
+
+A mixed model is an extension of the general linear models that
+can specify additional random effects terms.
+
+Parameter of the mixed model can be estimated using either ML or
+REML, while the AIC and the BIC can be used as measures of
+"goodness of fit" for particular models, where smaller values are
+considered preferable.
+
+%--------------------------------------------------------------------%
+
+(\textbf{\emph{Wikipedia}})The restricted (or residual, or reduced) maximum likelihood (REML) approach is a particular form of maximum likelihood estimation which does not base estimates on a maximum likelihood fit of all the information, but instead uses a likelihood function calculated from a transformed set of data, so that nuisance parameters have no effect.
+
+In contrast to the earlier maximum likelihood estimation, REML can produce unbiased estimates of variance and covariance parameters.
+
+%-----------------------------------------------------------------------------------------%
+
+\noindent \textbf{ML procedures for LME}
+
+The maximum likelihood procedure of Hartley and Rao yields
+simultaneous estimates for both the fixed effects and the random
+effect, by maximising the likelihood of $\boldsymbol{y}$ with
+respect to each element of $\boldsymbol{\beta}$ and
+$\boldsymbol{b}$.
+
+%-----------------------------------------------------------------------------------------%
+
+
+
+
+
+
+
+
+
+
+%--Marginal and Conditional Residuals
+	
+	
+\bibliographystyle{chicago}
+\bibliography{DB-txfrbib}
+\end{document}

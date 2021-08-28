@@ -1,0 +1,133 @@
+Part 1 - determing the correct Test Statistic for Confidence intervals and testing it.
+
+We must first find a suitable test statistic for the 100(1-alpha)% confidence ellipse.
+
+
+For Various values of size n and significance Alpha, we do the following
+
+	We simulate a scatterplot of two variables, simulated at random.
+	We calculated the variance covariance matrix for these two variables.
+	We determine the Square Mahalanobis Distance of the covariates
+	We determine the Critical values, based on the F statistic, the size n (and potentially the number of parameters)
+	We determine the proportion of covariates that obey the inequality.
+	
+We tabulate the results for each iteration of this method.
+
+It is important to consider the accuracy of the test statistic for various n values.
+
+Most practical data sets contain between roughly 70 to 500 observations.
+
+testing with higher values of n will be useful for determining the actual significance level, alpha.
+
+
+For the sake of accuracy, iterative loops must be used in calculation of results sought.
+
+Part 2 - Proposing the use of SWMD in confidence ellipses
+
+Squared Weighted Mahalanobis Distance (SWMD)
+
+We propose to use the Weighted Mahalanobis Distance as advancement of our method.
+
+The Squared mahanalobis Distance is a variation of the Mahalanobis Distance, with the furhter modification.
+
+This modifdication reduces the influence of outliers.
+
+We compares the SWMD with Dmah, and the Euclidean Distance to the Mean value.
+
+The Mahalanobis Distance itself is a variation of the euclidean Distance
+
+The Euclidean distance is insufficient for our purposes. In a linear regression line The Euclidean Distance will demarcated distance to the data dentre.
+
+
+This method is increasingly unfavourable to covariates as proceeding either way along the regression line starting from the mean.
+
+The Mahalanobis Distance measures the distance from the mean elliptically. 
+The Linear regression line can be instead thought of the principal axis of an ellipse.
+The Lenght of this principal axis is determined by the Variance/Covariance/Corellation
+The Minor Axis is perpendicular to the Linear regression line, and centred on the Mean.
+
+
+Feature Weighted Mahalanobis Distance: Improved Robustness for Gaussian Classifiers.
+Matthias Wolfel and Hazim Kemal Ekenel.
+
+Descent Feature Weights
+The goal is to choose weights such that all features have the same influence on the distance measure.
+Therefore, all features are normalzise with respect to their average distance.
+All Mahalanobis Distances are sorted in ascending order.
+Then we sum over all classes and samples, and normalize by the number of samples and classes.
+
+
+Difference Feature Wieighted Mahalanobis Distance.
+Thius approach gives more weight to the features which are 
+similar to other features than to features that are very different.
+The Idea is that noisy features should be significantly different from other noise free features, as long as there 
+is only a limited number f features that are distorted by noise.
+First - the differennces for the featues are calculated.
+Then we normalize and invert to calculate the individual weights.
+
+
+
+Relationship to leverage
+Mahalanobis distance is closely related to the leverage statistic h. The Mahalanobis distance of a data point from the 
+centroid of a multivariate data set is (N - 1) times the leverage of that data point, where N is the number of data points in the set.
+
+Part 3 - investigating the usefullness of DFFITS
+
+DFFITS is a diagnostic meant to show how influential a point is in a statistical regression. 
+
+It was proposed in the 1980 book Regression Diagnostics: Identifying Influential Data and Sources of Collinearity by David Belsley, Edwin Kuh, and Roy Welsch.
+
+It is defined as the change ("DFFIT"), in the predicted value for a point, obtained when that point is left out of the regression, "Studentized" 
+by dividing by the estimated standard deviation of the fit at that point:
+
+<Formula>
+
+It is similar to cook's distance.
+
+
+Part 4 - The Lewis Data set
+
+The Lewis data set is a method comparison study that uses Structural Equation Modelling.
+
+	Lewis , Jones, Polak, and Tillotson	(appli.stats 1991 40 no.1 105-112)
+	The problem of conversion in method comparsion studies
+
+Conversion problems arise when the comparison is between two approximate methods of measurement each of which measures
+the quantity in different units.This situation can arise when the methods in question proceed 
+by measuring different proxies for the underlying quantity of interest.
+
+
+The Lewis Data set compares two pump measurements. Crucially both sets of readings are in different dimensions.
+
+It does mention bland Altman plot, and suggests that Linea regression techniques can be used to approximate on set of values in the others dimensions.
+However, It does not pursue this any furhter.
+We attempt to pursue this technique.
+We get approximations for both observation sets, and examine the Bland Altman Plots of both.
+
+Also we attempt to model a 95% confidence Ellipse on the Original Data.
+
+
+Part 5 - R programs related to previous
+
+Program 10
+The data set is the Nadler Hurley data set, as used in Bland Altmans 1996 paper.
+mean is a random variable , which is the mean of the Nadler and Hurley values.
+diff is a random variable , difference between the Nadler and Hurley values.
+(therefore, the covariates of this study are (mean, diff))
+
+We calculate the SWDM for of the SWMD for each of the covariates.
+
+We compare each of these covariates to the Test statistic.
+
+We use the Belz Test Values, and the Chew Values as Test statistics. Chew is cited in the Owen Chmielewski paper.
+
+WE calculate the proportion of the covariates that obey the inequaltiy that defines the confidence ellipse.
+
+
+Program 11
+We wish to eaxmine if the DFFITS method is of use.
+Cooks Distance and DFFITS is calculated for each for the covariates in the NadlerHurley and Lewis Data sets
+
+
+
+

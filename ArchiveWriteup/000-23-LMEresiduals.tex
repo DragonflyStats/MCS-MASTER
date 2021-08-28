@@ -1,0 +1,341 @@
+\documentclass[Main.tex]{subfiles}
+\begin{document}
+
+
+
+
+
+\chapter{Residuals for LME Models}
+
+\section{Residual diagnostics} %1.3
+
+
+
+In classical linear models model diagnostics have been become a required part of any statistical analysis, and the methods are commonly available in statistical packages and standard textbooks on applied regression. A visual inspection for the presence of trends inform the analyst on the validity of distributional assumptions, and to detect outliers and influential observations.
+
+However it has been noted by several papers that model diagnostics do not often accompany LME model analyses.
+
+\subsection{LME REsiduals}	
+Cox and Snell (1968, JRSS-B): general definition of residuals for
+models with single source of variability
+Hilden-Minton (1995, PhD thesis UCLA), Verbeke and Lesaffre
+(1997, CSDA) or Pinheiro and Bates (2000, Springer): extension to
+define three types of residuals that accommodate the extra source of
+variability present in linear mixed models, namely:
+
+\begin{enumerate}
+\item Marginal residuals, 
+%bξ = y − X\hat{\beta} = \hat{M}^{-1}\hat{Q}y ,
+
+predictors of marginal errors, 
+
+%ξ = y − E[y] = y − X\beta = Zb + e
+
+\item Conditional residuals, 
+\[be = y − X\hat{\beta} − Zbb = \hat{\sigma}Q\hat{y}\] , predictors of
+conditional errors 
+\[e = y − E[y|b] = y − X\beta − Zb\]
+
+\item BLUP, Zbb, predictors of random effects,
+\[ Zb = E[y|b] − E[y]\]
+
+\end{enumerate}
+%=================================================== %
+
+
+\subsection{Residual Diagnostics in LME models}
+\begin{itemize}
+\item A \textbf{residual} is the difference between the observed quantity and the predicted value. 
+\item In LME
+models you can distinguish marginal residuals $rm$ and conditional residuals $rc$. A marginal residual is the
+difference between the observed data and the estimated (marginal) mean.
+
+\item \citet{cook86} introduces powerful tools for local-influence
+assessment and examining perturbations in the assumptions of a
+model. In particular the effect of local perturbations of
+parameters or observations are examined.
+
+\item Residuals are used to examine model assumptions and to detect outliers and potentially influential data
+point. The raw residuals $r_{mi}$ and $r_{ci}$ are usually not well suited for these purposes.
+
+
+
+
+	
+\item In LME models, there are two types of residuals, marginal residuals and conditional residuals. 
+In a model without random effects, both sets of residuals coincide. schabenberger provides a useful summary. 
+		
+\item A \textbf{Marginal residual} is the difference between the observed data and the estimated marginal mean (Schabenberger  pg3)
+The computation of case deletion diagnostics in the classical model is made simple by the fact that important estimates can be computed without refitting the model. 
+
+\item A marginal residual is the
+difference between the observed data and the estimated (marginal) mean, $r_{mi} = y_i - x_0^{\prime} \hat{b}$
+
+
+\item A conditional residual is the difference between the observed data and the predicted value of the observation,
+$r_{ci} = y_i - x_i^{\prime} \hat{b} - z_i^{\prime} \hat{\gamma}$
+
+	
+\item Such update formulae are available in the mixed model only if you assume that the covariance parameters are not affect by the removal of the observation in question. Schabenberger remarks that this is not a reasonable assumption.
+	
+		
+\item The marginal and conditional means in the linear mixed model are
+	$E[\boldsymbol{Y}] = \boldsymbol{X}\boldsymbol{\beta}$ and
+	$E[\boldsymbol{Y|\boldsymbol{u}}] = \boldsymbol{X}\boldsymbol{\beta} + \boldsymbol{Z}\boldsymbol{u}$, respectively.
+
+\item In linear mixed effects models, diagnostic techniques may consider `conditional' residuals. A conditional residual is the difference between an observed value $y_{i}$ and the conditional predicted value $\hat{y}_{i} $.
+
+\[ \hat{\epsilon}_{i} = y_{i} - \hat{y}_{i} = y_{i} - ( X_{i}\hat{\beta} + Z_{i}\hat{b}_{i}) \]
+
+However, using conditional residuals for diagnostics presents difficulties, as they tend to be correlated and their variances may be different for different subgroups, which can lead to erroneous conclusions.
+
+%1.5
+%http://support.sas.com/documentation/cdl/en/statug/63033/HTML/default/viewer.htm#statug_mixed_sect024.htm
+
+
+\begin{equation}
+r_{mi}=x^{T}_{i}\hat{\beta}
+\end{equation}
+
+
+\item Conditional residuals include contributions from both fixed and random effects, whereas marginal residuals include contribution from only fixed effects.
+\end{itemize} 
+	
+
+
+
+
+\subsection*{Marginal residuals}
+
+\[y - X\beta = Z \eta +\epsilon \]
+\begin{itemize}
+	\item
+	Should be mean 0, but may show grouping structure
+	\item
+	May not be homoskedastic.
+	\item
+	Good for checking fixed effects, just like linear regr.
+\end{itemize}
+%----------------------------------------------------%
+\subsection{Marginal Residuals}
+\begin{eqnarray}
+\hat{\beta} &=& (X^{T}R^{-1}X)^{-1}X^{T}R^{-1}Y \nonumber \\
+&=& BY \nonumber
+\end{eqnarray}
+
+%---------------------------------------------------------------------------%
+
+\subsection*{Marginal Residuals}
+
+%------------------------------------------------------------%
+
+Distinction From Linear Models
+\begin{itemize}
+	\item The differences between perturbation and residual analysis in the linear model and the linear mixed model
+	are connected to the important facts that b and b
+	depend on the estimates of the covariance parameters,
+	that b has the form of an (estimated) generalized least squares (GLS) estimator, and that 
+	is a random
+	vector.
+	\item In a mixed model, you can consider the data in a conditional and an unconditional sense. If you imagine
+	a particular realization of the random effects, then you are considering the conditional distribution
+	Y|
+	\item If you are interested in quantities averaged over all possible values of the random effects, then
+	you are interested in Y; this is called the marginal formulation. In a clinical trial, for example, you
+	may be interested in drug efficacy for a particular patient. If random effects vary by patient, that is a
+	conditional problem. If you are interested in the drug efficacy in the population of all patients, you are
+	using a marginal formulation. Correspondingly, there will be conditional and marginal residuals, for
+	example.
+	\item The estimates of the fixed effects  depend on the estimates of the covariance parameters. If you are
+	interested in determining the influence of an observation on the analysis, you must determine whether
+	this is influence on the fixed effects for a given value of the covariance parameters, influence on the
+	covariance parameters, or influence on both.
+	\item Mixed models are often used to analyze repeated measures and longitudinal data. The natural experimental
+	or sampling unit in those studies is the entity that is repeatedly observed, rather than each
+	individual repeated observation. For example, you may be analyzing monthly purchase records by
+	customer. 
+	\item An influential “data point” is then not necessarily a single purchase. You are probably more
+	interested in determining the influential customer. This requires that you can measure the influence
+	of sets of observations on the analysis, not just influence of individual observations.
+	\item The computation of case deletion diagnostics in the classical model is made simple by the fact that
+	%estimates of  and 2, which exclude the ith observation, can be %computed without re-fitting the
+	model. Such update formulas are available in the mixed model only if you assume that the covariance
+	parameters are not affected by the removal of the observation in question. This is rarely a reasonable
+	assumption.
+	\item The application of well-known concepts in model-data diagnostics to the mixed model can produce results
+	that are at first counter-intuitive, since our understanding is steeped in the ordinary least squares
+	(OLS) framework. As a consequence, we need to revisit these important concepts, ask whether they
+	are “portable” to the mixed model, and gain new appreciation for their changed properties. An important
+	example is the ostensibly simple concept of leverage. 
+	\item The definition of leverage adopted by
+	the MIXED procedure can, in some instances, produce negative values, which are mathematically
+	impossible in OLS. Other measures that have been proposed may be non-negative, but trade other
+	advantages. Another example are properties of residuals. While OLS residuals necessarily sum to
+	zero in any model (with intercept), this not true of the residuals in many mixed models.
+\end{itemize}
+
+
+
+
+
+\subsection{Confounded Residuals}
+Hilden-Minton (1995, PhD thesis, UCLA): residual is pure for a
+specific type of error if it depends only on the fixed components and
+on the error that it is supposed to predict
+Residuals that depend on other types of errors are called \textit{\textbf{confounded
+		residuals}}
+
+\section{Conditional and Marginal Residuals}
+
+
+Suppose the linear mixed-effects model lme has an $n \times p$ fixed-effects design matrix $\boldsymbol{X}$ and an $n \times q$ random-effects design matrix $\boldsymbol{Z}$. 
+
+Also, suppose the p-by-1 estimated fixed-effects vector is $\hat{\beta}$ , and the q-by-1 estimated best linear unbiased predictor (BLUP) 
+vector of random effects is $\hat{b}$ . The fitted conditional response is
+
+\[ \hat{y}_{Cond} = X \hat{\beta} + Z \hat{b} \]
+
+and the fitted marginal response is
+
+
+\[ \hat{y}_{Mar} = X \hat{\beta} \]
+
+residuals can return three types of residuals:
+\begin{itemize} 
+	\item raw, 
+	\item Pearson, and 
+	\item standardized.\end{itemize} For any type, you can compute the conditional or the marginal residuals. For example, the conditional raw residual is
+
+
+\[ r_{Cond} = y - X \hat{\beta} - Z \hat{b} \]
+
+and the marginal raw residual is
+
+
+\[ r_{Mar} = y - X \hat{\beta} \]
+
+
+
+
+%------------------------------------------------------------------%
+
+
+
+\subsection*{Conditional residuals}
+\[y - X\beta - Z \eta = \epsilon \]
+\begin{itemize}
+	\item
+	Should be mean zero with no grouping structure
+	\item
+	Should be homoscedastic.
+	\item
+	Good for checking normality of outliers
+\end{itemize}
+
+%-----------------------------------------------------%
+\subsection*{Random effects}
+\[y - X\beta -\epsilon = Z \eta \]
+\begin{itemize}
+	\item
+	Should be mean zero with no grouping structure
+	\item
+	May not be be homoscedastic.
+\end{itemize}
+
+
+
+
+
+\section{Computation and Notation } %2.3
+with $\boldsymbol{V}$ unknown, a standard practice for estimating $\boldsymbol{X \beta}$ is the estime the variance components $\sigma^2_j$,
+compute an estimate for $\boldsymbol{V}$ and then compute the projector matrix $A$, $\boldsymbol{X \hat{\beta}}  = \boldsymbol{AY}$.
+
+\citet{zewotir} remarks that $\boldsymbol{D}$ is a block diagonal with the $i-$th block being $u \boldsymbol{I}$
+
+
+
+
+\section{Residual Diagnostics}
+
+Consider a residual vector of the form $\hat{e} = \boldsymbol{PY} $, where $\boldsymbol{P}$ is a projection matrix, possibly an oblique projector.
+External studentization uses an estimate of $Var$ that does not involve the $i$th observation.
+
+Externally studentized residuals are often preferred over studentized residuals because they have well known distributional
+properties in the standard linear models for independent data.
+
+Residuals that are scaled by the estimated variances of the responses are referred to as Pearson-type residuals.
+
+Standardization: \[ \frac{\hat{e}_i}{\sqrt{v_i}}\]
+Studentization \[ \frac{\hat{e}_i}{\sqrt{\hat{v}_i}}\]
+
+
+
+	\section{Marginal Residuals}
+	\begin{eqnarray}
+	\hat{\beta} &=& (X^{T}R^{-1}X)^{-1}X^{T}R^{-1}Y \nonumber \\
+	&=& BY \nonumber
+	\end{eqnarray}
+
+
+
+\subsection{Computation}%1.4.4
+
+The computation of internally studentized residuals relies on the diagonal entries of $\boldsymbol{V} (\hat{\theta})$ - $\boldsymbol{Q} (\hat{\theta})$, where $\boldsymbol{Q} (\hat{\theta})$ is computed as
+
+\[ \boldsymbol{Q} (\hat{\theta}) = \boldsymbol{X} ( \boldsymbol{X}^{\prime}\boldsymbol{Q} (\hat{\theta})^{-1}\boldsymbol{X})\boldsymbol{X}^{-1} \]
+
+\subsection{Pearson Residual}%1.4.5
+
+Another possible scaled residual is the \index{Pearson residual} `Pearson residual', whereby a residual is divided by the standard deviation of the dependent variable. The Pearson residual can be used when the variability of $\hat{\beta}$ is disregarded in the underlying assumptions.
+
+
+
+\section{Effects on fitted and predicted values}
+\begin{equation}
+\hat{e_{i}}_{(U)} = y_{i} - x\hat{\beta}_{(U)}
+\end{equation}
+
+\newpage
+\section{Diagnostic Tools for the nlme package}
+
+
+With the nlme package, the generic function \texttt{lme()} fits a linear mixed-effects model in the formulation described in Laird and Ware (1982) but allowing for nested random effects. 
+
+The within-group errors are allowed to be correlated and/or have unequal variances, which is very important in fitting the models for Roy's Tests
+
+The nlme package has a limited set of diagnostic tools that can be used to assess the model fit. A review of the package manual is sufficient to get a sense of the package's capability in that regard.
+
+
+\subsection{residuals.lme {nlme}- Extract lme Residuals}
+
+The residuals at level $i$ are obtained by subtracting the fitted levels at that level from the response vector (and dividing by the estimated within-group standard error, if \texttt{type="pearson"}). 
+
+The fitted values at level i are obtained by adding together the population fitted values (based only on the fixed effects estimates) and the estimated contributions of the random effects to the fitted values at grouping levels less or equal to i.
+
+%------------------------------------------------------------------------%
+
+\begin{framed}
+	\begin{verbatim}
+	
+	fm1 <- lme(distance ~ age + Sex, 
+	data = Orthodont, random = ~ 1)
+	head(residuals(fm1, level = 0:1))
+	summary(residuals(fm1) /
+	residuals(fm1, type = "p")) 
+	
+	# constant scaling factor 1.432
+	
+	\end{verbatim}
+\end{framed}
+
+
+
+
+	
+	
+	
+	
+	
+	\bibliographystyle{chicago}
+	\bibliography{2017bib}
+\end{document} 

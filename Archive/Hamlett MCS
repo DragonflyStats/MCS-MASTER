@@ -1,0 +1,45 @@
+# Old Program transferred to GitHub. Currently re-writing
+
+###########################################################
+              
+hamlett = groupedData( resp ~ meth | subject ,
+        data = data.frame( 
+            resp =c(Resp), 
+            subject = Subject,
+            meth = c(rep(c("U","W"),47)),
+            repl = Repl),        
+    labels = list(BP = "Response", method = "Method"),
+    order.groups = FALSE )
+
+####################################
+
+
+
+####################################
+
+
+fit1 = lme( resp ~ meth, data = hamlett, random = ~1 | subject )
+fit2 = update(fit1, random = ~1 | subject/repl )
+fit3 = update(fit1, random = ~1 | meth/subject)
+fit4 = update(fit1, random = ~meth)
+anova(fit1, fit2, fit3)
+####################################
+library(lme4)
+#
+# fit1<-lmer(resp~meth + (1|subject),hamlett,verbose = TRUE, REML=FALSE)
+fit2<-lmer(resp~meth + (meth|subject),hamlett,verbose = TRUE, REML=FALSE)
+fit3<-lmer(resp~meth + (1|subject) + (meth -1|subject),hamlett,verbose = TRUE, REML=FALSE)
+
+anova(fit2,fit3)
+###################################
+
+
+
+fit5 = lme(resp ~ meth, data = hamlett, random = ~ meth, method="ML")
+fit5a = lme(resp ~ meth, data = hamlett, random = list(subject=pdSymm(~ meth)), method="ML")
+fit5b = lme(resp ~ meth, data = hamlett, random = list(subject=pdCompSymm(~ meth)), method="ML")
+fit5b = lme(resp ~ meth, data = hamlett, random = list(subject=pdCompSymm(~ meth)), method="ML")
+
+###########################################################
+
+fit6a = lme(resp ~ meth, data = hamlett, random = list(subject=pdSymm(~ meth),repl=pdSymm(~ meth)), method="ML")

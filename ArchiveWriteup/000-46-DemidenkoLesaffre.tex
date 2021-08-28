@@ -1,0 +1,155 @@
+\documentclass[MAIN.tex]{subfiles}
+\begin{document}
+\section{Demidenk Case Deletion Diagnostics}
+\citet{Demi} extends several regression diagnostic techniques commonly used in linear regression, such as leverage, infinitesimal influence, case deletion diagnostics, Cook's distance, and local influence to the linear mixed-effects model. In each case, the proposed new measure has a direct interpretation in terms of the effects on a parameter of interest, and reduces to the familiar linear regression measure when there are no random effects.
+
+The new measures that are proposed by \citet{Demi} are explicitly defined functions and do not require re-estimation of the model, especially for cluster deletion diagnostics. The basis for both the cluster deletion diagnostics and Cook's distance is a generalization of Miller's simple update formula for case deletion for linear models. Furthermore \citet{Demi} shows how Pregibon's infinitesimal case deletion diagnostics is adapted to the linear mixed-effects model. 
+%==============================%
+
+\section{ Demidenko}
+% Influence Analysis
+%--------------------------------------%
+
+%Standardized Residuals
+Standardised residuals are typicallu used to detect outliers. However, the presence of outliers does not necessarily affect the model fit or any related statistical inference.
+
+%Leverage
+Leverage, defined as the identification of data points that influence the fitted values, are detected by exploring large values of the diagonal elements of the projection matrix (also known as the hat matrix.
+
+%Cook's Distance
+Cook and Weisber suggested analysin the standardised squared distance between the OLS estimate and the estimate after case deletion. This has become known as Cook's Distance.
+
+The goal of Demidenko's paper is generalize several common measures of influence for the fixed effects parameters of an LME model.
+
+% Generalization of leverage measure to a leverage matrix for the LME model.
+% Proposal of a generalzation of Cook's Distance to the LME model
+%-----------------------------------%
+
+
+%------------------------------------%
+The LME model is typciall estimated using restricted maximum likelihood (REML) which simultaneously produces an estimate of $\boldsymbol{D}$ and $\boldsymbol{\beta}$.
+
+%------------------------------------% 
+%Hat Matrix (OLS)
+The hat matrix is 
+\[\boldsymbol{H}  =  \boldsymbol{X} (\boldsymbol{X}^{\prime}\boldsymbol{X})^{-1}\boldsymbol{X} ^{\prime} \]
+
+\subsection*{Leverage - page 895}
+Leverage is the partial derivate of  the predicted value with respect to the corresponding dependent variable.
+
+Hence the $i-$th leverage indicates how the predicted value of the $i$th case is influenced by the $i$th observation.
+
+
+Leverage Matrix  for the LME Model $n_i \times n_i$
+\[ \boldsymbol{H}_i = \frac{ \partial \hat{\boldsymbol{y}}_i } {\partial \boldsymbol{y}_i } \]
+
+\section{Lesaffre's paper.} %3.5
+
+Lesaffre considers the case-weight perturbation approach.
+
+
+%\citep{cook86}
+Cook's 86 describes a local approach wherein each case is given a
+weight $w_{i}$ and the effect on the parameter estimation is
+measured by perturbing these weights. Choosing weights close to
+zero or one corresponds to the global case-deletion approach.
+
+
+Lesaffre  describes the displacement in log-likelihood as a useful
+metric to evaluate local influence %\citep{cook86}.
+
+
+%\citet{lesaffre}
+Lesaffre describes a framework to detect outlying observations
+that matter in an LME model. Detection should be carried out by
+evaluating diagnostics $C_{i}$ , $C_{i}(\alpha)$ and $C_{i}(D,
+\sigma^2)$.
+
+
+Lesaffre defines the total local influence of individual $i$ as
+\begin{equation}
+C_{i} = 2 | \triangle \prime _{i} L^{-1} \triangle_{i}|.
+\end{equation}
+
+
+
+The influence function of the MLEs evaluated at the $i$th point
+$IF_{i}$, given by
+\begin{equation}
+IF_{i} = -L^{-1}\triangle _{i}
+\end{equation}
+can indicate how $\hat{theta}$ changes as the weight of the $i$th
+subject changes.
+
+
+
+
+The manner by which influential observations
+distort the estimation process can be determined by inspecting the
+interpretable components in the decomposition of the above
+measures of local influence.
+
+
+Lesaffre comments that there is no clear way of interpreting the
+information contained in the angles, but that this doesn't mean
+the information should be ignored.
+
+
+
+
+
+
+
+
+%--------------------------------------------------------------------%
+
+
+\section{The extended likelihood}
+
+The desire to have an entirely likelihood-based justification for estimates of random effects, in contrast to Henderson's equation, has motivated \citet[page 429]{Pawi:in:2001} to define the \emph{extended likelihood}. He remarks ``In mixed effects modelling the extended likelihood has been called \emph{h-likelihood} (for hierarchical  likelihood) by \cite{Lee:Neld:hier:1996}, while in smoothing literature it is known as the \emph{penalized likelihood} (e.g.\ \citeauthor{Gree:Silv:nonp:1994} \citeyear{Gree:Silv:nonp:1994})." The extended likelihood can be written $L(\beta,\theta,b|y) = p(y|b;\beta,\theta) p(b;\theta)$ and adopting the same distributional assumptions used by \cite{Henderson:1950} yields the log-likelihood function
+\begin{verbatim}
+\begin{eqnarray*}
+\ell_h(\beta,\theta,b|y)
+& = \displaystyle -\frac{1}{2} \left\{ \log|\Sigma| + (y - X \beta -Zb)'\Sigma^{-1}( y - X \beta -Zb) \right.\\
+&  \hspace{0.5in} \left. + \log|D| + b^\prime D^{-1}b \right\}.
+\end{eqnarray*}
+Given $\theta$, differentiating with respect to $\beta$ and $b$ returns Henderson's equations in (\ref{Henderson:Equations}).
+\end{verbatim}
+\subsubsection{The LME model as a general linear model}
+Henderson's equations in (\ref{Henderson:Equations}) can be rewritten $( T^\prime W^{-1} T ) \delta = T^\prime W^{-1} y_{a} $ using
+\begin{verbatim}
+\[
+\delta = \begin{pmatrix}{\beta \cr b},
+\ y_{a} = \begin{pmatrix}{
+y \cr \psi
+},
+\ T = \begin{pmatrix}{
+X & Z  \cr
+0 & I
+},
+\ \textrm{and} \ W = \begin{pmatrix}{
+\Sigma & 0  \cr
+0 &  D },
+\]
+where \cite{Lee:Neld:Pawi:2006} describe $\psi = 0$ as quasi-data with mean $\mathrm{E}(\psi) = b.$ Their formulation suggests that the joint estimation of the coefficients $\beta$ and $b$ of the linear mixed effects model can be derived via a classical augmented general linear model $y_{a} = T\delta + \varepsilon$ where $\mathrm{E}(\varepsilon) = 0$ and $\mathrm{var}(\varepsilon) = W,$ with \emph{both} $\beta$ and $b$ appearing as fixed parameters. The usefulness of this reformulation of an LME as a general linear model will be revisited.
+
+\end{verbatim}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\bibliographystyle{chicago}
+\bibliography{DB-txfrbib}
+%-------------------------------------------------------------------------------------------------------%
+
+\end{document}
